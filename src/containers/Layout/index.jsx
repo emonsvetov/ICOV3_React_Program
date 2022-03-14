@@ -1,0 +1,44 @@
+import React from 'react';
+import Topbar from './topbar/Topbar';
+import Footer from './footer';
+import { Outlet } from 'react-router-dom';
+import { Container } from 'reactstrap';
+
+import Slider from '../../shared/components/slider';
+import TabNavs from '../../shared/components/tabNavs';
+
+const IMG_BACK = `${process.env.PUBLIC_URL}/img/back.png`;
+
+const slide_imgs = [
+  "img/merchants/1.png", 
+  "img/merchants/2.png", 
+  "img/merchants/3.png", 
+  "img/merchants/4.png", 
+  "img/merchants/5.png", 
+  "img/merchants/6.png", 
+  "img/merchants/7.png", 
+  "img/merchants/8.png", 
+]
+
+const PageLayout = () => (
+  <main>
+      <Topbar />
+      <div className='mainboard'>
+        <img src={IMG_BACK}/>
+      </div>
+      <TabNavs />
+
+      <Outlet /> 
+      <Container className='slider'>
+        <div className='title'>
+          Select a merchant to redeem your points
+        </div>
+        <Slider data={slide_imgs} />
+      </Container>
+      <Footer />
+    
+  </main>
+);
+
+
+export default PageLayout;

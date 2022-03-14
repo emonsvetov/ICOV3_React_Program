@@ -1,0 +1,52 @@
+.tab-nav {
+    height: 100px;
+    width: 100%;
+    position: relative;
+    border-top: solid 1px black;
+    padding: 10px;
+    margin: 10px;
+    &:after {
+        content : "";
+        position: absolute;
+        right    : 0;
+        z-index: 100;
+        top  : 0;
+        width  : 1px;
+        height   : 50%;  /* or 100px */
+        background: black;
+    }
+    &:before {
+        content : "";
+        position: absolute;
+        left    : 0;
+        z-index: 100;
+        top  : 0;
+        width  : 1px;
+        height   : 50%;  /* or 100px */
+        background: black;
+    }
+    .icon{
+        margin-top: 10px;
+        text-align: center;
+        .redeem-icon{
+            color: #DA282D;
+        }
+        .gift-icon{
+            color: #FBAE42;
+        }
+        .survey-icon{
+            color: #8BC53E;
+        }
+        .newsletter-icon{
+            color: #BFBFBF;
+        }
+        .submit-icon{
+            color: #92268E;
+        }
+    }
+    .title{
+        margin-top: 20px;
+        text-align: center;
+    }
+}
+
