@@ -9,7 +9,7 @@ const Footer = () => (
       <Container className='footer__wrapper'>
         <Row>
             <div className='col-md-6 copyright'>
-                Copyright 2022 <span style={{color: "#FDC107"}}>Incencto</span> LLC.All Rights Reserved.
+                Copyright 2022 <span className='text-warning'>Incencto</span> LLC.All Rights Reserved.
             </div> 
             <nav className="col-md-6 teritery-menu">
                 <ul className="horizontal">

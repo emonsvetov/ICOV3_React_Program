@@ -2,10 +2,11 @@ import React from 'react';
 import Topbar from './topbar/Topbar';
 import Footer from './footer';
 import { Outlet } from 'react-router-dom';
-import { Container } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 
 import Slider from '../../shared/components/slider';
 import TabNavs from '../../shared/components/tabNavs';
+import Sidebar from './sidebar';
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/img/back.png`;
 
@@ -27,13 +28,19 @@ const PageLayout = () => (
         <img src={IMG_BACK}/>
       </div>
       <TabNavs />
-
-      <Outlet /> 
-      <Container className='slider'>
-        <div className='title'>
-          Select a merchant to redeem your points
-        </div>
-        <Slider data={slide_imgs} />
+      <Container className='mb-5'>
+        <Row>
+          <Col md={9}>
+              <Outlet /> 
+              <div className='mt-5'>
+                <h3>Select a merchant to redeem your points</h3>
+                <Slider data={slide_imgs} />
+              </div>
+          </Col>
+          <Col md={3}>
+              <Sidebar/>
+          </Col>
+        </Row>
       </Container>
       <Footer />
     

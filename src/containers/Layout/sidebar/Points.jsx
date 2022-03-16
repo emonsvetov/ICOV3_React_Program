@@ -1,0 +1,26 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Col, Button, Row } from 'reactstrap';
+const Points = () => {
+  return (
+    <div className='points'>
+        <h3>My points</h3>
+        <div className='panel redeem-panel'>
+            <div className='mb-3'>
+                <h6> Points to Redeem </h6>
+                <div className='panel-group'>
+                    <span className='h4'> 56,852</span>
+                    <div className='red redeem-btn'>Redeem Points</div>
+                    {/* <Button className='btn-round'> Redeem Points</Button> */}
+                </div>
+            </div>
+            <div className='point-award'>
+                <h6> Peer Points to Award </h6>
+                <h4> 56,852</h4>  
+            </div>
+        </div>
+    </div>
+      
+)}
+
+export default Points;

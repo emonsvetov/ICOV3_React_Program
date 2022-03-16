@@ -10,10 +10,10 @@ function TabNav(props ) {
     const { title, icon } = props;
     return <div className="tab-nav">
                 <div className='icon'>
-                    <RedeemIcon  className={`${icon}-icon`}/>
+                    <RedeemIcon size={40} className={`${icon}-icon`}/>
                 </div>
-                <div className='title'>
-                    {title}
+                <div className='text-center'>
+                    <strong>{title}</strong>
                 </div>
             </div>
 }
