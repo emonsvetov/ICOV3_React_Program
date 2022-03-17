@@ -6,10 +6,10 @@ import { SUMMARY_COLUMNS } from './columns';
 import { useTable } from 'react-table'
 
 const SUMMARY_DATA = [
-    {index: "balance", text: "Your Points Balance", value:"0"},
-    {index: "redeemed", text: "Points Redeemed", value:"-49000"},
-    {index: "reclaimed", text: "Points Reclaimed", value:"-0"},
-    {index: "expired", text: "Points Expired", value:"-2720"},
+    {index: "balance", text: "Your Points Balance", value: 0},
+    {index: "redeemed", text: "Points Redeemed", value: 49000},
+    {index: "reclaimed", text: "Points Reclaimed", value:-0},
+    {index: "expired", text: "Points Expired", value: 2720},
 ]
 
 
@@ -26,7 +26,7 @@ const PointsSummary = () => {
             <div className='d-flex justify-content-between'>
                 {SUMMARY_DATA.map((item, index)=>{
                     return <div key={index} className="summary-item d-flex flex-column rounded-3">
-                        <strong className={`point-value index-${index}`}>{item.value}</strong>
+                        <strong className={`point-value index-${index}`}>{item.value.toLocaleString('en-US')}</strong>
                         <span>{item.text}</span>
                     </div>
                 })}

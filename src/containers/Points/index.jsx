@@ -13,6 +13,9 @@ const MyPoints = () => {
     <>
       <div className='mainboard'>
         <img src={IMG_BACK}/>
+        <div className='title'>
+          My Points
+        </div>
       </div>
       <TabNavs />
       <Container className='mb-5'>

@@ -16,7 +16,7 @@ const Chart = (props) => {
       <div className={`chart-item index-${index}`}>
           <img className='chart-avatar' src={Ava}></img>
           <strong className='text-center'>{name}</strong>
-          <strong className='text-center'>{award}</strong>
+          <strong className='text-center'>{numFormatter(award)}</strong>
       </div>
         
 )}

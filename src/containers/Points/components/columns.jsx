@@ -6,6 +6,7 @@ export const SUMMARY_COLUMNS = [
     {
         Header: "Points",
         accessor: "point",
+        Cell: ({ row, value }) => { return value.toLocaleString()}
     }
 ]
 
@@ -13,6 +14,7 @@ export const DETAIL_COLUMNS = [
     {
         Header: "",
         accessor: "icon",
+
     },
     {
         Header: "Event",
@@ -25,5 +27,6 @@ export const DETAIL_COLUMNS = [
     {
         Header: "Points",
         accessor: "point",
+        Cell: ({ row, value }) => { return value.toLocaleString()}
     }
 ]

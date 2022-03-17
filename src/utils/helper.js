@@ -11,5 +11,5 @@ function numFormatter(num) {
 }
 
 module.exports = {
-    numFormatter
+    numFormatter,
 }
