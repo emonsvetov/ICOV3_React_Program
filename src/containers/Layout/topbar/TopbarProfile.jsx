@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import DownIcon from 'mdi-react/ChevronDownIcon';
+import DownIcon from 'mdi-react/MenuDownIcon';
 import { Collapse } from 'reactstrap';
 import TopbarMenuLink from './TopbarMenuLink';
 import {logout, getAuthUserFullname} from '../../App/auth';
@@ -9,19 +9,20 @@ const Ava = `${process.env.PUBLIC_URL}/img/avatar/avar.png`;
 const TopbarProfile = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const handleToggleCollapse = () => {
-    // setIsCollapsed(!isCollapsed);
+    setIsCollapsed(!isCollapsed);
   };
 
   return (
     <div className="topbar__profile">
       <button type="button" className="topbar__avatar" onClick={()=>setIsCollapsed(false)}>
         <img className="topbar__avatar-img" src={Ava} alt="avatar" />
-        <div>
-          <div>Welcome back</div>
-          <div className="topbar__avatar-name">{'Jay!'}</div>
+        <div className='d-flex flex-column pt-1'>
+          <small>Welcome back</small>
+          <span className="topbar__avatar-name">{'Jay!'}</span>
         </div>
-          <DownIcon className="topbar__icon" />
+          <DownIcon className="mt-3 ml-3 topbar__icon" />
       </button>
+      
       {isCollapsed && (
         <button
           type="button"

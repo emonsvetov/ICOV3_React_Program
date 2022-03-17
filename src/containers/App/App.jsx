@@ -16,7 +16,7 @@ const App = () => {
   return (
       <Router>
           <Fragment>
-            {!isLoaded && (
+            {/* {!isLoaded && (
               <div className={`load${isLoading ? '' : ' loaded'}`}>
                 <div className="load__icon-wrap">
                   <svg className="load__icon">
@@ -24,8 +24,7 @@ const App = () => {
                   </svg>
                 </div>
               </div>
-            )}
-            
+            )} */}
             <Routes />
             
           </Fragment>

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Col, Button, Row } from 'reactstrap';
+import Leaderboard from './Leaderboard';
+
 const leaders =[
   {name: 'Jay Moore', 'award': 800},
   {name: 'Mary-Kate Olsen', 'award': 600},
@@ -17,6 +19,7 @@ const Leaderboards = () => {
     <div className='leaderboards mt-3'>
         <h3>Leaderboards</h3>
         <div className='panel leader-panel'>
+          <Leaderboard />
           <div className='matching black fw-bold'>            
             <span>Participant</span>
             <span>Awards</span>

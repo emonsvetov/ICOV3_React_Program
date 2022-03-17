@@ -19,7 +19,7 @@ const RewardItem = (props) => {
         <span>From: <strong>{from}</strong></span>
         <span>{timestamp}</span>
       </div>
-      <div className='red px-3 py-2 flex h-auto'>
+      <div className='red comment-btn'>
         <PlusCircleIcon/>
         comment
       </div>
