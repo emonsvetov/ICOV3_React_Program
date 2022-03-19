@@ -1,0 +1,50 @@
+[
+    {
+        "icon": "/img/giftbox.jpg",
+        "title": "Starbucks", 
+        "received": "02/15/2022",
+        "code": "8FA88A130FDTE8907097G98TE890E8901XXXXXX",
+        "pin":"456768123",
+        "amount": 25
+    },
+    {
+        "icon": "/img/starbuck.jpg",
+        "title": "Starbucks", 
+        "received": "02/15/2022",
+        "code": "8FA88A130FDTE8907097G98TE890E8901XXXXXX",
+        "pin":"456768123",
+        "amount": 25
+    },
+    {
+        "icon": "/img/giftbox.jpg",
+        "title": "Starbucks", 
+        "received": "02/15/2022",
+        "code": "8FA88A130FDTE8907097G98TE890E8901XXXXXX",
+        "pin":"456768123",
+        "amount": 25
+    },
+    {
+        "icon": "/img/starbuck.jpg",
+        "title": "Starbucks", 
+        "received": "02/15/2022",
+        "code": "8FA88A130FDTE8907097G98TE890E8901XXXXXX",
+        "pin":"456768123",
+        "amount": 25
+    },
+    {
+        "icon": "/img/giftbox.jpg",
+        "title": "Starbucks", 
+        "received": "02/15/2022",
+        "code": "8FA88A130FDTE8907097G98TE890E8901XXXXXX",
+        "pin":"456768123",
+        "amount": 25
+    },
+    {
+        "icon": "/img/starbuck.jpg",
+        "title": "Starbucks", 
+        "received": "02/15/2022",
+        "code": "8FA88A130FDTE8907097G98TE890E8901XXXXXX",
+        "pin":"456768123",
+        "amount": 25
+    }
+]

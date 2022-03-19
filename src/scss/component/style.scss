@@ -1,5 +1,6 @@
 
 body {
+    background-color: #FCFCFC !important;
     font-family: 'CircularStdBold', sans-serif !important;
   }
 
@@ -130,8 +131,8 @@ ul.horizontal {
             }
             &::before{
                 border-bottom: 20px solid darkorange;
-                border-left: 39px solid transparent;
-                border-right: 39px solid transparent;
+                border-left: 46px solid transparent;
+                border-right: 46px solid transparent;
                 content: "";
                 height: 0;
                 left: 0;
@@ -146,7 +147,7 @@ ul.horizontal {
                 position: absolute;
                 top: -45px;
                 border-radius: 50%;
-                left: 12px;
+                left: 16px;
                 border: 2px solid darkorange;
             }
         }
@@ -188,10 +189,6 @@ ul.horizontal {
 }
 
 //my points
-.mainboard{
-    
-    
-}
 .points-summary{
     background-color: #2A3D8D;
     color: white;
@@ -222,6 +219,74 @@ ul.horizontal {
         background-color: #E29400;
         color: white;
     } 
+}
+
+//gift-codes
+.gift-card{
+    position: relative;
+}
+.gift-icon-wrapper{
+    padding: 20px 20px;
+    .gift-icon{
+        border-radius: 7px;
+        width: 100%;
+        height: 100px;
+    }
+}
+.gift-info{
+    padding: 5px 15px 5px 0;
+    width: 100%;
+    .gift-code{
+        background-color: #FFE6B2;
+        border: dashed 1px $yellow-color;
+    }
+    a{
+        text-decoration: underline;
+        color: $yellow-color;
+        text-decoration-color: $yellow-color;
+    }
+}
+.gift-amount{
+    
+    border-radius: inherit;
+    border-top: 140px solid $red-color;
+    border-left: 70px solid transparent;
+    border-right: solid 40px $red-color;
+    .amount-wrapper{
+        display: none;
+        background: linear-gradient(165deg, darkorange 0%, rgba(255,192,0,1) 100%);
+        border: 2px solid white;
+        color: white;
+        margin: auto;
+        text-align: center;
+        width: 100%;
+        height: 70px;
+        border-radius: 50%;
+    }
+    
+    &:before {
+        content : "";
+        position: absolute;
+        right: 84px;
+        z-index: 100;
+        top  : -16px;
+        width  : 30px;
+        height   : 30px;
+        border-radius: 50%;
+        background: #FCFCFC;
+    }
+    &:after {
+        content : "";
+        position: absolute;
+        right: 84px;
+        z-index: 100;
+        bottom  : -11px;
+        width  : 30px;
+        height   : 30px;
+        border-radius: 50%;
+        background: #FCFCFC;
+    }
+    
 }
 
 
