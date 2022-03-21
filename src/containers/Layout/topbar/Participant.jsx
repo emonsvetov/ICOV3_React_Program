@@ -1,23 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import TopbarProfile from './TopbarProfile';
 import { Container, Navbar, NavbarBrand, NavbarToggler, Dropdown,
-        Collapse, Nav, NavItem, NavLink, UncontrolledDropdown,
+        Collapse, Nav, NavItem, UncontrolledDropdown,
         DropdownToggle, DropdownItem, NavbarText, DropdownMenu
          } from 'reactstrap';
 import './style.scss'
 const Brand = `${process.env.PUBLIC_URL}/img/logo/logo_light.svg`;
 const LINKS = [
-  { to: '/', text: 'Home' },
-  { to: '/my-account', text: 'My Account' },
-  { to: '/my-gift-codes', text: 'My Gift Codes' },
-  { to: '/my-points', text: 'My Points' },
-  { to: '/my-goals', text: 'My Goals' },
-  { to: '/faqs', text: 'FAQs' },
+  { to: '/participant/home', text: 'Home' },
+  { to: '/participant/my-account', text: 'My Account' },
+  { to: '/participant/my-gift-codes', text: 'My Gift Codes' },
+  { to: '/participant/my-points', text: 'My Points' },
+  { to: '/participant/my-goals', text: 'My Goals' },
+  { to: '/participant/faqs', text: 'FAQs' },
 ];
 
-const Topbar = () => (
+const ParticipantTopbar = () => (
   <Container className="topbar">
     <div className="topbar__wrapper">
       <div className="topbar__left">
@@ -30,9 +30,9 @@ const Topbar = () => (
         <ul className="horizontal">
           {LINKS.map((item, index) =>{
               return <li key={index}>
-                <Link to={item.to} className="link">
+                <NavLink to={item.to} className="link">
                   {item.text}
-                </Link>
+                </NavLink>
             </li>
           })}
         </ul>
@@ -118,4 +118,4 @@ const Topbar = () => (
   </Container>
 );
 
-export default Topbar;
+export default ParticipantTopbar;

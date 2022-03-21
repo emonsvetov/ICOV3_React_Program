@@ -5,7 +5,6 @@ import RedeemIcon from 'mdi-react/HandHeartIcon';
 // import GiftIcon from 'mdi-react/GiftIcon';
 // import SurveyIcon from 'mdi-react/NoteTextIcon';
 // import SubmitIcon from 'mdi-react/CursorPointerIcon';
-const i = 'SubmitIcon';
 function TabNav(props ) {   
     const { title, icon } = props;
     return <div className="tab-nav">

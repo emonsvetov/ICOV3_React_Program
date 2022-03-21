@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
-import TabNavs from '../../shared/components/tabNavs';
-import Sidebar from '../Layout/sidebar';
+import {ParticipantTabNavs} from '../../../shared/components/tabNavs';
+import Sidebar from '../../Layout/sidebar';
 import PointsSummary from './components/PointsSummary';
 import PointsDetail from './components/PointsDetail';
 
@@ -17,7 +17,9 @@ const MyPoints = () => {
           My Points
         </div>
       </div>
-      <TabNavs />
+      <Container>
+          <ParticipantTabNavs />
+      </Container>
       <Container className='mb-5'>
         <Row>
           <Col md={9}>

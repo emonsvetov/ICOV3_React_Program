@@ -1,4 +1,5 @@
 //topbar
+$yellow-color: #FDC107;
 
 .topbar {
     // position: fixed;
@@ -24,6 +25,12 @@
         margin-bottom: 10px;
         ul.horizontal li a{
             padding: 10px;
+            &.active{
+                color: $yellow-color;
+            }
+            &:hover{
+                color: $yellow-color;
+            }
         }
         
     }

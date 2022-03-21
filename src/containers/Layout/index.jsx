@@ -1,14 +1,21 @@
 import React from 'react';
-import Topbar from './topbar/Topbar';
+import ParticipantTopbar from './topbar/Participant';
+import ManagerTopbar from './topbar/Manager';
 import Footer from './footer';
 import { Outlet } from 'react-router-dom';
 
-const PageLayout = () => (
+export const ParticipantLayout = () => (
   <main>
-      <Topbar />
+      <ParticipantTopbar />
       <Outlet />
       <Footer />    
   </main>
 );
 
-export default PageLayout;
+export const ManagerLayout = () => (
+  <main>
+      <ManagerTopbar />
+      <Outlet />
+      <Footer />    
+  </main>
+);

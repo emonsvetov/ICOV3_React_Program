@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
 import RewardsPanel from './components/RewardsPanel';
 import Slider from './components/slider';
-import TabNavs from '../../shared/components/tabNavs';
-import Sidebar from '../Layout/sidebar';
+import {ParticipantTabNavs} from '../../../shared/components/tabNavs';
+import Sidebar from '../../Layout/sidebar';
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/img/back.png`;
 
@@ -26,7 +26,9 @@ const Home = () => {
       <div className='mainboard'>
         <img src={IMG_BACK}/>
       </div>
-      <TabNavs />
+      <Container>
+          <ParticipantTabNavs />
+      </Container>
       <Container className='mb-5'>
         <Row>
           <Col md={9}>
