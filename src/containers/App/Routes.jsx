@@ -1,49 +1,29 @@
 import React, {createContext} from 'react';
-import { Routes, Route} from 'react-router-dom';
+import { Routes, Route, Navigate} from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
-import Layout from '../Layout/index';
+import {ParticipantLayout, ManagerLayout} from '../Layout/index';
 
 // import LogIn from '../LogIn/index';
 // import Signup from '../Signup/index';
 // import SignupSuccess from '../Signup/SignupSuccess';
 
-import Home from '../Home/index';
-import AccountIndex from '../Accounts/index';
-import FaqIndex from '../Faqs/index';
-import GiftCodeIndex from '../GiftCodes/index';
-import GoalIndex from '../Goals/index';
-import PointIndex from '../Points/index';
+//participant
+import ParticipantHome from '../Participant/Home/index';
+import AccountIndex from '../Participant/Accounts/index';
+import FaqIndex from '../Participant/Faqs/index';
+import GiftCodeIndex from '../Participant/GiftCodes/index';
+import GoalIndex from '../Participant/Goals/index';
+import PointIndex from '../Participant/Points/index';
 
+//manager
+import ManagerHome from '../Manager/Home/index';
 
-const Accounts = () => (
-  <Routes>
-    <Route index element={AccountIndex} />
-  </Routes>
-);
-const GiftCodes = () => (
-  <Routes>
-    <Route index element={GiftCodeIndex} />
-    
-  </Routes>
-);
-const Points = () => (
-  <Routes>
-    <Route index element={PointIndex} />
-    
-  </Routes>
-);
-const Goals = () => (
-  <Routes>
-    <Route index  element={GoalIndex} />
-    
-  </Routes>
-);
-const Faqs = () => (
-  <Routes>
-    <Route index element={FaqIndex} />
-    
-  </Routes>
-);
+// const Accounts = () => (
+//   <Routes>
+//     <Route index element={AccountIndex} />
+//   </Routes>
+// );
+
 // const privateRoutes = () => {
 //   return (
 //     <Route path="/" element={<Layout />} >
@@ -62,16 +42,21 @@ const Faqs = () => (
 
 const RouteIndex = () => (
     <Routes>
-      {/* <PublicRoute exact path="/login" component={LogIn} restricted={true} />
-      <PublicRoute exact path="/signup" component={Signup} restricted={true} /> */}
-      <Route path="/" element={<Layout />} >
-        <Route index element={<Home />} />
-        <Route path="/my-account" element={Accounts} />
-        <Route path="/my-gift-codes" element={GiftCodes} />
-        <Route path="/my-points" element={Points} />
-        <Route path="/my-goals" element={Goals} />
-        <Route path="/faqs" element={Faqs} />
+      
+      {/* <Route path="/login" element={<LoginPage />} */}
+      <Route path="/participant" element={<ParticipantLayout />} >
+        <Route path="home" element={<ParticipantHome />} />
+        <Route path="my-account" element={''} />
+        <Route path="my-gift-codes" element={<GiftCodeIndex />} />
+        <Route path="my-points" element={<PointIndex />} />
+        <Route path="my-goals" element={''} />
+        <Route path="faqs" element={''} />
       </Route>
+      <Route path="/manager" element={<ManagerLayout />} >
+        <Route path="home" element={<ManagerHome />} />
+        
+      </Route>
+      <Route path="*" element={<Navigate to="/participant/home" replace />} />
     </Routes>
 );
 

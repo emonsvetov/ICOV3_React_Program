@@ -5,7 +5,7 @@ import './style.scss';
 
 function Slider(props ) {   
     const { data} = props;
-    return <div className="merchant-slider">
+    return <div className="merchant-slider mt-5">
             <Carousel
                 additionalTransfrom={0}
                 arrows={false}

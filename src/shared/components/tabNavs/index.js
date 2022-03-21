@@ -4,7 +4,7 @@ import TabNav from './components/Tabnav';
 import { Container } from 'reactstrap';
 import './style.scss'; 
 
-const tab_nav_items = [
+const PARTICIPANT_ITEMS = [
     {title:"REDEEM MY POINTS", icon:"redeem"},
     {title:"MY GIFT CODES", icon:"gift"},
     {title:"SURVEY", icon:"survey"},
@@ -12,20 +12,37 @@ const tab_nav_items = [
     {title:"SUBMIT A LEAD", icon:"submit"},  
   ]
 
-function TabNavs(props ) {   
+const MANAGER_ITEMS = [
+{title:"Dashboard", icon:"dashboard"},
+{title:"nSpire Wall", icon:"spire"},
+{title:"Leaderboard", icon:"leaderboard"},
+
+]
+
+export const ParticipantTabNavs = (props ) => {   
     
-    return <Container className='tab-navs'>
+    return <div className='tab-navs items-5'>
                 <ul className='horizontal'>
-                {tab_nav_items.map((item, key )=> {
+                {PARTICIPANT_ITEMS.map((item, key )=> {
                     return <li key={key}>
                         <TabNav title={item.title} icon={item.icon} />
                     </li>
                     }
                 )}  
                 </ul>
-            </Container>
+            </div>
 }
 
-
-
-export default TabNavs;
+export const ManagerTabNavs = (props ) => {   
+    
+    return <div className='tab-navs items-3'>
+                <ul className='horizontal'>
+                {MANAGER_ITEMS.map((item, key )=> {
+                    return <li key={key}>
+                        <TabNav title={item.title} icon={item.icon} />
+                    </li>
+                    }
+                )}  
+                </ul>
+            </div>
+}

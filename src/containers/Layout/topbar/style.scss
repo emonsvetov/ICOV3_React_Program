@@ -1,0 +1,85 @@
+//topbar
+$yellow-color: #FDC107;
+
+.topbar {
+    // position: fixed;
+    width: 100%;
+    margin-top: 20px;
+    min-height: 60px;
+    z-index: 101;
+}
+
+.topbar__wrapper{
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
+    .topbar__left {
+        display: flex;
+        height: 100%;
+        margin-bottom: 10px;
+    }
+
+    .topbar__nav {
+        margin: 0 auto;
+        height: 100%;    
+        margin-bottom: 10px;
+        ul.horizontal li a{
+            padding: 10px;
+            &.active{
+                color: $yellow-color;
+            }
+            &:hover{
+                color: $yellow-color;
+            }
+        }
+        
+    }
+
+    .topbar__right {
+        display: flex;
+        height: 100%;
+        
+    }
+}
+
+.topbar__logo {
+    width: 150px;
+    height: 32px;
+    margin: auto 0;
+    background-repeat: no-repeat;
+    background-position-y: center;
+    background-position-x: left;
+    background-size: contain;
+    background-image: url(../../../shared/img/logo/logo_light.svg)
+}
+
+.topbar__profile {
+  position: relative;
+  margin-bottom: 0;
+
+  .topbar__avatar {
+    height: 100%;
+    display: flex;
+    cursor: pointer;
+    position: relative;
+    border-radius: 0;
+    border: none;
+    transition: all 0.3s;
+    box-shadow: none;
+    padding: 0 15px;
+    background-color: transparent;
+
+    .topbar__avatar-img {
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;   
+    }
+
+    .topbar__avatar-name{
+        text-align: left;
+        font-weight: bold;
+    }
+
+  }
+  
+}

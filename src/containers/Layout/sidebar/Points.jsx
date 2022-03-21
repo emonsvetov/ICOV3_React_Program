@@ -4,19 +4,19 @@ import { Col, Button, Row } from 'reactstrap';
 const Points = () => {
   return (
     <div className='points'>
-        <h3>My points</h3>
+        <h3>My Points</h3>
         <div className='panel redeem-panel'>
             <div className='mb-3'>
                 <h6> Points to Redeem </h6>
                 <div className='panel-group'>
-                    <span className='h4'> 56,852</span>
+                    <h4>{56852..toLocaleString()}</h4>
                     <div className='red redeem-btn'>Redeem Points</div>
                     {/* <Button className='btn-round'> Redeem Points</Button> */}
                 </div>
             </div>
             <div className='point-award'>
                 <h6> Peer Points to Award </h6>
-                <h4> 56,852</h4>  
+                <h4> {56852..toLocaleString()}</h4>  
             </div>
         </div>
     </div>
