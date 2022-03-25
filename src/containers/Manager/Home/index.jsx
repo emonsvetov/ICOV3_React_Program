@@ -1,6 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Col, Container, Row } from 'reactstrap';
+import { 
+    Col, 
+    Container, 
+    Row, 
+    FormGroup, 
+    Input
+} from 'reactstrap';
 import DetailCharItem from './components/DetailChartItem';
 import TodayItem from './components/TodayItem';
 import TopPanel from './components/TopPanel';
@@ -14,7 +20,13 @@ const Home = () => {
     <>
       <Container>
         <Row>
-          <Col md={3}>
+          <Col md={3} className="program-select d-flex">
+            <span>For Program:</span>
+            <FormGroup>
+              <Input type="select" name="program" >
+                <option>301166: Incentco</option>
+              </Input>
+            </FormGroup>
           </Col>
           <Col md={6}>
             <ManagerTabNavs/>

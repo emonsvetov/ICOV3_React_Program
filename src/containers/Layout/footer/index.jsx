@@ -5,7 +5,6 @@ import { Col, Container, Row } from 'reactstrap';
 
 const Footer = () => (
   <footer>
-      
       <Container className='footer__wrapper'>
         <Row>
             <div className='col-md-6 copyright'>

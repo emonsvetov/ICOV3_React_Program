@@ -17,7 +17,7 @@ import PointIndex from '../Participant/Points/index';
 
 //manager
 import ManagerHome from '../Manager/Home/index';
-
+import ProgramSettings from '../Manager/ProgramSettings/index'
 // const Accounts = () => (
 //   <Routes>
 //     <Route index element={AccountIndex} />
@@ -51,10 +51,14 @@ const RouteIndex = () => (
         <Route path="my-points" element={<PointIndex />} />
         <Route path="my-goals" element={''} />
         <Route path="faqs" element={''} />
+
+        <Route path="*" element={<Navigate to="/participant/home" />} />  
       </Route>
       <Route path="/manager" element={<ManagerLayout />} >
         <Route path="home" element={<ManagerHome />} />
-        
+        <Route path="program-settings" element={<ProgramSettings />} />
+
+        <Route path="*" element={<Navigate to="/manager/home" />} />  
       </Route>
       <Route path="*" element={<Navigate to="/participant/home" replace />} />
     </Routes>

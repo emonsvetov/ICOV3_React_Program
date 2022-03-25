@@ -293,6 +293,12 @@ ul.horizontal {
 //manager
 .manager{
     background-color: #F7F8FA;
+    .program-select{
+        margin: auto 0;
+        span{
+            padding: 5px;
+        }
+    }
 }
 .rounded-panel{
     border-radius: 0.5rem;
@@ -384,6 +390,37 @@ ul.horizontal {
     .title-right{
         span{
             margin: auto 20px;
+        }
+    }
+}
+
+.program-settings{
+    .navbar{
+        border-top: 3px solid rgba(0, 0, 0, 0.1);
+        background-color: white;
+        padding: 10px 0 0 0;
+        .navs{
+            margin: 0 auto;
+            ul{
+                width: fit-content;
+                li{
+                    margin-right: 10px;
+                }
+                a{
+                    color: black;
+                    &.active{
+                        border-bottom: 3px solid $yellow-color;
+                        color: $yellow-color;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+    .managerboard{
+        .btn-danger{
+            background-color: #FF3930 ;
+            border-color: #FF3930;
         }
     }
 }
