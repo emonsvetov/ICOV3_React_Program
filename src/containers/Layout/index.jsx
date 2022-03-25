@@ -13,7 +13,7 @@ export const ParticipantLayout = () => (
 );
 
 export const ManagerLayout = () => (
-  <main>
+  <main className='manager'>
       <ManagerTopbar />
       <Outlet />
       <Footer />    

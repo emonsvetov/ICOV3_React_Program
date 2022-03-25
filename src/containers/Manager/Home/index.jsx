@@ -1,10 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
+import DetailCharItem from './components/DetailChartItem';
+import TodayItem from './components/TodayItem';
+import TopPanel from './components/TopPanel';
 
 import {ManagerTabNavs} from '../../../shared/components/tabNavs';
+import { TODAY_DATA, CHART_DATA  } from './components/Mockdata';
 
 const Home = () => {
+  
   return (
     <>
       <Container>
@@ -19,28 +24,29 @@ const Home = () => {
       <hr></hr>
       <Container className='managerboard'>
         <Row>
-          <Col md={4}>
-          </Col>
-          <Col md={4}>
-          </Col>
-          <Col md={4}>
-          </Col>
+          {TODAY_DATA.map((item, index) =>{
+            return <Col md={4} key={index}>
+                <TodayItem data={item} index={index}/>
+              </Col>
+          })}
         </Row>
-        <Row>
+        <Row className='mt-5'>
           <Col md={4}>
+            <TopPanel type={0}/>
           </Col>
           <Col md={8}>
+            <DetailCharItem type={0} data={CHART_DATA[0]}/>
           </Col>
-          
         </Row>
-        <Row>
+        <Row className='mt-4'>
           <Col md={4}>
+            <TopPanel type={1}/>
           </Col>
           <Col md={8}>
+            <DetailCharItem type={1} data={CHART_DATA[1]}/>
           </Col>
         </Row>
       </Container>
-
     </>
    
 )}

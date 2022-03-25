@@ -18,8 +18,8 @@ const LINKS = [
 ];
 
 const ParticipantTopbar = () => (
-  <Container className="topbar">
-    <div className="topbar__wrapper">
+  <div className="topbar">
+    <Container className="topbar__wrapper">
       <div className="topbar__left">
         <Link className="link" to="/" >
             <img src={Brand}/>
@@ -41,7 +41,7 @@ const ParticipantTopbar = () => (
       <div className="topbar__right">
         <TopbarProfile />
       </div>
-    </div>
+    </Container>
 
     {/* <Navbar
       color=""
@@ -115,7 +115,7 @@ const ParticipantTopbar = () => (
         </NavbarText>
       </Collapse>
     </Navbar> */}
-  </Container>
+  </div>
 );
 
 export default ParticipantTopbar;

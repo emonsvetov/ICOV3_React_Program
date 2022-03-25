@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Col, Button, Row } from 'reactstrap';
 import { numFormatter } from '../../../utils/helper';
-const Ava = `img/avatar/avatar.jpg`;
+const Ava = `/img/avatar/avatar.jpg`;
 
 const leaders =[
     {name: 'Elizabeth', 'award': 65522},

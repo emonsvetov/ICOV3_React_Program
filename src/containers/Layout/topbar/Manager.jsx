@@ -15,8 +15,8 @@ const LINKS = [
 ];
 
 const ManagerTopbar = () => (
-  <Container className="topbar">
-    <div className="topbar__wrapper">
+  <div className="topbar">
+    <Container className="topbar__wrapper">
       <div className="topbar__left">
         <Link className="link" to="/" >
             <img src={Brand}/>
@@ -38,7 +38,7 @@ const ManagerTopbar = () => (
       <div className="topbar__right">
         <TopbarProfile />
       </div>
-    </div>
+    </Container>
 
     {/* <Navbar
       color=""
@@ -112,7 +112,7 @@ const ManagerTopbar = () => (
         </NavbarText>
       </Collapse>
     </Navbar> */}
-  </Container>
+  </div>
 );
 
 export default ManagerTopbar;
