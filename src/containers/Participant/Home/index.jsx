@@ -34,7 +34,7 @@ const Home = () => {
           <Col md={9}>
             <div className="dashboard">
                 <div className='welcome'>
-                  <h1> Welcome back Jay Moore! </h1>
+                  <h1> Welcome back Jay! </h1>
                   <div className='description'>
                     Congratulations on earning rewards! Redeem your rewards when you earn them or save them for a "rainy day".
                   </div>  
