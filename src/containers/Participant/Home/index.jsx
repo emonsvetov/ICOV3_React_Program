@@ -36,7 +36,7 @@ const Home = () => {
                 <div className='welcome'>
                   <h1> Welcome back Jay! </h1>
                   <div className='description'>
-                    Congratulations on earning rewards! Redeem your rewards when you earn them or save them for a "rainy day".
+                    xCongratulations on earning rewards! Redeem your rewards when you earn them or save them for a "rainy day".
                   </div>  
                 </div>
 
