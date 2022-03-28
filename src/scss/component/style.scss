@@ -347,6 +347,7 @@ ul.horizontal {
 }
 
 .top-panel{
+    height: 100%;
     .title{
         padding: 10px 30px 5px 30px;
         color: white;
@@ -392,6 +393,10 @@ ul.horizontal {
             margin: auto 20px;
         }
     }
+    canvas{
+        width: 100% !important;
+        height: 200px !important;
+    }
 }
 
 .program-settings{
@@ -421,6 +426,60 @@ ul.horizontal {
         .btn-danger{
             background-color: #FF3930 ;
             border-color: #FF3930;
+        }
+        .delete-column{
+            color: #FF3930;
+        }
+
+    }
+    .popup{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background: rgba($color: black, $alpha: 0.5);
+        backdrop-filter: blur(2px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &__content{
+            
+            width: 50%;
+            min-height: 30%;
+            display: flex;
+            
+            .left{
+                background-color: #FFF9F1; //#FCB040
+                padding: 50px 20px 40px 20px;
+                border-radius: 10px 0 0 10px;
+                z-index: 100;
+                
+                img{
+                    margin-left: 30px;
+                    width: 100%;
+                }
+            }
+            .right{
+                
+                padding: 50px 20px 40px 20px;   
+                background: white;
+                border-radius: 0 10px 10px 0;
+                .form{
+                    height: 100%;
+                }
+                button{
+                    border-color: #FCB040;
+                    background-color: #FCB040;
+                }
+            }
+        }
+        &__top{
+            position: absolute;
+            top: 3%;
+            right: 23%;
+            color: white;
+            cursor: pointer;
         }
     }
 }

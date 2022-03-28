@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Col, 
@@ -15,6 +15,7 @@ import {
 
 import { EVENTS_COLUMNS, EVEMTS_DATA  } from './components/Mockdata';
 import { useTable } from 'react-table'
+import AddEventPopup from './components/AddEventPopup';
 
 const LINKS = [
   { to: '#events', text: 'Events' },
@@ -23,11 +24,42 @@ const LINKS = [
   { to: '#future', text: 'Future Goal Plans' },
   { to: '#leaderboards', text: 'Leaderboards' },
 ];
+
 const ProgramSettings = () => {
-  const columns = React.useMemo( () => EVENTS_COLUMNS, [])
-    const data = React.useMemo(() => EVEMTS_DATA, [])
-    const { getTableProps, headerGroups, rows, prepareRow } 
-        = useTable({ columns, data})  
+
+  const [showAddPopup, setShowAddPopup] = useState(false);
+  const popupToggle = () => {
+    setShowAddPopup(prevState => !prevState);
+  };
+  const RenderActions = ({row}) => {
+    return (
+        <span>
+            <Link to={{}} onClick={(e) => {}}>Edit</Link> 
+            <span style={{width:'15px', display: 'inline-block'}}></span>
+            <Link to={{}} className='delete-column' onClick={(e) => {if(window.confirm('Are you sure to delete this Event?')){onDeleteEvent(e, row.original.id)}}}>Delete</Link>
+        </span>
+    )
+  }
+
+  const onDeleteEvent = (e, event_id) => {
+    
+  }
+
+  let final_columns = [
+    ...EVENTS_COLUMNS, 
+    ...[{
+        Header: "Action",
+        accessor: "action",
+        Footer: "Action",
+        Cell: ({ row }) => <RenderActions row={row} />,
+    }]
+  ]
+
+  const columns = React.useMemo( () => final_columns, [])
+  const data = React.useMemo(() => EVEMTS_DATA, [])
+  const { getTableProps, headerGroups, rows, prepareRow } 
+      = useTable({ columns, data})  
+
   return (
     <div className='program-settings'>
       <Container>
@@ -65,7 +97,7 @@ const ProgramSettings = () => {
         <div className='events' id="events">
           <div className='my-3 d-flex justify-content-between'>
             <h3 >Events</h3>
-            <Button color='danger'>Add New Event</Button>
+            <Button color='danger' onClick={()=> popupToggle()}>Add New Event</Button>
           </div>
           <div className='points-summary-table'>
               <Table striped borderless size="md" {...getTableProps()}>
@@ -97,14 +129,11 @@ const ProgramSettings = () => {
                       })}
                   </tbody>
               </Table>
-          </div>
-          
-              
-              
+          </div>      
         </div>
       </Container>
+      {showAddPopup && <AddEventPopup onCancelHandler={popupToggle}/>}
     </div>
-   
 )}
 
 export default ProgramSettings;
