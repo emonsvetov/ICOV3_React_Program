@@ -2,9 +2,9 @@
 $yellow-color: #FDC107;
 
 .topbar {
-    // position: fixed;
+    background-color: white;
     width: 100%;
-    margin-top: 20px;
+    padding-top: 20px;
     min-height: 60px;
     z-index: 101;
 }
@@ -27,6 +27,7 @@ $yellow-color: #FDC107;
             padding: 10px;
             &.active{
                 color: $yellow-color;
+                background-color: rgba($color: $yellow-color, $alpha: 0.1);
             }
             &:hover{
                 color: $yellow-color;

@@ -1,6 +1,6 @@
 
 body {
-    background-color: #FCFCFC !important;
+    background-color: #FFFFFF !important;
     font-family: 'CircularStdBold', sans-serif !important;
   }
 
@@ -291,13 +291,146 @@ ul.horizontal {
 
 
 //manager
+.manager{
+    background-color: #F7F8FA;
+    .program-select{
+        margin: auto 0;
+        span{
+            padding: 5px;
+        }
+    }
+}
+.rounded-panel{
+    border-radius: 0.5rem;
+    margin-top: 10px;
+    box-shadow: 0 2px 15px 10px rgba(0, 0, 0, 0.05);
+}
+.managerboard{
+    
+}
+.today-panel{
+    height: 100%;
+    padding: 20px;
+    .award-icon{
+        border-radius: 15%;
+        padding: 7px;
+        margin-right: 15px;
+    }
+    
+    &.index-0{
+        .award-icon{
+            color: #26CE83;
+            background-color: rgba($color: #26CE83, $alpha: 0.2);
+        }
+        .color{
+            color: #26CE83;
+        }
+    }
+    &.index-1{
+        .award-icon{
+            color: #FF1A1F;
+            background-color: rgba($color: #FF1A1F, $alpha: 0.2);
+        }
+        .color{
+            color: #FF1A1F;
+        }
+    }
+    &.index-2{
+        .award-icon{
+            color: #573BFF;
+            background-color: rgba($color: #573BFF, $alpha: 0.2);
+        }
+        .color{
+            color: #573BFF;
+        }
+    }
+}
 
+.top-panel{
+    .title{
+        padding: 10px 30px 5px 30px;
+        color: white;
+        border-radius: 0.5rem 0.5rem 0 0;
+        .title-right{
+            span{
+                margin: auto 20px;
+            }
+        }
+    }
+    &.index-0{
+        .title{    
+            background: linear-gradient(115deg,  #D17C00 0%,#D17C00 52%,#EE9616 52%,#EE9616 53%,#D17C00 53%,#D17C00 55%,#EE9616 55%,#EE9616 100%);
+        }
+        .dropdowntoggle{
+            background-color: rgba($color: #F1AB44, $alpha: 1);
+            border: 0;
+        }
+    }
+    &.index-1{
+        .title{    
+            background: linear-gradient(115deg,  #D70D04 0%,#D70D04 52%,#FD3930 52%,#FD3930 53%,#D70D04 53%,#D70D04 55%,#FD3930 55%,#FD3930 100%);
+        }
+        .dropdowntoggle{
+            background-color: rgba($color: #FD5F58, $alpha: 1);
+            border: 0;
+        }
+    }
+    .striped-line{
+        padding: 5px;
+    }
+}
+
+.chart-panel{
+    padding: 30px;
+    .dropdowntoggle{
+        background-color: rgba($color: black, $alpha: 0.05);
+        color: black;
+        border: 0;
+    }
+    .title-right{
+        span{
+            margin: auto 20px;
+        }
+    }
+}
+
+.program-settings{
+    .navbar{
+        border-top: 3px solid rgba(0, 0, 0, 0.1);
+        background-color: white;
+        padding: 10px 0 0 0;
+        .navs{
+            margin: 0 auto;
+            ul{
+                width: fit-content;
+                li{
+                    margin-right: 10px;
+                }
+                a{
+                    color: black;
+                    &.active{
+                        border-bottom: 3px solid $yellow-color;
+                        color: $yellow-color;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+    .managerboard{
+        .btn-danger{
+            background-color: #FF3930 ;
+            border-color: #FF3930;
+        }
+    }
+}
 
 footer{    
     width: 100%;
     background-color: black;
     padding: 20px;
     color: white;
+    margin-top: 30px;
     
 }
 footer .teritery-menu{

@@ -20,7 +20,7 @@ const MyGiftCodes = () => {
       <Container>
           <ParticipantTabNavs />
       </Container>
-      <Container className='mb-5'>
+      <Container>
         <Row>
           <Col md={9}>
           <div className="dashboard">

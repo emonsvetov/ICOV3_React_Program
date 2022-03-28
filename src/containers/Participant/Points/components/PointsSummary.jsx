@@ -8,7 +8,6 @@ import { useTable } from 'react-table'
 const SUMMARY_DATA = [
     {index: "balance", text: "Your Points Balance", value: 0},
     {index: "redeemed", text: "Points Redeemed", value: 49000},
-    {index: "reclaimed", text: "Points Reclaimed", value:-0},
     {index: "expired", text: "Points Expired", value: 2720},
 ]
 
@@ -23,7 +22,7 @@ const PointsSummary = () => {
     <>
         <div className='points-summary p-3 rounded-3'>
             <h3>Points Summary</h3>
-            <div className='d-flex justify-content-between'>
+            <div className='d-flex justify-content-around'>
                 {SUMMARY_DATA.map((item, index)=>{
                     return <div key={index} className="summary-item d-flex flex-column rounded-3">
                         <strong className={`point-value index-${index}`}>{item.value.toLocaleString('en-US')}</strong>
