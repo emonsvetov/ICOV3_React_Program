@@ -11,7 +11,7 @@ $yellow-color: #FDC107;
 
 .topbar__wrapper{
     display: flex;
-    margin: 0 auto;
+    margin-top: -10px;
     align-items: center;
     .topbar__left {
         display: flex;
@@ -39,7 +39,7 @@ $yellow-color: #FDC107;
     .topbar__right {
         display: flex;
         height: 100%;
-        
+        margin-bottom: 15px;
     }
 }
 
@@ -72,8 +72,9 @@ $yellow-color: #FDC107;
 
     .topbar__avatar-img {
         border-radius: 50%;
-        width: 60px;
-        height: 60px;   
+        width: 50px;
+        height: 50px;   
+
     }
 
     .topbar__avatar-name{

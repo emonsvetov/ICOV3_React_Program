@@ -17,19 +17,19 @@ const AddEventPopup = ({onCancelHandler}) => {
   return (
     <div className='popup add-event'>
       
-      <div className='popup__content'>
+      <div className='popup__content d-flex'>
         
-          <Col md={5} className="left">
-            <div className='mb-5'>
+          <div className="left">
+            <div className='title mb-5'>
               <h3>Add New Event</h3>
               <span>
                 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
               </span>
             </div>
-            
             <img src={AddEventImg}/>
-          </Col>
-          <Col md={7} className="right">
+          </div>
+
+          <div className="right">
             <Form
               onSubmit={onSubmit}
               
@@ -223,31 +223,33 @@ const AddEventPopup = ({onCancelHandler}) => {
                           </Field>
                       </Col>
                     </Row>
-                    <Col md="12">
-                        <Field name="award_message">
-                        {({ input, meta }) => (
-                            <FormGroup>
-                              <Input
-                                placeholder="Award Message"
-                                type="textarea"
-                                {...input}
-                              />
-                                  {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
-                            </FormGroup>
-                        )}
-                        </Field>
-                    </Col>
-                  
+                    <Row>
+                      <Col md="12">
+                          <Field name="award_message">
+                          {({ input, meta }) => (
+                              <FormGroup>
+                                <Input
+                                  placeholder="Award Message"
+                                  type="textarea"
+                                  {...input}
+                                />
+                                    {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                              </FormGroup>
+                          )}
+                          </Field>
+                      </Col>
+                    </Row>
                   <div className='d-flex justify-content-end'>
                     <Button  color='danger' type='submit'>Add New Event</Button>
                   </div>
                 </form>
               )}
             </Form>
-          </Col>
+          </div>
         
         </div>
       <div className='popup__top'>
+        {/* <Button close onClick={onCancelHandler}/> */}
         <CloseIcon onClick={onCancelHandler} size={30}/>
       </div>
     </div>

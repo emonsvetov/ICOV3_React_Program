@@ -4,7 +4,7 @@ import { Collapse } from 'reactstrap';
 import TopbarMenuLink from './TopbarMenuLink';
 import {logout, getAuthUserFullname} from '../../App/auth';
 
-const Ava = `${process.env.PUBLIC_URL}/img/avatar/avar.png`;
+const Ava = `${process.env.PUBLIC_URL}/img/avatar/avatar.jpg`;
 
 const TopbarProfile = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);

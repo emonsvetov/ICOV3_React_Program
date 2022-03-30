@@ -16,7 +16,7 @@ import {
 
 import { USERS_COLUMNS, USERS_DATA  } from './components/Mockdata';
 import { useTable } from 'react-table'
-import AddEventPopup from './components/AddEventPopup';
+import GiveRewardPopup from './components/GiveRewardPopup';
 import SearchIcon from 'mdi-react/SearchIcon';
 import MailIcon from 'mdi-react/PostItNoteAddIcon';
 const ACTIONS = [
@@ -25,7 +25,6 @@ const ACTIONS = [
   {name: 'Email', link:''},
   {name: 'Resend Invite', link:''},
   {name: 'Deactivate', link:''},
-  {name: 'Import', link:''},
   {name: 'Peer Allocation', link:''},
 ]
 const ManageAndReward = () => {
@@ -37,7 +36,7 @@ const ManageAndReward = () => {
   const RenderActions = ({row}) => {
     return (
         ACTIONS.map((item, index) =>{
-          return <span key={index}>
+          return <span key={index} onClick={item.name == 'Reward'? popupToggle: ""}>
               <span className={`action-item ${item.name}`}><MailIcon />{item.name}</span>
               <span style={{width:'5px', display: 'inline-block'}}></span>
           </span>
@@ -108,8 +107,8 @@ const ManageAndReward = () => {
                 Actions
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem>Reward</DropdownItem>
-                <DropdownItem>Add Goal</DropdownItem>
+                <DropdownItem onClick={popupToggle}>Reward</DropdownItem>
+                <DropdownItem >Add Goal</DropdownItem>
                 <DropdownItem>Email</DropdownItem>
                 <DropdownItem>Resend Invite</DropdownItem>
                 <DropdownItem>Deactivate</DropdownItem>
@@ -182,7 +181,7 @@ const ManageAndReward = () => {
           </span>
         </div>
       </Container>
-      {showAddPopup && <AddEventPopup onCancelHandler={popupToggle}/>}
+      {showAddPopup && <GiveRewardPopup onCancelHandler={popupToggle}/>}
 
     </div>
 )}

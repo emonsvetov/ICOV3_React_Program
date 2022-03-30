@@ -15,7 +15,9 @@ import {
 
 import { EVENTS_COLUMNS, EVEMTS_DATA  } from './components/Mockdata';
 import { useTable } from 'react-table'
-import AddGoalPopup from './components/AddGoalPopup';
+import AddEventPopup from './components/AddEventPopup';
+import PencilIcon from 'mdi-react/PencilIcon';
+import TrashIcon from 'mdi-react/TrashCanIcon';
 
 const LINKS = [
   { to: '#events', text: 'Events' },
@@ -34,9 +36,9 @@ const ProgramSettings = () => {
   const RenderActions = ({row}) => {
     return (
         <span>
-            <Link to={{}} onClick={(e) => {}}>Edit</Link> 
-            <span style={{width:'15px', display: 'inline-block'}}></span>
-            <Link to={{}} className='delete-column' onClick={(e) => {if(window.confirm('Are you sure to delete this Event?')){onDeleteEvent(e, row.original.id)}}}>Delete</Link>
+            <Link to={{}} onClick={(e) => {}}><PencilIcon style={{marginRight: "0.5rem"}}/>Edit</Link> 
+            <span style={{width:'2.5rem', display: 'inline-block'}}></span>
+            <Link to={{}} className='delete-column' onClick={(e) => {if(window.confirm('Are you sure to delete this Event?')){onDeleteEvent(e, row.original.id)}}}><TrashIcon style={{marginRight: "0.5rem"}}/>Delete</Link>
         </span>
     )
   }
@@ -132,7 +134,7 @@ const ProgramSettings = () => {
           </div>      
         </div>
       </Container>
-      {showAddPopup && <AddGoalPopup onCancelHandler={popupToggle}/>}
+      {showAddPopup && <AddEventPopup onCancelHandler={popupToggle}/>}
     </div>
 )}
 

@@ -25,6 +25,7 @@ const MyPoints = () => {
           <Col md={9}>
           <div className="dashboard">
               <PointsSummary />
+              
               <PointsDetail />
               
             </div>
