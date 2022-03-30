@@ -15,7 +15,7 @@ import {
 
 import { EVENTS_COLUMNS, EVEMTS_DATA  } from './components/Mockdata';
 import { useTable } from 'react-table'
-import AddEventPopup from './components/AddEventPopup';
+import AddGoalPopup from './components/AddGoalPopup';
 
 const LINKS = [
   { to: '#events', text: 'Events' },
@@ -132,7 +132,7 @@ const ProgramSettings = () => {
           </div>      
         </div>
       </Container>
-      {showAddPopup && <AddEventPopup onCancelHandler={popupToggle}/>}
+      {showAddPopup && <AddGoalPopup onCancelHandler={popupToggle}/>}
     </div>
 )}
 
