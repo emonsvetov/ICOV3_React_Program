@@ -15,7 +15,6 @@ export const ParticipantLayout = () => (
 export const ManagerLayout = () => (
   <main className='manager'>
       <ManagerTopbar />
-      ManagerLayout
       <Outlet />
       <Footer />    
   </main>

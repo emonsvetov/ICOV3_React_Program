@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { isAuthenticated, getAuthUser } from './auth';
 
 export const PublicRoute = () => {
-    console.log('PublicRoute')
+    // console.log('PublicRoute')
     let navigate = useNavigate();
     useEffect( () => {
         if( isAuthenticated() )   {

@@ -5,6 +5,16 @@ import { Container, NavbarBrand, NavbarToggler, Collapse, Nav, Navbar, NavItem, 
 import './style.scss'
 const Brand = `${process.env.PUBLIC_URL}/img/logo/logo_light.svg`;
 
+const LINKS = [
+  { to: '/manager/home', text: 'Home' },
+  { to: '/manager/program-settings', text: 'Program Settings' },
+  { to: '/manager/manage-and-reward', text: 'Manage and Reward' },
+  { to: '/manager/view-reports', text: 'View Reports' },
+  { to: '/manager/invite-new-participant', text: 'Invite New Participant' },
+  { to: '/manager/referral-recipients', text: 'Referral Recipients' },
+  { to: '/manager/team', text: 'Team' }
+];
+
 const ManagerTopbar = () => {
 
 return (
@@ -36,60 +46,15 @@ return (
           className="me-auto"
           navbar
         >
-          <NavItem>
-            <NavLink href="/home">
-              Home
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="/my-account">
-              My Account
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="/my-gift-codes">
-              My Gift Codes
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="/my-points">
-              My Points
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="/my-goals">
-              My Goals
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="/faqs">
-              FAQs
-            </NavLink>
-          </NavItem>
-          <UncontrolledDropdown
-            inNavbar
-            nav
-          >
-            <DropdownToggle
-              caret
-              nav
-            >
-              Welcome back
-            </DropdownToggle>
-            <DropdownMenu end>
-              <DropdownItem>
-                My Profile
-              </DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem>
-                Sign Out
-              </DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
+          {LINKS.map((item, index) =>{
+              return(
+                <NavItem>
+                <NavLink href={item.to} className="link">
+                  {item.text}
+                </NavLink>
+                </NavItem>)
+          })}
         </Nav>
-        <NavbarText>
-          Simple Text
-        </NavbarText>
       </Collapse>
     </Navbar>
   </div>

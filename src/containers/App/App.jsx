@@ -13,6 +13,7 @@ import {sendFlashMessage, FlashMessage} from "@/shared/components/flash";
 axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL + '/api/v1';
 if( !axios.defaults.headers.common['Authorization'] )
 axios.defaults.headers.common['Authorization'] = getBearer();
+if( !axios.defaults.headers.post['Content-Type'] )
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 axios.interceptors.request.use(request => {
