@@ -1,17 +1,27 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { isAuthenticated } from './auth';
+import React, {useEffect} from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { isAuthenticated, getAuthUser } from './auth';
 
-const PublicRoute = ({component: Component, restricted, ...rest}) => {
-    return (
-        <Route {...rest} render={props => (
-            <Component {...props} />
-        )} />
-        // <Route {...rest} render={props => (
-        //     isAuthenticated() && restricted ?
-        //         <Redirect to="/" />
-        //     : <Component {...props} />
-        // )} />
-    );
-};
+export const PublicRoute = () => {
+    console.log('PublicRoute')
+    let navigate = useNavigate();
+    useEffect( () => {
+        if( isAuthenticated() )   {
+            const user = getAuthUser()
+            // console.log(user)
+            let sentTo = '/'
+            if( user.loginAs === 'Manager') {
+                sentTo = '/manager'
+            }   else if( user.loginAs === 'Participant' ) {
+                sentTo = '/participant'
+            }
+            navigate(sentTo)
+        }
+    }, [])
+
+    return(
+        <Outlet />
+    )
+}
+
 export default PublicRoute;

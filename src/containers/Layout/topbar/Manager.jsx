@@ -1,20 +1,13 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink as RouterNavLink } from 'react-router-dom';
 import TopbarProfile from './TopbarProfile';
-import { Container } from 'reactstrap';
+import { Container, NavbarBrand, NavbarToggler, Collapse, Nav, Navbar, NavItem, NavLink, DropdownToggle, DropdownMenu, DropdownItem, UncontrolledDropdown, NavbarText } from 'reactstrap';
 import './style.scss'
 const Brand = `${process.env.PUBLIC_URL}/img/logo/logo_light.svg`;
-const LINKS = [
-  { to: '/manager/home', text: 'Home' },
-  { to: '/manager/program-settings', text: 'Program Settings' },
-  { to: '/manager/manage-and-reward', text: 'Manage and Reward' },
-  { to: '/manager/view-reports', text: 'View Reports' },
-  { to: '/manager/invite-new-participant', text: 'Invite New Participant' },
-  { to: '/manager/referral-recipients', text: 'Referral Recipients' },
-  { to: '/manager/team', text: 'Team' }
-];
 
-const ManagerTopbar = () => (
+const ManagerTopbar = () => {
+
+return (
   <div className="topbar">
     <Container className="topbar__wrapper">
       <div className="topbar__left">
@@ -22,29 +15,16 @@ const ManagerTopbar = () => (
             <img src={Brand}/>
         </Link>
       </div>
-
-      <nav className="topbar__nav">
-        <ul className="horizontal">
-          {LINKS.map((item, index) =>{
-              return <li key={index}>
-                <NavLink to={item.to} className="link">
-                  {item.text}
-                </NavLink>
-            </li>
-          })}
-        </ul>
-      </nav>
           
       <div className="topbar__right">
         <TopbarProfile />
       </div>
     </Container>
 
-    {/* <Navbar
+    <Navbar
       color=""
       expand
       fixed=""
-      full
       light
     >
       <NavbarBrand href="/">
@@ -96,7 +76,7 @@ const ManagerTopbar = () => (
             >
               Welcome back
             </DropdownToggle>
-            <DropdownMenu right>
+            <DropdownMenu end>
               <DropdownItem>
                 My Profile
               </DropdownItem>
@@ -111,8 +91,8 @@ const ManagerTopbar = () => (
           Simple Text
         </NavbarText>
       </Collapse>
-    </Navbar> */}
+    </Navbar>
   </div>
-);
+)}
 
 export default ManagerTopbar;

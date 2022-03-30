@@ -1,15 +1,16 @@
 import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { isAuthenticated } from './auth';
 
-
-const PrivateRoute = ({component: Component, ...rest}) => {
-    // console.log(isEmailVerifyPath(rest))
-    return (
-        <Route {...rest} render={props => (
-            isAuthenticated() ?  <Component {...props} />  : <Navigate to="/login" />
-        )} />
-    );
-};
+export const PrivateRoute = () => {
+    console.log("PrivateRoute")
+    let navigate = useNavigate();
+    if( !isAuthenticated() )   {
+        navigate('/login')
+    }
+    return(
+        <Outlet />
+    )
+}
 
 export default PrivateRoute;

@@ -15,7 +15,7 @@ export const logout = (e) => {
     // alert("Hello")
     if( window.confirm( 'Are you sure to log out?') )    {
         flushUserSession();
-        window.location = '/';
+        window.location = '/login';
     }
     e.preventDefault();
 }
