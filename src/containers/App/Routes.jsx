@@ -1,9 +1,10 @@
 import React, {createContext} from 'react';
 import { Routes, Route, Navigate} from 'react-router-dom';
+import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
 import {ParticipantLayout, ManagerLayout} from '../Layout/index';
 
-// import LogIn from '../LogIn/index';
+import LogIn from '../LogIn/index';
 // import Signup from '../Signup/index';
 // import SignupSuccess from '../Signup/SignupSuccess';
 
@@ -42,7 +43,7 @@ import ProgramSettings from '../Manager/ProgramSettings/index'
 
 const RouteIndex = () => (
     <Routes>
-      
+      <Route path="/login" element={<LogIn />} />
       {/* <Route path="/login" element={<LoginPage />} */}
       <Route path="/participant" element={<ParticipantLayout />} >
         <Route path="home" element={<ParticipantHome />} />
