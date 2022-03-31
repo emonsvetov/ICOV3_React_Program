@@ -308,6 +308,7 @@ ul.horizontal {
     background-color: #F7F8FA;
     .program-select{
         margin: auto 0;
+        text-align: end;
         span{
             padding: 5px;
         }
@@ -672,6 +673,27 @@ ul.horizontal {
     }
 }
 
+.invite-participant{
+    width: 30%;
+    border-radius: 1rem;
+    background-color: white;
+    padding: 2.5rem;
+    margin: 6rem auto;
+    .row{
+        margin-bottom: 1rem;
+    }
+    .title{
+        text-align: center;
+    }
+    .program-select{
+        margin: 0.5rem 0 1rem 1rem;
+        
+    }
+    button{
+        border-color: #FCB040;
+        background-color: #FCB040;
+    }
+}
 footer{    
     width: 100%;
     background-color: black;

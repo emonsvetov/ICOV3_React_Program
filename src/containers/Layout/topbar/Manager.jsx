@@ -10,7 +10,7 @@ const LINKS = [
   { to: '/manager/program-settings', text: 'Program Settings' },
   { to: '/manager/manage-and-reward', text: 'Manage and Reward' },
   { to: '/manager/view-reports', text: 'View Reports' },
-  { to: '/manager/invite-new-participant', text: 'Invite New Participant' },
+  { to: '/manager/invite-participant', text: 'Invite New Participant' },
   { to: '/manager/referral-recipients', text: 'Referral Recipients' },
   { to: '/manager/team', text: 'Team' }
 ];
