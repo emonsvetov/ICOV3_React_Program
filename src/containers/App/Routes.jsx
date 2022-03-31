@@ -1,9 +1,10 @@
 import React, {createContext} from 'react';
 import { Routes, Route, Navigate} from 'react-router-dom';
+import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
 import {ParticipantLayout, ManagerLayout} from '../Layout/index';
 
-// import LogIn from '../LogIn/index';
+import LogIn from '../LogIn/index';
 // import Signup from '../Signup/index';
 // import SignupSuccess from '../Signup/SignupSuccess';
 
@@ -43,26 +44,24 @@ import ManageAndReward from '../Manager/ManageAndReward/index'
 
 const RouteIndex = () => (
     <Routes>
-      
-      {/* <Route path="/login" element={<LoginPage />} */}
-      <Route path="/participant" element={<ParticipantLayout />} >
-        <Route path="home" element={<ParticipantHome />} />
-        <Route path="my-account" element={''} />
-        <Route path="my-gift-codes" element={<GiftCodeIndex />} />
-        <Route path="my-points" element={<PointIndex />} />
-        <Route path="my-goals" element={''} />
-        <Route path="faqs" element={''} />
-
-        <Route path="*" element={<Navigate to="/participant/home" />} />  
+      <Route path="/" element={<PublicRoute />} >
+        <Route path="login" element={<LogIn />} />
       </Route>
-      <Route path="/manager" element={<ManagerLayout />} >
-        <Route path="home" element={<ManagerHome />} />
-        <Route path="program-settings" element={<ProgramSettings />} />
-        <Route path="manage-and-reward" element={<ManageAndReward />} />
-
-        <Route path="*" element={<Navigate to="/manager/home" />} />  
+      <Route path="/" element={<PrivateRoute />} >
+        <Route path="participant" element={<ParticipantLayout />} >
+          <Route index element={<ParticipantHome />} />
+          <Route path="my-account" element={''} />
+          <Route path="my-gift-codes" element={<GiftCodeIndex />} />
+          <Route path="my-points" element={<PointIndex />} />
+          <Route path="my-goals" element={''} />
+          <Route path="faqs" element={''} />
+        </Route>
+        <Route path="manager" element={<ManagerLayout />} >
+          <Route path="home" element={<ManagerHome />} />
+          <Route path="program-settings" element={<ProgramSettings />} />
+          <Route path="manage-and-reward" element={<ManageAndReward />} />
+        </Route>
       </Route>
-      <Route path="*" element={<Navigate to="/participant/home" replace />} />
     </Routes>
 );
 

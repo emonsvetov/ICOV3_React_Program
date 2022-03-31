@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import DownIcon from 'mdi-react/MenuDownIcon';
-import { Collapse } from 'reactstrap';
+import { Collapse, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import TopbarMenuLink from './TopbarMenuLink';
 import {logout, getAuthUserFullname} from '../../App/auth';
 
@@ -14,14 +14,29 @@ const TopbarProfile = () => {
 
   return (
     <div className="topbar__profile">
-      <button type="button" className="topbar__avatar" onClick={()=>setIsCollapsed(false)}>
-        <img className="topbar__avatar-img" src={Ava} alt="avatar" />
-        <div className='d-flex flex-column pt-1'>
-          <small>Welcome back</small>
-          <span className="topbar__avatar-name">{'Jay!'}</span>
-        </div>
-          <DownIcon className="mt-3 ml-3 topbar__icon" />
-      </button>
+      <UncontrolledDropdown
+            inNavbar
+            nav
+          >
+        <DropdownToggle
+          caret
+          nav
+        >
+          Welcome back {getAuthUserFullname()}
+        </DropdownToggle>
+        <DropdownMenu end>
+          <DropdownItem>
+            My Profile
+          </DropdownItem>
+          <DropdownItem divider />
+          <DropdownItem  onClick={()=>{
+            if(window.confirm('Are you sure to log out?')) {
+              logout()
+            }}}>
+            Sign Out
+          </DropdownItem>
+        </DropdownMenu>
+      </UncontrolledDropdown>
       
       {isCollapsed && (
         <button
@@ -35,7 +50,10 @@ const TopbarProfile = () => {
         <div className="topbar__menu">
           <TopbarMenuLink title="Dashboard" icon="list" path="/" />
           <div className="topbar__menu-divider" />
-          <TopbarMenuLink title="Log Out" icon="exit" path="" onClick={logout} />
+          <TopbarMenuLink title="Log Out" icon="exit" path="" onClick={()=>{
+            if(window.confirm('Are you sure to log out?')) {
+              logout()
+            }}} />
         </div>
       </Collapse>
     </div>

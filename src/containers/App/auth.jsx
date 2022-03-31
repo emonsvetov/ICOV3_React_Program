@@ -1,6 +1,10 @@
 
 export const AUTH_TOKEN_KEY = 'authToken';
 export const AUTH_USER_KEY = 'authUser';
+export const ORGANIZATION = {
+    id: 1,
+    name: 'First Organization'
+}
 
 export const login = data => {
     localStorage.setItem(AUTH_TOKEN_KEY, data.access_token);
@@ -11,7 +15,7 @@ export const logout = (e) => {
     // alert("Hello")
     if( window.confirm( 'Are you sure to log out?') )    {
         flushUserSession();
-        window.location = '/';
+        window.location = '/login';
     }
     e.preventDefault();
 }
@@ -48,7 +52,13 @@ export const getAuthUser = () => {
         return authUser
     } catch (e) {
         return null;
+
     }
+}
+
+export const getOrganization = () => {
+    //get from AuthUser TODO
+    return ORGANIZATION
 }
 
 export const getAuthUserFullname = () => {

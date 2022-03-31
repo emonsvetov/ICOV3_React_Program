@@ -1,7 +1,38 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import axios from 'axios'
 import Routes from './Routes';
+import store from './store';
 import '../../scss/app.scss';
+import {getBearer, getOrganization} from './auth';
+import {setOrganization} from '@/redux/actions/organizationActions';
+import {sendFlashMessage, FlashMessage} from "@/shared/components/flash";
+
+// require('dotenv').config()
+axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL + '/api/v1';
+if( !axios.defaults.headers.common['Authorization'] )
+axios.defaults.headers.common['Authorization'] = getBearer();
+if( !axios.defaults.headers.post['Content-Type'] )
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+
+axios.interceptors.request.use(request => {
+    // console.log(request);
+    // Edit request config
+    return request;
+}, error => {
+    // console.log(error);
+    return Promise.reject(error);
+});
+
+axios.interceptors.response.use(response => {
+    // console.log(response);
+    // Edit response config
+    return response;
+}, error => {
+    // console.log(error);
+    return Promise.reject(error);
+});
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -11,8 +42,14 @@ const App = () => {
     window.addEventListener('load', () => {
       setIsLoading(false);
       setTimeout(() => setIsLoaded(true), 500)
+      setAuthOrganization()
     });
   }, []);
+
+  const setAuthOrganization = () => {
+    store.dispatch(setOrganization(getOrganization()))
+  }
+
   return (
       <Router>
           <Fragment>
@@ -26,10 +63,18 @@ const App = () => {
               </div>
             )} */}
             <Routes />
-            
+            <FlashMessage />
           </Fragment>
       </Router>
   );
 }
 
-export default App;
+const AppProvider = () => {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  )
+}
+
+export default AppProvider
