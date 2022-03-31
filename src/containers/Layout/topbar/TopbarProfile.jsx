@@ -16,13 +16,23 @@ const TopbarProfile = () => {
     <div className="topbar__profile">
       <UncontrolledDropdown
             inNavbar
-            nav
           >
+      
         <DropdownToggle
           caret
           nav
+          className='topbar__avatar'
+          
         >
-          Welcome back {getAuthUserFullname()}
+          <img className="topbar__avatar-img" src={Ava} alt="avatar" />
+          <div className='d-flex flex-column'>
+          <span>
+          Welcome back 
+          </span>
+          <strong>{getAuthUserFullname()}</strong>
+          </div>
+          
+           
         </DropdownToggle>
         <DropdownMenu end>
           <DropdownItem>

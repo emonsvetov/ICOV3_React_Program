@@ -49,7 +49,7 @@ const RouteIndex = () => (
       </Route>
       <Route path="/" element={<PrivateRoute />} >
         <Route path="participant" element={<ParticipantLayout />} >
-          <Route index element={<ParticipantHome />} />
+          <Route path="home" element={<ParticipantHome />} />
           <Route path="my-account" element={''} />
           <Route path="my-gift-codes" element={<GiftCodeIndex />} />
           <Route path="my-points" element={<PointIndex />} />
