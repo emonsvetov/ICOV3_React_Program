@@ -2,7 +2,7 @@ import React, {createContext} from 'react';
 import { Routes, Route, Navigate} from 'react-router-dom';
 import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
-import {ParticipantLayout, ManagerLayout} from '../Layout/index';
+import {ParticipantLayout, ManagerLayout, HomeLayout} from '../Layout/index';
 
 import LogIn from '../LogIn/index';
 // import Signup from '../Signup/index';
@@ -15,7 +15,13 @@ import FaqIndex from '../Participant/Faqs/index';
 import GiftCodeIndex from '../Participant/GiftCodes/index';
 import GoalIndex from '../Participant/Goals/index';
 import PointIndex from '../Participant/Points/index';
-
+import { 
+  SelectMerchants, 
+  BrowseMerchants, 
+  RedeemMerchant,
+  Checkout
+ } from '../Participant/RedeemPoints';
+ 
 //manager
 import ManagerHome from '../Manager/Home/index';
 import ProgramSettings from '../Manager/ProgramSettings/index'
@@ -57,6 +63,10 @@ const RouteIndex = () => (
           <Route path="my-points" element={<PointIndex />} />
           <Route path="my-goals" element={''} />
           <Route path="faqs" element={''} />
+          <Route path="select-merchants" element={<SelectMerchants />} />
+          <Route path="browse-merchants" element={<BrowseMerchants />} />
+          <Route path="redeem/:merchantId" element={<RedeemMerchant />} />
+          <Route path="checkout" element={<Checkout />} />
         </Route>
         <Route path="manager" element={<ManagerLayout />} >
           <Route path="home" element={<ManagerHome />} />

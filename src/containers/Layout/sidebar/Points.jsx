@@ -10,7 +10,9 @@ const Points = () => {
                 <h6> Points to Redeem </h6>
                 <div className='panel-group'>
                     <h4>{56852..toLocaleString()}</h4>
-                    <div className='red redeem-btn'>Redeem Points</div>
+                    <div className='red redeem-btn'>
+                        <Link to={`/participant/select-merchants`}>Redeem Points</Link>
+                    </div>
                     {/* <Button className='btn-round'> Redeem Points</Button> */}
                 </div>
             </div>

@@ -17,6 +17,9 @@ export const PublicRoute = () => {
             }
             navigate(sentTo)
         }
+        else{
+            navigate('/login')
+        }
     }, [])
 
     return(

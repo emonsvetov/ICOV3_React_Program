@@ -46,13 +46,14 @@ const LogInForm = () => {
         console.log(res.data)
         // console.log(res.status == 200)
         if(res.status === 200)  {
+          // res.data.user.loginAs = 'Participant'  
           login(res.data)
           if(isProgramManager(res.data.user) && isParticipant(res.data.user))  {
             setUser(res.data.user)
             setAccessToken(res.data.access_token)
             setStep(1)
           }
-          // var t = setTimeout(window.location = '/', 500)
+          // var t = setTimeout(window.location = '/participant/home', 500)
           setLoading(false)
         }
       })
@@ -69,8 +70,8 @@ const LogInForm = () => {
       validate={validate}
       initialValues={
         {
-          email: 'hmaudson2@dyndns.org',
-          password: 'aaa'
+          email: 'admin@admin.com',
+          password: '123456'
         }
       }
       render={({ handleSubmit, form, submitting, pristine, values }) => (
@@ -88,7 +89,7 @@ const LogInForm = () => {
           {({ input, meta }) => (
             <div className="mb-3">
               <label htmlFor="loginInutPassword" className="form-label">Password</label>
-              <input id="loginInutPassword" type="text" {...input} placeholder="Password" className="form-control"  />
+              <input id="loginInutPassword" type="password" {...input} placeholder="Password" className="form-control"  />
               {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
             </div>
           )}

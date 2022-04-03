@@ -64,9 +64,20 @@ ul.horizontal {
 }
 .red{
     background-color: $red-color;
+    border: $red-color;
     color: white;
 }
-
+.yellow{
+    background-color: $yellow-color;
+    border: $yellow-color;
+    color: white;
+}
+.redtext{
+    color: $red-color;
+}
+.cursor-pointer{
+    cursor: pointer;
+}
 //mainboard
 .mainboard {
     position: relative;
@@ -101,6 +112,10 @@ ul.horizontal {
                 margin: 0;
                 border-radius: 4px;
                 height: fit-content;
+                a{
+                    color: white;
+                    text-decoration: none;
+                }
             }
         }
     }
@@ -301,6 +316,62 @@ ul.horizontal {
     }
 }
 
+.select-merchant{
+    .panel{
+        cursor: pointer;
+    }    
+}
+
+.browse-merchants{
+    .merchants-thumbnail{
+        .item{
+            border-radius: 0.5rem;
+            margin: 10px;
+            box-shadow: 0 2px 15px 10px rgba(0, 0, 0, 0.05);       
+            height: 100%;
+            padding: 1rem;
+            height: 10rem;
+            cursor: pointer;
+            &:hover{
+                box-shadow: 0 2px 15px 10px rgba($color: $yellow-color, $alpha: 0.3);
+            }
+            img{
+                width: 100%;
+                
+            }
+        }
+    }
+}
+
+.redeem{
+    .get-giftcode{
+        img{
+            width: 100%;
+            box-shadow: 0 2px 15px 10px rgba(0, 0, 0, 0.05); 
+            border-radius: 10px;   
+            padding: 1rem;
+        }
+    }
+}
+.cart{
+    .popover{
+        max-width: 25%;
+        min-width: 25%;
+
+    }
+    .cart-item{
+        img{
+            width: 100%;
+        }
+    }
+}
+.checkout{
+    table img{
+        margin-left: 10px;
+        width: 40px;
+        height: 30px;
+    }
+}
 
 
 //manager

@@ -40,9 +40,8 @@ const TopbarProfile = () => {
           </DropdownItem>
           <DropdownItem divider />
           <DropdownItem  onClick={()=>{
-            if(window.confirm('Are you sure to log out?')) {
-              logout()
-            }}}>
+            logout()
+            }}>
             Sign Out
           </DropdownItem>
         </DropdownMenu>
@@ -61,9 +60,8 @@ const TopbarProfile = () => {
           <TopbarMenuLink title="Dashboard" icon="list" path="/" />
           <div className="topbar__menu-divider" />
           <TopbarMenuLink title="Log Out" icon="exit" path="" onClick={()=>{
-            if(window.confirm('Are you sure to log out?')) {
               logout()
-            }}} />
+            }} />
         </div>
       </Collapse>
     </div>
