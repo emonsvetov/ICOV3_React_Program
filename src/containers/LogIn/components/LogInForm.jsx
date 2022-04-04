@@ -112,7 +112,7 @@ const LogInForm = () => {
 
   const getProgramOptions = (user) => {
     let options = []
-    for (const [key, value] of Object.entries(user.program_roles)) {
+    for (const [key, value] of Object.entries(user.programRoles)) {
       options.push({label: value.name, value: value.id})
     }
     return options
@@ -126,7 +126,7 @@ const LogInForm = () => {
 
     let loginAs = ''
 
-    // console.log(user.program_roles)
+    // console.log(user.programRoles)
     const programOptions = getProgramOptions(user)
 
     const validate = values => {
@@ -149,19 +149,13 @@ const LogInForm = () => {
         console.log(res)
         // console.log(res.status == 200)
         if(res.status === 200)  {
-          if( res.data?.program_id)  {
-            user.program_id = res.data.program_id
-            if( res.data?.manager === true) {
-              // alert("Manager")
-              user.loginAs = 'Manager'
-              // login(res.data)
-            } else if( res.data?.participant === true ) {
-              // alert("Participant")
-              user.loginAs = 'Participant'
-            }
+          if( res.data?.programId && res.data?.roleName)  {
+            // user.programId = res.data.programId
+            user.loginAs = res.data.roleName
             login({
               user,
-              access_token: accessToken
+              access_token: accessToken,
+              program: res.data.programId
             })
             var t = setTimeout(window.location = '/', 500)
           } else  {

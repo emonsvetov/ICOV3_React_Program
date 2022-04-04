@@ -55,15 +55,16 @@ const TopbarProfile = () => {
           onClick={handleToggleCollapse}
         />
       )}
-      <Collapse isOpen={isCollapsed} className="topbar__menu-wrap">
+      {/* <Collapse isOpen={isCollapsed} className="topbar__menu-wrap">
         <div className="topbar__menu">
           <TopbarMenuLink title="Dashboard" icon="list" path="/" />
           <div className="topbar__menu-divider" />
           <TopbarMenuLink title="Log Out" icon="exit" path="" onClick={()=>{
-              logout()
-            }} />
-        </div>
-      </Collapse>
+          if(window.confirm('Are you sure to log out?')) {
+            logout()
+          }}} />
+         </div>
+      </Collapse> */}
     </div>
   );
 };

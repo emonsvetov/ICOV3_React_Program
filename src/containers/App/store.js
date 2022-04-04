@@ -1,7 +1,7 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { reducer as reduxFormReducer } from 'redux-form';
-import { sidebarReducer, themeReducer, rtlReducer, flashReducer, merchantReducer, organizationReducer, cartReducer } from '../../redux/reducers/index';
+import { sidebarReducer, themeReducer, rtlReducer, flashReducer, merchantReducer, organizationReducer, userReducer, programReducer, cartReducer } from '../../redux/reducers/index';
 
 const reducer = combineReducers({
   form: reduxFormReducer, // mounted under "form",
@@ -11,7 +11,9 @@ const reducer = combineReducers({
   flashMessage: flashReducer,
   merchant: merchantReducer,
   organization: organizationReducer,
-  cart: cartReducer
+  cart: cartReducer,
+  auth: userReducer,
+  program: programReducer
 });
 
 const store = createStore(reducer, applyMiddleware(thunk));

@@ -1,5 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import axios from 'axios';
+
 import { 
   Col, 
   Container, 
@@ -18,6 +21,7 @@ import { useTable } from 'react-table'
 import AddEventPopup from './components/AddEventPopup';
 import PencilIcon from 'mdi-react/PencilIcon';
 import TrashIcon from 'mdi-react/TrashCanIcon';
+import SelectProgram from '../components/SelectProgram'
 
 const LINKS = [
   { to: '#events', text: 'Events' },
@@ -27,9 +31,10 @@ const LINKS = [
   { to: '#leaderboards', text: 'Leaderboards' },
 ];
 
-const ProgramSettings = () => {
-
+const ProgramSettings = ( {auth, program, organization} ) => {
+  // console.log(auth)
   const [showAddPopup, setShowAddPopup] = useState(false);
+  const [events, setEvents] = useState(false);
   const popupToggle = () => {
     setShowAddPopup(prevState => !prevState);
   };
@@ -43,8 +48,25 @@ const ProgramSettings = () => {
     )
   }
 
+  const fetchEvents = async () => {
+    try {
+      const response = await axios.get(
+      `/organization/${organization.id}/program/${program}/event/?minimal=true`
+      );
+      console.log(response)
+      if( response.data.length === 0) return {results:[],count:0}
+      // const data = {
+      //     // results: renameChildrenToSubrows(response.data.data),
+      //     // count: response.data.total
+      // };
+      // console.log(response.data)
+      return response.data;
+  } catch (e) {
+      throw new Error(`API error:${e?.message}`);
+  }
+  }
+
   const onDeleteEvent = (e, event_id) => {
-    
   }
 
   let final_columns = [
@@ -57,10 +79,20 @@ const ProgramSettings = () => {
     }]
   ]
 
+  useEffect( () => {
+    if( (organization && program) && !events ) {
+      setEvents(fetchEvents(organization, program))
+    }
+    
+  },[organization, program, setEvents, fetchEvents])
+
   const columns = React.useMemo( () => final_columns, [])
   const data = React.useMemo(() => EVEMTS_DATA, [])
-  const { getTableProps, headerGroups, rows, prepareRow } 
-      = useTable({ columns, data})  
+  const { getTableProps, headerGroups, rows, prepareRow } = useTable({ columns, data})  
+
+  if( !auth || !program  || !organization) return 'Loading...'
+
+  // console.log(organization)
 
   return (
     <div className='program-settings'>
@@ -73,11 +105,7 @@ const ProgramSettings = () => {
             </span>
             <Col md={4} className="d-flex program-select my-3">
               <span>For Program:</span>
-              <FormGroup>  
-                <Input type="select" name="program" id="program-select">
-                  <option>301166: Incentco</option>
-                </Input>
-              </FormGroup>
+                <SelectProgram />
             </Col>
           </Col>
         </Row>
@@ -138,4 +166,12 @@ const ProgramSettings = () => {
     </div>
 )}
 
-export default ProgramSettings;
+const mapStateToProps = (state) => {
+  return {
+     auth: state.auth,
+     program: state.program,
+     organization: state.organization,
+  };
+};
+
+export default connect(mapStateToProps)(ProgramSettings);

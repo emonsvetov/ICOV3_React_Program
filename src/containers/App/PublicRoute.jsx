@@ -9,10 +9,10 @@ export const PublicRoute = () => {
     useEffect( () => {
         if( isAuthenticated() )   {
             const user = getAuthUser()
-            console.log(user)
-            let sentTo = '/participant/home'
-            if( user.loginAs === 'Manager') {
-                sentTo = '/manager/home'
+            // console.log(user)
+            let sentTo = '/'
+            if( user.loginAs === 'Program Manager') {
+                sentTo = '/manager'
             }   else if( user.loginAs === 'Participant' ) {
                 sentTo = '/participant/home'
             }

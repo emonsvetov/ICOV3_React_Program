@@ -4,7 +4,8 @@ import rtlReducer from './rtlReducer';
 import flashReducer from './flashReducer';
 import merchantReducer from './merchantReducer';
 import organizationReducer from './organizationReducer';
-import cartReducer from './cartReducer';
+import userReducer from './userReducer';
+import programReducer from './programReducer';
 
 export {
   themeReducer,
@@ -13,5 +14,6 @@ export {
   flashReducer,
   merchantReducer,
   organizationReducer,
-  cartReducer
+  userReducer,
+  programReducer
 }
