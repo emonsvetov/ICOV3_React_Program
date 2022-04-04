@@ -52,7 +52,6 @@ const ParticipantTopbar = () => {
       color=""
       expand="md"
       fixed=""
-      full
       light
     >
       <NavbarBrand href="/">

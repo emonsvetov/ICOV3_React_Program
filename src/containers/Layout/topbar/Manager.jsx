@@ -36,19 +36,19 @@ const ManagerTopbar = () => {
       </NavbarBrand>
       <NavbarToggler onClick={toggle} />
       <Collapse navbar>
-        <Nav
-          className="me-auto horizontal"
-          navbar
-        >
-          {LINKS.map((item, index) =>{
-              return(
-                <NavItem key={`manager-item-${index}`}>
-                  <NavLink href={item.to} className="link">
+        
+          <Nav
+            className="horizontal"
+            navbar
+          >
+            {LINKS.map((item, index) =>{
+                return <NavLink key={index} to={item.to} className="link">
                     {item.text}
                   </NavLink>
-                </NavItem>)
-          })}
-        </Nav>
+            })}
+            
+          </Nav>
+        
       </Collapse>
 
       <div className="topbar__right">

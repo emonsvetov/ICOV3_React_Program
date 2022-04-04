@@ -23,7 +23,6 @@ const HomeTopbar = ({onClickHandle}) => {
       color=""
       expand="md"
       fixed=""
-      full
       light
     >
       <NavbarBrand href="/">

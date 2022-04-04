@@ -12,7 +12,7 @@ export const PublicRoute = () => {
             // console.log(user)
             let sentTo = '/'
             if( user.loginAs === 'Program Manager') {
-                sentTo = '/manager'
+                sentTo = '/manager/home'
             }   else if( user.loginAs === 'Participant' ) {
                 sentTo = '/participant/home'
             }
