@@ -1,9 +1,10 @@
 import React, {createContext} from 'react';
 import { Routes, Route, Navigate} from 'react-router-dom';
+import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
 import {ParticipantLayout, ManagerLayout} from '../Layout/index';
 
-// import LogIn from '../LogIn/index';
+import LogIn from '../LogIn/index';
 // import Signup from '../Signup/index';
 // import SignupSuccess from '../Signup/SignupSuccess';
 
@@ -14,10 +15,19 @@ import FaqIndex from '../Participant/Faqs/index';
 import GiftCodeIndex from '../Participant/GiftCodes/index';
 import GoalIndex from '../Participant/Goals/index';
 import PointIndex from '../Participant/Points/index';
+import { 
+  SelectMerchants, 
+  BrowseMerchants, 
+  RedeemMerchant,
+  Checkout
+ } from '../Participant/RedeemPoints';
 
 //manager
 import ManagerHome from '../Manager/Home/index';
 import ProgramSettings from '../Manager/ProgramSettings/index'
+import ManageAndReward from '../Manager/ManageAndReward/index'
+import InviteParticipant from '../Manager/InviteParticipant/index'
+
 // const Accounts = () => (
 //   <Routes>
 //     <Route index element={AccountIndex} />
@@ -42,25 +52,29 @@ import ProgramSettings from '../Manager/ProgramSettings/index'
 
 const RouteIndex = () => (
     <Routes>
-      
-      {/* <Route path="/login" element={<LoginPage />} */}
-      <Route path="/participant" element={<ParticipantLayout />} >
-        <Route path="home" element={<ParticipantHome />} />
-        <Route path="my-account" element={''} />
-        <Route path="my-gift-codes" element={<GiftCodeIndex />} />
-        <Route path="my-points" element={<PointIndex />} />
-        <Route path="my-goals" element={''} />
-        <Route path="faqs" element={''} />
-
-        <Route path="*" element={<Navigate to="/participant/home" />} />  
+      <Route path="/" element={<PublicRoute />} >
+        <Route path="login" element={<LogIn />} />
       </Route>
-      <Route path="/manager" element={<ManagerLayout />} >
-        <Route path="home" element={<ManagerHome />} />
-        <Route path="program-settings" element={<ProgramSettings />} />
-
-        <Route path="*" element={<Navigate to="/manager/home" />} />  
+      <Route path="/" element={<PrivateRoute />} >
+        <Route path="participant" element={<ParticipantLayout />} >
+          <Route path="home" element={<ParticipantHome />} />
+          <Route path="my-account" element={''} />
+          <Route path="my-gift-codes" element={<GiftCodeIndex />} />
+          <Route path="my-points" element={<PointIndex />} />
+          <Route path="my-goals" element={''} />
+          <Route path="faqs" element={''} />
+          <Route path="select-merchants" element={<SelectMerchants />} />
+          <Route path="browse-merchants" element={<BrowseMerchants />} />
+          <Route path="redeem/:merchantId" element={<RedeemMerchant />} />
+          <Route path="checkout" element={<Checkout />} />
+        </Route>
+        <Route path="manager" element={<ManagerLayout />} >
+          <Route path="home" element={<ManagerHome />} />
+          <Route path="program-settings" element={<ProgramSettings />} />
+          <Route path="manage-and-reward" element={<ManageAndReward />} />
+          <Route path="invite-participant" element={<InviteParticipant />} />
+        </Route>
       </Route>
-      <Route path="*" element={<Navigate to="/participant/home" replace />} />
     </Routes>
 );
 

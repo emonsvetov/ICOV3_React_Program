@@ -1,5 +1,5 @@
 //topbar
-$yellow-color: #FDC107;
+$yellow-color: #FCB040;
 
 .topbar {
     background-color: white;
@@ -7,24 +7,55 @@ $yellow-color: #FDC107;
     padding-top: 20px;
     min-height: 60px;
     z-index: 101;
+    &.home{
+        .navbar{
+            margin: 0 1rem 0 1rem;
+        }
+        padding-top : 30px;
+        background-color: rgba($color: white, $alpha: 0.6);
+        position: absolute;
+        top: 1rem;
+        .navbar-brand img{
+            width: 200px;
+        }
+        .navbar-collapse{
+            justify-content: flex-end;
+        }
+        ul.horizontal .item{
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: $yellow-color;
+            color: white;
+            cursor: pointer;
+            font-size: larger;
+            &:hover{
+                color: black;
+            }
+        }
+    }
 }
 
 .topbar__wrapper{
     display: flex;
-    margin: 0 auto;
+    margin-top: -10px;
     align-items: center;
+
+    .navbar{
+        width: 100%;
+    }
     .topbar__left {
         display: flex;
         height: 100%;
         margin-bottom: 10px;
     }
 
-    .topbar__nav {
-        margin: 0 auto;
+    .navbar-collapse {
+        // margin: 0 auto;
+        justify-content: center;
         height: 100%;    
         margin-bottom: 10px;
-        ul.horizontal li a{
-            padding: 10px;
+        ul.horizontal a{
+            padding: 10px 20px;
             &.active{
                 color: $yellow-color;
                 background-color: rgba($color: $yellow-color, $alpha: 0.1);
@@ -39,24 +70,46 @@ $yellow-color: #FDC107;
     .topbar__right {
         display: flex;
         height: 100%;
-        
+        margin-bottom: 15px;
     }
 }
 
-.topbar__logo {
-    width: 150px;
-    height: 32px;
-    margin: auto 0;
-    background-repeat: no-repeat;
-    background-position-y: center;
-    background-position-x: left;
-    background-size: contain;
-    background-image: url(../../../shared/img/logo/logo_light.svg)
-}
+// .topbar__logo {
+//     width: 150px;
+//     height: 32px;
+//     margin: auto 0;
+//     background-repeat: no-repeat;
+//     background-position-y: center;
+//     background-position-x: left;
+//     background-size: contain;
+//     background-image: url(../../../shared/img/logo/logo_light.svg)
+// }
 
 .topbar__profile {
   position: relative;
   margin-bottom: 0;
+
+  .dropdown{
+      cursor: pointer;
+      .dropdown-toggle{
+          color: black;
+          img{
+              border-radius: 50%;
+              width: 50px;
+              height: 50px;
+              margin-right: 0.5em;
+          }
+          &:after {
+            /* margin-left: 0.255em; */
+            
+            margin: auto 1em;
+          }
+        
+      }
+      .dropdown-menu{
+          right: 0;
+      }
+  }
 
   .topbar__avatar {
     height: 100%;
@@ -72,8 +125,9 @@ $yellow-color: #FDC107;
 
     .topbar__avatar-img {
         border-radius: 50%;
-        width: 60px;
-        height: 60px;   
+        width: 50px;
+        height: 50px;   
+
     }
 
     .topbar__avatar-name{

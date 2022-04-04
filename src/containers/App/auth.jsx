@@ -1,17 +1,23 @@
 
 export const AUTH_TOKEN_KEY = 'authToken';
 export const AUTH_USER_KEY = 'authUser';
+export const AUTH_PROGRAM_KEY = 'authProgram';
+export const ORGANIZATION = {
+    id: 1,
+    name: 'First Organization'
+}
 
 export const login = data => {
     localStorage.setItem(AUTH_TOKEN_KEY, data.access_token);
     localStorage.setItem(AUTH_USER_KEY, JSON.stringify(data.user));
+    localStorage.setItem(AUTH_PROGRAM_KEY, JSON.stringify(data.program));
 }
 
 export const logout = (e) => {
     // alert("Hello")
     if( window.confirm( 'Are you sure to log out?') )    {
         flushUserSession();
-        window.location = '/';
+        window.location = '/login';
     }
     e.preventDefault();
 }
@@ -35,6 +41,10 @@ export const getToken = () => {
    return localStorage.getItem(AUTH_TOKEN_KEY);
 }
 
+export const getAuthProgram = () => {
+    return localStorage.getItem(AUTH_PROGRAM_KEY);
+}
+
 export const getBearer = () => {
     // console.log(getAuthUser())
     const AuthToken = getToken();
@@ -48,7 +58,13 @@ export const getAuthUser = () => {
         return authUser
     } catch (e) {
         return null;
+
     }
+}
+
+export const getOrganization = () => {
+    //get from AuthUser TODO
+    return ORGANIZATION
 }
 
 export const getAuthUserFullname = () => {
