@@ -8,19 +8,17 @@ import Sidebar from '../../Layout/sidebar';
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/img/back.png`;
 
-const slide_imgs = [
-  "/img/merchants/1.png", 
-  "/img/merchants/2.png", 
-  "/img/merchants/3.png", 
-  "/img/merchants/4.png", 
-  "/img/merchants/5.png", 
-  "/img/merchants/6.png", 
-  "/img/merchants/7.png", 
-  "/img/merchants/8.png", 
-]
+const getSlideImg = () => {
+  let imgs = [];
+  for (let i = 1 ;  i< 9; i ++){
+    imgs.push(`/img/merchants/${i}.png`);
+  }
+  return imgs;
+}
 
 
 const Home = () => {
+  let slide_imgs = getSlideImg();
   return (
     <>
       <div className='mainboard'>

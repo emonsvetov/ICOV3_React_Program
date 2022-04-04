@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Col, Button, Row } from 'reactstrap';
-import RedeemIcon from 'mdi-react/HandHeartIcon';
-
+import RedeemIcon from 'mdi-react/TrophyIcon';
+import UsersIcon from 'mdi-react/AccountGroupIcon';
 //type 0: awards or redemptions
 //      1: active participants                                                                                                                    
 
@@ -15,7 +15,12 @@ const TodayItem = (props) => {
       <Row className='mb-2'>
         <Col md={6}>
           <div className='d-flex'>
-            <RedeemIcon size={50} className="award-icon"/>
+            {
+              title == "Today's Active Participants" ? 
+              <UsersIcon size={50} className="award-icon"/>:
+              <RedeemIcon size={50} className="award-icon"/>
+            }
+            
             <div className='d-flex flex-column'>
               <h3 className='color m-0'>{today.value.toLocaleString()}</h3>
               <span>{today.unit}</span>

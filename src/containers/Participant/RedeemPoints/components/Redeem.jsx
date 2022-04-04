@@ -9,7 +9,7 @@ import { setCart } from '../../../../redux/actions/cartActions';
 import { connect } from 'react-redux';
 import CartItem from './CartItem';
 
-const merchant_logo = `/img/merchants/3.png`;
+const merchant_logo = `/img/merchants/1.png`;
 const GiftCodeOptions = [
     {label: '$5.00 Gift Code = 200 Points', value: 1}
 ]
