@@ -72,8 +72,8 @@ const LogInForm = () => {
       validate={validate}
       initialValues={
         {
-          email: 'arvind.mailto@gmail.com',
-          password: 'aaa'
+          email: 'manager@incentco.com',
+          password: 'aaaaaa'
         }
       }
       render={({ handleSubmit, form, submitting, pristine, values }) => (
