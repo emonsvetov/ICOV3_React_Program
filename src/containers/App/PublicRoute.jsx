@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { isAuthenticated, getAuthUser } from './auth';
+import Footer from '../Layout/footer';
 
 export const PublicRoute = () => {
     // console.log('PublicRoute')
@@ -8,12 +9,12 @@ export const PublicRoute = () => {
     useEffect( () => {
         if( isAuthenticated() )   {
             const user = getAuthUser()
-            // console.log(user)
-            let sentTo = '/'
+            console.log(user)
+            let sentTo = '/participant/home'
             if( user.loginAs === 'Manager') {
-                sentTo = '/manager'
+                sentTo = '/manager/home'
             }   else if( user.loginAs === 'Participant' ) {
-                sentTo = '/participant'
+                sentTo = '/participant/home'
             }
             navigate(sentTo)
         }
@@ -23,8 +24,13 @@ export const PublicRoute = () => {
     }, [])
 
     return(
-        <Outlet />
+        <main className='home'>
+            <Outlet />
+            <Footer />    
+        </main>
     )
 }
 
 export default PublicRoute;
+
+  

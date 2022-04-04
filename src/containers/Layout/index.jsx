@@ -20,11 +20,3 @@ export const ManagerLayout = () => (
       <Footer />    
   </main>
 );
-
-export const HomeLayout = () => (
-  <main className='home'>
-      <HomeTopbar />
-      <Outlet />
-      <Footer />    
-  </main>
-);

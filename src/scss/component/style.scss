@@ -22,7 +22,7 @@ h1, h2, h3, h4, h5, h6{
 }
 
 $red-color:#FF3930; // #DA282D
-$yellow-color: #FDC107;
+$yellow-color: #FDC107; 
 
 a{
     text-decoration: none;
@@ -373,7 +373,30 @@ ul.horizontal {
     }
 }
 
-
+.home{
+    .popup{
+        z-index: 1000;
+        &__content{
+            border-radius: 10px !important;
+            width: 25%;
+            min-height: 30%;
+            display: flex;
+            position: absolute;
+            top: 10%;
+            .card{
+                background-color: white;
+                border-radius: 10px;
+            }
+        }
+        &__top{
+            position: absolute;
+            top: 7%;
+            right: 35%;
+            color: white;
+            cursor: pointer;
+        }
+    }
+}
 //manager
 .manager{
     background-color: #F7F8FA;
@@ -535,6 +558,8 @@ ul.horizontal {
             min-height: 30%;
             display: flex;
             overflow: hidden;
+            position: absolute;
+            top: 6%;
             .left{
                 background-color: #FFF9F1; //#FCB040
                 border-radius: 10px 0 0 10px;
@@ -697,7 +722,8 @@ ul.horizontal {
     }
     .popup{
         &__content{
-            
+            position: absolute;
+            top: 6%;
             width: 50%;
             min-height: 30%;
             display: flex;

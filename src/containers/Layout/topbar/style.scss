@@ -1,5 +1,5 @@
 //topbar
-$yellow-color: #FDC107;
+$yellow-color: #FCB040;
 
 .topbar {
     background-color: white;
@@ -7,6 +7,32 @@ $yellow-color: #FDC107;
     padding-top: 20px;
     min-height: 60px;
     z-index: 101;
+    &.home{
+        .navbar{
+            margin: 0 1rem 0 1rem;
+        }
+        padding-top : 30px;
+        background-color: rgba($color: white, $alpha: 0.6);
+        position: absolute;
+        top: 1rem;
+        .navbar-brand img{
+            width: 200px;
+        }
+        .navbar-collapse{
+            justify-content: flex-end;
+        }
+        ul.horizontal .item{
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: $yellow-color;
+            color: white;
+            cursor: pointer;
+            font-size: larger;
+            &:hover{
+                color: black;
+            }
+        }
+    }
 }
 
 .topbar__wrapper{
@@ -48,16 +74,16 @@ $yellow-color: #FDC107;
     }
 }
 
-.topbar__logo {
-    width: 150px;
-    height: 32px;
-    margin: auto 0;
-    background-repeat: no-repeat;
-    background-position-y: center;
-    background-position-x: left;
-    background-size: contain;
-    background-image: url(../../../shared/img/logo/logo_light.svg)
-}
+// .topbar__logo {
+//     width: 150px;
+//     height: 32px;
+//     margin: auto 0;
+//     background-repeat: no-repeat;
+//     background-position-y: center;
+//     background-position-x: left;
+//     background-size: contain;
+//     background-image: url(../../../shared/img/logo/logo_light.svg)
+// }
 
 .topbar__profile {
   position: relative;

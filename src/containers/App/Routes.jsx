@@ -2,7 +2,7 @@ import React, {createContext} from 'react';
 import { Routes, Route, Navigate} from 'react-router-dom';
 import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
-import {ParticipantLayout, ManagerLayout, HomeLayout} from '../Layout/index';
+import {ParticipantLayout, ManagerLayout} from '../Layout/index';
 
 import LogIn from '../LogIn/index';
 // import Signup from '../Signup/index';
@@ -21,7 +21,7 @@ import {
   RedeemMerchant,
   Checkout
  } from '../Participant/RedeemPoints';
- 
+
 //manager
 import ManagerHome from '../Manager/Home/index';
 import ProgramSettings from '../Manager/ProgramSettings/index'

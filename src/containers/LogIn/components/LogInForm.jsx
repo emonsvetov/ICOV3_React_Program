@@ -70,7 +70,7 @@ const LogInForm = () => {
       validate={validate}
       initialValues={
         {
-          email: 'admin@admin.com',
+          email: 'panda.kk1114@gmail.com',
           password: '123456'
         }
       }
@@ -104,7 +104,7 @@ const LogInForm = () => {
             Remember Me
           </div>
         </div> */}
-        <button type="submit" className="btn btn-primary account__btn account__btn--small" disabled={loading}>Log In</button>
+        <Button type="submit" className="btn btn-primary red" disabled={loading}>Log In</Button>
         </form>
       )}
     />
@@ -222,8 +222,8 @@ const LogInForm = () => {
         )}
         </Field>
         <ButtonToolbar className="mt-3 d-flex justify-content-between w100">
-          <Button type="submit" disabled={loading} className="btn btn-primary" color="#ffffff" onClick={()=>{loginAs='participant'}}>Log In</Button>
-          <Button type="submit" disabled={loading} className="btn btn-primary" color="#ffffff" onClick={()=>{loginAs='program_manager'}}>Log In as a Manager</Button>
+          <Button type="submit" disabled={loading} className="btn btn-primary red" onClick={()=>{loginAs='participant'}}>Log In</Button>
+          <Button type="submit" disabled={loading} className="btn btn-primary red" onClick={()=>{loginAs='program_manager'}}>Log In as a Manager</Button>
         </ButtonToolbar>
         </form>
       )}

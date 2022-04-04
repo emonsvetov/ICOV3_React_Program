@@ -1,20 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import LogInForm from './components/LogInForm';
+import { UncontrolledCarousel } from 'reactstrap';
+import HomeTopbar from '../Layout/topbar/Home';
+import { useStore } from 'react-redux';
+import LoginPopup from './components/LoginPopup';
+
 const IncentcoLogo = `${process.env.PUBLIC_URL}/img/logo/logo_light.svg`;
 
-const LogIn = () => (
-  <div>
-    <img src={IncentcoLogo} className="img__logo_sm" alt="logo" />
-    <div className="flex-column align-items-center pt-4"  style={{maxWidth:500,margin:'0 auto'}}>
-        <div className="card">
-          <div className="card-header">Log in to continue</div>
-          <div className="card-body">
-            <LogInForm onSubmit />
-          </div>
-        </div>
+const items = [
+  {
+    src: '/img/slider/slider-01.jpg',
+    altText: 'Slide 1',
+  },
+  {
+    src: '/img/slider/slider-02.jpg',
+    altText: 'Slide 2',
+    
+  },
+  {
+    src: '/img/slider/slider-03.jpg',
+    altText: 'Slide 3',
+    
+  }
+];
+
+const LogIn = () => {
+  const [showLoginPopup, setShowPopup ] = useState(false);
+  const popupToggle = () => {
+    setShowPopup(prevState => !prevState);
+  };
+  return <div>
+    <HomeTopbar onClickHandle = {popupToggle}/>
+    <UncontrolledCarousel items={items} indicators={false} controls={false}/>
+    <div className='text-center mt-4'>
+      <h5>Welcome to INCENTCO's Global Solutions rewards site! When you participate in our program, you'll earn rewards for various activities.</h5>
     </div>
+    {showLoginPopup && <LoginPopup onCancelHandler={popupToggle}/>}
   </div>
-);
+};
 
 export default LogIn;
 
