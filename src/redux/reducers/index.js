@@ -6,7 +6,7 @@ import merchantReducer from './merchantReducer';
 import organizationReducer from './organizationReducer';
 import userReducer from './userReducer';
 import programReducer from './programReducer';
-
+import cartReducer from './cartReducer';
 export {
   themeReducer,
   sidebarReducer,
@@ -15,5 +15,6 @@ export {
   merchantReducer,
   organizationReducer,
   userReducer,
-  programReducer
+  programReducer,
+  cartReducer
 }
