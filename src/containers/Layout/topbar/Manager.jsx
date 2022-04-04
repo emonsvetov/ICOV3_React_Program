@@ -48,10 +48,10 @@ return (
         >
           {LINKS.map((item, index) =>{
               return(
-                <NavItem>
-                <NavLink href={item.to} className="link">
-                  {item.text}
-                </NavLink>
+                <NavItem key={`manager-item-${index}`}>
+                  <NavLink href={item.to} className="link">
+                    {item.text}
+                  </NavLink>
                 </NavItem>)
           })}
         </Nav>

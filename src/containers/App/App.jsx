@@ -5,8 +5,10 @@ import axios from 'axios'
 import Routes from './Routes';
 import store from './store';
 import '../../scss/app.scss';
-import {getBearer, getOrganization} from './auth';
+import {getBearer, getOrganization, getAuthUser, getAuthProgram} from './auth';
 import {setOrganization} from '@/redux/actions/organizationActions';
+import {setAuthUser} from '@/redux/actions/userActions';
+import {setAuthProgram} from '@/redux/actions/programActions';
 import {sendFlashMessage, FlashMessage} from "@/shared/components/flash";
 
 // require('dotenv').config()
@@ -47,7 +49,10 @@ const App = () => {
   }, []);
 
   const setAuthOrganization = () => {
+    // console.log(getAuthProgram())
     store.dispatch(setOrganization(getOrganization()))
+    store.dispatch(setAuthUser(getAuthUser()))
+    store.dispatch(setAuthProgram(getAuthProgram()))
   }
 
   return (

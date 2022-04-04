@@ -10,7 +10,7 @@ export const PublicRoute = () => {
             const user = getAuthUser()
             // console.log(user)
             let sentTo = '/'
-            if( user.loginAs === 'Manager') {
+            if( user.loginAs === 'Program Manager') {
                 sentTo = '/manager'
             }   else if( user.loginAs === 'Participant' ) {
                 sentTo = '/participant'
