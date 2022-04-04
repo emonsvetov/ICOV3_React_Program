@@ -47,12 +47,14 @@ const LogInForm = () => {
         // console.log(res.status == 200)
         if(res.status === 200)  {
           // res.data.user.loginAs = 'Participant'  
-          login(res.data)
-          if(isProgramManager(res.data.user) && isParticipant(res.data.user))  {
-            setUser(res.data.user)
-            setAccessToken(res.data.access_token)
-            setStep(1)
+          if( !isProgramManager(res.data.user) && !isParticipant(res.data.user) )  {
+            alert("You are logging into Wrong Login Area")
+            return
           }
+          login(res.data)
+          setUser(res.data.user)
+          setAccessToken(res.data.access_token)
+          setStep(1)
           // var t = setTimeout(window.location = '/participant/home', 500)
           setLoading(false)
         }
@@ -70,8 +72,8 @@ const LogInForm = () => {
       validate={validate}
       initialValues={
         {
-          email: 'panda.kk1114@gmail.com',
-          password: '123456'
+          email: 'arvind.mailto@gmail.com',
+          password: 'aaa'
         }
       }
       render={({ handleSubmit, form, submitting, pristine, values }) => (
