@@ -151,13 +151,13 @@ const LogInForm = () => {
         console.log(res)
         // console.log(res.status == 200)
         if(res.status === 200)  {
-          if( res.data?.program_id && res.data?.role)  {
+          if( res.data?.programId && res.data?.roleName)  {
             // user.programId = res.data.programId
-            user.loginAs = res.data.role
+            user.loginAs = res.data.roleName
             login({
               user,
               access_token: accessToken,
-              program: res.data.program_id
+              program: res.data.programId
             })
             var t = setTimeout(window.location = '/', 500)
           } else  {
