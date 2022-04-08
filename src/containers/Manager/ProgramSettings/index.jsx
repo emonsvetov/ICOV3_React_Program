@@ -19,6 +19,8 @@ import {
 import { EVENTS_COLUMNS, EVEMTS_DATA  } from './components/Mockdata';
 import { useTable } from 'react-table'
 import AddEventPopup from './components/AddEventPopup';
+import AddGoalPlanPopup from './components/AddGoalPlanPopup';
+
 import PencilIcon from 'mdi-react/PencilIcon';
 import TrashIcon from 'mdi-react/TrashCanIcon';
 import SelectProgram from '../components/SelectProgram'
@@ -34,10 +36,17 @@ const LINKS = [
 const ProgramSettings = ( {auth, program, organization} ) => {
   // console.log(auth)
   const [showAddPopup, setShowAddPopup] = useState(false);
+  const [showAddGoalPopup, setShowAddGoalPopup] = useState(false);
   const [events, setEvents] = useState(false);
+  const [activeTab, setActiveTab] = useState(0);
+
   const popupToggle = () => {
     setShowAddPopup(prevState => !prevState);
   };
+  const goalPopupToggle = () => {
+    setShowAddGoalPopup(prevState => !prevState);
+  };
+
   const RenderActions = ({row}) => {
     return (
         <span>
@@ -92,7 +101,7 @@ const ProgramSettings = ( {auth, program, organization} ) => {
 
   if( !auth || !program  || !organization) return 'Loading...'
 
-  // console.log(organization)
+  console.log(activeTab, '----------------')
 
   return (
     <div className='program-settings'>
@@ -115,7 +124,7 @@ const ProgramSettings = ( {auth, program, organization} ) => {
             <ul className="horizontal">
               {LINKS.map((item, index) =>{
                   return <li key={index}>
-                    <NavLink href={item.to} className={index == 0 ? "active": ""}>
+                    <NavLink href={item.to} onClick={() =>setActiveTab(index)} className={activeTab == index ? "active": ""}>
                       {item.text}
                     </NavLink>
                 </li>
@@ -123,8 +132,8 @@ const ProgramSettings = ( {auth, program, organization} ) => {
             </ul>
         </nav>
       </div>  
-      <Container className='managerboard'>
-        <div className='events' id="events">
+      <Container className='settingboard'>
+        <div className={activeTab != 0 ? "d-none": ""} id="events">
           <div className='my-3 d-flex justify-content-between'>
             <h3 >Events</h3>
             <Button color='danger' onClick={()=> popupToggle()}>Add New Event</Button>
@@ -161,8 +170,14 @@ const ProgramSettings = ( {auth, program, organization} ) => {
               </Table>
           </div>      
         </div>
+        <div className={activeTab != 1 ? "d-none": ""} id="expired">
+          <div className='my-3 d-flex justify-content-between'>
+            <h3 >Goal Plans</h3>
+            <Button color='danger' onClick={()=> goalPopupToggle()}>Add New Goal Plan</Button>
+          </div>
+        </div>
       </Container>
-      {showAddPopup && <AddEventPopup onCancelHandler={popupToggle}/>}
+      {showAddGoalPopup && <AddGoalPlanPopup onCancelHandler={goalPopupToggle}/>}
     </div>
 )}
 

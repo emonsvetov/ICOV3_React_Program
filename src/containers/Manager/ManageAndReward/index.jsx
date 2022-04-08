@@ -18,13 +18,31 @@ import { USERS_COLUMNS, USERS_DATA  } from './components/Mockdata';
 import { useTable } from 'react-table'
 import GiveRewardPopup from './components/GiveRewardPopup';
 import SearchIcon from 'mdi-react/SearchIcon';
+
+import RewardIcon from 'mdi-react/PostItNoteAddIcon';
+import GoalIcon from 'mdi-react/BullseyeArrowIcon';
 import MailIcon from 'mdi-react/PostItNoteAddIcon';
+import ResendIcon from 'mdi-react/AccountPlusIcon';
+import DeactivateIcon from 'mdi-react/CancelIcon';
+import ImportIcon from 'mdi-react/ImportIcon';
+import PeerIcon from 'mdi-react/PostItNoteAddIcon';
+const ICON_ARRAY = [
+  <RewardIcon />,
+  <GoalIcon />,
+  <MailIcon />,
+  <ResendIcon />,
+  <DeactivateIcon />,
+  <ImportIcon />,
+  <PeerIcon />
+]
+  
 const ACTIONS = [
   {name: 'Reward', link:''},
   {name: 'Add Goal', link:''},
   {name: 'Email', link:''},
   {name: 'Resend Invite', link:''},
   {name: 'Deactivate', link:''},
+  {name: 'Import', link:''},
   {name: 'Peer Allocation', link:''},
 ]
 const ManageAndReward = () => {
@@ -37,7 +55,7 @@ const ManageAndReward = () => {
     return (
         ACTIONS.map((item, index) =>{
           return <span key={index} onClick={item.name == 'Reward'? popupToggle: ""}>
-              <span className={`action-item ${item.name}`}><MailIcon />{item.name}</span>
+              <span className={`action-item ${item.name}`}>{ICON_ARRAY[ index ]}{item.name}</span>
               <span style={{width:'5px', display: 'inline-block'}}></span>
           </span>
         })
