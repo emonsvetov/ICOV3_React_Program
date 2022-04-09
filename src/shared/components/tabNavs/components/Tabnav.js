@@ -12,9 +12,9 @@ import SpireIcon from 'mdi-react/StarBoxIcon';
 import LeaderboardIcon from 'mdi-react/ChartBarIcon';
 
 function TabNav(props ) {   
-    const { title, icon } = props;
-    return <div className="tab-nav">
-                <div className={`icon ${icon}-icon`}>
+    const { title, icon, isActive } = props;
+    return <div className={ "tab-nav" }>
+                <div className={ isActive? `icon ${icon}-icon active` : `icon ${icon}-icon`}>
                     {
                         icon == 'redeem' && <RedeemIcon size={40} className={`${icon}-icon`}/>
                     }

@@ -81,7 +81,7 @@ const ProgramSettings = ( {auth, program, organization} ) => {
   let final_columns = [
     ...EVENTS_COLUMNS, 
     ...[{
-        Header: "Action",
+        Header: "Actions",
         accessor: "action",
         Footer: "Action",
         Cell: ({ row }) => <RenderActions row={row} />,
@@ -100,8 +100,6 @@ const ProgramSettings = ( {auth, program, organization} ) => {
   const { getTableProps, headerGroups, rows, prepareRow } = useTable({ columns, data})  
 
   if( !auth || !program  || !organization) return 'Loading...'
-
-  console.log(activeTab, '----------------')
 
   return (
     <div className='program-settings'>
@@ -138,7 +136,7 @@ const ProgramSettings = ( {auth, program, organization} ) => {
             <h3 >Events</h3>
             <Button color='danger' onClick={()=> popupToggle()}>Add New Event</Button>
           </div>
-          <div className='points-summary-table'>
+          <div className='event-table'>
               <Table striped borderless size="md" {...getTableProps()}>
                   <thead>
                       {headerGroups.map(headerGroup => (
@@ -177,6 +175,7 @@ const ProgramSettings = ( {auth, program, organization} ) => {
           </div>
         </div>
       </Container>
+      {showAddPopup && <AddEventPopup onCancelHandler={popupToggle}/>}
       {showAddGoalPopup && <AddGoalPlanPopup onCancelHandler={goalPopupToggle}/>}
     </div>
 )}
