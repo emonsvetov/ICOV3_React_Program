@@ -1,3 +1,4 @@
+@import './variable.scss';
 
 body {
     background-color: #FFFFFF !important;
@@ -7,23 +8,21 @@ body {
 h1, h2, h3, h4, h5, h6{
     font-weight: bold;
 }
+
+//scroll bar
 ::-webkit-scrollbar {
     width: 8px;
 }
-
 ::-webkit-scrollbar-track {
     background-color: white;
 }
-
 ::-webkit-scrollbar-thumb {
     border-radius: 5px;
     background-color: #333;
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.7);
 }
 
-$red-color:#FF3930; // #DA282D
-$yellow-color: #FDC107; 
-
+//common
 a{
     text-decoration: none;
     color: black;    
@@ -39,8 +38,7 @@ ul.horizontal {
     }
 }
 
-
-
+//basic component
 .btn-round{
     background-color: $red-color;
 }
@@ -78,6 +76,7 @@ ul.horizontal {
 .cursor-pointer{
     cursor: pointer;
 }
+
 //mainboard
 .mainboard {
     position: relative;
@@ -237,13 +236,13 @@ ul.horizontal {
 }
 .points-detail-table{
     table{
-        border-bottom: 2px solid #E29400;
+        border-bottom: 2px solid $detail-header;
     }
     .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
-        background-color: #FFF8EA;
+        background-color: $detail-stripe;
      }
      th {
-        background-color: #E29400;
+        background-color: $detail-header;
         color: white;
     } 
 }
@@ -400,10 +399,25 @@ ul.horizontal {
             cursor: pointer;
         }
     }
+    .home-merchant-wrapper{
+        padding: 20px;
+        margin: 10px;
+        border-radius: 10%;
+        
+        img{
+            width: 100px;
+            height: 100%;
+            margin: auto;
+            display: block;
+            
+        }
+    } 
 }
+
+
 //manager
 .manager{
-    background-color: #F7F8FA;
+    background-color: $body-back;
     .program-select{
         margin: auto 0;
         text-align: end;
@@ -443,29 +457,29 @@ ul.horizontal {
     
     &.index-0{
         .award-icon{
-            color: #26CE83;
-            background-color: rgba($color: #26CE83, $alpha: 0.2);
+            color:$today-green;
+            background-color: rgba($color: $today-green, $alpha: 0.2);
         }
         .color{
-            color: #26CE83;
+            color: $today-green;
         }
     }
     &.index-1{
         .award-icon{
-            color: #FF1A1F;
-            background-color: rgba($color: #FF1A1F, $alpha: 0.2);
+            color: $today-red;
+            background-color: rgba($color: $today-red, $alpha: 0.2);
         }
         .color{
-            color: #FF1A1F;
+            color: $today-red;
         }
     }
     &.index-2{
         .award-icon{
-            color: #573BFF;
-            background-color: rgba($color: #573BFF, $alpha: 0.2);
+            color: $today-purple;
+            background-color: rgba($color: $today-purple, $alpha: 0.2);
         }
         .color{
-            color: #573BFF;
+            color: $today-purple;
         }
     }
 }
@@ -525,7 +539,7 @@ ul.horizontal {
 
 .program-settings{
     .navbar{
-        border-top: 3px solid rgba(0, 0, 0, 0.1);
+        border-top: 3px solid #E3E8F2;
         background-color: white;
         padding: 10px 0 0 0;
         .navs{
@@ -538,8 +552,8 @@ ul.horizontal {
                 a{
                     color: black;
                     &.active{
-                        border-bottom: 3px solid $yellow-color;
-                        color: $yellow-color;
+                        border-bottom: 3px solid $manager-yellow;
+                        color: $manager-yellow;
                         font-weight: bold;
                     }
                 }
@@ -548,11 +562,11 @@ ul.horizontal {
     }
     .settingboard{
         .btn-danger{
-            background-color: #FF3930 ;
-            border-color: #FF3930;
+            background-color: $red-color;
+            border-color: $red-color;
         }
         .delete-column{
-            color: #FF3930;
+            color: $red-color;
         }
         .event-table{
             background-color: white;
@@ -560,7 +574,7 @@ ul.horizontal {
                 background-color: #FFFFFF;
              }
             .table-striped > tbody > tr:nth-child(2n + 1) > td, .table-striped > tbody > tr:nth-child(2n + 1) > th {
-                background-color: #F5F7FF;
+                background-color: $setting-stripe;
             }
         }
     }
@@ -575,7 +589,7 @@ ul.horizontal {
                 position: absolute;
                 top: 6%;
                 .left{
-                    background-color: #FFF9F1; //#FCB040
+                    background-color: $popup-back; //$manager-yellow
                     border-radius: 10px 0 0 10px;
                     z-index: 100;
                     width: 35%;
@@ -598,8 +612,8 @@ ul.horizontal {
                         height: 100%;
                     }
                     button{
-                        border-color: #FCB040;
-                        background-color: #FCB040;
+                        border-color: $manager-yellow;
+                        background-color: $manager-yellow;
                     }
                 }
             }
@@ -659,7 +673,7 @@ ul.horizontal {
             position:relative;    
         }  
         .icon {
-            color: #FCB040;
+            color: $manager-yellow;
             padding: 4px;
             position: absolute;
             box-sizing:border-box;
@@ -673,6 +687,15 @@ ul.horizontal {
             border: 0;
             height: 100%;
             padding-left: 1.5rem;
+        }
+        .manag-reward-table{
+            background-color: white;
+            .table-striped > tbody > tr:nth-child(2n) > td, .table-striped > tbody > tr:nth-child(2n) > th {
+                background-color: #FFFFFF;
+             }
+            .table-striped > tbody > tr:nth-child(2n + 1) > td, .table-striped > tbody > tr:nth-child(2n + 1) > th {
+                background-color: $user-stripe;
+            }
         }
         thead, tbody, tfoot, tr, td, th{
             padding-top: 1rem;
@@ -747,7 +770,7 @@ ul.horizontal {
                 margin-top: 10px;
             }
             .left{
-                background-color: #FFF9F1; //#FCB040
+                background-color: #FFF9F1; //$manager-yellow
                 border-radius: 10px 0 0 10px;
                 width: 35%;
                 position: relative;
@@ -771,8 +794,8 @@ ul.horizontal {
                     height: 100%;
                 }
                 button{
-                    border-color: #FCB040;
-                    background-color: #FCB040;
+                    border-color: $manager-yellow;
+                    background-color: $manager-yellow;
                 }
             }
         }
@@ -803,8 +826,8 @@ ul.horizontal {
         
     }
     button{
-        border-color: #FCB040;
-        background-color: #FCB040;
+        border-color: $manager-yellow;
+        background-color: $manager-yellow;
     }
 }
 footer{    

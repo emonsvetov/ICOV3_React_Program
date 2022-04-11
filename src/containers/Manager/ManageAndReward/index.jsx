@@ -158,7 +158,7 @@ const ManageAndReward = () => {
             </div>  
             
           </div>
-          <div className='points-summary-table'>
+          <div className='manag-reward-table'>
               <Table striped borderless size="md" {...getTableProps()}>
                   <thead>
                       {headerGroups.map(headerGroup => (

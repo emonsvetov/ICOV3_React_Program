@@ -15,6 +15,7 @@ function Slider(props ) {
                 containerClass=""
                 dotListClass=""
                 draggable
+                autoPlay={true}
                 focusOnSelect={false}
                 infinite
                 itemClass=""
