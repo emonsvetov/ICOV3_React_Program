@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import { Container, NavLink, Navbar, NavbarBrand, NavbarToggler, Dropdown,Collapse, Nav, 
          } from 'reactstrap';
-import './style.scss'
 const Brand = `${process.env.PUBLIC_URL}/img/logo/big_logo.png`;
 const LINKS = [
   { to: 'onClickHandle', text: 'Sign in', desc : 'Returning users enter here' },

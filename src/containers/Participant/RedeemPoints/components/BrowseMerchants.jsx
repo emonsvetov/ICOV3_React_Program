@@ -4,9 +4,9 @@ import {useNavigate} from 'react-router-dom';
 
 const getMerchants = () =>{
     let array = [];
-    for(let i = 0 ; i< 25; i ++){
+    for(let i = 1 ; i<= 25; i ++){
         let item = {};
-        item.logo = `/img/merchants/${Math.floor(Math.random() * 8) + 1}.png`;
+        item.logo = `/img/merchants/${i}.png`;
         item.no = i + 203675;
         array.push(item);
     }
