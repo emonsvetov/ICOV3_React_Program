@@ -1,13 +1,13 @@
 import { handleActions } from 'redux-actions';
 import {
-    setAuthProgram
+    setStoreProgram
 } from '../actions/programActions';
 
 const defaultState = null
 
 export default handleActions(
     {
-        [setAuthProgram](state, action) {
+        [setStoreProgram](state, action) {
             return action.payload;
         }
     },

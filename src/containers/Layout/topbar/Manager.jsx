@@ -28,7 +28,6 @@ const ManagerTopbar = () => {
       color=""
       expand="md"
       fixed=""
-      full
       light
     >
       <NavbarBrand href="/">

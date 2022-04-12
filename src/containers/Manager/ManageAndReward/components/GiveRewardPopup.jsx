@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Select from 'react-select';
 import { Link } from 'react-router-dom';
-import { Input, Col, Row, FormGroup, FormFeedback, Label, Button} from 'reactstrap';
+import { Modal, Input, Col, Row, FormGroup, FormFeedback, Label, Button} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 import CloseIcon from 'mdi-react/CloseIcon';
 import Switch from '@/shared/components/form/Switch';
@@ -10,15 +10,15 @@ const GiveRewardImg = `/img/pages/giveReward.png`;
 const Participants = [
   'Bobrowski Robert'
 ]
-const GiveRewardPopup = ({onCancelHandler}) => {
+const GiveRewardPopup = ({isOpen, setOpen, toggle, data, theme, rtl}) => {
   const [value, setValue] = useState(false);
   const onSubmit = values => {
     
   }
 
   return (
+    <Modal className={`modal-program modal-lg`} isOpen={isOpen} toggle={() => setOpen(true)}>
     <div className='popup give-reward'>
-      
       <div className='popup__content d-flex'>
           <div className="left">
             <div className='title mb-5'>
@@ -26,6 +26,7 @@ const GiveRewardPopup = ({onCancelHandler}) => {
               <span>
                 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
               </span>
+              <Button outline color="primary" className="mr-3" onClick={toggle}>Cancel</Button>
             </div>
             
             <img src={GiveRewardImg}/>
@@ -214,9 +215,10 @@ const GiveRewardPopup = ({onCancelHandler}) => {
         
         </div>
       <div className='popup__top'>
-        <CloseIcon onClick={onCancelHandler} size={30}/>
+        <CloseIcon onClick={toggle} size={30}/>
       </div>
     </div>
+    </Modal>
 )}
 
 export default GiveRewardPopup;

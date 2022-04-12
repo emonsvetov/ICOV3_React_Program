@@ -8,7 +8,7 @@ import '../../scss/app.scss';
 import {getBearer, getOrganization, getAuthUser, getAuthProgram} from './auth';
 import {setOrganization} from '@/redux/actions/organizationActions';
 import {setAuthUser} from '@/redux/actions/userActions';
-import {setAuthProgram} from '@/redux/actions/programActions';
+import {setStoreProgram} from '@/redux/actions/programActions';
 import {sendFlashMessage, FlashMessage} from "@/shared/components/flash";
 
 // require('dotenv').config()
@@ -52,7 +52,7 @@ const App = () => {
     // console.log(getAuthProgram())
     store.dispatch(setOrganization(getOrganization()))
     store.dispatch(setAuthUser(getAuthUser()))
-    store.dispatch(setAuthProgram(getAuthProgram()))
+    store.dispatch(setStoreProgram(getAuthProgram()))
   }
 
   return (

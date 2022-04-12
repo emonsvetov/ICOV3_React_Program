@@ -2,14 +2,14 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import CloseIcon from 'mdi-react/CloseIcon';
 import {getEventTypes} from '@/services/getEventTypes'
-import {labelizeNamedData} from '@/shared/helper'
+import {labelizeNamedData, patch4Select} from '@/shared/helper'
 import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 import EventForm from './EventForm'
 
 const AddEventImg = `/img/pages/addEvent.png`;
 
-const AddEventPopup = ({onCancelHandler, program, organization}) => {
+const EditEventModal = ({onCancelHandler, program, organization, event, toggleModal, setEvent}) => {
   const dispatch = useDispatch()
   const [eventTypes, setEventTypes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -29,6 +29,7 @@ const AddEventPopup = ({onCancelHandler, program, organization}) => {
   }
   // console.log(program)
   const onSubmit = (values) => {
+
     let eventData = {};
     eventData["organization_id"] = organization.id;
     eventData["program_id"] = program.id;
@@ -55,18 +56,21 @@ const AddEventPopup = ({onCancelHandler, program, organization}) => {
     eventData.type_id = type_id.value;
 
     // console.log(eventData)
-
-    // console.log(eventData)
     // return
+    let nEvent = {
+      ...event,
+      ...values
+    }
+    setEvent( nEvent )
     setLoading(true)
     axios
-      .post(`/organization/${organization.id}/program/${program.id}/event`, eventData)
+      .put(`/organization/${organization.id}/program/${program.id}/event/${event.id}`, eventData)
       .then((res) => {
         //   console.log(res)
         if (res.status == 200) {
-          window.location.reload()
-          dispatch(sendFlashMessage('Event added successfully!', 'alert-success', 'top'))
+          dispatch(sendFlashMessage('Event updated successfully!', 'alert-success', 'top'))
           setLoading(false)
+          window.location.reload()
         }
       })
       .catch((err) => {
@@ -83,13 +87,15 @@ const AddEventPopup = ({onCancelHandler, program, organization}) => {
     })
   }, [])
 
+  event = patch4Select(event, "type_id", eventTypes)
 
   let props = {
-    btnLabel: 'Add New Event',
+    // btnLabel: 'Add New Event',
     eventTypes,
     loading,
     onSubmit,
-    onChangeAwardValue
+    onChangeAwardValue,
+    event
   }
 
   return (
@@ -99,7 +105,7 @@ const AddEventPopup = ({onCancelHandler, program, organization}) => {
         
           <div className="left">
             <div className='title mb-5'>
-              <h3>Add New Event</h3>
+              <h3>Edit Event</h3>
               <span>
                 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
               </span>
@@ -118,4 +124,4 @@ const AddEventPopup = ({onCancelHandler, program, organization}) => {
     </div>
 )}
 
-export default AddEventPopup;
+export default EditEventModal;

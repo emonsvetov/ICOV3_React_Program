@@ -2,14 +2,12 @@
 export const AUTH_TOKEN_KEY = 'authToken';
 export const AUTH_USER_KEY = 'authUser';
 export const AUTH_PROGRAM_KEY = 'authProgram';
-export const ORGANIZATION = {
-    id: 1,
-    name: 'First Organization'
-}
+export const AUTH_ORGANIZATION_KEY = 'authOrganization';
 
 export const login = data => {
     localStorage.setItem(AUTH_TOKEN_KEY, data.access_token);
     localStorage.setItem(AUTH_USER_KEY, JSON.stringify(data.user));
+    localStorage.setItem(AUTH_ORGANIZATION_KEY, JSON.stringify(data.organization));
     localStorage.setItem(AUTH_PROGRAM_KEY, JSON.stringify(data.program));
 }
 
@@ -25,6 +23,8 @@ export const logout = (e) => {
 export const flushUserSession = () => {
     localStorage.removeItem(AUTH_USER_KEY);
     localStorage.removeItem(AUTH_TOKEN_KEY);
+    localStorage.removeItem(AUTH_ORGANIZATION_KEY);
+    localStorage.removeItem(AUTH_PROGRAM_KEY);
 }
 
 export const isAuthenticated = () => {
@@ -42,7 +42,11 @@ export const getToken = () => {
 }
 
 export const getAuthProgram = () => {
-    return localStorage.getItem(AUTH_PROGRAM_KEY);
+    return JSON.parse(localStorage.getItem(AUTH_PROGRAM_KEY));
+}
+
+export const setAuthProgram = (program) => {
+    return localStorage.setItem(AUTH_PROGRAM_KEY, JSON.stringify(program));
 }
 
 export const getBearer = () => {
@@ -64,7 +68,8 @@ export const getAuthUser = () => {
 
 export const getOrganization = () => {
     //get from AuthUser TODO
-    return ORGANIZATION
+    // return ORGANIZATION
+    return JSON.parse(localStorage.getItem(AUTH_ORGANIZATION_KEY));
 }
 
 export const getAuthUserFullname = () => {

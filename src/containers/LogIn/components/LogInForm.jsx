@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Field } from 'react-final-form';
 // import renderCheckBoxField from '../../../shared/components/form/CheckBox';
-import {login, getOrganization} from '../../App/auth';
+import {login} from '../../App/auth';
 import {isProgramManager, isParticipant} from "@/shared/helper"
 import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 import Select from 'react-select';
 import { ButtonToolbar, Button } from 'reactstrap';
+// import {getProgram} from '@/services/program/getProgram';
 
 const axios = require('axios');
 
 const LogInForm = () => {
 
   const dispatch = useDispatch()
-  const organization = getOrganization()
+  // const organization = getOrganization()
 
   const [step, setStep] = useState(0);
+  const [organization, setOrganization] = useState(null);
   const [loading, setLoading] = useState(false);
   let [user, setUser] = useState(null);
   let [accessToken, setAccessToken] = useState(null);
@@ -51,8 +53,9 @@ const LogInForm = () => {
             alert("You are logging into Wrong Login Area")
             return
           }
-          login(res.data)
+          // login(res.data)
           setUser(res.data.user)
+          setOrganization(res.data.user.organization)
           setAccessToken(res.data.access_token)
           setStep(1)
           // var t = setTimeout(window.location = '/participant/home', 500)
@@ -72,8 +75,8 @@ const LogInForm = () => {
       validate={validate}
       initialValues={
         {
-          email: 'manager@incentco.com',
-          password: 'aaaaaa'
+          email: 'hmaudson2@dyndns.org',
+          password: 'aaa'
         }
       }
       render={({ handleSubmit, form, submitting, pristine, values }) => (
@@ -122,7 +125,7 @@ const LogInForm = () => {
 
   const FormProgram = () => {
 
-    console.log(user)
+    // console.log(user)
 
     if( !user ) return 'loading...'
 
@@ -151,13 +154,14 @@ const LogInForm = () => {
         console.log(res)
         // console.log(res.status == 200)
         if(res.status === 200)  {
-          if( res.data?.programId && res.data?.roleName)  {
+          if( res.data?.program && res.data?.role)  {
             // user.programId = res.data.programId
-            user.loginAs = res.data.roleName
+            user.loginAs = res.data.role
             login({
               user,
               access_token: accessToken,
-              program: res.data.programId
+              program: res.data.program,
+              organization: organization
             })
             var t = setTimeout(window.location = '/', 500)
           } else  {

@@ -1453,6 +1453,26 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@lemoncode/fonk-final-form@^2.3.4":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@lemoncode/fonk-final-form/-/fonk-final-form-2.3.4.tgz#f66e8506a40575165db76c2676b7c7c5d20f154f"
+  integrity sha512-oGtsTaI45NvvNZP/4XcyeFbb9U2JLuKZhIpqr0zhRf+0nsb7DjR2LYQ5L+gMHgzhjqWfPoG5TFbQ/ShgDjNnbA==
+
+"@lemoncode/fonk-is-number-validator@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@lemoncode/fonk-is-number-validator/-/fonk-is-number-validator-1.1.2.tgz#1607c6415e58d82281160ebee1e5eddbb3eaabd8"
+  integrity sha512-jrgUTAa8F/QboAtx7tKE/00zPW6jkAl8HZhtAqvJkQpZgcIe0Vat8eJ3YRYsAGEpzEm58AWg5XZIt1QlcWWNPQ==
+
+"@lemoncode/fonk-is-true-validator@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@lemoncode/fonk-is-true-validator/-/fonk-is-true-validator-1.0.1.tgz#cf0fb958386b1e04ae4c4ddfea0925c8343b0713"
+  integrity sha512-G0uvnh5GbAxrZ2IRH4m5qhrWbhIl+v+293OOZ84gC3qQr6cLohpfSs6X56Q3TtBWiUMzOTavlIe40BzJ0XliCQ==
+
+"@lemoncode/fonk@^1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@lemoncode/fonk/-/fonk-1.5.1.tgz#cf0ce6012cc47ab0fd6f5ba276857a3d56f313c1"
+  integrity sha512-qBSpFOt2VarJXnuxzVsQ5aheA+8zqW6P2HzTrC4GUI2HP2nfxwz3384NKf3cnDWitSn2ODCo3OmWDiuGFTd/+w==
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
