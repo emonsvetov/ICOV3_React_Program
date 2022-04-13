@@ -17,9 +17,10 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, data, theme, rtl}) => {
   }
 
   return (
-    <Modal className={`modal-program modal-lg`} isOpen={isOpen} toggle={() => setOpen(true)}>
-    <div className='popup give-reward'>
-      <div className='popup__content d-flex'>
+    <Modal className={`program-settings modal-2col modal-lg`} isOpen={isOpen} toggle={() => setOpen(true)}>
+          <div className='close'>
+            <CloseIcon onClick={toggle} size={30}/>
+          </div>
           <div className="left">
             <div className='title mb-5'>
               <h3>Give A Reward</h3>
@@ -211,12 +212,6 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, data, theme, rtl}) => {
                 </form>
               )}
             </Form>
-          </div>
-        
-        </div>
-      <div className='popup__top'>
-        <CloseIcon onClick={toggle} size={30}/>
-      </div>
     </div>
     </Modal>
 )}

@@ -537,6 +537,45 @@ ul.horizontal {
     }
 }
 
+.modal-2col{
+    display: flex;
+    .modal-content{flex-direction: row;}
+    .left{
+        background-color: $popup-back; //$manager-yellow
+        border-radius: 10px 0 0 10px;
+        z-index: 100;
+        width: 35%;
+        .title{
+            padding: 50px 20px 40px 30px;
+        }
+        img{
+            margin-left: 20px;
+            width: 100%;
+            position: relative;
+            bottom: 40px;
+        }
+    }
+    .right{
+        padding: 50px 20px 40px 20px;   
+        background: white;
+        border-radius: 0 10px 10px 0;
+        width: 65%;
+        .form{
+            height: 100%;
+        }
+        button{
+            border-color: $manager-yellow;
+            background-color: $manager-yellow;
+        }
+    }
+    .close{
+        position: absolute;
+        right:-20px;
+        top:-20px;
+        color: white;
+    }
+}
+
 .program-settings{
     .navbar{
         border-top: 3px solid #E3E8F2;
