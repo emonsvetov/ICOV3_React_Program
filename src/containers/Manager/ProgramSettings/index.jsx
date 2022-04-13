@@ -10,14 +10,12 @@ import {
   Button,
 } from 'reactstrap';
 
-import AddEventPopup from './components/AddEventPopup';
-import AddGoalPlanPopup from './components/AddGoalPlanPopup';
-
 import PencilIcon from 'mdi-react/PencilIcon';
 import TrashIcon from 'mdi-react/TrashCanIcon';
 import SelectProgram from '../components/SelectProgram'
 import Events from './components/Events'
 import {isEmpty} from '@/shared/helper'
+import ModalWrapper from './components/ModalWrapper';
 
 const LINKS = [
   { to: '#events', text: 'Events' },
@@ -29,16 +27,15 @@ const LINKS = [
 
 const ProgramSettings = ( {auth, program, organization} ) => {
   // console.log(auth)
-  const [showAddPopup, setShowAddPopup] = useState(false);
-  const [showAddGoalPopup, setShowAddGoalPopup] = useState(false);
+  
   const [activeTab, setActiveTab] = useState(0);
-
-  const popupToggle = () => {
-    setShowAddPopup(prevState => !prevState);
-  };
-  const goalPopupToggle = () => {
-    setShowAddGoalPopup(prevState => !prevState);
-  };
+  const [isOpen, setOpen] = useState(false);
+  const [modalName, setModalName] = useState(null)
+  
+  const toggle = (name=null) => {
+    if( name ) setModalName(name)
+    setOpen(prevState => !prevState)
+  }
 
   if( !auth || !program  || !organization) return 'Loading...'
 
@@ -74,7 +71,7 @@ const ProgramSettings = ( {auth, program, organization} ) => {
         <div className={activeTab != 0 ? "d-none": ""} id="events">
           <div className='my-3 d-flex justify-content-between'>
             <h3 >Events</h3>
-            <Button color='danger' onClick={()=> popupToggle()}>Add New Event</Button>
+            <Button color='danger' onClick={() =>toggle('AddEvent')}>Add New Event</Button>
           </div>
           <div className='points-summary-table'>
               {auth && program && !isEmpty(organization) && <Events program={program} organization={organization} />}
@@ -83,12 +80,12 @@ const ProgramSettings = ( {auth, program, organization} ) => {
         <div className={activeTab != 1 ? "d-none": ""} id="expired">
           <div className='my-3 d-flex justify-content-between'>
             <h3 >Goal Plans</h3>
-            <Button color='danger' onClick={()=> goalPopupToggle()}>Add New Goal Plan</Button>
+            <Button color='danger' onClick={() =>toggle('AddGoal')}>Add New Goal Plan</Button>
           </div>
         </div>
       </Container>
-      {showAddPopup && <AddEventPopup onCancelHandler={popupToggle} program={program} organization={organization}/>}
-      {showAddGoalPopup && <AddGoalPlanPopup onCancelHandler={goalPopupToggle}/>}
+      
+      <ModalWrapper  name={modalName} isOpen={isOpen} setOpen={setOpen} toggle={toggle} />
     </div>
 )}
 

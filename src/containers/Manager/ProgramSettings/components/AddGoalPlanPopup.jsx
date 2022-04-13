@@ -1,22 +1,25 @@
 import React, {useState} from 'react';
 import Select from 'react-select';
 import { Link } from 'react-router-dom';
-import { Input, Col, Row, FormGroup, FormFeedback, Label, Button} from 'reactstrap';
+import {Modal, Input, Col, Row, FormGroup, FormFeedback, Label, Button} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 import CloseIcon from 'mdi-react/CloseIcon';
 import Switch from '@/shared/components/form/Switch';
 
 const AddGoalPlanImg = `/img/pages/addGoalPlan.png`;
 
-const AddGoalPlanPopup = ({onCancelHandler}) => {
+const AddGoalPlanPopup = ({program, organization, isOpen, setOpen, toggle, data, theme, rtl}) => {
   const [value, setValue] = useState(false);
   const onSubmit = values => {
     
   }
 
   return (
-    <div className='popup add-goal'>
-      <div className='popup__content d-flex'>
+    <Modal className={`program-settings modal-2col modal-xl`} isOpen={isOpen} toggle={() => setOpen(true)}>
+      
+          <div className='close cursor-pointer'>
+            <CloseIcon onClick={toggle} size={30}/>
+          </div>
           <div className="left">
             <div className='title mb-5'>
               <h3>Add New Goal Plan</h3>
@@ -328,14 +331,8 @@ const AddGoalPlanPopup = ({onCancelHandler}) => {
                 </form>
               )}
             </Form>
-          </div>
-        
-        </div>
-      <div className='popup__top'>
-        {/* <Button close onClick={onCancelHandler}/> */}
-        <CloseIcon onClick={onCancelHandler} size={30}/>
-      </div>
-    </div>
+          </div>      
+    </Modal>
 )}
 
 export default AddGoalPlanPopup;

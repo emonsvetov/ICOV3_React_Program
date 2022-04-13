@@ -48,7 +48,7 @@ const EventForm = ({
                     <Field name="max_awardable_amount">
                     {({ input, meta }) => (
                         <FormGroup>
-                            <input
+                            <Input
                             placeholder="Max Awardable Amount"
                             type="text"
                             onKeyUp={form.mutators.onChangeAwardValue}
@@ -65,7 +65,7 @@ const EventForm = ({
                     <Field name="awarding_points">
                         {({ input, meta }) => (
                             <FormGroup>
-                            <input
+                            <Input
                                 placeholder="Awarding Points"
                                 onKeyUp={form.mutators.onChangeAwardValue}
                                 type="text"

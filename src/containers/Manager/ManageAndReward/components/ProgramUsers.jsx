@@ -21,22 +21,15 @@ import ImportIcon from 'mdi-react/ImportIcon';
 import PeerIcon from 'mdi-react/PostItNoteAddIcon';
 
 const ACTIONS = [
-    {name: 'Reward', link:''},
-    {name: 'Add Goal', link:''},
-    {name: 'Email', link:''},
-    {name: 'Resend Invite', link:''},
-    {name: 'Deactivate', link:''},
-    {name: 'Peer Allocation', link:''},
+    {name: 'Reward', link:'', icon: <RewardIcon />},
+    {name: 'Add Goal', link:'', icon: <GoalIcon />},
+    {name: 'Email', link:'', icon: <MailIcon />},
+    {name: 'Resend Invite', link:'', icon: <ResendIcon />},
+    {name: 'Deactivate', link:'', icon: <DeactivateIcon />},
+    {name: 'Import', link:'', icon: <ImportIcon />},
+    {name: 'Peer Allocation', link:'', icon: <PeerIcon />},
 ]
-const ICON_ARRAY = [
-    <RewardIcon />,
-    <GoalIcon />,
-    <MailIcon />,
-    <ResendIcon />,
-    <DeactivateIcon />,
-    <ImportIcon />,
-    <PeerIcon />
-  ]
+
 const ProgramUsers = ( {program, organization} ) => {
     const [modalName, setModalName] = useState(null)
     const [isOpen, setOpen] = useState(false);
@@ -72,7 +65,7 @@ const ProgramUsers = ( {program, organization} ) => {
         return (
             ACTIONS.map((item, index) =>{
               return <span key={index} onClick={() => onClickAction(item.name, row.original)}>
-                  <span className={`action-item ${item.name}`}>{ICON_ARRAY[ index ]}{item.name}</span>
+                  <span className={`action-item ${item.name}`}>{item.icon}{item.name}</span>
                   <span style={{width:'5px', display: 'inline-block'}}></span>
               </span>
             })

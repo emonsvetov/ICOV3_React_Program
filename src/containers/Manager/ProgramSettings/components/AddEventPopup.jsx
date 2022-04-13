@@ -6,10 +6,11 @@ import {labelizeNamedData} from '@/shared/helper'
 import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 import EventForm from './EventForm'
+import { Modal } from 'reactstrap';
 
 const AddEventImg = `/img/pages/addEvent.png`;
 
-const AddEventPopup = ({onCancelHandler, program, organization}) => {
+const AddEventPopup = ({program, organization, isOpen, setOpen, toggle, data, theme, rtl}) => {
   const dispatch = useDispatch()
   const [eventTypes, setEventTypes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -93,29 +94,28 @@ const AddEventPopup = ({onCancelHandler, program, organization}) => {
   }
 
   return (
-    <div className='popup add-event'>
+    <Modal className={`program-settings modal-2col modal-xl`} isOpen={isOpen} toggle={() => setOpen(true)}>
       
-      <div className='popup__content d-flex'>
-        
-          <div className="left">
-            <div className='title mb-5'>
-              <h3>Add New Event</h3>
-              <span>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
-              </span>
-            </div>
-            <img src={AddEventImg}/>
-          </div>
-
-          <div className="right">
-            <EventForm {...props} />
-          </div>
+        <div className='close cursor-pointer'>
+          <CloseIcon onClick={toggle} size={30}/>
         </div>
-      <div className='popup__top'>
-        {/* <Button close onClick={onCancelHandler}/> */}
-        <CloseIcon onClick={onCancelHandler} size={30}/>
-      </div>
-    </div>
+      
+        <div className="left">
+          <div className='title mb-5'>
+            <h3>Add New Event</h3>
+            <span>
+              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
+            </span>
+          </div>
+          <img src={AddEventImg}/>
+        </div>
+
+        <div className="right">
+          <EventForm {...props} />
+        </div>
+        
+
+    </Modal>
 )}
 
 export default AddEventPopup;

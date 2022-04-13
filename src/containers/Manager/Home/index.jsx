@@ -42,12 +42,7 @@ export const NSpireWall = () => {
       <Container>
         <Row>
           <Col md={3} className="program-select d-flex">
-            <span>For Program:</span>
-            <FormGroup>
-              <Input type="select" name="program" >
-                <option>301166: Incentco</option>
-              </Input>
-            </FormGroup>
+            <SelectProgram />
           </Col>
           <Col md={6}>
             <ManagerTabNavs/>
@@ -67,12 +62,7 @@ export const Leaderboards = () => {
       <Container>
         <Row>
           <Col md={3} className="program-select d-flex">
-            <span>For Program:</span>
-            <FormGroup>
-              <Input type="select" name="program" >
-                <option>301166: Incentco</option>
-              </Input>
-            </FormGroup>
+            <SelectProgram />
           </Col>
           <Col md={6}>
             <ManagerTabNavs/>
