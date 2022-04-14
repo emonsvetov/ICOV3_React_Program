@@ -29,6 +29,8 @@ import ProgramSettings from '../Manager/ProgramSettings/index'
 import ManageAndReward from '../Manager/ManageAndReward/index'
 import InviteParticipant from '../Manager/InviteParticipant/index'
 import Referral from '../Manager/Referral';
+import Team from '../Manager/Team';
+import TeamView from '../Manager/Team/components/TeamView';
 
 // const Accounts = () => (
 //   <Routes>
@@ -78,6 +80,8 @@ const RouteIndex = () => (
           <Route path="manage-and-reward" element={<ManageAndReward />} />
           <Route path="invite-participant" element={<InviteParticipant />} />
           <Route path="referral" element={<Referral />} />
+          <Route path="team" element={<Team />} />
+          <Route path="team/:mateId" element={<TeamView />} />
         </Route>
       </Route>
     </Routes>
