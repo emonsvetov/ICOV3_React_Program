@@ -7,7 +7,7 @@ import {
     DropdownMenu, 
     DropdownItem
 } from 'reactstrap'
-import { useTable, usePagination, useRowSelect } from "react-table";
+import { useTable, usePagination, useFlexLayout } from "react-table";
 import ReactTablePagination from '@/shared/components/table/components/ReactTablePagination';
 import TableFilter from '@/shared/components/table/components/TableFilter';
 import { USERS_COLUMNS, USERS_DATA  } from './Mockdata';
@@ -25,26 +25,30 @@ import apiTableService from "@/services/apiTableService"
 const QUERY_PAGE_SIZE = 20
 
 const ACTIONS = [
-    {name: 'Reward', link:'', icon: <RewardIcon />},
-    {name: 'Add Goal', link:'', icon: <GoalIcon />},
-    {name: 'Email', link:'', icon: <MailIcon />},
-    {name: 'Resend Invite', link:'', icon: <ResendIcon />},
-    {name: 'Deactivate', link:'', icon: <DeactivateIcon />},
-    {name: 'Import', link:'', icon: <ImportIcon />},
-    {name: 'Peer Allocation', link:'', icon: <PeerIcon />},
+    {name: 'Reward', link:''},
+    {name: 'Add Goal', link:''},
+    {name: 'Email', link:''},
+    {name: 'Resend Invite', link:''},
+    {name: 'Deactivate', link:''},
+    {name: 'Peer Allocation', link:''},
 ]
-     
+const ICON_ARRAY = [
+    <RewardIcon />,
+    <GoalIcon />,
+    <MailIcon />,
+    <ResendIcon />,
+    <DeactivateIcon />,
+    <ImportIcon />,
+    <PeerIcon />
+  ]
 const ProgramUsers = ( {program, organization} ) => {
-    // console.log("ProgramUsers")
+    console.log("ProgramUsers")
     const [modalName, setModalName] = useState(null)
     const [isOpen, setOpen] = useState(false);
     const [users, setUsers] = useState(null);
-    // const [currentRow, setCurrentRow] = useState(null);
+    const [currentRow, setCurrentRow] = useState(null);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState({ keyword:''});
-    const [participants, setParticipants] = useState([]);
-
-    // selectedFlatRows.map(d => d.original)/
 
 
     const toggle = (name=null) => {
@@ -52,8 +56,7 @@ const ProgramUsers = ( {program, organization} ) => {
         setOpen(prevState => !prevState)
     }
     const onClickAction = (name, row) => {
-        // setCurrentRow(row)
-        setParticipants( [row] )
+        setCurrentRow(row)
         toggle(name)
     }
 
@@ -65,7 +68,7 @@ const ProgramUsers = ( {program, organization} ) => {
         return (
             ACTIONS.map((item, index) =>{
               return <span key={index} onClick={() => onClickAction(item.name, row.original)}>
-                  <span className={`action-item ${item.name}`}>{item.icon}{item.name}</span>
+                  <span className={`action-item ${item.name}`}>{ICON_ARRAY[ index ]}{item.name}</span>
                   <span style={{width:'5px', display: 'inline-block'}}></span>
               </span>
             })
@@ -73,6 +76,19 @@ const ProgramUsers = ( {program, organization} ) => {
       }
     
       let final_columns = [
+        ...[{
+          Header: "",
+          accessor: "checkbox",
+          Cell: ( rowInfo ) => {
+            return (
+              <Input type="checkbox" />
+                
+                    // checked={this.state.selected[rowInfo.original.title.props.children] === true}
+                    // onChange={() => this.toggleRow(rowInfo.original.title.props.children)}
+                
+            );
+        },
+      }],
         ...USERS_COLUMNS, 
         ...[{
             Header: "",
@@ -102,8 +118,7 @@ const ProgramUsers = ( {program, organization} ) => {
         nextPage,
         canNextPage,
         setPageSize,
-        selectedFlatRows,
-        state: { pageIndex, pageSize, selectedRowIds }
+        state: { pageIndex, pageSize }
     } = useTable({
         columns,
         data: users ? users.results : [],
@@ -117,49 +132,8 @@ const ProgramUsers = ( {program, organization} ) => {
         autoResetExpanded: false,
         autoResetPage: false,
     },
-    usePagination,
-    useRowSelect,
-    hooks => {
-        hooks.visibleColumns.push(columns => [
-          // Let's make a column for selection
-          {
-            id: 'selection',
-            // The header can use the table's getToggleAllRowsSelectedProps method
-            // to render a checkbox
-            Header: ({ getToggleAllPageRowsSelectedProps }) => (
-              <div>
-                <IndeterminateCheckbox {...getToggleAllPageRowsSelectedProps()} />
-              </div>
-            ),
-            // The cell can use the individual row's getToggleRowSelectedProps method
-            // to the render a checkbox
-            Cell: ({ row }) => (
-              <div>
-                <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-              </div>
-            ),
-          },
-          ...columns,
-        ])
-      }
+    usePagination
     );
-
-    const IndeterminateCheckbox = React.forwardRef(
-        ({ indeterminate, ...rest }, ref) => {
-          const defaultRef = React.useRef()
-          const resolvedRef = ref || defaultRef
-      
-          React.useEffect(() => {
-            resolvedRef.current.indeterminate = indeterminate
-          }, [resolvedRef, indeterminate])
-      
-          return (
-            <>
-              <input type="checkbox" ref={resolvedRef} {...rest} />
-            </>
-          )
-        }
-      )
 
     // console.log(filter)
     
@@ -286,21 +260,7 @@ const ProgramUsers = ( {program, organization} ) => {
                     </>
                 )}
             </div>
-            <ModalWrapper name={modalName} isOpen={isOpen} setOpen={setOpen} toggle={toggle} participants={participants} />
-            {/* <pre>
-            <code>
-                {JSON.stringify(
-                {
-                    selectedRowIds: selectedRowIds,
-                    'selectedFlatRows[].original': selectedFlatRows.map(
-                    d => d.original
-                    ),
-                },
-                null,
-                2
-                )}
-            </code>
-            </pre> */}
+            <ModalWrapper user={currentRow} name={modalName} isOpen={isOpen} setOpen={setOpen} toggle={toggle} />
         </>
     )
 }

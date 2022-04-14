@@ -7,10 +7,11 @@ import CloseIcon from 'mdi-react/CloseIcon';
 import Switch from '@/shared/components/form/Switch';
 
 const GiveRewardImg = `/img/pages/giveReward.png`;
-const Participants = [
-  'Bobrowski Robert'
-]
-const GiveRewardPopup = ({isOpen, setOpen, toggle, data}) => {
+// const Participants = [
+//   'Bobrowski Robert'
+// ]
+const GiveRewardPopup = ({isOpen, setOpen, toggle, participants}) => {
+  // console.log(participants)
   const [value, setValue] = useState(false);
   const onSubmit = values => {
     
@@ -66,9 +67,9 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, data}) => {
                       <Label>Participant List to be Rewarded</Label>
                     </Col>
                     <Col md="6">
-                        {Participants.map((item, index) => {
+                        {participants.map((item, index) => {
                           return <div key={index}>
-                            <strong>{item}</strong>
+                            <strong>{item.name}</strong>
                           </div>
                         })}
                     </Col>

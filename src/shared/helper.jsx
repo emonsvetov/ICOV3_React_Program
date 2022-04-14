@@ -38,3 +38,7 @@ export const patch4Select = (data, field, list, cb) => {
 export const getLabelByCode = (value, list) => {
     return list.find( item => String(item.value) === String(value) )?.label
 }
+export const dateStrToYmd = dateString => {
+    let date = new Date( dateString )
+    return date.toISOString().split('T')[0]
+}

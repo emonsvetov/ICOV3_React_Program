@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import GiveRewardPopup from './GiveRewardPopup';
 // import SubProgramsModal from './subprogram/SubProgramsModal'
 
-const MainModalWrapper = ({user, organization, program, name, isOpen, setOpen, toggle}) => {
+const MainModalWrapper = ({user, organization, program, name, isOpen, setOpen, toggle, participants}) => {
     const props = {
-        isOpen, setOpen, toggle, organization, program, user
+        isOpen, setOpen, toggle, organization, program, user, participants
     }
     if( !organization?.id || !program?.id ) return 'Loading...'
     return (
