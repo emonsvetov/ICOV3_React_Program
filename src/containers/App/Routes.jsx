@@ -28,6 +28,7 @@ import { Home as ManagerHome, Leaderboards, NSpireWall } from '../Manager/Home/i
 import ProgramSettings from '../Manager/ProgramSettings/index'
 import ManageAndReward from '../Manager/ManageAndReward/index'
 import InviteParticipant from '../Manager/InviteParticipant/index'
+import Referral from '../Manager/Referral';
 
 // const Accounts = () => (
 //   <Routes>
@@ -76,6 +77,7 @@ const RouteIndex = () => (
           <Route path="program-settings" element={<ProgramSettings />} />
           <Route path="manage-and-reward" element={<ManageAndReward />} />
           <Route path="invite-participant" element={<InviteParticipant />} />
+          <Route path="referral" element={<Referral />} />
         </Route>
       </Route>
     </Routes>

@@ -10,7 +10,7 @@ const GiveRewardImg = `/img/pages/giveReward.png`;
 const Participants = [
   'Bobrowski Robert'
 ]
-const GiveRewardPopup = ({isOpen, setOpen, toggle, data, theme, rtl}) => {
+const GiveRewardPopup = ({isOpen, setOpen, toggle, data}) => {
   const [value, setValue] = useState(false);
   const onSubmit = values => {
     
