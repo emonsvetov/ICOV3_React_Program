@@ -536,32 +536,47 @@ ul.horizontal {
         height: 200px !important;
     }
 }
-
+.modal{
+    background: rgba($color: black, $alpha: 0.5);
+    backdrop-filter: blur(2px);
+}
 .modal-2col{
     display: flex;
-    .modal-content{flex-direction: row;}
+    top: 3rem;
+    .modal-content{
+        flex-direction: row;
+        border-radius: 1rem;
+        border: none;
+    }
     .left{
         background-color: $popup-back; //$manager-yellow
         border-radius: 10px 0 0 10px;
         z-index: 100;
         width: 35%;
+        position: relative;
         .title{
             padding: 50px 20px 40px 30px;
         }
         img{
             margin-left: 20px;
             width: 100%;
-            position: relative;
-            bottom: 40px;
+            &.manage{
+                margin-left: 0px;
+                position: absolute;
+                bottom: 20px;
+            }
         }
     }
     .right{
         padding: 50px 20px 40px 20px;   
         background: white;
-        border-radius: 0 10px 10px 0;
+        border-radius: 0 10px 10px 0 !important;
         width: 65%;
         .form{
             height: 100%;
+            .row{
+                margin-top: 0.5rem;
+            }
         }
         button{
             border-color: $manager-yellow;
@@ -570,8 +585,8 @@ ul.horizontal {
     }
     .close{
         position: absolute;
-        right:-20px;
-        top:-20px;
+        right:-2rem;
+        top:-1.5rem;
         color: white;
     }
 }
@@ -614,54 +629,6 @@ ul.horizontal {
              }
             .table-striped > tbody > tr:nth-child(2n + 1) > td, .table-striped > tbody > tr:nth-child(2n + 1) > th {
                 background-color: $setting-stripe;
-            }
-        }
-    }
-
-    .popup{
-        .popup{
-            &__content{
-                width: 50%;
-                min-height: 30%;
-                display: flex;
-                overflow: hidden;
-                position: absolute;
-                top: 6%;
-                .left{
-                    background-color: $popup-back; //$manager-yellow
-                    border-radius: 10px 0 0 10px;
-                    z-index: 100;
-                    width: 35%;
-                    .title{
-                        padding: 50px 20px 40px 30px;
-                    }
-                    img{
-                        margin-left: 20px;
-                        width: 100%;
-                        position: relative;
-                        bottom: 40px;
-                    }
-                }
-                .right{
-                    padding: 50px 20px 40px 20px;   
-                    background: white;
-                    border-radius: 0 10px 10px 0;
-                    width: 65%;
-                    .form{
-                        height: 100%;
-                    }
-                    button{
-                        border-color: $manager-yellow;
-                        background-color: $manager-yellow;
-                    }
-                }
-            }
-            &__top{
-                position: absolute;
-                top: 3%;
-                right: 23%;
-                color: white;
-                cursor: pointer;
             }
         }
     }
@@ -798,54 +765,7 @@ ul.horizontal {
             }
         }
     }
-    .popup{
-        &__content{
-            position: absolute;
-            top: 6%;
-            width: 50%;
-            min-height: 30%;
-            display: flex;
-            .row{
-                margin-top: 10px;
-            }
-            .left{
-                background-color: #FFF9F1; //$manager-yellow
-                border-radius: 10px 0 0 10px;
-                width: 35%;
-                position: relative;
-                overflow: hidden;
-                .title{
-                    padding: 50px 20px 40px 30px;
-                }
-                img{
-                    width: 140%;
-                    margin-left: -110px;
-                    position: absolute;
-                    bottom: 30px;
-                }
-            }
-            .right{
-                width: 65%;
-                padding: 50px 20px 40px 20px;   
-                background: white;
-                border-radius: 0 10px 10px 0;
-                .form{
-                    height: 100%;
-                }
-                button{
-                    border-color: $manager-yellow;
-                    background-color: $manager-yellow;
-                }
-            }
-        }
-        &__top{
-            position: absolute;
-            top: 3%;
-            right: 23%;
-            color: white;
-            cursor: pointer;
-        }
-    }
+    
 }
 
 .invite-participant{

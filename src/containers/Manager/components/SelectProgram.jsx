@@ -37,7 +37,7 @@ const SelectProgram = ( { auth, program } ) => {
     return (
         <>
             <span>For Program:</span>
-            <div className='py-3 mb-0'>
+            <div className='mb-0'>
                 <Input type="select" defaultValue={program.id} name="program" id="program-select" onChange={onChange}>
                     <ProgramOptions />
                 </Input>

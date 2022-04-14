@@ -9,6 +9,8 @@ import EditEventModal from './EditEventModal';
 import {
     Table,
   } from 'reactstrap';
+import ModalWrapper from './ModalWrapper';
+
 const EVENTS_COLUMNS = [
     {
         Header: "Name",
@@ -29,13 +31,20 @@ const Events = ({program, organization}) => {
     const [event, setEvent] = useState(null);
     const [loading, setLoading] = useState(true);
     const [showEditModal, setShowEditModal] = useState(false);
-  
+    const [isOpen, setOpen] = useState(false);
+    const [modalName, setModalName] = useState(null)
+    
+    const toggle = (name=null) => {
+      if( name ) setModalName(name)
+      setOpen(prevState => !prevState)
+    }
+
     const onClickEditEvent = (eventId) => {
       getEvent(organization.id, program.id, eventId)
       .then(item => {
         // console.log(item)
         setEvent(item)
-        setShowEditModal(true)
+        toggle('EditEvent');
         setLoading(false)
       })
     }
@@ -122,9 +131,11 @@ const Events = ({program, organization}) => {
               })}
           </tbody>
       </Table>
-      {showEditModal &&  <EditEventModal onCancelHandler={toggleModal} program={program} organization={organization} event={event} toggleModal={toggleModal} setEvent={setEvent} />}
+      <ModalWrapper  name={modalName} isOpen={isOpen} setOpen={setOpen} toggle={toggle} event={event} toggleModal={toggleModal} setEvent={setEvent}/>
       </>
     )
   }
+
+  // {showEditModal &&  <EditEventModal onCancelHandler={toggleModal} program={program} organization={organization} event={event} toggleModal={toggleModal} setEvent={setEvent} />}
 
   export default Events

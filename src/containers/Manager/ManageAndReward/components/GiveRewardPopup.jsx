@@ -18,8 +18,8 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants}) => {
   }
 
   return (
-    <Modal className={`program-settings modal-2col modal-lg`} isOpen={isOpen} toggle={() => setOpen(true)}>
-          <div className='close'>
+    <Modal className={`program-settings modal-2col modal-xl`} isOpen={isOpen} toggle={() => setOpen(true)}>
+          <div className='close cursor-pointer'>
             <CloseIcon onClick={toggle} size={30}/>
           </div>
           <div className="left">
@@ -28,10 +28,10 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants}) => {
               <span>
                 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
               </span>
-              <Button outline color="primary" className="mr-3" onClick={toggle}>Cancel</Button>
+              
             </div>
             
-            <img src={GiveRewardImg}/>
+            <img src={GiveRewardImg} className='manage'/>
           </div>
           <div className="right">
             <Form
@@ -213,7 +213,7 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants}) => {
                 </form>
               )}
             </Form>
-    </div>
+          </div>
     </Modal>
 )}
 
