@@ -21,7 +21,7 @@ import {
   RedeemMerchant,
   Checkout
  } from '../Participant/RedeemPoints';
-
+import Lead from '../Participant/Lead'
 //manager
 
 import { Home as ManagerHome, Leaderboards, NSpireWall } from '../Manager/Home/index';
@@ -74,6 +74,7 @@ const RouteIndex = () => (
           <Route path="browse-merchants" element={<BrowseMerchants />} />
           <Route path="redeem/:merchantId" element={<RedeemMerchant />} />
           <Route path="checkout" element={<Checkout />} />
+          <Route path="lead" element={<Lead />} />
         </Route>
         <Route path="manager" element={<ManagerLayout />} >
           <Route path="home" element={<ManagerHome />} />
@@ -85,7 +86,6 @@ const RouteIndex = () => (
           <Route path="referral" element={<Referral />} />
           <Route path="team" element={<Team />} />
           <Route path="team/:mateId" element={<TeamView />} />
-
           <Route path="report" element={<Report />} >
             <Route path="invoices" element={<Invoices />} />
             <Route path="program-status" element={<ProgramStatus />} />

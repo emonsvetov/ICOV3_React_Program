@@ -10,7 +10,7 @@ const PARTICIPANT_ITEMS = [
     {title:"MY GIFT CODES", icon:"gift", to:'/participant/my-gift-codes'},
     {title:"SURVEY", icon:"survey"},
     {title:"NEWSLETTER", icon:"newsletter"},
-    {title:"SUBMIT A LEAD", icon:"submit"},  
+    {title:"SUBMIT A LEAD", icon:"submit", to:'/participant/lead'},  
   ]
 
 const MANAGER_ITEMS = [
