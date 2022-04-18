@@ -10,9 +10,13 @@ const EventForm = ({
     loading, 
     eventTypes,
     btnLabel = 'Save',
-    event = {}
+    event = {},
+    program
 }) => {
     console.log(event)
+    if( event?.max_awardable_amount)    {
+        event.awarding_points = program.factor_valuation * event.max_awardable_amount
+    }
     return(
         <Form
             onSubmit={onSubmit}
@@ -23,7 +27,8 @@ const EventForm = ({
             initialValues={event
             }
         >
-            {({ handleSubmit, form, submitting, pristine, values }) => (
+            {({ handleSubmit, form, submitting, pristine, values }) => {
+            return (
             <form className="form d-flex flex-column justify-content-evenly" onSubmit={handleSubmit}>
                 <Row>
                 <Col md="12">
@@ -174,6 +179,7 @@ const EventForm = ({
                 </div>
             </form>
             )}
+        }
         </Form>
     )
 }

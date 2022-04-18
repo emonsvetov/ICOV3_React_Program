@@ -96,7 +96,8 @@ const EditEventModal = ({program, organization, isOpen, setOpen, toggle, data, t
     loading,
     onSubmit,
     onChangeAwardValue,
-    event
+    event,
+    program
   }
 
   return (
