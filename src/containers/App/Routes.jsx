@@ -31,6 +31,9 @@ import InviteParticipant from '../Manager/InviteParticipant/index'
 import Referral from '../Manager/Referral';
 import Team from '../Manager/Team';
 import TeamView from '../Manager/Team/components/TeamView';
+import Report from '../Manager/Report';
+import Invoices from '../Manager/Report/components/Invoices';
+import ProgramStatus from '../Manager/Report/components/ProgramStatus';
 
 // const Accounts = () => (
 //   <Routes>
@@ -82,6 +85,13 @@ const RouteIndex = () => (
           <Route path="referral" element={<Referral />} />
           <Route path="team" element={<Team />} />
           <Route path="team/:mateId" element={<TeamView />} />
+
+          <Route path="report" element={<Report />} >
+            <Route path="invoices" element={<Invoices />} />
+            <Route path="program-status" element={<ProgramStatus />} />
+            
+          </Route>
+          
         </Route>
       </Route>
     </Routes>
