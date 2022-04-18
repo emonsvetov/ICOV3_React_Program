@@ -22,6 +22,7 @@ import {
   Checkout
  } from '../Participant/RedeemPoints';
 import Lead from '../Participant/Lead'
+import Faqs from '../Participant/Faqs/index';
 //manager
 
 import { Home as ManagerHome, Leaderboards, NSpireWall } from '../Manager/Home/index';
@@ -69,7 +70,7 @@ const RouteIndex = () => (
           <Route path="my-gift-codes" element={<GiftCodeIndex />} />
           <Route path="my-points" element={<PointIndex />} />
           <Route path="my-goals" element={''} />
-          <Route path="faqs" element={''} />
+          <Route path="faqs" element={<Faqs />} />
           <Route path="select-merchants" element={<SelectMerchants />} />
           <Route path="browse-merchants" element={<BrowseMerchants />} />
           <Route path="redeem/:merchantId" element={<RedeemMerchant />} />
