@@ -59,7 +59,7 @@ const EventForm = ({
                             onKeyUp={form.mutators.onChangeAwardValue}
                             {...input}
                             />
-                                {meta.touched && meta.error && <span className="text-danger">
+                                {meta.touched && meta.error && <span className="text- ">
                                 {meta.error}
                                 </span>}
                         </FormGroup>

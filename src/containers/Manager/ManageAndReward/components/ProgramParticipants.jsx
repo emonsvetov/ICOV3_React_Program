@@ -34,8 +34,8 @@ const ACTIONS = [
     {name: 'Peer Allocation', link:'', icon: <PeerIcon />},
 ]
      
-const ProgramUsers = ( {program, organization} ) => {
-    // console.log("ProgramUsers")
+const ProgramParticipants = ( {program, organization} ) => {
+    // console.log("ProgramParticipants")
     const [modalName, setModalName] = useState(null)
     const [isOpen, setOpen] = useState(false);
     const [users, setUsers] = useState(null);
@@ -180,7 +180,7 @@ const ProgramUsers = ( {program, organization} ) => {
         setLoading(true)
         apiTableService.fetchData(
             {
-                url: `/organization/${organization.id}/program/${program.id}/user`,
+                url: `/organization/${organization.id}/program/${program.id}/participant`,
                 page: pageIndex,
                 size: pageSize,
                 filter
@@ -318,4 +318,4 @@ const ProgramUsers = ( {program, organization} ) => {
     )
 }
 
-export default ProgramUsers
+export default ProgramParticipants

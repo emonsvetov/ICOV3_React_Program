@@ -11,7 +11,7 @@ const FlashMessage = () => {
 
     useEffect(
         () => {
-          let timer1 = setTimeout(() => dispatch(sendFlashMessage(null, null)), 4000);
+          let timer1 = setTimeout(() => dispatch(sendFlashMessage(null, null)), 5000);
           return () => {
             clearTimeout(timer1);
           };
