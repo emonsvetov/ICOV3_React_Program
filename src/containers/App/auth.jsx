@@ -1,15 +1,16 @@
 
-export const AUTH_TOKEN_KEY = 'authToken';
+import {getPointBalance} from '@/services/user/getPointBalance'
+
 export const AUTH_USER_KEY = 'authUser';
+export const AUTH_TOKEN_KEY = 'authToken';
+export const AUTH_POINTS_KEY = 'authPoints';
 export const AUTH_PROGRAM_KEY = 'authProgram';
-export const ORGANIZATION = {
-    id: 1,
-    name: 'First Organization'
-}
+export const AUTH_ORGANIZATION_KEY = 'authOrganization';
 
 export const login = data => {
     localStorage.setItem(AUTH_TOKEN_KEY, data.access_token);
     localStorage.setItem(AUTH_USER_KEY, JSON.stringify(data.user));
+    localStorage.setItem(AUTH_ORGANIZATION_KEY, JSON.stringify(data.organization));
     localStorage.setItem(AUTH_PROGRAM_KEY, JSON.stringify(data.program));
 }
 
@@ -25,9 +26,13 @@ export const logout = (e) => {
 export const flushUserSession = () => {
     localStorage.removeItem(AUTH_USER_KEY);
     localStorage.removeItem(AUTH_TOKEN_KEY);
+    localStorage.removeItem(AUTH_ORGANIZATION_KEY);
+    localStorage.removeItem(AUTH_PROGRAM_KEY);
+    localStorage.removeItem(AUTH_POINTS_KEY);
 }
 
 export const isAuthenticated = () => {
+    // localStorage.removeItem(AUTH_POINTS_KEY);
     // flushUserSession();
     if (localStorage.getItem(AUTH_TOKEN_KEY)) {
         // console.log(getAuthUser())
@@ -36,13 +41,43 @@ export const isAuthenticated = () => {
     return false;
 }
 
-
 export const getToken = () => {
    return localStorage.getItem(AUTH_TOKEN_KEY);
 }
 
 export const getAuthProgram = () => {
-    return localStorage.getItem(AUTH_PROGRAM_KEY);
+    return JSON.parse(localStorage.getItem(AUTH_PROGRAM_KEY));
+}
+
+export const setAuthPoints = (points) => {
+    localStorage.setItem(AUTH_POINTS_KEY, JSON.stringify(points));
+}
+
+export const getAuthPoints = async() => {
+    let storagePoints = localStorage.getItem(AUTH_POINTS_KEY)
+    // console.log(storagePoints)
+    // console.log(storagePoints!=='undefined' && storagePoints)
+    if( storagePoints!=='undefined' && storagePoints ) {
+        // console.log(storagePoints)
+        return JSON.parse(storagePoints)
+    }
+    return hydratePointBalance();
+}
+
+export const hydratePointBalance = () => {
+    const authOrg = getOrganization()
+    const authProgram = getAuthProgram()
+    const authUser = getAuthUser()
+    return getPointBalance(authOrg.id, authProgram.id, authUser.id)
+    .then( points => {
+        // console.log(points)
+        setAuthPoints(points)
+        return points
+    })
+} 
+
+export const setAuthProgram = (program) => {
+    return localStorage.setItem(AUTH_PROGRAM_KEY, JSON.stringify(program));
 }
 
 export const getBearer = () => {
@@ -55,6 +90,7 @@ export const getBearer = () => {
 export const getAuthUser = () => {
     try {
         const authUser = JSON.parse(localStorage.getItem(AUTH_USER_KEY))
+        // console.log(authUser)
         return authUser
     } catch (e) {
         return null;
@@ -64,7 +100,8 @@ export const getAuthUser = () => {
 
 export const getOrganization = () => {
     //get from AuthUser TODO
-    return ORGANIZATION
+    // return ORGANIZATION
+    return JSON.parse(localStorage.getItem(AUTH_ORGANIZATION_KEY));
 }
 
 export const getAuthUserFullname = () => {

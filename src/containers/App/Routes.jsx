@@ -23,7 +23,8 @@ import {
  } from '../Participant/RedeemPoints';
 
 //manager
-import ManagerHome from '../Manager/Home/index';
+
+import { Home as ManagerHome, Leaderboards, NSpireWall } from '../Manager/Home/index';
 import ProgramSettings from '../Manager/ProgramSettings/index'
 import ManageAndReward from '../Manager/ManageAndReward/index'
 import InviteParticipant from '../Manager/InviteParticipant/index'
@@ -70,6 +71,8 @@ const RouteIndex = () => (
         </Route>
         <Route path="manager" element={<ManagerLayout />} >
           <Route path="home" element={<ManagerHome />} />
+          <Route path="nspire-wall" element={<NSpireWall />} />
+          <Route path="leaderboards" element={<Leaderboards />} />
           <Route path="program-settings" element={<ProgramSettings />} />
           <Route path="manage-and-reward" element={<ManageAndReward />} />
           <Route path="invite-participant" element={<InviteParticipant />} />

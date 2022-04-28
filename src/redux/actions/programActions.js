@@ -1,3 +1,3 @@
 import { createAction } from 'redux-actions';
 
-export const setAuthProgram = createAction('SET_AUTH_PROGRAM');
+export const setStoreProgram = createAction('SET_STORE_PROGRAM');

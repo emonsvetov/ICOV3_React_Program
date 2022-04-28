@@ -6,7 +6,6 @@ import { Container, Navbar, NavbarBrand, NavbarToggler, Dropdown,
         Collapse, Nav, NavItem, UncontrolledDropdown,
         DropdownToggle, DropdownItem, NavbarText, DropdownMenu
          } from 'reactstrap';
-import './style.scss'
 const Brand = `${process.env.PUBLIC_URL}/img/logo/logo_light.svg`;
 const LINKS = [
   { to: '/participant/home', text: 'Home' },

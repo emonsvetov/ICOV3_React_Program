@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import { Link, NavLink  } from 'react-router-dom';
 import TopbarProfile from './TopbarProfile';
 import { Container, NavbarBrand, NavbarToggler, Collapse, Nav, Navbar } from 'reactstrap';
-import './style.scss'
 const Brand = `${process.env.PUBLIC_URL}/img/logo/logo_light.svg`;
 
 const LINKS = [
@@ -28,7 +27,6 @@ const ManagerTopbar = () => {
       color=""
       expand="md"
       fixed=""
-      full
       light
     >
       <NavbarBrand href="/">

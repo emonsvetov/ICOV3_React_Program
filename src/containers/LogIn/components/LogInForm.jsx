@@ -1,25 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Field } from 'react-final-form';
 // import renderCheckBoxField from '../../../shared/components/form/CheckBox';
-import {login, getOrganization} from '../../App/auth';
-import {isProgramManager, isParticipant} from "@/shared/helper"
+import {login} from '../../App/auth';
+import {isProgramManager, isProgramParticipant} from "@/shared/helper"
 import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 import Select from 'react-select';
 import { ButtonToolbar, Button } from 'reactstrap';
+// import {getProgram} from '@/services/program/getProgram';
 
 const axios = require('axios');
 
 const LogInForm = () => {
 
   const dispatch = useDispatch()
-  const organization = getOrganization()
+  // const organization = getOrganization()
 
   const [step, setStep] = useState(0);
+  const [organization, setOrganization] = useState(null);
   const [loading, setLoading] = useState(false);
   let [user, setUser] = useState(null);
   let [accessToken, setAccessToken] = useState(null);
   let [program, setProgram] = useState(null);
+  const [isManager, setIsManager] = useState(false);
+  const [isParticipant, setIsParticipant] = useState(false);
 
   useEffect( () => {
     // setUser(getAuthUser())
@@ -47,16 +51,28 @@ const LogInForm = () => {
         // console.log(res.status == 200)
         if(res.status === 200)  {
           // res.data.user.loginAs = 'Participant'  
-          if( !isProgramManager(res.data.user) && !isParticipant(res.data.user) )  {
+          if( !isProgramManager(res.data.user) && !isProgramParticipant(res.data.user) )  {
             alert("You are logging into Wrong Login Area")
             return
+          } else {
+            if( isProgramManager(res.data.user) && isProgramParticipant(res.data.user) ) {
+              setIsManager(true)
+              setIsParticipant(true)
+              // alert('Is Both');
+            } else if(isProgramManager(res.data.user)) {
+              setIsManager(true)
+              // alert('Is Manager');
+            } else if(isProgramParticipant(res.data.user)) {
+              // alert('Is Participant');
+              setIsParticipant(true)
+            }
+            setStep(1)
+            setUser(res.data.user)
+            setOrganization(res.data.user.organization)
+            setAccessToken(res.data.access_token)
+            // var t = setTimeout(window.location = '/participant/home', 500)
+            setLoading(false)
           }
-          login(res.data)
-          setUser(res.data.user)
-          setAccessToken(res.data.access_token)
-          setStep(1)
-          // var t = setTimeout(window.location = '/participant/home', 500)
-          setLoading(false)
         }
       })
       .catch( err => {
@@ -72,8 +88,9 @@ const LogInForm = () => {
       validate={validate}
       initialValues={
         {
-          email: 'manager@incentco.com',
-          password: 'aaaaaa'
+          // email: 'hmaudson2@dyndns.org',
+          email: 'arvind.mailtoxsxx@gmail.com',
+          password: 'aaa'
         }
       }
       render={({ handleSubmit, form, submitting, pristine, values }) => (
@@ -122,7 +139,7 @@ const LogInForm = () => {
 
   const FormProgram = () => {
 
-    console.log(user)
+    // console.log(user)
 
     if( !user ) return 'loading...'
 
@@ -151,15 +168,23 @@ const LogInForm = () => {
         console.log(res)
         // console.log(res.status == 200)
         if(res.status === 200)  {
-          if( res.data?.programId && res.data?.roleName)  {
+          if( res.data?.program && res.data?.role)  {
             // user.programId = res.data.programId
-            user.loginAs = res.data.roleName
+            user.loginAs = res.data.role
+            // console.log(user.loginAs)
             login({
               user,
               access_token: accessToken,
-              program: res.data.programId
+              program: res.data.program,
+              organization: organization
             })
-            var t = setTimeout(window.location = '/', 500)
+            let sendTo = '/'
+            if( user.loginAs.name === 'Program Manager')  {
+              sendTo = '/manager/home'
+            } else  if( user.loginAs.name === 'Participant')  {
+              sendTo = '/participant/home'
+            } 
+            var t = setTimeout(window.location = sendTo, 500)
           } else  {
             alert("Invalid Program")
           }
@@ -167,7 +192,7 @@ const LogInForm = () => {
         }
       })
       .catch( err => {
-        console.log(err)
+        console.log(err.responseText)
         // console.log(error.response.data)
         dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
         setLoading(false)
@@ -218,8 +243,8 @@ const LogInForm = () => {
         )}
         </Field>
         <ButtonToolbar className="mt-3 d-flex justify-content-between w100">
-          <Button type="submit" disabled={loading} className="btn btn-primary red" onClick={()=>{loginAs='participant'}}>Log In</Button>
-          <Button type="submit" disabled={loading} className="btn btn-primary red" onClick={()=>{loginAs='program_manager'}}>Log In as a Manager</Button>
+        {isParticipant && <Button type="submit" disabled={loading} className="btn btn-primary red" onClick={()=>{loginAs='participant'}}>Log In</Button>}
+          {isManager && <Button type="submit" disabled={loading} className="btn btn-primary red" onClick={()=>{loginAs='program_manager'}}>Log In as a Manager</Button>}
         </ButtonToolbar>
         </form>
       )}

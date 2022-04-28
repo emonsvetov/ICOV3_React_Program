@@ -1,258 +1,121 @@
-import React, {useState} from 'react';
-import Select from 'react-select';
-import { Link } from 'react-router-dom';
-import { Input, Col, Row, FormGroup, FormFeedback, Label, Button} from 'reactstrap';
-import { Form, Field } from 'react-final-form';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import CloseIcon from 'mdi-react/CloseIcon';
-import Switch from '@/shared/components/form/Switch';
+import {getEventTypes} from '@/services/getEventTypes'
+import {labelizeNamedData} from '@/shared/helper'
+import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
+import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
+import EventForm from './EventForm'
+import { Modal } from 'reactstrap';
 
 const AddEventImg = `/img/pages/addEvent.png`;
 
-const AddEventPopup = ({onCancelHandler}) => {
-  const [value, setValue] = useState(false);
-  const onSubmit = values => {
+const AddEventPopup = ({program, organization, isOpen, setOpen, toggle, data, theme, rtl}) => {
+  const dispatch = useDispatch()
+  const [eventTypes, setEventTypes] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const onChangeAwardValue = ([field], state, { setIn, changeValue }) => {
+    const v = field.target.value
+    if( isNaN( v ) ) return;
+    if(field.target.name === 'max_awardable_amount')  
+    {
+      const field = state.fields["awarding_points"];
+      field.change( program.factor_valuation *  v);
+    }
+    else if(field.target.name === 'awarding_points')  
+    {
+      const field = state.fields["max_awardable_amount"];
+      field.change(  v / program.factor_valuation );
+    }
+  }
+  // console.log(program)
+  const onSubmit = (values) => {
+    let eventData = {};
+    eventData["organization_id"] = organization.id;
+    eventData["program_id"] = program.id;
+
+    console.log(values)
+
+    let {
+      name,
+      enable,
+      max_awardable_amount,
+      post_to_social_wall,
+      message,
+      award_message_editable,
+      type_id
+    } = values;
+
+    eventData.name = name;
+    eventData.max_awardable_amount = max_awardable_amount;
+    eventData.post_to_social_wall = post_to_social_wall ? true: false;
+    eventData.award_message_editable = award_message_editable ? true: false;
+    eventData.enable = enable ? true: false;
     
+    eventData.message = message;
+    eventData.type_id = type_id.value;
+
+    // console.log(eventData)
+
+    // console.log(eventData)
+    // return
+    setLoading(true)
+    axios
+      .post(`/organization/${organization.id}/program/${program.id}/event`, eventData)
+      .then((res) => {
+        //   console.log(res)
+        if (res.status == 200) {
+          window.location.reload()
+          dispatch(sendFlashMessage('Event added successfully!', 'alert-success', 'top'))
+          setLoading(false)
+        }
+      })
+      .catch((err) => {
+        //console.log(error.response.data);
+        dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
+        setLoading(false)
+      });
+  };
+  useEffect( () => {
+    getEventTypes()
+    .then( evtypes => {
+      // console.log(evtypes)
+      setEventTypes(labelizeNamedData(evtypes))
+    })
+  }, [])
+
+
+  let props = {
+    btnLabel: 'Add New Event',
+    eventTypes,
+    loading,
+    onSubmit,
+    onChangeAwardValue
   }
 
   return (
-    <div className='popup add-event'>
+    <Modal className={`program-settings modal-2col modal-xl`} isOpen={isOpen} toggle={() => setOpen(true)}>
       
-      <div className='popup__content d-flex'>
-        
-          <div className="left">
-            <div className='title mb-5'>
-              <h3>Add New Event</h3>
-              <span>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
-              </span>
-            </div>
-            <img src={AddEventImg}/>
-          </div>
-
-          <div className="right">
-            <Form
-              onSubmit={onSubmit}
-              
-              initialValues={{}}
-            >
-              {({ handleSubmit, form, submitting, pristine, values }) => (
-                <form className="form d-flex flex-column justify-content-evenly" onSubmit={handleSubmit}>
-                  <Row>
-                    <Col md="12">
-                        <Field name="name">
-                        {({ input, meta }) => (
-                            <FormGroup>
-                              <Input
-                                placeholder="Event Name"
-                                type="text"
-                                {...input}
-                              />
-                                  {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
-                            </FormGroup>
-                        )}
-                        </Field>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="6">
-                        <Field name="amount">
-                        {({ input, meta }) => (
-                            <FormGroup>
-                              <Input
-                                placeholder="Max Awardable Amount"
-                                type="text"
-                                {...input}
-                              />
-                                  {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
-                            </FormGroup>
-                        )}
-                        </Field>
-                    </Col>
-                    <Col md="6">
-                        <Field name="ledger_code">
-                        {({ input, meta }) => (
-                            <FormGroup>
-                              <Input
-                                placeholder="Ledger Code"
-                                type="text"
-                                {...input}
-                              />
-                                  {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
-                            </FormGroup>
-                        )}
-                        </Field>
-                    </Col>
-                    </Row>
-                    <Row>
-                      <Col md="6">
-                        <Field name="enable">
-                          {({ input, meta }) => (
-                              <FormGroup className='d-flex justify-content-between'>
-                                <Label>Enable This Event</Label>
-                                <Switch
-                                  isOn={value}
-                                  handleToggle={() => setValue(!value)}>
-                                </Switch>
-                              </FormGroup>
-                          )}
-                          </Field>
-                      </Col>
-                    </Row>
-                    <Row>
-                    <Col md="6">
-                        <Field name="event_type">
-                        {({ input, meta }) => (
-                            <FormGroup>
-                              <Select
-                                value={value}
-                                onChange={{}}
-                                options={[]}
-                                clearable={false}
-                                className="react-select"
-                                placeholder={'Select Event Type'}
-                                classNamePrefix="react-select"
-                              />
-                                  {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
-                            </FormGroup>
-                        )}
-                        </Field>
-                    </Col>
-                    <Col md="6">
-                        <Field name="template">
-                        {({ input, meta }) => (
-                            <FormGroup>
-                              <Select
-                                value={value}
-                                onChange={{}}
-                                options={[]}
-                                clearable={false}
-                                className="react-select"
-                                placeholder={'Select a Template'}
-                                classNamePrefix="react-select"
-                              />
-                                  {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
-                            </FormGroup>
-                        )}
-                        </Field>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="6">
-                        <Field name="post_to_social_wall">
-                        {({ input, meta }) => (
-                            <FormGroup className='d-flex justify-content-between'>
-                              <Label>Post to Social Wall</Label>
-                              <Switch
-                                  isOn={value}
-                                  handleToggle={() => setValue(!value)}>
-                              </Switch>
-                            </FormGroup>
-                        )}
-                        </Field>
-                    </Col>
-                    <Col md="6">
-                        <Field name="ledger_code">
-                        {({ input, meta }) => (
-                            <FormGroup className='d-flex justify-content-between'>
-                              <Label>All amount to be overridden</Label>
-                              <Switch
-                                  isOn={value}
-                                  handleToggle={() => setValue(!value)}>
-                              </Switch>
-                            </FormGroup>
-                        )}
-                        </Field>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="6">
-                        <Field name="min_override">
-                        {({ input, meta }) => (
-                            <FormGroup>
-                              <Input
-                                placeholder="Min amount award override"
-                                type="text"
-                                {...input}
-                              />
-                                  {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
-                            </FormGroup>
-                        )}
-                        </Field>
-                    </Col>
-                    <Col md="6">
-                        <Field name="max_override">
-                        {({ input, meta }) => (
-                            <FormGroup>
-                              <Input
-                                placeholder="Max amount award override"
-                                type="text"
-                                {...input}
-                              />
-                                  {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
-                            </FormGroup>
-                        )}
-                        </Field>
-                    </Col>
-                    </Row>
-                    <Col md="6">
-                        <Field name="awarding_points">
-                        {({ input, meta }) => (
-                            <FormGroup>
-                              <Input
-                                placeholder="Awarding Points"
-                                type="text"
-                                {...input}
-                              />
-                                  {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
-                            </FormGroup>
-                        )}
-                        </Field>
-                    </Col>
-                    <Row>
-                      <Col md="6">
-                          <Field name="message_editable">
-                          {({ input, meta }) => (
-                              <FormGroup className='d-flex justify-content-between'>
-                                <Label>Award Message Editable</Label>
-                                <Switch
-                                  isOn={value}
-                                  handleToggle={() => setValue(!value)}>
-                                </Switch>
-                              </FormGroup>
-                          )}
-                          </Field>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md="12">
-                          <Field name="award_message">
-                          {({ input, meta }) => (
-                              <FormGroup>
-                                <Input
-                                  placeholder="Award Message"
-                                  type="textarea"
-                                  {...input}
-                                />
-                                    {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
-                              </FormGroup>
-                          )}
-                          </Field>
-                      </Col>
-                    </Row>
-                  <div className='d-flex justify-content-end'>
-                    <Button  color='danger' type='submit'>Add New Event</Button>
-                  </div>
-                </form>
-              )}
-            </Form>
-          </div>
-        
+        <div className='close cursor-pointer'>
+          <CloseIcon onClick={toggle} size={30}/>
         </div>
-      <div className='popup__top'>
-        {/* <Button close onClick={onCancelHandler}/> */}
-        <CloseIcon onClick={onCancelHandler} size={30}/>
-      </div>
-    </div>
+      
+        <div className="left">
+          <div className='title mb-5'>
+            <h3>Add New Event</h3>
+            <span>
+              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
+            </span>
+          </div>
+          <img src={AddEventImg}/>
+        </div>
+
+        <div className="right">
+          <EventForm {...props} />
+        </div>
+        
+
+    </Modal>
 )}
 
 export default AddEventPopup;
