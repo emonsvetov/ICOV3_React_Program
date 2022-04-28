@@ -5,11 +5,12 @@ import axios from 'axios'
 import Routes from './Routes';
 import store from './store';
 import '../../scss/app.scss';
-import {getBearer, getOrganization, getAuthUser, getAuthProgram} from './auth';
+import {getBearer, getOrganization, getAuthUser, getAuthProgram, getAuthPoints} from './auth';
 import {setOrganization} from '@/redux/actions/organizationActions';
 import {setAuthUser} from '@/redux/actions/userActions';
 import {setStoreProgram} from '@/redux/actions/programActions';
-import {sendFlashMessage, FlashMessage} from "@/shared/components/flash";
+import {setPointBalance} from '@/redux/actions/balanceActions';
+import {FlashMessage} from "@/shared/components/flash";
 
 // require('dotenv').config()
 axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL + '/api/v1';
@@ -53,6 +54,10 @@ const App = () => {
     store.dispatch(setOrganization(getOrganization()))
     store.dispatch(setAuthUser(getAuthUser()))
     store.dispatch(setStoreProgram(getAuthProgram()))
+    getAuthPoints()
+    .then( balance => {
+      store.dispatch(setPointBalance(balance))
+    })
   }
 
   return (

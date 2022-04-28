@@ -3,13 +3,12 @@ import {
     setOrganization,
 } from '../actions/organizationActions';
 
-const defaultState = {
-};
+const defaultState = null
 
 export default handleActions(
     {
         [setOrganization](state, action) {
-            return { ...state, ...action.payload };
+            return { ...state, ...action.payload }
         }
     },
     defaultState,

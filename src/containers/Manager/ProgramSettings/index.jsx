@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
 import {
   Col, 
   Container, 
@@ -10,8 +8,6 @@ import {
   Button,
 } from 'reactstrap';
 
-import PencilIcon from 'mdi-react/PencilIcon';
-import TrashIcon from 'mdi-react/TrashCanIcon';
 import SelectProgram from '../components/SelectProgram'
 import Events from './components/Events'
 import {isEmpty} from '@/shared/helper'
@@ -37,7 +33,7 @@ const ProgramSettings = ( {auth, program, organization} ) => {
     setOpen(prevState => !prevState)
   }
 
-  if( !auth || !program  || !organization) return 'Loading...'
+  if( !auth || !program  || !organization ) return 'Loading...'
 
   return (
     <div className='program-settings'>
