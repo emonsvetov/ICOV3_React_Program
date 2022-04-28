@@ -23,6 +23,9 @@ import {
  } from '../Participant/RedeemPoints';
 import Lead from '../Participant/Lead'
 import Faqs from '../Participant/Faqs/index';
+import Peer2Peer from '../Participant/Peer2Peer/index'
+import Survey from '../Participant/Survey';
+
 //manager
 
 import { Home as ManagerHome, Leaderboards, NSpireWall } from '../Manager/Home/index';
@@ -76,6 +79,8 @@ const RouteIndex = () => (
           <Route path="redeem/:merchantId" element={<RedeemMerchant />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="lead" element={<Lead />} />
+          <Route path="peer-to-peer" element={<Peer2Peer />} />
+          <Route path="survey" element={<Survey />} />
         </Route>
         <Route path="manager" element={<ManagerLayout />} >
           <Route path="home" element={<ManagerHome />} />

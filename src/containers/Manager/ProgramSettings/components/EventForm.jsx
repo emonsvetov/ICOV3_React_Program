@@ -7,7 +7,7 @@ import formValidation from "@/validation/addEvent"
 const EventForm = ({
     onSubmit, 
     onChangeAwardValue, 
-    loading, 
+    loading,
     eventTypes,
     btnLabel = 'Save',
     event = {}

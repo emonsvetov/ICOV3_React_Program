@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
 import {
   Col, 
   Container, 
@@ -10,10 +8,9 @@ import {
   Button,
 } from 'reactstrap';
 
-import PencilIcon from 'mdi-react/PencilIcon';
-import TrashIcon from 'mdi-react/TrashCanIcon';
 import SelectProgram from '../components/SelectProgram'
 import Events from './components/Events'
+import Leaderboards from './components/Leaderboards';
 import {isEmpty} from '@/shared/helper'
 import ModalWrapper from './components/ModalWrapper';
 
@@ -77,12 +74,24 @@ const ProgramSettings = ( {auth, program, organization} ) => {
               {auth && program && !isEmpty(organization) && <Events program={program} organization={organization} />}
           </div>      
         </div>
+
         <div className={activeTab != 1 ? "d-none": ""} id="expired">
           <div className='my-3 d-flex justify-content-between'>
             <h3 >Goal Plans</h3>
             <Button color='danger' onClick={() =>toggle('AddGoal')}>Add New Goal Plan</Button>
           </div>
         </div>
+
+        <div className={activeTab != 4 ? "d-none": ""} id="leaderboards">
+          <div className='my-3 d-flex justify-content-between'>
+            <h3 >Leaderboards</h3>
+            <Button color='danger' onClick={() =>toggle('AddLeaderboard')}>Add New Leaderboard</Button>
+          </div>
+          <div className='points-summary-table'>
+              {auth && program && !isEmpty(organization) && <Leaderboards program={program} organization={organization} />}
+          </div>      
+        </div>
+
       </Container>
       
       <ModalWrapper  name={modalName} isOpen={isOpen} setOpen={setOpen} toggle={toggle} />

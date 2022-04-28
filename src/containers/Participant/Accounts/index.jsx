@@ -12,15 +12,8 @@ const Account = () => {
   }
   return (
     <>
-      <div className='mainboard'>
-        <div className='title'>
-          My Account
-        </div>
-      </div>
       <Container>
           <ParticipantTabNavs />
-      </Container>
-      <Container>
         <Row>
           <Col md={9}>
             <div className="dashboard">
