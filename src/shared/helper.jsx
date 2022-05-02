@@ -1,8 +1,13 @@
+import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
+
+export const flashDispatch = useDispatch
+export const flashMessage = sendFlashMessage
+
 export const isProgramManager = (user) => {
     if( user.isProgramManager ) return true
     return false
 }
-export const isParticipant = (user) => {
+export const isProgramParticipant = (user) => {
     if( user.isParticipant ) return true
     return false
 }

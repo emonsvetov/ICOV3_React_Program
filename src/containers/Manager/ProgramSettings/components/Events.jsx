@@ -5,7 +5,6 @@ import { useTable } from 'react-table'
 import PencilIcon from 'mdi-react/PencilIcon';
 import TrashIcon from 'mdi-react/TrashCanIcon';
 import { Link } from 'react-router-dom';
-
 import {
     Table,
   } from 'reactstrap';

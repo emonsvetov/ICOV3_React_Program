@@ -34,8 +34,8 @@ const ACTIONS = [
     {name: 'Peer Allocation', link:'', icon: <PeerIcon />},
 ]
      
-const ProgramUsers = ( {program, organization} ) => {
-    // console.log("ProgramUsers")
+const ProgramParticipants = ( {program, organization} ) => {
+    // console.log("ProgramParticipants")
     const [modalName, setModalName] = useState(null)
     const [isOpen, setOpen] = useState(false);
     const [users, setUsers] = useState(null);
@@ -55,6 +55,18 @@ const ProgramUsers = ( {program, organization} ) => {
         // setCurrentRow(row)
         setParticipants( [row] )
         toggle(name)
+    }
+    const onSelectAction = ( name ) => {
+        // setCurrentRow(row)
+        if( name === 'Reward')  {
+            const rows = selectedFlatRows.map(d => d.original);
+            if( rows.length === 0) {
+                alert('Select participants')
+                return
+            }
+            setParticipants( rows )
+            toggle(name)
+        }
     }
 
     const [showAddPopup, setShowAddPopup] = useState(false);
@@ -168,7 +180,7 @@ const ProgramUsers = ( {program, organization} ) => {
         setLoading(true)
         apiTableService.fetchData(
             {
-                url: `/organization/${organization.id}/program/${program.id}/user`,
+                url: `/organization/${organization.id}/program/${program.id}/participant`,
                 page: pageIndex,
                 size: pageSize,
                 filter
@@ -222,6 +234,21 @@ const ProgramUsers = ( {program, organization} ) => {
         )
     }
 
+    const ActionsDropdown = () => {
+        return (
+            <UncontrolledDropdown>
+                <DropdownToggle caret className='dropdowntoggle'>
+                Actions
+                </DropdownToggle>
+                <DropdownMenu>
+                {ACTIONS.map((item, index) =>{
+                    return <DropdownItem onClick={() => onSelectAction(item.name)}>{item.name}</DropdownItem>
+                })}
+                </DropdownMenu>
+            </UncontrolledDropdown>
+        )
+    }
+
     if ( loading ) {
         return <p>Loading...</p>;
     }
@@ -231,21 +258,7 @@ const ProgramUsers = ( {program, organization} ) => {
             <div className='users' >
                 <div className='header d-flex  justify-content-between'>
                     <div className='d-flex w-25 justify-content-between'>
-                        <UncontrolledDropdown>
-                            <DropdownToggle caret className='dropdowntoggle'>
-                            Actions
-                            </DropdownToggle>
-                            <DropdownMenu>
-                            <DropdownItem onClick={popupToggle}>Reward</DropdownItem>
-                            <DropdownItem >Add Goal</DropdownItem>
-                            <DropdownItem>Email</DropdownItem>
-                            <DropdownItem>Resend Invite</DropdownItem>
-                            <DropdownItem>Deactivate</DropdownItem>
-                            <DropdownItem>Import</DropdownItem>
-                            <DropdownItem>Peer Allocation</DropdownItem>
-                            </DropdownMenu>
-                        </UncontrolledDropdown>
-                        
+                        <ActionsDropdown />
                         <UncontrolledDropdown>
                             <DropdownToggle caret className='dropdowntoggle'>
                             Show Entries
@@ -305,4 +318,4 @@ const ProgramUsers = ( {program, organization} ) => {
     )
 }
 
-export default ProgramUsers
+export default ProgramParticipants

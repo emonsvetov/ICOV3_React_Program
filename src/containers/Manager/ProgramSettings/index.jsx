@@ -34,7 +34,7 @@ const ProgramSettings = ( {auth, program, organization} ) => {
     setOpen(prevState => !prevState)
   }
 
-  if( !auth || !program  || !organization) return 'Loading...'
+  if( !auth || !program  || !organization ) return 'Loading...'
 
   return (
     <div className='program-settings'>

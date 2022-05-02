@@ -6,7 +6,7 @@ import {
 
 import SearchIcon from 'mdi-react/SearchIcon';
 import SelectProgram from '../components/SelectProgram'
-import ProgramUsers from './components/ProgramUsers'
+import ProgramParticipants from './components/ProgramParticipants'
 import {isEmpty} from '@/shared/helper'
 const ManageAndReward = ({auth, program, organization}) => {
   return (
@@ -27,7 +27,7 @@ const ManageAndReward = ({auth, program, organization}) => {
             <span>Search in all Programs</span>
           </div>
         </div>
-        {auth && program && !isEmpty(organization) && <ProgramUsers organization={organization} program={program} />}
+        {auth && program && !isEmpty(organization) && <ProgramParticipants organization={organization} program={program} />}
       </Container>
     </div>
 )}
