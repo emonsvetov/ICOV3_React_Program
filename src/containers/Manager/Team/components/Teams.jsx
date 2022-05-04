@@ -1,65 +1,68 @@
 import React, {useEffect, useState} from 'react';
-import {getEvents} from '@/services/program/getEvents'
-import {getEvent} from '@/services/program/getEvent'
+import { useNavigate } from 'react-router-dom';
+
+// import {getEvents} from '@/services/program/getEvents'
+// import {getEvent} from '@/services/program/getEvent'
 import { useTable } from 'react-table'
 import PencilIcon from 'mdi-react/PencilIcon';
 import TrashIcon from 'mdi-react/TrashCanIcon';
 import { Link } from 'react-router-dom';
+
+import { TEAM_COLUMNS, TEAM_DATA } from './Mockdata';
+
 import {
     Table,
   } from 'reactstrap';
 import ModalWrapper from './ModalWrapper';
 
-const EVENTS_COLUMNS = [
-    {
-        Header: "Name",
-        accessor: "name",
-    },
-    {
-        Header: "Event Type",
-        accessor: "type",
-    }
-]
 
-const Events = ({program, organization}) => {
+const Teams = ({program, organization}) => {
 
     // console.log(program)
     // console.log(organization)
+
     const [events, setEvents] = useState([]);
-    const [event, setEvent] = useState(null);
+    const [mate, setMate] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isOpen, setOpen] = useState(false);
     const [modalName, setModalName] = useState(null)
-    
+    let navigate = useNavigate();
+
     const toggle = (name=null) => {
       if( name ) setModalName(name)
       setOpen(prevState => !prevState)
     }
 
-    const onClickEditEvent = (eventId) => {
-      getEvent(organization.id, program.id, eventId)
-      .then(item => {
-        // console.log(item)
-        setEvent(item)
-        toggle('EditEvent');
-        setLoading(false)
-      })
+    const onClickEditMate = (e, mateId) => {
+      // getEvent(organization.id, program.id, referralId)
+      // .then(item => {
+      //   // console.log(item)
+      //   setReferral(item)
+      //   toggle('EditEvent');
+      //   setLoading(false)
+      // })
+      e.preventDefault()
+      setMate(TEAM_DATA[0])
+      toggle('EditTeam');
+      setLoading(false)
+      
     }
-    const onDeleteEvent = (e, event_id) => {
+    const onDeleteTeam = (e, mate_id) => {
     }
 
+  
     const RenderActions = ({row}) => {
       return (
           <span>
-              <Link to={{}} onClick={() => onClickEditEvent(row.original.id)}><PencilIcon style={{marginRight: "0.5rem"}}/>Edit</Link> 
+              <Link to={{}} onClick={(e) => onClickEditMate(e, row.original.id)}><PencilIcon style={{marginRight: "0.5rem"}}/>Edit</Link> 
               <span style={{width:'2.5rem', display: 'inline-block'}}></span>
-              <Link to={{}} className='delete-column' onClick={(e) => {if(window.confirm('Are you sure to delete this Event?')){onDeleteEvent(e, row.original.id)}}}><TrashIcon style={{marginRight: "0.5rem"}}/>Delete</Link>
+              <Link to={{}} className='delete-column' onClick={(e) => {if(window.confirm('Are you sure to delete this Administrator?')){onDeleteTeam(e, row.original.id)}}}><TrashIcon style={{marginRight: "0.5rem"}}/>Delete</Link>
           </span>
       )
     }
   
     let final_columns = [
-      ...EVENTS_COLUMNS, 
+      ...TEAM_COLUMNS, 
       ...[{
           Header: "Action",
           accessor: "action",
@@ -71,21 +74,23 @@ const Events = ({program, organization}) => {
     useEffect(() => {
         let mounted = true;
         setLoading(true)
-        getEvents(organization.id, program.id)
-          .then(items => {
-            if(mounted) {
-              setEvents(items)
-              setLoading(false)
-            }
-          })
+        // getEvents(organization.id, program.id)
+        //   .then(items => {
+        //     if(mounted) {
+        //       setEvents(items)
+        //       setLoading(false)
+        //     }
+        //   })
+        setLoading(false)
         return () => mounted = false;
-      }, [])  
+      }, [])
+  
   
     const columns = React.useMemo( () => final_columns, [])
-    // const data = React.useMemo(() => fetchEvents(organization, program), [])
+    const data = React.useMemo(() => TEAM_DATA, [])
   
     // console.log(data)
-    const { getTableProps, headerGroups, rows, prepareRow } = useTable({ columns, data:events})
+    const { getTableProps, headerGroups, rows, prepareRow } = useTable({ columns, data})  
   
     if( loading ) return 'Loading..x'
   
@@ -110,7 +115,7 @@ const Events = ({program, organization}) => {
               {rows.map((row, i) => {
               prepareRow(row)
               return (
-                  <tr {...row.getRowProps()}>
+                  <tr {...row.getRowProps()} onClick={() =>navigate(`/manager/team/${row.original.id}`)}>
                   {row.cells.map(cell => {
                       return (
                       <td {...cell.getCellProps()}>
@@ -123,11 +128,9 @@ const Events = ({program, organization}) => {
               })}
           </tbody>
       </Table>
-      <ModalWrapper  name={modalName} isOpen={isOpen} setOpen={setOpen} toggle={toggle} event={event} setEvent={setEvent}/>
+      <ModalWrapper  name={modalName} isOpen={isOpen} setOpen={setOpen} toggle={toggle} mate={mate} setMate={setMate}/>
       </>
     )
   }
 
-  // {showEditModal &&  <EditEventModal onCancelHandler={toggleModal} program={program} organization={organization} event={event} toggleModal={toggleModal} setEvent={setEvent} />}
-
-  export default Events
+  export default Teams

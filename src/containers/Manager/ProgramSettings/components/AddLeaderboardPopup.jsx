@@ -6,11 +6,10 @@ import {labelizeNamedData} from '@/shared/helper'
 import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 import EventForm from './EventForm'
-import { Modal } from 'reactstrap';
+import { Modal, Card, CardBody, CardHeader } from 'reactstrap';
 
-const AddEventImg = `/img/pages/addEvent.png`;
 
-const AddEventPopup = ({program, organization, isOpen, setOpen, toggle, data}) => {
+const AddLeaderboardPopup = ({program, organization, isOpen, setOpen, toggle, data}) => {
   const dispatch = useDispatch()
   const [eventTypes, setEventTypes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -95,27 +94,16 @@ const AddEventPopup = ({program, organization, isOpen, setOpen, toggle, data}) =
 
   return (
     <Modal className={`program-settings modal-2col modal-xl`} isOpen={isOpen} toggle={() => setOpen(true)}>
-      
-        <div className='close cursor-pointer'>
-          <CloseIcon onClick={toggle} size={30}/>
-        </div>
-      
-        <div className="left">
-          <div className='title mb-5'>
-            <h3>Add New Event</h3>
-            <span>
-              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
-            </span>
-          </div>
-          <img src={AddEventImg}/>
-        </div>
-
-        <div className="right">
+      <div className='close cursor-pointer'>
+        <CloseIcon onClick={toggle} size={30}/>
+      </div>
+      <Card className='w-100'>
+        <CardHeader tag="h3">Award History</CardHeader>
+        <CardBody>
           <EventForm {...props} />
-        </div>
-        
-
+        </CardBody>
+      </Card>
     </Modal>
 )}
 
-export default AddEventPopup;
+export default AddLeaderboardPopup;
