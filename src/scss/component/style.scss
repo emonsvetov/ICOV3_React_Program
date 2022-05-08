@@ -501,6 +501,8 @@ ul.horizontal {
         }
     }
 }
+//common -manager
+
 .popup{
     position: fixed;
     width: 100%;
@@ -637,7 +639,6 @@ ul.horizontal {
             width: 100%;
             &.manage{
                 margin-left: 0px;
-                position: absolute;
                 bottom: 20px;
             }
         }
@@ -665,7 +666,17 @@ ul.horizontal {
         color: white;
     }
 }
-
+.leaderboards{
+    .nav-tabs{
+        a{
+            color: black;
+            &.active{
+                color: black;
+                font-weight: bolder;
+            }
+        }
+    }
+}
 .program-settings{
     .navbar{
         border-top: 3px solid #E3E8F2;
@@ -864,6 +875,7 @@ ul.horizontal {
         background-color: $manager-yellow;
     }
 }
+
 footer{    
     width: 100%;
     background-color: black;

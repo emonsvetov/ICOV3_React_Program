@@ -212,7 +212,7 @@ const LeaderboardForm = ({
                     </CardBody>
                 </Card>
                                         
-                <div className='d-flex justify-content-end'>
+                <div className='d-flex justify-content-end mt-4'>
                     <Button disabled={loading} color='danger' type='submit'>{btnLabel}</Button>
                 </div>
             </form>

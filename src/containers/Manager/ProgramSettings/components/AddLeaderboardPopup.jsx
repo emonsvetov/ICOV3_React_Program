@@ -5,7 +5,7 @@ import {getEventTypes} from '@/services/getEventTypes'
 import {labelizeNamedData} from '@/shared/helper'
 import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
-import EventForm from './EventForm'
+import AddLeaderboardForm from './AddLeaderboardForm'
 import { Modal, Card, CardBody, CardHeader } from 'reactstrap';
 
 
@@ -85,7 +85,7 @@ const AddLeaderboardPopup = ({program, organization, isOpen, setOpen, toggle, da
 
 
   let props = {
-    btnLabel: 'Add New Event',
+    btnLabel: 'Save Leaderboard',
     eventTypes,
     loading,
     onSubmit,
@@ -98,9 +98,9 @@ const AddLeaderboardPopup = ({program, organization, isOpen, setOpen, toggle, da
         <CloseIcon onClick={toggle} size={30}/>
       </div>
       <Card className='w-100'>
-        <CardHeader tag="h3">Award History</CardHeader>
+        <CardHeader tag="h3">Add New Leaderboard</CardHeader>
         <CardBody>
-          <EventForm {...props} />
+          <AddLeaderboardForm {...props} />
         </CardBody>
       </Card>
     </Modal>

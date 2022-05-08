@@ -38,10 +38,13 @@ const Report = ({auth, program, organization}) => {
   return (
     <div className='report'>
       <Container>
-        <div style={{color:'white'}}>
-          <Input type="select" value={location.pathname} name="report-type" onChange={onChange}>
-                    <ReportOptions />
-          </Input>        
+        <div className="d-flex program-select my-3">
+          <span>Select Report:</span>
+          <div className='mb-0'>
+            <Input type="select" value={location.pathname} name="report-type" onChange={onChange}>
+              <ReportOptions />
+            </Input>        
+          </div>
         </div>        
         <Outlet />
       </Container>
