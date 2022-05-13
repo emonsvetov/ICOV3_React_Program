@@ -5,11 +5,11 @@ import { Container, NavLink, Navbar, NavbarBrand, NavbarToggler, Dropdown,Collap
          } from 'reactstrap';
 const Brand = `${process.env.PUBLIC_URL}/img/logo/big_logo.png`;
 const LINKS = [
-  { to: 'onClickHandle', text: 'Sign in', desc : 'Returning users enter here' },
+  { to: 'onClickLogin', text: 'Sign in', desc : 'Returning users enter here' },
   { to: '', text: 'Sign up', desc: 'First time users start here' },
 ];
 
-const HomeTopbar = ({onClickHandle}) => {
+const HomeTopbar = ({onClickLogin, onClickSignup}) => {
   const [isOpen, setOpen] = useState(false);
   const toggle = ()=>{
     setOpen( prev => !prev) 
@@ -37,7 +37,7 @@ const HomeTopbar = ({onClickHandle}) => {
             {LINKS.map((item, index) => {
               return <div key={index} className='flex-column mx-3'>
                         <span>{item.desc}</span>
-                        <div className='text-uppercase text-center item' onClick={item.to ? onClickHandle : ""}>
+                        <div className='text-uppercase text-center item' onClick={item.to ? onClickLogin : onClickSignup}>
                           {item.text}
                         </div>  
                     </div>
