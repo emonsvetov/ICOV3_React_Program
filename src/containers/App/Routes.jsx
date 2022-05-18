@@ -11,7 +11,6 @@ import LogIn from '../LogIn/index';
 //participant
 import ParticipantHome from '../Participant/Home/index';
 import AccountIndex from '../Participant/Accounts/index';
-import FaqIndex from '../Participant/Faqs/index';
 import GiftCodeIndex from '../Participant/GiftCodes/index';
 import GoalIndex from '../Participant/Goals/index';
 import PointIndex from '../Participant/Points/index';
@@ -38,6 +37,16 @@ import TeamView from '../Manager/Team/components/TeamView';
 import Report from '../Manager/Report';
 import Invoices from '../Manager/Report/components/Invoices';
 import ProgramStatus from '../Manager/Report/components/ProgramStatus';
+import AwardDetail from '../Manager/Report/components/AwardDetail';
+import AwardSummary from '../Manager/Report/components/AwardSummary';
+import DepositBalance from '../Manager/Report/components/DepositBalance';
+import DepositTransfer from '../Manager/Report/components/DepositTransfer';
+import FileImport from '../Manager/Report/components/FileImport';
+import GoalProgressSummary from '../Manager/Report/components/GoalProgressSummary';
+import MerchantRedemption from '../Manager/Report/components/MerchantRedemption';
+import ParticipantAccount from '../Manager/Report/components/ParticipantAccount';
+import ParticipantStatus from '../Manager/Report/components/ParticipantStatus';
+import QuarterlyAward from '../Manager/Report/components/QuarterlyAward';
 
 // const Accounts = () => (
 //   <Routes>
@@ -72,7 +81,7 @@ const RouteIndex = () => (
           <Route path="my-account" element={<AccountIndex />} />
           <Route path="my-gift-codes" element={<GiftCodeIndex />} />
           <Route path="my-points" element={<PointIndex />} />
-          <Route path="my-goals" element={''} />
+          <Route path="my-goals" element={<GoalIndex />} />
           <Route path="faqs" element={<Faqs />} />
           <Route path="select-merchants" element={<SelectMerchants />} />
           <Route path="browse-merchants" element={<BrowseMerchants />} />
@@ -95,7 +104,18 @@ const RouteIndex = () => (
           <Route path="report" element={<Report />} >
             <Route path="invoices" element={<Invoices />} />
             <Route path="program-status" element={<ProgramStatus />} />
-            
+            {/* <Route path="annual-awards-summary" element={<AnnualAwardsSummary />} />
+            <Route path="award-account-summary-gl" element={<AwardAccountSummaryGl />} /> */}
+            <Route path="award-detail" element={<AwardDetail />} />
+            <Route path="award-summary" element={<AwardSummary />} />
+            <Route path="file-import" element={<FileImport />} />
+            <Route path="merchant-redemption" element={<MerchantRedemption />} />
+            <Route path="quarterly-awards-summary" element={<QuarterlyAward />} />
+            <Route path="participant-account-summary" element={<ParticipantAccount />} />
+            <Route path="participant-status-summary" element={<ParticipantStatus />} />
+            <Route path="deposit-balance" element={<DepositBalance />} />
+            <Route path="deposit-transfers" element={<DepositTransfer />} />
+            <Route path="goal-progress-summay" element={<GoalProgressSummary />} />          
           </Route>
           
         </Route>

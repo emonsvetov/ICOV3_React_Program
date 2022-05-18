@@ -3,12 +3,12 @@ import Select from 'react-select';
 import { Link } from 'react-router-dom';
 import { Card, Button, CardHeader, CardFooter, CardBody,
   CardTitle, CardText } from 'reactstrap';
-
+  import formValidation from "@/validation/account"
 import { Input, Col, Row, FormGroup, FormFeedback, Label} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 
 
-const AccountForm = () => {
+const AccountForm = ({user}) => {
   const [value, setValue] = useState(false);
   const onSubmit = values => {
     
@@ -22,8 +22,8 @@ const AccountForm = () => {
           <CardBody>
             <Form
                   onSubmit={onSubmit}
-                  
-                  initialValues={{}}
+                  validate={(values) => formValidation.validateForm(values)}
+                  initialValues={user}
                 >
                   {({ handleSubmit, form, submitting, pristine, values }) => (
                     <form className="form d-flex flex-column justify-content-evenly" onSubmit={handleSubmit}>  
@@ -32,14 +32,18 @@ const AccountForm = () => {
                         <Col md="12">
                           <Field name="first_name">
                               {({ input, meta }) => (
-                                  <FormGroup className='d-flex justify-content-between'>
-                                    <Label className='w-50'>* First Name:</Label>
-                                    <Input
-                                      placeholder=""
-                                      type="text"
-                                      {...input}
-                                    />
-                                        {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                  <FormGroup>
+                                    <div className='d-flex justify-content-between'>
+                                      <Label className='w-50'>* First Name:</Label>
+                                      <Input
+                                        placeholder=""
+                                        type="text"
+                                        {...input}
+                                      />
+                                    </div>
+                                    
+                                        {meta.touched && meta.error && 
+                                        <span className="text-danger d-flex justify-content-end">{meta.error}</span>}
                                 </FormGroup>
                               )}
                             </Field>
@@ -50,14 +54,17 @@ const AccountForm = () => {
                         <Col md="12">
                           <Field name="last_name">
                               {({ input, meta }) => (
-                                  <FormGroup className='d-flex justify-content-between'>
-                                    <Label className='w-50'>* Last Name:</Label>
-                                    <Input
-                                      placeholder=""
-                                      type="text"
-                                      {...input}
-                                    />
-                                        {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                  <FormGroup >
+                                    <div className='d-flex justify-content-between'>
+                                      <Label className='w-50'>* Last Name:</Label>
+                                      <Input
+                                        placeholder=""
+                                        type="text"
+                                        {...input}
+                                        />
+                                      </div>
+                                        {meta.touched && meta.error && 
+                                        <span className="text-danger d-flex justify-content-end">{meta.error}</span>}
                                 </FormGroup>
                               )}
                             </Field>
@@ -68,14 +75,17 @@ const AccountForm = () => {
                         <Col md="12">
                           <Field name="email">
                               {({ input, meta }) => (
-                                  <FormGroup className='d-flex justify-content-between'>
-                                    <Label className='w-50'>* Email Address:</Label>
-                                    <Input
-                                      placeholder=""
-                                      type="email"
-                                      {...input}
-                                    />
-                                        {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                  <FormGroup>
+                                    <div className='d-flex justify-content-between'>
+                                      <Label className='w-50'>* Email Address:</Label>
+                                      <Input
+                                        placeholder=""
+                                        type="email"
+                                        {...input}
+                                        />
+                                      </div>
+                                        {meta.touched && meta.error && 
+                                        <span className="text-danger d-flex justify-content-end">{meta.error}</span>}
                                 </FormGroup>
                               )}
                             </Field>
