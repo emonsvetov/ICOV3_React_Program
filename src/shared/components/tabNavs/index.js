@@ -7,10 +7,10 @@ import {useNavigate, useLocation} from 'react-router-dom';
 
 const PARTICIPANT_ITEMS = [
     {title:"REDEEM MY POINTS", icon:"redeem", to:`/participant/select-merchants`},
-    {title:"MY GIFT CODES", icon:"gift", to:'/participant/my-gift-codes'},
-    {title:"SURVEY", icon:"survey"},
+    {title:"PEER TO PEER", icon:"gift", to:'/participant/peer-to-peer'},
+    {title:"SURVEY", icon:"survey", to:'/participant/survey'},
     {title:"NEWSLETTER", icon:"newsletter"},
-    {title:"SUBMIT A LEAD", icon:"submit"},  
+    {title:"SUBMIT A LEAD", icon:"submit", to:'/participant/lead'},  
   ]
 
 const MANAGER_ITEMS = [

@@ -10,7 +10,7 @@ import { Modal } from 'reactstrap';
 
 const AddEventImg = `/img/pages/addEvent.png`;
 
-const AddEventPopup = ({program, organization, isOpen, setOpen, toggle, data, theme, rtl}) => {
+const AddEventPopup = ({program, organization, isOpen, setOpen, toggle, data}) => {
   const dispatch = useDispatch()
   const [eventTypes, setEventTypes] = useState([]);
   const [loading, setLoading] = useState(false);

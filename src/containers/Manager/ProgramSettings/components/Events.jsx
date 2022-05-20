@@ -25,11 +25,9 @@ const Events = ({program, organization}) => {
 
     // console.log(program)
     // console.log(organization)
-
     const [events, setEvents] = useState([]);
     const [event, setEvent] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [showEditModal, setShowEditModal] = useState(false);
     const [isOpen, setOpen] = useState(false);
     const [modalName, setModalName] = useState(null)
     
@@ -50,10 +48,6 @@ const Events = ({program, organization}) => {
     const onDeleteEvent = (e, event_id) => {
     }
 
-    const toggleModal = () => {
-      setShowEditModal(prevState => !prevState);
-    };
-  
     const RenderActions = ({row}) => {
       return (
           <span>
@@ -85,14 +79,13 @@ const Events = ({program, organization}) => {
             }
           })
         return () => mounted = false;
-      }, [])
-  
+      }, [])  
   
     const columns = React.useMemo( () => final_columns, [])
     // const data = React.useMemo(() => fetchEvents(organization, program), [])
   
     // console.log(data)
-    const { getTableProps, headerGroups, rows, prepareRow } = useTable({ columns, data:events})  
+    const { getTableProps, headerGroups, rows, prepareRow } = useTable({ columns, data:events})
   
     if( loading ) return 'Loading..x'
   
@@ -130,7 +123,7 @@ const Events = ({program, organization}) => {
               })}
           </tbody>
       </Table>
-      <ModalWrapper  name={modalName} isOpen={isOpen} setOpen={setOpen} toggle={toggle} event={event} toggleModal={toggleModal} setEvent={setEvent}/>
+      <ModalWrapper  name={modalName} isOpen={isOpen} setOpen={setOpen} toggle={toggle} event={event} setEvent={setEvent}/>
       </>
     )
   }

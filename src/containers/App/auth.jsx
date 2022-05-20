@@ -6,6 +6,7 @@ export const AUTH_TOKEN_KEY = 'authToken';
 export const AUTH_POINTS_KEY = 'authPoints';
 export const AUTH_PROGRAM_KEY = 'authProgram';
 export const AUTH_ORGANIZATION_KEY = 'authOrganization';
+export const AUTH_CART = 'authCart';
 
 export const login = data => {
     localStorage.setItem(AUTH_TOKEN_KEY, data.access_token);
@@ -29,6 +30,7 @@ export const flushUserSession = () => {
     localStorage.removeItem(AUTH_ORGANIZATION_KEY);
     localStorage.removeItem(AUTH_PROGRAM_KEY);
     localStorage.removeItem(AUTH_POINTS_KEY);
+    localStorage.removeItem(AUTH_CART);
 }
 
 export const isAuthenticated = () => {
@@ -54,13 +56,13 @@ export const setAuthPoints = (points) => {
 }
 
 export const getAuthPoints = async() => {
-    let storagePoints = localStorage.getItem(AUTH_POINTS_KEY)
-    // console.log(storagePoints)
-    // console.log(storagePoints!=='undefined' && storagePoints)
-    if( storagePoints!=='undefined' && storagePoints ) {
-        // console.log(storagePoints)
-        return JSON.parse(storagePoints)
-    }
+    // let storagePoints = localStorage.getItem(AUTH_POINTS_KEY)
+    // // console.log(storagePoints)
+    // // console.log(storagePoints!=='undefined' && storagePoints)
+    // if( storagePoints!=='undefined' && storagePoints ) {
+    //     // console.log(storagePoints)
+    //     return JSON.parse(storagePoints)
+    // }
     return hydratePointBalance();
 }
 
@@ -68,6 +70,7 @@ export const hydratePointBalance = () => {
     const authOrg = getOrganization()
     const authProgram = getAuthProgram()
     const authUser = getAuthUser()
+    if( !authUser ) return;
     return getPointBalance(authOrg.id, authProgram.id, authUser.id)
     .then( points => {
         // console.log(points)
@@ -120,3 +123,21 @@ export const asyncLocalStorage = {
         return localStorage.getItem(key);
     }
 };
+
+export const getAuthCart = () => {
+    // localStorage.removeItem(AUTH_CART);
+    const cartdata = localStorage.getItem(AUTH_CART);
+    if (cartdata !== null) {
+        let acart = JSON.parse(cartdata);
+        return acart;
+    }  else return null
+}
+
+export const updateAuthCart = (datacart) => {
+    localStorage.setItem(AUTH_CART, JSON.stringify(datacart) );
+    return true;
+}
+
+export const emptyAuthCart = () => {
+    localStorage.removeItem(AUTH_CART);
+}

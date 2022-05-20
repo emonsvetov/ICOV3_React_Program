@@ -8,9 +8,9 @@ const LINKS = [
   { to: '/manager/home', text: 'Home' },
   { to: '/manager/program-settings', text: 'Program Settings' },
   { to: '/manager/manage-and-reward', text: 'Manage and Reward' },
-  { to: '/manager/view-reports', text: 'View Reports' },
+  { to: '/manager/report/invoices', text: 'View Reports' },
   { to: '/manager/invite-participant', text: 'Invite New Participant' },
-  { to: '/manager/referral-recipients', text: 'Referral Recipients' },
+  { to: '/manager/referral', text: 'Referral Recipients' },
   { to: '/manager/team', text: 'Team' }
 ];
 
@@ -40,7 +40,7 @@ const ManagerTopbar = () => {
             navbar
           >
             {LINKS.map((item, index) =>{
-                return <NavLink key={index} to={item.to} className="link">
+                return <NavLink  key={index} to={item.to} className="link">
                     {item.text}
                   </NavLink>
             })}

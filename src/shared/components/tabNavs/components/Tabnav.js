@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './style.scss'; 
 import RedeemIcon from 'mdi-react/HandHeartIcon';
-import GiftIcon from 'mdi-react/GiftIcon';
+import GiftIcon from 'mdi-react/UserBadgeIcon';
 import SurveyIcon from 'mdi-react/NoteTextIcon';
 import NewsletterIcon from 'mdi-react/TextBoxMultipleIcon';
 import SubmitIcon from 'mdi-react/CursorPointerIcon';
