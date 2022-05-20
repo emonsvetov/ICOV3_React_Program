@@ -21,6 +21,10 @@ import {
   RedeemMerchant,
   Checkout
  } from '../Participant/RedeemPoints';
+import Lead from '../Participant/Lead'
+import Faqs from '../Participant/Faqs/index';
+import Peer2Peer from '../Participant/Peer2Peer/index'
+import Survey from '../Participant/Survey';
 
 //manager
 
@@ -28,6 +32,12 @@ import { Home as ManagerHome, Leaderboards, NSpireWall } from '../Manager/Home/i
 import ProgramSettings from '../Manager/ProgramSettings/index'
 import ManageAndReward from '../Manager/ManageAndReward/index'
 import InviteParticipant from '../Manager/InviteParticipant/index'
+import Referral from '../Manager/Referral';
+import Team from '../Manager/Team';
+import TeamView from '../Manager/Team/components/TeamView';
+import Report from '../Manager/Report';
+import Invoices from '../Manager/Report/components/Invoices';
+import ProgramStatus from '../Manager/Report/components/ProgramStatus';
 
 // const Accounts = () => (
 //   <Routes>
@@ -59,15 +69,18 @@ const RouteIndex = () => (
       <Route path="/" element={<PrivateRoute />} >
         <Route path="participant" element={<ParticipantLayout />} >
           <Route path="home" element={<ParticipantHome />} />
-          <Route path="my-account" element={''} />
+          <Route path="my-account" element={<AccountIndex />} />
           <Route path="my-gift-codes" element={<GiftCodeIndex />} />
           <Route path="my-points" element={<PointIndex />} />
           <Route path="my-goals" element={''} />
-          <Route path="faqs" element={''} />
+          <Route path="faqs" element={<Faqs />} />
           <Route path="select-merchants" element={<SelectMerchants />} />
           <Route path="browse-merchants" element={<BrowseMerchants />} />
           <Route path="redeem/:merchantId" element={<RedeemMerchant />} />
           <Route path="checkout" element={<Checkout />} />
+          <Route path="lead" element={<Lead />} />
+          <Route path="peer-to-peer" element={<Peer2Peer />} />
+          <Route path="survey" element={<Survey />} />
         </Route>
         <Route path="manager" element={<ManagerLayout />} >
           <Route path="home" element={<ManagerHome />} />
@@ -76,6 +89,15 @@ const RouteIndex = () => (
           <Route path="program-settings" element={<ProgramSettings />} />
           <Route path="manage-and-reward" element={<ManageAndReward />} />
           <Route path="invite-participant" element={<InviteParticipant />} />
+          <Route path="referral" element={<Referral />} />
+          <Route path="team" element={<Team />} />
+          <Route path="team/:mateId" element={<TeamView />} />
+          <Route path="report" element={<Report />} >
+            <Route path="invoices" element={<Invoices />} />
+            <Route path="program-status" element={<ProgramStatus />} />
+            
+          </Route>
+          
         </Route>
       </Route>
     </Routes>

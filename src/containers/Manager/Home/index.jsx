@@ -69,7 +69,6 @@ export const Leaderboards = () => {
           </Col>
         </Row>
       </Container>
-      <hr></hr>
       <Leaderboard />
     </>
    

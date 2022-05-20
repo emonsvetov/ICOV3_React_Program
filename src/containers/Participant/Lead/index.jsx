@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import { ParticipantTabNavs } from '../../../shared/components/tabNavs';
 import Sidebar from '../../Layout/sidebar';
-import AccountForm from './components/AccountForm'
+import LeadForm from './components/LeadForm'
 import { Input, Col, Row,Container} from 'reactstrap';
 
 
-const Account = () => {
+const Lead = () => {
   const [value, setValue] = useState(false);
   const onSubmit = values => {
     
@@ -14,10 +14,12 @@ const Account = () => {
     <>
       <Container>
           <ParticipantTabNavs />
+      </Container>
+      <Container>
         <Row>
           <Col md={9}>
             <div className="dashboard">
-              <AccountForm />
+              <LeadForm />
             </div>
           </Col>
           <Col md={3}>
@@ -28,4 +30,4 @@ const Account = () => {
     </>
 )}
 
-export default Account;
+export default Lead;

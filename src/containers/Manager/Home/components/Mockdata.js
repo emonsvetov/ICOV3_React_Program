@@ -113,3 +113,107 @@ export const CHART_DATA = [
         ],
       }
 ]
+
+export const LEADERBOARD_COLUMNS = [
+    {
+        Header: "Rank",
+        accessor: "rank",
+    },
+    {
+        Header: "Participant",
+        accessor: "name",
+    },
+    {
+        Header: "Award",
+        accessor: "award",
+    }
+]
+
+export const LEADERBOARD_DATA =[
+    {
+        id: 21,
+        data: [
+            {
+                rank: 1,
+                name: "Jay Moore",
+                award: 1,
+            }
+        ],
+    },
+    {
+        id: 28,
+        data: [
+            {
+                rank: 1,
+                name: "Jay Moore",
+                award: 100,
+            },
+            {
+                rank: 2,
+                name: "Elizabeth",
+                award: 50,
+            },
+            {
+                rank: 3,
+                name: "Robert",
+                award: 20,
+            },
+
+        ],
+    },
+             
+]
+
+export const AWARD_HISTORY_COLUMNS = [
+    {
+        Header: "Event",
+        accessor: "event",
+    },
+    {
+        Header: "Award Level",
+        accessor: "award_level",
+    },
+    {
+        Header: "Date",
+        accessor: "date",
+    },
+    {
+        Header: "To",
+        accessor: "to",
+    },
+    {
+        Header: "From",
+        accessor: "from",
+    },
+    {
+        Header: "Referrer",
+        accessor: "referrer",
+    },
+    {
+        Header: "Notes",
+        accessor: "notes",
+    },
+    {
+        Header: "Value",
+        accessor: "value",
+    },
+    {
+        Header: "Dollar Value",
+        accessor: "dollar_value",
+    },
+]
+
+export const AWARD_HISTORY_DATA =[
+    {
+        event: "Test Event",
+        award_level: "default",
+        date: '12/02/2021',
+        to: "Jay Moore",
+        from: "Incentco Golobal Solutions",
+        referrer: '',
+        notes: "some notes",
+        value: 0,
+        dollar_value: 100,
+    },   
+          
+]

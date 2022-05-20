@@ -2,34 +2,20 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import CloseIcon from 'mdi-react/CloseIcon';
 import {getEventTypes} from '@/services/getEventTypes'
-import {labelizeNamedData} from '@/shared/helper'
+import {labelizeNamedData, patch4Select} from '@/shared/helper'
 import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
-import EventForm from './EventForm'
-import { Modal } from 'reactstrap';
+import LeaderboardForm from './LeaderboardForm';
 
-const AddEventImg = `/img/pages/addEvent.png`;
+import { Modal, Card, CardBody, CardHeader } from 'reactstrap';
 
-const AddEventPopup = ({program, organization, isOpen, setOpen, toggle, data}) => {
+const EditLeaderboardModal = ({program, organization, isOpen, setOpen, toggle, data, leaderboard, setLeaderboard}) => {
   const dispatch = useDispatch()
   const [eventTypes, setEventTypes] = useState([]);
   const [loading, setLoading] = useState(false);
-  const onChangeAwardValue = ([field], state, { setIn, changeValue }) => {
-    const v = field.target.value
-    if( isNaN( v ) ) return;
-    if(field.target.name === 'max_awardable_amount')  
-    {
-      const field = state.fields["awarding_points"];
-      field.change( program.factor_valuation *  v);
-    }
-    else if(field.target.name === 'awarding_points')  
-    {
-      const field = state.fields["max_awardable_amount"];
-      field.change(  v / program.factor_valuation );
-    }
-  }
-  // console.log(program)
+  
   const onSubmit = (values) => {
+
     let eventData = {};
     eventData["organization_id"] = organization.id;
     eventData["program_id"] = program.id;
@@ -56,18 +42,21 @@ const AddEventPopup = ({program, organization, isOpen, setOpen, toggle, data}) =
     eventData.type_id = type_id.value;
 
     // console.log(eventData)
-
-    // console.log(eventData)
     // return
+    let nLeaderboard = {
+      ...leaderboard,
+      ...values
+    }
+    setLeaderboard( nLeaderboard )
     setLoading(true)
     axios
-      .post(`/organization/${organization.id}/program/${program.id}/event`, eventData)
+      .put(`/organization/${organization.id}/program/${program.id}/event/${leaderboard.id}`, eventData)
       .then((res) => {
         //   console.log(res)
         if (res.status == 200) {
-          window.location.reload()
-          dispatch(sendFlashMessage('Event added successfully!', 'alert-success', 'top'))
+          dispatch(sendFlashMessage('Event updated successfully!', 'alert-success', 'top'))
           setLoading(false)
+          window.location.reload()
         }
       })
       .catch((err) => {
@@ -84,38 +73,26 @@ const AddEventPopup = ({program, organization, isOpen, setOpen, toggle, data}) =
     })
   }, [])
 
-
+  
   let props = {
-    btnLabel: 'Add New Event',
-    eventTypes,
+    organization,
+    program,
     loading,
     onSubmit,
-    onChangeAwardValue
   }
 
   return (
     <Modal className={`program-settings modal-2col modal-xl`} isOpen={isOpen} toggle={() => setOpen(true)}>
-      
-        <div className='close cursor-pointer'>
-          <CloseIcon onClick={toggle} size={30}/>
-        </div>
-      
-        <div className="left">
-          <div className='title mb-5'>
-            <h3>Add New Event</h3>
-            <span>
-              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
-            </span>
-          </div>
-          <img src={AddEventImg}/>
-        </div>
-
-        <div className="right">
-          <EventForm {...props} />
-        </div>
-        
-
+      <div className='close cursor-pointer'>
+        <CloseIcon onClick={toggle} size={30}/>
+      </div>
+      <Card className='w-100'>
+        <CardHeader tag="h3">Edit Leaderboard</CardHeader>
+        <CardBody>
+          <LeaderboardForm {...props} />
+        </CardBody>
+      </Card>
     </Modal>
 )}
 
-export default AddEventPopup;
+export default EditLeaderboardModal;

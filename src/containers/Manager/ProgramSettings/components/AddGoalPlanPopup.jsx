@@ -8,7 +8,7 @@ import Switch from '@/shared/components/form/Switch';
 
 const AddGoalPlanImg = `/img/pages/addGoalPlan.png`;
 
-const AddGoalPlanPopup = ({program, organization, isOpen, setOpen, toggle, data, theme, rtl}) => {
+const AddGoalPlanPopup = ({program, organization, isOpen, setOpen, toggle, data}) => {
   const [value, setValue] = useState(false);
   const onSubmit = values => {
     
