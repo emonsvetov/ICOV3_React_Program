@@ -1,122 +1,178 @@
 import React, {useState, useEffect} from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Col, Button, Row, UncontrolledPopover, PopoverBody, ButtonToolbar} from 'reactstrap';
+import { useParams } from 'react-router-dom';
+import { Col, Button, Row} from 'reactstrap';
 import Select from 'react-select';
-import CartIcon from 'mdi-react/CartIcon';
-import CloseIcon from 'mdi-react/CloseIcon';
 import store from '../../../App/store';
-import { setCart } from '../../../../redux/actions/cartActions';
+import { setCart } from '@/redux/actions/cartActions';
 import { connect } from 'react-redux';
-import CartItem from './CartItem';
+import {getMerchant} from '@/services/program/getMerchant'
+import {getMerchantRedeemable} from '@/services/program/getMerchantRedeemable'
+import {getAuthCart, updateAuthCart} from '@/containers/App/auth'
+import Cart from '@/containers/Participant/components/Cart'
 
-const merchant_logo = `/img/merchants/1.png`;
-const GiftCodeOptions = [
-    {label: '$5.00 Gift Code = 200 Points', value: 1}
-]
-
-const Redeem = ({cart}) => {
-    // const [cart, setCart] = useState([]);
-    const [points, setPoints] = useState(0);
-    let navigate = useNavigate();
-    useEffect(() => {
-        let amount = 0;
-        cart.forEach( item => amount += item.gift.price * item.quantity);
-        setPoints(amount);
-      }, [cart]);
-    const addCart = () =>{
-        let gift = {giftCode: '$5.00', price: 200}
-        let cartList = cart;
-        let containing = false;
-        cartList.forEach((item, index)=>{
-            if(item.merchant.name == 'Starbucks'){
-                containing = true;
-                item.quantity ++;
-            }
-        })
-        
-        if(!containing){
-            let merchant = {logo: merchant_logo, name: 'Starbucks'}
-            let quantity = 1;
-            let item ={gift, merchant, quantity};
-            cartList.push(item)
-        }
-        store.dispatch(setCart(cartList))
-        // setCart(cartList);
+const makeOption = (i, giftcode, factor_valuation) => {
+    return {
+        "label": `$${parseFloat(giftcode.redemption_value, 3).toFixed(2)} Gift Code = ${giftcode.redemption_value * factor_valuation}`,
+        "value": i++
     }
-    
-  return (
-    <>
-        <div className='redeem'>
-            <Row>
-                <Col md={4}>
-                    <h3>Get Your Gift Code</h3>
-                </Col>
-                <Col md={8} className='d-flex justify-content-end'>
-                    <span className='cursor-pointer' id="PopoverFocus">
-                        <CartIcon  className='redtext'/> 
-                        <strong>Cart</strong>
-                    </span>
-                    <span className='mx-3'>{points} Points</span>
-                    <UncontrolledPopover
-                        placement="bottom"
-                        target="PopoverFocus"
-                        trigger="legacy"
-                        className='cart'
-                    >
-                        <PopoverBody>
-                            <div className='d-flex justify-content-end'>
-                                <CloseIcon className='cursor-pointer'/>
-                            </div>
-                            {cart?.map((item, index) =>{
-                                return <CartItem key={index} data ={item}/>
-                            })}  
-                            <hr/>
-                            <Row>
-                                <Col md={9} className="d-flex justify-content-center mb-3">
-                                    <strong>Total:</strong>
-                                </Col>    
-                                <Col md={3} >
-                                    <span>{points} Points</span>
-                                </Col>    
-                            </Row>
-                            <Row>
-                                <Col md="6">
-                                    <Button  className="btn btn-primary w-100 red"  onClick={()=>{}}>View Cart</Button>
-                                </Col>
-                                <Col md="6">
-                                    <Button  className="btn btn-primary w-100 red"  onClick={()=>{navigate('/participant/checkout')}}>Checkout</Button>
-                                </Col>
-                            </Row>
-                        </PopoverBody>
-                    </UncontrolledPopover>
-                </Col>
-            </Row>
-            
-            <Row className='get-giftcode mt-3'>
+}
+
+const Redeem = ({organization, program, cart, pointBalance}) => {
+
+    let { merchantId } = useParams();
+    const [merchant, setMerchant] = useState(null);
+    const [giftcodes, setGiftcodes] = useState([]);
+    const [loadingGiftcodes, setLoadingGiftcodes] = useState(true);
+    const [selectedGiftcode, setSelectedGiftcode] = useState(null);
+    const [addedToCart, setAddedToCart] = useState(false);
+
+      useEffect( () => {
+        if( organization && program && merchantId)    {
+            // console.log('Loading merchant')
+            getMerchant(organization.id, program.id, merchantId)
+            .then( payload => {
+                setMerchant(payload)
+            })
+        }
+    }, [organization, program, merchantId])
+
+    useEffect( () => {
+        if( organization && program && merchantId)    {
+            // console.log('Loading merchant')
+            getMerchantRedeemable(organization.id, program.id, merchantId)
+            .then( payload => {
+                // console.log(payload)
+                if( payload?.data?.length > 0 )  {
+                    setGiftcodes(payload.data)
+                    setLoadingGiftcodes(false)
+                }
+            })
+        }
+    }, [organization, program, merchantId])
+
+    useEffect( () => {
+        if( addedToCart )    {
+            let tmp = setTimeout( () => {
+                setAddedToCart(false)
+            }, 3000)
+        }
+    }, [addedToCart])
+
+    useEffect( () => {
+        if( organization && program && merchantId )    {
+            // console.log('Loading merchant')
+            getMerchantRedeemable(organization.id, program.id, merchantId)
+            .then( payload => {
+                // console.log(payload)
+                if( payload?.data?.length > 0 )  {
+                    setGiftcodes(payload.data)
+                    setLoadingGiftcodes(false)
+                }
+            })
+        }
+    }, [organization, program, merchantId])
+
+    const onChangeGiftcode = (value) => {
+        // alert(JSON.stringify(value))
+        setSelectedGiftcode(value)
+    }
+    const onClickAddToCart = () =>{
+        const selectedIndex = selectedGiftcode.value
+        const item = giftcodes[selectedIndex]
+        item.merchant_name = merchant.name;
+        item.merchant_icon = merchant.icon;
+        let redemption_points = item.redemption_value * program.factor_valuation;
+        if( pointBalance.points <= redemption_points ) {
+            alert("You do not have sufficient balance to redeem")
+            return
+        } 
+        // console.log(item)
+        AddToCart(item);
+    }
+    const AddToCart = (itemcart) => {
+        let datacart = getAuthCart()
+        let addPoints = 0;
+        let $addTotal = 0;
+        let addNew = true;
+        let redemption_points = itemcart.redemption_value * program.factor_valuation;
+        if (datacart) {
+            if( datacart.total_points + redemption_points > pointBalance.points )   {
+                alert("You do not have sufficient balance to add this giftcode")
+                return
+            }
+            if (datacart.items.length > 0) {
+                for (let i in datacart.items) {
+                    let item = datacart.items[i];
+                    if (item.merchant_id === itemcart.merchant_id && item.sku_value === itemcart.sku_value &&  item.redemption_value === itemcart.redemption_value) {
+                        item.qty += 1;
+                        addPoints = parseInt(item.redemption_value * program.factor_valuation);
+                        $addTotal = parseFloat(item.redemption_value);
+                        addNew = false;
+                    }
+                }
+            }
+        } else {
+            datacart = {
+                items: [],
+                total_dollar: 0,
+                total_points: 0,
+            }
+        }
+        if (addNew) {
+            addPoints = parseInt(itemcart.redemption_value * program.factor_valuation);
+            $addTotal = parseFloat(itemcart.redemption_value);
+            itemcart.qty = 1;
+            datacart.items.push(itemcart);
+        }
+        datacart.total_points += addPoints;
+        datacart.total_dollar += $addTotal;
+        if (updateAuthCart(datacart)) {
+            store.dispatch(setCart(datacart))
+            setAddedToCart(true)
+        }
+    }
+
+  const Merchant = () => {
+    if( !merchant ) return 'Loading merchant...'
+    // console.log(merchant)
+    const LOGO_PUBLIC_URL = `${process.env.REACT_APP_API_STORAGE_URL}`;
+    let giftcodeOptions = []
+    if( giftcodes.length > 0 )   {
+        giftcodeOptions = giftcodes.map( (gc, i) => {
+            return makeOption(i, gc, program.factor_valuation)
+        })
+    }
+    // console.log(selectedGiftcode)
+    // console.log(giftcodeOptions)
+    return (
+          <>
+          <Row className='get-giftcode mt-3'>
                 <Col md={2}>
-                    <img src={merchant_logo}/>
+                    <img src={`${LOGO_PUBLIC_URL}/${merchant.logo}`}/>
                 </Col>
                 <Col md={10}>
-                    <h4>Starbucks</h4>
+                    <h4>{merchant.name}</h4>
                     <div className='desc'>
-                        Treat yourself - or someone else - to something special at Starbucks with a Starbucks card, whcih you can use towards premium cofee, tea, refreshers, lunch, pastries and more.
-                        And if you register your card with the My Starbucks Rewards loyalty program, you can get even more free food and drinks.
+                        {merchant.description}
                     </div>
                     <div className='mt-3'>
-                        Visit Merchant Website
+                        <a href={`${merchant.website}`}></a>Visit Merchant Website
                     </div>
                     <div className='my-3 w-50'>
+                        {loadingGiftcodes && 'Loading...'}
                         <Select
-                            options={GiftCodeOptions}
+                            options={giftcodeOptions}
                             clearable={false}
                             className="react-select"
                             placeholder={' --- '}
                             classNamePrefix="react-select"
-                            value={GiftCodeOptions[0]}
+                            value={selectedGiftcode}
+                            onChange={onChangeGiftcode}
                         />
                     </div>
-                    <div className='w-25'>
-                        <Button className='btn btn-primary w-100 red' onClick={() => addCart()}>Add to Cart</Button>
+                    <div className='w-50 direction-col' >
+                        <Button disabled={!selectedGiftcode} className='btn btn-primary red' onClick={() => onClickAddToCart()}>Add to Cart</Button>
+                        {addedToCart && <span style={{marginLeft:5, fontSize: 13}}>Added to cart!</span>}
                     </div>
                     
                 </Col>
@@ -127,13 +183,25 @@ const Redeem = ({cart}) => {
                     After redeeming your gift code, you will be asked for a challenge key. The challenge key is the pin number listed to the right of your gift card link. You may need to type this number in, instead of copy and pasting.
                 </div>
                 <div>
-                    Terms & Conditions: Reload your Card, check your balance and find out how to register and protect your Card balance at participating Starbucks stores, starbucks.com/card or 1-800-782-7282. 
-                    Your Starbucks Card may only be used for making purchases at participating Starbucks stories. 
-                    Cannot be redeemed for cash unless required by law. Refunds only provided for unused Cards with the original receipt. 
-                    This card does not expire, nor does Starbucks charge fees. Complete terms and conditions available on our website. 
-                    Use of this Card constitutes acceptance of these terms and conditions.
+                    {merchant.redemption_instruction}
                 </div>
             </Row>
+        </>
+      )
+  }
+    
+  return (
+    <>
+        <div className='redeem'>
+            <Row>
+                <Col md={4}>
+                    <h3>Get Your Gift Code</h3>
+                </Col>
+                <Col md={8} className='d-flex justify-content-end'>
+                    <Cart />
+                </Col>
+            </Row>
+            <Merchant />
         </div> 
         
     </>
@@ -142,4 +210,7 @@ const Redeem = ({cart}) => {
 
 export default connect((state) => ({
     cart: state.cart,
+    organization: state.organization,
+    pointBalance: state.pointBalance,
+    program: state.program
 }))(Redeem);

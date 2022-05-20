@@ -20,10 +20,7 @@ const BrowseMerchants = ({organization, program}) => {
     const [merchants, setMerchants] = useState([]);
 
     useEffect( () => {
-
         if( organization && program)    {
-            console.log(organization)
-            console.log(program)
             getMerchants(organization.id, program.id)
             .then( payload => {
                 setMerchants(payload)

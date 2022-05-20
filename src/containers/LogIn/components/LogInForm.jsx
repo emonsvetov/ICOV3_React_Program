@@ -88,8 +88,8 @@ const LogInForm = () => {
       validate={validate}
       initialValues={
         {
-          // email: 'hmaudson2@dyndns.org',
-          email: 'arvind.mailtoxsxx@gmail.com',
+          email: 'hmaudson2@dyndns.org',
+          // email: 'arvind.mailtoxsxx@gmail.com',
           password: 'aaa'
         }
       }

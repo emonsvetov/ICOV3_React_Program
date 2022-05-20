@@ -3,12 +3,12 @@ import {
     setCart,
 } from '../actions/cartActions';
 
-const defaultState = [];
+const defaultState = null;
 
 export default handleActions(
     {
         [setCart](state, action) {
-            return [...action.payload ];
+            return { ...state, ...action.payload }
         }
     },
     defaultState,
