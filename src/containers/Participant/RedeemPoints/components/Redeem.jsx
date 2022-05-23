@@ -1,13 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Col, Button, Row, UncontrolledPopover, PopoverBody, ButtonToolbar} from 'reactstrap';
+import { Col, Button, Row } from 'reactstrap';
 import Select from 'react-select';
-import CartIcon from 'mdi-react/CartIcon';
-import CloseIcon from 'mdi-react/CloseIcon';
 import store from '../../../App/store';
 import { setCart } from '../../../../redux/actions/cartActions';
 import { connect } from 'react-redux';
-import CartItem from './CartItem';
+import ShoppingCart from '../../components/ShoppingCart'
 
 const merchant_logo = `/img/merchants/1.png`;
 const GiftCodeOptions = [
@@ -16,13 +14,9 @@ const GiftCodeOptions = [
 
 const Redeem = ({cart}) => {
     // const [cart, setCart] = useState([]);
-    const [points, setPoints] = useState(0);
+    
     let navigate = useNavigate();
-    useEffect(() => {
-        let amount = 0;
-        cart.forEach( item => amount += item.gift.price * item.quantity);
-        setPoints(amount);
-      }, [cart]);
+    
     const addCart = () =>{
         let gift = {giftCode: '$5.00', price: 200}
         let cartList = cart;
@@ -52,43 +46,7 @@ const Redeem = ({cart}) => {
                     <h3>Get Your Gift Code</h3>
                 </Col>
                 <Col md={8} className='d-flex justify-content-end'>
-                    <span className='cursor-pointer' id="PopoverFocus">
-                        <CartIcon  className='redtext'/> 
-                        <strong>Cart</strong>
-                    </span>
-                    <span className='mx-3'>{points} Points</span>
-                    <UncontrolledPopover
-                        placement="bottom"
-                        target="PopoverFocus"
-                        trigger="legacy"
-                        className='cart'
-                    >
-                        <PopoverBody>
-                            <div className='d-flex justify-content-end'>
-                                <CloseIcon className='cursor-pointer'/>
-                            </div>
-                            {cart?.map((item, index) =>{
-                                return <CartItem key={index} data ={item}/>
-                            })}  
-                            <hr/>
-                            <Row>
-                                <Col md={9} className="d-flex justify-content-center mb-3">
-                                    <strong>Total:</strong>
-                                </Col>    
-                                <Col md={3} >
-                                    <span>{points} Points</span>
-                                </Col>    
-                            </Row>
-                            <Row>
-                                <Col md="6">
-                                    <Button  className="btn btn-primary w-100 red"  onClick={()=>{}}>View Cart</Button>
-                                </Col>
-                                <Col md="6">
-                                    <Button  className="btn btn-primary w-100 red"  onClick={()=>{navigate('/participant/checkout')}}>Checkout</Button>
-                                </Col>
-                            </Row>
-                        </PopoverBody>
-                    </UncontrolledPopover>
+                    <ShoppingCart />
                 </Col>
             </Row>
             

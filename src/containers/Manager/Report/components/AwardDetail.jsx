@@ -141,7 +141,7 @@ const AwardDetail = () => {
     return (
         <>
             <div className='users' >
-                <div className='header d-flex  justify-content-between'>
+                <div className='filter d-flex  justify-content-between'>
                     <ReportTableFilter filter={filter} setFilter={setFilter} />
                 </div>
                 <UserTable />

@@ -175,10 +175,6 @@ ul.horizontal {
 //home
 .dashboard{
     margin: 0 auto;
-    .welcome{
-        width: 70%;   
-        margin-bottom: 20px;
-    }    
     .rewards-panel{
         height: 500px;
         overflow-y: auto;
@@ -454,16 +450,7 @@ ul.horizontal {
             border: 0;
             height: 100%;
             padding-left: 1.5rem;
-        }
-        .manag-reward-table{
-            background-color: white;
-            .table-striped > tbody > tr:nth-child(2n) > td, .table-striped > tbody > tr:nth-child(2n) > th {
-                background-color: #FFFFFF;
-             }
-            .table-striped > tbody > tr:nth-child(2n + 1) > td, .table-striped > tbody > tr:nth-child(2n + 1) > th {
-                background-color: $user-stripe;
-            }
-        }
+        }        
         thead, tbody, tfoot, tr, td, th{
             padding-top: 1rem;
             padding-left: 2rem;
@@ -889,7 +876,27 @@ ul.horizontal {
         background-color: $manager-yellow;
     }
 }
+.report{
+    background-color: #126EEE;
+    padding:30px 0 15px 0;
+    .program-select{
+        background-color: #3386F9;
+        border-radius: 5px;
+        color: white;
+        padding: 0.5rem 1rem;
+        // padding-right: 1rem;    
+    }
+    .report-data{
+        .filter{
+            border-radius: 10px 10px 0 0;
+            padding: 0.5rem 1rem;   
+            background-color: #052654;
+            color: white;
+        }
+    }
+    
 
+}
 footer{    
     width: 100%;
     background-color: black;
