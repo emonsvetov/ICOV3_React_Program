@@ -35,7 +35,7 @@ const handleAssign = (id, type) =>{
 const RenderActions = ({row, type}) => {
     return (
         <span>
-            <Button color="danger" onClick={() => handleAssign(row.original.id, false)}>{type?'Unassign': 'Assign'}</Button> 
+            <Button color={type?"danger": "success"} onClick={() => handleAssign(row.original.id, false)}>{type?'Unassign': 'Assign'}</Button> 
         </span>
     )
   }

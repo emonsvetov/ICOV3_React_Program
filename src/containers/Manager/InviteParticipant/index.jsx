@@ -5,6 +5,9 @@ import { Input, Col, Row, FormGroup, FormFeedback, Label, Button} from 'reactstr
 import { Form, Field } from 'react-final-form';
 import formValidation from "@/validation/inviteParticipant"
 
+const options = [
+  {'value': 0, 'label':'Default'},  
+]
 const InviteParticipant = () => {
   const [value, setValue] = useState(false);
   const onSubmit = values => {
@@ -19,7 +22,7 @@ const InviteParticipant = () => {
         <Form
               onSubmit={onSubmit}
               validate={(values) => formValidation.validateForm(values)}
-              initialValues={{}}
+              initialValues={{award_level: 0}}
             >
               {({ handleSubmit, form, submitting, pristine, values }) => (
                 <form className="form d-flex flex-column justify-content-evenly" onSubmit={handleSubmit}>
@@ -98,13 +101,15 @@ const InviteParticipant = () => {
                         {({ input, meta }) => (
                             <FormGroup>
                               <Select
-                                value={value}
-                                onChange={{}}
-                                options={[]}
-                                clearable={false}
+                                options={options}
+                                clearable={true}
                                 className="react-select"
                                 placeholder={'Award Level'}
                                 classNamePrefix="react-select"
+                                parse={value => {
+                                  // handleAwardLevelChange(value)
+                                  return value;
+                              }}
                               />
                                   {meta.touched && meta.error && <span className="text-danger">
                                     {meta.error}
