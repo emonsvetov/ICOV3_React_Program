@@ -9,10 +9,13 @@ import CartIcon from 'mdi-react/CartIcon';
 import axios from 'axios';
 import CloseIcon from 'mdi-react/CloseIcon';
 import {emptyAuthCart} from '@/containers/App/auth'
+import {useDispatch, sendFlashMessage, ApiErrorMessage} from "@/shared/components/flash"
 
 const API_STORAGE_URL = `${process.env.REACT_APP_API_STORAGE_URL}`;
 
 const CheckoutPage = ({cart, program, pointBalance, organization}) => {
+    const flashDispatch = useDispatch()
+    const [isLoading, setLoading] = useState(false)
     const [cartIsEmpty, setCartIsEmpty] = useState(true)
     const [cartObject, setCartObject] = useState({
         items:[],
@@ -45,9 +48,10 @@ const CheckoutPage = ({cart, program, pointBalance, organization}) => {
 
     const confirmOrder = () => {
         // console.log(cartObject)
+        setLoading(true);
         axios.post(`/organization/${organization.id}/program/${program.id}/checkout`, cartObject)
         .then( (res) => {
-          console.log(res.data)
+          console.log(res)
           if(res.status === 200)  {
               if( res.data?.success) {
                 emptyAuthCart();
@@ -56,7 +60,10 @@ const CheckoutPage = ({cart, program, pointBalance, organization}) => {
           }
         })
         .catch( err => {
-          console.log(err)
+            // console.log(err)
+            // console.log(error.response.data)
+            flashDispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
+            setLoading(false)
         })
     }
 
@@ -128,7 +135,7 @@ const CheckoutPage = ({cart, program, pointBalance, organization}) => {
             </Row>
             <div>
                 <span>
-                    Clicking "Confirm My Order" will confirm this redemption and <strong>{cartObject.total_points}Points</strong> will be deducted from your rewards account.
+                    Clicking "Confirm My Order" will confirm this redemption and <strong>{cartObject.total_points} Points</strong> will be deducted from your rewards account.
                 </span>
             </div>
             <div className='redtext text-center text-decoration-underline'>
@@ -183,7 +190,7 @@ const CheckoutPage = ({cart, program, pointBalance, organization}) => {
                 </Col>
             </Row>
             <div className='d-flex justify-content-end my-4'>
-                <Button  className="btn btn-primary red "  onClick={confirmOrder}>Confirm My Order</Button>
+                <Button disabled={isLoading} className="btn btn-primary red "  onClick={confirmOrder}>Confirm My Order</Button>
             </div>
             
         </div> 
