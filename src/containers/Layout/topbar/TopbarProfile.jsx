@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import DownIcon from 'mdi-react/MenuDownIcon';
-import { Collapse, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import TopbarMenuLink from './TopbarMenuLink';
+import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import {logout, getAuthUserFullname} from '../../App/auth';
 
 const Ava = `${process.env.PUBLIC_URL}/img/avatar/avatar.jpg`;
@@ -11,6 +9,9 @@ const TopbarProfile = () => {
   const handleToggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
   };
+  const onClickMyProfile = () => {
+    alert("He")
+  }
 
   return (
     <div className="topbar__profile">
@@ -35,7 +36,7 @@ const TopbarProfile = () => {
            
         </DropdownToggle>
         <DropdownMenu end>
-          <DropdownItem>
+          <DropdownItem onClick={() => onClickMyProfile()}>
             My Profile
           </DropdownItem>
           <DropdownItem divider />

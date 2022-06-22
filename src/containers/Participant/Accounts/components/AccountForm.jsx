@@ -1,17 +1,27 @@
-import React, {useState} from 'react';
-import Select from 'react-select';
-import { Link } from 'react-router-dom';
-import { Card, Button, CardHeader, CardFooter, CardBody,
-  CardTitle, CardText } from 'reactstrap';
-
+import React, {useState, useEffect} from 'react';
+import { connect } from 'react-redux';
+import { Card, Button, CardHeader, CardBody} from 'reactstrap';
 import { Input, Col, Row, FormGroup, FormFeedback, Label} from 'reactstrap';
-import { Form, Field } from 'react-final-form';
+import { Form, Field } from 'react-final-form'
+import { getUser } from '@/services/program/getUser'
 
+const AccountForm = ({organization, program, auth}) => {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    // console.log(cart)
+    // console.log(auth)
+    // console.log(organization)
+    // console.log(program)
+    if( auth &&  organization && program)  {
+        // console.log(auth)
+        getUser(organization.id, program.id, auth.id)
+        .then( payload => {
+            setUser(payload)
+        })
+    }
+}, [organization, program, auth]);
 
-const AccountForm = () => {
-  const [value, setValue] = useState(false);
   const onSubmit = values => {
-    
   }
   return (
     
@@ -23,7 +33,7 @@ const AccountForm = () => {
             <Form
                   onSubmit={onSubmit}
                   
-                  initialValues={{}}
+                  initialValues={user}
                 >
                   {({ handleSubmit, form, submitting, pristine, values }) => (
                     <form className="form d-flex flex-column justify-content-evenly" onSubmit={handleSubmit}>  
@@ -130,4 +140,8 @@ const AccountForm = () => {
     </div>
 )}
 
-export default AccountForm;
+export default connect((state) => ({
+  auth: state.auth,
+  program: state.program,
+  organization: state.organization
+}))(AccountForm);
