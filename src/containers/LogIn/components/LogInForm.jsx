@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Field } from 'react-final-form';
 // import renderCheckBoxField from '../../../shared/components/form/CheckBox';
 import {login} from '../../App/auth';
-import {isProgramManager, isProgramParticipant} from "@/shared/helper"
+import {isProgramManager, isProgramParticipant, hasRoleInProgram} from "@/shared/helper"
 import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 import Select from 'react-select';
@@ -55,17 +55,17 @@ const LogInForm = () => {
             alert("You are logging into Wrong Login Area")
             return
           } else {
-            if( isProgramManager(res.data.user) && isProgramParticipant(res.data.user) ) {
-              setIsManager(true)
-              setIsParticipant(true)
-              // alert('Is Both');
-            } else if(isProgramManager(res.data.user)) {
-              setIsManager(true)
-              // alert('Is Manager');
-            } else if(isProgramParticipant(res.data.user)) {
-              // alert('Is Participant');
-              setIsParticipant(true)
-            }
+            // if( isProgramManager(res.data.user) && isProgramParticipant(res.data.user) ) {
+            //   setIsManager(true)
+            //   setIsParticipant(true)
+            //   // alert('Is Both');
+            // } else if(isProgramManager(res.data.user)) {
+            //   setIsManager(true)
+            //   // alert('Is Manager');
+            // } else if(isProgramParticipant(res.data.user)) {
+            //   // alert('Is Participant');
+            //   setIsParticipant(true)
+            // }
             setStep(1)
             setUser(res.data.user)
             setOrganization(res.data.user.organization)
@@ -179,7 +179,7 @@ const LogInForm = () => {
               organization: organization
             })
             let sendTo = '/'
-            if( user.loginAs.name === 'Program Manager')  {
+            if( user.loginAs.name === 'Manager')  {
               sendTo = '/manager/home'
             } else  if( user.loginAs.name === 'Participant')  {
               sendTo = '/participant/home'
@@ -198,8 +198,17 @@ const LogInForm = () => {
         setLoading(false)
       })
     };
+
     const onSelectProgram = (selectedOption) => {
       // alert(JSON.stringify(selectedOption))
+      setIsParticipant(false)
+      setIsManager(false)
+      if(hasRoleInProgram('Participant', selectedOption.value, user)) {
+        setIsParticipant(true)
+      }
+      if(hasRoleInProgram('Manager', selectedOption.value, user)) {
+        setIsManager(true)
+      }
       setProgram( selectedOption )
     };
 
@@ -243,8 +252,8 @@ const LogInForm = () => {
         )}
         </Field>
         <ButtonToolbar className="mt-3 d-flex justify-content-between w100">
-        {isParticipant && <Button type="submit" disabled={loading} className="btn btn-primary red" onClick={()=>{loginAs='participant'}}>Log In</Button>}
-          {isManager && <Button type="submit" disabled={loading} className="btn btn-primary red" onClick={()=>{loginAs='program_manager'}}>Log In as a Manager</Button>}
+          {isParticipant && <Button type="submit" disabled={loading} className="btn btn-primary red" onClick={()=>{loginAs='participant'}}>Log In</Button>}
+          {isManager && <Button type="submit" disabled={loading} className="btn btn-primary red" onClick={()=>{loginAs='manager'}}>Log In as a Manager</Button>}
         </ButtonToolbar>
         </form>
       )}
