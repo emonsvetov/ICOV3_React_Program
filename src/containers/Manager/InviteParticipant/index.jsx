@@ -8,7 +8,7 @@ import axios from 'axios';
 import {useDispatch, useSelector, connect} from 'react-redux';
 import {sendFlashMessage} from '@/redux/actions/flashActions';
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
-import SelectProgram from '../components/SelectProgram'
+//import SelectProgram from '../components/SelectProgram'
 //import {setAuthProgram} from '@/containers/App/auth';
 //import {getProgram} from '@/services/program/getProgram';
 
