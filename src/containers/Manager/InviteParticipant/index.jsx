@@ -36,7 +36,7 @@ const InviteParticipant = ({auth, organization}) => {
         if(res.status == 200)  {
            // window.location = `/organization/${organization.id}/program/${values.program_id}/invite?message=User saved successfully`
            window.location.reload()
-           dispatch(sendFlashMessage('THE PARTICIPANT HAS BEEN INVITED TO YOUR PROGRAM', 'alert-success', 'top'))
+           dispatch(sendFlashMessage('The participant has been invited to your program!', 'alert-success', 'top'))
            setLoading(false)
         }
     })
