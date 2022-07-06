@@ -88,6 +88,7 @@ const LogInForm = () => {
       validate={validate}
       initialValues={
         {
+          // email: 'manager@inimist.com',
           email: 'hmaudson2@dyndns.org',
           // email: 'arvind.mailtoxsxx@gmail.com',
           password: 'aaa'
@@ -176,6 +177,7 @@ const LogInForm = () => {
               user,
               access_token: accessToken,
               program: res.data.program,
+              rootProgram: res.data.program,
               organization: organization
             })
             let sendTo = '/'

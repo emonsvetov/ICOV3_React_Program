@@ -5,6 +5,7 @@ export const AUTH_USER_KEY = 'authUser';
 export const AUTH_TOKEN_KEY = 'authToken';
 export const AUTH_POINTS_KEY = 'authPoints';
 export const AUTH_PROGRAM_KEY = 'authProgram';
+export const AUTH_ROOT_PROGRAM_KEY = 'authRootProgram';
 export const AUTH_ORGANIZATION_KEY = 'authOrganization';
 export const AUTH_CART = 'authCart';
 
@@ -13,6 +14,7 @@ export const login = data => {
     localStorage.setItem(AUTH_USER_KEY, JSON.stringify(data.user));
     localStorage.setItem(AUTH_ORGANIZATION_KEY, JSON.stringify(data.organization));
     localStorage.setItem(AUTH_PROGRAM_KEY, JSON.stringify(data.program));
+    localStorage.setItem(AUTH_ROOT_PROGRAM_KEY, JSON.stringify(data.program));
 }
 
 export const logout = (e) => {
@@ -29,6 +31,7 @@ export const flushUserSession = () => {
     localStorage.removeItem(AUTH_TOKEN_KEY);
     localStorage.removeItem(AUTH_ORGANIZATION_KEY);
     localStorage.removeItem(AUTH_PROGRAM_KEY);
+    localStorage.removeItem(AUTH_ROOT_PROGRAM_KEY);
     localStorage.removeItem(AUTH_POINTS_KEY);
     localStorage.removeItem(AUTH_CART);
 }
@@ -49,6 +52,10 @@ export const getToken = () => {
 
 export const getAuthProgram = () => {
     return JSON.parse(localStorage.getItem(AUTH_PROGRAM_KEY));
+}
+
+export const getAuthRootProgram = () => {
+    return JSON.parse(localStorage.getItem(AUTH_ROOT_PROGRAM_KEY));
 }
 
 export const setAuthPoints = (points) => {
