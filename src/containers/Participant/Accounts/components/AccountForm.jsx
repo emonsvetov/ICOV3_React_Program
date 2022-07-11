@@ -4,9 +4,14 @@ import { Card, Button, CardHeader, CardBody} from 'reactstrap';
 import { Input, Col, Row, FormGroup, FormFeedback, Label} from 'reactstrap';
 import { Form, Field } from 'react-final-form'
 import { getUser } from '@/services/program/getUser'
+import axios from 'axios';
+import {useDispatch, sendFlashMessage, ApiErrorMessage} from "@/shared/components/flash"
 
 const AccountForm = ({organization, program, auth}) => {
+  const dispatch = useDispatch()
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false)
+
   useEffect(() => {
     // console.log(cart)
     // console.log(auth)
@@ -22,7 +27,31 @@ const AccountForm = ({organization, program, auth}) => {
 }, [organization, program, auth]);
 
   const onSubmit = values => {
+    console.log(values)
+    // return
+    axios.put(`/organization/${organization.id}/user/${user.id}`, values)
+    .then( (res) => {
+        // console.log(res)
+        if(res.status === 200)  {
+            window.location.reload()
+        }
+    })
+    .catch( error => {
+        if(error?.response?.data) {
+          dispatch(sendFlashMessage(<ApiErrorMessage errors={error.response.data} />, 'alert-danger'))
+          setLoading(false)
+        }
+    })
   }
+
+  if( !user ) return 'Loading...'
+
+  const initialValues = {
+    first_name: user.first_name,
+    last_name: user.last_name,
+    email: user.email,
+  }
+
   return (
     
     <div className='account'>
@@ -32,8 +61,8 @@ const AccountForm = ({organization, program, auth}) => {
           <CardBody>
             <Form
                   onSubmit={onSubmit}
-                  
-                  initialValues={user}
+                  initialValues={initialValues}
+                  validate={validate}
                 >
                   {({ handleSubmit, form, submitting, pristine, values }) => (
                     <form className="form d-flex flex-column justify-content-evenly" onSubmit={handleSubmit}>  
@@ -49,7 +78,11 @@ const AccountForm = ({organization, program, auth}) => {
                                       type="text"
                                       {...input}
                                     />
-                                        {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                     {meta.touched && meta.error && (
+                                              <span className="form__form-group-error">
+                                              {meta.error}
+                                              </span>
+                                          )}
                                 </FormGroup>
                               )}
                             </Field>
@@ -67,7 +100,11 @@ const AccountForm = ({organization, program, auth}) => {
                                       type="text"
                                       {...input}
                                     />
-                                        {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                   {meta.touched && meta.error && (
+                                              <span className="form__form-group-error">
+                                              {meta.error}
+                                              </span>
+                                          )}
                                 </FormGroup>
                               )}
                             </Field>
@@ -85,7 +122,11 @@ const AccountForm = ({organization, program, auth}) => {
                                       type="email"
                                       {...input}
                                     />
-                                        {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                    {meta.touched && meta.error && (
+                                              <span className="form__form-group-error">
+                                              {meta.error}
+                                              </span>
+                                          )}
                                 </FormGroup>
                               )}
                             </Field>
@@ -103,7 +144,11 @@ const AccountForm = ({organization, program, auth}) => {
                                       type="password"
                                       {...input}
                                     />
-                                        {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                        {meta.touched && meta.error && (
+                                              <span className="form__form-group-error">
+                                              {meta.error}
+                                              </span>
+                                          )}
                                 </FormGroup>
                               )}
                             </Field>
@@ -112,7 +157,7 @@ const AccountForm = ({organization, program, auth}) => {
 
                       <Row>  
                         <Col md="12">
-                          <Field name="password_confirm">
+                          <Field name="password_confirmation">
                               {({ input, meta }) => (
                                   <FormGroup className='d-flex justify-content-between'>
                                     <Label className='w-50'>* Confirm Password:</Label>
@@ -121,7 +166,11 @@ const AccountForm = ({organization, program, auth}) => {
                                       type="password"
                                       {...input}
                                     />
-                                        {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                      {meta.touched && meta.error && (
+                                              <span className="form__form-group-error">
+                                              {meta.error}
+                                              </span>
+                                          )}
                                 </FormGroup>
                               )}
                             </Field>
@@ -129,7 +178,7 @@ const AccountForm = ({organization, program, auth}) => {
                       </Row>
 
                       <div className='d-flex justify-content-end'>
-                        <Button  color='danger' type='submit'>Save My Account Information</Button>
+                        <Button  color='danger' type='submit' disabled={loading}>Save My Account Information</Button>
                       </div>
                     </form>
                   )}
@@ -139,6 +188,30 @@ const AccountForm = ({organization, program, auth}) => {
         
     </div>
 )}
+
+const validate = values => {
+  let errors = {};
+  if (!values.first_name) {
+    errors.first_name = "Please enter first name";
+  }
+  if ( !values.last_name ) {
+    errors.last_name = "Please enter last name";
+  }
+  if (!values.email) {
+    errors.email = "Email is required";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i.test(values.email)) {
+    errors.email = "Invalid email address";
+  }
+  if( values?.password || values?.password_confirmation) {
+    if ( values.password !== values.password_confirmation ) {
+      errors.password = "Password and confirm password do not match";
+    }
+    if ( values.password.trim().length < 3 ) {
+      errors.password = "Please enter strong password";
+    }
+  }
+  return errors;
+}
 
 export default connect((state) => ({
   auth: state.auth,

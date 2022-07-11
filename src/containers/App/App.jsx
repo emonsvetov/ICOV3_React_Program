@@ -5,10 +5,11 @@ import axios from 'axios'
 import Routes from './Routes';
 import store from './store';
 import '../../scss/app.scss';
-import {getBearer, getOrganization, getAuthUser, getAuthProgram, getAuthPoints, getAuthCart} from './auth';
+import {getBearer, getOrganization, getAuthUser, getAuthProgram, getAuthRootProgram, getAuthPoints, getAuthCart} from './auth';
 import {setOrganization} from '@/redux/actions/organizationActions';
 import {setAuthUser} from '@/redux/actions/userActions';
 import {setStoreProgram} from '@/redux/actions/programActions';
+import {setRootProgram} from '@/redux/actions/rootProgramActions';
 import {setPointBalance} from '@/redux/actions/balanceActions';
 import {setCart} from '@/redux/actions/cartActions';
 import {FlashMessage} from "@/shared/components/flash";
@@ -55,6 +56,7 @@ const App = () => {
     store.dispatch(setOrganization(getOrganization()))
     store.dispatch(setAuthUser(getAuthUser()))
     store.dispatch(setStoreProgram(getAuthProgram()))
+    store.dispatch(setRootProgram(getAuthRootProgram()))
     store.dispatch(setCart(getAuthCart()))
     getAuthPoints()
     .then( balance => {
