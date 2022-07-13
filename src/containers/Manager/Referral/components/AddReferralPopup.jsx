@@ -27,7 +27,7 @@ const AddReferralPopup = ({program, organization, isOpen, setOpen, toggle, data}
   }
 
   return (
-    <Modal className={`program-settings modal-2col modal-xl`} isOpen={isOpen} toggle={() => setOpen(true)}>
+    <Modal className={`program-settings modal-2col modal-lg`} isOpen={isOpen} toggle={() => setOpen(true)}>
       
         <div className='close cursor-pointer'>
           <CloseIcon onClick={toggle} size={30}/>

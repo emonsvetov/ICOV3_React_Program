@@ -8,7 +8,6 @@ import {
 } from 'reactstrap';
 
 import {ManagerTabNavs} from '../../../shared/components/tabNavs';
-import { TODAY_DATA, CHART_DATA  } from './components/Mockdata';
 import SelectProgram from '../components/SelectProgram'
 
 import Dashboard from './View/Dashboard';

@@ -5,11 +5,11 @@ import { Navbar, NavbarBrand, NavbarToggler,Collapse, Nav,
          } from 'reactstrap';
 
 const LINKS = [
-  { to: 'onClickHandle', text: 'Sign in', desc : 'Returning users enter here' },
+  { to: 'onClickLogin', text: 'Sign in', desc : 'Returning users enter here' },
   { to: '', text: 'Sign up', desc: 'First time users start here' },
 ];
 
-const HomeTopbar = ({onClickHandle, template}) => {
+const HomeTopbar = ({onClickHandle, onClickSignup, template}) => {
   const [isOpen, setOpen] = useState(false);
   const toggle = ()=>{
     setOpen( prev => !prev) 
@@ -41,7 +41,7 @@ const HomeTopbar = ({onClickHandle, template}) => {
             {LINKS.map((item, index) => {
               return <div key={index} className='flex-column mx-3'>
                         <span>{item.desc}</span>
-                        <div className='text-uppercase text-center item' onClick={item.to ? onClickHandle : ""}>
+                        <div className='text-uppercase text-center item' onClick={item.to ? onClickLogin : onClickSignup}>
                           {item.text}
                         </div>  
                     </div>

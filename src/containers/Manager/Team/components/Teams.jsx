@@ -54,9 +54,11 @@ const Teams = ({program, organization}) => {
     const RenderActions = ({row}) => {
       return (
           <span>
-              <Link to={{}} onClick={(e) => onClickEditMate(e, row.original.id)}><PencilIcon style={{marginRight: "0.5rem"}}/>Edit</Link> 
+              <Link to={`/manager/team/${row.original.id}`}> View</Link> 
               <span style={{width:'2.5rem', display: 'inline-block'}}></span>
-              <Link to={{}} className='delete-column' onClick={(e) => {if(window.confirm('Are you sure to delete this Administrator?')){onDeleteTeam(e, row.original.id)}}}><TrashIcon style={{marginRight: "0.5rem"}}/>Delete</Link>
+              <Link to={{}} onClick={(e) => onClickEditMate(e, row.original.id)}> Edit</Link> 
+              <span style={{width:'2.5rem', display: 'inline-block'}}></span>
+              <Link to={{}} className='delete-column' onClick={(e) => {if(window.confirm('Are you sure to delete this Administrator?')){onDeleteTeam(e, row.original.id)}}}>Delete</Link>
           </span>
       )
     }
@@ -115,7 +117,7 @@ const Teams = ({program, organization}) => {
               {rows.map((row, i) => {
               prepareRow(row)
               return (
-                  <tr {...row.getRowProps()} onClick={() =>navigate(`/manager/team/${row.original.id}`)}>
+                  <tr {...row.getRowProps()}>
                   {row.cells.map(cell => {
                       return (
                       <td {...cell.getCellProps()}>

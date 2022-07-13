@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import YoutubeEmbed from './components/YoutubeEmbed';
 import { Col, Container, Row } from 'reactstrap';
+
 const FAQS = [
   {
     question:"What is the Rewards Program?", 
@@ -51,12 +52,12 @@ const Faqs = () => {
   return (
     <>
     <Container fluid className="dashboard">
-      <h2 className='mb-5'>FAQs</h2>
+      <h2 className='my-3'>FAQs</h2>
       Congratulations on participating in your Rewards program! Here are some FAQ's to help you understand how the program works.
       <h6 >Enjoy!</h6>
     </Container>
     <Container>
-      Youtube
+      <YoutubeEmbed embedId={"zytPldZoXiE"} />
     </Container>
     <Container fluid className="content">
       {FAQS.map((item, index) =>{

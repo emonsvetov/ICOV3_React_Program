@@ -25,7 +25,7 @@ const Referral = ( {auth, program, organization} ) => {
     if( name ) setModalName(name)
     setOpen(prevState => !prevState)
   }
-
+  
   if( !auth || !program  || !organization) return 'Loading...'
 
   return (
@@ -46,7 +46,6 @@ const Referral = ( {auth, program, organization} ) => {
         <div className='points-summary-table'>
             {auth && program && !isEmpty(organization) && <Referrals program={program} organization={organization} />}
         </div>      
-        
         
       </Container>
       

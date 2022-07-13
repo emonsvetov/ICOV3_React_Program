@@ -117,7 +117,7 @@ const EventForm = ({
                 <Row>
                 <Col md="9">
                     <Field 
-                            name="type_id"
+                            name="event_type_id"
                             className="react-select"
                             options={eventTypes}
                             placeholder={'Select Event Type'}

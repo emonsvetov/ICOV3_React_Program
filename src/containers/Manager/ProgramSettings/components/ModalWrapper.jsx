@@ -6,12 +6,14 @@ import EditEventModal from './EditEventModal'
 import AddLeaderboardPopup from './AddLeaderboardPopup'
 import EditLeaderboardModal from './EditLeaderboardModal';
 
-const MainModalWrapper = ({ organization, program, name, isOpen, setOpen, toggle, event, setEvent}) => {
+const MainModalWrapper = ({ organization, program, name, isOpen, setOpen, toggle, event, setEvent, leaderboard, setLeaderboard}) => {
     
     const props = {
-        isOpen, setOpen, toggle, organization, program, event, setEvent
+        isOpen, setOpen, toggle, organization, program, event, setEvent, leaderboard, setLeaderboard
     }
+    console.log(leaderboard, '-----------')
     if( !organization?.id || !program?.id ) return 'Loading...'
+    
     return (
         <>
         {
