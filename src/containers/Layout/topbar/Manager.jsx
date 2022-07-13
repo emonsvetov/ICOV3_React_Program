@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import { Link, NavLink  } from 'react-router-dom';
+import { NavLink  } from 'react-router-dom';
+import { connect } from 'react-redux';
 import TopbarProfile from './TopbarProfile';
 import { Container, NavbarBrand, NavbarToggler, Collapse, Nav, Navbar } from 'reactstrap';
-const Brand = `${process.env.PUBLIC_URL}/img/logo/logo_light.svg`;
+// const DefaultBrand = `${process.env.PUBLIC_URL}/img/logo/logo_light.svg`;
 
 const LINKS = [
   { to: '/manager/home', text: 'Home' },
@@ -14,11 +15,15 @@ const LINKS = [
   { to: '/manager/team', text: 'Team' }
 ];
 
-const ManagerTopbar = () => {
+const ManagerTopbar = ({template}) => {
   const [isOpen, setOpen] = useState(false);
   const toggle = ()=>{
     setOpen( prev => !prev) 
   }
+
+  if( !template ) return 'Loading...'
+  const Brand = `${process.env.REACT_APP_API_STORAGE_URL}/${template.small_logo}`;
+
   return (
   <div className="topbar">
     <Container fluid className="topbar__wrapper">
@@ -57,5 +62,10 @@ const ManagerTopbar = () => {
   </div>
   )
 };
+const mapStateToProps = (state) => {
+  return {
+      template: state.template
+  };
+};
 
-export default ManagerTopbar;
+export default connect(mapStateToProps)(ManagerTopbar);
