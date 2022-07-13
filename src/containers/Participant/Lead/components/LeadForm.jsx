@@ -3,7 +3,7 @@ import Select from 'react-select';
 import { Link } from 'react-router-dom';
 import { Card, Button, CardHeader, CardFooter, CardBody,
   CardTitle, CardText } from 'reactstrap';
-
+import formValidation from "@/validation/lead"
 import { Input, Col, Row, FormGroup, FormFeedback, Label} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 
@@ -22,7 +22,7 @@ const LeadForm = () => {
           <CardBody>
             <Form
                   onSubmit={onSubmit}
-                  
+                  validate={(values) => formValidation.validateForm(values)}
                   initialValues={{}}
                 >
                   {({ handleSubmit, form, submitting, pristine, values }) => (
@@ -34,13 +34,15 @@ const LeadForm = () => {
                         <Col md="6">
                           <Field name="first_name">
                               {({ input, meta }) => (
-                                  <FormGroup className='d-flex justify-content-between'>
+                                  <FormGroup>
                                     <Input
                                       placeholder="First Name"
                                       type="text"
                                       {...input}
                                     />
-                                        {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                        {meta.touched && meta.error && <span className="text-danger d-flex justify-content-end">
+                                    {meta.error}
+                                </span>}
                                 </FormGroup>
                               )}
                             </Field>
@@ -49,13 +51,15 @@ const LeadForm = () => {
                         <Col md="6">
                           <Field name="last_name">
                               {({ input, meta }) => (
-                                  <FormGroup className='d-flex justify-content-between'>
+                                  <FormGroup>
                                     <Input
                                       placeholder="Last Name"
                                       type="text"
                                       {...input}
                                     />
-                                        {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                        {meta.touched && meta.error && <span className="text-danger d-flex justify-content-end">
+                                    {meta.error}
+                                </span>}
                                 </FormGroup>
                               )}
                             </Field>
@@ -68,13 +72,15 @@ const LeadForm = () => {
                         <Col md="12">
                           <Field name="email">
                               {({ input, meta }) => (
-                                  <FormGroup className='d-flex justify-content-between'>
+                                  <FormGroup>
                                     <Input
                                       placeholder=""
                                       type="email"
                                       {...input}
                                     />
-                                        {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                        {meta.touched && meta.error && <span className="text-danger d-flex justify-content-end">
+                                    {meta.error}
+                                </span>}
                                 </FormGroup>
                               )}
                             </Field>
@@ -87,13 +93,15 @@ const LeadForm = () => {
                         <Col md="6">
                           <Field name="area_code">
                               {({ input, meta }) => (
-                                  <FormGroup className='d-flex justify-content-between'>
+                                  <FormGroup>
                                     <Input
                                       placeholder="Area Code"
                                       type="text"
                                       {...input}
                                     />
-                                        {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                        {meta.touched && meta.error && <span className="text-danger d-flex justify-content-end">
+                                    {meta.error}
+                                </span>}
                                 </FormGroup>
                               )}
                             </Field>
@@ -102,13 +110,15 @@ const LeadForm = () => {
                         <Col md="6">
                           <Field name="number">
                               {({ input, meta }) => (
-                                  <FormGroup className='d-flex justify-content-between'>
+                                  <FormGroup>
                                     <Input
                                       placeholder="Phone Number"
                                       type="text"
                                       {...input}
                                     />
-                                        {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                        {meta.touched && meta.error && <span className="text-danger d-flex justify-content-end">
+                                    {meta.error}
+                                </span>}
                                 </FormGroup>
                               )}
                             </Field>
@@ -121,13 +131,13 @@ const LeadForm = () => {
                         <Col md="12">
                           <Field name="company_name">
                               {({ input, meta }) => (
-                                  <FormGroup className='d-flex justify-content-between'>
+                                  <FormGroup>
                                     <Input
                                       placeholder=""
-                                      type="email"
+                                      type="text"
                                       {...input}
                                     />
-                                        {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                        
                                 </FormGroup>
                               )}
                             </Field>
@@ -141,13 +151,15 @@ const LeadForm = () => {
                         <Col md="12">
                           <Field name="content">
                               {({ input, meta }) => (
-                                  <FormGroup className='d-flex justify-content-between'>
+                                  <FormGroup>
                                     <Input
                                       placeholder=""
-                                      type="email"
+                                      type="text"
                                       {...input}
                                     />
-                                        {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                        {meta.touched && meta.error && <span className="text-danger d-flex justify-content-end">
+                                    {meta.error}
+                                </span>}
                                 </FormGroup>
                               )}
                             </Field>

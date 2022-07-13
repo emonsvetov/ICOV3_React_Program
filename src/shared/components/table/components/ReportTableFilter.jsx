@@ -1,8 +1,8 @@
 import React from "react"
 import {dateStrToYmd} from '@/shared/helper'
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
-import { Row, Col } from "reactstrap";
+import DatePickerField from '@/shared/components/form/DatePicker';
+import { Field, Form } from 'react-final-form';
+import { Row, Col, Label, FormGroup } from "reactstrap";
 const getFirstDayOfMonth = () =>{
     let date = new Date();
     return new Date(date.getFullYear(), date.getMonth(), 1)
@@ -98,42 +98,20 @@ const ReportTableFilter = ({ config, filter, setFilter}) => {
         setFilter( filters )
     }
     return (
-            <div className='wrapper'>
+            <div className='wrapper d-flex align-items-center'>
                 
                 {options.dateRange &&  <Row>
-                        <Col md={6} lg={6} sm={6}>
-                            <div className="form__form-group">
-                                <span className="form__form-group-label">From</span>
-                                <div className="form__form-group-field">
-                                    <div className="form__form-group-row">
-                                        <DatePicker
-                                            dateFormat="MM/dd/yyyy"
-                                            selected={from}
-                                            onChange={onStartChange}
-                                            popperPlacement="center"
-                                            dropDownMode="select"
-                                            
-                                        />
-                                    </div>
-                                </div>
-                            </div>
+                        <Col md={6}>
+                            <FormGroup className="d-flex">
+                                <Label  className="form-label"> From </Label>
+                                <DatePickerField  name='from' onChange = {() =>{}} />
+                            </FormGroup>
                         </Col>
-                        <Col md={6} lg={6} sm={6}>
-                            <div className="form__form-group">
-                                <span className="form__form-group-label">To</span>
-                                <div className="form__form-group-field">
-                                    <div className="form__form-group-row">
-                                        <DatePicker
-                                            dateFormat="MM/dd/yyyy"
-                                            selected={to}
-                                            onChange={onEndChange}
-                                            popperPlacement="center"
-                                            dropDownMode="select"
-                                            
-                                        />
-                                    </div>
-                                </div>
-                            </div>
+                        <Col md={6}>
+                            <FormGroup className="d-flex">
+                                <Label for='picker-to' className="form-label"> To </Label>
+                                <DatePickerField id='picker-to' name='to' onChange = {() =>{}} />
+                            </FormGroup>
                         </Col>
                     </Row>}
             <Col className="align-items-center max-height-32px pl-1">

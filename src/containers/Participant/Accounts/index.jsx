@@ -1,15 +1,22 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { ParticipantTabNavs } from '../../../shared/components/tabNavs';
 import Sidebar from '../../Layout/sidebar';
 import AccountForm from './components/AccountForm'
 import { Input, Col, Row,Container} from 'reactstrap';
-
+import {getAuthUser} from '@/containers/App/auth';
 
 const Account = () => {
   const [value, setValue] = useState(false);
+  const [user, setUser] = useState(null);
   const onSubmit = values => {
     
   }
+  useEffect( () => {
+    let user = getAuthUser();
+    if(user)
+      setUser(user);
+  }, [])
+
   return (
     <>
       <Container>
@@ -17,7 +24,7 @@ const Account = () => {
         <Row>
           <Col md={9}>
             <div className="dashboard">
-              <AccountForm />
+              <AccountForm user={user}/>
             </div>
           </Col>
           <Col md={3}>

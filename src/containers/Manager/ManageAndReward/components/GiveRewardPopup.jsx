@@ -5,9 +5,11 @@ import { Form, Field } from 'react-final-form'
 import CloseIcon from 'mdi-react/CloseIcon'
 import {getEvents} from '@/services/program/getEvents'
 import {getEvent} from '@/services/program/getEvent'
-import {labelizeNamedData, patch4Select, flashDispatch, flashMessage} from '@/shared/helper'
+import {labelizeNamedData, patch4Select, flashDispatch, flashMessage } from '@/shared/helper'
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 import axios from 'axios'
+import formValidation from "@/validation/giveReward"
+import {fetchEmailTemplates} from '@/services/getEmailTemplates';
 
 const DEFAULT_MSG_PARTICIPANT = "We wanted to thank you for all your extra efforts over the last couple of days.\n\nThough your response and tireless efforts. You made a BIG Different!!\n\nWe would like to recognize those efforts with this award to reflect our appreciation.\n\nGreg, Gerry and Bruce\n\nGreg and Gerry"
 
@@ -24,6 +26,13 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
   const [loading, setLoading] = useState(true);
   const [loadingEvent, setLoadingEvent] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [emailTemplates, setEmailTemplates] = useState([]);
+  const [templateContents, setTemplateContents] = useState([]);
+
+  const handleTemplateChange = (selected) => {
+    // setCurrentTemplate(selected.value - 1)
+    
+  }
 
   const onChangeAwardValue = ([field], state, { setIn, changeValue }) => {
     const v = field.target.value
@@ -97,6 +106,11 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
         setLoading(false)
       }
     })
+    fetchEmailTemplates('program_event')
+    .then( res => {
+      setEmailTemplates(labelizeNamedData(res))
+      setTemplateContents(res)
+    })
     return () => mounted = false;
   }, [])
 
@@ -139,6 +153,7 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
             <Form
               onSubmit={onSubmit}
               initialValues={initialValues}
+              validate={(values) => formValidation.validateForm(values)}
               mutators={{
                 onChangeAwardValue
               }}
@@ -243,13 +258,17 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
                           {({ input, meta }) => (
                               <FormGroup>
                                 <Select
-                                  value={value}
-                                  onChange={{}}
-                                  options={[]}
+                                  options={emailTemplates}
+                                  initialValue = {emailTemplates[event.email_template_id - 1]} 
                                   clearable={false}
                                   className="react-select"
                                   placeholder={'Email Template'}
                                   classNamePrefix="react-select"
+                                  parse={value => {
+                                    handleTemplateChange(value)
+                                    form.mutators.onChangeEmailTemplate(value)
+                                    return value;
+                                }}
                                 />
                                   {meta.touched && meta.error && <span className="text-danger">
                                   {meta.error}

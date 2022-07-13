@@ -1,7 +1,6 @@
 import { Input, Col, Row, FormGroup, Label, Button} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
-import renderToggleButtonField from "@/shared/components/form/ToggleButton"
-import formValidation from "@/validation/addEvent"
+import formValidation from "@/validation/addTeam"
 
 const TeamForm = ({
     onSubmit, 
@@ -14,7 +13,6 @@ const TeamForm = ({
         <Form
             onSubmit={onSubmit}
             validate={(values) => formValidation.validateForm(values)}
-            
             initialValues={ mate }
         >
             {({ handleSubmit, form, submitting, pristine, values }) => (

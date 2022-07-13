@@ -148,8 +148,8 @@ const Invoices = () => {
 
     return (
         <>
-            <div className='users' >
-                <div className='header d-flex  justify-content-between'>
+            <div className='report-data' >
+                <div className='filter d-flex justify-content-between'>
                     <ReportTableFilter filter={filter} setFilter={setFilter} />
                 </div>
                 <UserTable />
@@ -176,21 +176,6 @@ const Invoices = () => {
                     </>
                 )}
             </div>
-            
-            {/* <pre>
-            <code>
-                {JSON.stringify(
-                {
-                    selectedRowIds: selectedRowIds,
-                    'selectedFlatRows[].original': selectedFlatRows.map(
-                    d => d.original
-                    ),
-                },
-                null,
-                2
-                )}
-            </code>
-            </pre> */}
         </>
     )
 }

@@ -33,15 +33,16 @@ const ProgramUsers = ( {program, organization} ) => {
         setOpen(prevState => !prevState)
     }
     
-    const onClickAction = (name, row) => {
+    const onClickReward = () => {
         // setCurrentRow(row)
-        setParticipants( [row] )
-        toggle(name)
-    }
-
-    const popupToggle = () => {
+        const rows = selectedFlatRows.map(d => d.original);
+        if( rows.length === 0) {
+            alert('Select participants')
+            return
+        }
+        setParticipants( rows )
         toggle('Reward')
-    };
+    }
     
     let final_columns = [
         ...USERS_COLUMNS,
@@ -198,7 +199,7 @@ const ProgramUsers = ( {program, organization} ) => {
             <div className='users' >
                 <div className='header d-flex  justify-content-between'>
                     <div className='d-flex w-25 justify-content-between'>
-                        <Button color='primary' onClick={popupToggle} >Reward</Button>
+                        <Button color='primary' onClick={() => onClickReward()} >Reward</Button>
                     </div>
                     <TableFilter filter={filter} setFilter={setFilter} />
                 </div>

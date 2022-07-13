@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Select from 'react-select';
+//import formValidation from "@/validation/inviteParticipant"
 //import { Link } from 'react-router-dom';
 import { Input, Col, Row, FormGroup, FormFeedback, Label, Button} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
@@ -66,7 +67,10 @@ const InviteParticipant = ({auth, organization, rootProgram}) => {
 // console.log(programOptions)
   return (
     <div className='invite-participant'>
-        <h2 className='title'>Invite Participant</h2>
+        <h2 className='title mb-3'>Invite Participant</h2>
+        <div className="d-flex align-items-center justify-content-center">
+          <SelectProgram />
+        </div>
         <Form
               onSubmit={onSubmit}
               initialValues={{}}
@@ -176,13 +180,15 @@ const InviteParticipant = ({auth, organization, rootProgram}) => {
                         {({ input, meta }) => (
                             <FormGroup>
                               <Select
-                                value={value}
-                                onChange={{}}
-                                options={[]}
-                                clearable={false}
+                                options={options}
+                                clearable={true}
                                 className="react-select"
                                 placeholder={'Award Level'}
                                 classNamePrefix="react-select"
+                                parse={value => {
+                                  // handleAwardLevelChange(value)
+                                  return value;
+                              }}
                               />
                                {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
                             </FormGroup>

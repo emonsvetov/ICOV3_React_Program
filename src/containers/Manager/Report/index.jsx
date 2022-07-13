@@ -10,17 +10,17 @@ const REPORT_TYPES = [
   {name: 'Invoices', link:'/manager/report/invoices'},
   // {name: 'Annual Awards Summary', link:'/manager/report/annual-awards-summary'},
   // {name: 'Award Account Summary GL ', link:'/manager/report/award-account-summary-gl'},
-  // {name: 'Award Detail', link:'/manager/report/award-detail'},
-  // {name: 'Award Summary', link:'/manager/report/award-summary'},
-  // {name: 'File Import', link:'/manager/report/file-import'},
-  // {name: 'Merchant Redemption', link:'/manager/report/merchant-redemption'},
-  // {name: 'Quarterly Awards Summary', link:'/manager/report/quarterly-awards-summary'},
-  // {name: 'Participant Account Summary', link:'/manager/report/participant-account-summary'},
-  // {name: 'Participant Status Summary', link:'/manager/report/participant-status-summary'},
+  {name: 'Award Detail', link:'/manager/report/award-detail'},
+  {name: 'Award Summary', link:'/manager/report/award-summary'},
+  {name: 'File Import', link:'/manager/report/file-import'},
+  {name: 'Merchant Redemption', link:'/manager/report/merchant-redemption'},
+  {name: 'Quarterly Awards Summary', link:'/manager/report/quarterly-awards-summary'},
+  {name: 'Participant Account Summary', link:'/manager/report/participant-account-summary'},
+  {name: 'Participant Status Summary', link:'/manager/report/participant-status-summary'},
   {name: 'Program Status', link:'/manager/report/program-status'},
-  // {name: 'Deposit Balance', link:'/manager/report/deposit-balance'},
-  // {name: 'Deposit Transfers', link:'/manager/report/deposit-transfers'},
-  // {name: 'Goal Progress Summary', link:'/manager/report/goal-progress-summay'},
+  {name: 'Deposit Balance', link:'/manager/report/deposit-balance'},
+  {name: 'Deposit Transfers', link:'/manager/report/deposit-transfers'},
+  {name: 'Goal Progress Summary', link:'/manager/report/goal-progress-summay'},
 ]
 
 const Report = ({auth, program, organization}) => {
@@ -38,10 +38,16 @@ const Report = ({auth, program, organization}) => {
   return (
     <div className='report'>
       <Container>
-        <div style={{color:'white'}}>
-          <Input type="select" value={location.pathname} name="report-type" onChange={onChange}>
-                    <ReportOptions />
-          </Input>        
+      <div style={{color:'white'}}>
+          <h3>Reports</h3>
+        </div>
+        <div className="d-flex program-select my-3">
+          <span>Select Report:</span>
+          <div className='mb-0'>
+            <Input type="select" value={location.pathname} name="report-type" onChange={onChange}>
+              <ReportOptions />
+            </Input>        
+          </div>
         </div>        
         <Outlet />
       </Container>

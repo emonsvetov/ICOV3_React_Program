@@ -16,33 +16,8 @@ const EditLeaderboardModal = ({program, organization, isOpen, setOpen, toggle, d
   
   const onSubmit = (values) => {
 
-    let eventData = {};
-    eventData["organization_id"] = organization.id;
-    eventData["program_id"] = program.id;
-
     console.log(values)
-
-    let {
-      name,
-      enable,
-      max_awardable_amount,
-      post_to_social_wall,
-      message,
-      award_message_editable,
-      type_id
-    } = values;
-
-    eventData.name = name;
-    eventData.max_awardable_amount = max_awardable_amount;
-    eventData.post_to_social_wall = post_to_social_wall ? true: false;
-    eventData.award_message_editable = award_message_editable ? true: false;
-    eventData.enable = enable ? true: false;
-    
-    eventData.message = message;
-    eventData.type_id = type_id.value;
-
-    // console.log(eventData)
-    // return
+    let leaderboardData = {};
     let nLeaderboard = {
       ...leaderboard,
       ...values
@@ -50,7 +25,7 @@ const EditLeaderboardModal = ({program, organization, isOpen, setOpen, toggle, d
     setLeaderboard( nLeaderboard )
     setLoading(true)
     axios
-      .put(`/organization/${organization.id}/program/${program.id}/event/${leaderboard.id}`, eventData)
+      .put(`/organization/${organization.id}/program/${program.id}/event/${leaderboard.id}`, leaderboardData)
       .then((res) => {
         //   console.log(res)
         if (res.status == 200) {
@@ -78,6 +53,7 @@ const EditLeaderboardModal = ({program, organization, isOpen, setOpen, toggle, d
     organization,
     program,
     loading,
+    leaderboard,
     onSubmit,
   }
 

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Input, Col, Container, Row, FormGroup, Label, Button, ButtonGroup} from 'reactstrap';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {getEvent} from '@/services/program/getEvent'
 import { TEAM_DATA } from './Mockdata';
 
@@ -16,7 +16,7 @@ const TeamView = ( {auth, program, organization} ) => {
         if( name ) setModalName(name)
         setOpen(prevState => !prevState)
     }
-
+    const navigate = useNavigate();
     useEffect(() => {
         // alert(id)
         // getEvent(organization.id, program.id, eventId)
@@ -42,6 +42,7 @@ const TeamView = ( {auth, program, organization} ) => {
                 <div className='my-3 d-flex justify-content-between'>
                 <h3 >{mate?.name}</h3>
                 <ButtonGroup>
+                    <Button color='success' onClick={() => navigate(-1)}>Back</Button>
                     <Button color='primary' onClick={() =>toggle('EditTeam')}>Edit</Button>
                     <Button color='danger' onClick={(e) => {if(window.confirm('Are you sure to delete this Mate?')){onDeleteMate(e, mateId)}}}>Delete</Button>
                 </ButtonGroup>
