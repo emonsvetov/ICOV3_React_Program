@@ -14,6 +14,7 @@ import {setPointBalance} from '@/redux/actions/balanceActions';
 import {setCart} from '@/redux/actions/cartActions';
 import {FlashMessage} from "@/shared/components/flash";
 import {setDomain} from '@/redux/actions/domainActions';
+import {setTemplate} from '@/redux/actions/templateActions';
 
 // require('dotenv').config()
 axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL + '/api/v1';
@@ -55,7 +56,9 @@ const App = () => {
   const setAuthOrganization = () => {
     getAuthDomain()
     .then( domain => {
-      store.dispatch(setAuthDomain(domain))
+      // console.log(domain)
+      store.dispatch(setDomain(domain))
+      store.dispatch(setTemplate(domain.program.template))
     })
     store.dispatch(setOrganization(getOrganization()))
     store.dispatch(setAuthUser(getAuthUser()))
