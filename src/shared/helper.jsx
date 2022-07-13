@@ -4,7 +4,7 @@ export const flashDispatch = useDispatch
 export const flashMessage = sendFlashMessage
 
 export const isProgramManager = (user) => {
-    if( user.isProgramManager ) return true
+    if( user.isManager ) return true
     return false
 }
 export const isProgramParticipant = (user) => {
@@ -46,4 +46,58 @@ export const getLabelByCode = (value, list) => {
 export const dateStrToYmd = dateString => {
     let date = new Date( dateString )
     return date.toISOString().split('T')[0]
+}
+
+export const hasRoleInProgram = (roleName, programId, user) => {
+    if( !user || !user?.programRoles || user?.programRoles.length <= 0) return;
+    for( var i in user.programRoles) {
+      const programRole = user.programRoles[i] ? user.programRoles[i] : null
+      // console.log(programRole)
+      // console.log(programId)
+      if( programRole && programId ) {
+        if( programRole.id === programId) {
+          // console.log(programRole)
+          if( !programRole?.roles || programRole.roles.length <= 0) return false;
+          for( var j in programRole.roles) {
+            const userRole = programRole.roles[j] ? programRole.roles[j] : null
+            if( !userRole ) {
+              return false;
+            }
+            if( userRole.name === roleName) return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  export const BuildProgramOptions = ({programs, depth = 0}) => {
+    let optionsHtml = []
+    if( programs.length > 0) {
+        programs.map( p => {
+            optionsHtml.push(<option key={`program-option-${p.id}`} value={`${p.id}`}>{'-'.repeat(depth)} {p.name}</option>)
+            if( p?.children && p.children.length > 0)   {
+                depth++;
+                optionsHtml.push(<BuildProgramOptions key={`program-option-group-${p.id}`} programs={p.children} depth={depth} />)
+            }
+        })
+    }
+    return optionsHtml
+}
+
+export const makeLabelizedOptionsFromTree = (programs, depth = 0) => {
+    let optionsObject = []
+    if( programs.length > 0) {
+        programs.map( p => {
+            optionsObject.push({
+                label: '-'.repeat(depth) + ' ' + p.name,
+                value: p.id
+            })
+            if( p?.children && p.children.length > 0)   {
+                depth++;
+                optionsObject = [...optionsObject, ...makeLabelizedOptionsFromTree(p.children, depth)]
+            }
+        })
+    }
+    return optionsObject
 }

@@ -1,13 +1,13 @@
 import { handleActions } from 'redux-actions';
 import {
-    setCart,
-} from '../actions/cartActions';
+    setRootProgram
+} from '../actions/rootProgramActions';
 
-const defaultState = null;
+const defaultState = null
 
 export default handleActions(
     {
-        [setCart](state, action) {
+        [setRootProgram](state, action) {
             return { ...state, ...action.payload }
         }
     },

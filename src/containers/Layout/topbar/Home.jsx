@@ -1,19 +1,23 @@
 import React, {useState} from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import { Container, NavLink, Navbar, NavbarBrand, NavbarToggler, Dropdown,Collapse, Nav, 
+import { Navbar, NavbarBrand, NavbarToggler,Collapse, Nav, 
          } from 'reactstrap';
-const Brand = `${process.env.PUBLIC_URL}/img/logo/big_logo.png`;
+
 const LINKS = [
   { to: 'onClickLogin', text: 'Sign in', desc : 'Returning users enter here' },
   { to: '', text: 'Sign up', desc: 'First time users start here' },
 ];
 
-const HomeTopbar = ({onClickLogin, onClickSignup}) => {
+const HomeTopbar = ({onClickHandle, onClickSignup, template}) => {
   const [isOpen, setOpen] = useState(false);
   const toggle = ()=>{
     setOpen( prev => !prev) 
   }
+  
+  if( !template ) return 'Loading...'
+  const Brand = `${process.env.REACT_APP_API_STORAGE_URL}/${template.big_logo}`;
+
   return (
   <div className="topbar home">
     <div className="topbar__wrapper">
@@ -55,4 +59,12 @@ const HomeTopbar = ({onClickLogin, onClickSignup}) => {
   )
 };
 
-export default HomeTopbar;
+const mapStateToProps = (state) => {
+  return {
+      template: state.template
+  };
+};
+
+export default connect(mapStateToProps)(HomeTopbar);
+
+// export default HomeTopbar;

@@ -56,11 +56,12 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
       notes: values.notes,
       message: values.message,
       user_id: participants.map( p => p.id),
-      override_cash_value: values.override_cash_value,
-      referrer: values.referrer,
+      override_cash_value: values.override_cash_value ? values.override_cash_value : null,
+      referrer: values.referrer ? values.referrer : null,
       email_template_id: values.email_template_id
     }
-
+    // console.log(formData)
+    // return
     // setSaving(true)
 
     axios

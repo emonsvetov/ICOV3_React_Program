@@ -1,27 +1,31 @@
-import React from 'react';
-import { Col, Button, Row } from 'reactstrap';
-
-const CartItem = ({data}) =>{
-    const {merchant, gift, quantity} = data;
-    const {logo, name} = merchant;
-    const {giftCode, price} = gift;
+import { Row, Col} from 'reactstrap';
+import { connect } from 'react-redux';
+import {onClickRemoveItem} from '@/services/cart/removeItem'
+const CartItem = ({index, item, program}) =>{
+    const giftCode = `$${parseFloat(item.redemption_value, 3).toFixed(2)} Gift Code`
+    const redemptionPoints = item.redemption_value * program.factor_valuation * item.qty
+    const merchant_icon_src = `${process.env.REACT_APP_API_STORAGE_URL}/${item.merchant_icon}`;
     return (
         <Row className='cart-item mb-3'>
-            <Col md={3}>
-                <img src={logo} alt='merchant'/>
+            <Col md={2}>
+                <img src={merchant_icon_src} alt='merchant'/>
             </Col>
             <Col md={4} className='flex-column'>
-                <div><strong>{name}</strong></div>
-                <span>{giftCode} Gift Code</span>
+                <div><strong>{item.merchant_name}</strong></div>
+                <span>{giftCode}</span>
+            </Col>
+            <Col md={1}>
+                <span>{`x ${item.qty}`}</span>
             </Col>
             <Col md={2}>
-                <span>{`x ${quantity}`}</span>
+                <span>{redemptionPoints} Points</span>
             </Col>
-            <Col md={3}>
-                <span>{price} Points</span>
+            <Col md={1}>
+                <span onClick={() => onClickRemoveItem(index, program.factor_valuation)} style={{color:'red',fontSize:11,fontWeight:700}}>X</span>
             </Col>
         </Row>
     )
 }
-
-export default CartItem
+export default connect((state) => ({
+    program: state.program
+}))(CartItem);

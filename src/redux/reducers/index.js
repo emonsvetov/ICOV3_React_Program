@@ -4,8 +4,11 @@ import rtlReducer from './rtlReducer';
 import flashReducer from './flashReducer';
 import merchantReducer from './merchantReducer';
 import organizationReducer from './organizationReducer';
+import domainReducer from './domainReducer';
 import userReducer from './userReducer';
 import programReducer from './programReducer';
+import templateReducer from './templateReducer';
+import rootProgramReducer from './rootProgramReducer';
 import cartReducer from './cartReducer';
 import balanceReducer from './balanceReducer';
 export {
@@ -15,8 +18,11 @@ export {
   flashReducer,
   merchantReducer,
   organizationReducer,
+  domainReducer,
   userReducer,
   programReducer,
+  rootProgramReducer,
   cartReducer,
   balanceReducer,
+  templateReducer,
 }

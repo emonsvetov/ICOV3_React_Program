@@ -5,12 +5,16 @@ import axios from 'axios'
 import Routes from './Routes';
 import store from './store';
 import '../../scss/app.scss';
-import {getBearer, getOrganization, getAuthUser, getAuthProgram, getAuthPoints} from './auth';
+import {getBearer, getOrganization, getAuthUser, getAuthProgram, getAuthRootProgram, getAuthPoints, getAuthCart, setAuthDomain, getAuthDomain} from './auth';
 import {setOrganization} from '@/redux/actions/organizationActions';
 import {setAuthUser} from '@/redux/actions/userActions';
 import {setStoreProgram} from '@/redux/actions/programActions';
+import {setRootProgram} from '@/redux/actions/rootProgramActions';
 import {setPointBalance} from '@/redux/actions/balanceActions';
+import {setCart} from '@/redux/actions/cartActions';
 import {FlashMessage} from "@/shared/components/flash";
+import {setDomain} from '@/redux/actions/domainActions';
+import {setTemplate} from '@/redux/actions/templateActions';
 
 // require('dotenv').config()
 axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL + '/api/v1';
@@ -50,10 +54,17 @@ const App = () => {
   }, []);
 
   const setAuthOrganization = () => {
-    // console.log(getAuthProgram())
+    getAuthDomain()
+    .then( domain => {
+      // console.log(domain)
+      store.dispatch(setDomain(domain))
+      store.dispatch(setTemplate(domain.program.template))
+    })
     store.dispatch(setOrganization(getOrganization()))
     store.dispatch(setAuthUser(getAuthUser()))
     store.dispatch(setStoreProgram(getAuthProgram()))
+    store.dispatch(setRootProgram(getAuthRootProgram()))
+    store.dispatch(setCart(getAuthCart()))
     getAuthPoints()
     .then( balance => {
       store.dispatch(setPointBalance(balance))

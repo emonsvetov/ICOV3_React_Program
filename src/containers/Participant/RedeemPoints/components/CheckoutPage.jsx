@@ -1,43 +1,91 @@
 import React, {useEffect, useState} from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Col, Table, Button, Row, UncontrolledPopover, PopoverBody, ButtonToolbar} from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
+import { Col, Table, Button, Row, UncontrolledPopover, PopoverBody} from 'reactstrap';
 import { ORDER_COLUMNS } from './columns';
 import { useTable } from 'react-table';
 import { connect } from 'react-redux';
-import CartItem from './CartItem';
+import CartItem from '../../components/CartItem';
 import CartIcon from 'mdi-react/CartIcon';
+import axios from 'axios';
 import CloseIcon from 'mdi-react/CloseIcon';
+import {emptyAuthCart} from '@/containers/App/auth'
+import {useDispatch, sendFlashMessage, ApiErrorMessage} from "@/shared/components/flash"
 
+const API_STORAGE_URL = `${process.env.REACT_APP_API_STORAGE_URL}`;
 
-const makeColumnData = (data) => {
-    
-    let tableData = [];
-    data.forEach(item => {
-        let obj = {};
-        obj.logo = item.merchant.logo;
-        obj.name = item.merchant.name;
-        obj.giftCode = item.gift.giftCode;
-        obj.quantity = item.quantity;
-        obj.price = item.gift.price;
-        obj.total = item.gift.price * item.quantity;
-        tableData.push(obj);
+const CheckoutPage = ({cart, program, pointBalance, organization}) => {
+    const flashDispatch = useDispatch()
+    const [isLoading, setLoading] = useState(false)
+    const [cartIsEmpty, setCartIsEmpty] = useState(true)
+    const [cartObject, setCartObject] = useState({
+        items:[],
+        total_points:0,
+        total_dollar:0
     })
-    return tableData;
-}
-const CheckoutPage = ({cart}) => {
-    const columns = React.useMemo( () => ORDER_COLUMNS, [])
-    const data = React.useMemo(() => makeColumnData(cart), [])
-    const { getTableProps, headerGroups, rows, prepareRow } 
-        = useTable({ columns, data})
-    const [points, setPoints] = useState(0);
-    let navigate = useNavigate();
+    const makeColumnData = (cart) => {
+        // console.log(cart)
+        if( !cart?.items ) return []
+        let tableData = [];
+        cart.items.forEach(item => {
+            let obj = {};
+            obj.logo = `${API_STORAGE_URL}/${item.merchant_icon}`;
+            obj.name = item.merchant_name;
+            obj.giftCode = `$${parseFloat(item.redemption_value, 3).toFixed(2)} Gift Code = ${item.redemption_value * program.factor_valuation}`;
+            obj.quantity = item.qty;
+            obj.price = item.redemption_value * program.factor_valuation;
+            obj.total = item.redemption_value * program.factor_valuation * item.qty;
+            tableData.push(obj);
+        })
+        return tableData;
+    }
 
     useEffect(() => {
-        let amount = 0;
-        cart.forEach( item => amount += item.gift.price * item.quantity);
-        setPoints(amount);
-        }, [cart]);
-    
+        // console.log(cart)
+        if( cart )  {
+            prepareCart( cart )
+        }
+    }, [cart]);
+
+    const confirmOrder = () => {
+        // console.log(cartObject)
+        setLoading(true);
+        axios.post(`/organization/${organization.id}/program/${program.id}/checkout`, cartObject)
+        .then( (res) => {
+          console.log(res)
+          if(res.status === 200)  {
+              if( res.data?.success) {
+                emptyAuthCart();
+                window.location = '/participant/home'
+              }
+          }
+        })
+        .catch( err => {
+            // console.log(err)
+            // console.log(error.response.data)
+            flashDispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
+            setLoading(false)
+        })
+    }
+
+    const prepareCart = (cartdata) => {
+        // console.log(cartdata)
+        if( cartdata?.items && cartdata.items.length > 0) {
+            setCartIsEmpty(false)
+        }   else    {
+            setCartIsEmpty(true)
+        }
+        setCartObject(cartdata)
+    }
+
+    const columns = React.useMemo( () => ORDER_COLUMNS, [])
+    const data = makeColumnData(cartObject)
+    // console.log(data)
+    const { getTableProps, headerGroups, rows, prepareRow } 
+        = useTable({ columns, data})
+    let navigate = useNavigate();
+
+  if( cartIsEmpty ) return "Your cart it empty";
+//   console.log(data)
   return (
     <>
         <div className='checkout'>
@@ -50,7 +98,7 @@ const CheckoutPage = ({cart}) => {
                         <CartIcon  className='redtext'/> 
                         <strong>Cart</strong>
                     </span>
-                    <span className='mx-3'>{points} Points</span>
+                    <span className='mx-3'>{cartObject.total_points} Points</span>
                     <UncontrolledPopover
                         placement="bottom"
                         target="PopoverFocus"
@@ -61,8 +109,8 @@ const CheckoutPage = ({cart}) => {
                             <div className='d-flex justify-content-end'>
                                 <CloseIcon className='cursor-pointer'/>
                             </div>
-                            {cart?.map((item, index) =>{
-                                return <CartItem key={index} data ={item}/>
+                            {cartObject?.items?.map((item, index) =>{
+                                return <CartItem key={`checkout-cartitem-${index}`} index={index} item={item}/>
                             })}  
                             <hr/>
                             <Row>
@@ -70,7 +118,7 @@ const CheckoutPage = ({cart}) => {
                                     <strong>Total:</strong>
                                 </Col>    
                                 <Col md={3} >
-                                    <span>{points} Points</span>
+                                    <span>{cartObject.total_points} Points</span>
                                 </Col>    
                             </Row>
                             <Row>
@@ -87,7 +135,7 @@ const CheckoutPage = ({cart}) => {
             </Row>
             <div>
                 <span>
-                    Clicking "Confirm My Order" will confirm this redemption and <strong>{points}Points</strong> will be deducted from your rewards account.
+                    Clicking "Confirm My Order" will confirm this redemption and <strong>{cartObject.total_points} Points</strong> will be deducted from your rewards account.
                 </span>
             </div>
             <div className='redtext text-center text-decoration-underline'>
@@ -130,7 +178,7 @@ const CheckoutPage = ({cart}) => {
                     Total:
                 </Col>
                 <Col md={3} className='d-flex justify-content-center'>
-                    {points.toLocaleString()} Points
+                    {cartObject.total_points.toLocaleString()} Points
                 </Col>
             </Row>
             <Row>
@@ -138,11 +186,11 @@ const CheckoutPage = ({cart}) => {
                     Balance After Purchase:
                 </Col>
                 <Col md={3} className='d-flex justify-content-center'>
-                    {points.toLocaleString()} Points
+                    {pointBalance.points - cartObject.total_points} Points
                 </Col>
             </Row>
             <div className='d-flex justify-content-end my-4'>
-                <Button  className="btn btn-primary red "  onClick={()=>{}}>Confirm My Order</Button>
+                <Button disabled={isLoading} className="btn btn-primary red "  onClick={confirmOrder}>Confirm My Order</Button>
             </div>
             
         </div> 
@@ -153,4 +201,7 @@ const CheckoutPage = ({cart}) => {
 
 export default connect((state) => ({
     cart: state.cart,
+    program: state.program,
+    pointBalance: state.pointBalance,
+    organization: state.organization
 }))(CheckoutPage);
