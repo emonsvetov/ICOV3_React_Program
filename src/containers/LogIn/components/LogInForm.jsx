@@ -89,7 +89,7 @@ const LogInForm = () => {
       initialValues={
         {
           // email: 'manager@inimist.com',
-          email: 'hmaudson2@dyndns.org',
+          // email: 'hmaudson2@dyndns.org',
           // email: 'arvind.mailtoxsxx@gmail.com',
           password: 'aaa'
         }
