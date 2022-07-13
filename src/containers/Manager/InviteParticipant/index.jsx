@@ -138,7 +138,7 @@ const InviteParticipant = ({auth, organization, rootProgram}) => {
                         </Field>
                     </Col>
                   </Row>
-                  <Row>  
+                  {/* <Row>  
                     <Col md="12">
                         <Field name="external_id">
                         {({ input, meta }) => (
@@ -153,7 +153,7 @@ const InviteParticipant = ({auth, organization, rootProgram}) => {
                         )}
                         </Field>
                     </Col>
-                  </Row>
+                        </Row>*/}
                   <Row>  
                     <Col md="12">
                         <Field name="email">
