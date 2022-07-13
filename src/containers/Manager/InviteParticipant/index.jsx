@@ -13,6 +13,7 @@ import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 //import {getProgram} from '@/services/program/getProgram';
 
 const InviteParticipant = ({auth, organization}) => {
+
   const [value, setValue] = useState(false);
   /*const onSubmit = values => {
     
@@ -27,7 +28,6 @@ const InviteParticipant = ({auth, organization}) => {
   //console.log(auth);
   const onSubmit  = values  => {
      console.log(values)
-   //console.log(program_list)
     // return
     setLoading(true)
     axios.put(`/organization/${organization.id}/program/${values.program_id}/invite`, values)
@@ -56,22 +56,20 @@ const InviteParticipant = ({auth, organization}) => {
             >
               {({ handleSubmit, form, submitting, pristine, values }) => (
                 <form className="form d-flex flex-column justify-content-evenly" onSubmit={handleSubmit}>
-                   
-                   
                    <Row>  
                     <Col md="12">
-                        <Field name="program_id">
-                        {({ input, meta }) => (
-                            <FormGroup>
-                              <Input
-                                placeholder="Program id *"
-                                type="text"
-                                {...input}
-                              />
-                                  {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
-                            </FormGroup>
-                        )}
-                        </Field>
+                      <Field name="program_id">
+                      {({ input, meta }) => (
+                          <FormGroup>
+                            <Input
+                            placeholder="Program id *"
+                            type="text"
+                            {...input}
+                            />
+                            {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                          </FormGroup>
+                      )}
+                      </Field>
                     </Col>
                   </Row>
                   <Row>  
@@ -169,7 +167,7 @@ const InviteParticipant = ({auth, organization}) => {
 const mapStateToProps = (state) => {
   return {
     auth: state.auth,
-     organization: state.organization,
+    organization: state.organization,
   };
 };
 export default connect(mapStateToProps)(InviteParticipant);
