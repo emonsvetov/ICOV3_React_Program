@@ -68,9 +68,6 @@ const InviteParticipant = ({auth, organization, rootProgram}) => {
   return (
     <div className='invite-participant'>
         <h2 className='title mb-3'>Invite Participant</h2>
-        <div className="d-flex align-items-center justify-content-center">
-          <SelectProgram />
-        </div>
         <Form
               onSubmit={onSubmit}
               initialValues={{}}
@@ -180,7 +177,7 @@ const InviteParticipant = ({auth, organization, rootProgram}) => {
                         {({ input, meta }) => (
                             <FormGroup>
                               <Select
-                                options={options}
+                                options={{}}
                                 clearable={true}
                                 className="react-select"
                                 placeholder={'Award Level'}

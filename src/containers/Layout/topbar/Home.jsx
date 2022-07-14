@@ -9,7 +9,7 @@ const LINKS = [
   { to: '', text: 'Sign up', desc: 'First time users start here' },
 ];
 
-const HomeTopbar = ({onClickHandle, onClickSignup, template}) => {
+const HomeTopbar = ({onClickLogin, onClickSignup, template}) => {
   const [isOpen, setOpen] = useState(false);
   const toggle = ()=>{
     setOpen( prev => !prev) 
