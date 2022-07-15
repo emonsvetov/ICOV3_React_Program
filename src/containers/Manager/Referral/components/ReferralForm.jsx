@@ -1,7 +1,7 @@
 import { Input, Col, Row, FormGroup, Label, Button} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 import renderToggleButtonField from "@/shared/components/form/ToggleButton"
-import formValidation from "@/validation/addEvent"
+import formValidation from "@/validation/account"
 
 const ReferralForm = ({
     onSubmit, 
@@ -14,9 +14,7 @@ const ReferralForm = ({
         <Form
             onSubmit={onSubmit}
             validate={(values) => formValidation.validateForm(values)}
-            
-            initialValues={referral
-            }
+            initialValues={referral}
         >
             {({ handleSubmit, form, submitting, pristine, values }) => (
             <form className="form d-flex flex-column justify-content-evenly" onSubmit={handleSubmit}>

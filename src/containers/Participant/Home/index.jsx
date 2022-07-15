@@ -31,15 +31,17 @@ const Home = () => {
         <Row>
           <Col md={9}>
             <div className="dashboard">
-                <div className='welcome'>
-                  <h1> Welcome back Jay! </h1>
-                  <div className='description'>
-                    Congratulations on earning rewards! Redeem your rewards when you earn them or save them for a "rainy day".
-                  </div>  
+                <div className='mb-3'>
+                  <Row>
+                      <Col md={8}>
+                        <h1> Welcome back Jay! </h1>
+                        <div className='description'>
+                          Congratulations on earning rewards! Redeem your rewards when you earn them or save them for a "rainy day".
+                        </div>  
+                      </Col>
+                  </Row>
                 </div>
-
                 <RewardsPanel />
-                
                 <div className='mt-5'>
                   <h3>Select a merchant to redeem your points</h3>
                   <Slider data={slide_imgs} />

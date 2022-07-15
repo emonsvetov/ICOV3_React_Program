@@ -86,7 +86,7 @@ const ReactTablePagination = ({
             <ChevronDoubleRightIcon className="pagination__link-icon" />
           </PaginationLink>
         </PaginationItem>
-        <PaginationItem className="pagination__item pagination-info">
+        <PaginationItem className="m-auto pagination__item pagination-info">
           Showing {pageSize * pageIndex + 1} to {pageSize * pageIndex + page.length} of {dataLength}
         </PaginationItem>
         {manualPageSize.length > 1 && (

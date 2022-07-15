@@ -82,6 +82,20 @@ const ProgramSettings = ( {auth, program, organization} ) => {
           </div>
         </div>
 
+        <div className={activeTab != 2 ? "d-none": ""} id="active">
+          <div className='my-3 d-flex justify-content-between'>
+            <h3 >Goal Plans</h3>
+            <Button color='danger' onClick={() =>toggle('AddGoal')}>Add New Goal Plan</Button>
+          </div>
+        </div>
+
+        <div className={activeTab != 3 ? "d-none": ""} id="expired">
+          <div className='my-3 d-flex justify-content-between'>
+            <h3 >Goal Plans</h3>
+            <Button color='danger' onClick={() =>toggle('AddGoal')}>Add New Goal Plan</Button>
+          </div>
+        </div>
+
         <div className={activeTab != 4 ? "d-none": ""} id="leaderboards">
           <div className='my-3 d-flex justify-content-between'>
             <h3 >Leaderboards</h3>

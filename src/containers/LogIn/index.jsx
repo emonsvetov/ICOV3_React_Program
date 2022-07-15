@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import LogInForm from './components/LogInForm';
+import { connect } from 'react-redux';
 import { UncontrolledCarousel } from 'reactstrap';
 import HomeTopbar from '../Layout/topbar/Home';
-import { useStore } from 'react-redux';
 import LoginPopup from './components/LoginPopup';
+// import Signup from './components/SignupPopup';
 
 import "react-multi-carousel/lib/styles.css";
 import Carousel from "react-multi-carousel";
@@ -52,17 +52,21 @@ const responsive = {
 };
 
 
-const LogIn = () => {
+const LogIn = ({template}) => {
   const [showLoginPopup, setShowPopup ] = useState(false);
+  const [showSignup, setShowSignup ] = useState(false);
   const popupToggle = () => {
     setShowPopup(prevState => !prevState);
   };
+  const signupToggle = () => {
+    setShowSignup(prevState => !prevState);
+  };
   let slide_imgs = getSlideImg();
   return <div>
-    <HomeTopbar onClickHandle = {popupToggle}/>
+    <HomeTopbar onClickLogin = {popupToggle} onClickSignup = {signupToggle}/>
     <UncontrolledCarousel items={items} indicators={false} controls={false}/>
     <div className='text-center mt-4 mb-5'>
-      <h5>Welcome to INCENTCO's Global Solutions rewards site! When you participate in our program, you'll earn rewards for various activities.</h5>
+      <h5>{template?.welcome_message ? template.welcome_message.replace(/<\/?[^>]+(>|$)/g, "") : `Welcome to INCENTCO's Global Solutions rewards site! When you participate in our program, you'll earn rewards for various activities.` }</h5>
     </div>
     <Carousel
       swipeable={false}
@@ -115,10 +119,18 @@ const LogIn = () => {
     </Carousel>;
 
     {showLoginPopup && <LoginPopup onCancelHandler={popupToggle}/>}
+    {/* {showSignup && <Signup onCancelHandler={signupToggle} />} */}
   </div>
 };
 
-export default LogIn;
+const mapStateToProps = (state) => {
+  return {
+      // domain: state.domain,
+      template: state.domain?.program?.template
+  };
+};
+
+export default connect(mapStateToProps)(LogIn);
 
 // if you want to add select, date-picker and time-picker in your app you need to uncomment the first
 // four lines in /scss/components/form.scss to add styles

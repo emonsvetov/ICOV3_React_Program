@@ -26,7 +26,7 @@ const Leaderboards = () => {
     }
   }
   return (
-    <Container>
+    <Container className='leaderboards'>
       
       {/* <div className='navbar mb-3'>
       <nav className="navs">

@@ -214,6 +214,29 @@ export const AWARD_HISTORY_DATA =[
         notes: "some notes",
         value: 0,
         dollar_value: 100,
-    },   
-          
+    },             
+]
+
+export const REWARD_DATA = [
+    {
+        "name": "QA2 AQ2",
+        "event":"Great job",
+        "template":"Thanks for all of your hard work this year. Please enjoy a few bucks to go shopping and buy something nice for Greg and Gerry. Enjoy!",
+        "from":"Oleg Ganshonkov",
+        "timestamp" : "03/30/2022 21:41:57",
+        "comments" :[
+            {
+                "from": "Rick Conner",
+                "content": "Thank you so very much",
+                "timestamp":"09/02/2021 02:25:25" 
+            },
+            {
+                "from": "Rick Conner",
+                "content": "Thank you so very much",
+                "timestamp":"09/02/2021 02:25:25" 
+            }
+            
+        ]
+    }
+    
 ]

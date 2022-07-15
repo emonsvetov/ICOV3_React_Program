@@ -1,19 +1,24 @@
 import React, {useState} from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import { Container, NavLink, Navbar, NavbarBrand, NavbarToggler, Dropdown,Collapse, Nav, 
+import { Navbar, NavbarBrand, NavbarToggler,Collapse, Nav, 
          } from 'reactstrap';
-const Brand = `${process.env.PUBLIC_URL}/img/logo/big_logo.png`;
+
 const LINKS = [
-  { to: 'onClickHandle', text: 'Sign in', desc : 'Returning users enter here' },
+  { to: 'onClickLogin', text: 'Sign in', desc : 'Returning users enter here' },
   { to: '', text: 'Sign up', desc: 'First time users start here' },
 ];
 
-const HomeTopbar = ({onClickHandle}) => {
+const HomeTopbar = ({onClickLogin, onClickSignup, template}) => {
+  console.log(template)
   const [isOpen, setOpen] = useState(false);
   const toggle = ()=>{
     setOpen( prev => !prev) 
   }
+  
+  if( !template ) return 'Loading...'
+  const Brand = `${process.env.REACT_APP_API_STORAGE_URL}/${template.big_logo}`;
+
   return (
   <div className="topbar home">
     <div className="topbar__wrapper">
@@ -37,7 +42,7 @@ const HomeTopbar = ({onClickHandle}) => {
             {LINKS.map((item, index) => {
               return <div key={index} className='flex-column mx-3'>
                         <span>{item.desc}</span>
-                        <div className='text-uppercase text-center item' onClick={item.to ? onClickHandle : ""}>
+                        <div className='text-uppercase text-center item' onClick={item.to ? onClickLogin : onClickSignup}>
                           {item.text}
                         </div>  
                     </div>
@@ -55,4 +60,12 @@ const HomeTopbar = ({onClickHandle}) => {
   )
 };
 
-export default HomeTopbar;
+const mapStateToProps = (state) => {
+  return {
+      template: state.template
+  };
+};
+
+export default connect(mapStateToProps)(HomeTopbar);
+
+// export default HomeTopbar;

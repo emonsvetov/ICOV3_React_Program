@@ -70,3 +70,34 @@ export const hasRoleInProgram = (roleName, programId, user) => {
     }
     return false;
   }
+
+  export const BuildProgramOptions = ({programs, depth = 0}) => {
+    let optionsHtml = []
+    if( programs.length > 0) {
+        programs.map( p => {
+            optionsHtml.push(<option key={`program-option-${p.id}`} value={`${p.id}`}>{'-'.repeat(depth)} {p.name}</option>)
+            if( p?.children && p.children.length > 0)   {
+                depth++;
+                optionsHtml.push(<BuildProgramOptions key={`program-option-group-${p.id}`} programs={p.children} depth={depth} />)
+            }
+        })
+    }
+    return optionsHtml
+}
+
+export const makeLabelizedOptionsFromTree = (programs, depth = 0) => {
+    let optionsObject = []
+    if( programs.length > 0) {
+        programs.map( p => {
+            optionsObject.push({
+                label: '-'.repeat(depth) + ' ' + p.name,
+                value: p.id
+            })
+            if( p?.children && p.children.length > 0)   {
+                depth++;
+                optionsObject = [...optionsObject, ...makeLabelizedOptionsFromTree(p.children, depth)]
+            }
+        })
+    }
+    return optionsObject
+}

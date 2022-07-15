@@ -22,7 +22,7 @@ import ImportIcon from 'mdi-react/ImportIcon';
 import PeerIcon from 'mdi-react/PostItNoteAddIcon';
 import apiTableService from "@/services/apiTableService"
 
-const QUERY_PAGE_SIZE = 20
+const QUERY_PAGE_SIZE = 10
 
 const ACTIONS = [
     {name: 'Reward', link:'', icon: <RewardIcon />},
@@ -33,7 +33,22 @@ const ACTIONS = [
     {name: 'Import', link:'', icon: <ImportIcon />},
     {name: 'Peer Allocation', link:'', icon: <PeerIcon />},
 ]
+const ENTRIES = [
+    {value: 10},
+    {value: 25},
+    {value: 50},
+    {value: 100}
+]
      
+const STATUS = [
+    {name: 'Active'},
+    {name: 'Deactivated'},
+    {name: 'Locked'},
+    {name: 'New'},
+    {name: 'Pending Activation'},
+    {name: 'Pending Deactivation'}
+]
+
 const ProgramParticipants = ( {program, organization} ) => {
     // console.log("ProgramParticipants")
     const [modalName, setModalName] = useState(null)
@@ -43,6 +58,8 @@ const ProgramParticipants = ( {program, organization} ) => {
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState({ keyword:''});
     const [participants, setParticipants] = useState([]);
+    const [entry, setEntry] = useState(QUERY_PAGE_SIZE);
+    const [status, setStatus] = useState([]);
 
     // selectedFlatRows.map(d => d.original)/
 
@@ -66,6 +83,22 @@ const ProgramParticipants = ( {program, organization} ) => {
             }
             setParticipants( rows )
             toggle(name)
+        }
+    }
+    const onSelectEntry = ( value ) => {
+        setEntry(value)
+    }
+
+    const onSelectStatus = ( value ) => {
+        setEntry(value)
+        let temp = Object.assign(status);
+        if(status.includes(value)){
+            temp.splice(temp.indexOf(value), 1);
+            setStatus(temp);
+        }
+        else{
+            temp.push(value);
+            setStatus(temp);
         }
     }
 
@@ -249,6 +282,42 @@ const ProgramParticipants = ( {program, organization} ) => {
         )
     }
 
+    const EntriesDropdown = () => {
+        return (
+            <UncontrolledDropdown>
+                <DropdownToggle caret className='dropdowntoggle'>
+                Show Entries
+                </DropdownToggle>
+                <DropdownMenu>
+                {ENTRIES.map((item, index) =>{
+                    return <DropdownItem onClick={() => onSelectEntry(item.value)}>{item.value}</DropdownItem>
+                })}
+                </DropdownMenu>
+            </UncontrolledDropdown>
+        )
+    }
+
+    const StatusDropdown = () => {
+        return (
+            <UncontrolledDropdown>
+                <DropdownToggle caret className='dropdowntoggle'>
+                Status
+                </DropdownToggle>
+                <DropdownMenu>
+                {STATUS.map((item, index) =>{
+                    if(status.includes(item.name)){
+                        return <DropdownItem onClick={() => onSelectStatus(item.name)}><input type="checkbox" checked style={{marginRight: '10px'}} />{item.name}</DropdownItem>
+                    }
+                    else{
+                        return <DropdownItem onClick={() => onSelectStatus(item.name)}><input type="checkbox" style={{marginRight: '10px'}} />{item.name}</DropdownItem>
+                    }
+                    
+                })}
+                </DropdownMenu>
+            </UncontrolledDropdown>
+        )
+    }
+
     if ( loading ) {
         return <p>Loading...</p>;
     }
@@ -259,20 +328,8 @@ const ProgramParticipants = ( {program, organization} ) => {
                 <div className='header d-flex  justify-content-between'>
                     <div className='d-flex w-25 justify-content-between'>
                         <ActionsDropdown />
-                        <UncontrolledDropdown>
-                            <DropdownToggle caret className='dropdowntoggle'>
-                            Show Entries
-                            </DropdownToggle>
-                            <DropdownMenu>
-                            </DropdownMenu>
-                        </UncontrolledDropdown>
-                        <UncontrolledDropdown>
-                            <DropdownToggle caret className='dropdowntoggle'>
-                            Status
-                            </DropdownToggle>
-                            <DropdownMenu>
-                            </DropdownMenu>
-                        </UncontrolledDropdown>
+                        <EntriesDropdown />
+                        <StatusDropdown />
                     </div>
                     <TableFilter filter={filter} setFilter={setFilter} />
                 </div>

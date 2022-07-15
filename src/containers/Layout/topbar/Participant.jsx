@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import { Link, NavLink } from 'react-router-dom';
 import TopbarProfile from './TopbarProfile';
+import { connect } from 'react-redux';
+
 import { Container, Navbar, NavbarBrand, NavbarToggler, Dropdown,
         Collapse, Nav, NavItem, UncontrolledDropdown,
         DropdownToggle, DropdownItem, NavbarText, DropdownMenu
@@ -16,11 +18,13 @@ const LINKS = [
   { to: '/participant/faqs', text: 'FAQs' },
 ];
 
-const ParticipantTopbar = () => {
+const ParticipantTopbar = ({template}) => {
   const [isOpen, setOpen] = useState(false);
   const toggle = ()=>{
     setOpen( prev => !prev) 
   }
+  if( !template ) return 'Loading...'
+  const Brand = `${process.env.REACT_APP_API_STORAGE_URL}/${template.small_logo}`;
   return (
   <div className="topbar">
     <Container className="topbar__wrapper">
@@ -81,5 +85,10 @@ const ParticipantTopbar = () => {
   </div>
   )
 };
+const mapStateToProps = (state) => {
+  return {
+      template: state.template
+  };
+};
 
-export default ParticipantTopbar;
+export default connect(mapStateToProps)(ParticipantTopbar);

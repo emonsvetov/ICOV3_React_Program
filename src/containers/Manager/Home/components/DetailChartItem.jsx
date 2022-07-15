@@ -1,7 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Col, Button, Row } from 'reactstrap';
-import { Dropdown,UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Input } from 'reactstrap';
 
 import {
   Chart as ChartJS,
@@ -42,24 +40,41 @@ export const options = {
 const TITLES = [
   'Award','Peer Award'
 ]
+const selectOptions = [
+  {'value': -1, 'label':'Select'},
+  {'value': 0, 'label':'Past 7 Days'},
+  {'value': 1, 'label':'Past 30 Days'},
+  {'value': 2, 'label':'Past 12 Months'},
+]
+const DurationOptions = () =>(
+  selectOptions.map((item, index) =>{
+    if(index == 0){
+      return <option key={index} value={item.value} disabled>{item.label}</option>
+    }
+    else{
+      return <option key={index} value={item.value} >{item.label}</option>
+    }
+  })
+)
 const DetailCharItem = ({type, data}) => {
   // const {title, data, duration} = props.data;
+  const [duration, setDuration] = React.useState(-1);
+  const onChange = (e) => {
+    setDuration(e.target.value)
+    .then( p => {
+        //
+        window.location.reload()
+    }) 
+  }
   return (
     <div className={`rounded-panel chart-panel index-${type}`}>
       <div className='title d-flex justify-content-between'>
         <h3>{TITLES[type]} Detail</h3>
         <div className='title-right d-flex'>
-          <span>$ / #</span>
-          <UncontrolledDropdown >
-            <DropdownToggle caret className='dropdowntoggle'>
-              Select
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem>Past 7 Days</DropdownItem>  
-              <DropdownItem>Past 30 Days</DropdownItem>
-              <DropdownItem>Past 12 Months</DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
+          <span className='w-50'>$ / #</span>
+          <Input type="select" className='dropdowntoggle' defaultValue={duration} name="period" onChange={onChange}>
+              <DurationOptions />
+          </Input>    
         </div>
       </div>
       <Line options={options} data={data} />
