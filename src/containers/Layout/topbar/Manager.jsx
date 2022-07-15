@@ -16,6 +16,7 @@ const LINKS = [
 ];
 
 const ManagerTopbar = ({template}) => {
+  console.log(template)
   const [isOpen, setOpen] = useState(false);
   const toggle = ()=>{
     setOpen( prev => !prev) 

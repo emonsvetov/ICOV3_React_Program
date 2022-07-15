@@ -5,7 +5,6 @@ import RewardsPanel from './components/RewardsPanel';
 import Slider from './components/slider';
 import {ParticipantTabNavs} from '../../../shared/components/tabNavs';
 import Sidebar from '../../Layout/sidebar';
-import ShoppingCart from '../components/ShoppingCart'
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/img/back.png`;
 
@@ -39,9 +38,6 @@ const Home = () => {
                         <div className='description'>
                           Congratulations on earning rewards! Redeem your rewards when you earn them or save them for a "rainy day".
                         </div>  
-                      </Col>
-                      <Col md={4} className='d-flex justify-content-end align-items-center'>
-                          <ShoppingCart />
                       </Col>
                   </Row>
                 </div>

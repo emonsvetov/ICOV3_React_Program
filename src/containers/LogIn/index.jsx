@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { UncontrolledCarousel } from 'reactstrap';
 import HomeTopbar from '../Layout/topbar/Home';
 import LoginPopup from './components/LoginPopup';
-import Signup from './components/SignupPopup';
+// import Signup from './components/SignupPopup';
 
 import "react-multi-carousel/lib/styles.css";
 import Carousel from "react-multi-carousel";
@@ -119,7 +119,7 @@ const LogIn = ({template}) => {
     </Carousel>;
 
     {showLoginPopup && <LoginPopup onCancelHandler={popupToggle}/>}
-    {showSignup && <Signup onCancelHandler={signupToggle} />}
+    {/* {showSignup && <Signup onCancelHandler={signupToggle} />} */}
   </div>
 };
 

@@ -10,6 +10,7 @@ const LINKS = [
 ];
 
 const HomeTopbar = ({onClickLogin, onClickSignup, template}) => {
+  console.log(template)
   const [isOpen, setOpen] = useState(false);
   const toggle = ()=>{
     setOpen( prev => !prev) 
