@@ -667,6 +667,19 @@ ul.horizontal {
         color: white;
     }
 }
+.modal {
+    &.padded{
+        .modal-content{
+            padding: 0.5rem
+        }
+    }
+    .close{
+        position: absolute;
+        right:-2rem;
+        top:-1.5rem;
+        color: white;
+    }
+}
 .leaderboards{
     .nav-tabs{
         a{
@@ -928,3 +941,4 @@ footer .teritery-menu{
 .form-label{margin-bottom:0}
 .form__form-group-input-wrap{display:flex;}
 .alert-danger{background-color: #FF3930;}
+.dropdown-group > div{margin-right: 5px;}

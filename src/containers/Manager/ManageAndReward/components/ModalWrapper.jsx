@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import GiveRewardPopup from './GiveRewardPopup';
+import ResendInviteModal from './ResendInviteModal';
+import ChangeStatusModal from './ChangeStatusModal';
 // import SubProgramsModal from './subprogram/SubProgramsModal'
 
 const MainModalWrapper = ({user, organization, program, name, isOpen, setOpen, toggle, participants}) => {
@@ -12,6 +14,12 @@ const MainModalWrapper = ({user, organization, program, name, isOpen, setOpen, t
         <>
         {
             name==='Reward' && <GiveRewardPopup {...props} />
+        }
+        {
+            name==='Resend Invite' && <ResendInviteModal {...props} />
+        }
+        {
+            (name==='Deactivate' || name==='Activate') && <ChangeStatusModal {...props} />
         }
         </>
     )
