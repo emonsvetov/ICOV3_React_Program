@@ -1,10 +1,14 @@
-import React, {useState} from 'react';
-import Select from 'react-select';
-import { Link } from 'react-router-dom';
-import {Modal, Input, Col, Row, FormGroup, FormFeedback, Label, Button} from 'reactstrap';
+import React, {useState, useEffect} from 'react';
+//import Select from 'react-select';
+//import { Link } from 'react-router-dom';
+import {Modal} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 import CloseIcon from 'mdi-react/CloseIcon';
-import Switch from '@/shared/components/form/Switch';
+//import Switch from '@/shared/components/form/Switch';
+import {getGoalPlanTypes} from '@/services/getGoalPlanTypes';
+import {labelizeNamedData} from '@/shared/helper';
+import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
+import GoalPlanForm from './GoalPlanForm'
 
 const AddGoalPlanImg = `/img/pages/addGoalPlan.png`;
 
@@ -13,8 +17,25 @@ const AddGoalPlanPopup = ({program, organization, isOpen, setOpen, toggle, data}
   const onSubmit = values => {
     
   }
+  const [loading, setLoading] = useState(false);
+  const [GoalPlanTypes, setGoalPlanTypes] = useState([]);
+  useEffect( () => {
+    getGoalPlanTypes()
+    .then( gptypes => {
+       console.log(gptypes)
+       console.log('test');
+      setGoalPlanTypes(labelizeNamedData(gptypes))
+    })
+  }, [])
+  let props = {
+    btnLabel: 'Add New Goal Plan',
+    GoalPlanTypes,
+    loading,
+    onSubmit
+  }
 
   return (
+    
     <Modal className={`program-settings modal-2col modal-xl`} isOpen={isOpen} toggle={() => setOpen(true)}>
       
           <div className='close cursor-pointer'>
@@ -29,9 +50,12 @@ const AddGoalPlanPopup = ({program, organization, isOpen, setOpen, toggle, data}
             </div>
             <img src={AddGoalPlanImg}/>
           </div>
-
           <div className="right">
-            <Form
+          <GoalPlanForm {...props} />
+        </div>
+
+        
+           {/* <Form
               onSubmit={onSubmit}
               
               initialValues={{}}
@@ -330,9 +354,8 @@ const AddGoalPlanPopup = ({program, organization, isOpen, setOpen, toggle, data}
                   </div>
                 </form>
               )}
-            </Form>
-          </div>      
-    </Modal>
+                          </Form> */}
+</Modal>
 )}
 
 export default AddGoalPlanPopup;
