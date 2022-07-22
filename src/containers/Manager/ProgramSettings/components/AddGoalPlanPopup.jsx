@@ -26,6 +26,7 @@ const AddGoalPlanPopup = ({program, organization, isOpen, setOpen, toggle, data}
        console.log('test');
       setGoalPlanTypes(labelizeNamedData(gptypes))
     })
+    
   }, [])
   let props = {
     btnLabel: 'Add New Goal Plan',
@@ -33,7 +34,7 @@ const AddGoalPlanPopup = ({program, organization, isOpen, setOpen, toggle, data}
     loading,
     onSubmit
   }
-
+  console.log(GoalPlanTypes);
   return (
     
     <Modal className={`program-settings modal-2col modal-xl`} isOpen={isOpen} toggle={() => setOpen(true)}>

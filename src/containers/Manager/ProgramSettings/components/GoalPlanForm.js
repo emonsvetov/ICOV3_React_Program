@@ -5,30 +5,30 @@ import Switch from '@/shared/components/form/Switch';
 import Select from 'react-select';
 import renderSelectField from '@/shared/components/form/Select';
 import renderToggleButtonField from "@/shared/components/form/ToggleButton";
-import formValidation from "@/validation/addEvent";
+//import formValidation from "@/validation/addEvent";
 
 const GoalPlanForm = ({
     onSubmit, 
-    onChangeAwardValue, 
+   // onChangeAwardValue, 
+   goalPlanTypes,
     loading,
-    goalPlanTypes,
     btnLabel = 'Save',
-    event = {},
+    goalplan = {},
     value,
     program
 }) => {
-   //console.log(event)
+   console.log(goalPlanTypes)
    //// if( event?.max_awardable_amount)    {
        // event.awarding_points = program.factor_valuation * event.max_awardable_amount
    // }
     return(
     <Form
             onSubmit={onSubmit}
-            validate={(values) => formValidation.validateForm(values)}
-            mutators={{
-            onChangeAwardValue
-            }}
-            initialValues={event
+            //validate={(values) => formValidation.validateForm(values)}
+           // mutators={{
+           // onChangeAwardValue
+          //  }}
+            initialValues={goalplan
             }
         >
             {({ handleSubmit, form, submitting, pristine, values }) => {
@@ -61,12 +61,68 @@ const GoalPlanForm = ({
                     />
                       </Col>
                       <Col md="6">
-                          <Field name="accrue_progress">
+                          {/*<Field name="automatic_progress">
                           {({ input, meta }) => (
                               <FormGroup>
                                 <Input
                                   placeholder="Accrue Progress Automatically"
                                   type="text"
+                                  {...input}
+                                />
+                                    {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                              </FormGroup>
+                          )}
+                          </Field>*/}
+                           <Field name="automatic_progress">
+                          {({ input, meta }) => (
+                              <FormGroup>
+                                <Select
+                                  value={value}
+                                  onChange={{}}
+                                  options={[{ value: '1', label: 'Yes' },
+                                  { value: '0', label: 'No' }]}
+                                  clearable={false}
+                                  className="react-select"
+                                  placeholder={'Accrue Progress Automatically'}
+                                  classNamePrefix="react-select"
+                                  label="fdgfdgfd"
+                                />
+                                    {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                              </FormGroup>
+                          )}
+                          </Field>
+                      </Col>
+                    </Row>
+                    <Row>
+                    <Col md="6">
+                           <Field name="automatic_frequency">
+                          {({ input, meta }) => (
+                              <FormGroup>
+                                <Select
+                                  value={value}
+                                  onChange={{}}
+                                  options={[{ value: 'daily', label: 'Daily' },
+                                  { value: 'weekly', label: 'Weekly' },
+                                  { value: 'monthly', label: 'Monthly' },
+                                  { value: 'annually', label: 'Annually' }]}
+                                  clearable={false}
+                                  className="react-select"
+                                  placeholder={'Automatic Goal Frequency'}
+                                  classNamePrefix="react-select"
+                                  label="fdgfdgfd"
+                                />
+                                    {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                              </FormGroup>
+                          )}
+                          </Field>
+                          </Col>
+                          <Col md="6">
+                          <Field name="automatic_value">
+                          {({ input, meta }) => (
+                              <FormGroup>
+                                <Input
+                                  placeholder="Amount of Progress To Assign"
+                                  type="number"
                                   {...input}
                                 />
                                     {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
@@ -82,7 +138,7 @@ const GoalPlanForm = ({
                               <FormGroup>
                                 <Input
                                   placeholder="Goal Plan Start Date:"
-                                  type="text"
+                                  type="date"
                                   {...input}
                                 />
                                     {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
@@ -121,7 +177,7 @@ const GoalPlanForm = ({
                           </Field>
                       </Col>
                       <Col md="6">
-                          <Field name="achieved_factor">
+                          <Field name="factor_before">
                           {({ input, meta }) => (
                               <FormGroup>
                                 <Input
@@ -137,7 +193,7 @@ const GoalPlanForm = ({
                     </Row>
                     <Row>
                       <Col md="6">
-                          <Field name="exceeded_factor">
+                          <Field name="factor_after">
                           {({ input, meta }) => (
                               <FormGroup>
                                 <Input
