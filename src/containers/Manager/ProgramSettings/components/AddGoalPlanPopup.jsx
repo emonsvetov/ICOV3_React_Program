@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 //import Select from 'react-select';
 //import { Link } from 'react-router-dom';
+import axios from 'axios';
 import {Modal} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 import CloseIcon from 'mdi-react/CloseIcon';
@@ -8,17 +9,123 @@ import CloseIcon from 'mdi-react/CloseIcon';
 import {getGoalPlanTypes} from '@/services/getGoalPlanTypes';
 import {labelizeNamedData} from '@/shared/helper';
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
+import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
 import GoalPlanForm from './GoalPlanForm'
 
 const AddGoalPlanImg = `/img/pages/addGoalPlan.png`;
 
 const AddGoalPlanPopup = ({program, organization, isOpen, setOpen, toggle, data}) => {
   const [value, setValue] = useState(false);
-  const onSubmit = values => {
-    
-  }
+  const dispatch = useDispatch()
   const [loading, setLoading] = useState(false);
   const [GoalPlanTypes, setGoalPlanTypes] = useState([]);
+  const onSubmit = (values) => {
+    let goalPlanData = {};
+    goalPlanData["organization_id"] = organization.id;
+    goalPlanData["program_id"] = program.id;
+
+    console.log(values)
+/**
+ * 'name'=>'required|string',
+            'goal_plan_type_id'=>'required|integer',
+            'event_id'=>'required|integer',
+            'program_id'=>'required|integer',
+            'organization_id'=>'required|integer',
+            'automatic_progress'=> 'required|boolean',
+            'automatic_frequency'=>'sometimes|string',
+            'automatic_value'=>'sometimes|integer',
+            'start_date'=> 'required|date_format:Y-m-d',
+            'default_target'=>'required|numeric',
+            'goal_measurement_label'=>'required|string',
+            'factor_before'=>'sometimes|numeric',
+            'factor_after'=>'sometimes|numeric',
+            'expiration_rule_id'=>'required|integer',
+            'annual_expire_month'=>'sometimes|integer', //if expiration_rule_id is annual
+            'annual_expire_day'=> 'sometimes|integer',  //if expiration_rule_id is annual
+            'custom_expire_offset'=>'sometimes|integer', //if expiration_rule_id is custom
+            'custom_expire_units'=>'sometimes|string', //if expiration_rule_id is custom 
+            'expire_date'=>'sometimes|date_format:Y-m-d',
+            'achieved_event_id '=>'sometimes|integer',
+            'exceeded_event_id '=>'sometimes|integer',
+            'progress_email_template_id'=>'required|integer',
+            'is_recurring'=>'sometimes|boolean',
+            'award_per_progress'=>'sometimes|boolean',
+            'award_email_per_progress'=>'sometimes|boolean',
+            'progress_requires_unique_ref_num'=>'sometimes|boolean',
+            'assign_goal_all_participants_default'=>'sometimes|boolean',
+ */
+    let {
+      name,
+      goal_plan_type_id,
+      automatic_progress,
+      automatic_frequency,
+      automatic_value,
+      start_date,
+      default_target,
+      goal_measurement_label,
+      factor_before,
+      factor_after,
+      expiration_rule_id,
+      annual_expire_month,
+      annual_expire_day,
+      custom_expire_offset,
+      custom_expire_units,
+      expire_date,
+      achieved_event_id,
+      exceeded_event_id,
+      progress_email_template_id,
+      is_recurring,
+      award_per_progress,
+      award_email_per_progress,
+      progress_requires_unique_ref_num,
+      assign_goal_all_participants_default
+
+    } = values;
+    goalPlanData.name= name;
+
+    goalPlanData.goal_plan_type_id = 1;
+    goalPlanData.automatic_progress = 1;
+    //goalPlanData.automatic_frequency =  automatic_frequency;
+    //goalPlanData.automatic_value = automatic_value;
+    goalPlanData.start_date = start_date;
+    goalPlanData.default_target = default_target;
+    goalPlanData.goal_measurement_label =goal_measurement_label;
+    goalPlanData.factor_before =  factor_before;
+    goalPlanData.factor_after = factor_after;
+    goalPlanData.expiration_rule_id = 1;
+    //goalPlanData.annual_expire_month = annual_expire_month;
+    //goalPlanData.annual_expire_day = annual_expire_day;
+    //goalPlanData.custom_expire_offset = custom_expire_offset;
+    //goalPlanData.custom_expire_units = custom_expire_units;
+   // goalPlanData.expire_date = expire_date
+    goalPlanData.achieved_event_id= 1;
+    goalPlanData.exceeded_event_id= 1;
+    goalPlanData.progress_email_template_id = 1;
+    goalPlanData.is_recurring = is_recurring;
+    goalPlanData.award_per_progress = award_per_progress;
+    goalPlanData.award_email_per_progress = award_email_per_progress;
+    goalPlanData.progress_requires_unique_ref_num = progress_requires_unique_ref_num;
+    goalPlanData.assign_goal_all_participants_default = assign_goal_all_participants_default;
+
+    // console.log(goalPlanData)
+    //return;
+    setLoading(true)
+    axios
+      .post(`/organization/${organization.id}/program/${program.id}/goalplan`, goalPlanData)
+      .then((res) => {
+        //   console.log(res)
+        if (res.status == 200) {
+          window.location.reload()
+          dispatch(sendFlashMessage('Goal Plan added successfully!', 'alert-success', 'top'))
+          setLoading(false)
+        }
+      })
+      .catch((err) => {
+        //console.log(error.response.data);
+        dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
+        setLoading(false)
+      });
+  };
   useEffect( () => {
     getGoalPlanTypes()
     .then( gptypes => {

@@ -53,10 +53,10 @@ const GoalPlanForm = ({
                     <Row>
                       <Col md="6">
                       <Field 
-                            name="event_type_id"
+                            name="goal_plan_type_id"
                             className="react-select"
                             options={goalPlanTypes}
-                            placeholder={'Select Event Type'}
+                            placeholder={'Select Goal Plan Type'}
                             component={renderSelectField}
                     />
                       </Col>
@@ -163,7 +163,7 @@ const GoalPlanForm = ({
                     </Row>
                     <Row>
                       <Col md="6">
-                          <Field name="measurement_label">
+                          <Field name="goal_measurement_label">
                           {({ input, meta }) => (
                               <FormGroup>
                                 <Input
@@ -225,9 +225,85 @@ const GoalPlanForm = ({
                           </Field>
                       </Col>
                     </Row>
-                    <Row>
+                    {/*<Row>
                       <Col md="6">
-                          <Field name="achieved_event">
+                           <Field name="expire_date">
+                          {({ input, meta }) => (
+                              <FormGroup>
+                                <Input
+                                  placeholder="Goal Plan Annual Expiration Month"
+                                  type="text"
+                                  {...input}
+                                />
+                                    {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                              </FormGroup>
+                          )}
+                          </Field>
+                      </Col>
+                    </Row> /*}
+                    {/*<Row>
+                      <Col md="6">
+                          <Field name="annual_expire_month">
+                          {({ input, meta }) => (
+                              <FormGroup>
+                                <Input
+                                  placeholder="Goal Plan Annual Expiration Month"
+                                  type="text"
+                                  {...input}
+                                />
+                                    {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                              </FormGroup>
+                          )}
+                          </Field>
+                      </Col>
+                      <Col md="6">
+                      <Field name="annual_expire_day">
+                          {({ input, meta }) => (
+                              <FormGroup>
+                                <Input
+                                  placeholder="Goal Plan Annual Expiration Day"
+                                  type="text"
+                                  {...input}
+                                />
+                                    {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                              </FormGroup>
+                          )}
+                          </Field>
+                      </Col>
+                    </Row>*/}
+                     {/*<Row>
+                      <Col md="6">
+                          <Field name="custom_expire_offset">
+                          {({ input, meta }) => (
+                              <FormGroup>
+                                <Input
+                                  placeholder="Goal Plan Annual Expiration Month"
+                                  type="text"
+                                  {...input}
+                                />
+                                    {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                              </FormGroup>
+                          )}
+                          </Field>
+                      </Col>
+                      <Col md="6">
+                      <Field name="custom_expire_units">
+                          {({ input, meta }) => (
+                              <FormGroup>
+                                <Input
+                                  placeholder="Goal Plan Annual Expiration Day"
+                                  type="text"
+                                  {...input}
+                                />
+                                    {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                              </FormGroup>
+                          )}
+                          </Field>
+                      </Col>
+                    </Row>*/}
+                      <Row>
+                      <Col md="6">
+                          <Field name="achieved_event_id">
                           {({ input, meta }) => (
                               <FormGroup>
                                 <Select
@@ -245,7 +321,7 @@ const GoalPlanForm = ({
                           </Field>
                       </Col>
                       <Col md="6">
-                          <Field name="exceeded_event">
+                          <Field name="exceeded_event_id">
                           {({ input, meta }) => (
                               <FormGroup>
                                 <Select
@@ -265,7 +341,7 @@ const GoalPlanForm = ({
                     </Row>
                     <Row className='align-items-baseline'>
                       <Col md="10">
-                          <Field name="email_template">
+                          <Field name="progress_email_template_id">
                           {({ input, meta }) => (
                               <FormGroup>
                                 <Select
@@ -289,7 +365,7 @@ const GoalPlanForm = ({
   
                       <Row>
                         <Col md="12">
-                          <Field name="recurring">
+                          <Field name="is_recurring">
                             {({ input, meta }) => (
                                 <FormGroup className='d-flex justify-content-between'>
                                   <Label>Recurring:</Label>
@@ -305,7 +381,7 @@ const GoalPlanForm = ({
                       </Row>
                       <Row>
                         <Col md="12">
-                          <Field name="per_goal_item">
+                          <Field name="award_per_progress">
                             {({ input, meta }) => (
                                 <FormGroup className='d-flex justify-content-between'>
                                   <div className='d-flex flex-column' style={{width: '90%'}}>
@@ -324,7 +400,7 @@ const GoalPlanForm = ({
                       </Row>
                       <Row>
                         <Col md="12">
-                          <Field name="award_email">
+                          <Field name="award_email_per_progress">
                             {({ input, meta }) => (
                                 <FormGroup className='d-flex justify-content-between'>
                                   <div className='d-flex flex-column' style={{width: '90%'}}>
@@ -343,7 +419,7 @@ const GoalPlanForm = ({
                       </Row>
                       <Row>
                         <Col md="12">
-                          <Field name="require_unique_ref_num">
+                          <Field name="progress_requires_unique_ref_num">
                             {({ input, meta }) => (
                                 <FormGroup className='d-flex justify-content-between'>
                                   <Label>Goal Progress Items Require Unique Reference Number:</Label>
@@ -359,7 +435,7 @@ const GoalPlanForm = ({
                       </Row>
                       <Row>
                         <Col md="12">
-                          <Field name="assign_to_all">
+                          <Field name="assign_goal_all_participants_default">
                             {({ input, meta }) => (
                                 <FormGroup className='d-flex justify-content-between'>
                                   <Label>Assign Goal To All Participants By Default</Label>
