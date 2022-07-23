@@ -133,7 +133,7 @@ const GoalPlanForm = ({
                     </Row>
                     <Row>
                       <Col md="6">
-                          <Field name="start_date">
+                          <Field name="date_begin">
                           {({ input, meta }) => (
                               <FormGroup>
                                 <Input
@@ -227,7 +227,7 @@ const GoalPlanForm = ({
                     </Row>
                     {/*<Row>
                       <Col md="6">
-                           <Field name="expire_date">
+                           <Field name="date_end">
                           {({ input, meta }) => (
                               <FormGroup>
                                 <Input
