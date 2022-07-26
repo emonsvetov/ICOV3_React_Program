@@ -3,10 +3,9 @@ import { connect } from 'react-redux';
 import AddEventPopup from './AddEventPopup'
 import AddGoalPlanPopup from './AddGoalPlanPopup'
 import EditEventModal from './EditEventModal'
-import AddLeaderboardPopup from './AddLeaderboardPopup'
-import EditLeaderboardModal from './EditLeaderboardModal';
+import AddLeaderboardModal from './AddLeaderboardModal'
 
-const MainModalWrapper = ({ organization, program, name, isOpen, setOpen, toggle, event, setEvent, leaderboard, setLeaderboard}) => {
+const ModalWrapper = ({ organization, program, name, isOpen, setOpen, toggle, event, setEvent, leaderboard, setLeaderboard}) => {
     
     const props = {
         isOpen, setOpen, toggle, organization, program, event, setEvent, leaderboard, setLeaderboard
@@ -27,11 +26,8 @@ const MainModalWrapper = ({ organization, program, name, isOpen, setOpen, toggle
             name==='AddGoal' && <AddGoalPlanPopup {...props} />
         }
         {
-            name==='AddLeaderboard' && <AddLeaderboardPopup {...props} />
+            name==='AddLeaderboard' && <AddLeaderboardModal {...props} />
             
-        }
-        {
-            name==='EditLeaderboard' && <EditLeaderboardModal {...props} />
         }
         </>
     )
@@ -43,4 +39,4 @@ const mapStateToProps = (state) => {
        organization: state.organization,
     };
 };
-export default connect(mapStateToProps)(MainModalWrapper);
+export default connect(mapStateToProps)(ModalWrapper);

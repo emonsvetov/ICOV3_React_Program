@@ -1,20 +1,24 @@
 import React, {useEffect, useState} from 'react';
-import { Input, Col, Row, FormGroup, Label, Button} from 'reactstrap';
+import { Input, Col, Row, FormGroup, Label, Button, Card, CardHeader, CardBody} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 import axios from 'axios'
-import {labelizeNamedData} from '@/shared/helper'
+import {labelizeNamedData, patch4Select} from '@/shared/helper'
 import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 import {getLeaderboardTypes} from '@/services/program/getLeaderboardTypes'
+import {getLeaderboard} from '@/services/program/getLeaderboard'
 import renderSelectField from '@/shared/components/form/Select'
+import CheckboxField from '@/shared/components/form/CheckboxField';
 
-const AddLeaderboardForm = ({
+const EditLeaderboardForm = ({
+    id,
     organization,
     program
     }) => {
     const dispatch = useDispatch()
 
     const [leaderboardTypes, setLeaderboardTypes] = useState([]);
+    let [leaderboard, setLeaderboard] = useState(null);
     const [loading, setLoading] = useState(true);
 
     const onSubmit = (values) => {
@@ -43,39 +47,54 @@ const AddLeaderboardForm = ({
             dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
             setLoading(false)
           });
-    };
+      };
 
     useEffect(() => {
-        if( organization && program )   {
+        if( organization && program && id )   {
             let mounted = true;
             setLoading(true)
-            getLeaderboardTypes(organization.id, program.id)
+            getLeaderboard(organization.id, program.id, id)
+            .then( data => {
+                console.log(data)
+                setLeaderboard(data);
+                getLeaderboardTypes(organization.id, program.id)
                 .then(items => {
-                if(mounted) {
-                    setLeaderboardTypes(labelizeNamedData(items))
-                    setLoading(false)
-                }
+                    if(mounted) {
+                        setLeaderboardTypes(labelizeNamedData(items))
+                        setLoading(false)
+                    }
                 })
+                .catch( error => {
+                    console.log(error.response.data);
+                })
+            })
+            .catch( error => {
+                console.log(error.response.data);
+            })
             return () => mounted = false;
         }
-    }, [organization, program])  
+    }, [organization, program, id])
+
+    if( !leaderboard ) return 'Loading...'
+
+    leaderboard = patch4Select(leaderboard, 'leaderboard_type_id', leaderboardTypes)
     
-    let props = {
-        organization,
-        program,
-        }
     return(
         <Form
             onSubmit={onSubmit}
             validate={validate}
+            // mutators={{
+            //     handleChange
+            // }}
+            initialValues={leaderboard}
         >
             {({ handleSubmit, form, submitting, pristine, values }) => (
-            <form className="form d-flex flex-column justify-content-evenly" onSubmit={handleSubmit}>
+            <form className="theme-light ltr-support form d-flex flex-column justify-content-evenly" onSubmit={handleSubmit}>
                 <Row>
-                    <Col md="6">
+                    <Col md="4">
                         <Label>Leaderboard Name</Label>
                     </Col>
-                    <Col md="6">
+                    <Col md="8">
                         <Field name="name">
                         {({ input, meta }) => (
                             <FormGroup>
@@ -103,12 +122,33 @@ const AddLeaderboardForm = ({
                                 options={leaderboardTypes}
                                 placeholder={'Select Event Type'}
                                 component={renderSelectField}
-                                // parse={value => {
-                                //     return value;
-                                // }}
                         />
                     </Col>
-                </Row>                                        
+                </Row>                     
+                <Row>
+                    <Col md="4">
+                        <Label>Select leaderboard type</Label>
+                    </Col>
+                    <Col md="8">
+                        <Field 
+                                name="leaderboard_type_id"
+                                className="react-select"
+                                options={leaderboardTypes}
+                                placeholder={'Select Event Type'}
+                                component={renderSelectField}
+                        />
+                    </Col>
+                </Row>      
+                <Row>
+                    <Col md="6" lg="4" xl="4">
+                        <div className="form__form-group">
+                            <CheckboxField 
+                                name="events_has_limits"
+                                label="Set limit in events"
+                            />
+                        </div>
+                    </Col>
+                </Row>                            
                 <div className='d-flex justify-content-end'>
                     <Button disabled={loading} color='danger' type='submit'>{'Save'}</Button>
                 </div>
@@ -129,4 +169,4 @@ const validate = values => {
     return errors
 }
 
-export default AddLeaderboardForm;
+export default EditLeaderboardForm;

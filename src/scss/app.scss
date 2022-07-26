@@ -1,4 +1,7 @@
+@import 'settings/variable';  //themes' colors
+
 @import './component/style.scss';
 @import './component/topBar.scss';
 @import './component/font.scss';
 @import './component/date-picker.scss';
+@import './component/check-box.scss';

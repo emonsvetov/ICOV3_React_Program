@@ -7,18 +7,20 @@ import {
   NavLink,
   Button,
 } from 'reactstrap';
+import { useLocation } from 'react-router-dom';
 
 import SelectProgram from '../components/SelectProgram'
 import Events from './components/Events'
 import Leaderboards from './components/Leaderboards';
 import {isEmpty} from '@/shared/helper'
 import ModalWrapper from './components/ModalWrapper';
+import { useEffect } from 'react';
 
 const LINKS = [
   { to: '#events', text: 'Events' },
-  { to: '#expired', text: 'Expired Goal Plans' },
-  { to: '#active', text: 'Active Goal Plans' },
-  { to: '#future', text: 'Future Goal Plans' },
+  { to: '#expired-goalplans', text: 'Expired Goal Plans' },
+  { to: '#active-goalplans', text: 'Active Goal Plans' },
+  { to: '#future-goalplans', text: 'Future Goal Plans' },
   { to: '#leaderboards', text: 'Leaderboards' },
 ];
 
@@ -33,6 +35,19 @@ const ProgramSettings = ( {auth, program, organization} ) => {
     if( name ) setModalName(name)
     setOpen(prevState => !prevState)
   }
+
+  const { hash } = useLocation();
+
+  useEffect( () => {
+    if( hash )  {
+      for( const i in LINKS)  {
+        if(LINKS[i]['to'] === hash) {
+          setActiveTab(parseInt(i))
+          break;
+        }
+      }
+    }
+  },[hash])
 
   if( !auth || !program  || !organization ) return 'Loading...'
 
@@ -71,25 +86,25 @@ const ProgramSettings = ( {auth, program, organization} ) => {
             <Button color='danger' onClick={() =>toggle('AddEvent')}>Add New Event</Button>
           </div>
           <div className='points-summary-table'>
-              {auth && program && !isEmpty(organization) && <Events program={program} organization={organization} />}
-          </div>      
+              {activeTab === 0 && <Events program={program} organization={organization} />}
+          </div>
         </div>
 
-        <div className={activeTab != 1 ? "d-none": ""} id="expired">
+        <div className={activeTab != 1 ? "d-none": ""} id="expired-goalplans">
           <div className='my-3 d-flex justify-content-between'>
             <h3 >Goal Plans</h3>
             <Button color='danger' onClick={() =>toggle('AddGoal')}>Add New Goal Plan</Button>
           </div>
         </div>
 
-        <div className={activeTab != 2 ? "d-none": ""} id="active">
+        <div className={activeTab != 2 ? "d-none": ""} id="active-goalplans">
           <div className='my-3 d-flex justify-content-between'>
             <h3 >Goal Plans</h3>
             <Button color='danger' onClick={() =>toggle('AddGoal')}>Add New Goal Plan</Button>
           </div>
         </div>
 
-        <div className={activeTab != 3 ? "d-none": ""} id="expired">
+        <div className={activeTab != 3 ? "d-none": ""} id="future-goalplans">
           <div className='my-3 d-flex justify-content-between'>
             <h3 >Goal Plans</h3>
             <Button color='danger' onClick={() =>toggle('AddGoal')}>Add New Goal Plan</Button>
@@ -101,8 +116,8 @@ const ProgramSettings = ( {auth, program, organization} ) => {
             <h3 >Leaderboards</h3>
             <Button color='danger' onClick={() =>toggle('AddLeaderboard')}>Add New Leaderboard</Button>
           </div>
-          <div className='points-summary-table'>
-              {auth && program && !isEmpty(organization) && <Leaderboards program={program} organization={organization} />}
+          <div className='leaderboard-table'>
+              {activeTab === 4 && <Leaderboards program={program} organization={organization} />}
           </div>      
         </div>
 

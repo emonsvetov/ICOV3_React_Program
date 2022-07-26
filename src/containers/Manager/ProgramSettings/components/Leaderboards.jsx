@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from 'react';
-// import {getEvents} from '@/services/program/getEvents'
-// import {getEvent} from '@/services/program/getEvent'
+import axios from 'axios'
+import {getLeaderboards} from '@/services/program/getLeaderboards'
 import { useTable } from 'react-table'
 import PencilIcon from 'mdi-react/PencilIcon';
 import TrashIcon from 'mdi-react/TrashCanIcon';
 import { Link } from 'react-router-dom';
+import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
+import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
+import EditLeaderboardModal from './EditLeaderboardModal';
 
 import {
     Table,
@@ -22,50 +25,49 @@ const COLUMNS = [
     }
 ]
 
-const LEADERBOARDS = [
-  {
-      name: "Team Leaderboard",
-      type: "# of Awards Received",
-  },
-]
-
 const Leaderboards = ({program, organization}) => {
-
+  const dispatch = useDispatch()
     // console.log(program)
     // console.log(organization)
     
     const [leaderboards, setLeaderboards] = useState([]);
-    const [leaderboard, setLeaderboard] = useState(null);
+    const [leaderboardId, setLeaderboardId] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isOpen, setOpen] = useState(false);
-    const [modalName, setModalName] = useState(null)
-    
-    const toggle = (name=null) => {
-      if( name ) setModalName(name)
+
+    const toggle = () => {
       setOpen(prevState => !prevState)
     }
 
     const onClickEditLeaderboard = (id) => {
-      // getEvent(organization.id, program.id, eventId)
-      // .then(item => {
-      //   // console.log(item)
-      //   setEvent(item)
-      //   toggle('EditEvent');
-      //   setLoading(false)
-      // })
-      setLeaderboard(LEADERBOARDS[0]);
-      toggle('EditLeaderboard');
+      setLeaderboardId(id);
+      toggle();
     }
-    const onDeleteEvent = (e, event_id) => {
-        
+    const onDeleteLeaderboard = (leaderboardId) => {
+      setLoading(true)
+      axios
+        .delete(`/organization/${organization.id}/program/${program.id}/leaderboard/${leaderboardId}`)
+        .then((res) => {
+          //   console.log(res)
+          if (res.status == 200) {
+              dispatch(sendFlashMessage('Leaderboard updated successfully. Reloading...!', 'alert-success', 'top'))
+              setLoading(false)
+              var t = setTimeout(window.location.reload(), 3000)
+          }
+        })
+        .catch((err) => {
+          //console.log(error.response.data);
+          dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
+          setLoading(false)
+        });
     }
 
     const RenderActions = ({row}) => {
       return (
           <span>
-              <Link to={{}} onClick={(e) => onClickEditLeaderboard(row.original.id)}><PencilIcon style={{marginRight: "0.5rem"}}/>Edit</Link> 
+              <Link to={'#leaderboards'} onClick={(e) => onClickEditLeaderboard(row.original.id)}><PencilIcon style={{marginRight: "0.5rem"}}/>Edit</Link> 
               <span style={{width:'2.5rem', display: 'inline-block'}}></span>
-              <Link to={{}} className='delete-column' onClick={(e) => {if(window.confirm('Are you sure to delete this Leaderboard?')){onDeleteEvent(e, row.original.id)}}}><TrashIcon style={{marginRight: "0.5rem"}}/>Delete</Link>
+              <Link to={'#leaderboards'} className='delete-column' onClick={(e) => {if(window.confirm('Are you sure to delete this Leaderboard?')){onDeleteLeaderboard(row.original.id)}}}><TrashIcon style={{marginRight: "0.5rem"}}/>Delete</Link>
           </span>
       )
     }
@@ -81,29 +83,24 @@ const Leaderboards = ({program, organization}) => {
     ]
   
     useEffect(() => {
-        let mounted = true;
+      if(organization && program) {
         setLoading(true)
-        setLeaderboards(LEADERBOARDS);
-        setLoading(false)
-        // getEvents(organization.id, program.id)
-        //   .then(items => {
-        //     if(mounted) {
-        //       setEvents(items)
-        //       setLoading(false)
-        //     }
-        //   })
-        
-        return () => mounted = false;
-      }, [])
+        getLeaderboards(organization.id, program.id)
+        .then(items => {
+            setLeaderboards(items)
+            setLoading(false)
+        })
+      }
+    }, [organization, program])
   
   
     const columns = React.useMemo( () => final_columns, [])
     // const data = React.useMemo(() => fetchEvents(organization, program), [])
   
     // console.log(data)
-    const { getTableProps, headerGroups, rows, prepareRow } = useTable({ columns, data:LEADERBOARDS})  
+    const { getTableProps, headerGroups, rows, prepareRow } = useTable({ columns, data:leaderboards})  
   
-    if( loading ) return 'Loading..x'
+    if( loading ) return 'Loading..'
   
     // return ;
     // console.log(event)
@@ -139,11 +136,9 @@ const Leaderboards = ({program, organization}) => {
               })}
           </tbody>
       </Table>
-      <ModalWrapper  name={modalName} isOpen={isOpen} setOpen={setOpen} toggle={toggle} leaderboard={leaderboard} setLeaderboard={setLeaderboard}/>
+      <EditLeaderboardModal program={program} organization={organization} id={leaderboardId} isOpen={isOpen} setOpen={setOpen} toggle={toggle} />
       </>
     )
   }
-
-  // {showEditModal &&  <EditEventModal onCancelHandler={toggleModal} program={program} organization={organization} event={event} toggleModal={toggleModal} setEvent={setEvent} />}
 
   export default Leaderboards
