@@ -5,12 +5,12 @@ import AddGoalPlanPopup from './AddGoalPlanPopup'
 import EditEventModal from './EditEventModal'
 import AddLeaderboardModal from './AddLeaderboardModal'
 
-const ModalWrapper = ({ organization, program, name, isOpen, setOpen, toggle, event, setEvent, leaderboard, setLeaderboard}) => {
+const ModalWrapper = ({ organization, program, name, isOpen, setOpen, toggle, event, setEvent}) => {
     
     const props = {
-        isOpen, setOpen, toggle, organization, program, event, setEvent, leaderboard, setLeaderboard
+        isOpen, setOpen, toggle, organization, program, event, setEvent
     }
-    console.log(leaderboard, '-----------')
+    // console.log(leaderboard, '-----------')
     if( !organization?.id || !program?.id ) return 'Loading...'
     
     return (
