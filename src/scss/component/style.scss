@@ -942,3 +942,9 @@ footer .teritery-menu{
 .form__form-group-input-wrap{display:flex;}
 .alert-danger{background-color: #FF3930;}
 .dropdown-group > div{margin-right: 5px;}
+.flash-message .alert{padding: 0.4rem 0.4rem;}
+.flash-message .alert-success {
+    background-color: #00cc3f;
+    border-color: #00b538;
+    border-radius: 0;
+}
