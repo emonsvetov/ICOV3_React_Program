@@ -35,8 +35,8 @@ const EditEventModal = ({program, organization, isOpen, setOpen, toggle, data, e
     eventData["organization_id"] = organization.id;
     eventData["program_id"] = program.id;
 
-    console.log(values)
-    return;
+    // console.log(values)
+    // return;
 
     let {
       name,
@@ -45,7 +45,7 @@ const EditEventModal = ({program, organization, isOpen, setOpen, toggle, data, e
       post_to_social_wall,
       message,
       award_message_editable,
-      type_id
+      event_type_id
     } = values;
 
     eventData.name = name;
@@ -55,7 +55,7 @@ const EditEventModal = ({program, organization, isOpen, setOpen, toggle, data, e
     eventData.enable = enable ? true: false;
     
     eventData.message = message;
-    eventData.type_id = type_id.value;
+    eventData.event_type_id = event_type_id.value;
 
     // console.log(eventData)
     // return

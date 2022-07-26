@@ -1,6 +1,7 @@
 import { Input, Col, Row, FormGroup, Label, Button} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 import renderSelectField from '@/shared/components/form/Select'
+import {patch4Select} from '@/shared/helper'
 import renderToggleButtonField from "@/shared/components/form/ToggleButton"
 import formValidation from "@/validation/addEvent"
 
@@ -10,10 +11,14 @@ const EventForm = ({
     loading,
     eventTypes,
     btnLabel = 'Save',
-    event = {},
+    event = null,
     program
 }) => {
     // console.log(event)
+    if( event ) {
+        event = patch4Select(event, 'event_type_id', eventTypes)
+    }
+    
     if( event?.max_awardable_amount)    {
         event.awarding_points = program.factor_valuation * event.max_awardable_amount
     }
@@ -59,7 +64,7 @@ const EventForm = ({
                             onKeyUp={form.mutators.onChangeAwardValue}
                             {...input}
                             />
-                                {meta.touched && meta.error && <span className="text- ">
+                                {meta.touched && meta.error && <span className="text-danger">
                                 {meta.error}
                                 </span>}
                         </FormGroup>
