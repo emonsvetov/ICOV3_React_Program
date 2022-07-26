@@ -36,6 +36,7 @@ const EditEventModal = ({program, organization, isOpen, setOpen, toggle, data, e
     eventData["program_id"] = program.id;
 
     console.log(values)
+    return;
 
     let {
       name,

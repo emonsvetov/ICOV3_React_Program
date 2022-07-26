@@ -13,7 +13,7 @@ const EventForm = ({
     event = {},
     program
 }) => {
-    console.log(event)
+    // console.log(event)
     if( event?.max_awardable_amount)    {
         event.awarding_points = program.factor_valuation * event.max_awardable_amount
     }

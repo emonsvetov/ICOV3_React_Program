@@ -22,6 +22,15 @@ import ImportIcon from 'mdi-react/ImportIcon';
 import PeerIcon from 'mdi-react/PostItNoteAddIcon';
 import apiTableService from "@/services/apiTableService"
 
+const collectEmails = (users) => {
+    let emails = []
+    console.log(users)
+    users.map( user => {
+        emails.push( user.email )
+    })
+    return emails
+}
+
 const QUERY_PAGE_SIZE = 10
 
 const ACTIONS = [
@@ -53,16 +62,35 @@ const ProgramParticipants = ( {program, organization} ) => {
     // console.log("ProgramParticipants")
     const [modalName, setModalName] = useState(null)
     const [isOpen, setOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
     const [users, setUsers] = useState(null);
     // const [currentRow, setCurrentRow] = useState(null);
+    const [action, setAction] = useState('');
+    const [queryPageSize, setQueryPageSize] = useState(QUERY_PAGE_SIZE);
     const [loading, setLoading] = useState(true);
-    const [filter, setFilter] = useState({ keyword:''});
+    const [filter, setFilter] = useState({ keyword:'', status: ''});
     const [participants, setParticipants] = useState([]);
-    const [entry, setEntry] = useState(QUERY_PAGE_SIZE);
     const [status, setStatus] = useState([]);
 
     // selectedFlatRows.map(d => d.original)/
+    const doAction = (action, participants) => {
+        console.log(action)
+        console.log(participants)
+        if( action === 'Email') {
+            const emails = collectEmails(participants)
+            window.location.href = `mailto:${emails.join(',')}?subject=You have received a message!`;
+        }
+        if( action === 'Reward' || action === 'Resend Invite' || action === 'Deactivate' || action === 'Activate')    { //Add more later
+            toggle(action)
+        }
+    }
 
+    useEffect(() => {
+        if( action && participants) {
+            doAction(action, participants)
+            // toggle(action)
+        }
+    }, [action, participants]);
 
     const toggle = (name=null) => {
         if( name ) setModalName(name)
@@ -74,45 +102,50 @@ const ProgramParticipants = ( {program, organization} ) => {
         toggle(name)
     }
     const onSelectAction = ( name ) => {
-        // setCurrentRow(row)
-        if( name === 'Reward')  {
-            const rows = selectedFlatRows.map(d => d.original);
-            if( rows.length === 0) {
-                alert('Select participants')
-                return
-            }
-            setParticipants( rows )
-            toggle(name)
+        const rows = selectedFlatRows.map(d => d.original);
+        if( rows.length === 0) {
+            alert('Select participants')
+            return
         }
+        setAction( name )
+        setParticipants( rows )
     }
     const onSelectEntry = ( value ) => {
-        setEntry(value)
+        setQueryPageSize(value)
     }
 
     const onSelectStatus = ( value ) => {
-        setEntry(value)
-        let temp = Object.assign(status);
         if(status.includes(value)){
-            temp.splice(temp.indexOf(value), 1);
-            setStatus(temp);
+            setStatus(status.filter(item => item !== value))
         }
-        else{
-            temp.push(value);
-            setStatus(temp);
+        else
+        {
+            setStatus([...status, ...[value]]);
         }
+        setMounted(true);
     }
 
-    const [showAddPopup, setShowAddPopup] = useState(false);
-    const popupToggle = () => {
-      setShowAddPopup(prevState => !prevState);
-    };
+    useEffect( () => {
+        // console.log(mounted)
+        if( status && mounted )    {
+            // console.log(status)
+            setFilter({ keyword: filter.keyword, status: status});
+        }
+        return () => setMounted(true);
+    }, [status])
+
     const RenderActions = ({row}) => {
         return (
             ACTIONS.map((item, index) =>{
-              return <span key={index} onClick={() => onClickAction(item.name, row.original)}>
-                  <span className={`action-item ${item.name}`}>{item.icon}{item.name}</span>
+                let statusLabel = item.name;
+                // if(item.name === 'Deactivate') {
+                //     const currentStatus = row.original.status.status;
+                //     statusLabel = currentStatus === 'Deactivated' ? 'Activate' : 'Deactivate'
+                // }
+                return <span key={index} onClick={() => onClickAction(item.name, row.original)}>
+                  <span className={`action-item ${item.name}`}>{item.icon}{statusLabel}</span>
                   <span style={{width:'5px', display: 'inline-block'}}></span>
-              </span>
+                </span>
             })
         )
       }
@@ -154,7 +187,7 @@ const ProgramParticipants = ( {program, organization} ) => {
         data: users ? users.results : [],
         initialState: {
             pageIndex: 0,
-            pageSize: QUERY_PAGE_SIZE
+            pageSize: queryPageSize
         },
         manualPagination: true, // Tell the usePagination
         pageCount: users ? totalPageCount : null,
@@ -215,7 +248,7 @@ const ProgramParticipants = ( {program, organization} ) => {
             {
                 url: `/organization/${organization.id}/program/${program.id}/participant`,
                 page: pageIndex,
-                size: pageSize,
+                size: queryPageSize,
                 filter
             }
         )
@@ -227,7 +260,7 @@ const ProgramParticipants = ( {program, organization} ) => {
             }
         })
         return () => mounted = false;
-    }, [getUsers, setLoading, setUsers, pageIndex, pageSize, filter])
+    }, [getUsers, setLoading, setUsers, pageIndex, queryPageSize, filter])
 
     const manualPageSize = []
 
@@ -275,7 +308,7 @@ const ProgramParticipants = ( {program, organization} ) => {
                 </DropdownToggle>
                 <DropdownMenu>
                 {ACTIONS.map((item, index) =>{
-                    return <DropdownItem onClick={() => onSelectAction(item.name)}>{item.name}</DropdownItem>
+                    return <DropdownItem key={`action-dropdown-item-${index}`} onClick={() => onSelectAction(item.name)}>{item.name}</DropdownItem>
                 })}
                 </DropdownMenu>
             </UncontrolledDropdown>
@@ -286,11 +319,11 @@ const ProgramParticipants = ( {program, organization} ) => {
         return (
             <UncontrolledDropdown>
                 <DropdownToggle caret className='dropdowntoggle'>
-                Show Entries
+                Show Entries({queryPageSize})
                 </DropdownToggle>
                 <DropdownMenu>
                 {ENTRIES.map((item, index) =>{
-                    return <DropdownItem onClick={() => onSelectEntry(item.value)}>{item.value}</DropdownItem>
+                    return <DropdownItem key={`entries-dropdown-item-${index}`} defaultValue={queryPageSize} onClick={() => onSelectEntry(item.value)}>{item.value}</DropdownItem>
                 })}
                 </DropdownMenu>
             </UncontrolledDropdown>
@@ -298,6 +331,7 @@ const ProgramParticipants = ( {program, organization} ) => {
     }
 
     const StatusDropdown = () => {
+        // console.log(status)
         return (
             <UncontrolledDropdown>
                 <DropdownToggle caret className='dropdowntoggle'>
@@ -305,12 +339,12 @@ const ProgramParticipants = ( {program, organization} ) => {
                 </DropdownToggle>
                 <DropdownMenu>
                 {STATUS.map((item, index) =>{
-                    if(status.includes(item.name)){
-                        return <DropdownItem onClick={() => onSelectStatus(item.name)}><input type="checkbox" checked style={{marginRight: '10px'}} />{item.name}</DropdownItem>
-                    }
-                    else{
-                        return <DropdownItem onClick={() => onSelectStatus(item.name)}><input type="checkbox" style={{marginRight: '10px'}} />{item.name}</DropdownItem>
-                    }
+                    // if(status.includes(item.name)){
+                        return <DropdownItem key={`status-dropdown-item-${index}`} onClick={() => onSelectStatus(item.name)}><input checked={status.indexOf(item.name) > -1} type="checkbox" style={{marginRight: '10px'}} onChange={() => {}} />{item.name}</DropdownItem>
+                    // }
+                    // else{
+                    //     return <DropdownItem  key={`status-dropdown-item-${index}`} onClick={() => onSelectStatus(item.name)}><input type="checkbox" style={{marginRight: '10px'}} />{item.name}</DropdownItem>
+                    // }
                     
                 })}
                 </DropdownMenu>
@@ -326,7 +360,7 @@ const ProgramParticipants = ( {program, organization} ) => {
         <>
             <div className='users' >
                 <div className='header d-flex  justify-content-between'>
-                    <div className='d-flex w-25 justify-content-between'>
+                    <div className='d-flex w-25 justify-content-between dropdown-group'>
                         <ActionsDropdown />
                         <EntriesDropdown />
                         <StatusDropdown />

@@ -87,7 +87,7 @@ const Events = ({program, organization}) => {
     // console.log(data)
     const { getTableProps, headerGroups, rows, prepareRow } = useTable({ columns, data:events})
   
-    if( loading ) return 'Loading..x'
+    if( loading ) return 'Loading..'
   
     // return ;
     // console.log(event)
