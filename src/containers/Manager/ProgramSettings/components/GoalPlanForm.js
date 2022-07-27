@@ -9,8 +9,9 @@ import renderToggleButtonField from "@/shared/components/form/ToggleButton";
 
 const GoalPlanForm = ({
     onSubmit, 
-   // onChangeAwardValue, 
-   goalPlanTypes,
+    //onChangeAwardValue, 
+    goalPlanTypes,
+    expirationRules,
     loading,
     btnLabel = 'Save',
     goalplan = {},
@@ -207,7 +208,14 @@ const GoalPlanForm = ({
                           </Field>
                       </Col>
                       <Col md="6">
-                          <Field name="expiration_rule">
+                        <Field 
+                            name="expiration_rule_id"
+                            className="react-select"
+                            options={expirationRules}
+                            placeholder={'Select Goal Plan Type'}
+                            component={renderSelectField}
+                    />
+                          {/*<Field name="expiration_rule">
                           {({ input, meta }) => (
                               <FormGroup>
                                 <Select
@@ -222,7 +230,7 @@ const GoalPlanForm = ({
                                     {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
                               </FormGroup>
                           )}
-                          </Field>
+                          </Field>*/}
                       </Col>
                     </Row>
                     {/*<Row>

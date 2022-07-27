@@ -7,6 +7,7 @@ import { Form, Field } from 'react-final-form';
 import CloseIcon from 'mdi-react/CloseIcon';
 //import Switch from '@/shared/components/form/Switch';
 import {getGoalPlanTypes} from '@/services/getGoalPlanTypes';
+import {getExpirationRules} from '@/services/getExpirationRules';
 import {labelizeNamedData} from '@/shared/helper';
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
@@ -14,11 +15,12 @@ import GoalPlanForm from './GoalPlanForm'
 
 const AddGoalPlanImg = `/img/pages/addGoalPlan.png`;
 
-const AddGoalPlanPopup = ({program, organization, isOpen, setOpen, toggle, data}) => {
+const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}) => {
   const [value, setValue] = useState(false);
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false);
-  const [GoalPlanTypes, setGoalPlanTypes] = useState([]);
+  const [goalPlanTypes, setGoalPlanTypes] = useState([]);
+  const [expirationRules, setExpirationRules] = useState([]);
   const onSubmit = (values) => {
     let goalPlanData = {};
     goalPlanData["organization_id"] = organization.id;
@@ -54,8 +56,8 @@ const AddGoalPlanPopup = ({program, organization, isOpen, setOpen, toggle, data}
     } = values;
     goalPlanData.name= name;
 
-    goalPlanData.goal_plan_type_id = 1;
-    goalPlanData.automatic_progress = 1;
+    goalPlanData.goal_plan_type_id = goal_plan_type_id;
+    goalPlanData.automatic_progress = automatic_progress;
     //goalPlanData.automatic_frequency =  automatic_frequency;
     //goalPlanData.automatic_value = automatic_value;
     goalPlanData.date_begin = date_begin;
@@ -104,15 +106,24 @@ const AddGoalPlanPopup = ({program, organization, isOpen, setOpen, toggle, data}
        console.log('test');
       setGoalPlanTypes(labelizeNamedData(gptypes))
     })
+
+    getExpirationRules()
+    .then( ertypes => {
+       console.log(ertypes)
+       console.log('test 2');
+      setExpirationRules(labelizeNamedData(ertypes))
+    })
     
   }, [])
   let props = {
     btnLabel: 'Add New Goal Plan',
-    GoalPlanTypes,
+    goalPlanTypes,
+    expirationRules,
     loading,
     onSubmit
   }
-  console.log(GoalPlanTypes);
+  console.log(goalPlanTypes);
+  console.log(expirationRules);
   return (
     
     <Modal className={`program-settings modal-2col modal-xl`} isOpen={isOpen} toggle={() => setOpen(true)}>
@@ -437,4 +448,4 @@ const AddGoalPlanPopup = ({program, organization, isOpen, setOpen, toggle, data}
 </Modal>
 )}
 
-export default AddGoalPlanPopup;
+export default AddGoalPlanModal;
