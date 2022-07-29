@@ -21,6 +21,10 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
   const [loading, setLoading] = useState(false);
   const [goalPlanTypes, setGoalPlanTypes] = useState([]);
   const [expirationRules, setExpirationRules] = useState([]);
+  //const [fields, setFields] = useState({});
+  
+
+
   const onSubmit = (values) => {
     let goalPlanData = {};
     goalPlanData["organization_id"] = organization.id;
@@ -29,56 +33,63 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
     console.log(values)
     let {
       name,
+      goal_measurement_label,
       goal_plan_type_id,
+      default_target,
+      email_template_id,
+      achieved_event_id,
+      exceeded_event_id,
       automatic_progress,
       automatic_frequency,
       automatic_value,
-      date_begin,
-      default_target,
-      goal_measurement_label,
-      factor_before,
-      factor_after,
       expiration_rule_id,
-      annual_expire_month,
-      annual_expire_day,
       custom_expire_offset,
       custom_expire_units,
+      annual_expire_month,
+      annual_expire_day,
+      date_begin,
       date_end,
-      achieved_event_id,
-      exceeded_event_id,
-      progress_email_template_id,
+      factor_before,
+      factor_after,
       is_recurring,
       award_per_progress,
       award_email_per_progress,
       progress_requires_unique_ref_num,
+      progress_notification_email_id,
       assign_goal_all_participants_default
-
     } = values;
-    goalPlanData.name= name;
 
-    goalPlanData.goal_plan_type_id = goal_plan_type_id;
-    goalPlanData.automatic_progress = automatic_progress;
-    //goalPlanData.automatic_frequency =  automatic_frequency;
-    //goalPlanData.automatic_value = automatic_value;
-    goalPlanData.date_begin = date_begin;
+    goalPlanData.name= name;
+    goalPlanData.goal_measurement_label = goal_measurement_label;
+    goalPlanData.goal_plan_type_id = goal_plan_type_id.value? goal_plan_type_id.value : '';
     goalPlanData.default_target = default_target;
-    goalPlanData.goal_measurement_label =goal_measurement_label;
+    goalPlanData.automatic_progress = automatic_progress.value? automatic_progress.value: '';
+    goalPlanData.email_template_id = email_template_id;
+    goalPlanData.achieved_event_id= 1; //pending
+    goalPlanData.exceeded_event_id= 1; //pending
+    goalPlanData.automatic_frequency =  automatic_frequency;
+    goalPlanData.automatic_value = automatic_value;
+    goalPlanData.expiration_rule_id = expiration_rule_id.value;
+    goalPlanData.custom_expire_offset = custom_expire_offset;
+    //goalPlanData.custom_expire_units = custom_expire_units.value ? custom_expire_units.value: '';
+    goalPlanData.annual_expire_month = annual_expire_month.value ? annual_expire_month.value: null;
+    goalPlanData.annual_expire_day = annual_expire_day.value?annual_expire_day.value:null;
+    goalPlanData.date_begin = '2022-01-20';
+    goalPlanData.date_end = date_end;
     goalPlanData.factor_before =  factor_before;
     goalPlanData.factor_after = factor_after;
-    goalPlanData.expiration_rule_id = 1;
-    //goalPlanData.annual_expire_month = annual_expire_month;
-    //goalPlanData.annual_expire_day = annual_expire_day;
-    //goalPlanData.custom_expire_offset = custom_expire_offset;
-    //goalPlanData.custom_expire_units = custom_expire_units;
-   // goalPlanData.date_end = date_end
-    goalPlanData.achieved_event_id= 1;
-    goalPlanData.exceeded_event_id= 1;
-    goalPlanData.progress_email_template_id = 1;
     goalPlanData.is_recurring = is_recurring;
     goalPlanData.award_per_progress = award_per_progress;
     goalPlanData.award_email_per_progress = award_email_per_progress;
     goalPlanData.progress_requires_unique_ref_num = progress_requires_unique_ref_num;
     goalPlanData.assign_goal_all_participants_default = assign_goal_all_participants_default;
+
+    //penidng fiels (for testing only
+    goalPlanData.state_type_id = 1;
+    goalPlanData.program_id = 1;
+    goalPlanData.progress_notification_email_id = 1;
+    goalPlanData.created_by = 1;
+
 
     // console.log(goalPlanData)
     //return;
@@ -102,15 +113,11 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
   useEffect( () => {
     getGoalPlanTypes()
     .then( gptypes => {
-       console.log(gptypes)
-       console.log('test');
       setGoalPlanTypes(labelizeNamedData(gptypes))
     })
 
     getExpirationRules()
     .then( ertypes => {
-       console.log(ertypes)
-       console.log('test 2');
       setExpirationRules(labelizeNamedData(ertypes))
     })
     
@@ -119,6 +126,7 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
     btnLabel: 'Add New Goal Plan',
     goalPlanTypes,
     expirationRules,
+   // handleChange,
     loading,
     onSubmit
   }
