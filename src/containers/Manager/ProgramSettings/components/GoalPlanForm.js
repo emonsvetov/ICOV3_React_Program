@@ -13,6 +13,7 @@ const GoalPlanForm = ({
     //handleChange,
     goalPlanTypes,
     expirationRules,
+    events,
     loading,
     btnLabel = 'Save',
     goalplan = {},
@@ -202,22 +203,12 @@ const GoalPlanForm = ({
                     />
                       </Col>
                       <Col md="6">
-                        <Field name="exceeded_event_id">
-                        {({ input, meta }) => (
-                            <FormGroup>
-                              <Select
-                                value={value}
-                                onChange={{}}
-                                options={[]}
-                                clearable={false}
-                                className="react-select"
-                                placeholder={'Goal Plan Exceeded Event'}
-                                classNamePrefix="react-select"
-                              />
-                                  {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
-                            </FormGroup>
-                        )}
-                        </Field>
+                        <Field 
+                              name="exceeded_event_id"
+                              className="react-select"
+                              options={events}
+                              placeholder={'Goal Plan Exceeded Event'}
+                              component={renderSelectField}/>
                       </Col>
                     </Row>
                     { //Specifield expiration date
@@ -310,22 +301,12 @@ const GoalPlanForm = ({
                       }
                       <Row>
                       <Col md="6">
-                          <Field name="achieved_event_id">
-                          {({ input, meta }) => (
-                              <FormGroup>
-                                <Select
-                                  value={value}
-                                  onChange={{}}
-                                 
-                                  clearable={false}
-                                  className="react-select"
-                                  placeholder={'Goal Plan Achieved Event'}
-                                  classNamePrefix="react-select"
-                                />
-                                    {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
-                              </FormGroup>
-                          )}
-                          </Field>
+                      <Field 
+                              name="achieved_event_id"
+                              className="react-select"
+                              options={events}
+                              placeholder={'Goal Plan Achieved Event'}
+                              component={renderSelectField}/>
                       </Col>
                       
                     </Row>

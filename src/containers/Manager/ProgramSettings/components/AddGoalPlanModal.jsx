@@ -7,6 +7,7 @@ import { Form, Field } from 'react-final-form';
 import CloseIcon from 'mdi-react/CloseIcon';
 //import Switch from '@/shared/components/form/Switch';
 import {getGoalPlanTypes} from '@/services/getGoalPlanTypes';
+import {getEvents} from '@/services/getEvents';
 import {getExpirationRules} from '@/services/getExpirationRules';
 import {labelizeNamedData} from '@/shared/helper';
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
@@ -21,6 +22,8 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
   const [loading, setLoading] = useState(false);
   const [goalPlanTypes, setGoalPlanTypes] = useState([]);
   const [expirationRules, setExpirationRules] = useState([]);
+  const [events, setEvents] = useState([]);
+
   //const [fields, setFields] = useState({});
   
 
@@ -65,8 +68,8 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
     goalPlanData.default_target = default_target;
     goalPlanData.automatic_progress = automatic_progress.value? automatic_progress.value: '';
     goalPlanData.email_template_id = email_template_id;
-    goalPlanData.achieved_event_id= 1; //pending
-    goalPlanData.exceeded_event_id= 1; //pending
+    goalPlanData.achieved_event_id= achieved_event_id.value; //pending
+    goalPlanData.exceeded_event_id= exceeded_event_id.value; //pending
     goalPlanData.automatic_frequency =  automatic_frequency;
     goalPlanData.automatic_value = automatic_value;
     goalPlanData.expiration_rule_id = expiration_rule_id.value;
@@ -121,19 +124,24 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
       setExpirationRules(labelizeNamedData(ertypes))
     })
     
+    getEvents(organization.id,program.id)
+    .then( evts => {
+      setEvents(labelizeNamedData(evts))
+    })
+    
   }, [])
   let props = {
     btnLabel: 'Add New Goal Plan',
     goalPlanTypes,
     expirationRules,
+    events,
    // handleChange,
     loading,
     onSubmit
   }
   console.log(goalPlanTypes);
-  console.log(expirationRules);
+  console.log(events);
   return (
-    
     <Modal className={`program-settings modal-2col modal-xl`} isOpen={isOpen} toggle={() => setOpen(true)}>
       
           <div className='close cursor-pointer'>
