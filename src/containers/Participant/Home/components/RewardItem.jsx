@@ -10,6 +10,9 @@ const RewardItem = (props) => {
     props.popupToggle()
   }
 
+  function createMarkup(value) {
+    return {__html: value};
+  }
 
   return (
     <div className='reward-item'>
@@ -38,7 +41,8 @@ const RewardItem = (props) => {
         {comments.map((item, index) => {
           return <div className='comment' key={`commentItem-${index}`}>
             <div><b>{item.fromUser}</b></div>
-            {item.comment}
+            <div dangerouslySetInnerHTML={createMarkup(item.comment)} />
+            <div className='commentDate'>{item.created_at_formated}</div>
           </div>
         })}
       </div>

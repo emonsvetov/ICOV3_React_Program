@@ -206,7 +206,14 @@ ul.horizontal {
         .comment {
             padding: 5px 5px 10px 5px;
             border:1px solid #999999;
-            margin-bottom: 2px;
+            margin-bottom: 5px;
+        }
+        .commentDate {
+            padding: 2px;
+            font-size: 14px;
+            color: #999999;
+            text-align: right;
+            font-style: italic;
         }
     }
     hr.solid {

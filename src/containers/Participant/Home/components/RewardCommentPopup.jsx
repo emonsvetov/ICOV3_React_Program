@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   Modal,
   Input,
@@ -16,11 +16,12 @@ import {createSocialWallPost} from '@/redux/actions/socialWallPostActions';
 import {getSocialWallPostTypeComment} from '@/services/program/getSocialWallPostTypes'
 import {useDispatch} from 'react-redux';
 import {getSocialWallPosts} from '@/services/program/getSocialWallPosts'
+import Editor from '@/shared/components/form/Editor';
 
 const RewardCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, program, organization, auth, setSocialWallPosts}) => {
 
   const dispatch = useDispatch()
-  const [value, setValue] = useState(false);
+  const [value, setValue] = useState('')
   const onSubmit = values => {
 
     if (program.uses_social_wall) {
@@ -36,7 +37,7 @@ const RewardCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, program, o
             'awarder_program_id': null,
             'sender_user_account_holder_id': auth.account_holder_id,
             'receiver_user_account_holder_id': socialWallPost.receiver_user_account_holder_id,
-            'comment': values.message,
+            'comment': value,
           }
           // console.log(socialWallPostData);
           dispatch(createSocialWallPost(organization.id, program.id, socialWallPostData))
@@ -81,11 +82,7 @@ const RewardCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, program, o
                     <Field name="message">
                       {({input, meta}) => (
                         <FormGroup>
-                          <Input
-                            placeholder="Type a message"
-                            type="textarea"
-                            {...input}
-                          />
+                          <Editor setValue={setValue} placeholder="" />
                           {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
                         </FormGroup>
                       )}
