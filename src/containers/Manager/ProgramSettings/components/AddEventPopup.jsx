@@ -34,7 +34,8 @@ const AddEventPopup = ({program, organization, isOpen, setOpen, toggle, data}) =
     eventData["organization_id"] = organization.id;
     eventData["program_id"] = program.id;
 
-    console.log(values)
+    // console.log(values)
+    // return;
 
     let {
       name,
@@ -43,7 +44,7 @@ const AddEventPopup = ({program, organization, isOpen, setOpen, toggle, data}) =
       post_to_social_wall,
       message,
       award_message_editable,
-      type_id
+      event_type_id
     } = values;
 
     eventData.name = name;
@@ -53,7 +54,7 @@ const AddEventPopup = ({program, organization, isOpen, setOpen, toggle, data}) =
     eventData.enable = enable ? true: false;
     
     eventData.message = message;
-    eventData.type_id = type_id.value;
+    eventData.event_type_id = event_type_id.value;
 
     // console.log(eventData)
 

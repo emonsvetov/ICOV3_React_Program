@@ -9,7 +9,7 @@ const validationSchema = {
     field: {
         name: [Validators.required.validator],
         // icon: [Validators.required.validator],
-        type_id: [Validators.required.validator],
+        event_type_id: [Validators.required.validator],
         max_awardable_amount: [Validators.required.validator, isNumber.validator],
         awarding_points: [isNumber.validator],
         message: [Validators.required.validator],

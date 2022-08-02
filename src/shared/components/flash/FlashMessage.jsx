@@ -34,7 +34,7 @@ const FlashMessage = () => {
     }
 
     return (
-      <div className="w100" style={style}>
+      <div className="w100 flash-message" style={style}>
         <div 
         className={'flex-column align-items-center col-md-12 alert justify-content-center text-white ' + className} 
         role="alert">
