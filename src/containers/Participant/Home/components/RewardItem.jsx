@@ -1,30 +1,53 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Col, Button, Row } from 'reactstrap';
-import StarIcon from 'mdi-react/StarFaceIcon';
+import React, {useState} from 'react';
 import PlusCircleIcon from 'mdi-react/PlusCircleIcon';
+import IconImage from './IconImage';
+
 
 const RewardItem = (props) => {
-  const {title, content, from, timestamp } = props.data;
+  const {title, content, from, created_at, icon, comments} = props.data;
+  const clickEvent = () => {
+    props.setSocialWallPost(props.data)
+    props.popupToggle()
+  }
+
+  function createMarkup(value) {
+    return {__html: value};
+  }
+
   return (
-    <div className='reward-item d-flex justify-content-between'>
-      <div className='icon' >
-        <StarIcon size={40}/>
-      </div>        
-      <div className='d-flex flex-column'>
-        <strong>{title}</strong>
-        <span>{content}</span>
+    <div className='reward-item'>
+      <div className=' d-flex justify-content-between'>
+        <div className='icon'>
+          <IconImage {...props} />
+        </div>
+        <div className='d-flex flex-column'>
+          <strong>{title}</strong>
+          <span>{content}</span>
+        </div>
+        <div className='d-flex flex-column'>
+          <span>From: <strong>{from}</strong></span>
+          <span className='datetime'>{created_at}</span>
+        </div>
+        {props.program.uses_social_wall &&
+          <div className='flex-column'>
+            <div className='red comment-btn ' onClick={clickEvent}>
+              <PlusCircleIcon/>
+              comment
+            </div>
+          </div>
+        }
       </div>
-      <div className='d-flex flex-column'>
-        <span>From: <strong>{from}</strong></span>
-        <span>{timestamp}</span>
-      </div>
-      <div className='red comment-btn'>
-        <PlusCircleIcon/>
-        comment
+      <div className='comments'>
+        {comments.map((item, index) => {
+          return <div className='comment' key={`commentItem-${index}`}>
+            <div><b>{item.fromUser}</b></div>
+            <div dangerouslySetInnerHTML={createMarkup(item.comment)} />
+            <div className='commentDate'>{item.created_at_formated}</div>
+          </div>
+        })}
       </div>
     </div>
-      
-)}
+  )
+}
 
 export default RewardItem;

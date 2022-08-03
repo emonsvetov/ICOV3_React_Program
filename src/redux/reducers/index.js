@@ -11,6 +11,7 @@ import templateReducer from './templateReducer';
 import rootProgramReducer from './rootProgramReducer';
 import cartReducer from './cartReducer';
 import balanceReducer from './balanceReducer';
+import socialWallPostReducer from './socialWallPostReducer';
 export {
   themeReducer,
   sidebarReducer,
@@ -25,4 +26,5 @@ export {
   cartReducer,
   balanceReducer,
   templateReducer,
+  socialWallPostReducer,
 }

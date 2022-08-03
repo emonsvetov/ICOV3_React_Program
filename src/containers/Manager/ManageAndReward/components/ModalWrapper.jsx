@@ -5,9 +5,9 @@ import ResendInviteModal from './ResendInviteModal';
 import ChangeStatusModal from './ChangeStatusModal';
 // import SubProgramsModal from './subprogram/SubProgramsModal'
 
-const MainModalWrapper = ({user, organization, program, name, isOpen, setOpen, toggle, participants}) => {
+const MainModalWrapper = ({user, organization, program, name, isOpen, setOpen, toggle, participants, auth}) => {
     const props = {
-        isOpen, setOpen, toggle, organization, program, user, participants
+        isOpen, setOpen, toggle, organization, program, user, participants, auth
     }
     if( !organization?.id || !program?.id ) return 'Loading...'
     return (
