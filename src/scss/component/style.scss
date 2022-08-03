@@ -186,9 +186,34 @@ ul.horizontal {
             padding: 7px 13px;
             display: flex;
             height: fit-content;
+            cursor:pointer;
         }
         .icon{
             color: $yellow-color;
+        }
+        .flex-column {
+            padding: 5px;
+            min-width: 150px;
+        }
+        .datetime {
+            font-size: 14px;
+            color: #999999;
+            font-weight: bold;
+        }
+        .comments {
+            padding: 5px 5px 5px 30px;
+        }
+        .comment {
+            padding: 5px 5px 10px 5px;
+            border:1px solid #999999;
+            margin-bottom: 5px;
+        }
+        .commentDate {
+            padding: 2px;
+            font-size: 14px;
+            color: #999999;
+            text-align: right;
+            font-style: italic;
         }
     }
     hr.solid {
