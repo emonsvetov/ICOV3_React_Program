@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {Col, Container, Row} from 'reactstrap';
-import RewardsPanel from './components/RewardsPanel';
+import SocialWallPanel from '@/shared/components/socialWall/SocialWallPanel';
 import Slider from './components/slider';
 import {ParticipantTabNavs} from '../../../shared/components/tabNavs';
 import Sidebar from '../../Layout/sidebar';
@@ -23,6 +23,7 @@ const Home = ({auth, organization, program}) => {
     organization,
     program,
   }
+  if( !auth ) return 'Loading...'
 
   let slide_imgs = getSlideImg();
   return (
@@ -40,7 +41,7 @@ const Home = ({auth, organization, program}) => {
               <div className='mb-3'>
                 <Row>
                   <Col md={8}>
-                    <h1> Welcome back Jay! </h1>
+                    <h1> Welcome back {auth && auth.first_name}! </h1>
                     <div className='description'>
                       Congratulations on earning rewards! Redeem your rewards when you earn them or save them for a
                       "rainy day".
@@ -48,7 +49,7 @@ const Home = ({auth, organization, program}) => {
                   </Col>
                 </Row>
               </div>
-              <RewardsPanel {...props} />
+              <SocialWallPanel />
               <div className='mt-5'>
                 <h3>Select a merchant to redeem your points</h3>
                 <Slider data={slide_imgs}/>

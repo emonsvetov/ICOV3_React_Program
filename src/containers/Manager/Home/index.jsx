@@ -13,6 +13,7 @@ import SelectProgram from '../components/SelectProgram'
 import Dashboard from './View/Dashboard';
 import Leaderboard from './View/Leaderboards';
 import Spirewall from './View/SpireWall';
+import SocialWallPanel from '@/shared/components/socialWall/SocialWallPanel';
 
 export const Home = () => {
   
@@ -49,7 +50,7 @@ export const NSpireWall = () => {
         </Row>
       </Container>
       <hr></hr>
-      <Spirewall />
+      <SocialWallPanel isManager={true} />
     </>
    
 )}

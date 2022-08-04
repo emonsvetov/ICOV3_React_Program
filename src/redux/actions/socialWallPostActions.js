@@ -20,3 +20,18 @@ export const createSocialWallPost = (organizationId, programId, socialWallPostDa
       });
   };
 };
+
+export const deleteSocialWallPost = (organizationId, programId, socialWallPostId) => {
+  return (dispatch) => {
+    return axios.delete(`/organization/${organizationId}/program/${programId}/social-wall-post/${socialWallPostId}`)
+      // , { headers: {"Authorization" : `Bearer ${accessToken}`} })
+      .then(response => {
+        console.log(response.data);
+        dispatch(SocialWallPostSuccess(response.data))
+      })
+      .catch(e => {
+        throw new Error(`API error:${e?.message}`);
+      });
+  };
+};
+

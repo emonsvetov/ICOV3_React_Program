@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import RewardCommentPopup from './RewardCommentPopup';
+import SocialWallCommentPopup from './SocialWallCommentPopup';
 
-const RewardCommentModalWrapper = ({user, organization, program, name, isOpen, setOpen, toggle, socialWallPost, auth, setSocialWallPosts}) => {
+const SocialWallCommentModalWrapper = ({user, organization, program, name, isOpen, setOpen, toggle, socialWallPost, auth, setSocialWallPosts}) => {
     const props = {
         isOpen, setOpen, toggle, organization, program, user, socialWallPost, auth, setSocialWallPosts
     }
@@ -10,7 +10,7 @@ const RewardCommentModalWrapper = ({user, organization, program, name, isOpen, s
     return (
         <>
         {
-            <RewardCommentPopup {...props} />
+            <SocialWallCommentPopup {...props} />
         }
         </>
     )
@@ -22,4 +22,4 @@ const mapStateToProps = (state) => {
        organization: state.organization,
     };
 };
-export default connect(mapStateToProps)(RewardCommentModalWrapper);
+export default connect(mapStateToProps)(SocialWallCommentModalWrapper);
