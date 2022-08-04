@@ -26,14 +26,19 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
 
   //const [fields, setFields] = useState({});
   
-
+  const onSelectGoalPlanType = (selectedOption) => {
+    console.log('goal type selected');
+    console.log(selectedOption);
+    //goalPlanData.award_per_progress=1;
+  };
+  
 
   const onSubmit = (values) => {
     let goalPlanData = {};
     goalPlanData["organization_id"] = organization.id;
     goalPlanData["program_id"] = program.id;
 
-    console.log(values)
+    //console.log(values); return;
     let {
       name,
       goal_measurement_label,
@@ -64,15 +69,15 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
 
     goalPlanData.name= name;
     goalPlanData.goal_measurement_label = goal_measurement_label;
-    goalPlanData.goal_plan_type_id = goal_plan_type_id ? goal_plan_type_id.value : '';
+    goalPlanData.goal_plan_type_id = goal_plan_type_id ? goal_plan_type_id.value : 1;
     goalPlanData.default_target = default_target;
-    goalPlanData.automatic_progress = automatic_progress ? automatic_progress.value: '';
+    goalPlanData.automatic_progress = automatic_progress ? automatic_progress.value: 0;
     goalPlanData.email_template_id = email_template_id;
-    goalPlanData.achieved_event_id= achieved_event_id.value; //pending
-    goalPlanData.exceeded_event_id= exceeded_event_id.value; //pending
+    goalPlanData.achieved_event_id= achieved_event_id ? achieved_event_id.value : null; //pending
+    goalPlanData.exceeded_event_id= exceeded_event_id ? exceeded_event_id.value : null; //pending
     goalPlanData.automatic_frequency =  automatic_frequency;
     goalPlanData.automatic_value = automatic_value;
-    goalPlanData.expiration_rule_id = expiration_rule_id.value;
+    goalPlanData.expiration_rule_id = expiration_rule_id ? expiration_rule_id.value : 1;
     goalPlanData.custom_expire_offset = custom_expire_offset;
     goalPlanData.custom_expire_units = custom_expire_units ? custom_expire_units.value: '';
     goalPlanData.annual_expire_month = annual_expire_month ? annual_expire_month.value: null;
@@ -137,6 +142,7 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
     events,
    // handleChange,
     loading,
+    onSelectGoalPlanType,
     onSubmit
   }
   console.log(goalPlanTypes);
