@@ -23,7 +23,7 @@ const Home = ({auth, organization, program}) => {
     organization,
     program,
   }
-  if( !auth ) return 'Loading...'
+  if (!auth || !program) return 'Loading...'
 
   let slide_imgs = getSlideImg();
   return (
@@ -38,18 +38,22 @@ const Home = ({auth, organization, program}) => {
         <Row>
           <Col md={9}>
             <div className="dashboard">
-              <div className='mb-3'>
-                <Row>
-                  <Col md={8}>
-                    <h1> Welcome back {auth && auth.first_name}! </h1>
-                    <div className='description'>
-                      Congratulations on earning rewards! Redeem your rewards when you earn them or save them for a
-                      "rainy day".
-                    </div>
-                  </Col>
-                </Row>
-              </div>
-              <SocialWallPanel />
+              {program.uses_social_wall > 0 &&
+                <>
+                  <div className='mb-3'>
+                    <Row>
+                      <Col md={8}>
+                        <h1> Welcome back {auth && auth.first_name}! </h1>
+                        <div className='description'>
+                          Congratulations on earning rewards! Redeem your rewards when you earn them or save them for a
+                          "rainy day".
+                        </div>
+                      </Col>
+                    </Row>
+                  </div>
+                  <SocialWallPanel/>
+                </>
+              }
               <div className='mt-5'>
                 <h3>Select a merchant to redeem your points</h3>
                 <Slider data={slide_imgs}/>
