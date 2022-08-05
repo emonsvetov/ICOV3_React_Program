@@ -37,8 +37,8 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
     let goalPlanData = {};
     goalPlanData["organization_id"] = organization.id;
     goalPlanData["program_id"] = program.id;
-
-    //console.log(values); return;
+    console.log("submit");
+    console.log(values); return;
     let {
       name,
       goal_measurement_label,
@@ -74,7 +74,7 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
     goalPlanData.automatic_progress = automatic_progress ? automatic_progress.value: 0;
     goalPlanData.email_template_id = email_template_id;
     goalPlanData.achieved_event_id= achieved_event_id ? achieved_event_id.value : null; //pending
-    goalPlanData.exceeded_event_id= exceeded_event_id ? exceeded_event_id.value : null; //pending
+    goalPlanData.exceeded_event_id= exceeded_event_id ? exceeded_event_id.value : ''; //pending
     goalPlanData.automatic_frequency =  automatic_frequency;
     goalPlanData.automatic_value = automatic_value;
     goalPlanData.expiration_rule_id = expiration_rule_id ? expiration_rule_id.value : 1;

@@ -5,7 +5,7 @@ import Switch from '@/shared/components/form/Switch';
 import Select from 'react-select';
 import renderSelectField from '@/shared/components/form/Select';
 import renderToggleButtonField from "@/shared/components/form/ToggleButton";
-//import formValidation from "@/validation/addEvent";
+import formValidation from "@/validation/addGoalPlan";
 
 const GoalPlanForm = ({
     onSubmit,
@@ -15,16 +15,17 @@ const GoalPlanForm = ({
     events,
     loading,
     btnLabel = 'Save',
-    goalplan = {},
+    goalplan = {'is_recurring':1,'goal_plan_type_id':1},
+    //'award_per_progress':1
     value,
     program
 }) => {
-    const onChangeGoalType = ([value,field], state, { setIn, changeValue }) => {
+    const onChangeGoalType = ([field,value], state, { setIn, changeValue }) => {
      // const v = field.target.value
-      console.log("goal type...");
+      //console.log("goal type...");
       
-      console.log(field);
-      console.log(value[0]);
+     console.log(field);
+      console.log(value);
       console.log(state);
       if(value[0] === 'goal_plan_type_id')
       {
@@ -55,7 +56,7 @@ const GoalPlanForm = ({
     return(
     <Form
             onSubmit={onSubmit}
-            //validate={(values) => formValidation.validateForm(values)}
+            validate={(values) => formValidation.validateForm(values)}
             mutators={{
               onChangeGoalType
               }}
@@ -95,7 +96,7 @@ const GoalPlanForm = ({
                                   form.mutators.onChangeGoalType(['goal_plan_type_id',value]);
                                   return value;
                               }}
-                             // parse={form.mutators.onChangeGoalType}
+                             // parse={form.mutators.onChangeGoalType} ['goal_plan_type_id',1]
                               component={renderSelectField}/>
                       </Col>
                       <Col md="5">
@@ -358,8 +359,8 @@ const GoalPlanForm = ({
                               <FormGroup>
                                 <Select
                                   value={value}
-                                  onChange={{}}
-                                  options={[]}
+                                 // onChange={{}}
+                                 // options={[]}
                                   clearable={false}
                                   className="react-select"
                                   placeholder={'Goal Plan Progress Email Template*'}
@@ -380,7 +381,7 @@ const GoalPlanForm = ({
                         <Label>Recurring:</Label>
                         <Field
                             name="is_recurring"
-                            enable="1"
+                            //enable="1"
                             component={renderToggleButtonField}
                         />
                       </FormGroup>
@@ -388,67 +389,56 @@ const GoalPlanForm = ({
                     </Row>
                     <Row>
                     <Col md="12">
-                        <FormGroup className='d-flex justify-content-between'>
-                         
-                            <Label>Award Per Goal Progress Item:</Label>
-                            <small>(If turned on, when a goal is met 1 award will be given for each goal progress item)</small>
-                            <Field
-                                name="award_per_progress"
-                                component={renderToggleButtonField}
-                            />
-                          
+                      <FormGroup className='d-flex justify-content-between'>
+                        <Label>Award Per Goal Progress Item:</Label>
+                        <small>(If turned on, when a goal is met 1 award will be given for each goal progress item)</small>
+                       
+                          <Field
+                                  name="award_per_progress"
+                                  //enable="1"
+                                  component={renderToggleButtonField}
+                              />
+                        
                         </FormGroup>
                       </Col>
                     </Row>
                     <Row>
                       <Col md="12">
-                        <Field name="award_email_per_progress">
-                          {({ input, meta }) => (
-                              <FormGroup className='d-flex justify-content-between'>
-                                <div className='d-flex flex-column' style={{width: '90%'}}>
-                                  <Label>Award Email Per Award:</Label>
-                                  <small>(If turned off, when a goal is met only 1 award email will be sent regardless of the number of awards generated)</small>
-                                </div>                                
-                                <Switch
-                                  isOn={value}
-                                  //</FormGroup> handleToggle={() => setValue(!value)}
-                                  >
-                                </Switch>
-                              </FormGroup>
-                          )}
-                          </Field>
+                        <FormGroup className='d-flex justify-content-between'>
+                          <Label>Award Email Per Award:</Label>
+                          <small>(If turned off, when a goal is met only 1 award email will be sent regardless of the number of awards generated)</small>
+                         
+                            <Field
+                                  name="award_email_per_progress"
+                                    //enable="1"
+                                  component={renderToggleButtonField}
+                          />
+                        </FormGroup>
                       </Col>
                     </Row>
                     <Row>
                       <Col md="12">
-                        <Field name="progress_requires_unique_ref_num">
-                          {({ input, meta }) => (
-                              <FormGroup className='d-flex justify-content-between'>
-                                <Label>Goal Progress Items Require Unique Reference Number:</Label>
-                                <Switch
-                                  isOn={value}
-                                  //</FormGroup>handleToggle={() => setValue(!value)}
-                                  >
-                                </Switch>
-                              </FormGroup>
-                          )}
-                          </Field>
+                        <FormGroup className='d-flex justify-content-between'>
+                          <Label>Goal Progress Items Require Unique Reference Number:</Label>
+                            <Field
+                                  name="progress_requires_unique_ref_num"
+                                    //enable="1"
+                                  component={renderToggleButtonField}
+                            />
+                          </FormGroup>
                       </Col>
                     </Row>
                     <Row>
                       <Col md="12">
-                        <Field name="assign_goal_all_participants_default">
-                          {({ input, meta }) => (
-                              <FormGroup className='d-flex justify-content-between'>
-                                <Label>Assign Goal To All Participants By Default</Label>
-                                <Switch
-                                  isOn={value}
-                                  //</FormGroup>handleToggle={() => setValue(!value)}
-                                  >
-                                </Switch>
-                              </FormGroup>
-                          )}
-                          </Field>
+                        <FormGroup className='d-flex justify-content-between'>
+                          <Label>Assign Goal To All Participants By Default</Label>
+                            <Field
+                                  name="assign_goal_all_participants_default"
+                                    //enable="1"
+                                    //disabled={1}
+                                  component={renderToggleButtonField}
+                            />
+                          </FormGroup>
                       </Col>
                     </Row>
                     <div className='d-flex justify-content-end'>
