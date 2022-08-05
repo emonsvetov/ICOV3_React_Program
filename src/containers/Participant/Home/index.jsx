@@ -27,11 +27,15 @@ const Home = ({auth, organization, program}) => {
   let [showSocialWall, setShowSocialWall] = useState(null);
 
   useEffect(() => {
+    let result = false;
     if (auth && program){
-      if (auth.user_status_id !== USER_STATUS_PENDING_DEACTIVATION && program.uses_social_wall > 0){
-        setShowSocialWall(true)
+      if (auth.user_status_id === USER_STATUS_PENDING_DEACTIVATION && program.remove_social_from_pending_deactivation){
+        result = false
+      } else if (program.uses_social_wall > 0){
+        result = true
       }
     }
+    setShowSocialWall(result)
   }, [auth, program]);
 
   if (!auth || !program) return 'Loading...'
