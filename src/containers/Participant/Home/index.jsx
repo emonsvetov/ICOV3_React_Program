@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {Col, Container, Row} from 'reactstrap';
 import SocialWallPanel from '@/shared/components/socialWall/SocialWallPanel';
@@ -25,11 +25,16 @@ const Home = ({auth, organization, program}) => {
     program,
   }
   let [showSocialWall, setShowSocialWall] = useState(null);
-  if (!auth || !program) return 'Loading...'
 
-  if (auth.user_status_id !== USER_STATUS_PENDING_DEACTIVATION && program.uses_social_wall > 0){
-    setShowSocialWall(true)
-  }
+  useEffect(() => {
+    if (auth && program){
+      if (auth.user_status_id !== USER_STATUS_PENDING_DEACTIVATION && program.uses_social_wall > 0){
+        setShowSocialWall(true)
+      }
+    }
+  }, [auth, program]);
+
+  if (!auth || !program) return 'Loading...'
 
   let slide_imgs = getSlideImg();
   return (
