@@ -6,3 +6,6 @@ export const getUser = async(organizationId, userId) => {
     // console.log(response)
     return response.data
 }
+
+const USER_STATUS_PENDING_DEACTIVATION = 4;
+export { USER_STATUS_PENDING_DEACTIVATION };

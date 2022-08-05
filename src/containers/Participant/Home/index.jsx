@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {Col, Container, Row} from 'reactstrap';
 import SocialWallPanel from '@/shared/components/socialWall/SocialWallPanel';
@@ -6,6 +6,7 @@ import Slider from './components/slider';
 import {ParticipantTabNavs} from '../../../shared/components/tabNavs';
 import Sidebar from '../../Layout/sidebar';
 import {connect} from "react-redux";
+import {USER_STATUS_PENDING_DEACTIVATION} from '@/services/user/getUser'
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/img/back.png`;
 
@@ -23,7 +24,12 @@ const Home = ({auth, organization, program}) => {
     organization,
     program,
   }
+  let [showSocialWall, setShowSocialWall] = useState(null);
   if (!auth || !program) return 'Loading...'
+
+  if (auth.user_status_id !== USER_STATUS_PENDING_DEACTIVATION && program.uses_social_wall > 0){
+    setShowSocialWall(true)
+  }
 
   let slide_imgs = getSlideImg();
   return (
@@ -38,7 +44,7 @@ const Home = ({auth, organization, program}) => {
         <Row>
           <Col md={9}>
             <div className="dashboard">
-              {program.uses_social_wall > 0 &&
+              {showSocialWall &&
                 <>
                   <div className='mb-3'>
                     <Row>
