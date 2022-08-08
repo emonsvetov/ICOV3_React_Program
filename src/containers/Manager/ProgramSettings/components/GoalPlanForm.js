@@ -6,8 +6,9 @@ import Select from 'react-select';
 import renderSelectField from '@/shared/components/form/Select';
 import renderToggleButtonField from "@/shared/components/form/ToggleButton";
 import formValidation from "@/validation/addGoalPlan";
+import DatePickerField from '@/shared/components/form/DatePicker';
 const current = new Date();
-const date = `${current.getDate()}-${current.getMonth()+1}-${current.getFullYear()}`;
+const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
 console.log(date);
 const GoalPlanForm = ({
     onSubmit,
@@ -17,8 +18,8 @@ const GoalPlanForm = ({
     events,
     loading,
     btnLabel = 'Save',
-    goalplan = {'is_recurring':1,'default_target':0,'goal_measurement_label':1,'date_begin':date},
-    //{'is_recurring':1,'goal_plan_type_id':1},
+    goalplan = {'is_recurring':1,'default_target':0,'goal_measurement_label':'$'},
+    //{'is_recurring':1,'goal_plan_type_id':1},'date_begin':date
     //'award_per_progress':1
     value,
     program
@@ -157,7 +158,12 @@ const GoalPlanForm = ({
                             component={renderSelectField}/>
                       </Col>
                       <Col md="3">
-                          <Field name="date_begin">
+                     {/* <FormGroup>
+                                <Label  className="form-label"> From </Label>
+                                <DatePickerField  name='date_begin' onChange = {() =>{}} />
+                            </FormGroup> */}
+                        {/* dateFormat="yyyy-mm-dd" selected= {date} */}
+                        <Field name="date_begin">
                           {({ input, meta }) => (
                               <FormGroup>
                                 <Input
