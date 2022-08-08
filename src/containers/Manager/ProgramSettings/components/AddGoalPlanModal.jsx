@@ -38,7 +38,7 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
     goalPlanData["organization_id"] = organization.id;
     goalPlanData["program_id"] = program.id;
     console.log("submit");
-    console.log(values); return;
+   // console.log(values); return;
     let {
       name,
       goal_measurement_label,
@@ -75,11 +75,11 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
     goalPlanData.email_template_id = email_template_id;
     goalPlanData.achieved_event_id= achieved_event_id ? achieved_event_id.value : null; //pending
     goalPlanData.exceeded_event_id= exceeded_event_id ? exceeded_event_id.value : ''; //pending
-    goalPlanData.automatic_frequency =  automatic_frequency;
+    goalPlanData.automatic_frequency =  automatic_frequency ? automatic_frequency.value : null;
     goalPlanData.automatic_value = automatic_value;
     goalPlanData.expiration_rule_id = expiration_rule_id ? expiration_rule_id.value : 1;
     goalPlanData.custom_expire_offset = custom_expire_offset;
-    goalPlanData.custom_expire_units = custom_expire_units ? custom_expire_units.value: '';
+    goalPlanData.custom_expire_units = custom_expire_units ? custom_expire_units.value: null;
     goalPlanData.annual_expire_month = annual_expire_month ? annual_expire_month.value: null;
     goalPlanData.annual_expire_day = annual_expire_day ?annual_expire_day.value:null;
     goalPlanData.date_begin = date_begin;

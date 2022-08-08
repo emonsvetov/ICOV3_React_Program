@@ -6,7 +6,9 @@ import Select from 'react-select';
 import renderSelectField from '@/shared/components/form/Select';
 import renderToggleButtonField from "@/shared/components/form/ToggleButton";
 import formValidation from "@/validation/addGoalPlan";
-
+const current = new Date();
+const date = `${current.getDate()}-${current.getMonth()+1}-${current.getFullYear()}`;
+console.log(date);
 const GoalPlanForm = ({
     onSubmit,
     //handleChange,
@@ -15,15 +17,75 @@ const GoalPlanForm = ({
     events,
     loading,
     btnLabel = 'Save',
-    goalplan = {'is_recurring':1,'goal_plan_type_id':1},
+    goalplan = {'is_recurring':1,'default_target':0,'goal_measurement_label':1,'date_begin':date},
+    //{'is_recurring':1,'goal_plan_type_id':1},
     //'award_per_progress':1
     value,
     program
 }) => {
-    const onChangeGoalType = ([field,value], state, { setIn, changeValue }) => {
-     // const v = field.target.value
-      //console.log("goal type...");
+      const validate = values => {
+      let required_field_msg =  "This field is required";
+      let errors = {};
+      if (!values.name) 
+      errors.name = required_field_msg;
+
+      if (!values.goal_plan_type_id) {
+      errors.goal_plan_type_id = required_field_msg;
+      } else if (values.goal_plan_type_id.value ==  "1") {
+          if (!values.exceeded_event_id) 
+          errors.exceeded_event_id = required_field_msg;
+
+          if (!values.factor_before) 
+          errors.factor_before = required_field_msg;
+      }
+
+      if (!values.default_target) 
+      errors.default_target = required_field_msg;
+
+      if (!values.achieved_event_id) 
+      errors.achieved_event_id = required_field_msg;
+
+      if (!values.automatic_progress) {
+      errors.automatic_progress = required_field_msg;
+
+      } else if (values.automatic_progress.value ==  "1") {
+          if (!values.automatic_frequency) 
+          errors.automatic_frequency = required_field_msg; 
+      }
+
+      if (!values.goal_measurement_label) 
+      errors.goal_measurement_label = required_field_msg;
+
+      if (!values.expiration_rule_id) {
+        errors.expiration_rule_id = required_field_msg;
+
+      } else if (values.expiration_rule_id.value == "6")  {
+
+        if (!values.date_end)
+          errors.date_end = required_field_msg;
+
+      } else if (values.expiration_rule_id.value == "5")  {
+
+        if (!values.annual_expire_month)
+          errors.annual_expire_month = required_field_msg; 
+
+          if (!values.annual_expire_day)
+            errors.annual_expire_day = required_field_msg;
+
+      } else if (values.expiration_rule_id.value == "4")  {
+
+        if (!values.custom_expire_offset)
+          errors.custom_expire_offset = required_field_msg;
+
+        if (!values.custom_expire_units)
+            errors.custom_expire_units = required_field_msg
+      }
       
+      return errors;
+    }
+
+
+    /*const onChangeGoalType = ([field,value], state, { setIn, changeValue }) => {
      console.log(field);
       console.log(value);
       console.log(state);
@@ -35,31 +97,15 @@ const GoalPlanForm = ({
         else 
           field.change(0);
       }
-      
-
-      //field.change(  v / program.factor_valuation );
-      //const field2 = state.fields["award_per_progress"];
-      ///field2.change(1);
-     // if(field.target.name === 'max_awardable_amount')  
-      /*(if( isNaN( v ) ) return;
-      if(field.target.name === 'max_awardable_amount')  
-      {
-        const field = state.fields["awarding_points"];
-        field.change( program.factor_valuation *  v);
-      }
-      else if(field.target.name === 'awarding_points')  
-      {
-        const field = state.fields["max_awardable_amount"];
-        field.change(  v / program.factor_valuation );
-      }*/
-    }
+    }*/
     return(
     <Form
             onSubmit={onSubmit}
-            validate={(values) => formValidation.validateForm(values)}
-            mutators={{
+            validate={validate}
+            //validate={(values) => formValidation.validateForm(values)}
+            /*mutators={{
               onChangeGoalType
-              }}
+              }}*/
             initialValues={goalplan
             }
         >
@@ -78,7 +124,8 @@ const GoalPlanForm = ({
                                  // onChange={(e) =>handleChange(input,value)}
                                   {...input}
                                 />
-                                    {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                   {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
+                                    {/*meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>*/}
                               </FormGroup>
                          
                           )}
@@ -92,10 +139,10 @@ const GoalPlanForm = ({
                               className="react-select"
                               options={goalPlanTypes}
                               placeholder={'Select Goal Plan Type*'}
-                              parse={value => {
+                              /*parse={value => {
                                   form.mutators.onChangeGoalType(['goal_plan_type_id',value]);
                                   return value;
-                              }}
+                              }}*/
                              // parse={form.mutators.onChangeGoalType} ['goal_plan_type_id',1]
                               component={renderSelectField}/>
                       </Col>
@@ -118,7 +165,7 @@ const GoalPlanForm = ({
                                   type="date"
                                   {...input}
                                 />
-                                    {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
                               </FormGroup>
                           )}
                           </Field>
@@ -128,27 +175,18 @@ const GoalPlanForm = ({
                           &&
                     <Row>
                       <Col md="6">
-                        <Field name="automatic_frequency">
-                        {({ input, meta }) => (
-                            // defaultValue="daily
-                            <FormGroup>
-                              <Select
-                                value={value}
-                                //onChange={(e) =>handleChange(input,value)}
-                                options={[{ value: 'daily', label: 'Daily' },
+                       
+                        <Field 
+                            name="automatic_frequency"
+                            className="react-select"
+                            //value={value}
+                            options={[{ value: 'daily', label: 'Daily' },
                                 { value: 'weekly', label: 'Weekly' },
                                 { value: 'monthly', label: 'Monthly' },
                                 { value: 'annually', label: 'Annually' }]}
-                                clearable={false}
-                                className="react-select"
-                                placeholder={'Automatic Goal Frequency*'}
-                                classNamePrefix="react-select"
-                                label="Automatic Goal Frequency"
-                              />
-                                  {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
-                            </FormGroup>
-                        )}
-                        </Field>
+                           placeholder={'Automatic Goal Frequency*'}
+                           //label="Automatic Goal Frequency"
+                          component={renderSelectField}/>
                       </Col>
                       <Col md="6">
                         <Field name="automatic_value" defaultValue="0">
@@ -159,7 +197,7 @@ const GoalPlanForm = ({
                                 type="number"
                                 {...input}
                               />
-                                  {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                  {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
                             </FormGroup>
                         )}
                         </Field>
@@ -177,7 +215,7 @@ const GoalPlanForm = ({
                               
                                 {...input}
                               />
-                                  {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                  {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
                             </FormGroup>
                         )}
                         </Field>
@@ -191,7 +229,7 @@ const GoalPlanForm = ({
                                 type="text"
                                 {...input}
                               />
-                                  {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                  {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
                             </FormGroup>
                         )}
                         </Field>
@@ -210,7 +248,7 @@ const GoalPlanForm = ({
                                 type="text"
                                 {...input}
                               />
-                                  {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                 {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
                             </FormGroup>
                         )}
                         </Field>
@@ -224,7 +262,7 @@ const GoalPlanForm = ({
                                     type="text"
                                     {...input}
                                   />
-                                      {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                      {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
                                 </FormGroup>
                             )}
                             </Field>
@@ -240,7 +278,7 @@ const GoalPlanForm = ({
                             placeholder={'Goal Plan Expiration Rule*'}
                             component={renderSelectField}
                     />
-                      </Col>
+                      </Col> 
                       { values.hasOwnProperty('goal_plan_type_id') && values.goal_plan_type_id.value ==  "1" 
                           && //1 is for sales goal type
                       <Col md="6">
@@ -252,12 +290,12 @@ const GoalPlanForm = ({
                               component={renderSelectField}/>
                       </Col>
                     }
-                    </Row>
+                    </Row> 
                     { //Specifield expiration date
                     values.hasOwnProperty('expiration_rule_id') && values.expiration_rule_id.value ==  "6" 
                      &&
                      <Row>
-                        <Col md="12">
+                        <Col md="12"> 
                           <Field name="date_end">
                         {({ input, meta }) => (
                             <FormGroup>
@@ -266,7 +304,7 @@ const GoalPlanForm = ({
                                 type="date"
                                 {...input}
                               />
-                                  {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                  {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
                             </FormGroup>
                         )}
                           </Field>
@@ -275,7 +313,7 @@ const GoalPlanForm = ({
                     }
                     { //Annual expiration date
                     values.hasOwnProperty('expiration_rule_id') && values.expiration_rule_id.value ==  "5" 
-                     &&
+                     && 
                     <Row> 
                       <Col md="6">
                         <Field 
@@ -315,7 +353,7 @@ const GoalPlanForm = ({
                     { values.hasOwnProperty('expiration_rule_id') && values.expiration_rule_id.value ==  "4" 
                      &&
                     <Row> 
-                        <Col md="6">
+                        <Col md="6"> 
                           <Field name="custom_expire_offset">
                           {({ input, meta }) => (
                               <FormGroup>
@@ -324,7 +362,7 @@ const GoalPlanForm = ({
                                   type="number"
                                   {...input}
                                 />
-                                    {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                                  {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
                               </FormGroup>
                           )}
                           </Field>
@@ -354,22 +392,12 @@ const GoalPlanForm = ({
                     </Row>
                     <Row className='align-items-baseline'>
                       <Col md="10">
-                          <Field name="progress_email_template_id">
-                          {({ input, meta }) => (
-                              <FormGroup>
-                                <Select
-                                  value={value}
-                                 // onChange={{}}
-                                 // options={[]}
-                                  clearable={false}
-                                  className="react-select"
-                                  placeholder={'Goal Plan Progress Email Template*'}
-                                  classNamePrefix="react-select"
-                                />
-                                    {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
-                              </FormGroup>
-                          )}
-                          </Field>
+                      <Field 
+                          name="progress_email_template_id"
+                          className="react-select"
+                          //options={}
+                           placeholder={'Goal Plan Progress Email Template*'}
+                           component={renderSelectField}/>
                       </Col>
                       <Col md="2">
                           <Link to={''}> Preview</Link>
