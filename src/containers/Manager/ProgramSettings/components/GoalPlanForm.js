@@ -1,5 +1,6 @@
 import { Input, Col, Row, FormGroup, Label, Button, FormFeedback} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
+import {patch4Select} from '@/shared/helper'
 import { Link } from 'react-router-dom';
 import Switch from '@/shared/components/form/Switch';
 import Select from 'react-select';
@@ -8,6 +9,15 @@ import renderToggleButtonField from "@/shared/components/form/ToggleButton";
 import formValidation from "@/validation/addGoalPlan";
 import DatePickerField from '@/shared/components/form/DatePicker';
 const current = new Date();
+const automaticProgressOptions = [{ value: '1', label: 'Yes' }, { value: '0', label: 'No' }];
+
+const monthsOptions = [{ value: 1, label: 'January' }, { value: 2, label: 'February' }, { value: 3, label: 'March' }, { value: 4, label: 'April' }, { value: 5, label: 'May'}, { value: 6, label: 'June' }, { value: 7, label: 'July' }, { value: 8, label: 'August' }, { value: 9, label: 'September' }, { value: 10, label: 'October' }, { value: 11, label: 'November' }, { value: 12, label: 'December' }];
+
+const daysOptions =[{ value: 1, label: 1 }, { value: 5, label: 5 }, { value: 10, label: 10 }, { value: 15, label: 15 }, { value: 20, label: 20 }, { value: 25, label: 25 }];
+
+const customUnitsOptions = [{ value: 'months', label: 'Months' },{ value: 'days', label: 'Days' }, { value: 'years', label: 'Years' }];
+
+
 const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
 console.log(date);
 const GoalPlanForm = ({
@@ -18,12 +28,16 @@ const GoalPlanForm = ({
     events,
     loading,
     btnLabel = 'Save',
-    goalplan = {'is_recurring':1,'default_target':0,'goal_measurement_label':'$'},
+    goalplan = {'is_recurring':1,'default_target':0,'goal_measurement_label':'$','goal_plan_type_id':1, 'automatic_progress':0,'date_begin':date},
     //{'is_recurring':1,'goal_plan_type_id':1},'date_begin':date
     //'award_per_progress':1
     value,
     program
 }) => {
+      if( goalplan ) {
+        goalplan = patch4Select(goalplan, 'goal_plan_type_id', goalPlanTypes)
+        goalplan = patch4Select(goalplan, 'automatic_progress', automaticProgressOptions)
+      }
       const validate = values => {
       let required_field_msg =  "This field is required";
       let errors = {};
@@ -151,8 +165,7 @@ const GoalPlanForm = ({
                           <Field 
                             name="automatic_progress"
                             className="react-select"
-                            options={[{ value: '1', label: 'Yes' },
-                            { value: '0', label: 'No' }]}
+                            options={automaticProgressOptions}
                            //defaultValue='0'
                             placeholder={'Accrue Progress Automatically*'}
                             component={renderSelectField}/>
@@ -325,18 +338,7 @@ const GoalPlanForm = ({
                         <Field 
                             name="annual_expire_month"
                             className="react-select"
-                            options={[{ value: 1, label: 'January' },
-                            { value: 2, label: 'February' },
-                            { value: 3, label: 'March' },
-                            { value: 4, label: 'April' },
-                            { value: 5, label: 'May'}, 
-                            { value: 6, label: 'June' },
-                            { value: 7, label: 'July' },
-                            { value: 8, label: 'August' },
-                            { value: 9, label: 'September' },
-                            { value: 10, label: 'October' },
-                            { value: 11, label: 'November' },
-                            { value: 12, label: 'December' }]}
+                            options={monthsOptions}
                             placeholder={'Goal Plan Annual Expiration Month*'}
                             component={renderSelectField}/>
                       </Col>
@@ -344,13 +346,7 @@ const GoalPlanForm = ({
                         <Field 
                             name="annual_expire_day"
                             className="react-select"
-                            options={[
-                              { value: 1, label: 1 },
-                              { value: 5, label: 5 },
-                              { value: 10, label: 10 },
-                              { value: 15, label: 15 },
-                              { value: 20, label: 20 },
-                              { value: 25, label: 25 }]}
+                            options={daysOptions}
                             placeholder={'Goal Plan Annual Expiration Day*'}
                             component={renderSelectField}/>
                       </Col>
@@ -377,9 +373,7 @@ const GoalPlanForm = ({
                           <Field 
                                 name="custom_expire_units"
                                 className="react-select"
-                                options={[{ value: 'months', label: 'Months' },
-                                { value: 'days', label: 'Days' },
-                                { value: 'years', label: 'Years' }]}
+                                options={customUnitsOptions}
                                 placeholder={'Goal Plan Custom Expiration*'}
                                 component={renderSelectField}/>
                         </Col>
