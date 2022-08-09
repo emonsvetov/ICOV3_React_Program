@@ -13,6 +13,9 @@ import SelectProgram from '../components/SelectProgram'
 import Dashboard from './View/Dashboard';
 import Leaderboard from './View/Leaderboards';
 import Spirewall from './View/SpireWall';
+import SocialWallPanel from '@/shared/components/socialWall/SocialWallPanel';
+import {getAuthProgram} from '@/containers/App/auth';
+
 
 export const Home = () => {
   
@@ -35,24 +38,29 @@ export const Home = () => {
 )}
 
 export const NSpireWall = () => {
-  
+  const program = getAuthProgram();
+
   return (
     <>
-      <Container>
-        <Row>
-          <Col md={3} className="program-select d-flex">
-            <SelectProgram />
-          </Col>
-          <Col md={6}>
-            <ManagerTabNavs/>
-          </Col>
-        </Row>
-      </Container>
-      <hr></hr>
-      <Spirewall />
+      {program.uses_social_wall > 0 &&
+        <>
+          <Container>
+            <Row>
+              <Col md={3} className="program-select d-flex">
+                <SelectProgram/>
+              </Col>
+              <Col md={6}>
+                <ManagerTabNavs/>
+              </Col>
+            </Row>
+          </Container>
+          <hr></hr>
+          <SocialWallPanel isManager={true}/>
+        </>
+      }
     </>
-   
-)}
+  )
+}
 
 export const Leaderboards = () => {
   

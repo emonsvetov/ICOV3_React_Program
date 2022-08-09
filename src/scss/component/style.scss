@@ -175,22 +175,6 @@ ul.horizontal {
 //home
 .dashboard{
     margin: 0 auto;
-    .rewards-panel{
-        height: 500px;
-        overflow-y: auto;
-
-    }
-    .reward-item{
-        padding: 30px 20px;
-        .comment-btn{
-            padding: 7px 13px;
-            display: flex;
-            height: fit-content;
-        }
-        .icon{
-            color: $yellow-color;
-        }
-    }
     hr.solid {
         border-top: 1px solid #bbb;
         width: 95%;
@@ -947,4 +931,72 @@ footer .teritery-menu{
     background-color: #00cc3f;
     border-color: #00b538;
     border-radius: 0;
+}
+
+/**
+ * Social Wall
+ */
+.social-wall-panel{
+    height: 600px;
+    overflow-y: auto;
+    background: #f7f8fa;
+}
+.click-btn {
+    padding: 4px 8px;
+    cursor:pointer;
+}
+.add-new-post {
+    width:130px;
+}
+.social-wall-item{
+    padding: 30px 20px;
+    .comment-btn, .delete-activity-btn{
+        padding: 5px 8px;
+        cursor:pointer;
+        width: 140px;
+        margin-bottom: 5px;
+    }
+    .title {
+        font-size: 20px;
+        line-height: 20px;
+        margin-bottom: 10px;
+    }
+    .icon{
+        color: $yellow-color;
+    }
+    .flex-column {
+        padding: 5px;
+    }
+    .from {
+        min-width: 150px;
+    }
+    .datetime {
+        font-size: 14px;
+        color: #999999;
+        font-weight: bold;
+    }
+    .comments {
+        padding: 5px 5px 5px 30px;
+    }
+    .comment {
+        padding: 5px 5px 10px 5px;
+        margin-bottom: 5px;
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 0.25rem;
+    }
+    .commentDate {
+        padding: 2px;
+        font-size: 14px;
+        color: #999999;
+        text-align: right;
+        font-style: italic;
+    }
+    .deleteComment {
+        cursor: pointer;
+        float: right;
+    }
+    .deleteComment:hover {
+        text-decoration: underline;
+    }
 }

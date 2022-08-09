@@ -11,13 +11,16 @@ import axios from 'axios'
 import formValidation from "@/validation/giveReward"
 import {fetchEmailTemplates} from '@/services/getEmailTemplates';
 
+import {createSocialWallPost} from '@/redux/actions/socialWallPostActions';
+import {getSocialWallPostTypeEvent} from '@/services/program/getSocialWallPostTypes'
+
 const DEFAULT_MSG_PARTICIPANT = "We wanted to thank you for all your extra efforts over the last couple of days.\n\nThough your response and tireless efforts. You made a BIG Different!!\n\nWe would like to recognize those efforts with this award to reflect our appreciation.\n\nGreg, Gerry and Bruce\n\nGreg and Gerry"
 
 const GiveRewardImg = `/img/pages/giveReward.png`;
 // const Participants = [
 //   'Bobrowski Robert'
 // ]
-const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organization}) => {
+const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organization, auth}) => {
   const dispatch = flashDispatch()
   // console.log(participants)
   const [value, setValue] = useState(false);
@@ -68,9 +71,34 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
     .post(`/organization/${organization.id}/program/${program.id}/award`, formData)
     .then((res) => {
       //   console.log(res)
-      if (res.status == 200) {
+      if (res.status === 200) {
         dispatch(flashMessage('Participants Awarded successfully!', 'alert-success', 'top'))
-        // setSaving(false)
+
+        // Post to Social Wall
+        if (program.uses_social_wall) {
+          let resultObject = res.data;
+
+          getSocialWallPostTypeEvent(organization.id, program.id)
+            .then(socialWallPostTypeEvent => {
+              Object.keys(resultObject).map((key) => {
+                let resultData = resultObject[key]
+
+                let socialWallPostData = {
+                  'social_wall_post_type_id': socialWallPostTypeEvent.id,
+                  'social_wall_post_id': null,
+                  'event_xml_data_id': resultData.event_xml_data_id,
+                  'program_id': program.id,
+                  'organization_id': organization.id,
+                  'awarder_program_id': null,
+                  'sender_user_account_holder_id': auth.account_holder_id,
+                  'receiver_user_account_holder_id': resultData.userAccountHolderId,
+                }
+                // console.log(socialWallPostData);
+                dispatch(createSocialWallPost(organization.id, program.id, socialWallPostData))
+              })
+            })
+        }
+            // setSaving(false)
         // window.location.reload()
       }
     })
