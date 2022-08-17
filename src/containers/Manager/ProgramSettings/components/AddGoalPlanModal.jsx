@@ -38,7 +38,7 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
     goalPlanData["organization_id"] = organization.id;
     goalPlanData["program_id"] = program.id;
     console.log("submit");
-   console.log(values); //return;
+   console.log(values); return;
     let {
       name,
       goal_measurement_label,
