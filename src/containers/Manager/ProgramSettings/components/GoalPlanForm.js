@@ -54,7 +54,7 @@ const GoalPlanForm = ({
           errors.factor_before = required_field_msg;
       }
 
-      if (!values.default_target) 
+      if (!values.hasOwnProperty('default_target')) 
       errors.default_target = required_field_msg;
 
       if (!values.achieved_event_id) 
@@ -225,7 +225,7 @@ const GoalPlanForm = ({
                     }
                     <Row>
                       <Col md="6">
-                        <Field name="default_target" defaultValue="0">
+                        <Field name="default_target">
                         {({ input, meta }) => (
                             <FormGroup>
                               <Input
@@ -240,7 +240,7 @@ const GoalPlanForm = ({
                         </Field>
                       </Col>
                       <Col md="6">
-                        <Field name="goal_measurement_label" defaultValue="$">
+                        <Field name="goal_measurement_label">
                         {({ input, meta }) => (
                             <FormGroup>
                               <Input
