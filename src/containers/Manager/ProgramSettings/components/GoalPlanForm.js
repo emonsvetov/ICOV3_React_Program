@@ -28,6 +28,7 @@ const GoalPlanForm = ({
     events,
     loading,
     btnLabel = 'Save',
+    //goalplan = {},
     goalplan = {'is_recurring':1,'default_target':0,'goal_measurement_label':'$','goal_plan_type_id':1, 'automatic_progress':0,'date_begin':date},
     //{'is_recurring':1,'goal_plan_type_id':1},'date_begin':date
     //'award_per_progress':1
@@ -208,7 +209,7 @@ const GoalPlanForm = ({
                           component={renderSelectField}/>
                       </Col>
                       <Col md="6">
-                        <Field name="automatic_value" defaultValue="0">
+                        <Field name="automatic_value">
                         {({ input, meta }) => (
                             <FormGroup>
                               <Input
