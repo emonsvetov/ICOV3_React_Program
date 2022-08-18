@@ -8,8 +8,6 @@ import Sidebar from '../../Layout/sidebar';
 import {connect} from "react-redux";
 import {USER_STATUS_PENDING_DEACTIVATION} from '@/services/user/getUser'
 
-const IMG_BACK = `${process.env.PUBLIC_URL}/img/back.png`;
-
 const getSlideImg = () => {
   let imgs = [];
   for (let i = 1; i < 9; i++) {
@@ -19,7 +17,7 @@ const getSlideImg = () => {
 }
 
 
-const Home = ({auth, organization, program}) => {
+const Home = ({auth, organization, program, template}) => {
   let props = {
     organization,
     program,
@@ -38,7 +36,10 @@ const Home = ({auth, organization, program}) => {
     setShowSocialWall(result)
   }, [auth, program]);
 
-  if (!auth || !program) return 'Loading...'
+  if (!auth || !program || !template) return 'Loading...'
+
+  const IMG_BACK = template.hero_banner ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.hero_banner}` :
+    `${process.env.PUBLIC_URL}/img/back.png`;
 
   let slide_imgs = getSlideImg();
   return (
@@ -91,6 +92,7 @@ const mapStateToProps = (state) => {
     auth: state.auth,
     program: state.program,
     organization: state.organization,
+    template: state.template
   };
 };
 export default connect(mapStateToProps)(Home);
