@@ -8,22 +8,6 @@ import LoginPopup from './components/LoginPopup';
 import "react-multi-carousel/lib/styles.css";
 import Carousel from "react-multi-carousel";
 
-const items = [
-  {
-    src: '/img/slider/slider-01.jpg',
-    altText: 'Slide 1',
-  },
-  {
-    src: '/img/slider/slider-02.jpg',
-    altText: 'Slide 2',
-    
-  },
-  {
-    src: '/img/slider/slider-03.jpg',
-    altText: 'Slide 3',
-    
-  }
-];
 const getSlideImg = () => {
   let imgs = [];
   for (let i = 1 ;  i< 9; i ++){
@@ -61,6 +45,29 @@ const LogIn = ({template}) => {
   const signupToggle = () => {
     setShowSignup(prevState => !prevState);
   };
+
+  if (!template) return 'Loading...'
+
+  const items = [
+    {
+      src: template.slider_01 ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.slider_01}` :
+        `${process.env.PUBLIC_URL}/img/slider/slider-01.jpg`,
+      altText: 'Slide 1',
+    },
+    {
+      src: template.slider_02 ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.slider_02}` :
+        `${process.env.PUBLIC_URL}/img/slider/slider-02.jpg`,
+      altText: 'Slide 2',
+
+    },
+    {
+      src: template.slider_03 ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.slider_03}` :
+        `${process.env.PUBLIC_URL}/img/slider/slider-03.jpg`,
+      altText: 'Slide 3',
+
+    }
+  ];
+
   let slide_imgs = getSlideImg();
   return <div>
     <HomeTopbar onClickLogin = {popupToggle} onClickSignup = {signupToggle}/>
