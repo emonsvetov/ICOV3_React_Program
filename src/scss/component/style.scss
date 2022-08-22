@@ -937,7 +937,7 @@ footer .teritery-menu{
  * Social Wall
  */
 .social-wall-panel{
-    height: 600px;
+    max-height: 600px;
     overflow-y: auto;
     background: #f7f8fa;
 }
