@@ -11,6 +11,7 @@ import { useLocation } from 'react-router-dom';
 
 import SelectProgram from '../components/SelectProgram'
 import Events from './components/Events'
+import GoalPlans from './components/GoalPlans'
 import Leaderboards from './components/Leaderboards';
 import {isEmpty} from '@/shared/helper'
 import ModalWrapper from './components/ModalWrapper';
@@ -94,6 +95,9 @@ const ProgramSettings = ( {auth, program, organization} ) => {
           <div className='my-3 d-flex justify-content-between'>
             <h3 >Goal Plans</h3>
             <Button color='danger' onClick={() =>toggle('AddGoal')}>Add New Goal Plan</Button>
+          </div>
+          <div className='expired-goalplan-table'>
+              {activeTab === 1 && <GoalPlans program={program} organization={organization} />}
           </div>
         </div>
 
