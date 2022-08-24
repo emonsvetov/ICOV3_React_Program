@@ -137,6 +137,7 @@ const GoalPlanForm = ({
                                 <Input
                                   placeholder="Goal Plan Name*"
                                   type="text"
+                                  clearable={true}
                                  // onChange={(e) =>handleChange(input,value)}
                                   {...input}
                                 />
