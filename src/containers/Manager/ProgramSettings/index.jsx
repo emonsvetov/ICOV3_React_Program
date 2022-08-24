@@ -15,6 +15,7 @@ import Leaderboards from './components/Leaderboards';
 import {isEmpty} from '@/shared/helper'
 import ModalWrapper from './components/ModalWrapper';
 import { useEffect } from 'react';
+import TemplateButton from "@/shared/components/TemplateButton"
 
 const LINKS = [
   { to: '#events', text: 'Events' },
@@ -83,7 +84,7 @@ const ProgramSettings = ( {auth, program, organization} ) => {
         <div className={activeTab != 0 ? "d-none": ""} id="events">
           <div className='my-3 d-flex justify-content-between'>
             <h3 >Events</h3>
-            <Button color='danger' onClick={() =>toggle('AddEvent')}>Add New Event</Button>
+            <TemplateButton onClick={() =>toggle('AddEvent')} text='Add New Event' />
           </div>
           <div className='points-summary-table'>
               {activeTab === 0 && <Events program={program} organization={organization} />}
@@ -93,28 +94,28 @@ const ProgramSettings = ( {auth, program, organization} ) => {
         <div className={activeTab != 1 ? "d-none": ""} id="expired-goalplans">
           <div className='my-3 d-flex justify-content-between'>
             <h3 >Goal Plans</h3>
-            <Button color='danger' onClick={() =>toggle('AddGoal')}>Add New Goal Plan</Button>
+            <TemplateButton onClick={() =>toggle('AddGoal')} text='Add New Goal Plan' />
           </div>
         </div>
 
         <div className={activeTab != 2 ? "d-none": ""} id="active-goalplans">
           <div className='my-3 d-flex justify-content-between'>
             <h3 >Goal Plans</h3>
-            <Button color='danger' onClick={() =>toggle('AddGoal')}>Add New Goal Plan</Button>
+            <TemplateButton onClick={() =>toggle('AddGoal')} text='Add New Goal Plan' />
           </div>
         </div>
 
         <div className={activeTab != 3 ? "d-none": ""} id="future-goalplans">
           <div className='my-3 d-flex justify-content-between'>
             <h3 >Goal Plans</h3>
-            <Button color='danger' onClick={() =>toggle('AddGoal')}>Add New Goal Plan</Button>
+            <TemplateButton onClick={() =>toggle('AddGoal')} text='Add New Goal Plan' />
           </div>
         </div>
 
         <div className={activeTab != 4 ? "d-none": ""} id="leaderboards">
           <div className='my-3 d-flex justify-content-between'>
             <h3 >Leaderboards</h3>
-            <Button color='danger' onClick={() =>toggle('AddLeaderboard')}>Add New Leaderboard</Button>
+            <TemplateButton onClick={() =>toggle('AddLeaderboard')} text='Add New Leaderboard' />
           </div>
           <div className='leaderboard-table'>
               {activeTab === 4 && <Leaderboards program={program} organization={organization} />}

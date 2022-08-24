@@ -14,6 +14,7 @@ import SelectProgram from '../components/SelectProgram'
 import Referrals from './components/Referrals'
 import {isEmpty} from '@/shared/helper'
 import ModalWrapper from './components/ModalWrapper';
+import TemplateButton from "@/shared/components/TemplateButton"
 
 const Referral = ( {auth, program, organization} ) => {
   // console.log(auth)
@@ -35,7 +36,7 @@ const Referral = ( {auth, program, organization} ) => {
           <Col md={10}>
             <div className='my-3 d-flex justify-content-between'>
               <h3 >Referrals</h3>
-              <Button color='danger' onClick={() =>toggle('AddReferral')}>Add Administrator</Button>
+              <TemplateButton onClick={() =>toggle('AddReferral')} text='Add Administrator' />
             </div>
             <Col md={4} className="d-flex program-select my-3">
                 <SelectProgram />

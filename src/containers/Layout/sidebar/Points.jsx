@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import TemplateButton from "@/shared/components/TemplateButton"
 
 const Points = ({myPoints}) => {
     if( !myPoints ) return 'Loading...'
@@ -12,9 +13,7 @@ const Points = ({myPoints}) => {
                     <h6> Points to Redeem </h6>
                     <div className='panel-group'>
                         <h4>{myPoints.points.toLocaleString()}</h4>
-                        <div className='red redeem-btn'>
-                            <Link to={`/participant/select-merchants`}>Redeem Points</Link>
-                        </div>
+                        <TemplateButton text='Redeem Points' link='/participant/select-merchants' />
                         {/* <Button className='btn-round'> Redeem Points</Button> */}
                     </div>
                 </div>

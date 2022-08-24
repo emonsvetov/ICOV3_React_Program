@@ -7,6 +7,7 @@ import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 import {getLeaderboardTypes} from '@/services/program/getLeaderboardTypes'
 import renderSelectField from '@/shared/components/form/Select'
+import TemplateButton from "@/shared/components/TemplateButton"
 
 const AddLeaderboardForm = ({
     organization,
@@ -110,7 +111,7 @@ const AddLeaderboardForm = ({
                     </Col>
                 </Row>                                        
                 <div className='d-flex justify-content-end'>
-                    <Button disabled={loading} color='danger' type='submit'>{'Save'}</Button>
+                    <TemplateButton disabled={loading} type='submit' text='Save' />
                 </div>
             </form>
             )}
