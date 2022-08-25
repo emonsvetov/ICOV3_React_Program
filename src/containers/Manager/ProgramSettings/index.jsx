@@ -97,14 +97,18 @@ const ProgramSettings = ( {auth, program, organization} ) => {
             <Button color='danger' onClick={() =>toggle('AddGoal')}>Add New Goal Plan</Button>
           </div>
           <div className='expired-goalplan-table'>
-              {activeTab === 1 && <GoalPlans program={program} organization={organization} />}
+              {activeTab === 1 && <GoalPlans program={program} organization={organization} status="9"/>}
           </div>
         </div>
 
         <div className={activeTab != 2 ? "d-none": ""} id="active-goalplans">
           <div className='my-3 d-flex justify-content-between'>
             <h3 >Goal Plans</h3>
+           
             <Button color='danger' onClick={() =>toggle('AddGoal')}>Add New Goal Plan</Button>
+          </div>
+          <div className='active-goalplan-table'>
+              { activeTab === 2 && <GoalPlans program={program} organization={organization} status="8"/>}
           </div>
         </div>
 
@@ -112,6 +116,9 @@ const ProgramSettings = ( {auth, program, organization} ) => {
           <div className='my-3 d-flex justify-content-between'>
             <h3 >Goal Plans</h3>
             <Button color='danger' onClick={() =>toggle('AddGoal')}>Add New Goal Plan</Button>
+          </div>
+          <div className='future-goalplan-table'>
+              { activeTab === 3 && <GoalPlans program={program} organization={organization} status="7"/>}
           </div>
         </div>
 

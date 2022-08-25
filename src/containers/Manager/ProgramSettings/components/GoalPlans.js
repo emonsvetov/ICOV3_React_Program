@@ -22,7 +22,7 @@ const EVENTS_COLUMNS = [
     }
 ]
 
-const GoalPlans = ({program, organization}) => {
+const GoalPlans = ({program, organization, status}) => {
     const [goalplans, setGoalPlans] = useState([]);
     const [goalplan, setGoalPlan] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -69,7 +69,7 @@ const GoalPlans = ({program, organization}) => {
     useEffect(() => {
         let mounted = true;
         setLoading(true)
-        getGoalPlans(organization.id, program.id)
+        getGoalPlans(organization.id, program.id,status)
           .then(items => {
             if(mounted) {
               setGoalPlans(items)
