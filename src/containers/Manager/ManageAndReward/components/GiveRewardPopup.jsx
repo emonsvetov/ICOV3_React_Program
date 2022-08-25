@@ -13,6 +13,7 @@ import {fetchEmailTemplates} from '@/services/getEmailTemplates';
 
 import {createSocialWallPost} from '@/redux/actions/socialWallPostActions';
 import {getSocialWallPostTypeEvent} from '@/services/program/getSocialWallPostTypes'
+import TemplateButton from "@/shared/components/TemplateButton"
 
 const DEFAULT_MSG_PARTICIPANT = "We wanted to thank you for all your extra efforts over the last couple of days.\n\nThough your response and tireless efforts. You made a BIG Different!!\n\nWe would like to recognize those efforts with this award to reflect our appreciation.\n\nGreg, Gerry and Bruce\n\nGreg and Gerry"
 
@@ -396,7 +397,7 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
                       </Col>
                     </Row>
                     <div className='d-flex justify-content-end'>
-                      <Button disabled={saving} color='danger' type='submit'>Save Reward</Button>
+                      <TemplateButton disabled={saving} type='submit' text='Save Reward' />
                     </div>
                   </>}
                 </form>

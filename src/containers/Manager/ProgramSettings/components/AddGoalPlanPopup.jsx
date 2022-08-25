@@ -5,6 +5,7 @@ import {Modal, Input, Col, Row, FormGroup, FormFeedback, Label, Button} from 're
 import { Form, Field } from 'react-final-form';
 import CloseIcon from 'mdi-react/CloseIcon';
 import Switch from '@/shared/components/form/Switch';
+import TemplateButton from "@/shared/components/TemplateButton"
 
 const AddGoalPlanImg = `/img/pages/addGoalPlan.png`;
 
@@ -326,7 +327,7 @@ const AddGoalPlanPopup = ({program, organization, isOpen, setOpen, toggle, data}
                       </Col>
                     </Row>
                   <div className='d-flex justify-content-end'>
-                    <Button  color='danger' type='submit'>Save Goal Plan</Button>
+                    <TemplateButton type='submit' text='Save Goal Plan' />
                   </div>
                 </form>
               )}

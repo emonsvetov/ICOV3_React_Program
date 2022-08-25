@@ -2,6 +2,7 @@ import React, {useState, useRef} from 'react';
 import PlusCircleIcon from 'mdi-react/PlusCircleIcon';
 import SocialWallIcon from './SocialWallIcon';
 import {Button} from "reactstrap";
+import TemplateButton from "@/shared/components/TemplateButton"
 
 const SocialWallItem = (props) => {
   const {id, title, content, from, created_at, icon, comments} = props.data;
@@ -39,15 +40,11 @@ const SocialWallItem = (props) => {
         </div>
         {props.program.uses_social_wall &&
           <div className='flex-column'>
-            <Button color='danger' className='comment-btn click-btn' onClick={commentEvent}>
-              Comment
-            </Button>
+            <TemplateButton text='Comment' className='comment-btn' onClick={commentEvent} />
             {
               isManager &&
-              <Button color='danger' className='delete-activity-btn click-btn'
-                      onClick={() => DeleteActivityEvent(confirmRef, id)}>
-                Delete Activity
-              </Button>
+              <TemplateButton color='danger' className='delete-activity-btn'
+                      onClick={() => DeleteActivityEvent(confirmRef, id)} text='Delete&nbsp;Activity' />
             }
           </div>
         }

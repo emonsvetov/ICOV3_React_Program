@@ -4,6 +4,7 @@ import renderSelectField from '@/shared/components/form/Select'
 import {patch4Select} from '@/shared/helper'
 import renderToggleButtonField from "@/shared/components/form/ToggleButton"
 import formValidation from "@/validation/addEvent"
+import TemplateButton from "@/shared/components/TemplateButton"
 
 const EventForm = ({
     onSubmit, 
@@ -180,7 +181,7 @@ const EventForm = ({
                 </Col>
                 </Row>
                 <div className='d-flex justify-content-end'>
-                <Button disabled={loading} color='danger' type='submit'>{btnLabel}</Button>
+                <TemplateButton disabled={loading} type='submit' text={btnLabel} />
                 </div>
             </form>
             )}
