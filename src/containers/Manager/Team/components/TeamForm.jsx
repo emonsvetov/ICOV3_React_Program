@@ -1,6 +1,7 @@
 import { Input, Col, Row, FormGroup, Label, Button} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 import formValidation from "@/validation/addTeam"
+import TemplateButton from "@/shared/components/TemplateButton"
 
 const TeamForm = ({
     onSubmit, 
@@ -136,7 +137,7 @@ const TeamForm = ({
                 </Row>
                 
                 <div className='d-flex justify-content-end'>
-                <Button disabled={loading} color='danger' type='submit'>{btnLabel}</Button>
+                <TemplateButton disabled={loading} type='submit' text={btnLabel} />
                 </div>
             </form>
             )}

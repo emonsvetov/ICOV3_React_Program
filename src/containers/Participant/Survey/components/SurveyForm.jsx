@@ -4,7 +4,7 @@ import { Card, Button, CardHeader, CardFooter, CardBody,
   CardTitle, CardText } from 'reactstrap';
 
 import { Input, Col, Row, FormGroup, FormFeedback, Label} from 'reactstrap';
-
+import TemplateButton from "@/shared/components/TemplateButton"
 
 export const Start = ({nextStep}) => {
   const handleNext = (e) => {
@@ -16,7 +16,7 @@ export const Start = ({nextStep}) => {
     <div className='survey text-center'>
         <h3>Customer Feedback Survey</h3>
         <div className='my-3'>Please let us know about your experience with our product and service</div>
-        <Button  color='primary' className='w-100' onClick={handleNext}>NEXT</Button>
+        <TemplateButton className='' onClick={handleNext} text='NEXT' />
     </div>
 )}
 
@@ -36,7 +36,7 @@ export const FullName = ({nextStep, handleChange, values}) => {
             defaultValue = {values?.name}
             type="text" />
       </FormGroup>  
-      <Button  color='primary' className='w-100' onClick={handleNext}>NEXT</Button>
+      <TemplateButton onClick={handleNext} className='' text='NEXT' />
     </div>
 )}
 
@@ -57,8 +57,8 @@ export const Email = ({prevStep, nextStep, handleChange, values}) => {
             type="text" />
       </FormGroup>
         
-        <Button  color='primary' className='w-50' onClick={()=> prevStep()}>PREVIOUS</Button>
-        <Button  color='primary' className='w-50' onClick={handleNext}>NEXT</Button>
+        <TemplateButton className='marginRight5' onClick={()=> prevStep()} text='PREVIOUS' />
+        <TemplateButton className='marginRight5' onClick={handleNext} text='NEXT' />
     </div>
 )}
 
@@ -89,8 +89,8 @@ export const Feeling = ({prevStep, nextStep, handleChange, values}) => {
           <StatusOptions />
         </Input>
         </FormGroup>
-        <Button  color='primary' className='w-50' onClick={()=> prevStep()}>PREVIOUS</Button>
-        <Button  color='primary' className='w-50' onClick={handleNext}>NEXT</Button>
+        <TemplateButton className='marginRight5' onClick={()=> prevStep()} text='PREVIOUS' />
+        <TemplateButton className='marginRight5' onClick={handleNext} text='NEXT' />
     </div>
 )}
 
@@ -124,8 +124,8 @@ export const Recommend = ({prevStep, nextStep, handleChange, values}) => {
           </FormGroup>
         </FormGroup>
         
-        <Button  color='primary' className='w-50' onClick={()=> prevStep()}>PREVIOUS</Button>
-        <Button  color='primary' className='w-50' onClick={handleNext}>NEXT</Button>
+        <TemplateButton className='marginRight5' onClick={()=> prevStep()} text='PREVIOUS' />
+        <TemplateButton className='marginRight5' onClick={handleNext} text='NEXT' />
     </div>
 )}
 
@@ -187,8 +187,8 @@ export const Satisfication = ({prevStep, nextStep, handleChange, values}) => {
             </FormGroup>
           </FormGroup>
         
-        <Button  color='primary' className='w-50' onClick={()=> prevStep()}>PREVIOUS</Button>
-        <Button  color='primary' className='w-50' onClick={handleNext}>NEXT</Button>
+        <TemplateButton className='marginRight5' onClick={()=> prevStep()} text='PREVIOUS' />
+        <TemplateButton className='marginRight5' onClick={handleNext} text='NEXT' />
     </div>
 )}
 
@@ -212,8 +212,8 @@ export const Suggestion = ({prevStep, nextStep, handleChange, values}) => {
               type="textarea" />
           </FormGroup>
         </FormGroup>
-        <Button  color='primary' className='w-50' onClick={()=> prevStep()}>PREVIOUS</Button>
-        <Button  color='primary' className='w-50' onClick={handleNext}>NEXT</Button>
+        <TemplateButton className='marginRight5' onClick={()=> prevStep()} text='PREVIOUS' />
+        <TemplateButton className='marginRight5' onClick={handleNext} text='NEXT' />
     </div>
 )}
 
@@ -223,7 +223,7 @@ export const Thankyou = ({prevStep, submit}) => {
     
     <div className='survey'>
         <legend>Thank you for completing this survey. You will be awarded 400 points!</legend>
-        <Button  color='primary' className='w-50' onClick={()=> prevStep()}>PREVIOUS</Button>
-        <Button  color='primary' className='red w-50' onClick={() => submit()}>Submit</Button>
+        <TemplateButton className='marginRight5' onClick={()=> prevStep()} text='PREVIOUS' />
+        <TemplateButton className='red marginRight55' onClick={() => submit()} text='Submit' />
     </div>
 )}

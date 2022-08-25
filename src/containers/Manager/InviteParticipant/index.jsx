@@ -14,7 +14,7 @@ import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 //import {getProgram} from '@/services/program/getProgram';
 import { makeLabelizedOptionsFromTree } from '@/shared/helper';
 import {getProgramTree} from '@/services/program/getProgramTree';
-
+import TemplateButton from "@/shared/components/TemplateButton"
 
 const InviteParticipant = ({auth, organization, rootProgram}) => {
   const [programOptions, setProgramOptions] = useState([])
@@ -194,7 +194,7 @@ const InviteParticipant = ({auth, organization, rootProgram}) => {
                     </Col>
                   </Row>
                   <div className='d-flex justify-content-center'>
-                    <Button  color='danger' type='submit'>Invite Participant</Button>
+                    <TemplateButton type='submit' text='Invite Participant' />
                   </div>
                 </form>
               )}
