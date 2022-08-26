@@ -59,6 +59,7 @@ const App = () => {
       // console.log(domain)
       store.dispatch(setDomain(domain))
       store.dispatch(setTemplate(domain.program.template))
+      setCustomLink(domain.program.template.font_family)
     })
     store.dispatch(setOrganization(getOrganization()))
     store.dispatch(setAuthUser(getAuthUser()))
@@ -70,6 +71,26 @@ const App = () => {
       store.dispatch(setPointBalance(balance))
     })
   }
+
+  const setCustomLink = (href) => {
+    if (href){
+      let fullHref = "https://fonts.googleapis.com/css?family="+href+":100,300,400,500,700,900";
+      let head = document.head;
+      let link = document.createElement("link");
+
+      link.type = "text/css";
+      link.rel = "stylesheet";
+      link.href = fullHref;
+
+      head.appendChild(link);
+
+      let style = document.createElement("style");
+      style.innerHTML = "*, body { font-family: '" + href + "', sans-serif !important;} ";
+
+      head.appendChild(style);
+    }
+  }
+
 
   return (
       <Router>
