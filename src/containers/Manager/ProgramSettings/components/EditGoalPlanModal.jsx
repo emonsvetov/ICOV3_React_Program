@@ -146,6 +146,7 @@ const EditGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data
     expirationRules,
     events,
    // handleChange,
+   goalplan,
     loading,
     onSelectGoalPlanType,
     onSubmit
@@ -160,7 +161,7 @@ const EditGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data
           </div>
           <div className="left">
             <div className='title mb-5'>
-              <h3>Add New Goal Plan</h3>
+              <h3>Edit Goal Plan</h3>
               <span>
                 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
               </span>

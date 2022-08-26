@@ -37,7 +37,7 @@ const GoalPlans = ({program, organization, status}) => {
     const onClickEditGoalPlan = (goalplanId) => {
       getGoalPlan(organization.id, program.id, goalplanId)
       .then(item => {
-        //console.log(item)
+        console.log("edit goal plan")
         setGoalPlan(item)
         toggle('EditGoalPlan');
         setLoading(false)
