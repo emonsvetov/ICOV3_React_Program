@@ -36,8 +36,22 @@ const GoalPlanForm = ({
     program
 }) => {
       if( goalplan ) {
+        if(goalplan.goal_plan_type_id)
         goalplan = patch4Select(goalplan, 'goal_plan_type_id', goalPlanTypes)
+        if(goalplan.automatic_progress)
         goalplan = patch4Select(goalplan, 'automatic_progress', automaticProgressOptions)
+        if(goalplan.expiration_rule_id)
+        goalplan = patch4Select(goalplan, 'expiration_rule_id', expirationRules)
+        if(goalplan.annual_expire_month)
+        goalplan = patch4Select(goalplan, 'annual_expire_month', monthsOptions)
+        if(goalplan.annual_expire_day)
+        goalplan = patch4Select(goalplan, 'annual_expire_day', daysOptions)
+        if(goalplan.custom_expire_units)
+        goalplan = patch4Select(goalplan, 'custom_expire_units', customUnitsOptions)
+        if(goalplan.exceeded_event_id)
+        goalplan = patch4Select(goalplan, 'exceeded_event_id', events)
+        if(goalplan.achieved_event_id)
+        goalplan = patch4Select(goalplan, 'achieved_event_id', events)
       }
       const validate = values => {
       let required_field_msg =  "This field is required";
@@ -137,7 +151,6 @@ const GoalPlanForm = ({
                                 <Input
                                   placeholder="Goal Plan Name*"
                                   type="text"
-                                  clearable={true}
                                  // onChange={(e) =>handleChange(input,value)}
                                   {...input}
                                 />
