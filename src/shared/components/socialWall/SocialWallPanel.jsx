@@ -12,6 +12,7 @@ import {
   Container,
   Row,
 } from 'reactstrap';
+import TemplateButton from "@/shared/components/TemplateButton"
 
 const SocialWallPanel = ({auth, organization, program, isManager}) => {
 
@@ -64,7 +65,7 @@ const SocialWallPanel = ({auth, organization, program, isManager}) => {
   return (
     <Container >
       <Row>
-        { isManager && <Button className='add-new-post click-btn' color='danger' >Add New Post</Button> }
+        { isManager && <TemplateButton className='add-new-post' text='Add New Post' /> }
         <div className='panel social-wall-panel pt-4'>
           {socialWallPosts.results.map((item, index) => {
             return <div key={`socialWallItem-${index}`}>

@@ -5,6 +5,7 @@ import CloseIcon from 'mdi-react/CloseIcon'
 import {flashDispatch, flashMessage } from '@/shared/helper'
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 import axios from 'axios'
+import TemplateButton from "@/shared/components/TemplateButton"
 
 const ChangeStatusModal = ({isOpen, setOpen, toggle, participants, program, organization}) => {
   const dispatch = flashDispatch()
@@ -82,7 +83,7 @@ const ChangeStatusModal = ({isOpen, setOpen, toggle, participants, program, orga
                       </Col>
                     </Row>
                     <div className='d-flex justify-content-end'>
-                      <Button disabled={saving} color='danger' type='submit'>Deactivate</Button>
+                      <TemplateButton disabled={saving} type='submit' text='Deactivate' />
                     </div>
                   </>
                 </form>

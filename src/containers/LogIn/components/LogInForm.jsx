@@ -8,6 +8,7 @@ import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 import Select from 'react-select';
 import { ButtonToolbar, Button } from 'reactstrap';
 // import {getProgram} from '@/services/program/getProgram';
+import TemplateButton from "@/shared/components/TemplateButton"
 
 const axios = require('axios');
 
@@ -124,7 +125,7 @@ const LogInForm = () => {
             Remember Me
           </div>
         </div> */}
-        <Button type="submit" className="btn btn-primary red" disabled={loading}>Log In</Button>
+        <TemplateButton type="submit" className="" disabled={loading} text='Log In' />
         </form>
       )}
     />
@@ -254,8 +255,24 @@ const LogInForm = () => {
         )}
         </Field>
         <ButtonToolbar className="mt-3 d-flex justify-content-between w100">
-          {isParticipant && <Button type="submit" disabled={loading} className="btn btn-primary red" onClick={()=>{loginAs='participant'}}>Log In</Button>}
-          {isManager && <Button type="submit" disabled={loading} className="btn btn-primary red" onClick={()=>{loginAs='manager'}}>Log In as a Manager</Button>}
+          {isParticipant &&
+            <TemplateButton
+              type="submit"
+              disabled={loading}
+              className=""
+              onClick={()=>{loginAs='participant'}}
+              text="Log In"
+            />
+          }
+          {isManager &&
+            <TemplateButton
+              type="submit"
+              disabled={loading}
+              className=""
+              onClick={()=>{loginAs='manager'}}
+              text="Log In as a Manager"
+            />
+          }
         </ButtonToolbar>
         </form>
       )}

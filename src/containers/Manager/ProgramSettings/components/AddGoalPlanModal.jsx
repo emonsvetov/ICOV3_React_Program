@@ -13,6 +13,8 @@ import {labelizeNamedData} from '@/shared/helper';
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
 import GoalPlanForm from './GoalPlanForm'
+//import Switch from '@/shared/components/form/Switch';
+//import TemplateButton from "@/shared/components/TemplateButton"
 
 const AddGoalPlanImg = `/img/pages/addGoalPlan.png`;
 
@@ -462,7 +464,7 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
                       </Col>
                     </Row>
                   <div className='d-flex justify-content-end'>
-                    <Button  color='danger' type='submit'>Save Goal Plan</Button>
+                    <TemplateButton type='submit' text='Save Goal Plan' />
                   </div>
                 </form>
               )}

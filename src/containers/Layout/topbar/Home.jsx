@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import { connect } from 'react-redux';
-
 import { Navbar, NavbarBrand, NavbarToggler,Collapse, Nav, 
          } from 'reactstrap';
+import {Field} from "react-final-form";
+import TemplateButton from "@/shared/components/TemplateButton"
 
 const LINKS = [
   { to: 'onClickLogin', text: 'Sign in', desc : 'Returning users enter here' },
@@ -10,7 +11,7 @@ const LINKS = [
 ];
 
 const HomeTopbar = ({onClickLogin, onClickSignup, template}) => {
-  console.log(template)
+
   const [isOpen, setOpen] = useState(false);
   const toggle = ()=>{
     setOpen( prev => !prev) 
@@ -42,9 +43,11 @@ const HomeTopbar = ({onClickLogin, onClickSignup, template}) => {
             {LINKS.map((item, index) => {
               return <div key={index} className='flex-column mx-3'>
                         <span>{item.desc}</span>
-                        <div className='text-uppercase text-center item' onClick={item.to ? onClickLogin : onClickSignup}>
-                          {item.text}
-                        </div>  
+                        <TemplateButton
+                          className="text-uppercase item width100 lg"
+                          onClick={item.to ? onClickLogin : onClickSignup}
+                          text={item.text}
+                        />
                     </div>
 
             })}

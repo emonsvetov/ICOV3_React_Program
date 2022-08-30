@@ -6,6 +6,7 @@ import { Form, Field } from 'react-final-form'
 import { getUser } from '@/services/program/getUser'
 import axios from 'axios';
 import {useDispatch, sendFlashMessage, ApiErrorMessage} from "@/shared/components/flash"
+import TemplateButton from "@/shared/components/TemplateButton"
 
 const AccountForm = ({organization, program, auth}) => {
   const dispatch = useDispatch()
@@ -178,7 +179,7 @@ const AccountForm = ({organization, program, auth}) => {
                       </Row>
 
                       <div className='d-flex justify-content-end'>
-                        <Button  color='danger' type='submit' disabled={loading}>Save My Account Information</Button>
+                        <TemplateButton type='submit' disabled={loading} text='Save My Account Information' />
                       </div>
                     </form>
                   )}
