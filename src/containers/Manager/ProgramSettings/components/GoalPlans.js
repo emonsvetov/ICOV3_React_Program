@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import axios from 'axios'
 import {getGoalPlanTypes} from '@/services/getGoalPlanTypes'
 import {getGoalPlans} from '@/services/program/getGoalPlans';
 import {getGoalPlan} from '@/services/program/getGoalPlan';
@@ -6,12 +7,14 @@ import { useTable } from 'react-table'
 import PencilIcon from 'mdi-react/PencilIcon';
 import TrashIcon from 'mdi-react/TrashCanIcon';
 import { Link } from 'react-router-dom';
+import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
+import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 import {
     Table,
   } from 'reactstrap';
 import ModalWrapper from './ModalWrapper';
 
-const EVENTS_COLUMNS = [
+const GOAL_PLAN_COLUMNS = [
     {
         Header: "Name",
         accessor: "name",
@@ -23,6 +26,7 @@ const EVENTS_COLUMNS = [
 ]
 
 const GoalPlans = ({program, organization, status}) => {
+    const dispatch = useDispatch()
     const [goalplans, setGoalPlans] = useState([]);
     const [goalplan, setGoalPlan] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -43,7 +47,21 @@ const GoalPlans = ({program, organization, status}) => {
         setLoading(false)
       })
     }
-    const onDeleteEvent = (e, event_id) => {
+    const onDeleteGoalPlan = (goalplanId) => {
+      setLoading(true)
+      axios
+        .delete(`/organization/${organization.id}/program/${program.id}/goalplan/${goalplanId}`)
+        .then((res) => {
+          if (res.status == 200) {
+             dispatch(sendFlashMessage('Goal plan updated successfully. Reloading...!', 'alert-success', 'top'))
+              setLoading(false)
+              var t = setTimeout(window.location.reload(), 3000)
+          }
+        })
+        .catch((err) => {
+          dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
+          setLoading(false)
+        });
     }
 
     const RenderActions = ({row}) => {
@@ -51,13 +69,13 @@ const GoalPlans = ({program, organization, status}) => {
           <span>
               <Link to={{}} onClick={() => onClickEditGoalPlan(row.original.id)}><PencilIcon style={{marginRight: "0.5rem"}}/>Edit</Link> 
               <span style={{width:'2.5rem', display: 'inline-block'}}></span>
-              <Link to={{}} className='delete-column' onClick={(e) => {if(window.confirm('Are you sure to delete this Event?')){onDeleteEvent(e, row.original.id)}}}><TrashIcon style={{marginRight: "0.5rem"}}/>Delete</Link>
+              <Link to={{}} className='delete-column' onClick={(e) => {if(window.confirm('Are you sure to delete this Goal Plan?')){onDeleteGoalPlan(row.original.id)}}}><TrashIcon style={{marginRight: "0.5rem"}}/>Delete</Link>
           </span>
       )
     }
   
     let final_columns = [
-      ...EVENTS_COLUMNS, 
+      ...GOAL_PLAN_COLUMNS, 
       ...[{
           Header: "Action",
           accessor: "action",
