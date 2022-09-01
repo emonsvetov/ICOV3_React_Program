@@ -29,8 +29,8 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
   //const [fields, setFields] = useState({});
   
   const onSelectGoalPlanType = (selectedOption) => {
-    console.log('goal type selected');
-    console.log(selectedOption);
+    //console.log('goal type selected');
+    //console.log(selectedOption);
     //goalPlanData.award_per_progress=1;
   };
   
@@ -39,7 +39,7 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
     let goalPlanData = {};
     goalPlanData["organization_id"] = organization.id;
     goalPlanData["program_id"] = program.id;
-    console.log("submit");
+    //console.log("submit");
   // console.log(values); return;
     let {
       name,
@@ -100,8 +100,8 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
     goalPlanData.progress_notification_email_id = 1;
     goalPlanData.created_by = 1;
 
-    console.log('FDF');
-     console.log(goalPlanData)
+    //console.log('FDF');
+     //console.log(goalPlanData)
     //return;
     setLoading(true)
     axios
@@ -123,6 +123,7 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
   useEffect( () => {
     getGoalPlanTypes()
     .then( gptypes => {
+      console.log(gptypes);
       setGoalPlanTypes(labelizeNamedData(gptypes))
     })
 
@@ -147,8 +148,8 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
     onSelectGoalPlanType,
     onSubmit
   }
-  console.log(goalPlanTypes);
-  console.log(events);
+
+  //console.log(events);
   return (
     <Modal className={`program-settings modal-2col modal-xl`} isOpen={isOpen} toggle={() => setOpen(true)}>
       
@@ -166,6 +167,8 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
           </div>
           <div className="right">
           <GoalPlanForm {...props} />
+          
+          
         </div>
 
         
