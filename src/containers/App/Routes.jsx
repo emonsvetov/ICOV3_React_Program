@@ -11,6 +11,7 @@ import LogIn from '../LogIn/index';
 //participant
 import ParticipantHome from '../Participant/Home/index';
 import AccountIndex from '../Participant/Accounts/index';
+import ManagerAccountIndex from '../Manager/Accounts/index';
 import GiftCodeIndex from '../Participant/GiftCodes/index';
 import GoalIndex from '../Participant/Goals/index';
 import PointIndex from '../Participant/Points/index';
@@ -47,6 +48,7 @@ import MerchantRedemption from '../Manager/Report/components/MerchantRedemption'
 import ParticipantAccount from '../Manager/Report/components/ParticipantAccount';
 import ParticipantStatus from '../Manager/Report/components/ParticipantStatus';
 import QuarterlyAward from '../Manager/Report/components/QuarterlyAward';
+import MainWrapper from './MainWrapper';
 
 // const Accounts = () => (
 //   <Routes>
@@ -71,6 +73,7 @@ import QuarterlyAward from '../Manager/Report/components/QuarterlyAward';
 
 
 const RouteIndex = () => (
+  <MainWrapper>
     <Routes>
       <Route path="/" element={<PublicRoute />} >
         <Route path="login" element={<LogIn />} />
@@ -100,6 +103,7 @@ const RouteIndex = () => (
           <Route path="invite-participant" element={<InviteParticipant />} />
           <Route path="referral" element={<Referral />} />
           <Route path="team" element={<Team />} />
+          <Route path="my-account" element={<ManagerAccountIndex />} />
           <Route path="team/:mateId" element={<TeamView />} />
           <Route path="report" element={<Report />} >
             <Route path="invoices" element={<Invoices />} />
@@ -121,6 +125,7 @@ const RouteIndex = () => (
         </Route>
       </Route>
     </Routes>
+  </MainWrapper>
 );
 
 export default RouteIndex;
