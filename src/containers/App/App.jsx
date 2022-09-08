@@ -85,7 +85,7 @@ const App = () => {
       head.appendChild(link);
 
       let style = document.createElement("style");
-      style.innerHTML = "*, body { font-family: '" + href + "', sans-serif !important;} ";
+      style.innerHTML = "*, body, div, p, span, li, ul, i { font-family: '" + href + "', sans-serif;} ";
 
       head.appendChild(style);
     }
