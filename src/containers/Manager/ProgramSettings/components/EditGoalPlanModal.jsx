@@ -13,7 +13,7 @@ import {labelizeNamedData} from '@/shared/helper';
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
 //import GoalPlanForm from './GoalPlanForm'
-import EditGoalPlanForm from './EditGoalPlanForm'
+import GoalPlanForm from './GoalPlanForm'
 
 const EditGoalPlanImg = `/img/pages/editGoalPlan.png`;
 
@@ -170,7 +170,7 @@ const EditGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data
             <img src={EditGoalPlanImg}/>
           </div>
           <div className="right">
-          <EditGoalPlanForm {...props} />
+          <GoalPlanForm {...props} />
         </div>
 
         

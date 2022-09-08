@@ -109,9 +109,9 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
       .then((res) => {
         //   console.log(res)
         if (res.status == 200) {
-         // window.location.reload()
-        //  dispatch(sendFlashMessage('Goal Plan added successfully!', 'alert-success', 'top'))
-         // setLoading(false)
+         window.location.reload()
+         dispatch(sendFlashMessage('Goal Plan added successfully!', 'alert-success', 'top'))
+         setLoading(false)
         }
       })
       .catch((err) => {

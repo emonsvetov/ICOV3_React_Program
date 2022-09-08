@@ -20,7 +20,7 @@ const customUnitsOptions = [{ value: 'months', label: 'Months' },{ value: 'days'
 
 const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
 console.log(date);
-const EditGoalPlanForm = ({
+const GoalPlanForm = ({
     onSubmit,
     //handleChange,
     goalPlanTypes,
@@ -175,44 +175,6 @@ const EditGoalPlanForm = ({
                           </Field>
                       </Col>
                     </Row>
-                    {   goalplan.id 
-                    &&
-                    <Row>
-                      <Col md="4">
-                      <label>*Goal Plan Expiration:</label>
-                      </Col>
-                      <Col md="4">
-                      <Field name="date_begin">
-                          {({ input, meta }) => (
-                              <FormGroup>
-                                 <label>Start</label>
-                                <Input
-                                  placeholder="Start"
-                                  type="date"
-                                  {...input}
-                                />
-                                {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
-                              </FormGroup>
-                          )}
-                          </Field>
-                      </Col>
-                      <Col md="4">
-                      <Field name="date_end">
-                          {({ input, meta }) => (
-                              <FormGroup>
-                                 <label>End</label>
-                                <Input
-                                  placeholder="End"
-                                  type="date"
-                                  {...input}
-                                />
-                                {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
-                              </FormGroup>
-                          )}
-                          </Field>
-                      </Col>
-                    </Row>
-                    }
                     <Row>
                       <Col md="4">
                      
@@ -230,45 +192,40 @@ const EditGoalPlanForm = ({
                               component={renderSelectField}/>
                             }
                       </Col>
-                      </Row>
-                      <Row>
-                        <Col md="5">
-                            <Field 
-                              name="automatic_progress"
-                              className="react-select"
-                              options={automaticProgressOptions}
-                            //defaultValue='0'
-                              placeholder={'Accrue Progress Automatically*'}
-                              component={renderSelectField}/>
-                        </Col>
-                        { !goalplan.id 
-                          &&
-                        <Col md="3">
-                        {/* <FormGroup>
-                                  <Label  className="form-label"> From </Label>
-                                  <DatePickerField  name='date_begin' onChange = {() =>{}} />
-                              </FormGroup> */}
-                          {/* dateFormat="yyyy-mm-dd" selected= {date} */}
-                        
-                          <Field name="date_begin">
-                            {({ input, meta }) => (
-                                <FormGroup>
-                                  <Input
-                                    placeholder="Goal Plan Start Date*"
-                                    type="date"
-                                    {...input}
-                                  />
-                                  {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
-                                </FormGroup>
-                            )}
-                            </Field>
-                          </Col>
-                          }
-                        </Row>
+                      <Col md="5">
+                          <Field 
+                            name="automatic_progress"
+                            className="react-select"
+                            options={automaticProgressOptions}
+                           //defaultValue='0'
+                            placeholder={'Accrue Progress Automatically*'}
+                            component={renderSelectField}/>
+                      </Col>
+                      <Col md="3">
+                     {/* <FormGroup>
+                                <Label  className="form-label"> From </Label>
+                                <DatePickerField  name='date_begin' onChange = {() =>{}} />
+                            </FormGroup> */}
+                        {/* dateFormat="yyyy-mm-dd" selected= {date} */}
+                        <Field name="date_begin">
+                          {({ input, meta }) => (
+                              <FormGroup>
+                                <Input
+                                  placeholder="Goal Plan Start Date*"
+                                  type="date"
+                                  {...input}
+                                />
+                                {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
+                              </FormGroup>
+                          )}
+                          </Field>
+                      </Col>
+                    </Row>
                     { values.hasOwnProperty('automatic_progress') && values.automatic_progress.value ==  "1" 
                           &&
                     <Row>
                       <Col md="6">
+                       
                         <Field 
                             name="automatic_frequency"
                             className="react-select"
@@ -362,8 +319,7 @@ const EditGoalPlanForm = ({
                         </Col>        
                     </Row>
                   }
-                    <Row>   {   !goalplan.id 
-                         &&
+                    <Row>
                       <Col md="6">
                         <Field 
                             name="expiration_rule_id"
@@ -373,7 +329,6 @@ const EditGoalPlanForm = ({
                             component={renderSelectField}
                     />
                       </Col> 
-            }
                       { values.hasOwnProperty('goal_plan_type_id') && values.goal_plan_type_id.value ==  "1" 
                           && //1 is for sales goal type
                       <Col md="6">
@@ -561,4 +516,4 @@ const EditGoalPlanForm = ({
     )
 }
 
-export default EditGoalPlanForm;
+export default GoalPlanForm;
