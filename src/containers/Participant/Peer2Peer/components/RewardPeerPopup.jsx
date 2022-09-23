@@ -203,8 +203,8 @@ const RewardPeerPopup = ({isOpen, setOpen, toggle, participants, program, organi
                       </Field>
                     </Col>
                   </Row>
-                  {/*{event && event.event_type && event.event_type.type === p2p &&*/}
-                  {/*  <>*/}
+                  {event && event.event_type && event.event_type.type === p2p &&
+                    <>
                       <Row>
                         <Col md="6">
                           <Label>Points</Label>
@@ -253,8 +253,8 @@ const RewardPeerPopup = ({isOpen, setOpen, toggle, participants, program, organi
                           </Field>
                         </Col>
                       </Row>
-                  {/*  </>*/}
-                  {/*}*/}
+                    </>
+                  }
                   <Row>
                     <Col md="6">
                       <Label>You can award</Label>
