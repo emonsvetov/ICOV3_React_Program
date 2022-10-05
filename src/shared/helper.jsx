@@ -21,6 +21,7 @@ export const isSuperAdmin = (user) => {
 }
 export const isEmpty = (object) => { for(var i in object) { return false; } return true; }
 export const labelizeNamedData = (data, fields = ["id", "name"]) => {
+    if (!data) return null
     let newData = []
     for( var i in data) {
         newData.push({label: String(data[i][fields[1]]), value: String(data[i][fields[0]])})
@@ -162,4 +163,14 @@ export const patchMediaURL = ( dataset, fields ) => {
     }
   }
   return dataset
+}
+
+export const prepareRequestParams = (filter, fields) => {
+  const params = []
+  let paramStr = ''
+  if (filter) {
+    fields.map((field) => (filter[field] !== 'undefined' && filter[field]) ? params.push(field + `=${filter[field]}`) : null);
+    paramStr = params.join('&')
+  }
+  return paramStr;
 }

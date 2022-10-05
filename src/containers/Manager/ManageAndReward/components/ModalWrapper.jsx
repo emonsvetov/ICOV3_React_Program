@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import GiveRewardPopup from './GiveRewardPopup';
 import ResendInviteModal from './ResendInviteModal';
 import ChangeStatusModal from './ChangeStatusModal';
+import PeerAllocationPopup from "./PeerAllocationPopup";
 // import SubProgramsModal from './subprogram/SubProgramsModal'
 
 const MainModalWrapper = ({user, organization, program, name, isOpen, setOpen, toggle, participants, auth}) => {
@@ -20,6 +21,9 @@ const MainModalWrapper = ({user, organization, program, name, isOpen, setOpen, t
         }
         {
             (name==='Deactivate' || name==='Activate') && <ChangeStatusModal {...props} />
+        }
+        {
+          name==='Peer Allocation' && <PeerAllocationPopup {...props} />
         }
         </>
     )

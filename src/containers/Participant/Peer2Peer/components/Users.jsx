@@ -11,11 +11,12 @@ import {getUsers} from '@/services/program/getUsers'
 import MailIcon from 'mdi-react/PostItNoteAddIcon';
 import ModalWrapper from './ModalWrapper';
 import apiTableService from "@/services/apiTableService"
+import {connect} from "react-redux";
 
 const QUERY_PAGE_SIZE = 20
 
      
-const ProgramUsers = ( {program, organization} ) => {
+const ProgramUsers = ( {program, organization, auth} ) => {
     // console.log("ProgramUsers")
     const [modalName, setModalName] = useState(null)
     const [isOpen, setOpen] = useState(false);
@@ -132,9 +133,10 @@ const ProgramUsers = ( {program, organization} ) => {
     useEffect(() => {
         let mounted = true;
         setLoading(true)
+        filter.except = [auth.id];
         apiTableService.fetchData(
             {
-                url: `/organization/${organization.id}/program/${program.id}/user`,
+                url: `/organization/${organization.id}/program/${program.id}/participant`,
                 page: pageIndex,
                 size: pageSize,
                 filter
@@ -231,4 +233,9 @@ const ProgramUsers = ( {program, organization} ) => {
     )
 }
 
-export default ProgramUsers
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+  };
+};
+export default connect(mapStateToProps)(ProgramUsers);
