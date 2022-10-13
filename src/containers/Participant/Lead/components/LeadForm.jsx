@@ -6,7 +6,7 @@ import { Card, Button, CardHeader, CardFooter, CardBody,
 import formValidation from "@/validation/lead"
 import { Input, Col, Row, FormGroup, FormFeedback, Label} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
-
+import TemplateButton from "@/shared/components/TemplateButton"
 
 const LeadForm = () => {
   const [value, setValue] = useState(false);
@@ -167,7 +167,7 @@ const LeadForm = () => {
                       </Row>
 
                       <div className='d-flex justify-content-end mt-3'>
-                        <Button  color='danger' className='w-100' type='submit'>Submit</Button>
+                        <TemplateButton className='w-100' type='submit' text='Submit' />
                       </div>
                     </form>
                   )}

@@ -951,9 +951,6 @@ footer .teritery-menu{
 .social-wall-item{
     padding: 30px 20px;
     .comment-btn, .delete-activity-btn{
-        padding: 5px 8px;
-        cursor:pointer;
-        width: 140px;
         margin-bottom: 5px;
     }
     .title {
@@ -999,4 +996,30 @@ footer .teritery-menu{
     .deleteComment:hover {
         text-decoration: underline;
     }
+}
+
+.template-button {
+    padding: 5px 8px;
+    cursor: pointer;
+    border-color: transparent !important;
+    transition: none !important;
+    box-shadow: none !important;
+}
+.template-button:hover {
+    /* Darken on click by 15% (down to 85%) */
+    filter: brightness(0.9);
+}
+.template-button:before {
+    height: auto !important;
+    width: auto !important;
+}
+.template-button.lg {
+    padding: 10px 20px;
+}
+.template-button.marginRight5 {
+    margin-right: 5px;
+}
+.template-button.width100 {
+    display: block;
+    width: 100%;
 }

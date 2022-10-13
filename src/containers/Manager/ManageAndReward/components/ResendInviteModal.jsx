@@ -5,6 +5,7 @@ import CloseIcon from 'mdi-react/CloseIcon'
 import {flashDispatch, flashMessage } from '@/shared/helper'
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 import axios from 'axios'
+import TemplateButton from "@/shared/components/TemplateButton"
 
 const GiveRewardImg = `/img/pages/giveReward.png`;
 // const Participants = [
@@ -85,7 +86,7 @@ const ResendInviteModal = ({isOpen, setOpen, toggle, participants, program, orga
                       </Col>
                     </Row>
                     <div className='d-flex justify-content-end'>
-                      <Button disabled={saving} color='danger' type='submit'>Resend Invitation</Button>
+                      <TemplateButton disabled={saving} type='submit' text='Resend Invitation' />
                     </div>
                   </>
                 </form>
