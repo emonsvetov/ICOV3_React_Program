@@ -12,9 +12,6 @@ import Sidebar from '../../Layout/sidebar';
 import Users from './components/Users'
 import {isEmpty} from '@/shared/helper'
 const Peer2Peer = ({auth, program, organization}) => {
-  console.log(auth);
-  console.log(program);
-  console.log(organization);
 
   return (
     <div className='peer-peer'>

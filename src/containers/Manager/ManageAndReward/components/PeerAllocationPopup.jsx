@@ -16,15 +16,10 @@ import {getSocialWallPostTypeEvent} from '@/services/program/getSocialWallPostTy
 import TemplateButton from "@/shared/components/TemplateButton"
 import EVENT_TYPES from "@/shared/json/eventTypes.json";
 
-const DEFAULT_MSG_PARTICIPANT = "We wanted to thank you for all your extra efforts over the last couple of days.\n\nThough your response and tireless efforts. You made a BIG Different!!\n\nWe would like to recognize those efforts with this award to reflect our appreciation.\n\nGreg, Gerry and Bruce\n\nGreg and Gerry"
-
 const GiveRewardImg = `/img/pages/giveReward.png`;
-// const Participants = [
-//   'Bobrowski Robert'
-// ]
-const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organization, auth}) => {
+
+const PeerAllocationPopup = ({isOpen, setOpen, toggle, participants, program, organization, auth}) => {
   const dispatch = flashDispatch()
-  // console.log(participants)
   const [value, setValue] = useState(false);
   const [events, setEvents] = useState([]);
   const [event, setEvent] = useState(null);
@@ -36,7 +31,6 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
 
   const handleTemplateChange = (selected) => {
     // setCurrentTemplate(selected.value - 1)
-    
   }
 
   const onChangeAwardValue = ([field], state, { setIn, changeValue }) => {
@@ -66,13 +60,11 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
       email_template_id: values.email_template_id
     }
     // console.log(formData)
-    // return
-    // setSaving(true)
 
     axios
-    .post(`/organization/${organization.id}/program/${program.id}/award`, formData)
+    .post(`/organization/${organization.id}/program/${program.id}/award/`, formData)
     .then((res) => {
-      //   console.log(res)
+        console.log(res)
       if (res.status === 200) {
         dispatch(flashMessage('Participants Awarded successfully!', 'alert-success', 'top'))
 
@@ -95,13 +87,11 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
                   'sender_user_account_holder_id': auth.account_holder_id,
                   'receiver_user_account_holder_id': resultData.userAccountHolderId,
                 }
-                // console.log(socialWallPostData);
                 dispatch(createSocialWallPost(organization.id, program.id, socialWallPostData))
               })
             })
         }
-            // setSaving(false)
-        // window.location.reload()
+        window.location.reload()
       }
     })
     .catch((err) => {
@@ -126,17 +116,14 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
   useEffect( () => {
     let mounted = true;
     setLoading(true)
-    let except_type = [
-      EVENT_TYPES.find( type => type.name === 'peer2peer allocation')?.value,
-      EVENT_TYPES.find( type => type.name === 'peer2peer')?.value,
-      EVENT_TYPES.find( type => type.name === 'peer2peer badge')?.value
-    ]
-    getEvents(organization.id, program.id, {except_type: except_type})
+    let type = EVENT_TYPES.find( type => type.name === 'peer2peer allocation')?.value
+    getEvents(organization.id, program.id, {type: type})
     .then(items => {
       if(mounted) {
         // console.log(items)
         if( items.length > 0) {
           setEvents(labelizeNamedData(items))
+          setEvent(items.shift());
         }
         setLoading(false)
       }
@@ -161,7 +148,7 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
       ...{
         event_id: event.id,
         awarding_points: program.factor_valuation * event.max_awardable_amount,
-        message: DEFAULT_MSG_PARTICIPANT,
+        message: '',
         email_template_id: 1
       }
     }
@@ -174,7 +161,7 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
           </div>
           <div className="left">
             <div className='title mb-5'>
-              <h3>Give A Reward</h3>
+              <h3>Allocate points for participants to Reward their Peers</h3>
               <span>
                 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
               </span>
@@ -197,8 +184,8 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
                 // console.log(values)
                 return (
                 <form className="form d-flex flex-column justify-content-evenly" onSubmit={handleSubmit}>
-
-                  <Row>
+                              
+                  <Row>  
                     <Col md="12">
                         <Field name="event_id">
                         {({ input, meta }) => (
@@ -210,6 +197,7 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
                                 className="react-select"
                                 placeholder={'Select an Event'}
                                 classNamePrefix="react-select"
+                                value={event ? labelizeNamedData([event]) : null}
                               />
                               {meta.touched && meta.error && <span className="text-danger">
                                 {meta.error}
@@ -220,7 +208,7 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
                         {loadingEvent && <span>Loading...</span>}
                     </Col>
                   </Row>
-                  {event &&
+                  {event && 
                     <>
                     <Row>
                       <Col md="6">
@@ -238,7 +226,7 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
                       <Col md="6">
                         <Label>Maximum Cash Value per Particiapnt</Label>
                       </Col>
-                      <Col md="6">
+                      <Col md="6">                        
                           <strong>{`$${event?.max_awardable_amount}`}</strong>
                       </Col>
                     </Row>
@@ -294,7 +282,7 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
                               <FormGroup>
                                 <Select
                                   options={emailTemplates}
-                                  initialValue = {emailTemplates[event.email_template_id - 1]}
+                                  initialValue = {emailTemplates[event.email_template_id - 1]} 
                                   clearable={false}
                                   className="react-select"
                                   placeholder={'Email Template'}
@@ -333,7 +321,7 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
                       <Col md="6">
                         <Label>Total People Selected</Label>
                       </Col>
-                      <Col md="6">
+                      <Col md="6">                        
                           <strong>{participants.length}</strong>
                       </Col>
                     </Row>
@@ -341,7 +329,7 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
                       <Col md="6">
                         <Label>Documentation</Label>
                       </Col>
-                      <Col md="6">
+                      <Col md="6">                        
                       <Field name="doc_file">
                           {({ input, meta }) => (
                               <FormGroup>
@@ -362,7 +350,7 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
                       <Col md="6">
                         <Label>Total Award</Label>
                       </Col>
-                      <Col md="6">
+                      <Col md="6">                        
                           <strong>${participants.length * (values?.override_cash_value ? values.override_cash_value : event.max_awardable_amount) }</strong>
                       </Col>
                     </Row>
@@ -413,4 +401,4 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
     </Modal>
 )}
 
-export default GiveRewardPopup;
+export default PeerAllocationPopup;

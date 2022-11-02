@@ -19,7 +19,7 @@ const Points = ({myPoints}) => {
                 </div>
                 <div className='point-award'>
                     <h6> Peer Points to Award </h6>
-                    <h4> {56852..toLocaleString()}</h4>  
+                    <h4> {myPoints.peerBalance.toLocaleString()}</h4>
                 </div>
             </div>
         </div>
