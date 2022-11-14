@@ -116,7 +116,7 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
       })
       .catch((err) => {
         //console.log(error.response.data);
-        dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
+       // dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
         setLoading(false)
       });
   };

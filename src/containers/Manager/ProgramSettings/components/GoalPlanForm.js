@@ -1,5 +1,6 @@
 import { Input, Col, Row, FormGroup, Label, Button, FormFeedback} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
+import React, {useEffect, useState} from 'react';
 import {patch4Select} from '@/shared/helper'
 import { Link } from 'react-router-dom';
 import Switch from '@/shared/components/form/Switch';
@@ -26,6 +27,7 @@ const GoalPlanForm = ({
     goalPlanTypes,
     expirationRules,
     events,
+    event,
     loading,
     btnLabel = 'Save',
     //goalplan = {},
@@ -118,11 +120,16 @@ const GoalPlanForm = ({
       if(value == true) {
         if(window.confirm('After saving, would you like to assign this goal to all existing eligible participants?'))
         {
+         // setValue(values.assign_goal_all_participants_now, '1');
+          //values.assign_goal_all_participants_now=true;
+          //values
+         //console.log(values)
           return true;  
         } else {
           return false; 
         }
       }
+      //values.assign_goal_all_participants_now.value=1;
       //return false;
   }
 
@@ -139,13 +146,14 @@ const GoalPlanForm = ({
           field.change(0);
       }
     }*/
+    //const onChangeAssignParticipant
     return(
     <Form
             onSubmit={onSubmit}
             validate={validate}
             //validate={(values) => formValidation.validateForm(values)}
             /*mutators={{
-              onChangeGoalType
+              onChangeAssignParticipant
               }}*/
             initialValues={goalplan
             }
@@ -547,8 +555,16 @@ const GoalPlanForm = ({
                                     //handleToggle("featured", value, row.original.id);
                                     //return value;
                                   }}
+                                  
                                 //  onChange={(e) => confirmAssignAllParticipant(e)}
                             />
+                              <input
+                                name="assign_goal_all_participants_now"
+                                type="hidden"
+                                value="0"
+                              />
+                             
+                             {/* <Field field="assign_goal_all_participants_now" value="hiddenFieldName" type="hidden" /> */}
                           </FormGroup>
                       </Col>
                     </Row>
