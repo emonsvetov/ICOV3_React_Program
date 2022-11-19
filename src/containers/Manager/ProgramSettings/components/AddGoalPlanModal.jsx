@@ -109,14 +109,19 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
       .then((res) => {
         //   console.log(res)
         if (res.status == 200) {
-         window.location.reload()
+          console.log(res);
+        // window.location.reload()
+         if (res.data.msg)
+         dispatch(sendFlashMessage('Goal Plan added successfully! '+res.data.msg, 'alert-success', 'top'))
+         else
          dispatch(sendFlashMessage('Goal Plan added successfully!', 'alert-success', 'top'))
+
          setLoading(false)
         }
       })
       .catch((err) => {
         //console.log(error.response.data);
-       // dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
+        dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
         setLoading(false)
       });
   };
