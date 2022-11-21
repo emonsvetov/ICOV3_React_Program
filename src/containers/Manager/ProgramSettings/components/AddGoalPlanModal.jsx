@@ -39,7 +39,8 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
     let goalPlanData = {};
     goalPlanData["organization_id"] = organization.id;
     goalPlanData["program_id"] = program.id;
-    //console.log("submit");
+
+   
   // console.log(values); return;
     let {
       name,
@@ -96,8 +97,8 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
 
     //penidng fiels (for testing only
     goalPlanData.state_type_id = 1;
-    goalPlanData.program_id = 1;
-    goalPlanData.progress_notification_email_id = 1;
+    goalPlanData.program_id = 12; //pending to make it dynamic
+    goalPlanData.progress_notification_email_id = 1; //pending to make it dynamic
     goalPlanData.created_by = 1;
 
     //console.log('FDF');
@@ -111,8 +112,8 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
         if (res.status == 200) {
           console.log(res);
         // window.location.reload()
-         if (res.data.msg)
-         dispatch(sendFlashMessage('Goal Plan added successfully! '+res.data.msg, 'alert-success', 'top'))
+         if (res.data.assign_msg)
+         dispatch(sendFlashMessage('Goal Plan added successfully! '+res.data.assign_msg, 'alert-success', 'top'))
          else
          dispatch(sendFlashMessage('Goal Plan added successfully!', 'alert-success', 'top'))
 
@@ -139,6 +140,7 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
     
     getEvents(organization.id,program.id)
     .then( evts => {
+      console.log("program="+program.id);
       setEvents(labelizeNamedData(evts))
     })
     

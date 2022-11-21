@@ -95,7 +95,7 @@ const EditGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data
 
     //penidng fiels (for testing only
     goalPlanData.state_type_id = 1;
-    goalPlanData.program_id = 1;
+    goalPlanData.program_id = 12;
     goalPlanData.progress_notification_email_id = 1;
     goalPlanData.created_by = 1;
 
@@ -113,8 +113,11 @@ const EditGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data
       .then((res) => {
         //   console.log(res)
         if (res.status == 200) {
+          if (res.data.assign_msg)
+          dispatch(sendFlashMessage('Goal Plan updated successfully! '+res.data.assign_msg, 'alert-success', 'top'))
+          else
+          dispatch(sendFlashMessage('Goal Plan updated successfully!', 'alert-success', 'top'))
           window.location.reload()
-          dispatch(sendFlashMessage('Goal Plan added successfully!', 'alert-success', 'top'))
           setLoading(false)
         }
       })
