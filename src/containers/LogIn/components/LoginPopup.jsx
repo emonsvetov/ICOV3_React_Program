@@ -19,13 +19,7 @@ const LoginPopup = ({onCancelHandler}) => {
   return (
     <div className='popup login'>
       <div className='popup__content'>
-        <div className="card w-100">  
-          {/* <div className="card-header">Log in to continue</div> */}
-          <div className="card-body mt-3">
-            <LogInForm onSubmit />
-          </div>
-        </div>
-          
+        <LogInForm />
       </div>
       <div className='popup__top'>
         <CloseIcon onClick={onCancelHandler} size={30}/>
