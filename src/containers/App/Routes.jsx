@@ -4,9 +4,14 @@ import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
 import {ParticipantLayout, ManagerLayout} from '../Layout/index';
 
+
 import LogIn from '../LogIn/index';
 // import Signup from '../Signup/index';
 // import SignupSuccess from '../Signup/SignupSuccess';
+
+import Forgot from '../Forgot/index';
+import CheckYourEmail from '../Forgot/CheckYourEmail';
+import ForgotSuccess from '../Forgot/ForgotSuccess';
 
 //participant
 import ParticipantHome from '../Participant/Home/index';
@@ -77,6 +82,10 @@ const RouteIndex = () => (
     <Routes>
       <Route path="/" element={<PublicRoute />} >
         <Route path="login" element={<LogIn />} />
+        <Route path="/forgot" element={<Forgot />} />
+        <Route path="/forgot/checkemail" element={<CheckYourEmail />} />
+        <Route path="/reset-password" element={<Forgot />} />
+        <Route path="/forgot/success" element={<ForgotSuccess />} />
       </Route>
       <Route path="/" element={<PrivateRoute />} >
         <Route path="participant" element={<ParticipantLayout />} >

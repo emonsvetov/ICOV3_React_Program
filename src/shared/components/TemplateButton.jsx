@@ -1,18 +1,21 @@
 import React, {useState} from 'react';
 import {Button} from 'reactstrap';
 import {connect} from "react-redux";
+import PropTypes from 'prop-types';
 import {useNavigate} from "react-router-dom";
 
-const TemplateButton = ({template, className, onClick, text, type, disabled, link}) => {
+const TemplateButton = ({template, className, onClick, text, type, disabled, link, color}) => {
   let navigate = useNavigate();
   const routeChange = () => {
     navigate(link);
   }
   if (!template) return ''
+  className = 'template-button' + (className !== "" ? ' ' + className : '')
+  onClick = link ? routeChange : onClick
 
   return (
     <>
-      <Button className={className + ' ' + 'template-button'} onClick={link ? routeChange : onClick}
+      <Button color={color} className={className} onClick={onClick}
               style={{
                 borderRadius: parseInt(template.button_corner),
                 color: template.button_color,
@@ -26,6 +29,22 @@ const TemplateButton = ({template, className, onClick, text, type, disabled, lin
     </>
   )
 }
+
+TemplateButton.propTypes = {
+  text: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
+  className: PropTypes.string,
+  color: PropTypes.string,
+  onClick: PropTypes.func,
+};
+
+TemplateButton.defaultProps = {
+  text: 'Click me!',
+  disabled: false,
+  className: '',
+  color: 'secondary',
+  onClick: Object
+};
 
 const mapStateToProps = (state) => {
   return {

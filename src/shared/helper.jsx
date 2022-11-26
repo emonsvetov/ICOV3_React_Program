@@ -174,3 +174,7 @@ export const prepareRequestParams = (filter, fields) => {
   }
   return paramStr;
 }
+
+export const validEmail = (email) => {
+  return /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/i.test(email)
+}

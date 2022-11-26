@@ -133,7 +133,7 @@ const LogInForm = () => {
             </div>
           </div> */}
           <div className="float-end">
-            <p><a href="/forgot" onClick={onClickForgotLink}><small>Forgot a password?</small></a></p>
+            <p><a href="/forgot"><small>Forgot a password?</small></a></p>
           </div>
           <TemplateButton type="submit" className="" disabled={loading} text='Sign In' />
           </form>

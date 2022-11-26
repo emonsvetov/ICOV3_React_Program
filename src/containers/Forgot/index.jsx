@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-// import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import axios from 'axios';
 
-// import FacebookIcon from 'mdi-react/FacebookIcon';
-// import GooglePlusIcon from 'mdi-react/GooglePlusIcon';
 import ForgotForm from './components/ForgotForm';
-
 import ResetPasswordForm from './components/ResetPasswordForm';
-const IncentcoLogo = `${process.env.PUBLIC_URL}/img/logo-sm.png`;
 
-const Forgot = () => {
+const Forgot = ({template}) => {
+
   useEffect(() => {
     // Update the document title using the browser API
     checkForConfirmCode();
@@ -39,12 +36,13 @@ const Forgot = () => {
       // console.log(res.status == 200)
       if(res.status == 200)  {
         // var t = setTimeout(window.location = '/', 500)
-        // window.location = '/forgot/checkemail'
+        window.location = '/forgot/checkemail'
       }
     })
     .catch( error => {
-      // console.log(error.response.data.message);
-      setErrors(error.response.data.message);
+      console.log(error.response.data);
+      // flash422(dispatcher, error.response.data)
+      setErrors(error.response.data);
       setLoading(false)
     })
   }
@@ -57,7 +55,7 @@ const Forgot = () => {
     // return;
     axios.post('/password/reset', values)
     .then( (res) => {
-      console.log(res)
+      // console.log(res)
       // console.log(res.status == 200)
       if(res.status == 200)  {
         // var t = setTimeout(window.location = '/', 500)
@@ -66,7 +64,7 @@ const Forgot = () => {
     })
     .catch( error => {
       // console.log(error.response.data);
-      setErrors(error.response.data.message);
+      setErrors(error.response.data);
       setLoading(false)
     })
   }
@@ -89,22 +87,24 @@ const Forgot = () => {
       // })
     }
   }
+  if (!template) return 'Loading...'
+  // console.log(template)
+  const IncentcoLogo = `${process.env.REACT_APP_API_STORAGE_URL}/${template.big_logo}`;
+
   return (
-  <div>
-    <div className="account flex-column align-items-center pt-4">
+    <div className="login-form-wrap flex-column align-items-center pt-4">
       <img src={IncentcoLogo} className="img__logo_sm" alt="logo" />
-      <div className="account__wrapper mt-0">
-        <div className="account__card">
+      <div className="card mt-4">
           {step==0 && <ForgotForm onSubmit={onSubmitForgotForm} loading={loading} errors={errors} />}
           {step==1 && confirmCode && <ResetPasswordForm token={confirmCode} errors={errors} onSubmit={onSubmitResetPassword} loading={loading} />}
           {step==1 && !confirmCode && <div className="form__form-group-field flex-column"><p>Invalid or expired link</p></div>}
-        </div>
       </div>
     </div>
-  </div>
 )}
 
-export default Forgot;
-
-// if you want to add select, date-picker and time-picker in your app you need to uncomment the first
-// four lines in /scss/components/form.scss to add styles
+const mapStateToProps = (state) => {
+  return {
+      template: state.domain?.program?.template
+  };
+};
+export default connect(mapStateToProps)(Forgot);

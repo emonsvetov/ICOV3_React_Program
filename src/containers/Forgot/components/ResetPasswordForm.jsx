@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { Link} from 'react-router-dom';
 import { Form, Field } from 'react-final-form';
-import LockOutlineIcon from 'mdi-react/LockOutlineIcon';
-import EmailOutlineIcon from 'mdi-react/EmailOutlineIcon';
+import TemplateButton from "@/shared/components/TemplateButton"
+import { ApiErrorMessage } from "@/shared/components/flash"
+import { validEmail } from '@/shared/helper';
 
-const ResetPasswordForm = ({onSubmit, errors, loading }) => {
+const ResetPasswordForm = ({ onSubmit, errors, loading }) => {
   const validate = values => {
     let errors = {};
+    if (!values.email) {
+      errors.email = "Email is required";
+    } else if (!validEmail(values.email)) {
+      errors.email = "Invalid email address";
+    }
     if (!values.password) {
       errors.password = "Password is required";
     }
@@ -24,78 +29,52 @@ const ResetPasswordForm = ({onSubmit, errors, loading }) => {
   //   window.location = '/forgot/success'
   // }
   return (
-  <Form
-    onSubmit={onSubmit}
-    validate={validate}
-    render={({ handleSubmit, form, submitting, pristine, values }) => (
-    <form className="form" onSubmit={handleSubmit}>
-      {errors && 
-        <div className="alert alert-danger fade show w100" role="alert">
-          <div className="alert__content">
-            <ul>
-              <li>{errors}</li>
-            </ul>
-          </div>
-        </div>
-      }
-      <div className="form__form-group-field flex-column">
-        <div className="account__head">
-          <h3 className="account__title">Reset Your Password</h3>
-        </div>
-        <Field name="email">
-        {({ input, meta }) => (
-          <div className="form__form-group">
-            <span className="form__form-group-label">Email</span>
-              <div className="form__form-group-field">
-                <div className="form__form-group-icon">
-                  <EmailOutlineIcon />
-                </div>
-                <div className="form__form-group-row">
-                  <input type="text" {...input} placeholder="Email" />
-                  {meta.touched && meta.error && <span className="form__form-group-error">{meta.error}</span>}
-                </div>
+    <Form
+      onSubmit={onSubmit}
+      validate={validate}
+      render={({ handleSubmit, form, submitting, pristine, values }) => (
+        <form className="form" onSubmit={handleSubmit}>
+          <div className="card-header">Reset Your Password</div>
+          <div className="card-body">
+            {errors && <ApiErrorMessage errors={errors} showLabel={false} />}
+            <div className="form__form-group-field flex-column">
+              <Field name="email">
+                {({ input, meta }) => (
+                  <div className="mb-3">
+                    <label htmlFor="loginInputEmail" className="form-label">Email address</label>
+                    <input id="loginInputEmail" type="text" {...input} placeholder="Email" className="form-control" />
+                    {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
+                  </div>
+                )}
+              </Field>
+              <Field name="password">
+                {({ input, meta }) => (
+                  <div className="mb-3">
+                    <label htmlFor="loginInputPassword" className="form-label">New Password</label>
+                    <input id="loginInputPassword" type="text" {...input} placeholder="Password" className="form-control" />
+                    {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
+                  </div>
+                )}
+              </Field>
+              <Field name="password_confirmation">
+                {({ input, meta }) => (
+                  <div className="mb-3">
+                    <label htmlFor="loginInputPasswordConfirm" className="form-label">Confirm Password</label>
+                    <input id="loginInputPasswordConfirm" type="text" {...input} placeholder="Email" className="form-control" />
+                    {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
+                  </div>
+                )}
+              </Field>
+            </div>
+            <div className="d-flex justify-content-between">
+              <TemplateButton type="submit" disabled={loading} text='Reset Password' />
+              <TemplateButton link="/login" text='Back to Sign in' color='outline-secondary' />
             </div>
           </div>
-        )}
-        </Field>
-        <Field name="password">
-          {({ input, meta }) => (
-            <div className="form__form-group">
-              <span className="form__form-group-label">New Password</span>
-                <div className="form__form-group-field">
-                  <div className="form__form-group-icon">
-                    <LockOutlineIcon />
-                  </div>
-                  <div className="form__form-group-row">
-                    <input type="text" {...input} placeholder="Password" />
-                    {meta.touched && meta.error && <span className="form__form-group-error">{meta.error}</span>}
-                  </div>
-              </div>
-            </div>
-          )}
-        </Field>
-        <Field name="password_confirmation">
-          {({ input, meta }) => (
-            <div className="form__form-group">
-              <span className="form__form-group-label">Confirm Password</span>
-                <div className="form__form-group-field">
-                  <div className="form__form-group-icon">
-                    <LockOutlineIcon />
-                  </div>
-                  <div className="form__form-group-row">
-                    <input type="text" {...input} placeholder="Password" />
-                    {meta.touched && meta.error && <span className="form__form-group-error">{meta.error}</span>}
-                  </div>
-              </div>
-            </div>
-          )}
-        </Field>
-      </div>
-      {/* <Link className="btn btn-primary account__btn account__btn--small" to="/pages/one">Continue</Link> */}
-      <button type="submit" className="btn btn-primary account__btn account__btn--small" disabled={loading}>Reset Password</button>
-      </form>
-    )}
-  />
-)}
+        </form>
+      )}
+    />
+  )
+}
 
 export default ResetPasswordForm;
