@@ -18,6 +18,7 @@ const daysOptions =[{ value: 1, label: 1 }, { value: 5, label: 5 }, { value: 10,
 
 const customUnitsOptions = [{ value: 'months', label: 'Months' },{ value: 'days', label: 'Days' }, { value: 'years', label: 'Years' }];
 
+const automaticFrequencyOptions = [{ value: 'daily', label: 'Daily' }, { value: 'weekly', label: 'Weekly' }, { value: 'monthly', label: 'Monthly' }, { value: 'annually', label: 'Annually' }];
 
 const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
 //console.log(date);
@@ -55,6 +56,8 @@ const GoalPlanForm = ({
         goalplan = patch4Select(goalplan, 'exceeded_event_id', events)
         if(goalplan.achieved_event_id)
         goalplan = patch4Select(goalplan, 'achieved_event_id', events)
+        if(goalplan.automatic_frequency)
+        goalplan = patch4Select(goalplan, 'automatic_frequency', automaticFrequencyOptions)
       }
       const validate = values => {
       let required_field_msg =  "This field is required";
@@ -281,11 +284,8 @@ const GoalPlanForm = ({
                             name="automatic_frequency"
                             className="react-select"
                             //value={value}
-                            options={[{ value: 'daily', label: 'Daily' },
-                                { value: 'weekly', label: 'Weekly' },
-                                { value: 'monthly', label: 'Monthly' },
-                                { value: 'annually', label: 'Annually' }]}
-                           placeholder={'Automatic Goal Frequency*'}
+                            options={automaticFrequencyOptions}
+                            placeholder={'Automatic Goal Frequency*'}
                            //label="Automatic Goal Frequency"
                           component={renderSelectField}/>
                       </Col>

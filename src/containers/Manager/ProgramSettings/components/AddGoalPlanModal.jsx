@@ -108,10 +108,10 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
     axios
       .post(`/organization/${organization.id}/program/${program.id}/goalplan`, goalPlanData)
       .then((res) => {
-        //   console.log(res)
+        //console.log(res)
         if (res.status == 200) {
-          console.log(res);
-        // window.location.reload()
+          //console.log(res);
+         window.location.reload()
          if (res.data.assign_msg)
          dispatch(sendFlashMessage('Goal Plan added successfully! '+res.data.assign_msg, 'alert-success', 'top'))
          else
@@ -129,7 +129,7 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
   useEffect( () => {
     getGoalPlanTypes()
     .then( gptypes => {
-      console.log(gptypes);
+      //console.log(gptypes);
       setGoalPlanTypes(labelizeNamedData(gptypes))
     })
 
@@ -140,7 +140,7 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
     
     getEvents(organization.id,program.id)
     .then( evts => {
-      console.log("program="+program.id);
+      //console.log("program="+program.id);
       setEvents(labelizeNamedData(evts))
     })
     
