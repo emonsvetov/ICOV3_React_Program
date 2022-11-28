@@ -1,18 +1,22 @@
-const ApiErrorMessage = props => {
+const ApiErrorMessage = ({errors, showLabel = true, className}) => {
+    className = 'apiError-wrap form-error mt-0' + (className ? ' ' + className : '')
+    if(!errors?.errors){
+        errors.errors = errors.message; //sometimes there is not errors but just a message!
+    }
     return (
-        <>
-            {props.errors.message && <span>{props.errors.message}</span>}
-            {typeof props.errors.errors === 'object' && <List errors={props.errors.errors} />}
-            {typeof props.errors.errors === 'string' && <span>{props.errors.errors}</span>}
-        </>
+        <div className={className}>
+            {showLabel && errors.message && <span className={'apiError-label'}>{errors.message}</span>}
+            {typeof errors.errors === 'object' && <List errors={errors.errors} />}
+            {typeof errors.errors === 'string' && <span>{errors.errors}</span>}
+        </div>
     )
 }
 
 const List = ({errors}) => (
-    <ul>
+    <ul className="apiError-list">
         {
             Object.keys(errors).map(function(k){
-                return <li key={k}>{errors[k]}</li>
+                return <li key={k}  className="apiError-listItem">{errors[k]}</li>
             })
         }
     </ul>
