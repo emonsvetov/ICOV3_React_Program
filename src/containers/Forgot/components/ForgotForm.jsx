@@ -53,7 +53,7 @@ const ForgotForm = ( {onSubmit, loading, errors} ) => {
 
         <div className="d-flex justify-content-between">
           <TemplateButton type="submit" disabled={loading} text='Continue' />
-          <TemplateButton link="/login" text='Back to Sign in' color='outline-secondary' />
+          <TemplateButton link="/login" text='Back to Sign in' color='outline-secondary' className='border-1' />
         </div>
       </div>
       </form>

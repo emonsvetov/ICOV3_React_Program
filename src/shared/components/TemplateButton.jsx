@@ -10,14 +10,16 @@ const TemplateButton = ({template, className, onClick, text, type, disabled, lin
     navigate(link);
   }
   if (!template) return ''
-  className = 'template-button' + (className !== "" ? ' ' + className : '')
+  className = 'template-button border-0' + (className !== "" ? ' ' + className : '')
   onClick = link ? routeChange : onClick
+  const buttonCorner = parseInt(template.button_corner);
+  const borderRadius = !isNaN(buttonCorner) ? buttonCorner : 0
 
   return (
     <>
       <Button color={color} className={className} onClick={onClick}
               style={{
-                borderRadius: parseInt(template.button_corner),
+                borderRadius,
                 color: template.button_color,
                 backgroundColor: template.button_bg_color,
               }}

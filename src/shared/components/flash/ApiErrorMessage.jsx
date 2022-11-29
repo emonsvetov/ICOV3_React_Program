@@ -5,7 +5,6 @@ const ApiErrorMessage = ({errors, showLabel = true, className}) => {
     }
     return (
         <div className={className}>
-            {showLabel && errors.message && <span className={'apiError-label'}>{errors.message}</span>}
             {typeof errors.errors === 'object' && <List errors={errors.errors} />}
             {typeof errors.errors === 'string' && <span>{errors.errors}</span>}
         </div>

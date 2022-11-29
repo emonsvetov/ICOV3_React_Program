@@ -2,13 +2,11 @@ import React, {useState, useEffect} from 'react';
 import Select from 'react-select';
 //import formValidation from "@/validation/inviteParticipant"
 //import { Link } from 'react-router-dom';
-import { Input, Col, Row, FormGroup, FormFeedback, Label, Button} from 'reactstrap';
+import { Input, Col, Row, FormGroup } from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 import axios from 'axios';
-//import {useDispatch, sendFlashMessage} from "@/shared/components/flash/FlashMessage";
-import {useDispatch, useSelector, connect} from 'react-redux';
-import {sendFlashMessage} from '@/redux/actions/flashActions';
-import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
+import {connect} from 'react-redux';
+import {useDispatch, flashSuccess, flash422} from "@/shared/components/flash"
 //import SelectProgram from '../components/SelectProgram'
 //import {setAuthProgram} from '@/containers/App/auth';
 //import {getProgram} from '@/services/program/getProgram';
@@ -44,9 +42,10 @@ const InviteParticipant = ({auth, organization, rootProgram}) => {
     setProgram( selectedOption )
   };
   const onSubmit  = values  => {
-  //    console.log(values)
-  //  //console.log(program_list)
-  //   return
+     console.log(values)
+   //console.log(program_list)
+   console.log( `/organization/${organization.id}/program/${values.program.value}/invite`)
+    return
     setLoading(true)
     axios.put(`/organization/${organization.id}/program/${values.program.value}/invite`, values)
     .then( (res) => {
@@ -54,13 +53,13 @@ const InviteParticipant = ({auth, organization, rootProgram}) => {
         if(res.status == 200)  {
            // window.location = `/organization/${organization.id}/program/${values.program_id}/invite?message=User saved successfully`
            window.location.reload()
-           dispatch(sendFlashMessage('The participant has been invited to your program!', 'alert-success', 'top'))
+           flashSuccess(dispatch, 'The participant has been invited to your program!')
            setLoading(false)
         }
     })
     .catch( error => {
       //console.log(error.response.data);
-      dispatch(sendFlashMessage(<ApiErrorMessage errors={error.response.data} />, 'alert-danger'))
+      flash422(dispatch, error.response.data)
       setLoading(false)
     })
 }
