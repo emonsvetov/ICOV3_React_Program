@@ -56,7 +56,7 @@ const ManagerTopbar = ({template}) => {
       </Collapse>
 
       <div className="topbar__right">
-        <TopbarProfile />
+        <TopbarProfile isManager={true} />
       </div>
     </Navbar>
     </Container>

@@ -11,7 +11,6 @@ import { Container, Navbar, NavbarBrand, NavbarToggler, Dropdown,
 const Brand = `${process.env.PUBLIC_URL}/img/logo/logo_light.svg`;
 const LINKS = [
   { to: '/participant/home', text: 'Home' },
-  { to: '/participant/my-account', text: 'My Account' },
   { to: '/participant/my-gift-codes', text: 'My Gift Codes' },
   { to: '/participant/my-points', text: 'My Points' },
   { to: '/participant/my-goals', text: 'My Goals' },

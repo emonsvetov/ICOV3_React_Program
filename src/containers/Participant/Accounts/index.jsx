@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import { ParticipantTabNavs } from '../../../shared/components/tabNavs';
-import Sidebar from '../../Layout/sidebar';
-import AccountForm from './components/AccountForm'
+import { ParticipantTabNavs } from '@/shared/components/tabNavs';
+import Sidebar from '@/containers/Layout/sidebar';
+import AccountForm from '@/shared/components/account/AccountForm'
 import { Input, Col, Row,Container} from 'reactstrap';
 import {getAuthUser} from '@/containers/App/auth';
 

@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import {logout, getAuthUserFullname} from '../../App/auth';
+import {connect} from "react-redux";
+import {useNavigate} from 'react-router-dom';
 
-const Ava = `${process.env.PUBLIC_URL}/img/avatar/avatar.jpg`;
-
-const TopbarProfile = () => {
+const TopbarProfile = ({isManager, auth}) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const handleToggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
   };
-  const onClickMyProfile = () => {
-    alert("He")
+  let navigate = useNavigate();
+
+  const onClickMyAccount = () => {
+    let path = isManager ? 'manager' : 'participant';
+    navigate(`/` + path + `/my-account`)
   }
+  const Ava = auth.avatar ? `${process.env.REACT_APP_API_STORAGE_URL}/` + auth.avatar : `${process.env.PUBLIC_URL}/img/avatar/avatar.jpg`;
 
   return (
     <div className="topbar__profile">
@@ -36,8 +40,8 @@ const TopbarProfile = () => {
            
         </DropdownToggle>
         <DropdownMenu end>
-          <DropdownItem onClick={() => onClickMyProfile()}>
-            My Profile
+          <DropdownItem onClick={() => onClickMyAccount()}>
+            My Account
           </DropdownItem>
           <DropdownItem divider />
           <DropdownItem  onClick={()=>{
@@ -70,4 +74,7 @@ const TopbarProfile = () => {
   );
 };
 
-export default TopbarProfile;
+export default connect((state) => ({
+  auth: state.auth,
+}))(TopbarProfile);
+
