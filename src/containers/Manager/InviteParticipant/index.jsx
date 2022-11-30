@@ -42,10 +42,10 @@ const InviteParticipant = ({auth, organization, rootProgram}) => {
     setProgram( selectedOption )
   };
   const onSubmit  = values  => {
-     console.log(values)
+    //  console.log(values)
    //console.log(program_list)
-   console.log( `/organization/${organization.id}/program/${values.program.value}/invite`)
-    return
+  //  console.log( `/organization/${organization.id}/program/${values.program.value}/invite`)
+  //   return
     setLoading(true)
     axios.put(`/organization/${organization.id}/program/${values.program.value}/invite`, values)
     .then( (res) => {
