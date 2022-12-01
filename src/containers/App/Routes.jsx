@@ -4,13 +4,24 @@ import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
 import {ParticipantLayout, ManagerLayout} from '../Layout/index';
 
+
 import LogIn from '../LogIn/index';
 // import Signup from '../Signup/index';
 // import SignupSuccess from '../Signup/SignupSuccess';
 
+import Forgot from '../Forgot/index';
+import CheckYourEmail from '../Forgot/CheckYourEmail';
+import ForgotSuccess from '../Forgot/ForgotSuccess';
+
+// Invitation
+
+import Invitation from '../Participant/Invitation/index';
+import InvitationSuccess from '../Participant/Invitation/InvitationSuccess';
+
 //participant
 import ParticipantHome from '../Participant/Home/index';
 import AccountIndex from '../Participant/Accounts/index';
+import ManagerAccountIndex from '../Manager/Accounts/index';
 import GiftCodeIndex from '../Participant/GiftCodes/index';
 import GoalIndex from '../Participant/Goals/index';
 import PointIndex from '../Participant/Points/index';
@@ -47,6 +58,7 @@ import MerchantRedemption from '../Manager/Report/components/MerchantRedemption'
 import ParticipantAccount from '../Manager/Report/components/ParticipantAccount';
 import ParticipantStatus from '../Manager/Report/components/ParticipantStatus';
 import QuarterlyAward from '../Manager/Report/components/QuarterlyAward';
+import MainWrapper from './MainWrapper';
 
 // const Accounts = () => (
 //   <Routes>
@@ -71,9 +83,16 @@ import QuarterlyAward from '../Manager/Report/components/QuarterlyAward';
 
 
 const RouteIndex = () => (
+  <MainWrapper>
     <Routes>
       <Route path="/" element={<PublicRoute />} >
         <Route path="login" element={<LogIn />} />
+        <Route path="/forgot" element={<Forgot />} />
+        <Route path="/forgot/checkemail" element={<CheckYourEmail />} />
+        <Route path="/reset-password" element={<Forgot />} />
+        <Route path="/forgot/success" element={<ForgotSuccess />} />
+        <Route path="/invitation" element={<Invitation />} />
+        <Route path="/invitation/success" element={<InvitationSuccess />} />
       </Route>
       <Route path="/" element={<PrivateRoute />} >
         <Route path="participant" element={<ParticipantLayout />} >
@@ -100,6 +119,7 @@ const RouteIndex = () => (
           <Route path="invite-participant" element={<InviteParticipant />} />
           <Route path="referral" element={<Referral />} />
           <Route path="team" element={<Team />} />
+          <Route path="my-account" element={<ManagerAccountIndex />} />
           <Route path="team/:mateId" element={<TeamView />} />
           <Route path="report" element={<Report />} >
             <Route path="invoices" element={<Invoices />} />
@@ -121,6 +141,7 @@ const RouteIndex = () => (
         </Route>
       </Route>
     </Routes>
+  </MainWrapper>
 );
 
 export default RouteIndex;

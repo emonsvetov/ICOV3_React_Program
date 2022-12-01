@@ -1,0 +1,34 @@
+[
+    {
+        "name": "standard",
+        "value": "standard"
+    },
+    {
+        "name": "activation",
+        "value": "activation"
+    },
+    {
+        "name": "peer2peer",
+        "value": "peer2peer"
+    },
+    {
+        "name": "peer2peer allocation",
+        "value": "peer2peer allocation"
+    },
+    {
+        "name": "badge",
+        "value": "badge"
+    },
+    {
+        "name": "peer2peer badge",
+        "value": "peer2peer badge"
+    },
+    {
+        "name": "promotional award",
+        "value": "promotional award"
+    },
+    {
+        "name": "auto award",
+        "value": "auto award"
+    }
+]

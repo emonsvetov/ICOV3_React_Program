@@ -1,26 +1,32 @@
 import React, {useEffect} from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { isAuthenticated, getAuthUser } from './auth';
 import Footer from '../Layout/footer';
 
 export const PublicRoute = () => {
     // console.log('PublicRoute')
-    let navigate = useNavigate();
+    const navigate = useNavigate();
+    const location = useLocation();
+    // console.log(location.pathname)
     useEffect( () => {
-        if( isAuthenticated() )   {
+        if( isAuthenticated() )
+        {
             const user = getAuthUser()
-            // console.log(user)
             let sentTo = '/'
-            if( user.loginAs === 'Program Manager') {
+            if( user.loginAs.name === 'Manager') {
                 sentTo = '/manager/home'
-            }   else if( user.loginAs === 'Participant' ) {
+            }   else if( user.loginAs.name === 'Participant' ) {
                 sentTo = '/participant/home'
             }
             navigate(sentTo)
-        }
-        else{
+        } 
+        else if( location.pathname === '/')
+        {
             navigate('/login')
         }
+        // else{
+        //     navigate('/login')
+        // }
     }, [])
 
     return(

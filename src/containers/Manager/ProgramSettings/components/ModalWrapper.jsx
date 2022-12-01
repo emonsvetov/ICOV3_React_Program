@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import AddEventPopup from './AddEventPopup'
 import AddGoalPlanModal from './AddGoalPlanModal'
 import EditEventModal from './EditEventModal'
+import EditGoalPlanModal from './EditGoalPlanModal'
 import AddLeaderboardModal from './AddLeaderboardModal'
 
-const ModalWrapper = ({ organization, program, name, isOpen, setOpen, toggle, event, setEvent}) => {
+const ModalWrapper = ({ organization, program, name, isOpen, setOpen, toggle, event, setEvent, goalplan, setGoalPlan}) => {
     
     const props = {
-        isOpen, setOpen, toggle, organization, program, event, setEvent
+        isOpen, setOpen, toggle, organization, program, event, setEvent, goalplan, setGoalPlan
     }
     // console.log(leaderboard, '-----------')
     if( !organization?.id || !program?.id ) return 'Loading...'
@@ -24,6 +25,9 @@ const ModalWrapper = ({ organization, program, name, isOpen, setOpen, toggle, ev
         }
         {
             name==='AddGoal' && <AddGoalPlanModal {...props} />
+        }
+        {
+            name==='EditGoalPlan' && <EditGoalPlanModal {...props} />
         }
         {
             name==='AddLeaderboard' && <AddLeaderboardModal {...props} />

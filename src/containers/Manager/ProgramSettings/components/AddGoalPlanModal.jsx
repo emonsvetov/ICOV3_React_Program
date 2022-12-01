@@ -13,6 +13,8 @@ import {labelizeNamedData} from '@/shared/helper';
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
 import GoalPlanForm from './GoalPlanForm'
+//import Switch from '@/shared/components/form/Switch';
+//import TemplateButton from "@/shared/components/TemplateButton"
 
 const AddGoalPlanImg = `/img/pages/addGoalPlan.png`;
 
@@ -26,14 +28,20 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
 
   //const [fields, setFields] = useState({});
   
-
+  const onSelectGoalPlanType = (selectedOption) => {
+    //console.log('goal type selected');
+    //console.log(selectedOption);
+    //goalPlanData.award_per_progress=1;
+  };
+  
 
   const onSubmit = (values) => {
     let goalPlanData = {};
     goalPlanData["organization_id"] = organization.id;
     goalPlanData["program_id"] = program.id;
 
-    console.log(values)
+   
+  // console.log(values); return;
     let {
       name,
       goal_measurement_label,
@@ -64,17 +72,17 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
 
     goalPlanData.name= name;
     goalPlanData.goal_measurement_label = goal_measurement_label;
-    goalPlanData.goal_plan_type_id = goal_plan_type_id ? goal_plan_type_id.value : '';
+    goalPlanData.goal_plan_type_id = goal_plan_type_id ? goal_plan_type_id.value : 1;
     goalPlanData.default_target = default_target;
-    goalPlanData.automatic_progress = automatic_progress ? automatic_progress.value: '';
+    goalPlanData.automatic_progress = automatic_progress ? automatic_progress.value: 0;
     goalPlanData.email_template_id = email_template_id;
-    goalPlanData.achieved_event_id= achieved_event_id.value; //pending
-    goalPlanData.exceeded_event_id= exceeded_event_id.value; //pending
-    goalPlanData.automatic_frequency =  automatic_frequency;
+    goalPlanData.achieved_event_id= achieved_event_id ? achieved_event_id.value : null; //pending
+    goalPlanData.exceeded_event_id= exceeded_event_id ? exceeded_event_id.value : null; //pending
+    goalPlanData.automatic_frequency =  automatic_frequency ? automatic_frequency.value : null;
     goalPlanData.automatic_value = automatic_value;
-    goalPlanData.expiration_rule_id = expiration_rule_id.value;
+    goalPlanData.expiration_rule_id = expiration_rule_id ? expiration_rule_id.value : 1;
     goalPlanData.custom_expire_offset = custom_expire_offset;
-    goalPlanData.custom_expire_units = custom_expire_units ? custom_expire_units.value: '';
+    goalPlanData.custom_expire_units = custom_expire_units ? custom_expire_units.value: null;
     goalPlanData.annual_expire_month = annual_expire_month ? annual_expire_month.value: null;
     goalPlanData.annual_expire_day = annual_expire_day ?annual_expire_day.value:null;
     goalPlanData.date_begin = date_begin;
@@ -89,22 +97,27 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
 
     //penidng fiels (for testing only
     goalPlanData.state_type_id = 1;
-    goalPlanData.program_id = 1;
-    goalPlanData.progress_notification_email_id = 1;
+    goalPlanData.program_id = 12; //pending to make it dynamic
+    goalPlanData.progress_notification_email_id = 1; //pending to make it dynamic
     goalPlanData.created_by = 1;
 
-
-    // console.log(goalPlanData)
+    //console.log('FDF');
+     //console.log(goalPlanData)
     //return;
     setLoading(true)
     axios
       .post(`/organization/${organization.id}/program/${program.id}/goalplan`, goalPlanData)
       .then((res) => {
-        //   console.log(res)
+        //console.log(res)
         if (res.status == 200) {
-          window.location.reload()
-          dispatch(sendFlashMessage('Goal Plan added successfully!', 'alert-success', 'top'))
-          setLoading(false)
+          //console.log(res);
+         window.location.reload()
+         if (res.data.assign_msg)
+         dispatch(sendFlashMessage('Goal Plan added successfully! '+res.data.assign_msg, 'alert-success', 'top'))
+         else
+         dispatch(sendFlashMessage('Goal Plan added successfully!', 'alert-success', 'top'))
+
+         setLoading(false)
         }
       })
       .catch((err) => {
@@ -116,6 +129,7 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
   useEffect( () => {
     getGoalPlanTypes()
     .then( gptypes => {
+      //console.log(gptypes);
       setGoalPlanTypes(labelizeNamedData(gptypes))
     })
 
@@ -126,6 +140,7 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
     
     getEvents(organization.id,program.id)
     .then( evts => {
+      //console.log("program="+program.id);
       setEvents(labelizeNamedData(evts))
     })
     
@@ -137,10 +152,11 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
     events,
    // handleChange,
     loading,
+    onSelectGoalPlanType,
     onSubmit
   }
-  console.log(goalPlanTypes);
-  console.log(events);
+
+  //console.log(events);
   return (
     <Modal className={`program-settings modal-2col modal-xl`} isOpen={isOpen} toggle={() => setOpen(true)}>
       
@@ -158,6 +174,8 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
           </div>
           <div className="right">
           <GoalPlanForm {...props} />
+          
+          
         </div>
 
         
@@ -456,7 +474,7 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
                       </Col>
                     </Row>
                   <div className='d-flex justify-content-end'>
-                    <Button  color='danger' type='submit'>Save Goal Plan</Button>
+                    <TemplateButton type='submit' text='Save Goal Plan' />
                   </div>
                 </form>
               )}

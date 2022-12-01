@@ -18,7 +18,7 @@ import {useDispatch} from 'react-redux';
 import {getSocialWallPosts} from '@/services/program/getSocialWallPosts'
 import Editor from '@/shared/components/form/Editor';
 
-const RewardCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, program, organization, auth, setSocialWallPosts}) => {
+const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, program, organization, auth, setSocialWallPosts}) => {
 
   const dispatch = useDispatch()
   const [value, setValue] = useState('')
@@ -33,7 +33,8 @@ const RewardCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, program, o
             'social_wall_post_type_id': socialWallPostTypeComment.id,
             'social_wall_post_id': socialWallPost.id,
             'event_xml_data_id': null,
-            'program_account_holder_id': program.id,
+            'program_id': program.id,
+            'organization_id': organization.id,
             'awarder_program_id': null,
             'sender_user_account_holder_id': auth.account_holder_id,
             'receiver_user_account_holder_id': socialWallPost.receiver_user_account_holder_id,
@@ -103,4 +104,4 @@ const RewardCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, program, o
   )
 }
 
-export default RewardCommentPopup;
+export default SocialWallCommentPopup;

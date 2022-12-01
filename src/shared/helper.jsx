@@ -21,6 +21,7 @@ export const isSuperAdmin = (user) => {
 }
 export const isEmpty = (object) => { for(var i in object) { return false; } return true; }
 export const labelizeNamedData = (data, fields = ["id", "name"]) => {
+    if (!data) return null
     let newData = []
     for( var i in data) {
         newData.push({label: String(data[i][fields[1]]), value: String(data[i][fields[0]])})
@@ -100,4 +101,80 @@ export const makeLabelizedOptionsFromTree = (programs, depth = 0) => {
         })
     }
     return optionsObject
+}
+
+function arrayCompare(a1, a2) {
+  if (a1.length != a2.length) return false;
+  var length = a2.length;
+  for (var i = 0; i < length; i++) {
+    if (a1[i] !== a2[i]) return false;
+  }
+  return true;
+}
+
+export const inArray = (needle, haystack) => {
+  if(!haystack || typeof haystack === 'undefined') return;
+  var length = haystack.length;
+  for(var i = 0; i < length; i++) {
+    if(typeof haystack[i] == 'object') {
+      if(arrayCompare(haystack[i], needle)) return true;
+    } else {
+      if(haystack[i] == needle) return true;
+    }
+  }
+  return false;
+}
+
+export const mapFormDataUploads = (values, multiple = false) => {
+  let data = new FormData()
+  for (const [key, value] of Object.entries(values)) {
+    // console.log(value)
+    // console.log(typeof value)
+    if(value && typeof value === 'object')  {
+      if( multiple )    {
+        value.map( itemValue => {
+          data.append(`${key}[]`, itemValue)
+        })
+      }   else {
+        data.append(key, value[0])
+      }
+    }   else {
+      data.append(key, value)
+    }
+  }
+  return data
+}
+
+export const unpatchMedia = ( dataset, fields ) => {
+  if( !dataset || !fields ) return dataset;
+  for (const [key, value] of Object.entries(dataset)) {
+    if( inArray(key, fields) && (typeof value === 'string' || value === null))  {
+      delete dataset[key]
+    }
+  }
+  return dataset
+}
+
+export const patchMediaURL = ( dataset, fields ) => {
+  if( !dataset || !fields ) return dataset;
+  for (const [key, value] of Object.entries(dataset)) {
+    if( inArray(key, fields) && value && value.indexOf(process.env.REACT_APP_API_STORAGE_URL) === -1)  {
+      dataset[key] = `${process.env.REACT_APP_API_STORAGE_URL}/${value}`
+    }
+  }
+  return dataset
+}
+
+export const prepareRequestParams = (filter, fields) => {
+  const params = []
+  let paramStr = ''
+  if (filter) {
+    fields.map((field) => (filter[field] !== 'undefined' && filter[field]) ? params.push(field + `=${filter[field]}`) : null);
+    paramStr = params.join('&')
+  }
+  return paramStr;
+}
+
+export const validEmail = (email) => {
+  return /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/i.test(email)
 }

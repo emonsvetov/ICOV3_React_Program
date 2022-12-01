@@ -7,10 +7,10 @@ const components = {
   StarThreePoints
 };
 
-const IconImage = (props) => {
+const SocialWallIcon = (props) => {
   const {icon} = props.data;
   const CurrentIcon = components[icon];
   return <CurrentIcon />;
 }
 
-export default IconImage;
+export default SocialWallIcon;

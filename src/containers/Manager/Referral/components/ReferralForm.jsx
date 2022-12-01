@@ -2,6 +2,7 @@ import { Input, Col, Row, FormGroup, Label, Button} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 import renderToggleButtonField from "@/shared/components/form/ToggleButton"
 import formValidation from "@/validation/account"
+import TemplateButton from "@/shared/components/TemplateButton"
 
 const ReferralForm = ({
     onSubmit, 
@@ -87,7 +88,7 @@ const ReferralForm = ({
                 </Row>
                 
                 <div className='d-flex justify-content-end'>
-                <Button disabled={loading} color='danger' type='submit'>{btnLabel}</Button>
+                <TemplateButton disabled={loading} type='submit' text={btnLabel} />
                 </div>
             </form>
             )}

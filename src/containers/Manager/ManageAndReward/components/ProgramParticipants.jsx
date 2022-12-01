@@ -80,7 +80,7 @@ const ProgramParticipants = ( {program, organization} ) => {
             const emails = collectEmails(participants)
             window.location.href = `mailto:${emails.join(',')}?subject=You have received a message!`;
         }
-        if( action === 'Reward' || action === 'Resend Invite' || action === 'Deactivate' || action === 'Activate')    { //Add more later
+        if( action === 'Reward' || action === 'Resend Invite' || action === 'Deactivate' || action === 'Activate' || action === 'Peer Allocation')    { //Add more later
             toggle(action)
         }
     }

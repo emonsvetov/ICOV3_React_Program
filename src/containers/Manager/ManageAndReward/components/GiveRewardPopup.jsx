@@ -13,6 +13,8 @@ import {fetchEmailTemplates} from '@/services/getEmailTemplates';
 
 import {createSocialWallPost} from '@/redux/actions/socialWallPostActions';
 import {getSocialWallPostTypeEvent} from '@/services/program/getSocialWallPostTypes'
+import TemplateButton from "@/shared/components/TemplateButton"
+import EVENT_TYPES from "@/shared/json/eventTypes.json";
 
 const DEFAULT_MSG_PARTICIPANT = "We wanted to thank you for all your extra efforts over the last couple of days.\n\nThough your response and tireless efforts. You made a BIG Different!!\n\nWe would like to recognize those efforts with this award to reflect our appreciation.\n\nGreg, Gerry and Bruce\n\nGreg and Gerry"
 
@@ -87,7 +89,8 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
                   'social_wall_post_type_id': socialWallPostTypeEvent.id,
                   'social_wall_post_id': null,
                   'event_xml_data_id': resultData.event_xml_data_id,
-                  'program_account_holder_id': program.id,
+                  'program_id': program.id,
+                  'organization_id': organization.id,
                   'awarder_program_id': null,
                   'sender_user_account_holder_id': auth.account_holder_id,
                   'receiver_user_account_holder_id': resultData.userAccountHolderId,
@@ -123,7 +126,12 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
   useEffect( () => {
     let mounted = true;
     setLoading(true)
-    getEvents(organization.id, program.id)
+    let except_type = [
+      EVENT_TYPES.find( type => type.name === 'peer2peer allocation')?.value,
+      EVENT_TYPES.find( type => type.name === 'peer2peer')?.value,
+      EVENT_TYPES.find( type => type.name === 'peer2peer badge')?.value
+    ]
+    getEvents(organization.id, program.id, {except_type: except_type})
     .then(items => {
       if(mounted) {
         // console.log(items)
@@ -189,8 +197,8 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
                 // console.log(values)
                 return (
                 <form className="form d-flex flex-column justify-content-evenly" onSubmit={handleSubmit}>
-                              
-                  <Row>  
+
+                  <Row>
                     <Col md="12">
                         <Field name="event_id">
                         {({ input, meta }) => (
@@ -212,7 +220,7 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
                         {loadingEvent && <span>Loading...</span>}
                     </Col>
                   </Row>
-                  {event && 
+                  {event &&
                     <>
                     <Row>
                       <Col md="6">
@@ -230,7 +238,7 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
                       <Col md="6">
                         <Label>Maximum Cash Value per Particiapnt</Label>
                       </Col>
-                      <Col md="6">                        
+                      <Col md="6">
                           <strong>{`$${event?.max_awardable_amount}`}</strong>
                       </Col>
                     </Row>
@@ -286,7 +294,7 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
                               <FormGroup>
                                 <Select
                                   options={emailTemplates}
-                                  initialValue = {emailTemplates[event.email_template_id - 1]} 
+                                  initialValue = {emailTemplates[event.email_template_id - 1]}
                                   clearable={false}
                                   className="react-select"
                                   placeholder={'Email Template'}
@@ -325,7 +333,7 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
                       <Col md="6">
                         <Label>Total People Selected</Label>
                       </Col>
-                      <Col md="6">                        
+                      <Col md="6">
                           <strong>{participants.length}</strong>
                       </Col>
                     </Row>
@@ -333,7 +341,7 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
                       <Col md="6">
                         <Label>Documentation</Label>
                       </Col>
-                      <Col md="6">                        
+                      <Col md="6">
                       <Field name="doc_file">
                           {({ input, meta }) => (
                               <FormGroup>
@@ -354,7 +362,7 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
                       <Col md="6">
                         <Label>Total Award</Label>
                       </Col>
-                      <Col md="6">                        
+                      <Col md="6">
                           <strong>${participants.length * (values?.override_cash_value ? values.override_cash_value : event.max_awardable_amount) }</strong>
                       </Col>
                     </Row>
@@ -395,7 +403,7 @@ const GiveRewardPopup = ({isOpen, setOpen, toggle, participants, program, organi
                       </Col>
                     </Row>
                     <div className='d-flex justify-content-end'>
-                      <Button disabled={saving} color='danger' type='submit'>Save Reward</Button>
+                      <TemplateButton disabled={saving} type='submit' text='Save Reward' />
                     </div>
                   </>}
                 </form>
