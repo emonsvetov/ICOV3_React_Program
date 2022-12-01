@@ -4,7 +4,7 @@ import TemplateButton from "@/shared/components/TemplateButton"
 import { ApiErrorMessage } from "@/shared/components/flash"
 import { validEmail } from '@/shared/helper';
 
-const ResetPasswordForm = ({ onSubmit, errors, loading }) => {
+const AcceptInvitationForm = ({ onSubmit, errors, loading }) => {
   const validate = values => {
     let errors = {};
     if (!values.email) {
@@ -34,7 +34,7 @@ const ResetPasswordForm = ({ onSubmit, errors, loading }) => {
       validate={validate}
       render={({ handleSubmit, form, submitting, pristine, values }) => (
         <form className="form" onSubmit={handleSubmit}>
-          <div className="card-header">Reset Your Password</div>
+          <div className="card-header">Set Your Password</div>
           <div className="card-body">
             {errors && <ApiErrorMessage errors={errors} showLabel={false} />}
             <div className="form__form-group-field flex-column">
@@ -50,7 +50,7 @@ const ResetPasswordForm = ({ onSubmit, errors, loading }) => {
               <Field name="password">
                 {({ input, meta }) => (
                   <div className="mb-3">
-                    <label htmlFor="loginInputPassword" className="form-label">New Password</label>
+                    <label htmlFor="loginInputPassword" className="form-label">Password</label>
                     <input id="loginInputPassword" type="text" {...input} placeholder="Password" className="form-control" />
                     {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
                   </div>
@@ -67,8 +67,7 @@ const ResetPasswordForm = ({ onSubmit, errors, loading }) => {
               </Field>
             </div>
             <div className="d-flex justify-content-between">
-              <TemplateButton type="submit" disabled={loading} text='Reset Password' />
-              <TemplateButton link="/login" text='Back to Sign in' color='outline-secondary' />
+              <TemplateButton type="submit" disabled={loading} text='Set Password' />
             </div>
           </div>
         </form>
@@ -77,4 +76,4 @@ const ResetPasswordForm = ({ onSubmit, errors, loading }) => {
   )
 }
 
-export default ResetPasswordForm;
+export default AcceptInvitationForm;

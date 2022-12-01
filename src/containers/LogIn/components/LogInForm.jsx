@@ -3,10 +3,9 @@ import { Form, Field } from 'react-final-form';
 // import renderCheckBoxField from '../../../shared/components/form/CheckBox';
 import {login} from '../../App/auth';
 import {isProgramManager, isProgramParticipant, hasRoleInProgram} from "@/shared/helper"
-import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
-import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
-import Select from 'react-select';
-import { ButtonToolbar, Button } from 'reactstrap';
+import {useDispatch, flash422} from "@/shared/components/flash"
+import Select from 'react-select'
+import { ButtonToolbar } from 'reactstrap';
 // import {getProgram} from '@/services/program/getProgram';
 import TemplateButton from "@/shared/components/TemplateButton"
 
@@ -85,7 +84,8 @@ const LogInForm = () => {
         .catch( err => {
           console.log(err)
           // console.log(error.response.data)
-          dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
+          // dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
+          flash422(dispatch, err.response.data)
           setLoading(false)
         })
       };
@@ -98,7 +98,7 @@ const LogInForm = () => {
             // email: 'manager@inimist.com',
             // email: 'hmaudson2@dyndns.org',
             // email: 'arvind.mailtoxsxx@gmail.com',
-            password: 'aaa'
+            // password: 'aaa'
           }
         }
         render={({ handleSubmit, form, submitting, pristine, values }) => (
@@ -195,9 +195,10 @@ const LogInForm = () => {
           }
         })
         .catch( err => {
-          console.log(err.responseText)
-          // console.log(error.response.data)
-          dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
+          // console.log(err.responseText)
+          console.log(err.response.data)
+          // dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
+          flash422(dispatch, err.response.data)
           setLoading(false)
         })
       };
@@ -331,7 +332,8 @@ const LogInForm = () => {
       .catch( err => {
         console.log(err)
         // console.log(error.response.data)
-        dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
+        // dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
+        flash422(dispatch, err.response.data)
         setLoading(false)
       })
     };

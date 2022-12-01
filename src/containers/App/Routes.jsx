@@ -13,6 +13,11 @@ import Forgot from '../Forgot/index';
 import CheckYourEmail from '../Forgot/CheckYourEmail';
 import ForgotSuccess from '../Forgot/ForgotSuccess';
 
+// Invitation
+
+import Invitation from '../Participant/Invitation/index';
+import InvitationSuccess from '../Participant/Invitation/InvitationSuccess';
+
 //participant
 import ParticipantHome from '../Participant/Home/index';
 import AccountIndex from '../Participant/Accounts/index';
@@ -86,6 +91,8 @@ const RouteIndex = () => (
         <Route path="/forgot/checkemail" element={<CheckYourEmail />} />
         <Route path="/reset-password" element={<Forgot />} />
         <Route path="/forgot/success" element={<ForgotSuccess />} />
+        <Route path="/invitation" element={<Invitation />} />
+        <Route path="/invitation/success" element={<InvitationSuccess />} />
       </Route>
       <Route path="/" element={<PrivateRoute />} >
         <Route path="participant" element={<ParticipantLayout />} >
