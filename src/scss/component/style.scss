@@ -340,6 +340,7 @@ ul.horizontal {
     }
 }
 .cart{
+    
     .popover{
         max-width: 25%;
         min-width: 25%;
@@ -407,9 +408,28 @@ ul.horizontal {
         padding-bottom: 5px;
         background-color: white;
         .header{
+            display: flex;
+            justify-content: space-between;
             border-radius: 10px 10px 0 0;
             padding: 15px 25px 15px 25px;   
             background-color: #052654;
+            .icon {
+                color: $manager-yellow;
+                padding: 4px;
+                position: absolute;
+                box-sizing:border-box;
+                top:50%;
+                right:2px;
+                transform: translateY(-50%) rotate(90deg) ;
+            }
+            &.origin{
+                background-image: url(../../../public/img/ui-bg_highlight-soft_75_cccccc_1x100.png);
+                border: 1px solid #aaa;
+                color: #222;   
+                .icon {
+                    color: #555;
+                }
+            }
         }
         .dropdowntoggle{
             background-color: white;
@@ -419,15 +439,7 @@ ul.horizontal {
         .wrapper {
             position:relative;    
         }  
-        .icon {
-            color: $manager-yellow;
-            padding: 4px;
-            position: absolute;
-            box-sizing:border-box;
-            top:50%;
-            right:2px;
-            transform: translateY(-50%) rotate(90deg) ;
-        }
+        
         
         .input {
             border-radius: 0.25rem;
@@ -900,23 +912,25 @@ footer{
     padding: 20px;
     color: white;
     margin-top: 30px;
-    
-}
-footer .teritery-menu{
-    ul{
-        float: right;
-    }
-    ul.horizontal li {
-        a{
-            border-right: solid 1px;
-            padding: 0 10px;
-            color: white;       
-        }   
-        &:last-child a{
-            border-right: 0;
+    // position:absolute;
+    // bottom: 0;
+    .teritery-menu{
+        ul{
+            float: right;
+        }
+        ul.horizontal li {
+            a{
+                border-right: solid 1px;
+                padding: 0 10px;
+                color: white;       
+            }   
+            &:last-child a{
+                border-right: 0;
+            }
         }
     }
 }
+
 .form-error{
     margin-top: 0.25rem;
     color: #dc3545;
@@ -1023,3 +1037,4 @@ footer .teritery-menu{
     display: block;
     width: 100%;
 }
+
