@@ -28,10 +28,6 @@ export const Checkout = ({ template }) => {
             <CheckoutPage />
           </Col>
         </Row>
-        <div className="mt-5">
-          <h6 className="m-3">Select a merchant to redeem your points</h6>
-          <SliderOrigin data={slide_imgs} />
-        </div>
       </Container>
     );
   };

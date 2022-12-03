@@ -1,4 +1,4 @@
-import { Cart } from "./Cart";
+import Cart from "./Cart";
 import Checkout from "./Checkout";
 import RedeemMerchant from "./RedeemMerchant";
 import { GlobalMerchants } from "./GlobalMerchants";

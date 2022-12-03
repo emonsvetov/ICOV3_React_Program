@@ -1,20 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Col,
-  Table,
-  Button,
-  Row,
-  UncontrolledPopover,
-  PopoverBody,
-} from "reactstrap";
-import { ORDER_COLUMNS } from "./columns";
+import { Col, Table, Button, Row } from "reactstrap";
+import { CHECKOUT_COLUMNS } from "./columns";
 import { useTable } from "react-table";
 import { connect } from "react-redux";
-import CartItem from "../../components/CartItem";
-import CartIcon from "mdi-react/CartIcon";
 import axios from "axios";
-import CloseIcon from "mdi-react/CloseIcon";
 import { emptyAuthCart } from "@/containers/App/auth";
 import {
   useDispatch,
@@ -101,7 +91,7 @@ const CheckoutPage = ({ cart, program, pointBalance, organization }) => {
     setCartObject(cartdata);
   };
 
-  const columns = React.useMemo(() => ORDER_COLUMNS, []);
+  const columns = React.useMemo(() => CHECKOUT_COLUMNS, []);
   const data = makeColumnData(cartObject);
   // console.log(data)
   const { getTableProps, headerGroups, rows, prepareRow } = useTable({
@@ -110,12 +100,12 @@ const CheckoutPage = ({ cart, program, pointBalance, organization }) => {
   });
   let navigate = useNavigate();
 
-  if (cartIsEmpty) return "Your cart it empty";
+  if (cartIsEmpty) return "Your cart is empty";
   //   console.log(data)
   return (
     <>
       <div className="checkout">
-        <Row>
+        {/* <Row>
           <Col md={8}>
             <h3>Checkout: Confirm Your Order</h3>
           </Col>
@@ -175,8 +165,9 @@ const CheckoutPage = ({ cart, program, pointBalance, organization }) => {
               </PopoverBody>
             </UncontrolledPopover>
           </Col>
-        </Row>
+        </Row> */}
         <div>
+          <h3>Checkout: Confirm Your Order</h3>
           <span>
             Clicking "Confirm My Order" will confirm this redemption and{" "}
             <strong>{cartObject.total_points} Points</strong> will be deducted
@@ -220,6 +211,7 @@ const CheckoutPage = ({ cart, program, pointBalance, organization }) => {
             </tbody>
           </Table>
         </div>
+
         <Row className="my-4">
           <Col md={9} className="d-flex justify-content-end">
             Total:
