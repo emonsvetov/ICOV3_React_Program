@@ -1015,7 +1015,7 @@ footer{
 .template-button {
     padding: 5px 8px;
     cursor: pointer;
-    border-color: transparent !important;
+    // border-color: transparent !important;
     transition: none !important;
     box-shadow: none !important;
 }
@@ -1038,3 +1038,20 @@ footer{
     width: 100%;
 }
 
+.login-form-wrap{
+    height: 100vh;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    overflow-y: auto;
+    .card{
+        min-width: 30%;
+    }
+    .apiError-wrap{
+        padding: 10px 5px;
+        margin-bottom:1em;
+    }
+    .apiError-list{
+        margin-bottom: 0;
+    }
+}
