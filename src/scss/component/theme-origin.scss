@@ -157,13 +157,13 @@ $theme-color-origin:#0047ab;
 #cart_menu .s_grand_total{
 	background-color: #FFFFFF;
 
-    height: 18px;
-    line-height: 18px;
-    font-size: 16px;
-    font-weight: bold;
+    // height: 18px;
+    // line-height: 18px;
+    // font-size: 16px;
+    // font-weight: bold;
     text-transform: uppercase;
     transition: all 0.5s ease;
-    padding: 5px;
+    // padding: 5px;
 	/*color: rgb(0, 13, 112);*/
 }
 
@@ -210,7 +210,7 @@ $theme-color-origin:#0047ab;
 #cart_menu .s_grand_total {
 	// float: left;
 	margin: -6px -7px;
-	padding: 7px;
+	padding: 6px 7px;
 }
 
 #cart_menu .s_grand_total, #cart_menu .s_grand_total * {

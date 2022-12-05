@@ -387,10 +387,10 @@ export const FirstStep = ({ swiper, setData, data }) => {
             How are you feeling today?*
           </h4>
           <Row className="feeling-wrapper mt-4 gap-4">
-            <Col className="d-flex flex-column align-items-center gap-2 justify-content-center border-secondary border rounded p-4 position-relative cursor-pointer ">
+            <Col className="d-flex flex-column align-items-center gap-2 justify-content-center border-secondary border rounded p-4 position-relative ">
               <Input
                 type="radio"
-                className="position-absolute "
+                className="position-absolute cursor-pointer "
                 style={{ top: 12, left: 12 }}
                 onChange={(e) =>
                   setData({
@@ -409,10 +409,10 @@ export const FirstStep = ({ swiper, setData, data }) => {
                 Happy
               </span>
             </Col>
-            <Col className="d-flex flex-column align-items-center gap-2 justify-content-center border-secondary border rounded p-4 position-relative cursor-pointer ">
+            <Col className="d-flex flex-column align-items-center gap-2 justify-content-center border-secondary border rounded p-4 position-relative ">
               <Input
                 type="radio"
-                className="position-absolute "
+                className="position-absolute cursor-pointer "
                 name="feeling"
                 onChange={(e) =>
                   setData({
@@ -431,10 +431,10 @@ export const FirstStep = ({ swiper, setData, data }) => {
                 Ok{" "}
               </span>
             </Col>
-            <Col className="d-flex flex-column align-items-center gap-2 justify-content-center border-secondary border rounded p-4 position-relative cursor-pointer ">
+            <Col className="d-flex flex-column align-items-center gap-2 justify-content-center border-secondary border rounded p-4 position-relative ">
               <Input
                 type="radio"
-                className="position-absolute "
+                className="position-absolute cursor-pointer "
                 name="feeling"
                 style={{ top: 12, left: 12 }}
                 onChange={(e) =>
@@ -453,10 +453,10 @@ export const FirstStep = ({ swiper, setData, data }) => {
                 Sad
               </span>
             </Col>
-            <Col className="d-flex flex-column align-items-center gap-2 justify-content-center border-secondary border rounded p-4 position-relative cursor-pointer ">
+            <Col className="d-flex flex-column align-items-center gap-2 justify-content-center border-secondary border rounded p-4 position-relative ">
               <Input
                 type="radio"
-                className="position-absolute "
+                className="position-absolute cursor-pointer "
                 style={{ top: 12, left: 12 }}
                 onChange={(e) =>
                   setData({

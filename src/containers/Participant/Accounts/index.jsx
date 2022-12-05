@@ -40,7 +40,7 @@ const Account = ({ template }) => {
 
   const AccountOrigin = () => {
     return (
-      <>
+      <Container fluid>
         <Row className="mt-4">
           <div className="space-30"></div>
           <Col md={4}>
@@ -54,7 +54,7 @@ const Account = ({ template }) => {
             <AccountForm user={user} />
           </Col>
         </Row>
-      </>
+      </Container>
     );
   };
 

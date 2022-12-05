@@ -13,7 +13,7 @@ const MyGiftCodes = ({ template }) => {
   const isOriginTheme = template?.type == "origin";
   const MyGiftCodesOrigin = () => {
     return (
-      <>
+      <Container fluid>
         <Row className="mt-4">
           <div className="space-30"></div>
           <Col md={4}>
@@ -26,7 +26,7 @@ const MyGiftCodes = ({ template }) => {
             </h3>
           </Col>
         </Row>
-      </>
+      </Container>
     );
   };
 
