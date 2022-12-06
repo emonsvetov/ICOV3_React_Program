@@ -2,13 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
 import Points from './Points';
+import PointsOrigin from './PointsOrigin';
 import Leaderboards from './Leaderboards';
+import SlideOutMenu from '../../Participant/Home/components/slide-out-menu';
+import TabNavOrigin from '@/shared/components/tabNavs/components/TabnavOrigin';
 
-const Sidebar = () => (
+export const Sidebar = () => (
   <div className="sidebar">
     <Points />        
     <Leaderboards/>
   </div>
 );
 
-export default Sidebar;
+export const SidebarOrigin = ({props}) => {
+  const {title, icon} = props;
+  return <div className="sidebar">
+    <SlideOutMenu isFixed={true} />
+    <div className='space-30' />
+    <PointsOrigin />        
+    <div className='space-30' />
+    <TabNavOrigin title={title} icon={icon}/>  
+          {/* {title:"My Rewards", icon:"MyRewards", to:`/participant/my-points`}, */}
+  </div>
+};

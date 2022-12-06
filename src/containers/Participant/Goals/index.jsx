@@ -1,52 +1,127 @@
-import React, {useState, useEffect} from 'react';
-import { ParticipantTabNavs } from '../../../shared/components/tabNavs';
-import Sidebar from '../../Layout/sidebar';
-import { Table, Col, Row,Container} from 'reactstrap';
+import React, { useState, useEffect } from "react";
+import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
+import { Sidebar } from "../../Layout/sidebar";
+import { Table, Col, Row, Container } from "reactstrap";
+import { connect } from "react-redux";
+import { useTable, usePagination, useRowSelect } from "react-table";
+import { GOAL_COLUMNS } from "./components/columns";
+import { Link } from "react-router-dom";
+import { GOAL_DATA } from "./components/Mockdata";
+import { SidebarOrigin } from "../../Layout/sidebar";
 
-const Goals = () => {
-    
-  const onSubmit = values => {
-    
-  }
-  const GoalTable = () =>{
-    return <Table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Date Begin</th>
-        <th>Date End</th>
-        <th>Target</th>
-        <th>Progress</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">My Goal</th>
-        <td>01/04/2022</td>
-        <td>01/10/2022</td>
-        <td>@twitter</td>
-        <td>on progress</td>
-      </tr>
-    </tbody>
-  </Table>
-  }
+const Goals = ({ template }) => {
+  const isOriginTheme = template?.type == "origin";
 
-  return (
-    <>
-      <Container>
+  const [goals, setGoals] = useState(null);
+
+  const onSubmit = (values) => {};
+
+  const GoalTable = () => {
+    const RenderActions = ({ row }) => {
+      return (
+        <span>
+          <Link to={`/participant/my-goals/${row.original.id}`}>
+            {" "}
+            View Details
+          </Link>
+        </span>
+      );
+    };
+
+    let final_columns = [
+      ...GOAL_COLUMNS,
+      ...[
+        {
+          Header: "",
+          accessor: "action",
+          Footer: "Action",
+          Cell: ({ row }) => <RenderActions row={row} />,
+        },
+      ],
+    ];
+
+    const columns = React.useMemo(() => final_columns, []);
+    const data = React.useMemo(() => GOAL_DATA, []);
+
+    const { getTableProps, headerGroups, rows, prepareRow } = useTable({
+      columns,
+      data,
+    });
+
+    return (
+      <Table striped borderless size="md" {...getTableProps()}>
+        <thead>
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody>
+          {rows.map((row, i) => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map((cell) => {
+                  return (
+                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
+    );
+  };
+
+  const GoalsNew = () => {
+    return (
+      <>
+        <Container>
           <ParticipantTabNavs />
-        <Row>
-          <Col md={9}>
-            <div className="dashboard">
-              <GoalTable />
-            </div>
+          <Row>
+            <Col md={9}>
+              <div className="dashboard">
+                <GoalTable />
+              </div>
+            </Col>
+            <Col md={3}>
+              <Sidebar />
+            </Col>
+          </Row>
+        </Container>
+      </>
+    );
+  };
+
+  const GoalsOrigin = () => {
+    return (
+      <>
+        <Row className="mt-4">
+          <div className="space-30"></div>
+          <Col md={4}>
+            <SidebarOrigin props={{ title: "My Rewards", icon: "MyRewards" }} />
           </Col>
-          <Col md={3}>
-              <Sidebar/>
+          <Col md={7} className="">
+            <h3 className="pt-1" style={{ fontSize: "16px" }}>
+              {" "}
+              My Goals
+            </h3>
+            <GoalTable />
           </Col>
         </Row>
-      </Container>
-    </>
-)}
+      </>
+    );
+  };
 
-export default Goals;
+  return (isOriginTheme && <GoalsOrigin />) || (!isOriginTheme && <GoalsNew />);
+};
+const mapStateToProps = (state) => {
+  return {
+    template: state.template,
+  };
+};
+export default connect(mapStateToProps)(Goals);

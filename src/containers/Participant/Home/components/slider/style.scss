@@ -69,18 +69,40 @@
     width: 60%;
     height: 100%;
     display: block;
+
+    &.origin{
+        width: 100%;
+    }
 }
 .merchant-wrapper{
     padding: 20px;
     margin: 10px;
     box-shadow: 0 3px 3px 2px rgba(0, 0, 0, 0.03);
     border-radius: 10%;
-    
     img{
         width: 60px;
         height: 60px;
         margin: auto;
-        display: block;
-        
+        display: block;    
+    }
+    &.origin{
+        padding: 10px;
+        img{
+            height: 40px;
+            width: 60px;
+        }
     }
 } 
+
+
+.react-multiple-carousel__arrow {
+    // background: url("/img/arrows.png") -256px 0px no-repeat !important;
+}
+
+.react-multiple-carousel__arrow--left{
+    left: calc(4% + 1px)
+}
+
+.react-multiple-carousel__arrow--right{
+    right: calc(4% + 1px)
+}

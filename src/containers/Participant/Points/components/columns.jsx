@@ -14,7 +14,8 @@ export const DETAIL_COLUMNS = [
     {
         Header: "",
         accessor: "icon",
-
+        // align: "center",
+        Cell: ({ row, value }) => <img src={value} alt={value} width="30px" height="30px" />
     },
     {
         Header: "Event",
