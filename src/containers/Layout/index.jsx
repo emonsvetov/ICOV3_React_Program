@@ -7,7 +7,7 @@ import { Outlet } from 'react-router-dom';
 export const ParticipantLayout = () => (
   <main>
       <ParticipantTopbar />
-      <Outlet />
+        <Outlet />
       <Footer />    
   </main>
 );

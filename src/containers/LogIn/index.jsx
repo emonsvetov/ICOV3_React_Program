@@ -4,18 +4,29 @@ import { UncontrolledCarousel } from 'reactstrap';
 import HomeTopbar from '../Layout/topbar/Home';
 import LoginPopup from './components/LoginPopup';
 // import Signup from './components/SignupPopup';
-
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import "react-multi-carousel/lib/styles.css";
 import Carousel from "react-multi-carousel";
+import { SliderOrigin } from '../Participant/Home/components/slider';
+import LogInForm from './components/LogInForm';
 
-const getSlideImg = () => {
-  let imgs = [];
+const getSlideIcons = () => {
+  let icons = [];
   for (let i = 1 ;  i< 9; i ++){
-    imgs.push(`/img/merchants/${i}.png`);
+    icons.push(`/img/merchants/${i}.png`);
+  }
+  return icons;
+}
+const getOriginSlideImgs = () => {
+  let imgs = [];
+  for (let i = 1 ;  i<= 4 ; i ++){
+    imgs.push({
+      src: `${process.env.PUBLIC_URL}/img/origin_slider/slider-0${i}.jpg`,
+      altText: 'Slide 1',
+    });
   }
   return imgs;
 }
-
 
 const responsive = {
   desktop: {
@@ -39,6 +50,10 @@ const responsive = {
 const LogIn = ({template}) => {
   const [showLoginPopup, setShowPopup ] = useState(false);
   const [showSignup, setShowSignup ] = useState(false);
+
+  const [modal, setModal] = useState(false);
+  const toggle = () => setModal(!modal);
+
   const popupToggle = () => {
     setShowPopup(prevState => !prevState);
   };
@@ -47,35 +62,10 @@ const LogIn = ({template}) => {
   };
 
   if (!template) return 'Loading...'
+  console.log(template, '------------------')
 
-  const items = [
-    {
-      src: template.slider_01 ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.slider_01}` :
-        `${process.env.PUBLIC_URL}/img/slider/slider-01.jpg`,
-      altText: 'Slide 1',
-    },
-    {
-      src: template.slider_02 ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.slider_02}` :
-        `${process.env.PUBLIC_URL}/img/slider/slider-02.jpg`,
-      altText: 'Slide 2',
-
-    },
-    {
-      src: template.slider_03 ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.slider_03}` :
-        `${process.env.PUBLIC_URL}/img/slider/slider-03.jpg`,
-      altText: 'Slide 3',
-
-    }
-  ];
-
-  let slide_imgs = getSlideImg();
-  return <div>
-    <HomeTopbar onClickLogin = {popupToggle} onClickSignup = {signupToggle}/>
-    <UncontrolledCarousel items={items} indicators={false} controls={false}/>
-    <div className='text-center mt-4 mb-5'>
-      <h5>{template?.welcome_message ? template.welcome_message.replace(/<\/?[^>]+(>|$)/g, "") : `Welcome to INCENTCO's Global Solutions rewards site! When you participate in our program, you'll earn rewards for various activities.` }</h5>
-    </div>
-    <Carousel
+  const CarouselNew = () =>{
+    return <Carousel
       swipeable={false}
       draggable={false}
       showDots={false}
@@ -117,16 +107,54 @@ const LogIn = ({template}) => {
       dotListClass="custom-dot-list-style"
       itemClass="carousel-item-padding-40-px"
     >
-      {slide_imgs.map((item, key )=> {
+      {slide_icons.map((item, key )=> {
                     return <div key={key} className={`home-merchant-wrapper item-${key % 2}`}>
-                            <img  src={item}/>
+                            <img alt={`slide-${key}`}  src={item}/>
                         </div>
                     }
                 )}
     </Carousel>;
+  }
+  const items = [
+    {
+      src: template.slider_01 ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.slider_01}` :
+        `${process.env.PUBLIC_URL}/img/slider/slider-01.jpg`,
+      altText: 'Slide 1',
+    },
+    {
+      src: template.slider_02 ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.slider_02}` :
+        `${process.env.PUBLIC_URL}/img/slider/slider-02.jpg`,
+      altText: 'Slide 2',
 
+    },
+    {
+      src: template.slider_03 ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.slider_03}` :
+        `${process.env.PUBLIC_URL}/img/slider/slider-03.jpg`,
+      altText: 'Slide 3',
+
+    }
+  ];
+
+  const items_origin = getOriginSlideImgs();
+
+  let slide_icons = getSlideIcons();
+  return <div>
+    <HomeTopbar onClickLogin = {!template? popupToggle : toggle} onClickSignup = {signupToggle}/>
+    <UncontrolledCarousel items={template ? items_origin : items} indicators={false} controls={false}/>
+    <div className='text-center mt-5 mb-5'>
+      <strong >{template?.welcome_message ? template.welcome_message.replace(/<\/?[^>]+(>|$)/g, "") : `Welcome to INCENTCO's Global Solutions rewards site! When you participate in our program, you'll earn rewards for various activities.` }</strong>
+    </div>
+    
+    { template && <SliderOrigin data={slide_icons} /> || !template && <CarouselNew /> }
     {showLoginPopup && <LoginPopup onCancelHandler={popupToggle}/>}
     {/* {showSignup && <Signup onCancelHandler={signupToggle} />} */}
+
+    <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader toggle={toggle}>Sign-in to Your Rewards Program</ModalHeader>
+        <ModalBody>
+          <LogInForm />
+        </ModalBody>
+      </Modal>
   </div>
 };
 
