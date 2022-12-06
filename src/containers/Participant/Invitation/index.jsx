@@ -26,7 +26,7 @@ const Invitation = ({template}) => {
     values = {...values, ...{token:confirmCode, invited: true}}
     // console.log(values)
     // return;
-    axios.post('/password/reset', values)
+    axios.post('/invitation/accept', values)
     .then( (res) => {
       // console.log(res)
       // console.log(res.status == 200)
