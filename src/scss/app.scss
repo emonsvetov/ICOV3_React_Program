@@ -1,4 +1,4 @@
-@import 'settings/variable';  //themes' colors
+@import './settings/variable.scss';  //themes' colors
 
 @import './component/style.scss';
 @import './component/topBar.scss';
@@ -7,3 +7,4 @@
 @import './component/check-box.scss';
 @import './component/dropzone';
 @import './component/dropdown';
+@import './component/theme-origin';

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { connect } from 'react-redux';
-import { Navbar, NavbarBrand, NavbarToggler,Collapse, Nav, 
+import { Navbar, NavbarBrand, NavbarToggler,Collapse, Nav, Button
          } from 'reactstrap';
 import {Field} from "react-final-form";
 import TemplateButton from "@/shared/components/TemplateButton"
@@ -40,7 +40,9 @@ const HomeTopbar = ({onClickLogin, onClickSignup, template}) => {
             className="horizontal"
             navbar
           >
-            {LINKS.map((item, index) => {
+            {template? <Button className='btn-blue px-5' onClick={onClickLogin}> SIGN IN</Button>
+             : 
+            LINKS.map((item, index) => {
               return <div key={index} className='flex-column mx-3'>
                         <span>{item.desc}</span>
                         <TemplateButton
