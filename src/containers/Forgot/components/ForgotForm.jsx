@@ -1,4 +1,5 @@
 import React from 'react';
+import { Spinner } from 'reactstrap';
 import { validEmail } from '@/shared/helper';
 import { Form, Field } from 'react-final-form';
 import TemplateButton from "@/shared/components/TemplateButton"
@@ -52,7 +53,10 @@ const ForgotForm = ( {onSubmit, loading, errors} ) => {
         </Field>
 
         <div className="d-flex justify-content-between">
-          <TemplateButton type="submit" disabled={loading} text='Continue' />
+          <div>
+            <TemplateButton type="submit" disabled={loading} text='Continue' className="mr-2" />
+            {loading && <Spinner animation="border" size="sm" className='text-center' variant="warning" />}
+          </div>
           <TemplateButton link="/login" text='Back to Sign in' color='outline-secondary' className='border-1' />
         </div>
       </div>

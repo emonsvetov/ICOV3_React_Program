@@ -22,7 +22,7 @@ const Invitation = ({template}) => {
 
   const onSubmitResetPassword = values => {
 
-    // setLoading(true)
+    setLoading(true)
     values = {...values, ...{token:confirmCode, invited: true}}
     // console.log(values)
     // return;
