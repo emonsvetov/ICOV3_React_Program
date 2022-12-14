@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, Suspense } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import axios from "axios";
@@ -134,9 +134,11 @@ const App = () => {
 
 const AppProvider = () => {
   return (
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <Suspense fallback={"loading"}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </Suspense>
   );
 };
 

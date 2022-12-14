@@ -9,8 +9,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import { GOAL_DATA } from "./Mockdata";
 import { GOAL_COLUMNS, GOAL_SUMMARY_COLUMNS } from "./columns";
 import TemplateButton from "@/shared/components/TemplateButton";
+import { useTranslation } from "react-i18next";
 
 const GoalView = ({ template }) => {
+  const { t, i18n } = useTranslation();
   const isOriginTheme = template?.type == "origin";
   const { goalId } = useParams();
   const [goal, setGoal] = useState(null);
@@ -53,7 +55,7 @@ const GoalView = ({ template }) => {
         <Row className="mt-4">
           <div className="space-30"></div>
           <Col md={4}>
-            <SidebarOrigin props={{ title: "My Rewards", icon: "MyRewards" }} />
+            <SidebarOrigin />
           </Col>
           <Col md={8} className="">
             <h3 className="pt-1" style={{ fontSize: "16px" }}>

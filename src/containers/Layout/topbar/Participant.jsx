@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Link, NavLink } from "react-router-dom";
 import TopbarProfile from "./TopbarProfile";
@@ -14,28 +14,50 @@ import {
 import { logout } from "../../App/auth";
 import Cart from "../../Participant/components/Cart";
 import CartOrigin from "../../Participant/components/CartOrigin";
+import { useTranslation } from "react-i18next";
+import Select from "react-select";
 
 // const Brand = `${process.env.PUBLIC_URL}/img/logo/logo_light.svg`;
 const LINKS = [
-  { to: "/participant/home", text: "Home" },
-  { to: "/participant/my-gift-codes", text: "My Gift Codes" },
-  { to: "/participant/my-points", text: "My Points" },
-  { to: "/participant/my-goals", text: "My Goals" },
-  { to: "/participant/faqs", text: "FAQs" },
+  { to: "/participant/home", text: "home" },
+  { to: "/participant/my-gift-codes", text: "my_gift_codes" },
+  { to: "/participant/my-points", text: "my_points" },
+  { to: "/participant/my-goals", text: "my_goals" },
+  { to: "/participant/faqs", text: "faqs" },
 ];
 
 const ORIGIN_LINKS = [
-  { to: "/participant/home", text: "Home" },
-  { to: "/participant/my-points", text: "My Rewards" },
-  { to: "/participant/my-gift-codes", text: "My Gift Codes" },
-  { to: "/participant/my-account", text: "My Account" },
-  { to: "/participant/faqs", text: "FAQs" },
+  { to: "/participant/home", text: "home" },
+  { to: "/participant/my-points", text: "my_rewards" },
+  { to: "/participant/my-gift-codes", text: "my_gift_codes" },
+  { to: "/participant/my-account", text: "my_account" },
+  { to: "/participant/faqs", text: "faqs" },
+];
+
+const languageOptions = [
+  { value: "en-US", label: "English" },
+  { value: "es", label: "Español" },
 ];
 
 const ParticipantTopbar = ({ template }) => {
   const isOriginTheme = template?.type == "origin";
+  const { t, i18n } = useTranslation();
+  const [language, setLanguage] = useState();
 
-  if (!template) return "Loading...";
+  useEffect(() => {
+    let lang = localStorage.getItem("i18nextLng") || "en-US";
+    let option = languageOptions.filter((item) => item.value == lang)[0];
+    console.log("option: participant topbar", lang);
+    setLanguage(option);
+  }, []);
+
+  const onSelectLanguage = (selectedOption) => {
+    // alert(JSON.stringify(selectedOption))
+    i18n.changeLanguage(selectedOption.value);
+    setLanguage(selectedOption);
+  };
+
+  if (!template) return t("loading");
   const NewNavbar = () => {
     const Brand = `${process.env.REACT_APP_API_STORAGE_URL}/${template.small_logo}`;
     const [isOpen, setOpen] = useState(false);
@@ -92,25 +114,33 @@ const ParticipantTopbar = ({ template }) => {
           <NavbarBrand href="/">
             <img alt={"brand"} src={Brand} />
           </NavbarBrand>
-          <nav className="teritery-menu">
-            <ul className="horizontal">
-              {ORIGIN_LINKS.map((item, index) => {
-                return (
-                  <li key={index}>
-                    <Link to={item.to} className="link">
-                      {item.text}
-                    </Link>
-                  </li>
-                );
-              })}
-              <li>
-                <a className="cursor-pointer" onClick={() => logout()}>
-                  Sign Out
-                </a>
-              </li>
-            </ul>
-          </nav>
+          <div className="d-flex align-items-center " style={{ gap: 10 }}>
+            <nav className="teritery-menu">
+              <ul className="horizontal">
+                {ORIGIN_LINKS.map((item, index) => {
+                  return (
+                    <li key={index}>
+                      <Link to={item.to} className="link">
+                        {t(item.text)}
+                      </Link>
+                    </li>
+                  );
+                })}
+                <li>
+                  <a className="cursor-pointer" onClick={() => logout()}>
+                    {t("sign_out")}
+                  </a>
+                </li>
+              </ul>
+            </nav>
+            <Select
+              options={languageOptions}
+              value={language}
+              onChange={onSelectLanguage}
+            />
+          </div>
         </Navbar>
+
         <CartOrigin />
       </>
     );
@@ -119,6 +149,7 @@ const ParticipantTopbar = ({ template }) => {
     (!isOriginTheme && <NewNavbar />) || (isOriginTheme && <OriginalNavbar />)
   );
 };
+
 const mapStateToProps = (state) => {
   return {
     template: state.template,

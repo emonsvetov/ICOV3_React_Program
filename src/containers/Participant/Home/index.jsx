@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import { USER_STATUS_PENDING_DEACTIVATION } from "@/services/user/getUser";
 import SlideOutMenu from "./components/slide-out-menu";
 import PointsOrigin from "../../Layout/sidebar/PointsOrigin";
+import { useTranslation } from "react-i18next";
 
 export const getSlideImg = () => {
   let imgs = [];
@@ -22,6 +23,7 @@ export const getSlideImg = () => {
 };
 
 const Home = ({ auth, organization, program, template }) => {
+  const { t, i18n } = useTranslation();
   let props = {
     organization,
     program,
@@ -44,7 +46,7 @@ const Home = ({ auth, organization, program, template }) => {
     setShowSocialWall(result);
   }, [auth, program]);
 
-  if (!auth || !program || !template) return "Loading...";
+  if (!auth || !program || !template) return t("loading");
 
   let slide_imgs = getSlideImg();
 
@@ -61,7 +63,7 @@ const Home = ({ auth, organization, program, template }) => {
             <Col md={3}>
               <h2 style={{ fontSize: "18px" }}>
                 {" "}
-                Welcome back {auth && auth.first_name}
+                {t("welcome_back")} {auth && auth.first_name}
               </h2>
               <PointsOrigin />
             </Col>
@@ -74,7 +76,9 @@ const Home = ({ auth, organization, program, template }) => {
           {!showSocialWall && <SocialWallPanel />}
         </Container>
         <div className="mt-5">
-          <h6 className="m-3">Select a merchant to redeem your points</h6>
+          <h6 className="m-3">
+            {t("select_a_merchant_to_redeem_your_points")}
+          </h6>
           <SliderOrigin data={slide_imgs} />
         </div>
       </>
@@ -114,7 +118,7 @@ const Home = ({ auth, organization, program, template }) => {
                   </>
                 )}
                 <div className="mt-5">
-                  <h3>Select a merchant to redeem your points</h3>
+                  <h3>{t("select_a_merchant_to_redeem_your_points")}</h3>
                   <Slider data={slide_imgs} />
                 </div>
               </div>

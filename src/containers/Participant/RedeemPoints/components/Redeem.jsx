@@ -10,6 +10,7 @@ import { getMerchantRedeemable } from "@/services/program/getMerchantRedeemable"
 import { getAuthCart, updateAuthCart } from "@/containers/App/auth";
 import Cart from "@/containers/Participant/components/Cart";
 import TemplateButton from "@/shared/components/TemplateButton";
+import { useTranslation } from "react-i18next";
 
 const makeOption = (i, giftcode, factor_valuation) => {
   return {
@@ -21,6 +22,7 @@ const makeOption = (i, giftcode, factor_valuation) => {
 };
 
 const Redeem = ({ organization, program, cart, pointBalance }) => {
+  const { t, i18n } = useTranslation();
   let { merchantId } = useParams();
   const [merchant, setMerchant] = useState(null);
   const [giftcodes, setGiftcodes] = useState([]);
@@ -169,7 +171,7 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
               <a href={`${merchant.website}`}></a>Visit Merchant Website
             </div>
             <div className="my-3 w-50">
-              {loadingGiftcodes && "Loading..."}
+              {loadingGiftcodes && t("loading")}
               <Select
                 options={giftcodeOptions}
                 clearable={false}

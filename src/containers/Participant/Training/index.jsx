@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { PDF } from "./components/PDF";
 import { Col, Row, Container } from "reactstrap";
 import { SidebarOrigin } from "../../Layout/sidebar";
+import { useTranslation } from "react-i18next";
 
 const Training = ({ template }) => {
   const img = `${process.env.PUBLIC_URL}/img/training_thumbnail.jpg`;
@@ -10,15 +11,17 @@ const Training = ({ template }) => {
     "https://staging-mypathpps.incentco.com/assets/theme/mypathpps/img/training/Training_flyer.pdf";
   const title = "Training";
   const props = { img, link, title };
+  const { t, i18n } = useTranslation();
+
   return (
     <Row className="mt-4">
       <Col md={4}>
-        <SidebarOrigin props={{ title: "My Rewards", icon: "MyRewards" }} />
+        <SidebarOrigin />
       </Col>
 
       <Col md={3}>
         <div className="pdf-link">
-          <h2 className="text-uppercase text-center mb-5">Training</h2>
+          <h2 className="text-uppercase text-center mb-5">{t("training")}</h2>
           <PDF props={props}></PDF>
         </div>
       </Col>

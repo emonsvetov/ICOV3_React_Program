@@ -6,10 +6,12 @@ import GiftCard from "./components/GiftCard";
 import giftData from "./components/Mockdata.json";
 import { connect } from "react-redux";
 import { SidebarOrigin } from "../../Layout/sidebar";
+import { useTranslation } from "react-i18next";
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/img/pages/my-gift-codes.jpg`;
 
 const MyGiftCodes = ({ template }) => {
+  const { t, i18n } = useTranslation();
   const isOriginTheme = template?.type == "origin";
   const MyGiftCodesOrigin = () => {
     return (
@@ -17,12 +19,12 @@ const MyGiftCodes = ({ template }) => {
         <Row className="mt-4">
           <div className="space-30"></div>
           <Col md={4}>
-            <SidebarOrigin props={{ title: "My Rewards", icon: "MyRewards" }} />
+            <SidebarOrigin />
           </Col>
           <Col md={7} className="">
             <h3 className="pt-1" style={{ fontSize: "16px" }}>
               {" "}
-              My Gift Codes
+              {t("my_gift_codes")}
             </h3>
           </Col>
         </Row>

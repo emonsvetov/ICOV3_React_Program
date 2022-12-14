@@ -131,7 +131,7 @@ const Survey = ({ template }) => {
       <>
         <Row className="mt-4">
           <Col md={4}>
-            <SidebarOrigin props={{ title: "My Rewards", icon: "MyRewards" }} />
+            <SidebarOrigin />
           </Col>
           <Col md={1}></Col>
           <Col md={6} className="">

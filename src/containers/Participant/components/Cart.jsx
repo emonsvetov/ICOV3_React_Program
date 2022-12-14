@@ -14,10 +14,11 @@ import CloseIcon from "mdi-react/CloseIcon";
 import CartItem from "./CartItem";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { isEmpty } from "@/shared/helper";
+import { useTranslation } from "react-i18next";
 
 const Cart = ({ cart, pointBalance }) => {
   const [isOpen, setIsOpen] = useState();
-
+  const { t, i18n } = useTranslation();
   const toggle = () => {
     setIsOpen(!isOpen);
   };

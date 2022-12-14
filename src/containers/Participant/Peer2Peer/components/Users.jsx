@@ -9,12 +9,13 @@ import MailIcon from "mdi-react/PostItNoteAddIcon";
 import ModalWrapper from "./ModalWrapper";
 import apiTableService from "@/services/apiTableService";
 import { connect } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const QUERY_PAGE_SIZE = 20;
 
 const ProgramUsers = ({ program, organization, auth, template }) => {
   const isOriginTheme = template?.type == "origin";
-  // console.log("ProgramUsers")
+  const { t, i18n } = useTranslation();
   const [modalName, setModalName] = useState(null);
   const [isOpen, setOpen] = useState(false);
   const [users, setUsers] = useState(null);
@@ -185,7 +186,7 @@ const ProgramUsers = ({ program, organization, auth, template }) => {
   // onClick={() =>onClickAction('Reward', row.original)}
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <p>{t("loading")}</p>;
   }
 
   return (

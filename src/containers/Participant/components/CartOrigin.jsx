@@ -4,8 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { Row, Col, Button } from "reactstrap";
 import CartItemOrigin from "./CartItemOrigin";
 import { isEmpty } from "@/shared/helper";
+import { useTranslation } from "react-i18next";
 
 const CartOrigin = ({ cart, pointBalance }) => {
+  const { t, i18n } = useTranslation();
   let navigate = useNavigate();
 
   if (!cart || !pointBalance) return "Loading cart...";
@@ -17,9 +19,9 @@ const CartOrigin = ({ cart, pointBalance }) => {
     <div id="cart_menu" className="s_nav ">
       <Link to={"/participant/cart"}>
         <span className="s_icon"></span>
-        <small className="s_text">Cart</small>
+        <small className="s_text">{t("cart")}</small>
         <span className="s_grand_total s_main_color">
-          {cart?.total_points ? cart.total_points : 0} Points
+          {cart?.total_points ? cart.total_points : 0} {t("points")}
         </span>
       </Link>
       <div className="s_submenu s_cart_holder">

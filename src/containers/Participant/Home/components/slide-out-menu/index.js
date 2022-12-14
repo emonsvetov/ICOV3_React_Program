@@ -2,21 +2,24 @@ import { useState } from "react";
 import "./style.scss";
 import { Link, NavLink } from "react-router-dom";
 import { Nav, NavItem } from "reactstrap";
+import { useTranslation } from "react-i18next";
+
 const LINKS = [
-  { to: "/participant/my-points", text: "My Rewards" },
-  { to: "/participant/peer-to-peer", text: "Give an Award" },
-  { to: "/participant/referral", text: "Submit A Referral" },
-  { to: "/participant/suggestion_box", text: "Suggestion Box" },
-  { to: "/participant/survey", text: "Survey" },
-  { to: "/participant/calendar", text: "Calendar" },
-  { to: "/participant/program_rules", text: "Program Rules" },
-  { to: "/participant/newsletter", text: "Newsletter" },
-  { to: "/participant/training", text: "Training" },
-  { to: "/participant/feeling", text: "How Are you Feeling?" },
+  { to: "/participant/my-points", text: "my_rewards" },
+  { to: "/participant/peer-to-peer", text: "give_an_award" },
+  { to: "/participant/referral", text: "submit_a_referral" },
+  { to: "/participant/suggestion_box", text: "suggestion_box" },
+  { to: "/participant/survey", text: "survey" },
+  { to: "/participant/calendar", text: "calendar" },
+  { to: "/participant/program_rules", text: "program_rules" },
+  { to: "/participant/newsletter", text: "newsletter" },
+  { to: "/participant/training", text: "training" },
+  { to: "/participant/feeling", text: "how_are_you_feeling" },
 ];
 
 const SlideOutMenu = ({ isFixed }) => {
   const [isMenuOpen, setMenuOpen] = useState(isFixed);
+  const { t, i18n } = useTranslation();
   const toggleMenu = () => {
     if (!isFixed) setMenuOpen((prev) => !prev);
   };
@@ -53,7 +56,7 @@ const SlideOutMenu = ({ isFixed }) => {
         {LINKS.map((item, index) => {
           return (
             <NavItem key={index}>
-              <NavLink to={item.to}>{item.text}</NavLink>
+              <NavLink to={item.to}>{t(item.text)}</NavLink>
             </NavItem>
           );
         })}

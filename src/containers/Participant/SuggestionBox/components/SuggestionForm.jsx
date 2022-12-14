@@ -13,10 +13,12 @@ import {
 } from "@/shared/helper";
 import { getAuthUser, AUTH_USER_KEY } from "@/containers/App/auth";
 import { ErrorMessage } from "@/shared/components/ErrorMsg";
+import { useTranslation } from "react-i18next";
 
 const MEDIA_FIELDS = ["avatar"];
 
 const SuggestionForm = ({ organization, program, auth }) => {
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   let [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -54,7 +56,7 @@ const SuggestionForm = ({ organization, program, auth }) => {
       });
   };
 
-  if (!user) return "Loading...";
+  if (!user) return t("loading");
 
   user = patchMediaURL(user, MEDIA_FIELDS);
 

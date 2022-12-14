@@ -4,12 +4,12 @@ import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import { Sidebar, SidebarOrigin } from "../../Layout/sidebar";
 import OurMerchants from "./components/BrowseMerchant";
 import { connect } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/img/pages/my-points.jpg`;
 
 const BrowseMerchants = ({ template }) => {
-  console.log("template: browsemerchants:", template);
-
+  const { t, i18n } = useTranslation();
   const isOriginTheme = template?.type == "origin";
 
   const OriginBrowseMerchants = () => {
@@ -18,13 +18,10 @@ const BrowseMerchants = ({ template }) => {
         <Row className="mt-4">
           <div className="space-30"></div>
           <Col md={4}>
-            <SidebarOrigin props={{ title: "My Rewards", icon: "MyRewards" }} />
+            <SidebarOrigin />
           </Col>
           <Col md={8} className="">
-            <p className="fw-bold pb-3">
-              Redeem your points from this list to receive a gift code to use
-              whenever you'd like.
-            </p>
+            <p className="fw-bold pb-3">{t("browse_merchant_desc")}</p>
             <OurMerchants />
           </Col>
         </Row>

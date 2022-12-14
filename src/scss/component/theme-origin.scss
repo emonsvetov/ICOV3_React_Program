@@ -452,6 +452,9 @@ $theme-color-origin:#0047ab;
     height: 78vh;
     margin-top: 10px;
 }
+.icon-Moon:before {
+    content: "\0079";
+}
 .second__label {
     position: absolute !important;
     top: 40%;

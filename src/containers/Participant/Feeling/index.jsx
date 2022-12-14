@@ -10,8 +10,10 @@ import {
   ThirdStep,
 } from "./components/steps";
 import "swiper/css";
+import { useTranslation } from "react-i18next";
 
 const Feeling = () => {
+  const { t, i18n } = useTranslation();
   const [swiper, setSwiper] = useState();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [data, setData] = useState({
@@ -35,7 +37,7 @@ const Feeling = () => {
     <>
       <Row className="mt-4">
         <Col md={3}>
-          <SidebarOrigin props={{ title: "My Rewards", icon: "MyRewards" }} />
+          <SidebarOrigin />
         </Col>
 
         <Col md={9}>

@@ -6,8 +6,10 @@ import { Input, Col, Row, Container } from "reactstrap";
 import { getAuthUser } from "@/containers/App/auth";
 import { connect } from "react-redux";
 import { SidebarOrigin } from "../../Layout/sidebar";
+import { useTranslation } from "react-i18next";
 
 const Account = ({ template }) => {
+  const { t, i18n } = useTranslation();
   const [value, setValue] = useState(false);
   const [user, setUser] = useState(null);
   const onSubmit = (values) => {};
@@ -44,12 +46,12 @@ const Account = ({ template }) => {
         <Row className="mt-4">
           <div className="space-30"></div>
           <Col md={4}>
-            <SidebarOrigin props={{ title: "My Rewards", icon: "MyRewards" }} />
+            <SidebarOrigin />
           </Col>
           <Col md={7} className="">
             <h3 className="pt-1" style={{ fontSize: "16px" }}>
               {" "}
-              My Account
+              {t("my_account")}
             </h3>
             <AccountForm user={user} />
           </Col>
