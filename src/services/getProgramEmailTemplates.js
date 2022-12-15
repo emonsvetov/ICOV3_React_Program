@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-export const getEvents = async(organization,program) => {
+export const getProgramEmailTemplates = async(organization,program,type) => {
     try {
         const response = await axios.get(
-        `/organization/${organization}/program/${program}/event`
+            `/organization/${organization}/program/${program}/programemailtemplate?type=${type}`
         );
         // console.log(response)
         const results = response.data;

@@ -29,6 +29,7 @@ const GoalPlanForm = ({
   expirationRules,
   events,
   goalplan,
+  program_email_templates,
   //event,
   //loading,
   btnLabel = 'Save',
@@ -58,6 +59,8 @@ const GoalPlanForm = ({
       goalplan = patch4Select(goalplan, 'achieved_event_id', events)
     if (goalplan.automatic_frequency)
       goalplan = patch4Select(goalplan, 'automatic_frequency', automaticFrequencyOptions)
+    if (goalplan.automatic_frequency)
+      goalplan = patch4Select(goalplan, 'progress_email_template_id', program_email_templates)
   }
   const validate = values => {
     let required_field_msg = "This field is required";
@@ -488,7 +491,7 @@ const GoalPlanForm = ({
                   placeholder={'Goal Plan Achieved Event*'}
                   component={renderSelectField} />
               </Col>
-
+              
             </Row>
             <Row className='align-items-baseline'>
               <Col md="10">
@@ -496,7 +499,7 @@ const GoalPlanForm = ({
                 <Field
                   name="progress_email_template_id"
                   className="react-select"
-                  //options={}
+                  options={program_email_templates}
                   placeholder={'Goal Plan Progress Email Template*'}
                   component={renderSelectField} />
               </Col>

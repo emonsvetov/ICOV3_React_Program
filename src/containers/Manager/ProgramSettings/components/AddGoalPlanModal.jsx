@@ -7,7 +7,8 @@ import { Modal } from 'reactstrap';
 import CloseIcon from 'mdi-react/CloseIcon';
 //import Switch from '@/shared/components/form/Switch';
 import { getGoalPlanTypes } from '@/services/getGoalPlanTypes';
-import { getEvents } from '@/services/getEvents';
+import { getEvents } from '@/services/getEvents'; 
+import { getProgramEmailTemplates } from '@/services/getProgramEmailTemplates'; 
 import { getExpirationRules } from '@/services/getExpirationRules';
 import { labelizeNamedData } from '@/shared/helper';
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
@@ -27,6 +28,7 @@ const AddGoalPlanModal = ({ program, organization, isOpen, setOpen, toggle, data
   const current = new Date();
   const date = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
   const [events, setEvents] = useState([]);
+  const [program_email_templates, setProgramEmailTemplates] = useState([]);
   const [goalplan, setGoalPlan] = useState({ 'is_recurring': 1, 'default_target': 0, 'goal_measurement_label': '$', 'goal_plan_type_id': 1, 'automatic_progress': 0, 'date_begin': date });
 
   //const [fields, setFields] = useState({});
@@ -98,13 +100,8 @@ const AddGoalPlanModal = ({ program, organization, isOpen, setOpen, toggle, data
     goalPlanData.assign_goal_all_participants_default = assign_goal_all_participants_default;
 
     //penidng fiels (for testing only
-    goalPlanData.state_type_id = 1;
-    // goalPlanData.program_id = 12; //pending to make it dynamic
+    //goalPlanData.state_type_id = 1;
     goalPlanData.progress_notification_email_id = 1; //pending to make it dynamic
-    goalPlanData.created_by = 1;
-    console.log("program = ");
-    console.log(program.id);
-    //console.log(goalPlanData)
     setGoalPlan(goalPlanData);
     //return;
     setLoading(true)
@@ -114,7 +111,7 @@ const AddGoalPlanModal = ({ program, organization, isOpen, setOpen, toggle, data
         //console.log(res)
         if (res.status == 200) {
           //console.log(res);
-           window.location.reload()
+           //window.location.reload()
           if (res.data.assign_msg)
             dispatch(sendFlashMessage('Goal Plan added successfully! ' + res.data.assign_msg, 'alert-success', 'top'))
           else
@@ -147,6 +144,12 @@ const AddGoalPlanModal = ({ program, organization, isOpen, setOpen, toggle, data
         setEvents(labelizeNamedData(evts))
       })
 
+      getProgramEmailTemplates(organization.id, program.id, "Goal Progress")
+      .then(evts => {
+        //console.log("program="+program.id);
+        setProgramEmailTemplates(labelizeNamedData(evts))
+      })
+
   }, [])
   let props = {
     btnLabel: 'Add New Goal Plan',
@@ -154,6 +157,7 @@ const AddGoalPlanModal = ({ program, organization, isOpen, setOpen, toggle, data
     expirationRules,
     events,
     goalplan,
+    program_email_templates,
     // handleChange,
     loading,
     onSelectGoalPlanType,
