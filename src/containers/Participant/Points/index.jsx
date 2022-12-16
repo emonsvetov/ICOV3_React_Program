@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Table, Col, Container, Row } from "reactstrap";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
@@ -10,6 +10,7 @@ import { POINTS_DETAIL_DATA, POINTS_SUMMARY_DATA } from "./components/Mockdata";
 import { DETAIL_COLUMNS, SUMMARY_COLUMNS } from "./components/columns";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { themeContext } from "@/context/themeContext";
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/img/pages/my-points.jpg`;
 
@@ -29,7 +30,9 @@ const RedeemBtn = ({ props }) => {
 
 const MyPoints = ({ template }) => {
   const { t, i18n } = useTranslation();
-  const isOriginTheme = template?.type == "origin";
+  const {
+    state: { themeName },
+  } = useContext(themeContext);
   console.log("template in MyPoints:", template);
 
   const MyPointsOrigin = () => {
@@ -118,7 +121,8 @@ const MyPoints = ({ template }) => {
   };
 
   return (
-    (!isOriginTheme && <MyPointsNew />) || (isOriginTheme && <MyPointsOrigin />)
+    (themeName === "new" && <MyPointsNew />) ||
+    (themeName === "original" && <MyPointsOrigin />)
   );
 };
 

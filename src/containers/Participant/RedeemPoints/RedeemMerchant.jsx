@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { Col, Container, FormGroup, Row } from "reactstrap";
@@ -9,14 +9,16 @@ import { getSlideImg } from "../Home";
 import { SliderOrigin } from "../Home/components/slider";
 import Redeem from "./components/Redeem";
 import { useTranslation } from "react-i18next";
+import { themeContext } from "@/context/themeContext";
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/img/pages/my-points.jpg`;
 
 export const RedeemMerchant = ({ template }) => {
   const { t, i18n } = useTranslation();
-  const isOriginTheme = template?.type == "origin";
+  const {
+    state: { themeName },
+  } = useContext(themeContext);
 
-  console.log("template", template);
   let params = useParams();
   let { merchantId } = params;
   let slide_imgs = getSlideImg();
@@ -70,8 +72,8 @@ export const RedeemMerchant = ({ template }) => {
   };
 
   return (
-    (isOriginTheme && <OriginRedeemMerchant />) ||
-    (!isOriginTheme && <NewRedeemMerchant />)
+    (themeName === "original" && <OriginRedeemMerchant />) ||
+    (themeName === "new" && <NewRedeemMerchant />)
   );
 };
 

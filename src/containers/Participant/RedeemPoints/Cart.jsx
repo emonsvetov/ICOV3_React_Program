@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Col, Container, FormGroup, Row } from "reactstrap";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import { Sidebar } from "../../Layout/sidebar";
 import PointsOrigin from "../../Layout/sidebar/PointsOrigin";
-import { SliderOrigin } from "../Home/components/slider";
-import { getSlideImg } from "../Home";
 import CartPage from "./components/CartPage";
+import { themeContext } from "@/context/themeContext";
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/img/pages/my-points.jpg`;
 
 export const Cart = ({ template }) => {
-  const isOriginTheme = template?.type == "origin";
-  let slide_imgs = getSlideImg();
-
-  console.log("template", template);
+  const {
+    state: { themeName },
+  } = useContext(themeContext);
 
   const OriginCart = () => {
     return (
@@ -58,7 +56,10 @@ export const Cart = ({ template }) => {
     );
   };
 
-  return (isOriginTheme && <OriginCart />) || (!isOriginTheme && <NewCart />);
+  return (
+    (themeName === "original" && <OriginCart />) ||
+    (themeName === "new" && <NewCart />)
+  );
 };
 
 const mapStateToProps = (state) => {

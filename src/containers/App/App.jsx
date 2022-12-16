@@ -25,6 +25,7 @@ import { setCart } from "@/redux/actions/cartActions";
 import { FlashMessage } from "@/shared/components/flash";
 import { setDomain } from "@/redux/actions/domainActions";
 import { setTemplate } from "@/redux/actions/templateActions";
+import { ThemeProvider } from "@/context/themeContext";
 
 // require('dotenv').config()
 axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL + "/api/v1";
@@ -136,7 +137,9 @@ const AppProvider = () => {
   return (
     <Suspense fallback={"loading"}>
       <Provider store={store}>
-        <App />
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
       </Provider>
     </Suspense>
   );

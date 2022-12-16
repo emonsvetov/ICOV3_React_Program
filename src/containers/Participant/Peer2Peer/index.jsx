@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { connect } from "react-redux";
 import { Container, Row, Col } from "reactstrap";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import { Sidebar } from "../../Layout/sidebar";
-
 // import SelectProgram from '../components/SelectProgram'
 import Users from "./components/Users";
 import { isEmpty } from "@/shared/helper";
 import { SidebarOrigin } from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
+import { themeContext } from "@/context/themeContext";
 
 const Peer2Peer = ({ auth, program, organization, template }) => {
-  const isOriginTheme = template?.type == "origin";
+  const {
+    state: { themeName },
+  } = useContext(themeContext);
   const { t, i18n } = useTranslation();
 
   const Peer2PeerOrigin = () => {
@@ -58,8 +60,8 @@ const Peer2Peer = ({ auth, program, organization, template }) => {
   };
 
   return (
-    (isOriginTheme && <Peer2PeerOrigin />) ||
-    (!isOriginTheme && <Peer2PeerNew />)
+    (themeName === "original" && <Peer2PeerOrigin />) ||
+    (themeName === "new" && <Peer2PeerNew />)
   );
 };
 

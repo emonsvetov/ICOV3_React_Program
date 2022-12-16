@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import { Sidebar } from "../../Layout/sidebar";
 import { Table, Col, Row, Container } from "reactstrap";
@@ -9,10 +9,13 @@ import { Link } from "react-router-dom";
 import { GOAL_DATA } from "./components/Mockdata";
 import { SidebarOrigin } from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
+import { themeContext } from "@/context/themeContext";
 
 const Goals = ({ template }) => {
   const { t, i18n } = useTranslation();
-  const isOriginTheme = template?.type == "origin";
+  const {
+    state: { themeName },
+  } = useContext(themeContext);
 
   const [goals, setGoals] = useState(null);
 
@@ -119,7 +122,10 @@ const Goals = ({ template }) => {
     );
   };
 
-  return (isOriginTheme && <GoalsOrigin />) || (!isOriginTheme && <GoalsNew />);
+  return (
+    (themeName === "original" && <GoalsOrigin />) ||
+    (themeName === "new" && <GoalsNew />)
+  );
 };
 const mapStateToProps = (state) => {
   return {

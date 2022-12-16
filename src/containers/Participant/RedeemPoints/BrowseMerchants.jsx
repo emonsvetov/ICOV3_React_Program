@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Col, Container, FormGroup, Row } from "reactstrap";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import { Sidebar, SidebarOrigin } from "../../Layout/sidebar";
 import OurMerchants from "./components/BrowseMerchant";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { themeContext } from "@/context/themeContext";
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/img/pages/my-points.jpg`;
 
 const BrowseMerchants = ({ template }) => {
   const { t, i18n } = useTranslation();
-  const isOriginTheme = template?.type == "origin";
+  const {
+    state: { themeName },
+  } = useContext(themeContext);
 
   const OriginBrowseMerchants = () => {
     return (
@@ -56,8 +59,8 @@ const BrowseMerchants = ({ template }) => {
   };
 
   return (
-    (isOriginTheme && <OriginBrowseMerchants />) ||
-    (!isOriginTheme && <NewBrowseMerchants />)
+    (themeName === "original" && <OriginBrowseMerchants />) ||
+    (themeName === "new" && <NewBrowseMerchants />)
   );
 };
 

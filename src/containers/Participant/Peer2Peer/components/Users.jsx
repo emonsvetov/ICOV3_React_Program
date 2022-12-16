@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Table, Button } from "reactstrap";
 import { useTable, usePagination, useRowSelect } from "react-table";
 import ReactTablePagination from "@/shared/components/table/components/ReactTablePagination";
 import TableFilter from "@/shared/components/table/components/TableFilter";
 import { USERS_COLUMNS, USERS_DATA } from "./Mockdata";
 import { getUsers } from "@/services/program/getUsers";
-import MailIcon from "mdi-react/PostItNoteAddIcon";
 import ModalWrapper from "./ModalWrapper";
 import apiTableService from "@/services/apiTableService";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { themeContext } from "@/context/themeContext";
 
 const QUERY_PAGE_SIZE = 20;
 
 const ProgramUsers = ({ program, organization, auth, template }) => {
-  const isOriginTheme = template?.type == "origin";
+  const {
+    state: { themeName },
+  } = useContext(themeContext);
   const { t, i18n } = useTranslation();
   const [modalName, setModalName] = useState(null);
   const [isOpen, setOpen] = useState(false);
@@ -192,10 +194,10 @@ const ProgramUsers = ({ program, organization, auth, template }) => {
   return (
     <>
       <div className="users">
-        <div className={isOriginTheme ? "header origin" : "header"}>
+        <div className={themeName === "original" ? "header origin" : "header"}>
           <div className="d-flex w-25 justify-content-between">
             <Button
-              color={isOriginTheme ? "light" : "primary"}
+              color={themeName === "original" ? "light" : "primary"}
               onClick={() => onClickReward()}
             >
               Reward

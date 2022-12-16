@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { ParticipantTabNavs } from "@/shared/components/tabNavs";
 import { Sidebar } from "@/containers/Layout/sidebar";
 import AccountForm from "@/shared/components/account/AccountForm";
@@ -7,17 +7,22 @@ import { getAuthUser } from "@/containers/App/auth";
 import { connect } from "react-redux";
 import { SidebarOrigin } from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
+import { themeContext } from "@/context/themeContext";
 
 const Account = ({ template }) => {
   const { t, i18n } = useTranslation();
   const [value, setValue] = useState(false);
   const [user, setUser] = useState(null);
   const onSubmit = (values) => {};
+
+  const {
+    state: { themeName },
+  } = useContext(themeContext);
+
   useEffect(() => {
     let user = getAuthUser();
     if (user) setUser(user);
   }, []);
-  const isOriginTheme = template?.type == "origin";
 
   const AccountNew = () => {
     return (
@@ -61,7 +66,8 @@ const Account = ({ template }) => {
   };
 
   return (
-    (isOriginTheme && <AccountOrigin />) || (!isOriginTheme && <AccountNew />)
+    (themeName === "original" && <AccountOrigin />) ||
+    (themeName === "new" && <AccountNew />)
   );
 };
 

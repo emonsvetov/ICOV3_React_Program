@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Col, Container, FormGroup, Row } from "reactstrap";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import { Sidebar } from "../../Layout/sidebar";
 import PointsOrigin from "../../Layout/sidebar/PointsOrigin";
-import { SliderOrigin } from "../Home/components/slider";
-import { getSlideImg } from "../Home";
 import CheckoutPage from "./components/CheckoutPage";
+import { themeContext } from "@/context/themeContext";
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/img/pages/my-points.jpg`;
 
 export const Checkout = ({ template }) => {
-  const isOriginTheme = template?.type == "origin";
-  let slide_imgs = getSlideImg();
-
-  console.log("template", template);
+  const {
+    state: { themeName },
+  } = useContext(themeContext);
 
   const OriginCheckout = () => {
     return (
@@ -59,7 +57,8 @@ export const Checkout = ({ template }) => {
   };
 
   return (
-    (isOriginTheme && <OriginCheckout />) || (!isOriginTheme && <NewCheckout />)
+    (themeName === "original" && <OriginCheckout />) ||
+    (themeName === "new" && <NewCheckout />)
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Col, Container, Row } from "reactstrap";
 import SocialWallPanel from "@/shared/components/socialWall/SocialWallPanel";
@@ -13,6 +13,7 @@ import { USER_STATUS_PENDING_DEACTIVATION } from "@/services/user/getUser";
 import SlideOutMenu from "./components/slide-out-menu";
 import PointsOrigin from "../../Layout/sidebar/PointsOrigin";
 import { useTranslation } from "react-i18next";
+import { themeContext } from "@/context/themeContext";
 
 export const getSlideImg = () => {
   let imgs = [];
@@ -29,7 +30,9 @@ const Home = ({ auth, organization, program, template }) => {
     program,
   };
   let [showSocialWall, setShowSocialWall] = useState(null);
-  const isOriginTheme = template?.type == "origin";
+  const {
+    state: { themeName },
+  } = useContext(themeContext);
 
   useEffect(() => {
     let result = false;
@@ -131,7 +134,10 @@ const Home = ({ auth, organization, program, template }) => {
       </>
     );
   };
-  return (isOriginTheme && <HomeOrigin />) || (!isOriginTheme && <HomeNew />);
+  return (
+    (themeName === "original" && <HomeOrigin />) ||
+    (themeName === "new" && <HomeNew />)
+  );
 };
 
 const mapStateToProps = (state) => {

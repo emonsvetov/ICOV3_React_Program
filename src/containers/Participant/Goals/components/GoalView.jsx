@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Table, Col, Row, Container } from "reactstrap";
 import { connect } from "react-redux";
 import { useTable, usePagination, useRowSelect } from "react-table";
@@ -10,10 +10,13 @@ import { GOAL_DATA } from "./Mockdata";
 import { GOAL_COLUMNS, GOAL_SUMMARY_COLUMNS } from "./columns";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
+import { themeContext } from "@/context/themeContext";
 
 const GoalView = ({ template }) => {
   const { t, i18n } = useTranslation();
-  const isOriginTheme = template?.type == "origin";
+  const {
+    state: { themeName },
+  } = useContext(themeContext);
   const { goalId } = useParams();
   const [goal, setGoal] = useState(null);
   const navigate = useNavigate();
@@ -127,7 +130,10 @@ const GoalView = ({ template }) => {
     );
   };
 
-  return (isOriginTheme && <GoalOrigin />) || (!isOriginTheme && <GoalNew />);
+  return (
+    (themeName === "original" && <GoalOrigin />) ||
+    (themeName === "new" && <GoalNew />)
+  );
 };
 const mapStateToProps = (state) => {
   return {

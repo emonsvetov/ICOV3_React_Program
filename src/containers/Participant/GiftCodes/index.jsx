@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Col, Container, Row } from "reactstrap";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import { Sidebar } from "../../Layout/sidebar";
@@ -7,12 +7,16 @@ import giftData from "./components/Mockdata.json";
 import { connect } from "react-redux";
 import { SidebarOrigin } from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
+import { themeContext } from "@/context/themeContext";
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/img/pages/my-gift-codes.jpg`;
 
 const MyGiftCodes = ({ template }) => {
   const { t, i18n } = useTranslation();
-  const isOriginTheme = template?.type == "origin";
+  const {
+    state: { themeName },
+  } = useContext(themeContext);
+
   const MyGiftCodesOrigin = () => {
     return (
       <Container fluid>
@@ -61,8 +65,8 @@ const MyGiftCodes = ({ template }) => {
   };
 
   return (
-    (!isOriginTheme && <MyGiftCodesNew />) ||
-    (isOriginTheme && <MyGiftCodesOrigin />)
+    (themeName === "new" && <MyGiftCodesNew />) ||
+    (themeName === "original" && <MyGiftCodesOrigin />)
   );
 };
 

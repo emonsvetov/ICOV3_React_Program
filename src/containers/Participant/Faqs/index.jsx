@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import YoutubeEmbed from "./components/YoutubeEmbed";
 import { Col, Container, Row } from "reactstrap";
 import { Queries, QueriesOrigin } from "./components/Queries";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { themeContext } from "@/context/themeContext";
 
 const Faqs = ({ template }) => {
   const { t, i18n } = useTranslation();
-  const isOriginTheme = template?.type == "origin";
+  const {
+    state: { themeName },
+  } = useContext(themeContext);
+
   const NewFaqs = () => {
     return (
       <>
@@ -43,7 +47,10 @@ const Faqs = ({ template }) => {
     );
   };
 
-  return (!isOriginTheme && <NewFaqs />) || (isOriginTheme && <OriginalFaqs />);
+  return (
+    (themeName === "new" && <NewFaqs />) ||
+    (themeName === "original" && <OriginalFaqs />)
+  );
 };
 
 const mapStateToProps = (state) => {
