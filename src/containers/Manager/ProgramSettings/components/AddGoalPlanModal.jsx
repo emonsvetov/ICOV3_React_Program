@@ -7,8 +7,8 @@ import { Modal } from 'reactstrap';
 import CloseIcon from 'mdi-react/CloseIcon';
 //import Switch from '@/shared/components/form/Switch';
 import { getGoalPlanTypes } from '@/services/getGoalPlanTypes';
-import { getEvents } from '@/services/getEvents'; 
-import { getProgramEmailTemplates } from '@/services/getProgramEmailTemplates'; 
+import { getEvents } from '@/services/getEvents';
+import { getProgramEmailTemplates } from '@/services/getProgramEmailTemplates';
 import { getExpirationRules } from '@/services/getExpirationRules';
 import { labelizeNamedData } from '@/shared/helper';
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
@@ -66,6 +66,7 @@ const AddGoalPlanModal = ({ program, organization, isOpen, setOpen, toggle, data
       date_end,
       factor_before,
       factor_after,
+      progress_email_template_id,
       is_recurring,
       award_per_progress,
       award_email_per_progress,
@@ -93,6 +94,7 @@ const AddGoalPlanModal = ({ program, organization, isOpen, setOpen, toggle, data
     goalPlanData.date_end = date_end;
     goalPlanData.factor_before = factor_before;
     goalPlanData.factor_after = factor_after;
+    goalPlanData.progress_email_template_id = progress_email_template_id ? progress_email_template_id.value : null;
     goalPlanData.is_recurring = is_recurring;
     goalPlanData.award_per_progress = award_per_progress;
     goalPlanData.award_email_per_progress = award_email_per_progress;
@@ -111,7 +113,7 @@ const AddGoalPlanModal = ({ program, organization, isOpen, setOpen, toggle, data
         //console.log(res)
         if (res.status == 200) {
           //console.log(res);
-           //window.location.reload()
+          //window.location.reload()
           if (res.data.assign_msg)
             dispatch(sendFlashMessage('Goal Plan added successfully! ' + res.data.assign_msg, 'alert-success', 'top'))
           else
@@ -129,7 +131,6 @@ const AddGoalPlanModal = ({ program, organization, isOpen, setOpen, toggle, data
   useEffect(() => {
     getGoalPlanTypes()
       .then(gptypes => {
-        //console.log(gptypes);
         setGoalPlanTypes(labelizeNamedData(gptypes))
       })
 
@@ -140,13 +141,11 @@ const AddGoalPlanModal = ({ program, organization, isOpen, setOpen, toggle, data
 
     getEvents(organization.id, program.id)
       .then(evts => {
-        //console.log("program="+program.id);
         setEvents(labelizeNamedData(evts))
       })
 
-      getProgramEmailTemplates(organization.id, program.id, "Goal Progress")
+    getProgramEmailTemplates(organization.id, program.id, "Goal Progress")
       .then(evts => {
-        //console.log("program="+program.id);
         setProgramEmailTemplates(labelizeNamedData(evts))
       })
 
