@@ -9,7 +9,7 @@ import { SidebarOrigin } from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
 import { themeContext } from "@/context/themeContext";
 
-const IMG_BACK = `${process.env.PUBLIC_URL}/img/new/pages/my-gift-codes.jpg`;
+const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-gift-codes.jpg`;
 
 const MyGiftCodes = ({ template }) => {
   const { t } = useTranslation();

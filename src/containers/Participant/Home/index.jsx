@@ -17,7 +17,7 @@ import { themeContext } from "@/context/themeContext";
 export const getSlideImg = () => {
   let imgs = [];
   for (let i = 1; i < 9; i++) {
-    imgs.push(`${process.env.PUBLIC_URL}/img/new/merchants/${i}.png`);
+    imgs.push(`${process.env.PUBLIC_URL}/new/img/merchants/${i}.png`);
   }
   return imgs;
 };

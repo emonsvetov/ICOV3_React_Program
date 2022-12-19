@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 const getSlideIcons = () => {
   let icons = [];
   for (let i = 1; i < 9; i++) {
-    icons.push(`${process.env.PUBLIC_URL}/img/new/merchants/${i}.png`);
+    icons.push(`${process.env.PUBLIC_URL}/new/img/merchants/${i}.png`);
   }
   return icons;
 };

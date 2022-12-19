@@ -4,7 +4,7 @@ import { Col, Button, Row } from "reactstrap";
 import { numFormatter } from "../../../utils/helper";
 import { useTranslation } from "react-i18next";
 
-const Ava = `${process.env.PUBLIC_URL}/img/new/avatar/avatar.jpg`;
+const Ava = `${process.env.PUBLIC_URL}/new/img/avatar/avatar.jpg`;
 
 const leaders = [
   { name: "Elizabeth", award: 65522 },
