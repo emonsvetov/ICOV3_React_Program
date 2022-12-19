@@ -1,30 +1,71 @@
+export const CART_COLUMNS = [
+  {
+    Header: "Merchant",
+    accessor: "logo",
+    Cell: ({ row, value }) => {
+      return <img src={value} alt="logo" />;
+    },
+  },
+  {
+    Header: "",
+    accessor: "name",
+  },
+  {
+    Header: "Gift Code Value",
+    accessor: "giftCode",
+  },
+  {
+    Header: "Quantity",
+    accessor: "quantity",
+  },
+  {
+    Header: "Unit Price",
+    accessor: "price",
+    Cell: ({ row, value }) => {
+      return `${value} Points`;
+    },
+  },
+  {
+    Header: "Total",
+    accessor: "total",
+    Cell: ({ row, value }) => {
+      return `${value.toLocaleString()} Points`;
+    },
+  },
+];
 
-export const ORDER_COLUMNS = [
-    {
-        Header: "Merchant",
-        accessor: "logo",
-        Cell: ({ row, value }) => { return <img src={value} alt='logo'/>}
+export const CHECKOUT_COLUMNS = [
+  {
+    Header: "Merchant",
+    accessor: "logo",
+    Cell: ({ row, value }) => {
+      return <img src={value} alt="logo" />;
     },
-    {
-        Header: "",
-        accessor: "name",
+  },
+  {
+    Header: "",
+    accessor: "name",
+  },
+  {
+    Header: "Gift Code Value",
+    accessor: "giftCode",
+  },
+  {
+    Header: "Quantity",
+    accessor: "quantity",
+  },
+  {
+    Header: "Unit Price",
+    accessor: "price",
+    Cell: ({ row, value }) => {
+      return `${value} Points`;
     },
-    {
-        Header: "Gift Code Value",
-        accessor: "giftCode",
+  },
+  {
+    Header: "Total",
+    accessor: "total",
+    Cell: ({ row, value }) => {
+      return `${value.toLocaleString()} Points`;
     },
-    {
-        Header: "Quantity",
-        accessor: "quantity",
-    },
-    {
-        Header: "Unit Price",
-        accessor: "price",
-        Cell: ({ row, value }) => { return `${value } Points`}
-    },
-    {
-        Header: "Total",
-        accessor: "total",
-        Cell: ({ row, value }) => { return `${value.toLocaleString()} Points` }
-    }
-]
+  },
+];

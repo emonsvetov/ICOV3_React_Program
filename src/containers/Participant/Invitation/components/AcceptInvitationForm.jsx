@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Field } from 'react-final-form';
+import { Spinner } from 'reactstrap';
 import TemplateButton from "@/shared/components/TemplateButton"
 import { ApiErrorMessage } from "@/shared/components/flash"
 import { validEmail } from '@/shared/helper';
@@ -51,7 +52,7 @@ const AcceptInvitationForm = ({ onSubmit, errors, loading }) => {
                 {({ input, meta }) => (
                   <div className="mb-3">
                     <label htmlFor="loginInputPassword" className="form-label">Password</label>
-                    <input id="loginInputPassword" type="text" {...input} placeholder="Password" className="form-control" />
+                    <input id="loginInputPassword" type="password" {...input} placeholder="Password" className="form-control" />
                     {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
                   </div>
                 )}
@@ -60,7 +61,7 @@ const AcceptInvitationForm = ({ onSubmit, errors, loading }) => {
                 {({ input, meta }) => (
                   <div className="mb-3">
                     <label htmlFor="loginInputPasswordConfirm" className="form-label">Confirm Password</label>
-                    <input id="loginInputPasswordConfirm" type="text" {...input} placeholder="Confirm Password" className="form-control" />
+                    <input id="loginInputPasswordConfirm" type="password" {...input} placeholder="Confirm Password" className="form-control" />
                     {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
                   </div>
                 )}
@@ -68,6 +69,7 @@ const AcceptInvitationForm = ({ onSubmit, errors, loading }) => {
             </div>
             <div className="d-flex justify-content-between">
               <TemplateButton type="submit" disabled={loading} text='Set Password' />
+              {loading && <Spinner animation="border" size="sm" className='text-center' variant="warning" />}
             </div>
           </div>
         </form>
