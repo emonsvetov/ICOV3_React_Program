@@ -102,7 +102,7 @@ const AddGoalPlanModal = ({ program, organization, isOpen, setOpen, toggle, data
     goalPlanData.assign_goal_all_participants_default = assign_goal_all_participants_default;
 
     //penidng fiels (for testing only
-    //goalPlanData.state_type_id = 1;
+    goalPlanData.state_type_id = 1;
     goalPlanData.progress_notification_email_id = 1; //pending to make it dynamic
     setGoalPlan(goalPlanData);
     //return;

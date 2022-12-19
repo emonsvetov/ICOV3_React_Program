@@ -101,7 +101,7 @@ const EditGoalPlanModal = ({ program, organization, isOpen, setOpen, toggle, dat
     goalPlanData.state_type_id = 1;
     goalPlanData.program_id = program.id;
     //goalPlanData.progress_notification_email_id =  progress_notification_email_id ? progress_notification_email_id.value : null;
-    //goalPlanData.created_by = 1;
+    goalPlanData.created_by = 1;
 
     console.log('FDF');
     let nGoalPlan = {
