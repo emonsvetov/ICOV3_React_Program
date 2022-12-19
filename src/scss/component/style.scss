@@ -342,8 +342,13 @@ ul.horizontal {
         }
     }
 }
-.cart{
-    
+
+.cart-new{
+    position: absolute;
+    right: 0px;
+    margin-right: 35px;
+    z-index: 9999;
+
     .popover{
         max-width: 25%;
         min-width: 25%;
@@ -426,7 +431,7 @@ ul.horizontal {
                 transform: translateY(-50%) rotate(90deg) ;
             }
             &.origin{
-                background-image: url(../../../public/img/ui-bg_highlight-soft_75_cccccc_1x100.png);
+                background-image: url(../../../public/original/img/ui-bg_highlight-soft_75_cccccc_1x100.png);
                 border: 1px solid #aaa;
                 color: #222;   
                 .icon {

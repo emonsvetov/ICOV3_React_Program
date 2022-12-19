@@ -6,7 +6,7 @@ import ResetPasswordForm from "./components/ResetPasswordForm";
 import { useTranslation } from "react-i18next";
 
 const Forgot = ({ template }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   useEffect(() => {
     // Update the document title using the browser API
     checkForConfirmCode();
@@ -111,7 +111,7 @@ const Forgot = ({ template }) => {
         )}
         {step == 1 && !confirmCode && (
           <div className="form__form-group-field flex-column">
-            <p>Invalid or expired link</p>
+            <p>{t("invalid_or_expired_link")}</p>
           </div>
         )}
       </div>

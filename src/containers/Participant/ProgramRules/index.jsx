@@ -5,7 +5,7 @@ import { SidebarOrigin } from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
 
 const ProgramRules = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   return (
     <Container fluid>
       <Row className="mt-4">

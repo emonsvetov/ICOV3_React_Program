@@ -5,7 +5,7 @@ import { Col, Container, Row } from "reactstrap";
 import { useTranslation } from "react-i18next";
 
 const Footer = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   return (
     <footer>
       <Container className="footer__wrapper">

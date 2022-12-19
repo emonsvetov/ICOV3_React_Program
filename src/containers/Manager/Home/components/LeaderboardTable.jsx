@@ -9,7 +9,7 @@ import AwardHistoryPopup from "./AwardHistoryPopup";
 import { useTranslation } from "react-i18next";
 
 const LeaderboardTable = ({ id }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   // console.log(program)
   // console.log(organization)
 

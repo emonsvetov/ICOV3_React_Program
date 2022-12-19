@@ -14,7 +14,7 @@ const MYPOINTS = [
   },
 ];
 const PointsOrigin = ({ myPoints }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   if (!myPoints) return t("loading");
   return (
     <div className="points-origin flex-column p-2">

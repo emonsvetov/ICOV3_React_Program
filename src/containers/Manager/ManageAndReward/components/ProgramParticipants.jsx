@@ -56,7 +56,7 @@ const STATUS = [
 
 const ProgramParticipants = ({ program, organization }) => {
   // console.log("ProgramParticipants")
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [modalName, setModalName] = useState(null);
   const [isOpen, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);

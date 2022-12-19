@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { themeContext } from "@/context/themeContext";
 
 const Account = ({ template }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [value, setValue] = useState(false);
   const [user, setUser] = useState(null);
   const onSubmit = (values) => {};
@@ -31,7 +31,7 @@ const Account = ({ template }) => {
           <ParticipantTabNavs />
           <Row>
             <Col md={9}>
-              <h2 className="text-center title mb-5">My Account</h2>
+              <h2 className="text-center title mb-5">{t("my_account")}</h2>
               <div className="dashboard">
                 <AccountForm user={user} />
               </div>

@@ -10,7 +10,6 @@ import {
   Nav,
   Navbar,
 } from "reactstrap";
-import { useTranslation } from "react-i18next";
 
 // const DefaultBrand = `${process.env.PUBLIC_URL}/img/logo/logo_light.svg`;
 
@@ -26,7 +25,6 @@ const LINKS = [
 
 const ManagerTopbar = ({ template }) => {
   // console.log(template)
-  const { t, i18n } = useTranslation();
   const [isOpen, setOpen] = useState(false);
   const toggle = () => {
     setOpen((prev) => !prev);

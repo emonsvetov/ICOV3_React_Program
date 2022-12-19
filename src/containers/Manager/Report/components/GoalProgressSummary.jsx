@@ -3,7 +3,7 @@ import ReportTableFilter from "@/shared/components/table/components/ReportTableF
 import { useTranslation } from "react-i18next";
 
 const GoalProgressSummary = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   // const [users, setUsers] = useState(null);
   // const [currentRow, setCurrentRow] = useState(null);

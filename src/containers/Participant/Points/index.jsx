@@ -12,10 +12,10 @@ import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { themeContext } from "@/context/themeContext";
 
-const IMG_BACK = `${process.env.PUBLIC_URL}/img/pages/my-points.jpg`;
+const IMG_BACK = `${process.env.PUBLIC_URL}/img/new/pages/my-points.jpg`;
 
-const IMG_GIFT = `${process.env.PUBLIC_URL}/img/origin_rewards/GiftCode_button.png`;
-const IMG_MERCHAN = `${process.env.PUBLIC_URL}/img/origin_rewards/Merchandise_button.png`;
+const IMG_GIFT = `${process.env.PUBLIC_URL}/img/original/GiftCode_button.png`;
+const IMG_MERCHAN = `${process.env.PUBLIC_URL}/img/original/Merchandise_button.png`;
 
 const RedeemBtn = ({ props }) => {
   const { src, link } = props;
@@ -29,7 +29,7 @@ const RedeemBtn = ({ props }) => {
 };
 
 const MyPoints = ({ template }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const {
     state: { themeName },
   } = useContext(themeContext);
@@ -97,7 +97,7 @@ const MyPoints = ({ template }) => {
       <>
         <div className="mainboard">
           <img src={IMG_BACK} alt={"my_points"} />
-          <div className="title">My Points</div>
+          <div className="title">{t("my_points")}</div>
         </div>
         <Container>
           <ParticipantTabNavs />

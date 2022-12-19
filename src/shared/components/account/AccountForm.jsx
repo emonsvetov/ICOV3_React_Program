@@ -24,7 +24,7 @@ import { useTranslation } from "react-i18next";
 const MEDIA_FIELDS = ["avatar"];
 
 const AccountForm = ({ organization, program, auth }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   let [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);

@@ -7,10 +7,10 @@ import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { themeContext } from "@/context/themeContext";
 
-const IMG_BACK = `${process.env.PUBLIC_URL}/img/pages/my-points.jpg`;
+const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-points.jpg`;
 
 const BrowseMerchants = ({ template }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const {
     state: { themeName },
   } = useContext(themeContext);
@@ -37,7 +37,7 @@ const BrowseMerchants = ({ template }) => {
       <>
         <div className="mainboard">
           <img src={IMG_BACK} alt={"Redeem"} />
-          <div className="title">Redeem My Points</div>
+          <div className="title">{t("redeem_my_points")}</div>
         </div>
         <Container>
           <ParticipantTabNavs />

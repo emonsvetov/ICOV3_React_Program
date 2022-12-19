@@ -6,7 +6,7 @@ import AccountForm from "@/shared/components/account/AccountForm";
 import { useTranslation } from "react-i18next";
 
 const ManagerAccountIndex = ({ auth, program, organization }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [isOpen, setOpen] = useState(false);
   const [modalName, setModalName] = useState(null);
 

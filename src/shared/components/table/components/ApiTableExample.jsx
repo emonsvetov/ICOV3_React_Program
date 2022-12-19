@@ -44,7 +44,7 @@ const ICON_ARRAY = [
 ];
 const ProgramUsers = ({ program, organization }) => {
   console.log("ProgramUsers");
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [modalName, setModalName] = useState(null);
   const [isOpen, setOpen] = useState(false);
   const [users, setUsers] = useState(null);

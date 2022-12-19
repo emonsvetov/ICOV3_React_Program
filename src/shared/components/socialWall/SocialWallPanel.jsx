@@ -11,7 +11,7 @@ import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
 
 const SocialWallPanel = ({ auth, organization, program, isManager }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   let [socialWallPosts, setSocialWallPosts] = useState(null);
   let [socialWallPost, setSocialWallPost] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -63,7 +63,7 @@ const SocialWallPanel = ({ auth, organization, program, isManager }) => {
     <Container>
       <Row>
         {isManager && (
-          <TemplateButton className="add-new-post" text="Add New Post" />
+          <TemplateButton className="add-new-post" text={t("add_new_post")} />
         )}
         <div className="panel social-wall-panel pt-4">
           {socialWallPosts.results.map((item, index) => {

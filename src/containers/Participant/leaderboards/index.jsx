@@ -1,16 +1,12 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import { Col, Row, Container } from "reactstrap";
 import { connect } from "react-redux";
 import { SidebarOrigin } from "../../Layout/sidebar";
 import Leaderboards from "./components/Leaderboards";
 import { useTranslation } from "react-i18next";
-import { themeContext } from "@/context/themeContext";
 
 const LeaderboardPage = ({ template }) => {
-  const {
-    state: { themeName },
-  } = useContext(themeContext);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <Container fluid>

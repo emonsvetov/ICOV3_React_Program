@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 const getSlideIcons = () => {
   let icons = [];
   for (let i = 1; i < 9; i++) {
-    icons.push(`/img/merchants/${i}.png`);
+    icons.push(`${process.env.PUBLIC_URL}/img/new/merchants/${i}.png`);
   }
   return icons;
 };
@@ -22,7 +22,7 @@ const getOriginSlideImgs = () => {
   let imgs = [];
   for (let i = 1; i <= 4; i++) {
     imgs.push({
-      src: `${process.env.PUBLIC_URL}/img/origin_slider/slider-0${i}.jpg`,
+      src: `${process.env.PUBLIC_URL}/original/img/slider/slider-0${i}.jpg`,
       altText: "Slide 1",
     });
   }
@@ -48,7 +48,7 @@ const responsive = {
 };
 
 const LogIn = ({ template }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [showLoginPopup, setShowPopup] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
 
@@ -123,19 +123,19 @@ const LogIn = ({ template }) => {
     {
       src: template.slider_01
         ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.slider_01}`
-        : `${process.env.PUBLIC_URL}/img/slider/slider-01.jpg`,
+        : `${process.env.PUBLIC_URL}/new/img/slider/slider-01.jpg`,
       altText: "Slide 1",
     },
     {
       src: template.slider_02
         ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.slider_02}`
-        : `${process.env.PUBLIC_URL}/img/slider/slider-02.jpg`,
+        : `${process.env.PUBLIC_URL}/new/img/slider/slider-02.jpg`,
       altText: "Slide 2",
     },
     {
       src: template.slider_03
         ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.slider_03}`
-        : `${process.env.PUBLIC_URL}/img/slider/slider-03.jpg`,
+        : `${process.env.PUBLIC_URL}/new/img/slider/slider-03.jpg`,
       altText: "Slide 3",
     },
   ];
@@ -158,7 +158,7 @@ const LogIn = ({ template }) => {
         <strong>
           {template?.welcome_message
             ? template.welcome_message.replace(/<\/?[^>]+(>|$)/g, "")
-            : `Welcome to INCENTCO's Global Solutions rewards site! When you participate in our program, you'll earn rewards for various activities.`}
+            : t("welcome_message")}
         </strong>
       </div>
 
@@ -169,7 +169,7 @@ const LogIn = ({ template }) => {
 
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>
-          Sign-in to Your Rewards Program
+          {t("sign-in-to-your-rewards-program")}
         </ModalHeader>
         <ModalBody>
           <LogInForm />

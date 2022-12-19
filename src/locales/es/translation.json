@@ -53,5 +53,9 @@
   "program_rules_desc": "Las reglas del programa se aplican solo a los clientes participantes y no se aplican a los proveedores ni al personal de CPE.",
   "browse_merchant_desc": "Canjee sus puntos de esta lista para recibir un código de regalo para usar cuando lo desee.",
   "global_merchant_desc": "¡Canjee sus puntos de esta lista por mercadería, viajes, entretenimiento, eventos y más!",
-  "loading": "Cargando..."
+  "loading": "Cargando...",
+  "redeem_my_points": "Redeem my points",
+  "submit_a_lead": "Submit a lead",
+  "participant": "Participant",
+  "awards": "Awards"
 }

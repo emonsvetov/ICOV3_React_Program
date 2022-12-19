@@ -13,7 +13,7 @@ const QUERY_PAGE_SIZE = 20;
 
 const AwardDetail = () => {
   // console.log("ProgramUsers")
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   // const [users, setUsers] = useState(null);
   // const [currentRow, setCurrentRow] = useState(null);
   const [loading, setLoading] = useState(false);

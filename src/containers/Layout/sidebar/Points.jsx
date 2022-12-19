@@ -5,25 +5,25 @@ import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
 
 const Points = ({ myPoints }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   if (!myPoints) return t("loading");
   return (
     <div className="points">
-      <h3>My Points</h3>
+      <h3>{t("my_points")}</h3>
       <div className="panel redeem-panel">
         <div className="mb-3">
-          <h6> Points to Redeem </h6>
+          <h6> {t("points_to_redeem")} </h6>
           <div className="panel-group">
             <h4>{myPoints.points.toLocaleString()}</h4>
             <TemplateButton
-              text="Redeem Points"
+              text={t("redeem_points")}
               link="/participant/select-merchants"
             />
             {/* <Button className='btn-round'> Redeem Points</Button> */}
           </div>
         </div>
         <div className="point-award">
-          <h6> Peer Points to Award </h6>
+          <h6> {t("peer_points_to_award")} </h6>
           <h4> {myPoints.peerBalance.toLocaleString()}</h4>
         </div>
       </div>

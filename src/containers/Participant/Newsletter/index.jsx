@@ -1,31 +1,71 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { connect } from "react-redux";
 import { PDF } from "../Training/components/PDF";
-import { Col, Row } from "reactstrap";
-import { SidebarOrigin } from "../../Layout/sidebar";
+import { Col, Container, Row } from "reactstrap";
+import { Sidebar, SidebarOrigin } from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
+import { themeContext } from "@/context/themeContext";
+import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 
 const Newsletter = ({ template }) => {
-  const img = `${process.env.PUBLIC_URL}/img/thumbnail_The-Changing-Face-of-Incentive-Travel.jpg`;
+  const img = `${process.env.PUBLIC_URL}/original/img/thumbnail_The-Changing-Face-of-Incentive-Travel.jpg`;
   const link =
     "https://staging-mypathpps.incentco.com/assets/theme/mypathpps/img/newsletter/The%20Changing%20Face%20of%20Incentive%20Travel.pdf";
   const title = "The Changing Face of Incentive Travel";
   const props = { img, link, title };
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+
+  const {
+    state: { themeName },
+  } = useContext(themeContext);
+
+  const NewsletterOrigin = () => {
+    return (
+      <Row className="mt-4">
+        <Col md={4}>
+          <SidebarOrigin />
+        </Col>
+
+        <Col md={3}>
+          <div className="pdf-link">
+            <h2 className="text-uppercase text-center">{t("newsletter")}</h2>
+            <PDF props={props}></PDF>
+          </div>
+        </Col>
+      </Row>
+    );
+  };
+
+  const NewsletterNew = () => {
+    return (
+      <>
+        <Container>
+          <ParticipantTabNavs />
+        </Container>
+        <Container>
+          <Row>
+            <Col md={9}>
+              <div className="dashboard">
+                <div className="pdf-link">
+                  <h2 className="text-uppercase text-center">
+                    {t("newsletter")}
+                  </h2>
+                  <PDF props={props}></PDF>
+                </div>
+              </div>
+            </Col>
+            <Col md={3}>
+              <Sidebar />
+            </Col>
+          </Row>
+        </Container>
+      </>
+    );
+  };
 
   return (
-    <Row className="mt-4">
-      <Col md={4}>
-        <SidebarOrigin />
-      </Col>
-
-      <Col md={3}>
-        <div className="pdf-link">
-          <h2 className="text-uppercase text-center">Newsletter</h2>
-          <PDF props={props}></PDF>
-        </div>
-      </Col>
-    </Row>
+    (themeName === "new" && <NewsletterNew />) ||
+    (themeName === "original" && <NewsletterOrigin />)
   );
 };
 

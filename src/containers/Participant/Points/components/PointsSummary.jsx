@@ -13,7 +13,7 @@ const SUMMARY_DATA = [
 ];
 
 const PointsSummary = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const columns = React.useMemo(() => SUMMARY_COLUMNS, []);
   const data = React.useMemo(() => POINTS_SUMMARY_DATA, []);
   const { getTableProps, headerGroups, rows, prepareRow } = useTable({

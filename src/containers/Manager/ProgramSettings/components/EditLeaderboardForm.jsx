@@ -25,7 +25,7 @@ import { useTranslation } from "react-i18next";
 
 const LeaderboardForm = ({ id, organization, program, rtl, theme, toggle }) => {
   const dispatch = useDispatch();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [leaderboardTypes, setLeaderboardTypes] = useState([]);
   let [leaderboard, setLeaderboard] = useState(null);
   const [loading, setLoading] = useState(true);

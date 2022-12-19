@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 const CheckYourEmail = ({ template }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   if (!template) return t("loading");
 
   const IncentcoLogo = `${process.env.REACT_APP_API_STORAGE_URL}/${template.big_logo}`;
@@ -11,12 +11,12 @@ const CheckYourEmail = ({ template }) => {
     <div className="login-form-wrap flex-column align-items-center pt-4">
       <img src={IncentcoLogo} className="img__logo_sm" alt="logo" />
       <div className="card mt-4">
-        <div className="card-header">Check Your Email! </div>
+        <div className="card-header">{t("check_your_email")} </div>
         <div className="card-body">
           <p className="py-2">
-            We just sent you an email.
+            {t("sent_email")}
             <br />
-            Please follow the instructions in the email to reset your password.
+            {t("reset_password_desc")}
           </p>
         </div>
       </div>

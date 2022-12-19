@@ -17,7 +17,7 @@ const ProgramUsers = ({ program, organization, auth, template }) => {
   const {
     state: { themeName },
   } = useContext(themeContext);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [modalName, setModalName] = useState(null);
   const [isOpen, setOpen] = useState(false);
   const [users, setUsers] = useState(null);
@@ -37,7 +37,7 @@ const ProgramUsers = ({ program, organization, auth, template }) => {
     // setCurrentRow(row)
     const rows = selectedFlatRows.map((d) => d.original);
     if (rows.length === 0) {
-      alert("Select participants");
+      alert(t("select_participants"));
       return;
     }
     setParticipants(rows);
@@ -200,7 +200,7 @@ const ProgramUsers = ({ program, organization, auth, template }) => {
               color={themeName === "original" ? "light" : "primary"}
               onClick={() => onClickReward()}
             >
-              Reward
+              {t("reward")}
             </Button>
           </div>
           <TableFilter filter={filter} setFilter={setFilter} />

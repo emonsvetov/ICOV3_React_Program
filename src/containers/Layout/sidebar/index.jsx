@@ -16,7 +16,7 @@ export const Sidebar = () => (
 );
 
 export const SidebarOrigin = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   // const { title, icon } = props;
 
   return (

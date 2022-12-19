@@ -16,7 +16,7 @@ const ModalWrapper = ({
   event,
   setEvent,
 }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const props = {
     isOpen,
     setOpen,

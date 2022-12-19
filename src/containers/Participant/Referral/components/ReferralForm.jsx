@@ -19,11 +19,10 @@ import { getAuthUser, AUTH_USER_KEY } from "@/containers/App/auth";
 import { ErrorMessage } from "@/shared/components/ErrorMsg";
 import { useTranslation } from "react-i18next";
 
-const IMG_Exclamation_Point = `${process.env.PUBLIC_URL}/img/exclamation-octagon.png`;
 const MEDIA_FIELDS = ["avatar"];
 
 const ReferralForm = ({ organization, program, auth }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   let [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -36,6 +35,30 @@ const ReferralForm = ({ organization, program, auth }) => {
       });
     }
   }, [organization, program, auth]);
+
+  const validate = (values) => {
+    let errors = {};
+    if (!values.first_name) {
+      errors.first_name = t("please_enter_first_name");
+    }
+    if (!values.last_name) {
+      errors.last_name = t("please_enter_last_name");
+    }
+    if (!values.email) {
+      errors.email = t("email_is_required");
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i.test(values.email)) {
+      errors.email = t("invalid_email_address");
+    }
+    if (values?.password || values?.password_confirmation) {
+      if (values.password !== values.password_confirmation) {
+        errors.password = t("password_and_confirm_password_do_not_match");
+      }
+      if (values.password.trim().length < 3) {
+        errors.password = t("please_enter_strong_password");
+      }
+    }
+    return errors;
+  };
 
   const onSubmit = (values) => {
     values = unpatchMedia(values, MEDIA_FIELDS);
@@ -73,8 +96,8 @@ const ReferralForm = ({ organization, program, auth }) => {
 
   return (
     <div className="submit-referral">
-      <h2 className="title">Submit a Referral</h2>
-      <div className="hr">Please submit your information below.</div>
+      <h2 className="title">{t("submit_a_referral")}</h2>
+      <div className="hr">{t("submit_info_below")}</div>
 
       <Form
         onSubmit={onSubmit}
@@ -91,7 +114,7 @@ const ReferralForm = ({ organization, program, auth }) => {
                 <Field name="company_name">
                   {({ input, meta }) => (
                     <FormGroup className="w-75">
-                      <Label className="w-50">Company Name:</Label>
+                      <Label className="w-50">{t("company_name")}:</Label>
                       <Input placeholder="" type="text" {...input} />
                     </FormGroup>
                   )}
@@ -101,13 +124,13 @@ const ReferralForm = ({ organization, program, auth }) => {
 
             <Row>
               <Col md="6">
-                <Label className="w-50">* Name:</Label>
+                <Label className="w-50">* {t("name")}:</Label>
                 <div className="d-flex justify-content-between">
                   <Field name="first_name">
                     {({ input, meta }) => (
                       <FormGroup className="">
                         <Input
-                          placeholder="First Name"
+                          placeholder={t("first_name")}
                           type="text"
                           {...input}
                         />
@@ -121,7 +144,11 @@ const ReferralForm = ({ organization, program, auth }) => {
                   <Field name="last_name">
                     {({ input, meta }) => (
                       <FormGroup className="Last Name">
-                        <Input placeholder="" type="text" {...input} />
+                        <Input
+                          placeholder={t("last_name")}
+                          type="text"
+                          {...input}
+                        />
                         {meta.touched && meta.error && (
                           <ErrorMessage msg={meta.error} />
                         )}
@@ -137,7 +164,7 @@ const ReferralForm = ({ organization, program, auth }) => {
                 <Field name="email">
                   {({ input, meta }) => (
                     <FormGroup className="w-75">
-                      <Label className="w-50">* Email:</Label>
+                      <Label className="w-50">* {t("email")}:</Label>
                       <Input placeholder="" type="email" {...input} />
                       {meta.touched && meta.error && (
                         <ErrorMessage msg={meta.error} />
@@ -150,12 +177,16 @@ const ReferralForm = ({ organization, program, auth }) => {
 
             <Row>
               <Col md="6">
-                <Label className="w-50">Phone Number:</Label>
+                <Label className="w-50">{t("phone_number")}:</Label>
                 <div className="d-flex justify-content-between align-items-center">
                   <Field name="area_code">
                     {({ input, meta }) => (
                       <FormGroup className="">
-                        <Input placeholder="Area Code" type="text" {...input} />
+                        <Input
+                          placeholder={t("area_code")}
+                          type="text"
+                          {...input}
+                        />
                       </FormGroup>
                     )}
                   </Field>
@@ -166,7 +197,7 @@ const ReferralForm = ({ organization, program, auth }) => {
                     {({ input, meta }) => (
                       <FormGroup className="">
                         <Input
-                          placeholder="Phone Number"
+                          placeholder={t("phone_number")}
                           type="text"
                           {...input}
                         />
@@ -182,9 +213,9 @@ const ReferralForm = ({ organization, program, auth }) => {
                 <Field name="comments">
                   {({ input, meta }) => (
                     <FormGroup className="w-100">
-                      <Label className="w-50">Comments:</Label>
+                      <Label className="w-50">{t("comments")}:</Label>
                       <Input
-                        placeholder="Type here..."
+                        placeholder={t("type_here")}
                         type="textarea"
                         {...input}
                       />
@@ -198,7 +229,7 @@ const ReferralForm = ({ organization, program, auth }) => {
               <TemplateButton
                 type="submit"
                 disabled={loading}
-                text="Submit Your Referral"
+                text={t("submit_your_referral")}
               />
             </div>
           </form>
@@ -206,30 +237,6 @@ const ReferralForm = ({ organization, program, auth }) => {
       </Form>
     </div>
   );
-};
-
-const validate = (values) => {
-  let errors = {};
-  if (!values.first_name) {
-    errors.first_name = "Please enter first name";
-  }
-  if (!values.last_name) {
-    errors.last_name = "Please enter last name";
-  }
-  if (!values.email) {
-    errors.email = "Email is required";
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i.test(values.email)) {
-    errors.email = "Invalid email address";
-  }
-  if (values?.password || values?.password_confirmation) {
-    if (values.password !== values.password_confirmation) {
-      errors.password = "Password and confirm password do not match";
-    }
-    if (values.password.trim().length < 3) {
-      errors.password = "Please enter strong password";
-    }
-  }
-  return errors;
 };
 
 export default connect((state) => ({

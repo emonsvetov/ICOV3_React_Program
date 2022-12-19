@@ -17,7 +17,7 @@ import ModalWrapper from "./ModalWrapper";
 import { useTranslation } from "react-i18next";
 
 const TeamView = ({ auth, program, organization }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [isOpen, setOpen] = useState(false);
   const [modalName, setModalName] = useState(null);
   const [mate, setMate] = useState(null);

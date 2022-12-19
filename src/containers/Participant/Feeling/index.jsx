@@ -13,7 +13,7 @@ import "swiper/css";
 import { useTranslation } from "react-i18next";
 
 const Feeling = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [swiper, setSwiper] = useState();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [data, setData] = useState({
@@ -97,7 +97,7 @@ const Feeling = () => {
               >
                 <ReactTooltip place="top" type="dark" effect="float" />
                 <div
-                  data-tip="1. How are you feeling today?"
+                  data-tip={`1. ${t("how_feeling_today")}`}
                   onClick={() => swiper.slideTo(0)}
                   style={{
                     height: 20,
@@ -109,7 +109,7 @@ const Feeling = () => {
                   }   rounded-circle  cursor-pointer`}
                 />
                 <div
-                  data-tip="2. Name"
+                  data-tip={`2. ${t("name")}`}
                   onClick={() => swiper.slideTo(1)}
                   style={{
                     height: 20,
@@ -121,7 +121,7 @@ const Feeling = () => {
                   }   rounded-circle  cursor-pointer`}
                 />
                 <div
-                  data-tip="3. Email"
+                  data-tip={`3. ${t("email")}`}
                   onClick={() => swiper.slideTo(2)}
                   style={{
                     height: 20,
@@ -133,7 +133,7 @@ const Feeling = () => {
                   }   rounded-circle  cursor-pointer`}
                 />
                 <div
-                  data-tip="3. Let us know why you are feeling that way!"
+                  data-tip={`4. ${t("let_us_know")}`}
                   onClick={() => swiper.slideTo(3)}
                   style={{
                     height: 20,

@@ -12,10 +12,12 @@ import {
   ApiErrorMessage,
 } from "@/shared/components/flash";
 import TemplateButton from "@/shared/components/TemplateButton";
+import { useTranslation } from "react-i18next";
 
 const API_STORAGE_URL = `${process.env.REACT_APP_API_STORAGE_URL}`;
 
 const CheckoutPage = ({ cart, program, pointBalance, organization }) => {
+  const { t } = useTranslation();
   const flashDispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
   const [cartIsEmpty, setCartIsEmpty] = useState(true);
@@ -100,7 +102,7 @@ const CheckoutPage = ({ cart, program, pointBalance, organization }) => {
   });
   let navigate = useNavigate();
 
-  if (cartIsEmpty) return "Your cart is empty";
+  if (cartIsEmpty) return t("cart_empty");
   //   console.log(data)
   return (
     <>
@@ -167,22 +169,22 @@ const CheckoutPage = ({ cart, program, pointBalance, organization }) => {
           </Col>
         </Row> */}
         <div>
-          <h3>Checkout: Confirm Your Order</h3>
+          <h3>
+            {t("checkout")}: {t("confirm_your_order")}
+          </h3>
           <span>
-            Clicking "Confirm My Order" will confirm this redemption and{" "}
-            <strong>{cartObject.total_points} Points</strong> will be deducted
-            from your rewards account.
+            {t("order_desc_1")}{" "}
+            <strong>
+              {cartObject.total_points} {t("points")}
+            </strong>{" "}
+            {t("order_desc_2")}
           </span>
         </div>
         <div className="redtext text-center text-decoration-underline">
-          <strong>
-            Once your order has been placed, it cannot be exchanged or
-            cancelled.
-          </strong>
+          <strong>{t("order_desc_3")}</strong>
         </div>
         <div className="points-detail-table mt-4">
-          You will receive an immediate confirmation of your order, with
-          instructions on how you can acquire and redeem your gift code.
+          {t("order_desc_4")}
           <Table striped borderless size="md" {...getTableProps()}>
             <thead>
               {headerGroups.map((headerGroup) => (
@@ -214,18 +216,18 @@ const CheckoutPage = ({ cart, program, pointBalance, organization }) => {
 
         <Row className="my-4">
           <Col md={9} className="d-flex justify-content-end">
-            Total:
+            {t("total")}:
           </Col>
           <Col md={3} className="d-flex justify-content-center">
-            {cartObject.total_points.toLocaleString()} Points
+            {cartObject.total_points.toLocaleString()} {t("points")}
           </Col>
         </Row>
         <Row>
           <Col md={9} className="d-flex justify-content-end">
-            Balance After Purchase:
+            {t("balance_after_purchase")}:
           </Col>
           <Col md={3} className="d-flex justify-content-center">
-            {pointBalance.points - cartObject.total_points} Points
+            {pointBalance.points - cartObject.total_points} {t("points")}
           </Col>
         </Row>
         <div className="d-flex justify-content-end my-4">
@@ -233,7 +235,7 @@ const CheckoutPage = ({ cart, program, pointBalance, organization }) => {
             type="submit"
             disabled={isLoading}
             onClick={confirmOrder}
-            text="Confirm My Order"
+            text={t("confirm_my_order")}
           />
           {/* <Button disabled={isLoading} className="btn btn-primary red "  onClick={confirmOrder}>Confirm My Order</Button> */}
         </div>

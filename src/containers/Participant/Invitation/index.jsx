@@ -5,7 +5,7 @@ import AcceptInvitationForm from "./components/AcceptInvitationForm";
 import { useTranslation } from "react-i18next";
 
 const Invitation = ({ template }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   useEffect(() => {
     // Update the document title using the browser API
     checkForConfirmCode();
@@ -71,7 +71,7 @@ const Invitation = ({ template }) => {
         )}
         {step == 1 && !confirmCode && (
           <div className="form__form-group-field flex-column">
-            <p>Invalid or expired link</p>
+            <p>{t("invalid_or_expired_link")}</p>
           </div>
         )}
       </div>

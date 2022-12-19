@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 
 const Referral = ({ auth, program, organization }) => {
   // console.log(auth)
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [isOpen, setOpen] = useState(false);
   const [modalName, setModalName] = useState(null);
 

@@ -15,7 +15,7 @@ const SocialWallCommentModalWrapper = ({
   auth,
   setSocialWallPosts,
 }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const props = {
     isOpen,
     setOpen,

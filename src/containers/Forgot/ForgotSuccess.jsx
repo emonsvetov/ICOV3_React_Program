@@ -4,7 +4,7 @@ import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
 
 const ForgotSuccess = ({ template }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   if (!template) return t("loading");
   // console.log(template)
   const IncentcoLogo = `${process.env.REACT_APP_API_STORAGE_URL}/${template.big_logo}`;
@@ -12,9 +12,9 @@ const ForgotSuccess = ({ template }) => {
     <div className="login-form-wrap flex-column align-items-center pt-4">
       <img src={IncentcoLogo} className="img__logo_sm" alt="logo" />
       <div className="card mt-4">
-        <div className="card-header">Success!</div>
+        <div className="card-header">{t("success")}</div>
         <div className="card-body">
-          <p className="pb-4">You have successfully reset your password.</p>
+          <p className="pb-4">{t("reset_password_success")}</p>
           <div className="d-flex justify-content-between">
             <TemplateButton link="/login" text="Sign in" />
           </div>

@@ -17,7 +17,7 @@ import CartOrigin from "../../Participant/components/CartOrigin";
 import { useTranslation } from "react-i18next";
 import Select from "react-select";
 
-import { SWITCH_THEME, themeContext, SET_THEME } from "@/context/themeContext";
+import { SWITCH_THEME, themeContext } from "@/context/themeContext";
 
 // const Brand = `${process.env.PUBLIC_URL}/img/logo/logo_light.svg`;
 const LINKS = [
@@ -51,7 +51,7 @@ const ParticipantTopbar = ({ template }) => {
   const [language, setLanguage] = useState();
   const {
     state: { themeName },
-    actions: { switchTheme, setTheme },
+    actions: { switchTheme },
   } = useContext(themeContext);
   const [currentTheme, setCurrentTheme] = useState();
 
@@ -109,40 +109,43 @@ const ParticipantTopbar = ({ template }) => {
       setOpen((prev) => !prev);
     };
     return (
-      <div className="topbar">
-        <Container className="topbar__wrapper">
-          <Navbar color="" expand="md" fixed="" light>
-            <NavbarBrand href="/">
-              <img src={Brand} />
-            </NavbarBrand>
-            <NavbarToggler onClick={toggle} />
-            <div className="d-flex align-items-center " style={{ gap: 10 }}>
-              <Collapse navbar>
-                <Nav className="horizontal" navbar>
-                  {LINKS.map((item, index) => {
-                    return (
-                      <NavLink key={index} to={item.to} className="link">
-                        {item.text}
-                      </NavLink>
-                    );
-                  })}
-                </Nav>
-              </Collapse>
-              <div className="topbar__right">
-                <TopbarProfile />
+      <>
+        <div className="topbar">
+          <Container className="topbar__wrapper">
+            <Navbar color="" expand="md" fixed="" light>
+              <NavbarBrand href="/">
+                <img src={Brand} />
+              </NavbarBrand>
+              <NavbarToggler onClick={toggle} />
+              <div className="d-flex align-items-center " style={{ gap: 10 }}>
+                <Collapse navbar>
+                  <Nav className="horizontal" navbar>
+                    {LINKS.map((item, index) => {
+                      return (
+                        <NavLink key={index} to={item.to} className="link">
+                          {t(item.text)}
+                        </NavLink>
+                      );
+                    })}
+                  </Nav>
+                </Collapse>
+                <div className="topbar__right">
+                  <TopbarProfile />
+                </div>
+                <LanguageBar />
+                <ThemeBar />
               </div>
-              <LanguageBar />
-              <ThemeBar />
-            </div>
-          </Navbar>
-        </Container>
-        <div
-          className="container d-flex justify-content-end"
-          style={{ marginBottom: "-36px" }}
-        >
-          <Cart />
+            </Navbar>
+          </Container>
         </div>
-      </div>
+
+        <Cart />
+        {/* <div
+        className="container d-flex justify-content-end"
+        style={{ marginBottom: "-36px" }}
+        >
+        </div> */}
+      </>
     );
   };
 

@@ -11,10 +11,10 @@ import Redeem from "./components/Redeem";
 import { useTranslation } from "react-i18next";
 import { themeContext } from "@/context/themeContext";
 
-const IMG_BACK = `${process.env.PUBLIC_URL}/img/pages/my-points.jpg`;
+const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-points.jpg`;
 
 export const RedeemMerchant = ({ template }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const {
     state: { themeName },
   } = useContext(themeContext);
@@ -50,7 +50,7 @@ export const RedeemMerchant = ({ template }) => {
       <>
         <div className="mainboard">
           <img src={IMG_BACK} />
-          <div className="title">Redeem My Points</div>
+          <div className="title">{t("redeem_my_points")}</div>
         </div>
         <Container>
           <ParticipantTabNavs />

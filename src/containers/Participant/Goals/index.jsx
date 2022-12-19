@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { themeContext } from "@/context/themeContext";
 
 const Goals = ({ template }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const {
     state: { themeName },
   } = useContext(themeContext);
@@ -27,7 +27,7 @@ const Goals = ({ template }) => {
         <span>
           <Link to={`/participant/my-goals/${row.original.id}`}>
             {" "}
-            View Details
+            {t("view_details")}
           </Link>
         </span>
       );
@@ -113,7 +113,7 @@ const Goals = ({ template }) => {
           <Col md={7} className="">
             <h3 className="pt-1" style={{ fontSize: "16px" }}>
               {" "}
-              My Goals
+              {t("my_goals")}
             </h3>
             <GoalTable />
           </Col>

@@ -22,7 +22,7 @@ const LINKS = [
 
 const ProgramSettings = ({ auth, program, organization }) => {
   // console.log(auth)
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(0);
   const [isOpen, setOpen] = useState(false);
   const [modalName, setModalName] = useState(null);

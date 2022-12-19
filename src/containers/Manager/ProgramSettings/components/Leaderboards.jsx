@@ -25,7 +25,7 @@ const COLUMNS = [
 
 const Leaderboards = ({ program, organization }) => {
   const dispatch = useDispatch();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   // console.log(program)
   // console.log(organization)
 

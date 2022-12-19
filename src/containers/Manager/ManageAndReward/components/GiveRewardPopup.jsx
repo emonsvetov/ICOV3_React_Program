@@ -48,7 +48,7 @@ const GiveRewardPopup = ({
   auth,
 }) => {
   const dispatch = flashDispatch();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   // console.log(participants)
   const [value, setValue] = useState(false);
   const [events, setEvents] = useState([]);

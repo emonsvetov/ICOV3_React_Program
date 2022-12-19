@@ -13,7 +13,7 @@ import ModalWrapper from "./ModalWrapper";
 import { useTranslation } from "react-i18next";
 
 const Teams = ({ program, organization }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   // console.log(program)
   // console.log(organization)
 

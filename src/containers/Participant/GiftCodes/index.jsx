@@ -9,10 +9,10 @@ import { SidebarOrigin } from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
 import { themeContext } from "@/context/themeContext";
 
-const IMG_BACK = `${process.env.PUBLIC_URL}/img/pages/my-gift-codes.jpg`;
+const IMG_BACK = `${process.env.PUBLIC_URL}/img/new/pages/my-gift-codes.jpg`;
 
 const MyGiftCodes = ({ template }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const {
     state: { themeName },
   } = useContext(themeContext);
@@ -30,6 +30,7 @@ const MyGiftCodes = ({ template }) => {
               {" "}
               {t("my_gift_codes")}
             </h3>
+            <p className="text-center">{t("no_gift_codes")}</p>
           </Col>
         </Row>
       </Container>
@@ -41,7 +42,7 @@ const MyGiftCodes = ({ template }) => {
       <>
         <div className="mainboard">
           <img src={IMG_BACK} />
-          <div className="title text-dark">My Gift Codes</div>
+          <div className="title text-dark">{t("my_gift_codes")}</div>
         </div>
         <Container>
           <ParticipantTabNavs />

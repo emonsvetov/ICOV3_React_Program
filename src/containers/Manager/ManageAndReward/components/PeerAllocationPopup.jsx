@@ -42,7 +42,7 @@ const PeerAllocationPopup = ({
   organization,
   auth,
 }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const dispatch = flashDispatch();
   const [value, setValue] = useState(false);
   const [events, setEvents] = useState([]);

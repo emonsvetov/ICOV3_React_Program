@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Table, Col, Row, Container } from "reactstrap";
 import { connect } from "react-redux";
-import { useTable, usePagination, useRowSelect } from "react-table";
-import { Link } from "react-router-dom";
 import { ParticipantTabNavs } from "../../../../shared/components/tabNavs";
 import { SidebarOrigin, Sidebar } from "../../../Layout/sidebar/index";
 import { useParams, useNavigate } from "react-router-dom";
@@ -13,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { themeContext } from "@/context/themeContext";
 
 const GoalView = ({ template }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const {
     state: { themeName },
   } = useContext(themeContext);
@@ -38,7 +36,7 @@ const GoalView = ({ template }) => {
           <ParticipantTabNavs />
           <Row>
             <Col md={9}>
-              <div className="dashboard">My Goals</div>
+              <div className="dashboard">{t("my_goals")}</div>
             </Col>
             <Col md={3}>
               <Sidebar />
@@ -63,7 +61,7 @@ const GoalView = ({ template }) => {
           <Col md={8} className="">
             <h3 className="pt-1" style={{ fontSize: "16px" }}>
               {" "}
-              My Goals
+              {t("my_goals")}
             </h3>
             <Row>
               <Col md={4} className="gauge">
@@ -81,7 +79,7 @@ const GoalView = ({ template }) => {
                     <thead>
                       <tr>
                         <td colspan="2" class="title">
-                          Goal Information
+                          {t("goal_information")}
                         </td>
                       </tr>
                     </thead>
@@ -90,7 +88,7 @@ const GoalView = ({ template }) => {
                         return (
                           <tr key={index}>
                             <td class="title-col">{item.Header}</td>
-                            <td class="value">Employee Referral </td>
+                            <td class="value">{t("employee_referral")} </td>
                           </tr>
                         );
                       })}
@@ -121,7 +119,7 @@ const GoalView = ({ template }) => {
               <TemplateButton
                 className=""
                 onClick={() => navigate(`/participant/my-goals`)}
-                text="Return to My Goals"
+                text={t("return_to_my_goals")}
               />
             </div>
           </Col>

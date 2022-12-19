@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { themeContext } from "@/context/themeContext";
 
 const Faqs = ({ template }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const {
     state: { themeName },
   } = useContext(themeContext);
@@ -16,10 +16,9 @@ const Faqs = ({ template }) => {
     return (
       <>
         <Container fluid className="dashboard">
-          <h2 className="my-3">FAQs</h2>
-          Congratulations on participating in your Rewards program! Here are
-          some FAQ's to help you understand how the program works.
-          <h6>Enjoy!</h6>
+          <h2 className="my-3">{t("faqs")}</h2>
+          {t("congratulations_faq")}
+          <h6>{t("enjoy")}!</h6>
         </Container>
         <Container>
           <YoutubeEmbed embedId={"zytPldZoXiE"} />
@@ -36,9 +35,8 @@ const Faqs = ({ template }) => {
       <>
         <Container fluid className="dashboard">
           <h2 className="my-3">{t("faqs")}</h2>
-          Congratulations on participating in your Rewards program! Here are
-          some FAQ's to help you understand how the program works.
-          <h6>Enjoy!</h6>
+          {t("congratulations_faq")}
+          <h6>{t("enjoy")}!</h6>
         </Container>
         <Container fluid className="content">
           <QueriesOrigin />

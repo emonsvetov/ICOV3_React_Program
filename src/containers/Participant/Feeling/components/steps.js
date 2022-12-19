@@ -6,6 +6,12 @@ import LeftIcon from "mdi-react/ArrowLeftIcon";
 import ThemeIcon from "mdi-react/ThemeLightDarkIcon";
 import { motion, useAnimationControls } from "framer-motion";
 import Editor from "@/shared/components/form/Editor";
+import { useTranslation } from "react-i18next";
+
+const IMG_ANGRY = `${process.env.PUBLIC_URL}/original/img/feeling/angry.png`;
+const IMG_HAPPY = `${process.env.PUBLIC_URL}/original/img/feeling/happy.png`;
+const IMG_OK = `${process.env.PUBLIC_URL}/original/img/feeling/ok.png`;
+const IMG_SAD = `${process.env.PUBLIC_URL}/original/img/feeling/sad.png`;
 
 const LightIcon = () => {
   return (
@@ -48,6 +54,7 @@ const DarkIcon = () => {
 };
 
 export const FourthStep = ({ swiper, setData, data }) => {
+  const { t } = useTranslation();
   const [isFull, setIsFull] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const [value, setValue] = useState("");
@@ -120,7 +127,7 @@ export const FourthStep = ({ swiper, setData, data }) => {
             style={{ textAlign: "left", color: isDark ? "#000" : "#fff" }}
             className="text-lg-left mb-4"
           >
-            Let us know why you are feeling that way!
+            {t("let_us_know")}
           </h3>
           <Row>
             <Col>
@@ -144,7 +151,7 @@ export const FourthStep = ({ swiper, setData, data }) => {
               color="primary rounded-0  w-full text-left py-3 px-3 d-flex justify-content-start align-items-center gap-2"
             >
               <LeftIcon />
-              <span>PREVIOUS</span>
+              <span className="text-uppercase">{t("previous")}</span>
             </Button>
             <Button
               className="btn-blue"
@@ -156,7 +163,7 @@ export const FourthStep = ({ swiper, setData, data }) => {
               onClick={() => handleSubmit()}
               color="primary rounded-0  w-full text-left py-3 px-3 d-flex justify-content-end align-items-center gap-2"
             >
-              <span>SUBMIT</span>
+              <span className="text-uppercase">{t("submit")}</span>
             </Button>
           </div>
         )}
@@ -167,6 +174,7 @@ export const FourthStep = ({ swiper, setData, data }) => {
 
 export const ThirdStep = ({ swiper, setData, data }) => {
   const controls = useAnimationControls();
+  const { t } = useTranslation();
 
   const handleNext = () => {
     if (
@@ -196,7 +204,7 @@ export const ThirdStep = ({ swiper, setData, data }) => {
           }}
         >
           <h3 style={{ textAlign: "left" }} className="text-lg-left mb-4">
-            Email
+            {t("email")}
           </h3>
           <Row>
             <Col>
@@ -239,7 +247,7 @@ export const ThirdStep = ({ swiper, setData, data }) => {
             color="primary rounded-0  w-full text-left py-3 px-3 d-flex justify-content-start align-items-center gap-2"
           >
             <LeftIcon />
-            <span>PREVIOUS</span>
+            <span className="text-uppercase">{t("previous")}</span>
           </Button>
           <Button
             className="btn-blue"
@@ -251,7 +259,7 @@ export const ThirdStep = ({ swiper, setData, data }) => {
             }}
             color="primary rounded-0  w-full text-left py-3 px-3 d-flex justify-content-end align-items-center gap-2"
           >
-            <span>NEXT</span>
+            <span className="text-uppercase">{t("next")}</span>
             <RightIcon />
           </Button>
         </div>
@@ -262,7 +270,7 @@ export const ThirdStep = ({ swiper, setData, data }) => {
 
 export const SecondStep = ({ swiper, setData, data }) => {
   const controls = useAnimationControls();
-
+  const { t } = useTranslation();
   const handleNext = () => {
     if (data.firstName == "" && data.lastName == "") {
       controls.start({ x: [-10, 8, 0, 6, -4, 0, 2, -1, 0] });
@@ -288,7 +296,7 @@ export const SecondStep = ({ swiper, setData, data }) => {
           }}
         >
           <h3 style={{ textAlign: "left" }} className="text-lg-left mb-4">
-            Name
+            {t("name")}
           </h3>
           <Row>
             <Col md={6}>
@@ -313,7 +321,7 @@ export const SecondStep = ({ swiper, setData, data }) => {
                   } second__label`}
                   for="fname"
                 >
-                  FirstName
+                  {t("first_name")}
                 </Label>
               </div>
             </Col>
@@ -341,7 +349,7 @@ export const SecondStep = ({ swiper, setData, data }) => {
                   } second__label`}
                   for="lname"
                 >
-                  Last Name
+                  {t("last_name")}
                 </Label>
               </FormGroup>
             </Col>
@@ -362,7 +370,7 @@ export const SecondStep = ({ swiper, setData, data }) => {
             color="primary rounded-0  w-full text-left py-3 px-3 d-flex justify-content-start align-items-center gap-2"
           >
             <LeftIcon />
-            <span>PREVIOUS</span>
+            <span className="text-uppercase">{t("previous")}</span>
           </Button>
           <Button
             onClick={handleNext}
@@ -374,7 +382,7 @@ export const SecondStep = ({ swiper, setData, data }) => {
             }}
             color="primary rounded-0  w-full text-left py-3 px-3 d-flex justify-content-end align-items-center gap-2"
           >
-            <span>NEXT</span>
+            <span className="text-uppercase">{t("next")}</span>
             <RightIcon />
           </Button>
         </div>
@@ -389,7 +397,7 @@ export const FirstStep = ({ swiper, setData, data }) => {
   //   setIsFull(!isFull);
   // };
   const controls = useAnimationControls();
-
+  const { t } = useTranslation();
   const handleNext = () => {
     if (data.feeling == "") {
       controls.start({ x: [-10, 8, 0, 6, -4, 0, 2, -1, 0] });
@@ -424,7 +432,7 @@ export const FirstStep = ({ swiper, setData, data }) => {
             <MaximizeIcon />
           </Button> */}
           <h4 style={{ textAlign: "left" }} className="">
-            How are you feeling today?*
+            {t("how_feeling_today")}*
           </h4>
           <Row className="feeling-wrapper mt-4 gap-4">
             <Col className="d-flex flex-column align-items-center gap-2 justify-content-center border-secondary border rounded p-4 position-relative ">
@@ -440,13 +448,9 @@ export const FirstStep = ({ swiper, setData, data }) => {
                 }
                 name="feeling"
               />
-              <img
-                src="/img/feeling/happy.png"
-                alt="happy"
-                className="mx-auto w-50"
-              />
+              <img src={IMG_HAPPY} alt="happy" className="mx-auto w-50" />
               <span className="" style={{ fontSize: 20, fontWeight: "bold" }}>
-                Happy
+                {t("happy")}
               </span>
             </Col>
             <Col className="d-flex flex-column align-items-center gap-2 justify-content-center border-secondary border rounded p-4 position-relative ">
@@ -462,13 +466,9 @@ export const FirstStep = ({ swiper, setData, data }) => {
                 }
                 style={{ top: 12, left: 12 }}
               />
-              <img
-                src="/img/feeling/ok.png"
-                alt="ok"
-                className="mx-auto w-50"
-              />
+              <img src={IMG_OK} alt="ok" className="mx-auto w-50" />
               <span className="" style={{ fontSize: 20, fontWeight: "bold" }}>
-                Ok{" "}
+                {t("ok")}{" "}
               </span>
             </Col>
             <Col className="d-flex flex-column align-items-center gap-2 justify-content-center border-secondary border rounded p-4 position-relative ">
@@ -484,13 +484,9 @@ export const FirstStep = ({ swiper, setData, data }) => {
                   })
                 }
               />
-              <img
-                src="/img/feeling/sad.png"
-                alt="sad"
-                className="mx-auto w-50"
-              />
+              <img src={IMG_SAD} alt="sad" className="mx-auto w-50" />
               <span className="" style={{ fontSize: 20, fontWeight: "bold" }}>
-                Sad
+                {t("sad")}
               </span>
             </Col>
             <Col className="d-flex flex-column align-items-center gap-2 justify-content-center border-secondary border rounded p-4 position-relative ">
@@ -506,13 +502,9 @@ export const FirstStep = ({ swiper, setData, data }) => {
                 }
                 name="feeling"
               />
-              <img
-                src="/img/feeling/angry.png"
-                alt="angry"
-                className="mx-auto w-50"
-              />
+              <img src={IMG_ANGRY} alt="angry" className="mx-auto w-50" />
               <span className="" style={{ fontSize: 20, fontWeight: "bold" }}>
-                Angry
+                {t("angry")}
               </span>
             </Col>
           </Row>
@@ -534,7 +526,7 @@ export const FirstStep = ({ swiper, setData, data }) => {
             }}
             color="btn-block w-full text-left py-3 px-3 d-flex justify-content-end align-items-center gap-2"
           >
-            <span>NEXT</span>
+            <span>{t("next")}</span>
             <RightIcon />
           </Button>
         </div>

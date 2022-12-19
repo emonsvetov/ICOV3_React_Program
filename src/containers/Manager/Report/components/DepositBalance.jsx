@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 const QUERY_PAGE_SIZE = 20;
 
 const DepositBalance = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState({ keyword: "" });
   // selectedFlatRows.map(d => d.original)/

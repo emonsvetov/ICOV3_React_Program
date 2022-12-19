@@ -9,7 +9,7 @@ import { AWARD_HISTORY_DATA, AWARD_HISTORY_COLUMNS } from "./Mockdata";
 import { useTranslation } from "react-i18next";
 
 const AwardHistoryTable = ({ participant }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
   const [isOpen, setOpen] = useState(false);

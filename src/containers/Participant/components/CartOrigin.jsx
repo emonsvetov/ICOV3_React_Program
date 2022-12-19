@@ -7,10 +7,10 @@ import { isEmpty } from "@/shared/helper";
 import { useTranslation } from "react-i18next";
 
 const CartOrigin = ({ cart, pointBalance }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   let navigate = useNavigate();
 
-  if (!cart || !pointBalance) return "Loading cart...";
+  if (!cart || !pointBalance) return t("loading_cart");
   // console.log(cart)
   // console.log(isEmpty(cart))
   const isEmptyCart = isEmpty(cart) || cart.items.length <= 0;
@@ -25,9 +25,7 @@ const CartOrigin = ({ cart, pointBalance }) => {
         </span>
       </Link>
       <div className="s_submenu s_cart_holder">
-        {isEmptyCart && (
-          <div className="empty">Your shopping cart is empty!</div>
-        )}
+        {isEmptyCart && <div className="empty">{t("cart_empty")}</div>}
         {!isEmptyCart &&
           cart?.items?.map((item, index) => {
             return (
@@ -43,10 +41,12 @@ const CartOrigin = ({ cart, pointBalance }) => {
             <hr />
             <Row>
               <Col md={9} className="d-flex justify-content-center mb-3">
-                <strong>Total:</strong>
+                <strong>{t("total")}:</strong>
               </Col>
               <Col md={3}>
-                <span>{cart.total_points} Points</span>
+                <span>
+                  {cart.total_points} {t("points")}
+                </span>
               </Col>
             </Row>
             <Row>
@@ -55,7 +55,7 @@ const CartOrigin = ({ cart, pointBalance }) => {
                   className="btn btn-primary w-100 red"
                   onClick={() => {}}
                 >
-                  View Cart
+                  {t("view_cart")}
                 </Button>
               </Col>
               <Col md="6">
@@ -65,7 +65,7 @@ const CartOrigin = ({ cart, pointBalance }) => {
                     navigate("/participant/checkout");
                   }}
                 >
-                  Checkout
+                  {t("checkout")}
                 </Button>
               </Col>
             </Row>

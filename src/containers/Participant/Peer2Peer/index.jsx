@@ -14,7 +14,7 @@ const Peer2Peer = ({ auth, program, organization, template }) => {
   const {
     state: { themeName },
   } = useContext(themeContext);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const Peer2PeerOrigin = () => {
     return (

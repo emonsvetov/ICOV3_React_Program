@@ -5,7 +5,7 @@ import Select from "react-select";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
 
-const IMG_GLOBAL = `${process.env.PUBLIC_URL}/img/global_merchants_image.jpg`;
+const IMG_GLOBAL = `${process.env.PUBLIC_URL}/original/img/global_merchants_image.jpg`;
 
 const GLOBAL_MERCHANTS = [
   {
@@ -27,7 +27,7 @@ const GLOBAL_MERCHANTS = [
 
 export const GlobalMerchants = () => {
   // let navigate = useNavigate();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [merchant, setMerchant] = useState("");
   const handleVisit = () => {
     alert(merchant.value);
@@ -57,7 +57,11 @@ export const GlobalMerchants = () => {
               onChange={(item) => setMerchant(item)}
               classNamePrefix="react-select"
             />
-            <TemplateButton type="submit" onClick={handleVisit} text="Visit" />
+            <TemplateButton
+              type="submit"
+              onClick={handleVisit}
+              text={t("visit")}
+            />
           </div>
         </Col>
       </Row>

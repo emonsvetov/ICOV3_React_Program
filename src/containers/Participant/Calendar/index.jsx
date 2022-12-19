@@ -5,7 +5,7 @@ import { MyCalendar } from "./components/calendar";
 import { useTranslation } from "react-i18next";
 
 const Calendar = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   return (
     <>
       <Row className="mt-4">
@@ -14,7 +14,7 @@ const Calendar = () => {
         </Col>
 
         <Col md={7}>
-          <h2 className="mb-5">Calendar of Events</h2>
+          <h2 className="mb-5">{t("calendar_of_events")}</h2>
           <MyCalendar />
         </Col>
       </Row>

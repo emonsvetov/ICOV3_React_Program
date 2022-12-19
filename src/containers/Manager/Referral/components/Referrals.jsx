@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 const Referrals = ({ program, organization }) => {
   // console.log(program)
   // console.log(organization)
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [events, setEvents] = useState([]);
   const [referral, setReferral] = useState(null);
   const [loading, setLoading] = useState(true);

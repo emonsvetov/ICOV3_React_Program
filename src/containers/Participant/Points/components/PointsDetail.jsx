@@ -7,7 +7,7 @@ import { useTable } from "react-table";
 import { useTranslation } from "react-i18next";
 
 const PointsDetail = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const columns = React.useMemo(() => DETAIL_COLUMNS, []);
   const data = React.useMemo(() => POINTS_DETAIL_DATA, []);
   const { getTableProps, headerGroups, rows, prepareRow } = useTable({

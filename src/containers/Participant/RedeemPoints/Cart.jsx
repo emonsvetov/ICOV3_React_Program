@@ -6,10 +6,12 @@ import { Sidebar } from "../../Layout/sidebar";
 import PointsOrigin from "../../Layout/sidebar/PointsOrigin";
 import CartPage from "./components/CartPage";
 import { themeContext } from "@/context/themeContext";
+import { useTranslation } from "react-i18next";
 
-const IMG_BACK = `${process.env.PUBLIC_URL}/img/pages/my-points.jpg`;
+const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-points.jpg`;
 
 export const Cart = ({ template }) => {
+  const { t } = useTranslation();
   const {
     state: { themeName },
   } = useContext(themeContext);
@@ -35,7 +37,7 @@ export const Cart = ({ template }) => {
       <>
         <div className="mainboard">
           <img src={IMG_BACK} />
-          <div className="title">Redeem My Points</div>
+          <div className="title">{t("redeem_my_points")}</div>
         </div>
         <Container>
           <ParticipantTabNavs />

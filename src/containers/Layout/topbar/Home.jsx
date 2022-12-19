@@ -12,12 +12,12 @@ import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
 
 const LINKS = [
-  { to: "onClickLogin", text: "Sign in", desc: "Returning users enter here" },
-  { to: "", text: "Sign up", desc: "First time users start here" },
+  { to: "onClickLogin", text: "sign_in", desc: "returning_users" },
+  { to: "", text: "sign_up", desc: "first_time_users" },
 ];
 
 const HomeTopbar = ({ onClickLogin, onClickSignup, template }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [isOpen, setOpen] = useState(false);
   const toggle = () => {
     setOpen((prev) => !prev);
@@ -37,19 +37,22 @@ const HomeTopbar = ({ onClickLogin, onClickSignup, template }) => {
           <Collapse navbar>
             <Nav className="horizontal" navbar>
               {template ? (
-                <Button className="btn-blue px-5" onClick={onClickLogin}>
+                <Button
+                  className="btn-blue text-uppercase px-5"
+                  onClick={onClickLogin}
+                >
                   {" "}
-                  SIGN IN
+                  {t("sign_in")}
                 </Button>
               ) : (
                 LINKS.map((item, index) => {
                   return (
                     <div key={index} className="flex-column mx-3">
-                      <span>{item.desc}</span>
+                      <span>{t(item.desc)}</span>
                       <TemplateButton
                         className="text-uppercase item width100 lg"
                         onClick={item.to ? onClickLogin : onClickSignup}
-                        text={item.text}
+                        text={t(item.text)}
                       />
                     </div>
                   );

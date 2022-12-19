@@ -9,7 +9,7 @@ import { getAuthProgram } from "@/containers/App/auth";
 import { useTranslation } from "react-i18next";
 
 export const ParticipantTabNavsOrigin = (props) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const TAB_ITEMS = [
     { title: "my_rewards", icon: "MyRewards", to: `/participant/my-points` },
     {
@@ -41,16 +41,17 @@ export const ParticipantTabNavsOrigin = (props) => {
 };
 
 export const ParticipantTabNavs = (props) => {
+  const { t } = useTranslation();
   const PARTICIPANT_ITEMS = [
     {
-      title: "REDEEM MY POINTS",
+      title: "redeem_my_points",
       icon: "redeem",
       to: `/participant/select-merchants`,
     },
-    { title: "PEER TO PEER", icon: "gift", to: "/participant/peer-to-peer" },
-    { title: "SURVEY", icon: "survey", to: "/participant/survey" },
-    { title: "NEWSLETTER", icon: "newsletter" },
-    { title: "SUBMIT A LEAD", icon: "submit", to: "/participant/lead" },
+    { title: "peer_to_peer", icon: "gift", to: "/participant/peer-to-peer" },
+    { title: "survey", icon: "survey", to: "/participant/survey" },
+    { title: "newsletter", icon: "newsletter", to: "/participant/newsletter" },
+    { title: "submit_a_lead", icon: "submit", to: "/participant/lead" },
   ];
   let navigate = useNavigate();
   return (
@@ -59,7 +60,7 @@ export const ParticipantTabNavs = (props) => {
         {PARTICIPANT_ITEMS.map((item, key) => {
           return (
             <li key={key} onClick={() => navigate(item.to)}>
-              <TabNav title={item.title} icon={item.icon} />
+              <TabNav title={t(item.title)} icon={item.icon} />
             </li>
           );
         })}

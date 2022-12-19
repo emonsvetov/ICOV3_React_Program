@@ -13,7 +13,7 @@ const MainModalWrapper = ({
   toggle,
   participants,
 }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const props = {
     isOpen,
     setOpen,

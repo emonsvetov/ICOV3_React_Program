@@ -23,7 +23,7 @@ const EVENTS_COLUMNS = [
 const Events = ({ program, organization }) => {
   // console.log(program)
   // console.log(organization)
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [events, setEvents] = useState([]);
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
