@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form, Field } from "react-final-form";
+import { Spinner } from "reactstrap";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { ApiErrorMessage } from "@/shared/components/flash";
 import { validEmail } from "@/shared/helper";
@@ -69,7 +70,7 @@ const AcceptInvitationForm = ({ onSubmit, errors, loading }) => {
                     </label>
                     <input
                       id="loginInputPassword"
-                      type="text"
+                      type="password"
                       {...input}
                       placeholder="Password"
                       className="form-control"
@@ -91,7 +92,7 @@ const AcceptInvitationForm = ({ onSubmit, errors, loading }) => {
                     </label>
                     <input
                       id="loginInputPasswordConfirm"
-                      type="text"
+                      type="password"
                       {...input}
                       placeholder="Confirm Password"
                       className="form-control"
@@ -109,6 +110,14 @@ const AcceptInvitationForm = ({ onSubmit, errors, loading }) => {
                 disabled={loading}
                 text={t("set_password")}
               />
+              {loading && (
+                <Spinner
+                  animation="border"
+                  size="sm"
+                  className="text-center"
+                  variant="warning"
+                />
+              )}
             </div>
           </div>
         </form>

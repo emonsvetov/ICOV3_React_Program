@@ -130,20 +130,22 @@ export const getAuthDomain = async (hydrate = true) => {
 };
 
 export const hydrateDomain = () => {
-  const host = window.location.host;
-  let domainName = host;
-  if (host.indexOf(":") !== -1) {
-    const pieces = host.split(":");
-    domainName = pieces[0];
-  }
-  return getDomain(domainName)
-    .then((domain) => {
-      console.log(domain);
-      if (domain?.program && !domain.program.template) {
-        domain.program.template = DEFAULT_TEMPLATE;
-      }
-      setAuthDomain(domain);
-      return domain;
+    // const host = window.location.host
+    // let domainName = host
+    // if(host.indexOf(':') !== -1)    {
+    //     const pieces = host.split(':')
+    //     domainName = pieces[0]
+    // }
+    return getDomain()
+    .then( domain => {
+        // console.log(domain)
+        if( domain?.program && !domain.program.template) {
+            domain.program.template = DEFAULT_TEMPLATE
+        }
+        setAuthDomain(domain)
+        return domain
+    }).catch( err => {
+        alert(err)
     })
     .catch((err) => {
       alert(err);

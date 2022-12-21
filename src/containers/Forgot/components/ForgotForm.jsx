@@ -4,6 +4,7 @@ import { Form, Field } from "react-final-form";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { ApiErrorMessage } from "@/shared/components/flash";
 import { useTranslation } from "react-i18next";
+import { Spinner } from "reactstrap";
 
 const ForgotForm = ({ onSubmit, loading, errors }) => {
   const { t } = useTranslation();
@@ -58,11 +59,22 @@ const ForgotForm = ({ onSubmit, loading, errors }) => {
             </Field>
 
             <div className="d-flex justify-content-between">
-              <TemplateButton
-                type="submit"
-                disabled={loading}
-                text={t("continue")}
-              />
+              <div>
+                <TemplateButton
+                  type="submit"
+                  disabled={loading}
+                  text={t("continue")}
+                  className="mr-2"
+                />
+                {loading && (
+                  <Spinner
+                    animation="border"
+                    size="sm"
+                    className="text-center"
+                    variant="warning"
+                  />
+                )}
+              </div>
               <TemplateButton
                 link="/login"
                 text={t("back_to_sign_in")}

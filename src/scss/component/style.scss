@@ -944,6 +944,16 @@ footer{
     margin-top: 0.25rem;
     color: #dc3545;
 }
+.apiError-wrap.form-error{
+    margin-top: 0.25rem;
+    color: #fff;
+    text-align: center;
+    ul, ol {
+        padding-left: 15px;
+        margin-bottom: 0;
+        list-style-image: url('../../shared/img/circle.svg');
+    }
+}
 .w100{width:100%;}
 .form-label{margin-bottom:0}
 .form__form-group-input-wrap{display:flex;}
@@ -1063,4 +1073,8 @@ footer{
     .apiError-list{
         margin-bottom: 0;
     }
+}
+
+.modal-dialog {
+    margin: 3rem auto !important;
 }

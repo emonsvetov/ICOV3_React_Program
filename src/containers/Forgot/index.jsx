@@ -27,7 +27,7 @@ const Forgot = ({ template }) => {
   });
 
   const onSubmitForgotForm = (values) => {
-    // setLoading(true)
+    setLoading(true);
 
     axios
       .post("/password/forgot", values)
