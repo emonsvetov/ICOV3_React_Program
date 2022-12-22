@@ -8,16 +8,18 @@ import {
   UncontrolledPopover,
   PopoverBody,
   Popover,
+  Container,
 } from "reactstrap";
 import CartIcon from "mdi-react/CartIcon";
 import CloseIcon from "mdi-react/CloseIcon";
 import CartItem from "./CartItem";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { isEmpty } from "@/shared/helper";
+import { useTranslation } from "react-i18next";
 
 const Cart = ({ cart, pointBalance }) => {
   const [isOpen, setIsOpen] = useState();
-
+  const { t } = useTranslation();
   const toggle = () => {
     setIsOpen(!isOpen);
   };
@@ -28,19 +30,19 @@ const Cart = ({ cart, pointBalance }) => {
 
   let navigate = useNavigate();
 
-  if (!cart || !pointBalance) return "Loading cart...";
+  if (!cart || !pointBalance) return t("loading_cart");
   // console.log(cart)
   // console.log(isEmpty(cart))
   const isEmptyCart = isEmpty(cart) || cart.items.length <= 0;
   // return 'Here'
   return (
-    <div className="cart cart-popover">
+    <div className="cart-new cart-popover">
       <span className="cursor-pointer" id="PopoverFocus">
         <CartIcon className="redtext" />
-        <strong>Cart</strong>
+        <strong>{t("cart")}</strong>
       </span>
       <span className="mx-3">
-        {cart?.total_points ? cart.total_points : 0} Points
+        {cart?.total_points ? cart.total_points : 0} {t("points")}
       </span>
       <Popover
         toggle={toggle}
@@ -58,7 +60,7 @@ const Cart = ({ cart, pointBalance }) => {
           <div className="d-flex justify-content-end">
             <CloseIcon className="cursor-pointer" onClick={handleClose} />
           </div>
-          {isEmptyCart && <span>Your cart is empty!</span>}
+          {isEmptyCart && <span>{t("cart_empty")}</span>}
           {!isEmptyCart &&
             cart?.items?.map((item, index) => {
               return (
@@ -70,10 +72,12 @@ const Cart = ({ cart, pointBalance }) => {
               <hr />
               <Row>
                 <Col md={9} className="d-flex justify-content-center mb-3">
-                  <strong>Total:</strong>
+                  <strong>{t("total")}:</strong>
                 </Col>
                 <Col md={3}>
-                  <span>{cart.total_points} Points</span>
+                  <span>
+                    {cart.total_points} {t("points")}
+                  </span>
                 </Col>
               </Row>
               <Row>
@@ -82,7 +86,7 @@ const Cart = ({ cart, pointBalance }) => {
                     className="btn btn-primary w-100 red"
                     onClick={() => {}}
                   >
-                    View Cart
+                    {t("view_cart")}
                   </Button>
                 </Col>
                 <Col md="6">
@@ -91,7 +95,7 @@ const Cart = ({ cart, pointBalance }) => {
                     onClick={() => {
                       navigate("/participant/checkout");
                     }}
-                    text="Checkout"
+                    text={t("checkout")}
                   />
                 </Col>
               </Row>

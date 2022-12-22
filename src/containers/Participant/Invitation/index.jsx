@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import axios from "axios";
+import AcceptInvitationForm from "./components/AcceptInvitationForm";
+import { useTranslation } from "react-i18next";
 
-import AcceptInvitationForm from './components/AcceptInvitationForm';
-
-const Invitation = ({template}) => {
-
+const Invitation = ({ template }) => {
+  const { t } = useTranslation();
   useEffect(() => {
     // Update the document title using the browser API
     checkForConfirmCode();
@@ -20,41 +20,40 @@ const Invitation = ({template}) => {
 
   // const [completed, setCompleted] = useState(false);
 
-  const onSubmitResetPassword = values => {
-
-    setLoading(true)
-    values = {...values, ...{token:confirmCode, invited: true}}
+  const onSubmitResetPassword = (values) => {
+    setLoading(true);
+    values = { ...values, ...{ token: confirmCode, invited: true } };
     // console.log(values)
     // return;
-    axios.post('/invitation/accept', values)
-    .then( (res) => {
-      // console.log(res)
-      // console.log(res.status == 200)
-      if(res.status == 200)  {
-        // var t = setTimeout(window.location = '/', 500)
-        window.location = '/invitation/success'
-      }
-    })
-    .catch( error => {
-      // console.log(error.response.data);
-      setErrors(error.response.data);
-      setLoading(false)
-    })
-  }
+    axios
+      .post("/invitation/accept", values)
+      .then((res) => {
+        // console.log(res)
+        // console.log(res.status == 200)
+        if (res.status == 200) {
+          // var t = setTimeout(window.location = '/', 500)
+          window.location = "/invitation/success";
+        }
+      })
+      .catch((error) => {
+        // console.log(error.response.data);
+        setErrors(error.response.data);
+        setLoading(false);
+      });
+  };
 
   const checkForConfirmCode = () => {
+    if (confirmCode) return;
 
-    if( confirmCode ) return;
-
-    const params = new URLSearchParams(window.location.search) // id=123
-    let token = params.get('token');
-    if( token ) {
+    const params = new URLSearchParams(window.location.search); // id=123
+    let token = params.get("token");
+    if (token) {
       setConfirmCode(token);
       console.log(token);
       setStep(1);
     }
-  }
-  if (!template) return 'Loading...'
+  };
+  if (!template) return t("loading");
   // console.log(template)
   const IncentcoLogo = `${process.env.REACT_APP_API_STORAGE_URL}/${template.big_logo}`;
 
@@ -62,15 +61,27 @@ const Invitation = ({template}) => {
     <div className="login-form-wrap flex-column align-items-center pt-4">
       <img src={IncentcoLogo} className="img__logo_sm" alt="logo" />
       <div className="card mt-4">
-          {step==1 && confirmCode && <AcceptInvitationForm token={confirmCode} errors={errors} onSubmit={onSubmitResetPassword} loading={loading} />}
-          {step==1 && !confirmCode && <div className="form__form-group-field flex-column"><p>Invalid or expired link</p></div>}
+        {step == 1 && confirmCode && (
+          <AcceptInvitationForm
+            token={confirmCode}
+            errors={errors}
+            onSubmit={onSubmitResetPassword}
+            loading={loading}
+          />
+        )}
+        {step == 1 && !confirmCode && (
+          <div className="form__form-group-field flex-column">
+            <p>{t("invalid_or_expired_link")}</p>
+          </div>
+        )}
       </div>
     </div>
-)}
+  );
+};
 
 const mapStateToProps = (state) => {
   return {
-      template: state.domain?.program?.template
+    template: state.domain?.program?.template,
   };
 };
 export default connect(mapStateToProps)(Invitation);

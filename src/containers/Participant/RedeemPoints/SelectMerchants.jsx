@@ -3,15 +3,16 @@ import { Col, Container, FormGroup, Row } from "reactstrap";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import { Sidebar } from "../../Layout/sidebar";
 import SelectMerchantType from "./components/SelectMerchantType";
-
-const IMG_BACK = `${process.env.PUBLIC_URL}/img/pages/my-points.jpg`;
+import { useTranslation } from "react-i18next";
+const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-points.jpg`;
 
 export const SelectMerchants = () => {
+  const { t } = useTranslation();
   return (
     <>
       <div className="mainboard">
         <img src={IMG_BACK} />
-        <div className="title">Redeem My Points</div>
+        <div className="title">{t("redeem_my_points")}</div>
       </div>
       <Container>
         <ParticipantTabNavs />
