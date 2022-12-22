@@ -35,6 +35,7 @@ import { getSocialWallPostTypeEvent } from "@/services/program/getSocialWallPost
 import { createSocialWallPost } from "@/redux/actions/socialWallPostActions";
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import Slider from "@material-ui/core/Slider";
+import { useTranslation } from "react-i18next";
 
 const RewardPeerPopup = ({
   isOpen,
@@ -46,6 +47,7 @@ const RewardPeerPopup = ({
   myPoints,
   auth,
 }) => {
+  const { t } = useTranslation();
   const dispatch = flashDispatch();
   const [value, setValue] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -85,13 +87,7 @@ const RewardPeerPopup = ({
       .then((res) => {
         console.log(res);
         if (res.status === 200) {
-          dispatch(
-            flashMessage(
-              "Participants Awarded successfully!",
-              "alert-success",
-              "top"
-            )
-          );
+          dispatch(flashMessage(t("award_success"), "alert-success", "top"));
 
           // Post to Social Wall
           if (program.uses_social_wall) {
@@ -165,7 +161,7 @@ const RewardPeerPopup = ({
     return () => (mounted = false);
   }, []);
 
-  if (loading) return "Loading...";
+  if (loading) return t("loading");
 
   let initialValues = {};
 
@@ -191,7 +187,7 @@ const RewardPeerPopup = ({
     >
       <Card className="w-100">
         <CardHeader tag="h3">
-          Reward a Peer
+          {t("reward_a_peer")}
           <Button
             className="btn btn-lg float-end"
             style={{ float: "right" }}
@@ -213,7 +209,7 @@ const RewardPeerPopup = ({
                 >
                   <Row>
                     <Col md="6">
-                      <Label>Give a Reward to:</Label>
+                      <Label>{t("reward_to")}:</Label>
                     </Col>
                     <Col md="6">
                       {participants.map((item, index) => {
@@ -251,64 +247,68 @@ const RewardPeerPopup = ({
                       </Field>
                     </Col>
                   </Row>
-                  {event && event.event_type && event.event_type.type === p2p && (
-                    <>
-                      <Row>
-                        <Col md="6">
-                          <Label>Points</Label>
-                        </Col>
-                        <Col md="6">
-                          <Field name="awarding_points">
-                            {({ input, meta }) => {
-                              return <strong>{sliderValue}</strong>;
-                            }}
-                          </Field>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col md="6">
-                          <Label>Custom Cash Value per Particiapnt</Label>
-                        </Col>
-                        <Col md="6">
-                          <Field name="override_cash_value">
-                            {({ input, meta }) => (
-                              <FormGroup>
-                                {/*<Input*/}
-                                {/*  placeholder={`Enter an amount < $${event.max_awardable_amount}`}*/}
-                                {/*  type="text"*/}
-                                {/*  onKeyUp={form.mutators.onChangeAwardValue}*/}
-                                {/*  {...input}*/}
-                                {/*/>*/}
-                                <Slider
-                                  onChange={sliderHandler}
-                                  aria-label="Temperature"
-                                  defaultValue={input.value}
-                                  // getAriaValueText="asd"
-                                  valueLabelDisplay="auto"
-                                  step={1}
-                                  // marks
-                                  min={1}
-                                  max={
-                                    event.max_awardable_amount *
-                                    program.factor_valuation
-                                  }
-                                  name={input.name}
-                                />
-                                {meta.touched && meta.error && (
-                                  <span className="text-danger">
-                                    {meta.error}
-                                  </span>
-                                )}
-                              </FormGroup>
-                            )}
-                          </Field>
-                        </Col>
-                      </Row>
-                    </>
-                  )}
+                  {event &&
+                    event.event_type &&
+                    event.event_type.type === p2p && (
+                      <>
+                        <Row>
+                          <Col md="6">
+                            <Label>Points</Label>
+                          </Col>
+                          <Col md="6">
+                            <Field name="awarding_points">
+                              {({ input, meta }) => {
+                                return <strong>{sliderValue}</strong>;
+                              }}
+                            </Field>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col md="6">
+                            <Label>
+                              {t("custom_cash_value_per_participant")}
+                            </Label>
+                          </Col>
+                          <Col md="6">
+                            <Field name="override_cash_value">
+                              {({ input, meta }) => (
+                                <FormGroup>
+                                  {/*<Input*/}
+                                  {/*  placeholder={`Enter an amount < $${event.max_awardable_amount}`}*/}
+                                  {/*  type="text"*/}
+                                  {/*  onKeyUp={form.mutators.onChangeAwardValue}*/}
+                                  {/*  {...input}*/}
+                                  {/*/>*/}
+                                  <Slider
+                                    onChange={sliderHandler}
+                                    aria-label="Temperature"
+                                    defaultValue={input.value}
+                                    // getAriaValueText="asd"
+                                    valueLabelDisplay="auto"
+                                    step={1}
+                                    // marks
+                                    min={1}
+                                    max={
+                                      event.max_awardable_amount *
+                                      program.factor_valuation
+                                    }
+                                    name={input.name}
+                                  />
+                                  {meta.touched && meta.error && (
+                                    <span className="text-danger">
+                                      {meta.error}
+                                    </span>
+                                  )}
+                                </FormGroup>
+                              )}
+                            </Field>
+                          </Col>
+                        </Row>
+                      </>
+                    )}
                   <Row>
                     <Col md="6">
-                      <Label>You can award</Label>
+                      <Label>{t("you_can_award")}</Label>
                     </Col>
                     <Col md="6">
                       <Label>{myPoints.peerBalance.toLocaleString()}</Label>
@@ -320,7 +320,7 @@ const RewardPeerPopup = ({
                         {({ input, meta }) => (
                           <FormGroup>
                             <Input
-                              placeholder="Message to Participant(s)"
+                              placeholder={t("message_to_participant")}
                               type="textarea"
                               {...input}
                             />
@@ -334,7 +334,7 @@ const RewardPeerPopup = ({
                   </Row>
                   <div className="d-flex justify-content-end">
                     <Button color="danger" type="submit">
-                      Reward Now
+                      {t("reward_now")}
                     </Button>
                   </div>
                 </form>

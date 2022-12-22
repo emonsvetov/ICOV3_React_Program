@@ -13,10 +13,11 @@ import { connect } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { getEvent } from "@/services/program/getEvent";
 import { TEAM_DATA } from "./Mockdata";
-
 import ModalWrapper from "./ModalWrapper";
+import { useTranslation } from "react-i18next";
 
 const TeamView = ({ auth, program, organization }) => {
+  const { t } = useTranslation();
   const [isOpen, setOpen] = useState(false);
   const [modalName, setModalName] = useState(null);
   const [mate, setMate] = useState(null);
@@ -40,7 +41,7 @@ const TeamView = ({ auth, program, organization }) => {
 
   const onDeleteMate = (e, mate_id) => {};
 
-  if (!auth || !program || !organization) return "Loading...";
+  if (!auth || !program || !organization) return t("loading");
 
   return (
     <div className="team">

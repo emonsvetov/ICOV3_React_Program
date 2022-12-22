@@ -41,7 +41,7 @@ const Survey = () => {
     <>
       <Row className="mt-4">
         <Col md={3}>
-          <SidebarOrigin props={{ title: "My Rewards", icon: "MyRewards" }} />
+          <SidebarOrigin />
         </Col>
 
         <Col md={9}>

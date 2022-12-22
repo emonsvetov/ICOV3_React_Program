@@ -1,24 +1,25 @@
-import React from 'react';
-import { Spinner } from 'reactstrap';
-import { validEmail } from '@/shared/helper';
-import { Form, Field } from 'react-final-form';
-import TemplateButton from "@/shared/components/TemplateButton"
-import {ApiErrorMessage} from "@/shared/components/flash"
+import React from "react";
+import { validEmail } from "@/shared/helper";
+import { Form, Field } from "react-final-form";
+import TemplateButton from "@/shared/components/TemplateButton";
+import { ApiErrorMessage } from "@/shared/components/flash";
+import { useTranslation } from "react-i18next";
+import { Spinner } from "reactstrap";
 
-const ForgotForm = ( {onSubmit, loading, errors} ) => {
-
+const ForgotForm = ({ onSubmit, loading, errors }) => {
+  const { t } = useTranslation();
   // useEffect(() => {
   // });
 
-  const validate = values => {
+  const validate = (values) => {
     let errors = {};
     if (!values.email) {
-      errors.email = "Email is required";
+      errors.email = t("email_is_required");
     } else if (!validEmail(values.email)) {
-      errors.email = "Invalid email address";
+      errors.email = t("invalid_email_address");
     }
     return errors;
-  }
+  };
 
   // const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
   // const onSubmit = async values => {
@@ -27,42 +28,65 @@ const ForgotForm = ( {onSubmit, loading, errors} ) => {
   // }
 
   return (
-  <Form
-    onSubmit={onSubmit}
-    validate={validate}
-    >
-    {({ handleSubmit, form, submitting, pristine, values }) => (
-    <form className="form" onSubmit={handleSubmit}>
+    <Form onSubmit={onSubmit} validate={validate}>
+      {({ handleSubmit, form, submitting, pristine, values }) => (
+        <form className="form" onSubmit={handleSubmit}>
+          <div className="card-header">{t("forgot_password")}</div>
 
-      <div className="card-header">Forgot Password?</div>
+          <div className="card-body">
+            <p className="py-2">{t("enter_email_use_sign_in")}</p>
 
-      <div className="card-body">
+            {errors && <ApiErrorMessage errors={errors} showLabel={false} />}
 
-        <p className="py-2">Please enter the email address you use to sign in</p>
+            <Field name="email">
+              {({ input, meta }) => (
+                <div className="mb-3">
+                  <label htmlFor="loginInputEmail" className="form-label">
+                    {t("email_address")}
+                  </label>
+                  <input
+                    id="loginInputEmail"
+                    type="text"
+                    {...input}
+                    placeholder="Email"
+                    className="form-control"
+                  />
+                  {meta.touched && meta.error && (
+                    <span className="form-error">{meta.error}</span>
+                  )}
+                </div>
+              )}
+            </Field>
 
-        {errors && <ApiErrorMessage errors={errors} showLabel={false} />}
-
-        <Field name="email">
-          {({ input, meta }) => (
-            <div className="mb-3">
-              <label htmlFor="loginInputEmail" className="form-label">Email address</label>
-              <input id="loginInputEmail" type="text" {...input} placeholder="Email" className="form-control" />
-              {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
+            <div className="d-flex justify-content-between">
+              <div>
+                <TemplateButton
+                  type="submit"
+                  disabled={loading}
+                  text={t("continue")}
+                  className="mr-2"
+                />
+                {loading && (
+                  <Spinner
+                    animation="border"
+                    size="sm"
+                    className="text-center"
+                    variant="warning"
+                  />
+                )}
+              </div>
+              <TemplateButton
+                link="/login"
+                text={t("back_to_sign_in")}
+                color="outline-secondary"
+                className="border-1"
+              />
             </div>
-          )}
-        </Field>
-
-        <div className="d-flex justify-content-between">
-          <div>
-            <TemplateButton type="submit" disabled={loading} text='Continue' className="mr-2" />
-            {loading && <Spinner animation="border" size="sm" className='text-center' variant="warning" />}
           </div>
-          <TemplateButton link="/login" text='Back to Sign in' color='outline-secondary' className='border-1' />
-        </div>
-      </div>
-      </form>
-    )}
-  </Form>
-)}
+        </form>
+      )}
+    </Form>
+  );
+};
 
 export default ForgotForm;

@@ -9,7 +9,7 @@ import TemplateButton from "@/shared/components/TemplateButton";
 import { SidebarOrigin } from "../../Layout/sidebar";
 import SuggestionForm from "./components/SuggestionForm";
 
-const IMG_REFERRAL = `${process.env.PUBLIC_URL}/img/MyPath_Color_outlines.635ff927bd7f32.03885491.png`;
+const IMG_REFERRAL = `${process.env.PUBLIC_URL}/original/img/MyPath_Color_outlines.635ff927bd7f32.03885491.png`;
 
 const SuggestionBox = ({ template }) => {
   // console.log(auth)
@@ -18,7 +18,7 @@ const SuggestionBox = ({ template }) => {
     <div className="submit-referral">
       <Row className="mt-4">
         <Col md={4}>
-          <SidebarOrigin props={{ title: "My Rewards", icon: "MyRewards" }} />
+          <SidebarOrigin />
         </Col>
         <Col md={1}></Col>
         <Col md={6}>

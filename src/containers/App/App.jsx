@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, Suspense } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import axios from "axios";
@@ -25,6 +25,7 @@ import { setCart } from "@/redux/actions/cartActions";
 import { FlashMessage } from "@/shared/components/flash";
 import { setDomain } from "@/redux/actions/domainActions";
 import { setTemplate } from "@/redux/actions/templateActions";
+import { ThemeProvider } from "@/context/themeContext";
 
 // require('dotenv').config()
 axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL + "/api/v1";
@@ -134,9 +135,13 @@ const App = () => {
 
 const AppProvider = () => {
   return (
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <Suspense fallback={"loading"}>
+      <Provider store={store}>
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
+      </Provider>
+    </Suspense>
   );
 };
 

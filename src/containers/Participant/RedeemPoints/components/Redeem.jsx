@@ -8,8 +8,8 @@ import { connect } from "react-redux";
 import { getMerchant } from "@/services/program/getMerchant";
 import { getMerchantRedeemable } from "@/services/program/getMerchantRedeemable";
 import { getAuthCart, updateAuthCart } from "@/containers/App/auth";
-import Cart from "@/containers/Participant/components/Cart";
 import TemplateButton from "@/shared/components/TemplateButton";
+import { useTranslation } from "react-i18next";
 
 const makeOption = (i, giftcode, factor_valuation) => {
   return {
@@ -21,6 +21,7 @@ const makeOption = (i, giftcode, factor_valuation) => {
 };
 
 const Redeem = ({ organization, program, cart, pointBalance }) => {
+  const { t } = useTranslation();
   let { merchantId } = useParams();
   const [merchant, setMerchant] = useState(null);
   const [giftcodes, setGiftcodes] = useState([]);
@@ -86,7 +87,7 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
     item.merchant_icon = merchant.icon;
     let redemption_points = item.redemption_value * program.factor_valuation;
     if (pointBalance.points <= redemption_points) {
-      alert("You do not have sufficient balance to redeem");
+      alert(t("insufficient_balance_redeem"));
       return;
     }
     // console.log(item)
@@ -101,7 +102,7 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
       itemcart.redemption_value * program.factor_valuation;
     if (datacart) {
       if (datacart.total_points + redemption_points > pointBalance.points) {
-        alert("You do not have sufficient balance to add this giftcode");
+        alert(t("insufficient_balance"));
         return;
       }
       if (datacart.items.length > 0) {
@@ -145,7 +146,7 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
   };
 
   const Merchant = () => {
-    if (!merchant) return "Loading merchant...";
+    if (!merchant) return t("loading_merchant");
     // console.log(merchant)
     const LOGO_PUBLIC_URL = `${process.env.REACT_APP_API_STORAGE_URL}`;
     let giftcodeOptions = [];
@@ -166,10 +167,11 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
             <h4>{merchant.name}</h4>
             <div className="desc">{merchant.description}</div>
             <div className="mt-3">
-              <a href={`${merchant.website}`}></a>Visit Merchant Website
+              <a href={`${merchant.website}`}></a>
+              {t("visit_merchant_website")}
             </div>
             <div className="my-3 w-50">
-              {loadingGiftcodes && "Loading..."}
+              {loadingGiftcodes && t("loading")}
               <Select
                 options={giftcodeOptions}
                 clearable={false}
@@ -185,25 +187,20 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
                 type="submit"
                 disabled={!selectedGiftcode}
                 onClick={() => onClickAddToCart()}
-                text="Add to Cart"
+                text={t("add_to_cart")}
               />
               {/* <Button disabled={!selectedGiftcode} className='btn btn-primary red' onClick={() => onClickAddToCart()}>Add to Cart</Button> */}
               {addedToCart && (
                 <span style={{ marginLeft: 5, fontSize: 13 }}>
-                  Added to cart!
+                  {t("added_to_cart")}!
                 </span>
               )}
             </div>
           </Col>
         </Row>
         <Row className="redemption-instructions mt-5">
-          <h3>Redemptions Instructions</h3>
-          <div className="redtext my-3">
-            After redeeming your gift code, you will be asked for a challenge
-            key. The challenge key is the pin number listed to the right of your
-            gift card link. You may need to type this number in, instead of copy
-            and pasting.
-          </div>
+          <h3>{t("redeem_instructions")}</h3>
+          <div className="redtext my-3">{t("redeem_merchants_desc")}</div>
           <div>{merchant.redemption_instruction}</div>
         </Row>
       </>
@@ -215,7 +212,7 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
       <div className="redeem">
         <Row>
           <Col md={4}>
-            <h3>Get Your Gift Code</h3>
+            <h3>{t("get_your_gift_code")}</h3>
           </Col>
           {/* <Col md={8} className="d-flex justify-content-end">
             <Cart />

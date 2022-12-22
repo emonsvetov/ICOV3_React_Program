@@ -9,6 +9,9 @@ h1, h2, h3, h4, h5, h6{
     font-weight: bold;
 }
 
+main{
+    min-height: calc(100vh - 130px);
+}
 //scroll bar
 ::-webkit-scrollbar {
     width: 8px;
@@ -339,8 +342,13 @@ ul.horizontal {
         }
     }
 }
-.cart{
-    
+
+.cart-new{
+    position: absolute;
+    right: 0px;
+    margin-right: 35px;
+    z-index: 9999;
+
     .popover{
         max-width: 25%;
         min-width: 25%;
@@ -423,7 +431,7 @@ ul.horizontal {
                 transform: translateY(-50%) rotate(90deg) ;
             }
             &.origin{
-                background-image: url(../../../public/img/ui-bg_highlight-soft_75_cccccc_1x100.png);
+                background-image: url(../../../public/original/img/ui-bg_highlight-soft_75_cccccc_1x100.png);
                 border: 1px solid #aaa;
                 color: #222;   
                 .icon {
@@ -908,6 +916,7 @@ ul.horizontal {
 }
 footer{    
     width: 100%;
+    height: 100px;
     background-color: black;
     padding: 20px;
     color: white;

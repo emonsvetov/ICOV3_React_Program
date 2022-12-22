@@ -13,10 +13,12 @@ import {
 } from "@/shared/helper";
 import { getAuthUser, AUTH_USER_KEY } from "@/containers/App/auth";
 import { ErrorMessage } from "@/shared/components/ErrorMsg";
+import { useTranslation } from "react-i18next";
 
 const MEDIA_FIELDS = ["avatar"];
 
 const SuggestionForm = ({ organization, program, auth }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   let [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -29,6 +31,30 @@ const SuggestionForm = ({ organization, program, auth }) => {
       });
     }
   }, [organization, program, auth]);
+
+  const validate = (values) => {
+    let errors = {};
+    if (!values.first_name) {
+      errors.first_name = t("please_enter_first_name");
+    }
+    if (!values.last_name) {
+      errors.last_name = t("please_enter_last_name");
+    }
+    if (!values.email) {
+      errors.email = t("email_is_required");
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i.test(values.email)) {
+      errors.email = t("invalid_email_address");
+    }
+    if (values?.password || values?.password_confirmation) {
+      if (values.password !== values.password_confirmation) {
+        errors.password = t("password_and_confirm_password_do_not_match");
+      }
+      if (values.password.trim().length < 3) {
+        errors.password = t("please_enter_strong_password");
+      }
+    }
+    return errors;
+  };
 
   const onSubmit = (values) => {
     values = unpatchMedia(values, MEDIA_FIELDS);
@@ -54,7 +80,7 @@ const SuggestionForm = ({ organization, program, auth }) => {
       });
   };
 
-  if (!user) return "Loading...";
+  if (!user) return t("loading");
 
   user = patchMediaURL(user, MEDIA_FIELDS);
 
@@ -66,8 +92,8 @@ const SuggestionForm = ({ organization, program, auth }) => {
 
   return (
     <div className="suggestion-box">
-      <h2 className="title">My Path Suggestion Box</h2>
-      <div className="hr">Let us know what suggestions you have!</div>
+      <h2 className="title">{t("my_path_suggestion_box")}</h2>
+      <div className="hr">{t("what_suggestions_you_have")}</div>
 
       <Form
         onSubmit={onSubmit}
@@ -81,13 +107,13 @@ const SuggestionForm = ({ organization, program, auth }) => {
           >
             <Row>
               <Col md="12">
-                <Label className="w-50">* Name</Label>
+                <Label className="w-50">* {t("name")}</Label>
                 <div className="d-flex justify-content-between">
                   <Field name="first_name">
                     {({ input, meta }) => (
                       <FormGroup className="w-100">
                         <Input
-                          placeholder="First Name"
+                          placeholder={t("first_name")}
                           type="text"
                           {...input}
                         />
@@ -104,7 +130,11 @@ const SuggestionForm = ({ organization, program, auth }) => {
                   <Field name="last_name">
                     {({ input, meta }) => (
                       <FormGroup className="w-100">
-                        <Input placeholder="Last Name" type="text" {...input} />
+                        <Input
+                          placeholder={t("last_name")}
+                          type="text"
+                          {...input}
+                        />
                         {meta.touched && meta.error && (
                           <ErrorMessage msg={meta.error} />
                         )}
@@ -120,7 +150,7 @@ const SuggestionForm = ({ organization, program, auth }) => {
                 <Field name="email">
                   {({ input, meta }) => (
                     <FormGroup className="w-75">
-                      <Label className="w-50">* Email:</Label>
+                      <Label className="w-50">* {t("email")}:</Label>
                       <Input placeholder="" type="email" {...input} />
                       {meta.touched && meta.error && (
                         <ErrorMessage msg={meta.error} />
@@ -136,9 +166,7 @@ const SuggestionForm = ({ organization, program, auth }) => {
                 <Field name="comments">
                   {({ input, meta }) => (
                     <FormGroup className="w-100">
-                      <Label className="w-100">
-                        What would you like to suggest?
-                      </Label>
+                      <Label className="w-100">{t("what_would_suggest")}</Label>
                       <Input
                         placeholder=""
                         type="textarea"
@@ -152,37 +180,17 @@ const SuggestionForm = ({ organization, program, auth }) => {
             </Row>
 
             <div className="form-buttons-wrapper">
-              <TemplateButton type="submit" disabled={loading} text="Submit" />
+              <TemplateButton
+                type="submit"
+                disabled={loading}
+                text={t("submit")}
+              />
             </div>
           </form>
         )}
       </Form>
     </div>
   );
-};
-
-const validate = (values) => {
-  let errors = {};
-  if (!values.first_name) {
-    errors.first_name = "Please enter first name";
-  }
-  if (!values.last_name) {
-    errors.last_name = "Please enter last name";
-  }
-  if (!values.email) {
-    errors.email = "Email is required";
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i.test(values.email)) {
-    errors.email = "Invalid email address";
-  }
-  if (values?.password || values?.password_confirmation) {
-    if (values.password !== values.password_confirmation) {
-      errors.password = "Password and confirm password do not match";
-    }
-    if (values.password.trim().length < 3) {
-      errors.password = "Please enter strong password";
-    }
-  }
-  return errors;
 };
 
 export default connect((state) => ({
