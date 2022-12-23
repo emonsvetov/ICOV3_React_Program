@@ -30,6 +30,7 @@ const ManagerTopbar = ({ template }) => {
     setOpen((prev) => !prev);
   };
 
+  if (!template) return "loading";
   // if (!template) return t("loading");
   const Brand = `${process.env.REACT_APP_API_STORAGE_URL}/${template.small_logo}`;
 
