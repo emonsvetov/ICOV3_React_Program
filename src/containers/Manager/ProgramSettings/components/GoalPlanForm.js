@@ -85,40 +85,44 @@ const GoalPlanForm = ({
   if (goalplan) {
     if (goalplan.goal_plan_type_id)
       goalplan = patch4Select(goalplan, "goal_plan_type_id", goalPlanTypes);
-    if (goalplan.automatic_progress)
+    if (goalplan.automatic_progress) {
       goalplan = patch4Select(
         goalplan,
         "automatic_progress",
         automaticProgressOptions
       );
+    }
     if (goalplan.expiration_rule_id)
       goalplan = patch4Select(goalplan, "expiration_rule_id", expirationRules);
     if (goalplan.annual_expire_month)
       goalplan = patch4Select(goalplan, "annual_expire_month", monthsOptions);
     if (goalplan.annual_expire_day)
       goalplan = patch4Select(goalplan, "annual_expire_day", daysOptions);
-    if (goalplan.custom_expire_units)
+    if (goalplan.custom_expire_units) {
       goalplan = patch4Select(
         goalplan,
         "custom_expire_units",
         customUnitsOptions
       );
+    }
     if (goalplan.exceeded_event_id)
       goalplan = patch4Select(goalplan, "exceeded_event_id", events);
     if (goalplan.achieved_event_id)
       goalplan = patch4Select(goalplan, "achieved_event_id", events);
-    if (goalplan.automatic_frequency)
+    if (goalplan.automatic_frequency) {
       goalplan = patch4Select(
         goalplan,
         "automatic_frequency",
         automaticFrequencyOptions
       );
-    if (goalplan.progress_email_template_id)
+    }
+    if (goalplan.progress_notification_email_id) {
       goalplan = patch4Select(
         goalplan,
-        "progress_email_template_id",
+        "progress_notification_email_id",
         program_email_templates
       );
+    }
   }
   const validate = (values) => {
     let required_field_msg = "This field is required";
@@ -601,7 +605,7 @@ const GoalPlanForm = ({
                   Goal Plan Progress Email Template*
                 </label>
                 <Field
-                  name="progress_email_template_id"
+                  name="progress_notification_email_id"
                   className="react-select"
                   options={program_email_templates}
                   placeholder={"Goal Plan Progress Email Template*"}
