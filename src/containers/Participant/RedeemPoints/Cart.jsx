@@ -12,9 +12,7 @@ const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-points.jpg`;
 
 export const Cart = ({ template }) => {
   const { t } = useTranslation();
-  const {
-    state: { themeName },
-  } = useContext(themeContext);
+  
 
   const OriginCart = () => {
     return (
@@ -59,8 +57,8 @@ export const Cart = ({ template }) => {
   };
 
   return (
-    (themeName === "original" && <OriginCart />) ||
-    (themeName === "new" && <NewCart />)
+    (template?.name === "Original" && <OriginCart />) ||
+    (template?.name === "New" && <NewCart />)
   );
 };
 

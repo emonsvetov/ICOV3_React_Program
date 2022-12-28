@@ -13,9 +13,7 @@ const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-gift-codes.jpg`;
 
 const MyGiftCodes = ({ template }) => {
   const { t } = useTranslation();
-  const {
-    state: { themeName },
-  } = useContext(themeContext);
+  
 
   const MyGiftCodesOrigin = () => {
     return (
@@ -66,8 +64,8 @@ const MyGiftCodes = ({ template }) => {
   };
 
   return (
-    (themeName === "new" && <MyGiftCodesNew />) ||
-    (themeName === "original" && <MyGiftCodesOrigin />)
+    (template?.name === "New" && <MyGiftCodesNew />) ||
+    (template?.name === "Original" && <MyGiftCodesOrigin />)
   );
 };
 

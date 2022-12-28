@@ -18,12 +18,20 @@ const getSlideIcons = () => {
   }
   return icons;
 };
-const getOriginSlideImgs = () => {
+const getOriginSlideImgs = (template) => {
   let imgs = [];
-  for (let i = 1; i <= 4; i++) {
+  let count = 4;
+  if (template.slider_01 || template.slider_02 || template.slider_03){
+    count = 3;
+  }
+  for (let i = 1; i <= count; i++) {
+    let img_src = template[`slider_0${i}`]
+        ? `${process.env.REACT_APP_API_STORAGE_URL}/`+template[`slider_0${i}`]
+        : template.name === 'New' ? `${process.env.PUBLIC_URL}/new/img/slider/slider-02.jpg`
+        : `${process.env.PUBLIC_URL}/original/img/slider/slider-0${i}.jpg`;
     imgs.push({
-      src: `${process.env.PUBLIC_URL}/original/img/slider/slider-0${i}.jpg`,
-      altText: "Slide 1",
+      src: img_src,
+      altText: `Slide ${i}`,
     });
   }
   return imgs;
@@ -140,13 +148,13 @@ const LogIn = ({ template }) => {
     },
   ];
 
-  const items_origin = getOriginSlideImgs();
+  const items_origin = getOriginSlideImgs(template);
 
   let slide_icons = getSlideIcons();
   return (
     <div>
       <HomeTopbar
-        onClickLogin={!template ? popupToggle : toggle}
+        onClickLogin={template?.name === 'New' ? toggle : popupToggle}
         onClickSignup={signupToggle}
       />
       <UncontrolledCarousel

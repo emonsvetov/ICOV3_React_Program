@@ -29,9 +29,6 @@ const Home = ({ auth, organization, program, template }) => {
     program,
   };
   let [showSocialWall, setShowSocialWall] = useState(null);
-  const {
-    state: { themeName },
-  } = useContext(themeContext);
 
   useEffect(() => {
     let result = false;
@@ -49,11 +46,13 @@ const Home = ({ auth, organization, program, template }) => {
   }, [auth, program]);
 
   if (!auth || !program || !template) return t("loading");
-
+console.log(template);
   let slide_imgs = getSlideImg();
 
   const HomeOrigin = () => {
-    const IMG_BACK = `${process.env.PUBLIC_URL}/original/img/back.jpg`;
+    const IMG_BACK = template.hero_banner
+      ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.hero_banner}`
+      : `${process.env.PUBLIC_URL}/original/img/back.jpg`;
     return (
       <>
         <div className="mainboard">
@@ -135,8 +134,8 @@ const Home = ({ auth, organization, program, template }) => {
     );
   };
   return (
-    (themeName === "original" && <HomeOrigin />) ||
-    (themeName === "new" && <HomeNew />)
+    (template?.name === "Original" && <HomeOrigin />) ||
+    (template?.name === "New" && <HomeNew />)
   );
 };
 

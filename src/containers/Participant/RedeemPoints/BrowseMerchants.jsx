@@ -11,9 +11,7 @@ const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-points.jpg`;
 
 const BrowseMerchants = ({ template }) => {
   const { t } = useTranslation();
-  const {
-    state: { themeName },
-  } = useContext(themeContext);
+  
 
   const OriginBrowseMerchants = () => {
     return (
@@ -59,8 +57,8 @@ const BrowseMerchants = ({ template }) => {
   };
 
   return (
-    (themeName === "original" && <OriginBrowseMerchants />) ||
-    (themeName === "new" && <NewBrowseMerchants />)
+    (template?.name === "Original" && <OriginBrowseMerchants />) ||
+    (template?.name === "New" && <NewBrowseMerchants />)
   );
 };
 
