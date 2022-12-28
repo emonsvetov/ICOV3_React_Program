@@ -23,9 +23,7 @@ const Survey = ({ template }) => {
     recommend: true,
     satisfication: 2,
   });
-  const {
-    state: { themeName },
-  } = useContext(themeContext);
+  
 
   const prevStep = () => {
     setStep((step) => step - 1);
@@ -154,8 +152,8 @@ const Survey = ({ template }) => {
   };
 
   return (
-    (themeName === "new" && <SurveyNew />) ||
-    (themeName === "original" && <SurveyOrigin />)
+    (template?.name === "New" && <SurveyNew />) ||
+    (template?.name === "Original" && <SurveyOrigin />)
   );
 };
 

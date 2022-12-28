@@ -12,9 +12,7 @@ import { themeContext } from "@/context/themeContext";
 
 const GoalView = ({ template }) => {
   const { t } = useTranslation();
-  const {
-    state: { themeName },
-  } = useContext(themeContext);
+  
   const { goalId } = useParams();
   const [goal, setGoal] = useState(null);
   const navigate = useNavigate();
@@ -129,8 +127,8 @@ const GoalView = ({ template }) => {
   };
 
   return (
-    (themeName === "original" && <GoalOrigin />) ||
-    (themeName === "new" && <GoalNew />)
+    (template?.name === "Original" && <GoalOrigin />) ||
+    (template?.name === "New" && <GoalNew />)
   );
 };
 const mapStateToProps = (state) => {

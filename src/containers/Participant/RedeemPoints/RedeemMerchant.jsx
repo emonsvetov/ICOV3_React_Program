@@ -15,9 +15,7 @@ const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-points.jpg`;
 
 export const RedeemMerchant = ({ template }) => {
   const { t } = useTranslation();
-  const {
-    state: { themeName },
-  } = useContext(themeContext);
+  
 
   let params = useParams();
   let { merchantId } = params;
@@ -72,8 +70,8 @@ export const RedeemMerchant = ({ template }) => {
   };
 
   return (
-    (themeName === "original" && <OriginRedeemMerchant />) ||
-    (themeName === "new" && <NewRedeemMerchant />)
+    (template?.name === "Original" && <OriginRedeemMerchant />) ||
+    (template?.name === "New" && <NewRedeemMerchant />)
   );
 };
 

@@ -12,9 +12,7 @@ const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-points.jpg`;
 
 export const Checkout = ({ template }) => {
   const { t } = useTranslation();
-  const {
-    state: { themeName },
-  } = useContext(themeContext);
+  
 
   const OriginCheckout = () => {
     return (
@@ -59,8 +57,8 @@ export const Checkout = ({ template }) => {
   };
 
   return (
-    (themeName === "original" && <OriginCheckout />) ||
-    (themeName === "new" && <NewCheckout />)
+    (template?.name === "Original" && <OriginCheckout />) ||
+    (template?.name === "New" && <NewCheckout />)
   );
 };
 

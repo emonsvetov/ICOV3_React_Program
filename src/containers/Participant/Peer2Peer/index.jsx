@@ -11,9 +11,7 @@ import { useTranslation } from "react-i18next";
 import { themeContext } from "@/context/themeContext";
 
 const Peer2Peer = ({ auth, program, organization, template }) => {
-  const {
-    state: { themeName },
-  } = useContext(themeContext);
+  
   const { t } = useTranslation();
 
   const Peer2PeerOrigin = () => {
@@ -60,8 +58,8 @@ const Peer2Peer = ({ auth, program, organization, template }) => {
   };
 
   return (
-    (themeName === "original" && <Peer2PeerOrigin />) ||
-    (themeName === "new" && <Peer2PeerNew />)
+    (template?.name === "Original" && <Peer2PeerOrigin />) ||
+    (template?.name === "New" && <Peer2PeerNew />)
   );
 };
 
