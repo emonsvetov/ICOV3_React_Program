@@ -20,6 +20,7 @@ const LogInForm = () => {
   const [organization, setOrganization] = useState(null);
   const [loading, setLoading] = useState(false);
   let [user, setUser] = useState(null);
+  let [userEmail, setUserEmail] = useState('');
   let [accessToken, setAccessToken] = useState(null);
   let [program, setProgram] = useState(null);
   const [isManager, setIsManager] = useState(false);
@@ -37,6 +38,10 @@ const LogInForm = () => {
   const CardFormLogin = ()  => {
     const FormLogin = () => {
       const validate = values => {
+
+        if (!values.email && userEmail){
+          values.email = userEmail;
+        }
         let errors = {};
         if (!values.email) {
           errors.email = "Email is required";
@@ -49,6 +54,12 @@ const LogInForm = () => {
         return errors;
       }
       const onSubmit = async values => {
+        if (values.email){
+          setUserEmail(values.email)
+        }
+        if (!values.email && userEmail){
+          values.email = userEmail;
+        }
         // console.log(values);
         setLoading(true)
         axios.post('/login', values)
@@ -89,6 +100,7 @@ const LogInForm = () => {
           setLoading(false)
         })
       };
+
       return (
       <Form
         onSubmit={onSubmit}
@@ -108,7 +120,7 @@ const LogInForm = () => {
             {({ input, meta }) => (
              <div className="mb-3">
                 <label htmlFor="loginInputEmail" className="form-label">Email address</label>
-                <input id="loginInputEmail" type="text" {...input} placeholder="Email" className="form-control" />
+                <input id="loginInputEmail" type="text" {...input} value={userEmail ? userEmail : input.value}  placeholder="Email" className="form-control" />
                 {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
               </div>
             )}
