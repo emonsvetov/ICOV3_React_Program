@@ -17,6 +17,8 @@ import CartOrigin from "../../Participant/components/CartOrigin";
 import { useTranslation } from "react-i18next";
 import Select from "react-select";
 
+import { SWITCH_THEME, themeContext } from "@/context/themeContext";
+
 // const Brand = `${process.env.PUBLIC_URL}/img/logo/logo_light.svg`;
 const LINKS = [
   { to: "/participant/home", text: "home" },
@@ -39,9 +41,19 @@ const languageOptions = [
   { value: "es", label: "Español" },
 ];
 
+const themeOptions = [
+  { value: "new", label: "New" },
+  { value: "original", label: "Original" },
+];
+
 const ParticipantTopbar = ({ template }) => {
   const { t, i18n } = useTranslation();
   const [language, setLanguage] = useState();
+  const {
+    state: { themeName },
+    actions: { switchTheme },
+  } = useContext(themeContext);
+  const [currentTheme, setCurrentTheme] = useState();
 
   useEffect(() => {
     let lang = localStorage.getItem("i18nextLng") || "en-US";
@@ -50,10 +62,23 @@ const ParticipantTopbar = ({ template }) => {
     setLanguage(option);
   }, []);
 
+  useEffect(() => {
+    let [option] = themeOptions.filter((item) => item.value === themeName);
+    setCurrentTheme(option);
+  }, [themeName]);
+
   const onSelectLanguage = (selectedOption) => {
     // alert(JSON.stringify(selectedOption))
     i18n.changeLanguage(selectedOption.value);
     setLanguage(selectedOption);
+  };
+
+  const onSelectTheme = (selectedOption) => {
+    switchTheme({
+      type: SWITCH_THEME,
+      payload: selectedOption.value,
+    });
+    setCurrentTheme(selectedOption);
   };
 
   const LanguageBar = () => {
@@ -62,6 +87,16 @@ const ParticipantTopbar = ({ template }) => {
         options={languageOptions}
         value={language}
         onChange={onSelectLanguage}
+      />
+    );
+  };
+
+  const ThemeBar = () => {
+    return (
+      <Select
+        options={themeOptions}
+        value={currentTheme}
+        onChange={onSelectTheme}
       />
     );
   };
@@ -98,6 +133,7 @@ const ParticipantTopbar = ({ template }) => {
                   <TopbarProfile />
                 </div>
                 <LanguageBar />
+                <ThemeBar />
               </div>
             </Navbar>
           </Container>
@@ -114,8 +150,7 @@ const ParticipantTopbar = ({ template }) => {
   };
 
   const OriginalNavbar = () => {
-    const Brand = template.small_logo ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.small_logo}`
-      :`${process.env.REACT_APP_API_STORAGE_URL}/logo/big_logo.png`;
+    const Brand = `${process.env.REACT_APP_API_STORAGE_URL}/logo/big_logo.png`;
     return (
       <>
         <Navbar
@@ -149,6 +184,7 @@ const ParticipantTopbar = ({ template }) => {
               </ul>
             </nav>
             <LanguageBar />
+            <ThemeBar />
           </div>
         </Navbar>
 
@@ -157,8 +193,8 @@ const ParticipantTopbar = ({ template }) => {
     );
   };
   return (
-    (template?.name === "New" && <NewNavbar />) ||
-    (template?.name === "Original" && <OriginalNavbar />)
+    (currentTheme?.value === "new" && <NewNavbar />) ||
+    (currentTheme?.value === "original" && <OriginalNavbar />)
   );
 };
 
