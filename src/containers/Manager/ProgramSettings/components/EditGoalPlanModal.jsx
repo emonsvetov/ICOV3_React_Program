@@ -131,7 +131,7 @@ const EditGoalPlanModal = ({
     goalPlanData.progress_notification_email_id = progress_notification_email_id
       ? progress_notification_email_id.value
       : null;
-    goalPlanData.created_by = 1;
+    //goalPlanData.created_by = 1;
 
     console.log("FDF");
     let nGoalPlan = {
