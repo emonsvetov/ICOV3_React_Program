@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import AddEventPopup from "./AddEventPopup";
-import AddGoalPlanPopup from "./AddGoalPlanPopup";
+import AddGoalPlanModal from "./AddGoalPlanModal";
 import EditEventModal from "./EditEventModal";
 import EditGoalPlanModal from "./EditGoalPlanModal";
 import AddLeaderboardModal from "./AddLeaderboardModal";
@@ -38,7 +38,7 @@ const ModalWrapper = ({
     <>
       {name === "AddEvent" && <AddEventPopup {...props} />}
       {name === "EditEvent" && <EditEventModal {...props} />}
-      {name === "AddGoal" && <AddGoalPlanPopup {...props} />}
+      {name === "AddGoal" && <AddGoalPlanModal {...props} />}
       {name === "EditGoalPlan" && <EditGoalPlanModal {...props} />}
       {name === "AddLeaderboard" && <AddLeaderboardModal {...props} />}
     </>
