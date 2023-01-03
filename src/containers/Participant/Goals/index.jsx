@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import { Sidebar } from "../../Layout/sidebar";
 import { Table, Col, Row, Container } from "reactstrap";
@@ -8,9 +8,12 @@ import { GOAL_COLUMNS } from "./components/columns";
 import { Link } from "react-router-dom";
 import { GOAL_DATA } from "./components/Mockdata";
 import { SidebarOrigin } from "../../Layout/sidebar";
+import { useTranslation } from "react-i18next";
+import { themeContext } from "@/context/themeContext";
 
 const Goals = ({ template }) => {
-  const isOriginTheme = template?.type == "origin";
+  const { t } = useTranslation();
+  
 
   const [goals, setGoals] = useState(null);
 
@@ -22,7 +25,7 @@ const Goals = ({ template }) => {
         <span>
           <Link to={`/participant/my-goals/${row.original.id}`}>
             {" "}
-            View Details
+            {t("view_details")}
           </Link>
         </span>
       );
@@ -103,12 +106,12 @@ const Goals = ({ template }) => {
         <Row className="mt-4">
           <div className="space-30"></div>
           <Col md={4}>
-            <SidebarOrigin props={{ title: "My Rewards", icon: "MyRewards" }} />
+            <SidebarOrigin />
           </Col>
           <Col md={7} className="">
             <h3 className="pt-1" style={{ fontSize: "16px" }}>
               {" "}
-              My Goals
+              {t("my_goals")}
             </h3>
             <GoalTable />
           </Col>
@@ -117,7 +120,10 @@ const Goals = ({ template }) => {
     );
   };
 
-  return (isOriginTheme && <GoalsOrigin />) || (!isOriginTheme && <GoalsNew />);
+  return (
+    (template?.name === "Original" && <GoalsOrigin />) ||
+    (template?.name === "New" && <GoalsNew />)
+  );
 };
 const mapStateToProps = (state) => {
   return {

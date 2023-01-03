@@ -56,7 +56,50 @@ const FAQS = [
   },
 ];
 
-const Queries = () => (
+const FAQS_ORIGIN = [
+  {
+    question: "How does my Program work?",
+    answer:
+      " You have the ability to earn rewards for completing various activities. You can redeem your rewards for gift codes to be used at retail merchants or for specific products or services in your Rewards Super Center.",
+  },
+  {
+    question: "How do I earn rewards?",
+    answer:
+      " There are several ways you can earn rewards. Please contact your program administrator for your program details.",
+  },
+  {
+    question: "Where can I see my available reward balance?",
+    answer:
+      " On your home page, you can select the navigation tab in the upper right corner labeled “My Rewards” to view your balance or on the left side of your home page under ‘My Balance’.",
+  },
+  {
+    question: "How do I redeem my rewards?",
+    answer:
+      " You can redeem your rewards for gift codes to be used at retail merchants or for specific products or services from the Rewards Super Center. Upon selecting ‘Redeem My Rewards’ you will have an option to either redeem your rewards for gift codes to be used at US merchants or to redeem for merchandise, events, travel, etc. in the “Rewards Super Center”.",
+  },
+  {
+    question: "Do my rewards expire?",
+    answer:
+      "You can redeem your points on your personal home page. There are 3 easy steps: Select a merchant...Select the amount of points you want to redeem...then select 'Redeem Points'. You will receive a gift code in your email. Write down or copy the code and enter it into the 'enter gift code' in the shopping cart at check out of the merchant you've selected. Please remember that most codes can only be used with on-line shopping.",
+  },
+  {
+    question: "Do my points expire?",
+    answer:
+      " As long as you are a current participant, your rewards will expire on December 31st of the year following the year in which the amount was awarded. This allows you at least 12-24 months to redeem your rewards.",
+  },
+  {
+    question: "Can I give my rewards to someone else?",
+    answer:
+      " Rewards are only awarded to the person that registered their account. However, once you've redeemed your rewards for a gift code, you can give the code to whomever you like (US only).",
+  },
+  {
+    question: "Who do I call with questions?",
+    answer:
+      " Contact your program representative if you have questions regarding how you can earn rewards. Contact INCENTCO Customer Service for other information or help at support@incentco.zendesk.com",
+  },
+];
+
+export const Queries = () => (
   <div className="queries">
     {FAQS.map((item, index) => {
       return (
@@ -71,4 +114,17 @@ const Queries = () => (
   </div>
 );
 
-export default Queries;
+export const QueriesOrigin = () => (
+  <div className="queries">
+    {FAQS_ORIGIN.map((item, index) => {
+      return (
+        <div className="d-flex mt-3" key={index}>
+          <div className="mx-2">{`${index + 1}.`}</div>
+          <div>
+            <strong>{item.question}</strong> {item.answer}
+          </div>
+        </div>
+      );
+    })}
+  </div>
+);

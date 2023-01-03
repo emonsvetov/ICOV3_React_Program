@@ -4,8 +4,10 @@ import MaximizeIcon from "mdi-react/ArrowTopRightBottomLeftIcon";
 import RightIcon from "mdi-react/ArrowRightIcon";
 import LeftIcon from "mdi-react/ArrowLeftIcon";
 import { motion, useAnimationControls } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 export const SeventhStep = ({ swiper, setData, data }) => {
+  const { t } = useTranslation();
   const handleSubmit = () => {
     console.log("data : last step", data);
   };
@@ -23,10 +25,7 @@ export const SeventhStep = ({ swiper, setData, data }) => {
             borderRadius: "10px 10px 0 0",
           }}
         >
-          <legend>
-            Thank you for completing this survey. You will be awarded 400
-            points!
-          </legend>
+          <legend>{t("thank_you_survey")}</legend>
         </div>
 
         <div
@@ -39,14 +38,14 @@ export const SeventhStep = ({ swiper, setData, data }) => {
             color="dark rounded-0  w-full text-left py-3 px-3 d-flex justify-content-start align-items-center gap-2"
           >
             <LeftIcon />
-            <span>PREVIOUS</span>
+            <span className="text-uppercase">{t("previous")}</span>
           </Button>
           <Button
             style={{ width: "100%", textAlign: "right" }}
             onClick={() => handleSubmit()}
             color="dark rounded-0  w-full text-left py-3 px-3 d-flex justify-content-end align-items-center gap-2"
           >
-            <span>SUBMIT</span>
+            <span className="text-uppercase">{t("submit")}</span>
           </Button>
         </div>
       </div>
@@ -55,6 +54,7 @@ export const SeventhStep = ({ swiper, setData, data }) => {
 };
 
 export const SixthStep = ({ swiper, setData, data }) => {
+  const { t } = useTranslation();
   const controls = useAnimationControls();
 
   const handleNext = () => {
@@ -82,8 +82,7 @@ export const SixthStep = ({ swiper, setData, data }) => {
           }}
         >
           <h4 style={{ textAlign: "center" }} className="text-lg-left mb-4">
-            Do you have any suggestions how we can improve your employment
-            experience?*
+            {t("suggestion_survey")}*
           </h4>
           <Row>
             <Col>
@@ -116,14 +115,14 @@ export const SixthStep = ({ swiper, setData, data }) => {
             color="dark rounded-0  w-full text-left py-3 px-3 d-flex justify-content-start align-items-center gap-2"
           >
             <LeftIcon />
-            <span>PREVIOUS</span>
+            <span className="text-uppercase">{t("previous")}</span>
           </Button>
           <Button
             onClick={handleNext}
             style={{ width: "100%", textAlign: "right" }}
             color="dark rounded-0  w-full text-left py-3 px-3 d-flex justify-content-end align-items-center gap-2"
           >
-            <span>NEXT</span>
+            <span className="text-uppercase">{t("next")}</span>
             <RightIcon />
           </Button>
         </div>
@@ -134,7 +133,7 @@ export const SixthStep = ({ swiper, setData, data }) => {
 
 export const FifthStep = ({ swiper, setData, data }) => {
   const controls = useAnimationControls();
-
+  const { t } = useTranslation();
   const handleNext = () => {
     if (data.satisfication == "") {
       controls.start({ x: [-10, 8, 0, 6, -4, 0, 2, -1, 0] });
@@ -160,7 +159,7 @@ export const FifthStep = ({ swiper, setData, data }) => {
           }}
         >
           <h4 style={{ textAlign: "center" }} className="text-lg-left mb-4">
-            How satisfied are you with our company overall?*
+            {t("satisfy_survey")}*
           </h4>
           <Row>
             <Col>
@@ -178,7 +177,7 @@ export const FifthStep = ({ swiper, setData, data }) => {
                       defaultChecked={data?.satisfication == 2}
                       type="radio"
                     />
-                    Very Satisfied
+                    {t("very_satisfied")}
                   </Label>
                 </FormGroup>
                 <FormGroup check>
@@ -189,7 +188,7 @@ export const FifthStep = ({ swiper, setData, data }) => {
                       defaultChecked={data?.satisfication == 1}
                       type="radio"
                     />
-                    Satisfied
+                    {t("satisfied")}
                   </Label>
                 </FormGroup>
                 <FormGroup check>
@@ -200,7 +199,7 @@ export const FifthStep = ({ swiper, setData, data }) => {
                       defaultChecked={data?.satisfication == 0}
                       type="radio"
                     />
-                    Undecided
+                    {t("undecided")}
                   </Label>
                 </FormGroup>
                 <FormGroup check>
@@ -211,7 +210,7 @@ export const FifthStep = ({ swiper, setData, data }) => {
                       defaultChecked={data?.satisfication == -1}
                       type="radio"
                     />
-                    Unsatisfied
+                    {t("unsatisfied")}
                   </Label>
                 </FormGroup>
                 <FormGroup check>
@@ -222,7 +221,7 @@ export const FifthStep = ({ swiper, setData, data }) => {
                       defaultChecked={data?.satisfication == -2}
                       type="radio"
                     />
-                    Very Unsatisfied
+                    {t("very_unsatisfied")}
                   </Label>
                 </FormGroup>
               </FormGroup>
@@ -239,14 +238,14 @@ export const FifthStep = ({ swiper, setData, data }) => {
             color="dark rounded-0  w-full text-left py-3 px-3 d-flex justify-content-start align-items-center gap-2"
           >
             <LeftIcon />
-            <span>PREVIOUS</span>
+            <span className="text-uppercase">{t("previous")}</span>
           </Button>
           <Button
             onClick={handleNext}
             style={{ width: "100%", textAlign: "right" }}
             color="dark rounded-0  w-full text-left py-3 px-3 d-flex justify-content-end align-items-center gap-2"
           >
-            <span>NEXT</span>
+            <span className="text-uppercase">{t("next")}</span>
             <RightIcon />
           </Button>
         </div>
@@ -257,7 +256,7 @@ export const FifthStep = ({ swiper, setData, data }) => {
 
 export const FourthStep = ({ swiper, setData, data }) => {
   const controls = useAnimationControls();
-
+  const { t } = useTranslation();
   const handleNext = () => {
     if (data.recommend == "") {
       controls.start({ x: [-10, 8, 0, 6, -4, 0, 2, -1, 0] });
@@ -283,7 +282,7 @@ export const FourthStep = ({ swiper, setData, data }) => {
           }}
         >
           <h4 style={{ textAlign: "center" }} className="text-lg-left mb-4">
-            Would you recommend our company to a friend?*
+            {t("recommend_survey")}*
           </h4>
           <Row>
             <Col>
@@ -302,7 +301,7 @@ export const FourthStep = ({ swiper, setData, data }) => {
                       defaultChecked={data?.recommend == 1}
                       type="radio"
                     />
-                    Yes
+                    {t("yes")}
                   </Label>
                 </FormGroup>
                 <FormGroup check>
@@ -313,7 +312,7 @@ export const FourthStep = ({ swiper, setData, data }) => {
                       defaultChecked={data?.recommend == 0}
                       type="radio"
                     />
-                    No
+                    {t("no")}
                   </Label>
                 </FormGroup>
               </FormGroup>
@@ -330,14 +329,14 @@ export const FourthStep = ({ swiper, setData, data }) => {
             color="dark rounded-0  w-full text-left py-3 px-3 d-flex justify-content-start align-items-center gap-2"
           >
             <LeftIcon />
-            <span>PREVIOUS</span>
+            <span className="text-uppercase">{t("previous")}</span>
           </Button>
           <Button
             onClick={handleNext}
             style={{ width: "100%", textAlign: "right" }}
             color="dark rounded-0  w-full text-left py-3 px-3 d-flex justify-content-end align-items-center gap-2"
           >
-            <span>NEXT</span>
+            <span className="text-uppercase">{t("next")}</span>
             <RightIcon />
           </Button>
         </div>
@@ -347,6 +346,7 @@ export const FourthStep = ({ swiper, setData, data }) => {
 };
 
 export const ThirdStep = ({ swiper, setData, data }) => {
+  const { t } = useTranslation();
   const controls = useAnimationControls();
   const options = [
     { value: 1, label: "Yes" },
@@ -387,7 +387,7 @@ export const ThirdStep = ({ swiper, setData, data }) => {
           }}
         >
           <h4 style={{ textAlign: "center" }} className="text-lg-left mb-4">
-            Do you feel your workplace is engaging?*
+            {t("engaging_survey")}*
           </h4>
           <Row>
             <Col>
@@ -417,14 +417,14 @@ export const ThirdStep = ({ swiper, setData, data }) => {
             color="dark rounded-0  w-full text-left py-3 px-3 d-flex justify-content-start align-items-center gap-2"
           >
             <LeftIcon />
-            <span>PREVIOUS</span>
+            <span className="text-uppercase">{t("previous")}</span>
           </Button>
           <Button
             onClick={handleNext}
             style={{ width: "100%", textAlign: "right" }}
             color="dark rounded-0  w-full text-left py-3 px-3 d-flex justify-content-end align-items-center gap-2"
           >
-            <span>NEXT</span>
+            <span className="text-uppercase">{t("next")}</span>
             <RightIcon />
           </Button>
         </div>
@@ -434,6 +434,7 @@ export const ThirdStep = ({ swiper, setData, data }) => {
 };
 
 export const SecondStep = ({ swiper, setData, data }) => {
+  const { t } = useTranslation();
   const controls = useAnimationControls();
 
   const handleNext = () => {
@@ -464,7 +465,7 @@ export const SecondStep = ({ swiper, setData, data }) => {
           }}
         >
           <h4 style={{ textAlign: "center" }} className="text-lg-left mb-4">
-            E-mail Address*
+            {t("email_address")}*
           </h4>
           <Row>
             <Col>
@@ -502,14 +503,14 @@ export const SecondStep = ({ swiper, setData, data }) => {
             color="dark rounded-0  w-full text-left py-3 px-3 d-flex justify-content-start align-items-center gap-2"
           >
             <LeftIcon />
-            <span>PREVIOUS</span>
+            <span className="text-uppercase">{t("previous")}</span>
           </Button>
           <Button
             onClick={handleNext}
             style={{ width: "100%", textAlign: "right" }}
             color="dark rounded-0  w-full text-left py-3 px-3 d-flex justify-content-end align-items-center gap-2"
           >
-            <span>NEXT</span>
+            <span className="text-uppercase">{t("next")}</span>
             <RightIcon />
           </Button>
         </div>
@@ -519,6 +520,7 @@ export const SecondStep = ({ swiper, setData, data }) => {
 };
 
 export const FirstStep = ({ swiper, setData, data }) => {
+  const { t } = useTranslation();
   const controls = useAnimationControls();
 
   const handleNext = () => {
@@ -542,7 +544,7 @@ export const FirstStep = ({ swiper, setData, data }) => {
           }}
         >
           <h4 style={{ textAlign: "center" }} className="text-lg-left mb-4">
-            Full Name:*
+            {t("full_name")}:*
           </h4>
           <Row>
             <Col>
@@ -565,7 +567,7 @@ export const FirstStep = ({ swiper, setData, data }) => {
                   } second__label`}
                   for="name"
                 >
-                  Full Name
+                  {t("full_name")}
                 </Label>
               </div>
             </Col>
@@ -577,7 +579,7 @@ export const FirstStep = ({ swiper, setData, data }) => {
             style={{ width: "100%", textAlign: "right" }}
             color="dark btn-block w-full text-left py-3 px-3 d-flex justify-content-end align-items-center gap-2"
           >
-            <span>NEXT</span>
+            <span className="text-uppercase">{t("next")}</span>
             <RightIcon />
           </Button>
         </div>
@@ -587,6 +589,7 @@ export const FirstStep = ({ swiper, setData, data }) => {
 };
 
 export const VeryFirstStep = ({ swiper }) => {
+  const { t } = useTranslation();
   const controls = useAnimationControls();
 
   const handleNext = () => {
@@ -606,7 +609,7 @@ export const VeryFirstStep = ({ swiper }) => {
           }}
         >
           <h3 style={{ textAlign: "center" }} className="text-lg-left mb-4">
-            Customer Feedback Survey
+            {t("customer_feedback_survey")}
           </h3>
           <Row>
             <Col>
@@ -614,8 +617,7 @@ export const VeryFirstStep = ({ swiper }) => {
                 className="position-relative w-full "
                 style={{ paddingBottom: 10 }}
               >
-                Please let us know about your experience with our product and
-                service.
+                {t("let_us_know_experience")}
               </div>
             </Col>
           </Row>
@@ -626,7 +628,7 @@ export const VeryFirstStep = ({ swiper }) => {
             style={{ width: "100%", textAlign: "center" }}
             color="dark btn-block w-full text-left py-3 px-3 d-flex justify-content-center align-items-center gap-2"
           >
-            <span>NEXT</span>
+            <span className="text-uppercase">{t("next")}</span>
             <RightIcon />
           </Button>
         </div>

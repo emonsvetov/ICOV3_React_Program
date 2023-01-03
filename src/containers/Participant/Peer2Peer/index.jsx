@@ -1,31 +1,30 @@
-import React from "react";
+import React, { useContext } from "react";
 import { connect } from "react-redux";
 import { Container, Row, Col } from "reactstrap";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import { Sidebar } from "../../Layout/sidebar";
-
 // import SelectProgram from '../components/SelectProgram'
 import Users from "./components/Users";
 import { isEmpty } from "@/shared/helper";
 import { SidebarOrigin } from "../../Layout/sidebar";
+import { useTranslation } from "react-i18next";
+import { themeContext } from "@/context/themeContext";
 
 const Peer2Peer = ({ auth, program, organization, template }) => {
-  const isOriginTheme = template?.type == "origin";
+  
+  const { t } = useTranslation();
 
   const Peer2PeerOrigin = () => {
     return (
       <Row className="mt-4">
         <div className="space-30"></div>
         <Col md={4}>
-          <SidebarOrigin props={{ title: "My Rewards", icon: "MyRewards" }} />
+          <SidebarOrigin />
         </Col>
         <Col md={7} className="peer-peer">
           <div className="mb-5">
-            <h5>Reward a Peer</h5>
-            <div>
-              You can search for users by name or email address. Then select the
-              user you would like to reard and click the 'reward' button.
-            </div>
+            <h5>{t("reward_a_peer")}</h5>
+            <div>{t("reward_desc")}</div>
           </div>
           {auth && program && !isEmpty(organization) && (
             <Users organization={organization} program={program} />
@@ -42,12 +41,8 @@ const Peer2Peer = ({ auth, program, organization, template }) => {
           <Row>
             <Col md={9}>
               <div className="mb-5">
-                <h3>Reward a Peer</h3>
-                <div>
-                  You can search for users by name or email address. Then select
-                  the user you would like to reard and click the 'reward'
-                  button.
-                </div>
+                <h3>{t("reward_a_peer")}</h3>
+                <div>{t("reward_desc")}</div>
               </div>
               {auth && program && !isEmpty(organization) && (
                 <Users organization={organization} program={program} />
@@ -63,8 +58,8 @@ const Peer2Peer = ({ auth, program, organization, template }) => {
   };
 
   return (
-    (isOriginTheme && <Peer2PeerOrigin />) ||
-    (!isOriginTheme && <Peer2PeerNew />)
+    (template?.name === "Original" && <Peer2PeerOrigin />) ||
+    (template?.name === "New" && <Peer2PeerNew />)
   );
 };
 

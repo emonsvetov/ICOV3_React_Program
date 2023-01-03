@@ -2,39 +2,39 @@
 $yellow-color: #FCB040;
 
 .topbar {
-    background-color: white;
+    // background-color: white;
     width: 100%;
     padding-top: 20px;
     min-height: 60px;
-    z-index: 101;
-    &.home{
-        .navbar{
-            margin: 0 1rem 0 1rem;
-        }
-        padding-top : 30px;
-        background-color: rgba($color: white, $alpha: 0.6);
-        position: absolute;
-        top: 1rem;
-        .navbar-brand img{
-            max-width: 200px;
-            max-height: 90px;
+    // z-index: 101;
+    // &.home{
+    //     .navbar{
+    //         margin: 0 1rem 0 1rem;
+    //     }
+    //     padding-top : 30px;
+    //     background-color: rgba($color: white, $alpha: 0.6);
+    //     position: absolute;
+    //     top: 1rem;
+    //     .navbar-brand img{
+    //         max-width: 200px;
+    //         max-height: 90px;
 
-        }
-        .navbar-collapse{
-            justify-content: flex-end;
-        }
-        ul.horizontal .item{
-            padding: 10px 20px;
-            margin-top: 10px;
-            background-color: $yellow-color;
-            color: white;
-            cursor: pointer;
-            font-size: larger;
-            &:hover{
-                color: black;
-            }
-        }
-    }
+    //     }
+    //     .navbar-collapse{
+    //         justify-content: flex-end;
+    //     }
+    //     ul.horizontal .item{
+    //         padding: 10px 20px;
+    //         margin-top: 10px;
+    //         background-color: $yellow-color;
+    //         color: white;
+    //         cursor: pointer;
+    //         font-size: larger;
+    //         &:hover{
+    //             color: black;
+    //         }
+    //     }
+    // }
 }
 
 .topbar__wrapper{

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import { Sidebar } from "../../Layout/sidebar";
 import {
@@ -14,6 +14,7 @@ import {
 import { Col, Row, Container } from "reactstrap";
 import { connect } from "react-redux";
 import { SidebarOrigin } from "../../Layout/sidebar";
+import { themeContext } from "@/context/themeContext";
 
 const Survey = ({ template }) => {
   const [step, setStep] = useState(0);
@@ -22,6 +23,8 @@ const Survey = ({ template }) => {
     recommend: true,
     satisfication: 2,
   });
+  
+
   const prevStep = () => {
     setStep((step) => step - 1);
   };
@@ -35,7 +38,6 @@ const Survey = ({ template }) => {
   const onSubmit = () => {
     console.log(values);
   };
-  const isOriginTheme = template?.type == "origin";
 
   const SurveyBody = ({
     nextStep,
@@ -131,7 +133,7 @@ const Survey = ({ template }) => {
       <>
         <Row className="mt-4">
           <Col md={4}>
-            <SidebarOrigin props={{ title: "My Rewards", icon: "MyRewards" }} />
+            <SidebarOrigin />
           </Col>
           <Col md={1}></Col>
           <Col md={6} className="">
@@ -150,7 +152,8 @@ const Survey = ({ template }) => {
   };
 
   return (
-    (!isOriginTheme && <SurveyNew />) || (isOriginTheme && <SurveyOrigin />)
+    (template?.name === "New" && <SurveyNew />) ||
+    (template?.name === "Original" && <SurveyOrigin />)
   );
 };
 

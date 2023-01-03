@@ -10,10 +10,12 @@ import {
   ApiErrorMessage,
 } from "@/shared/components/flash";
 import TemplateButton from "@/shared/components/TemplateButton";
+import { useTranslation } from "react-i18next";
 
 const API_STORAGE_URL = `${process.env.REACT_APP_API_STORAGE_URL}`;
 
 const CartPage = ({ cart, program, pointBalance, organization }) => {
+  const { t } = useTranslation();
   const flashDispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
   const [cartIsEmpty, setCartIsEmpty] = useState(true);
@@ -72,7 +74,7 @@ const CartPage = ({ cart, program, pointBalance, organization }) => {
     <>
       <div className="cart">
         <div className="origin-table mt-4">
-          <strong>Shopping Cart</strong>
+          <strong>{t("cart")}</strong>
           <Table striped size="md" {...getTableProps()}>
             <thead>
               {headerGroups.map((headerGroup) => (
@@ -87,7 +89,7 @@ const CartPage = ({ cart, program, pointBalance, organization }) => {
             </thead>
             <tbody>
               {cartIsEmpty
-                ? "Your shopping cart is empty!"
+                ? t("cart_empty")
                 : rows.map((row, i) => {
                     prepareRow(row);
                     return (
@@ -107,13 +109,16 @@ const CartPage = ({ cart, program, pointBalance, organization }) => {
                   <tr>
                     <td colSpan={4}> {""}</td>
                     <td> {"Total:"}</td>
-                    <td>{cartObject.total_points?.toLocaleString()} Points</td>
+                    <td>
+                      {cartObject.total_points?.toLocaleString()} {t("points")}
+                    </td>
                   </tr>
                   <tr>
                     <td colSpan={4}> {""}</td>
                     <td> {"Balance After Purchase:	:"}</td>
                     <td>
-                      {pointBalance.points - cartObject.total_points} Points
+                      {pointBalance.points - cartObject.total_points}{" "}
+                      {t("points")}
                     </td>
                   </tr>
                 </React.Fragment>
@@ -130,7 +135,7 @@ const CartPage = ({ cart, program, pointBalance, organization }) => {
                 onClick={() => {
                   navigate("/participant/checkout");
                 }}
-                text="Checkout"
+                text={t("checkout")}
               />
             </div>
           ) : (

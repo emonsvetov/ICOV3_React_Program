@@ -28,14 +28,14 @@ const TemplateButton = ({
   return (
     <>
       <Button
-        color={color}
+        color={color?color:null}
         className={className}
         onClick={onClick}
-        style={{
+        style={template.button_color ? {
           borderRadius,
           color: template.button_color,
           backgroundColor: template.button_bg_color,
-        }}
+        } : {}}
         type={type ? type : "submit"}
         disabled={disabled}
       >

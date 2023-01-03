@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, Suspense } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import axios from "axios";
@@ -25,6 +25,7 @@ import { setCart } from "@/redux/actions/cartActions";
 import { FlashMessage } from "@/shared/components/flash";
 import { setDomain } from "@/redux/actions/domainActions";
 import { setTemplate } from "@/redux/actions/templateActions";
+import { ThemeProvider } from "@/context/themeContext";
 
 // require('dotenv').config()
 axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL + "/api/v1";
@@ -74,9 +75,10 @@ const App = () => {
       // console.log(domain)
       store.dispatch(setDomain(domain));
       store.dispatch(
-        setTemplate({ type: "origin", ...domain.program.template })
+        setTemplate({ name: domain.program.template.name ? domain.program.template.name : "Original", ...domain.program.template })
       );
-      setCustomLink(domain.program.template.font_family);
+
+      setCustomLink(domain.program.template.font_family, domain.program.template);
     });
     store.dispatch(setOrganization(getOrganization()));
     store.dispatch(setAuthUser(getAuthUser()));
@@ -88,15 +90,20 @@ const App = () => {
     });
   };
 
-  const setCustomLink = (href) => {
+  const setCustomLink = (href, template) => {
+    let head = document.head;
+    if (template.name === 'Original') {
+      let originalStyle = document.createElement("style");
+      originalStyle.innerHTML =
+        "*, body, div, p, span, li, ul, i { font-family: 'CircularStdBold', sans-serif;} ";
+      head.appendChild(originalStyle);
+    }
     if (href) {
       let fullHref =
         "https://fonts.googleapis.com/css?family=" +
         href +
         ":100,300,400,500,700,900";
-      let head = document.head;
       let link = document.createElement("link");
-
       link.type = "text/css";
       link.rel = "stylesheet";
       link.href = fullHref;
@@ -108,7 +115,6 @@ const App = () => {
         "*, body, div, p, span, li, ul, i { font-family: '" +
         href +
         "', sans-serif;} ";
-
       head.appendChild(style);
     }
   };
@@ -134,9 +140,11 @@ const App = () => {
 
 const AppProvider = () => {
   return (
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <Suspense fallback={"loading"}>
+      <Provider store={store}>
+          <App />
+      </Provider>
+    </Suspense>
   );
 };
 

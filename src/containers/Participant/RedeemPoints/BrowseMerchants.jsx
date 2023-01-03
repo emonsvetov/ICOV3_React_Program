@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Col, Container, FormGroup, Row } from "reactstrap";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import { Sidebar, SidebarOrigin } from "../../Layout/sidebar";
 import OurMerchants from "./components/BrowseMerchant";
 import { connect } from "react-redux";
+import { useTranslation } from "react-i18next";
+import { themeContext } from "@/context/themeContext";
 
-const IMG_BACK = `${process.env.PUBLIC_URL}/img/pages/my-points.jpg`;
+const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-points.jpg`;
 
 const BrowseMerchants = ({ template }) => {
-  console.log("template: browsemerchants:", template);
-
-  const isOriginTheme = template?.type == "origin";
+  const { t } = useTranslation();
+  
 
   const OriginBrowseMerchants = () => {
     return (
@@ -18,13 +19,10 @@ const BrowseMerchants = ({ template }) => {
         <Row className="mt-4">
           <div className="space-30"></div>
           <Col md={4}>
-            <SidebarOrigin props={{ title: "My Rewards", icon: "MyRewards" }} />
+            <SidebarOrigin />
           </Col>
           <Col md={8} className="">
-            <p className="fw-bold pb-3">
-              Redeem your points from this list to receive a gift code to use
-              whenever you'd like.
-            </p>
+            <p className="fw-bold pb-3">{t("browse_merchant_desc")}</p>
             <OurMerchants />
           </Col>
         </Row>
@@ -37,7 +35,7 @@ const BrowseMerchants = ({ template }) => {
       <>
         <div className="mainboard">
           <img src={IMG_BACK} alt={"Redeem"} />
-          <div className="title">Redeem My Points</div>
+          <div className="title">{t("redeem_my_points")}</div>
         </div>
         <Container>
           <ParticipantTabNavs />
@@ -59,8 +57,8 @@ const BrowseMerchants = ({ template }) => {
   };
 
   return (
-    (isOriginTheme && <OriginBrowseMerchants />) ||
-    (!isOriginTheme && <NewBrowseMerchants />)
+    (template?.name === "Original" && <OriginBrowseMerchants />) ||
+    (template?.name === "New" && <NewBrowseMerchants />)
   );
 };
 

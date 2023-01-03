@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import {
   Pagination,
   PaginationItem,
   PaginationLink,
   FormGroup,
   Input,
-} from 'reactstrap';
-import ChevronRightIcon from 'mdi-react/ChevronRightIcon';
-import ChevronDoubleRightIcon from 'mdi-react/ChevronDoubleRightIcon';
-import ChevronLeftIcon from 'mdi-react/ChevronLeftIcon';
-import ChevronDoubleLeftIcon from 'mdi-react/ChevronDoubleLeftIcon';
+} from "reactstrap";
+import ChevronRightIcon from "mdi-react/ChevronRightIcon";
+import ChevronDoubleRightIcon from "mdi-react/ChevronDoubleRightIcon";
+import ChevronLeftIcon from "mdi-react/ChevronLeftIcon";
+import ChevronDoubleLeftIcon from "mdi-react/ChevronDoubleLeftIcon";
 
 const ReactTablePagination = ({
   dataLength,
@@ -27,9 +27,10 @@ const ReactTablePagination = ({
   manualPageSize,
 }) => {
   // console.log(pageOptions)
-  const arrayPageIndex = (pageIndex - 2) < 0
-    ? pageOptions.slice(0, pageIndex + 3)
-    : pageOptions.slice((pageIndex - 2), (pageIndex + 3));
+  const arrayPageIndex =
+    pageIndex - 2 < 0
+      ? pageOptions.slice(0, pageIndex + 3)
+      : pageOptions.slice(pageIndex - 2, pageIndex + 3);
 
   return (
     <Pagination className="pagination" dir="ltr">
@@ -50,7 +51,7 @@ const ReactTablePagination = ({
         >
           <ChevronLeftIcon className="pagination__link-icon" />
         </PaginationLink>
-        {arrayPageIndex.map(i => (
+        {arrayPageIndex.map((i) => (
           <PaginationItem
             className="pagination__item"
             active={pageIndex === i}
@@ -87,7 +88,8 @@ const ReactTablePagination = ({
           </PaginationLink>
         </PaginationItem>
         <PaginationItem className="m-auto pagination__item pagination-info">
-          Showing {pageSize * pageIndex + 1} to {pageSize * pageIndex + page.length} of {dataLength}
+          Showing {pageSize * pageIndex + 1} to{" "}
+          {pageSize * pageIndex + page.length} of {dataLength}
         </PaginationItem>
         {manualPageSize.length > 1 && (
           <PaginationItem className="pagination__item">
@@ -102,8 +104,12 @@ const ReactTablePagination = ({
                   setPageSize(Number(event.target.value));
                 }}
               >
-                {manualPageSize.map(item => (
-                  <option className="pagination__item pagination__item-option" key={item} value={item}>
+                {manualPageSize.map((item) => (
+                  <option
+                    className="pagination__item pagination__item-option"
+                    key={item}
+                    value={item}
+                  >
                     Show {item}
                   </option>
                 ))}

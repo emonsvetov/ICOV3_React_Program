@@ -1,8 +1,10 @@
 import { Row, Col } from "reactstrap";
 import { connect } from "react-redux";
 import { onClickRemoveItem } from "@/services/cart/removeItem";
+import { useTranslation } from "react-i18next";
 
 const CartItemOrigin = ({ index, item, program }) => {
+  const { t } = useTranslation();
   const giftCode = `$${parseFloat(item.redemption_value, 3).toFixed(
     2
   )} Gift Code`;
@@ -24,7 +26,10 @@ const CartItemOrigin = ({ index, item, program }) => {
         <span>{`x ${item.qty}`}</span>
       </Col>
       <Col md={2}>
-        <span>{redemptionPoints} Points</span>
+        <span>
+          {redemptionPoints}
+          {t("points")}
+        </span>
       </Col>
       <Col md={1}>
         <span

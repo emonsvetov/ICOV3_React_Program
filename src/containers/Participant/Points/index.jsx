@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Table, Col, Container, Row } from "reactstrap";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
@@ -9,11 +9,14 @@ import { PointsOrigin } from "./components/PointsOriginTables";
 import { POINTS_DETAIL_DATA, POINTS_SUMMARY_DATA } from "./components/Mockdata";
 import { DETAIL_COLUMNS, SUMMARY_COLUMNS } from "./components/columns";
 import { connect } from "react-redux";
+import { useTranslation } from "react-i18next";
+import { themeContext } from "@/context/themeContext";
+import TemplateButton from "@/shared/components/TemplateButton";
 
-const IMG_BACK = `${process.env.PUBLIC_URL}/img/pages/my-points.jpg`;
+const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-points.jpg`;
 
-const IMG_GIFT = `${process.env.PUBLIC_URL}/img/origin_rewards/GiftCode_button.png`;
-const IMG_MERCHAN = `${process.env.PUBLIC_URL}/img/origin_rewards/Merchandise_button.png`;
+const IMG_GIFT = `${process.env.PUBLIC_URL}/original/img/GiftCode_button.png`;
+const IMG_MERCHAN = `${process.env.PUBLIC_URL}/original/img/Merchandise_button.png`;
 
 const RedeemBtn = ({ props }) => {
   const { src, link } = props;
@@ -25,8 +28,10 @@ const RedeemBtn = ({ props }) => {
     </div>
   );
 };
+
 const MyPoints = ({ template }) => {
-  const isOriginTheme = template?.type == "origin";
+  const { t } = useTranslation();
+  
   console.log("template in MyPoints:", template);
 
   const MyPointsOrigin = () => {
@@ -35,7 +40,7 @@ const MyPoints = ({ template }) => {
         <Row className="mt-4">
           <div className="space-30"></div>
           <Col md={4}>
-            <SidebarOrigin props={{ title: "My Rewards", icon: "MyRewards" }} />
+            <SidebarOrigin />
           </Col>
           <Col md={8} className="">
             <div className="d-flex justify-content-around">
@@ -51,7 +56,7 @@ const MyPoints = ({ template }) => {
             </div>
             <h3 className="pt-5" style={{ fontSize: "16px" }}>
               {" "}
-              My Points
+              {t("my_points")}
             </h3>
             <div className="origin-table">
               <Table striped bordered hover size="md">
@@ -59,25 +64,25 @@ const MyPoints = ({ template }) => {
                   <tr>
                     <td colSpan={4} className="title">
                       {" "}
-                      {"Points Expirations"}
+                      {t("points_expirations")}
                     </td>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <th> Points expiring December 31, 2023</th>
+                    <th> {t("points_expiring")} December 31, 2023</th>
                     <th> 12800</th>
                   </tr>
                 </tbody>
               </Table>
             </div>
             <PointsOrigin
-              title="Points Summary"
+              title={t("points_summary")}
               table_columns={SUMMARY_COLUMNS}
               table_data={POINTS_SUMMARY_DATA}
             />
             <PointsOrigin
-              title="Points Detail"
+              title={t("points_detail")}
               table_columns={DETAIL_COLUMNS}
               table_data={POINTS_DETAIL_DATA}
             />
@@ -91,7 +96,7 @@ const MyPoints = ({ template }) => {
       <>
         <div className="mainboard">
           <img src={IMG_BACK} alt={"my_points"} />
-          <div className="title">My Points</div>
+          <div className="title">{t("my_points")}</div>
         </div>
         <Container>
           <ParticipantTabNavs />
@@ -115,7 +120,8 @@ const MyPoints = ({ template }) => {
   };
 
   return (
-    (!isOriginTheme && <MyPointsNew />) || (isOriginTheme && <MyPointsOrigin />)
+    (template?.name === "New" && <MyPointsNew />) ||
+    (template?.name === "Original" && <MyPointsOrigin />)
   );
 };
 
