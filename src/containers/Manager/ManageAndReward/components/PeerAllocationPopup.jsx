@@ -163,6 +163,7 @@ const PeerAllocationPopup = ({
   };
 
   useEffect(() => {
+    if( !organization?.id || !program?.id ) return;
     let mounted = true;
     setLoading(true);
     let type = EVENT_TYPES.find(
@@ -178,7 +179,7 @@ const PeerAllocationPopup = ({
         setLoading(false);
       }
     });
-    fetchEmailTemplates("program_event").then((res) => {
+    fetchEmailTemplates(organization.id, program.id, "program_event").then((res) => {
       setEmailTemplates(labelizeNamedData(res));
       setTemplateContents(res);
     });

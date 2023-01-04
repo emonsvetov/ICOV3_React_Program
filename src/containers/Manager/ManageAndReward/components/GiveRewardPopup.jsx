@@ -57,11 +57,6 @@ const GiveRewardPopup = ({
   const [loadingEvent, setLoadingEvent] = useState(false);
   const [saving, setSaving] = useState(false);
   const [emailTemplates, setEmailTemplates] = useState([]);
-  const [templateContents, setTemplateContents] = useState([]);
-
-  const handleTemplateChange = (selected) => {
-    // setCurrentTemplate(selected.value - 1)
-  };
 
   const onChangeAwardValue = ([field], state, { setIn, changeValue }) => {
     const v = field.target.value;
@@ -81,7 +76,7 @@ const GiveRewardPopup = ({
 
   const onSubmit = (values) => {
     // console.log(JSON.stringify( values ))
-    var formData = {
+    let formData = {
       event_id: values.event_id,
       notes: values.notes,
       message: values.message,
@@ -89,10 +84,13 @@ const GiveRewardPopup = ({
       override_cash_value: values.override_cash_value
         ? values.override_cash_value
         : null,
-      referrer: values.referrer ? values.referrer : null,
-      email_template_id: values.email_template_id,
+      referrer: values.referrer ? values.referrer : null
     };
-    // console.log(formData)
+    if( values?.email_template_id && values.email_template_id?.value && !isNaN(values.email_template_id.value))
+    {
+      formData["email_template_id"] = parseInt(values.email_template_id.value)
+    }
+    console.log(formData)
     // return
     // setSaving(true)
 
@@ -104,6 +102,7 @@ const GiveRewardPopup = ({
       .then((res) => {
         //   console.log(res)
         if (res.status === 200) {
+          toggle()
           dispatch(
             flashMessage(
               "Participants Awarded successfully!",
@@ -173,6 +172,7 @@ const GiveRewardPopup = ({
   };
 
   useEffect(() => {
+    if( !organization?.id || !program?.id ) return;
     let mounted = true;
     setLoading(true);
     let except_type = [
@@ -191,30 +191,32 @@ const GiveRewardPopup = ({
         }
       }
     );
-    fetchEmailTemplates("program_event").then((res) => {
+    fetchEmailTemplates(organization.id, program.id, "program_event").then((res) => {
+      // console.log(res)
       setEmailTemplates(labelizeNamedData(res));
-      setTemplateContents(res);
     });
     return () => (mounted = false);
-  }, []);
+  }, [organization, program]);
 
   if (loading) return t("loading");
 
   let initialValues = {};
-
-  if (event) {
-    // console.log(event)
+  let email_template_selected = null
+  if ( event ) {
+    if( emailTemplates.length > 0 && event?.email_template_id)
+    {
+      email_template_selected = emailTemplates.find( tpl => String(tpl.value) === String(event?.email_template_id))
+    }
     initialValues = {
       ...initialValues,
       ...{
         event_id: event.id,
         awarding_points: program.factor_valuation * event.max_awardable_amount,
-        message: DEFAULT_MSG_PARTICIPANT,
-        email_template_id: 1,
+        message: event.message ? event.message : DEFAULT_MSG_PARTICIPANT,
+        email_template_id: email_template_selected,
       },
     };
   }
-
   return (
     <Modal
       className={`program-settings modal-2col modal-xl`}
@@ -242,7 +244,7 @@ const GiveRewardPopup = ({
           initialValues={initialValues}
           validate={(values) => formValidation.validateForm(values)}
           mutators={{
-            onChangeAwardValue,
+            onChangeAwardValue
           }}
         >
           {({ handleSubmit, form, submitting, pristine, values }) => {
@@ -323,10 +325,8 @@ const GiveRewardPopup = ({
                       </Col>
                     </Row>
                     <Row>
-                      <Col md="6">
-                        <Label>Points per Particiapnt</Label>
-                      </Col>
-                      <Col md="6">
+                      <Col md="4">
+                        <Label>Points per Particiapnt</Label>: &nbsp;
                         <Field name="awarding_points">
                           {({ input, meta }) => {
                             // console.log(input)
@@ -347,29 +347,33 @@ const GiveRewardPopup = ({
                             );
                           }}
                         </Field>
-                        {/* <strong>{values?.override_cash_value ? values.override_cash_value * program.factor_valuation : event.max_awardable_amount * program.factor_valuation}</strong> */}
-                        {/* <strong>{event?.point_value ? event.point_value : 0}</strong> */}
+                      </Col>
+                      <Col md="4">
+                        <Label>Total People Selected: <strong>{participants.length}</strong></Label>
+                      </Col>
+                      <Col md="4">
+                        <Label>Total Award: <strong>
+                          $
+                          {participants.length *
+                            (values?.override_cash_value
+                              ? values.override_cash_value
+                              : event.max_awardable_amount)}
+                        </strong></Label>
                       </Col>
                     </Row>
                     <Row>
+                      {emailTemplates.length > 0 &&
                       <Col md="6">
+                        <Label>Email Template</Label><br />
                         <Field name="email_template_id">
                           {({ input, meta }) => (
                             <FormGroup>
                               <Select
                                 options={emailTemplates}
-                                initialValue={
-                                  emailTemplates[event.email_template_id - 1]
-                                }
-                                clearable={false}
                                 className="react-select"
-                                placeholder={"Email Template"}
+                                // placeholder={" - Select - "}
                                 classNamePrefix="react-select"
-                                parse={(value) => {
-                                  handleTemplateChange(value);
-                                  form.mutators.onChangeEmailTemplate(value);
-                                  return value;
-                                }}
+                                {...input}
                               />
                               {meta.touched && meta.error && (
                                 <span className="text-danger">
@@ -379,8 +383,9 @@ const GiveRewardPopup = ({
                             </FormGroup>
                           )}
                         </Field>
-                      </Col>
+                      </Col>}
                       <Col md="6">
+                      <Label>Referrer</Label><br />
                         <Field name="referrer">
                           {({ input, meta }) => (
                             <FormGroup>
@@ -397,14 +402,6 @@ const GiveRewardPopup = ({
                             </FormGroup>
                           )}
                         </Field>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md="6">
-                        <Label>Total People Selected</Label>
-                      </Col>
-                      <Col md="6">
-                        <strong>{participants.length}</strong>
                       </Col>
                     </Row>
                     <Row>
@@ -428,20 +425,6 @@ const GiveRewardPopup = ({
                             </FormGroup>
                           )}
                         </Field>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md="6">
-                        <Label>Total Award</Label>
-                      </Col>
-                      <Col md="6">
-                        <strong>
-                          $
-                          {participants.length *
-                            (values?.override_cash_value
-                              ? values.override_cash_value
-                              : event.max_awardable_amount)}
-                        </strong>
                       </Col>
                     </Row>
                     <Row>
@@ -472,6 +455,7 @@ const GiveRewardPopup = ({
                               <Input
                                 placeholder="Message to Participant(s)"
                                 type="textarea"
+                                readOnly={!event.award_message_editable}
                                 {...input}
                               />
                               {meta.touched && meta.error && (
