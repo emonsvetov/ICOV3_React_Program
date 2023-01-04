@@ -144,8 +144,8 @@ const GiveRewardPopup = ({
               }
             );
           }
-          // setSaving(false)
-          // window.location.reload()
+          setSaving(false);
+          window.location.reload();
         }
       })
       .catch((err) => {
