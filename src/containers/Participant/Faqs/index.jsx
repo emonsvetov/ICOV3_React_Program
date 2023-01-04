@@ -8,9 +8,7 @@ import { themeContext } from "@/context/themeContext";
 
 const Faqs = ({ template }) => {
   const { t } = useTranslation();
-  const {
-    state: { themeName },
-  } = useContext(themeContext);
+  
 
   const NewFaqs = () => {
     return (
@@ -46,8 +44,8 @@ const Faqs = ({ template }) => {
   };
 
   return (
-    (themeName === "new" && <NewFaqs />) ||
-    (themeName === "original" && <OriginalFaqs />)
+    (template?.name === "New" && <NewFaqs />) ||
+    (template?.name === "Original" && <OriginalFaqs />)
   );
 };
 

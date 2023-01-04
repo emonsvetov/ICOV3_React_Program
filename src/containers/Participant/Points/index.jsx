@@ -11,6 +11,7 @@ import { DETAIL_COLUMNS, SUMMARY_COLUMNS } from "./components/columns";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { themeContext } from "@/context/themeContext";
+import TemplateButton from "@/shared/components/TemplateButton";
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-points.jpg`;
 
@@ -30,9 +31,7 @@ const RedeemBtn = ({ props }) => {
 
 const MyPoints = ({ template }) => {
   const { t } = useTranslation();
-  const {
-    state: { themeName },
-  } = useContext(themeContext);
+  
   console.log("template in MyPoints:", template);
 
   const MyPointsOrigin = () => {
@@ -121,8 +120,8 @@ const MyPoints = ({ template }) => {
   };
 
   return (
-    (themeName === "new" && <MyPointsNew />) ||
-    (themeName === "original" && <MyPointsOrigin />)
+    (template?.name === "New" && <MyPointsNew />) ||
+    (template?.name === "Original" && <MyPointsOrigin />)
   );
 };
 

@@ -15,9 +15,7 @@ const Account = ({ template }) => {
   const [user, setUser] = useState(null);
   const onSubmit = (values) => {};
 
-  const {
-    state: { themeName },
-  } = useContext(themeContext);
+  
 
   useEffect(() => {
     let user = getAuthUser();
@@ -66,8 +64,8 @@ const Account = ({ template }) => {
   };
 
   return (
-    (themeName === "original" && <AccountOrigin />) ||
-    (themeName === "new" && <AccountNew />)
+    (template?.name === "Original" && <AccountOrigin />) ||
+    (template?.name === "New" && <AccountNew />)
   );
 };
 

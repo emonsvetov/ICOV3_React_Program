@@ -10,13 +10,12 @@ import apiTableService from "@/services/apiTableService";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { themeContext } from "@/context/themeContext";
+import TemplateButton from "@/shared/components/TemplateButton";
 
 const QUERY_PAGE_SIZE = 20;
 
 const ProgramUsers = ({ program, organization, auth, template }) => {
-  const {
-    state: { themeName },
-  } = useContext(themeContext);
+  
   const { t } = useTranslation();
   const [modalName, setModalName] = useState(null);
   const [isOpen, setOpen] = useState(false);
@@ -194,14 +193,13 @@ const ProgramUsers = ({ program, organization, auth, template }) => {
   return (
     <>
       <div className="users">
-        <div className={themeName === "original" ? "header origin" : "header"}>
+        <div className={template?.name === "Original" ? "header origin" : "header"}>
           <div className="d-flex w-25 justify-content-between">
-            <Button
-              color={themeName === "original" ? "light" : "primary"}
+            <TemplateButton
+              color={template?.name === "Original" ? "light" : null}
               onClick={() => onClickReward()}
-            >
-              {t("reward")}
-            </Button>
+              text={t("reward")}
+            />
           </div>
           <TableFilter filter={filter} setFilter={setFilter} />
         </div>

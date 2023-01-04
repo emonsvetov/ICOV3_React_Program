@@ -15,9 +15,7 @@ const Newsletter = ({ template }) => {
   const props = { img, link, title };
   const { t } = useTranslation();
 
-  const {
-    state: { themeName },
-  } = useContext(themeContext);
+  
 
   const NewsletterOrigin = () => {
     return (
@@ -64,8 +62,8 @@ const Newsletter = ({ template }) => {
   };
 
   return (
-    (themeName === "new" && <NewsletterNew />) ||
-    (themeName === "original" && <NewsletterOrigin />)
+    (template?.name === "New" && <NewsletterNew />) ||
+    (template?.name === "Original" && <NewsletterOrigin />)
   );
 };
 
