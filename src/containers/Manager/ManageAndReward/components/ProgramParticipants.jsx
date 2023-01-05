@@ -37,8 +37,8 @@ const QUERY_PAGE_SIZE = 10;
 
 const ACTIONS = [
   { name: "Reward", link: "", icon: <RewardIcon /> },
-  { name: "Add Goal", link: "", icon: <GoalIcon /> },
-  { name: "Email", link: "", icon: <MailIcon /> },
+  /*{ name: "Add Goal", link: "", icon: <GoalIcon /> },*/
+  /*{ name: "Email", link: "", icon: <MailIcon /> },*/
   { name: "Resend Invite", link: "", icon: <ResendIcon /> },
   { name: "Deactivate", link: "", icon: <DeactivateIcon /> },
   { name: "Activate", link: "", icon: <ActivateIcon /> },
