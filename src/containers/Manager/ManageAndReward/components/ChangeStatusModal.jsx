@@ -7,18 +7,23 @@ import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 import axios from 'axios'
 import TemplateButton from "@/shared/components/TemplateButton"
 
-const ChangeStatusModal = ({isOpen, setOpen, toggle, participants, program, organization}) => {
+const ChangeStatusModal = ({isOpen, setOpen, toggle, participants, program, organization, name}) => {
   const dispatch = flashDispatch()
-  // console.log(participants)
   const [saving, setSaving] = useState(false);
+  let statusLabel,status = '';
+  if(name == "Deactivate") {
+    statusLabel = 'Deactivated'; status= 'Deactivated';
+  }
+  if(name == "Activate") {
+    statusLabel = 'Activated'; status= 'Active';
+  }
 
   const onSubmit = values => {
     // console.log(JSON.stringify( values ))
     var formData = {
       users: [],
-      'status': 'Deactivated'
+      'status': status
     }
-    // console.log(participants)
 
     participants.map((item, index) => {
       formData.users.push(item.id)
@@ -32,10 +37,10 @@ const ChangeStatusModal = ({isOpen, setOpen, toggle, participants, program, orga
     .then((res) => {
         // console.log(res)
       if (res.status == 200) {
-        dispatch(flashMessage('Participants deactivated successfully!', 'alert-success', 'top'))
+        dispatch(flashMessage(`Participants ${statusLabel.toLowerCase()} successfully!`, 'alert-success', 'top'))
         setSaving(false)
         toggle()
-        // window.location.reload()
+        window.location.reload()
       }
     })
     .catch((err) => {
@@ -57,7 +62,7 @@ const ChangeStatusModal = ({isOpen, setOpen, toggle, participants, program, orga
           </div>
           <div className="right">
             <div className='title mb-1'>
-              <h3>Deactivate User</h3>
+              <h3>{name} User</h3>
             </div>
             {saving && 'Processing, please wait...'}
             <Form
@@ -72,7 +77,7 @@ const ChangeStatusModal = ({isOpen, setOpen, toggle, participants, program, orga
                   <>
                     <Row>
                       <Col md="6">
-                        <Label>Participant List to be Deactivated</Label>
+                        <Label>Participant List to be {statusLabel}</Label>
                       </Col>
                       <Col md="6">
                           {participants.map((item, index) => {
@@ -83,7 +88,7 @@ const ChangeStatusModal = ({isOpen, setOpen, toggle, participants, program, orga
                       </Col>
                     </Row>
                     <div className='d-flex justify-content-end'>
-                      <TemplateButton disabled={saving} type='submit' text='Deactivate' />
+                      <TemplateButton disabled={saving} type='submit' text={name} />
                     </div>
                   </>
                 </form>
