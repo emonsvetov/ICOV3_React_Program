@@ -173,6 +173,10 @@ export const USERS_COLUMNS = [
     {
         Header: "Email Address",
         accessor: "email",
+    },
+    {
+        Header: "Status",
+        accessor: "status.status",
     }
 ]
 

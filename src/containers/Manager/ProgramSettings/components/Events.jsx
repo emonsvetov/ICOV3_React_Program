@@ -16,7 +16,7 @@ const EVENTS_COLUMNS = [
   },
   {
     Header: "Event Type",
-    accessor: "type",
+    accessor: "event_type.name",
   },
 ];
 

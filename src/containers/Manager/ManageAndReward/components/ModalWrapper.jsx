@@ -28,6 +28,7 @@ const MainModalWrapper = ({
     user,
     participants,
     auth,
+    name,
   };
   if (!organization?.id || !program?.id) return t("loading");
   return (
