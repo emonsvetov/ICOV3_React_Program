@@ -1,10 +1,10 @@
 
 import axios from 'axios'
 
-export const fetchEmailTemplates = async(type) => {
+export const fetchEmailTemplates = async(organization, program, type) => {
     try {
         const response = await axios.get(
-        `/emailtemplate/?type=${type}`
+        `/organization/${organization}/program/${program}/emailtemplate/?type=${type}`
         );
         // console.log(response)
         const results = response.data;

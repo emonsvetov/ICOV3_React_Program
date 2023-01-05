@@ -73,10 +73,10 @@ const AddLeaderboardForm = ({
             {({ handleSubmit, form, submitting, pristine, values }) => (
             <form className="form d-flex flex-column justify-content-evenly" onSubmit={handleSubmit}>
                 <Row>
-                    <Col md="6">
+                    <Col md="4">
                         <Label>Leaderboard Name</Label>
                     </Col>
-                    <Col md="6">
+                    <Col md="8">
                         <Field name="name">
                         {({ input, meta }) => (
                             <FormGroup>
