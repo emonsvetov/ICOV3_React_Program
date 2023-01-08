@@ -4,7 +4,6 @@ import { PDF } from "../Training/components/PDF";
 import { Col, Container, Row } from "reactstrap";
 import { Sidebar, SidebarOrigin } from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
-import { themeContext } from "@/context/themeContext";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 
 const Newsletter = ({ template }) => {

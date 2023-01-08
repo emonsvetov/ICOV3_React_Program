@@ -5,7 +5,6 @@ import { Sidebar, SidebarOrigin } from "../../Layout/sidebar";
 import OurMerchants from "./components/BrowseMerchant";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { themeContext } from "@/context/themeContext";
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-points.jpg`;
 

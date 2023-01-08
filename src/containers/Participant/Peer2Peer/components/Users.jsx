@@ -9,7 +9,6 @@ import ModalWrapper from "./ModalWrapper";
 import apiTableService from "@/services/apiTableService";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { themeContext } from "@/context/themeContext";
 import TemplateButton from "@/shared/components/TemplateButton";
 
 const QUERY_PAGE_SIZE = 20;

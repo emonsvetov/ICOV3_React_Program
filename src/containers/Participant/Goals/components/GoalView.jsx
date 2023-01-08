@@ -8,7 +8,6 @@ import { GOAL_DATA } from "./Mockdata";
 import { GOAL_COLUMNS, GOAL_SUMMARY_COLUMNS } from "./columns";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
-import { themeContext } from "@/context/themeContext";
 
 const GoalView = ({ template }) => {
   const { t } = useTranslation();

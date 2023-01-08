@@ -12,7 +12,6 @@ import { USER_STATUS_PENDING_DEACTIVATION } from "@/services/user/getUser";
 import SlideOutMenu from "./components/slide-out-menu";
 import PointsOrigin from "../../Layout/sidebar/PointsOrigin";
 import { useTranslation } from "react-i18next";
-import { themeContext } from "@/context/themeContext";
 
 export const getSlideImg = () => {
   let imgs = [];

@@ -9,6 +9,7 @@ export const AUTH_ROOT_PROGRAM_KEY = "authRootProgram";
 export const AUTH_ORGANIZATION_KEY = "authOrganization";
 export const AUTH_CART = "authCart";
 export const AUTH_DOMAIN_KEY = "icoDomain";
+export const AUTH_THEME = "icoTheme";
 export const DEFAULT_TEMPLATE = {
   big_logo: `logo/big_logo.png`,
   small_logo: `logo/small_logo.png`,
@@ -62,6 +63,10 @@ export const getToken = () => {
 
 export const getAuthProgram = () => {
   return JSON.parse(localStorage.getItem(AUTH_PROGRAM_KEY));
+};
+
+export const getTheme = () => {
+  return JSON.parse(localStorage.getItem(AUTH_THEME));
 };
 
 export const getAuthRootProgram = () => {
