@@ -7,15 +7,12 @@ import { getAuthUser } from "@/containers/App/auth";
 import { connect } from "react-redux";
 import { SidebarOrigin } from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
-import { themeContext } from "@/context/themeContext";
 
 const Account = ({ template }) => {
   const { t } = useTranslation();
   const [value, setValue] = useState(false);
   const [user, setUser] = useState(null);
   const onSubmit = (values) => {};
-
-  
 
   useEffect(() => {
     let user = getAuthUser();

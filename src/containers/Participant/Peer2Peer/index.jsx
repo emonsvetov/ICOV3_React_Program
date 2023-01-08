@@ -8,7 +8,6 @@ import Users from "./components/Users";
 import { isEmpty } from "@/shared/helper";
 import { SidebarOrigin } from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
-import { themeContext } from "@/context/themeContext";
 
 const Peer2Peer = ({ auth, program, organization, template }) => {
   

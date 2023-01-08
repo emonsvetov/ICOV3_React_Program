@@ -17,8 +17,6 @@ import CartOrigin from "../../Participant/components/CartOrigin";
 import { useTranslation } from "react-i18next";
 import Select from "react-select";
 
-import { SWITCH_THEME, themeContext } from "@/context/themeContext";
-
 // const Brand = `${process.env.PUBLIC_URL}/img/logo/logo_light.svg`;
 const LINKS = [
   { to: "/participant/home", text: "home" },
@@ -49,10 +47,7 @@ const themeOptions = [
 const ParticipantTopbar = ({ template, themeName }) => {
   const { t, i18n } = useTranslation();
   const [language, setLanguage] = useState();
-  // const {
-  //   // state: { themeName },
-  //   actions: { switchTheme },
-  // } = useContext(themeContext);
+  
   const [currentTheme, setCurrentTheme] = useState();
 
   useEffect(() => {

@@ -4,7 +4,6 @@ import { Col, Container, Row } from "reactstrap";
 import { Queries, QueriesOrigin } from "./components/Queries";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { themeContext } from "@/context/themeContext";
 
 const Faqs = ({ template }) => {
   const { t } = useTranslation();
