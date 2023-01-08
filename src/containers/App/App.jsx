@@ -15,6 +15,7 @@ import {
   getAuthCart,
   setAuthDomain,
   getAuthDomain,
+  getTheme
 } from "./auth";
 import { setOrganization } from "@/redux/actions/organizationActions";
 import { setAuthUser } from "@/redux/actions/userActions";
@@ -24,8 +25,8 @@ import { setPointBalance } from "@/redux/actions/balanceActions";
 import { setCart } from "@/redux/actions/cartActions";
 import { FlashMessage } from "@/shared/components/flash";
 import { setDomain } from "@/redux/actions/domainActions";
-import { setTemplate } from "@/redux/actions/templateActions";
-import { ThemeProvider } from "@/context/themeContext";
+import { setTemplate } from "@/redux/actions/templateActions"; //from API
+import { setTheme } from "@/redux/actions/themeActions"; //Local Theme
 
 // require('dotenv').config()
 axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL + "/api/v1";
@@ -71,6 +72,7 @@ const App = () => {
   }, []);
 
   const setAuthOrganization = () => {
+    store.dispatch(setTheme(getTheme()));
     getAuthDomain().then((domain) => {
       // console.log(domain)
       store.dispatch(setDomain(domain));

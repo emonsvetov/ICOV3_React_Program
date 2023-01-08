@@ -7,7 +7,6 @@ import giftData from "./components/Mockdata.json";
 import { connect } from "react-redux";
 import { SidebarOrigin } from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
-import { themeContext } from "@/context/themeContext";
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-gift-codes.jpg`;
 

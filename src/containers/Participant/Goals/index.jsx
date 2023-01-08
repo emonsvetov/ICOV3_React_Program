@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 import { GOAL_DATA } from "./components/Mockdata";
 import { SidebarOrigin } from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
-import { themeContext } from "@/context/themeContext";
 
 const Goals = ({ template }) => {
   const { t } = useTranslation();

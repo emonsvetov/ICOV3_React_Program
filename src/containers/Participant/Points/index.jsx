@@ -10,7 +10,6 @@ import { POINTS_DETAIL_DATA, POINTS_SUMMARY_DATA } from "./components/Mockdata";
 import { DETAIL_COLUMNS, SUMMARY_COLUMNS } from "./components/columns";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { themeContext } from "@/context/themeContext";
 import TemplateButton from "@/shared/components/TemplateButton";
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-points.jpg`;

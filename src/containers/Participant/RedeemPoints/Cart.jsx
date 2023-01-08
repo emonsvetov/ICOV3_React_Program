@@ -5,7 +5,6 @@ import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import { Sidebar } from "../../Layout/sidebar";
 import PointsOrigin from "../../Layout/sidebar/PointsOrigin";
 import CartPage from "./components/CartPage";
-import { themeContext } from "@/context/themeContext";
 import { useTranslation } from "react-i18next";
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-points.jpg`;
