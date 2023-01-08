@@ -31,7 +31,7 @@ import { getSocialWallPostTypeEvent } from "@/services/program/getSocialWallPost
 import TemplateButton from "@/shared/components/TemplateButton";
 import EVENT_TYPES from "@/shared/json/eventTypes.json";
 import { useTranslation } from "react-i18next";
-import Img from '@/theme/ThemeImage'
+import {Img} from '@/theme'
 
 const DEFAULT_MSG_PARTICIPANT =
   "We wanted to thank you for all your extra efforts over the last couple of days.\n\nThough your response and tireless efforts. You made a BIG Different!!\n\nWe would like to recognize those efforts with this award to reflect our appreciation.\n\nGreg, Gerry and Bruce\n\nGreg and Gerry";
@@ -429,6 +429,7 @@ const GiveRewardPopup = ({
                     </Row>
                     <Row>
                       <Col md="12">
+                        <Label className="mb-1">Award Notes(optional)</Label>
                         <Field name="notes">
                           {({ input, meta }) => (
                             <FormGroup>
@@ -449,6 +450,7 @@ const GiveRewardPopup = ({
                     </Row>
                     <Row>
                       <Col md="12">
+                        <Label className="mb-1">Award Message</Label>
                         <Field name="message">
                           {({ input, meta }) => (
                             <FormGroup>
