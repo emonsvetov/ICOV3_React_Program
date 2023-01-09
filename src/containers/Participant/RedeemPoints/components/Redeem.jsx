@@ -165,7 +165,7 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
           </Col>
           <Col md={10}>
             <h4>{merchant.name}</h4>
-            <div className="desc">{merchant.description}</div>
+            <div className="desc" dangerouslySetInnerHTML={{__html: merchant.description}}></div>
             <div className="mt-3">
               <a href={`${merchant.website}`}></a>
               {t("visit_merchant_website")}
@@ -201,7 +201,7 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
         <Row className="redemption-instructions mt-5">
           <h3>{t("redeem_instructions")}</h3>
           <div className="redtext my-3">{t("redeem_merchants_desc")}</div>
-          <div>{merchant.redemption_instruction}</div>
+          <div dangerouslySetInnerHTML={{__html: merchant.redemption_instruction}}></div>
         </Row>
       </>
     );
