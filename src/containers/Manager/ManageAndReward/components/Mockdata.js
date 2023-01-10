@@ -169,6 +169,7 @@ export const USERS_COLUMNS = [
     {
         Header: "Name",
         accessor: "name",
+       // Cell: ({ row, value }) => { return <Link to={`/program/view/${row.original.id}`}>{value}</Link>}
     },
     {
         Header: "Email Address",
@@ -219,3 +220,87 @@ export const USERS_DATA =[
     }
        
 ]
+
+export const PARTICIPANT_GOALPLAN_COLUMNS = [
+    {
+        Header: "Name",
+        accessor: "name",
+    },
+    {
+        Header: "Type",
+        accessor: "type",
+    },
+    {
+        Header: "State",
+        accessor: "state",
+    },
+    {
+        Header: "Date Begin",
+        accessor: "date_begin",
+    },
+    {
+        Header: "Date End",
+        accessor: "date_end",
+    },
+    {
+        Header: "Target",
+        accessor: "target",
+    },
+    {
+        Header: "Progress",
+        accessor: "progress",
+    },
+]
+
+export const PARTICIPANT_GOALPLAN_DATA =[
+    {
+        name: "Goal 1",
+        type:"Sales",
+        state:'Active',
+        date_begin: '12/31/2022',
+        date_end: '12/31/2023',
+        target: '200',
+        Progress:'progress'
+    },
+    {
+        name: "Goal 1",
+        type:"Sales",
+        state:'Active',
+        date_begin: '12/31/2022',
+        date_end: '12/31/2023',
+        target: '200',
+        Progress:'progress'
+
+    },
+    {
+        name: "Goal 1",
+        type:"Sales",
+        state:'Active',
+        date_begin: '12/31/2022',
+        date_end: '12/31/2023',
+        target: '200',
+        Progress:'progress'
+
+    },
+    {
+        name: "Goal 1",
+        type:"Sales",
+        state:'Active',
+        date_begin: '12/31/2022',
+        date_end: '12/31/2023',
+        target: '200',
+        Progress:'progress'
+
+    },
+    {
+        name: "Goal 1",
+        type:"Sales",
+        state:'Active',
+        date_begin: '12/31/2022',
+        date_end: '12/31/2023',
+        target: '200',
+        Progress:'progress'
+
+    },
+    
+];
