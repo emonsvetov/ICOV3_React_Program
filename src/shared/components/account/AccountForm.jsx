@@ -57,7 +57,7 @@ const AccountForm = ({ organization, program, auth }) => {
     }
     if (values?.password || values?.password_confirmation) {
       if (values.password !== values.password_confirmation) {
-        errors.password = t("password_and_confirm_password_do_not_match");
+        errors.password_confirmation = t("password_and_confirm_password_do_not_match");
       }
       if (values.password.trim().length < 3) {
         errors.password = t("please_enter_strong_password");
