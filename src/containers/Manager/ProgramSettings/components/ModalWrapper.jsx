@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import AddEventPopup from "./AddEventPopup";
+import AddEventPopup from "../Events/AddEventModal";
 import AddGoalPlanPopup from "./AddGoalPlanPopup";
-import EditEventModal from "./EditEventModal";
+import EditEventModal from "../Events/EditEventModal";
 import AddLeaderboardModal from "./AddLeaderboardModal";
 import { useTranslation } from "react-i18next";
 
@@ -15,6 +15,7 @@ const ModalWrapper = ({
   toggle,
   event,
   setEvent,
+  setTrigger
 }) => {
   const { t } = useTranslation();
   const props = {
@@ -25,6 +26,7 @@ const ModalWrapper = ({
     program,
     event,
     setEvent,
+    setTrigger
   };
   // console.log(leaderboard, '-----------')
   if (!organization?.id || !program?.id) return t("loading");

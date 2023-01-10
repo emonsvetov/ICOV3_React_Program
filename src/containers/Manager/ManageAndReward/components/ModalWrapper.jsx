@@ -4,6 +4,7 @@ import GiveRewardPopup from "./GiveRewardPopup";
 import ResendInviteModal from "./ResendInviteModal";
 import ChangeStatusModal from "./ChangeStatusModal";
 import PeerAllocationPopup from "./PeerAllocationPopup";
+import ParticipantViewModal from "./ParticipantViewModal";
 // import SubProgramsModal from './subprogram/SubProgramsModal'
 import { useTranslation } from "react-i18next";
 
@@ -39,6 +40,7 @@ const MainModalWrapper = ({
         <ChangeStatusModal {...props} />
       )}
       {name === "Peer Allocation" && <PeerAllocationPopup {...props} />}
+      {name === "Name" && <ParticipantViewModal {...props} />}
     </>
   );
 };
