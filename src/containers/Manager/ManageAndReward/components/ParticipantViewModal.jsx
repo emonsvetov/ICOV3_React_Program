@@ -4,17 +4,14 @@ import ParticipantGoalPlans from "./ParticipantGoalPlans";
 import Select from "react-select";
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
+import ModalWrapper from "./ModalWrapper";
 import {
     Modal,
-    Input,
     Col,
     Row,
-    FormGroup,
-    FormFeedback,
     Label,
     Button,
     Container,
-    Card, CardBody,
     Table
 } from "reactstrap";
 import CloseIcon from "mdi-react/CloseIcon";
@@ -32,11 +29,18 @@ const ParticipantViewModal = ({
     template,
     theme
 }) => {
-    console.log(participants)
-    console.log('kkkk');
-    let data = participants
-    //console.log(participants)
-    const fullName = `${data.first_name} ${data.last_name}`
+    const [participant, setParticipant] = useState([]);
+    const [isActionOpen, setActionOpen] = useState(false);
+    const [modalName, setModalName] = useState(null);
+    const toggle_modal = (name = null) => {
+        if (name) setModalName(name);
+        setActionOpen((prevState) => !prevState);
+    };
+    const onClickAction = (name, participant) => {
+        setParticipant([participant]);
+        toggle_modal(name);
+    };
+    const fullName = `${participants.first_name} ${participants.last_name}`
     return (
         <Modal
             className={`program-settings modal-2col modal-xl`}
@@ -52,24 +56,30 @@ const ParticipantViewModal = ({
                         <h3>Participant Information</h3>
                     </Col>
                     <Col md={12}>
-                        <button
+                        <Button
+                            type="button"
+                            aria-label="button collapse"
+                            className="template-button border-0 btn btn-secondary me-2"
+                            onClick={(e) => {
+                                window.location.href = `mailto: ${participants.email}`;
+                                e.preventDefault();
+                            }}
+                        // onClick={handleToggleCollapse}
+                        >Email</Button>
+                        <Button
+                            onClick={() => onClickAction("Resend Invite", participants)}
                             type="button"
                             aria-label="button collapse"
                             className="template-button border-0 btn btn-secondary me-2"
                         // onClick={handleToggleCollapse}
-                        >Email</button>
-                        <button
+                        >Resend Invite</Button>
+                        <Button
+
                             type="button"
                             aria-label="button collapse"
                             className="template-button border-0 btn btn-secondary me-2"
                         // onClick={handleToggleCollapse}
-                        >Resend Invite</button>
-                        <button
-                            type="button"
-                            aria-label="button collapse"
-                            className="template-button border-0 btn btn-secondary me-2"
-                        // onClick={handleToggleCollapse}
-                        >Reclaim Peer Allocations</button>
+                        >Reclaim Peer Allocations</Button>
                     </Col>
                 </Row>
 
@@ -79,7 +89,7 @@ const ParticipantViewModal = ({
                         <Row>
                             <Col md="6" lg="6" xl="6">
                                 <p>{fullName}</p>
-                                <span>{data.email}</span>
+                                <span>{participants.email}</span>
                             </Col>
                         </Row>
                         <Row>
@@ -103,7 +113,7 @@ const ParticipantViewModal = ({
                                 Current Status:
                             </Col>
                             <Col md="6" lg="6" xl="6" sm="12">
-                                {data.status.status}
+                                {participants.status.status}
                             </Col>
                         </Row>
                         <Row>
@@ -119,7 +129,7 @@ const ParticipantViewModal = ({
                                 Anniversary:
                             </Col>
                             <Col md="6" lg="6" xl="6" sm="12">
-                                {data.work_anniversary}
+                                {participants.work_anniversary}
                             </Col>
                         </Row>
                         <Row>
@@ -127,7 +137,7 @@ const ParticipantViewModal = ({
                                 Birthday:
                             </Col>
                             <Col md="6" lg="6" xl="6" sm="12">
-                                {data.dob}
+                                {participants.dob}
                             </Col>
                         </Row>
                         <Row>
@@ -135,7 +145,7 @@ const ParticipantViewModal = ({
                                 Work Anniversary:
                             </Col>
                             <Col md="6" lg="6" xl="6" sm="12">
-                                {data.work_anniversary}
+                                {participants.work_anniversary}
                             </Col>
                         </Row>
                         <Row>
@@ -143,7 +153,7 @@ const ParticipantViewModal = ({
                                 Department / Team:
                             </Col>
                             <Col md="6" lg="6" xl="6" sm="12">
-                                {data.division}
+                                {participants.division}
                             </Col>
                         </Row>
                         <Row>
@@ -151,7 +161,7 @@ const ParticipantViewModal = ({
                                 Birthday:
                             </Col>
                             <Col md="6" lg="6" xl="6" sm="12">
-                                {data.dob}
+                                {participants.dob}
                             </Col>
                         </Row>
 
@@ -183,7 +193,7 @@ const ParticipantViewModal = ({
                     </Col>
                 </Row>
                 <ParticipantGoalPlans></ParticipantGoalPlans>
-                <Table striped bordered hover> 
+                <Table striped bordered hover>
                     <thead>
                         <tr>
                             <td colspan="8" class="title">
@@ -191,249 +201,182 @@ const ParticipantViewModal = ({
                             </td>
                         </tr>
                     </thead>
-                    <tbody><tr>
-                        <th class="title-col"></th>
-                        <th class="title-col">
-                            Event
-                        </th>
-                        <th class="title-col">Notes</th>
-                        <th class="title-col">
-                            Referrer
-                        </th>
-                        <th class="title-col value">Date</th>
-                        <th class="title-col value">Reference Document</th>										<th class="value">
-                            Points                        </th>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <th class="title-col"></th>
+                            <th class="title-col"> Event </th>
+                            <th class="title-col">Notes</th>
+                            <th class="title-col"> Referrer </th>
+                            <th class="title-col value">Date</th>
+                            <th class="title-col value">Reference Document</th>
+                            <th class="value">Points</th>
+                        </tr>
+                        <tr class="odd">
+                            <td class="title-col"></td>
+                            <td class="title-col"> Reclaim points </td>
+                            <td class="title-col"> audit cleanup test awards </td>
+                            <td class="title-col"></td>
+                            <td class="title-col value"> 12/31/2022 </td>
+                            <td class="title-col" id="pdf-"></td>
+                            <td class="title-col value"> -400 </td>
+                            <td></td>
+                        </tr>
+                        <tr class="even">
+                            <td class="title-col"></td>
+                            <td class="title-col"> Reclaim points </td>
+                            <td class="title-col"> audit cleanup test awards </td>
+                            <td class="title-col"></td>
+                            <td class="title-col value"> 12/31/2022 </td>
+                            <td class="title-col" id="pdf-"></td>
+                            <td class="title-col value"> -200 </td>
+                            <td></td>
+                        </tr>
                         <tr class="odd">
                             <td class="title-col">
-
+                                <div class="event-icon g"></div>
                             </td>
-                            <td class="title-col">
-                                Reclaim points                            </td>
-                            <td class="title-col">
-                                audit cleanup test awards                            </td>
-                            <td class="title-col">
-                            </td>
-                            <td class="title-col value">
-                                12/31/2022                            </td>
-                            <td class="title-col" id="pdf-">
-                            </td>
-                            <td class="title-col value">
-                                -400                            </td>
+                            <td class="title-col"> Happy Birthday! </td>
+                            <td class="title-col"></td>
+                            <td class="title-col"></td>
+                            <td class="title-col value"> 08/12/2022 </td>
+                            <td class="title-col" id="pdf-465656"></td>
+                            <td class="title-col value"> 0 </td>
                             <td>
+                                <a href="/manager/participant/print-award-email/404628/465656" target="_blank" title="Print">
+                                    <img src="/assets/img/printer.png" />
+                                </a>
+                                <a href="" onclick="Participant.getInstance().resendAward(404628 , 465656); return false;" title="Resend">
+                                    <img src="/assets/img/mail.png" />
+                                </a>
                             </td>
                         </tr>
                         <tr class="even">
                             <td class="title-col">
-
+                                <div class="event-icon g"></div>
                             </td>
-                            <td class="title-col">
-                                Reclaim points                            </td>
-                            <td class="title-col">
-                                audit cleanup test awards                            </td>
-                            <td class="title-col">
-                            </td>
-                            <td class="title-col value">
-                                12/31/2022                            </td>
-                            <td class="title-col" id="pdf-">
-                            </td>
-                            <td class="title-col value">
-                                -200                            </td>
+                            <td class="title-col"> Award </td>
+                            <td class="title-col"></td>
+                            <td class="title-col"></td>
+                            <td class="title-col value"> 04/14/2022 </td>
+                            <td class="title-col" id="pdf-449264"></td>
+                            <td class="title-col value"> 400 </td>
                             <td>
+                                <a href="/manager/participant/print-award-email/404628/449264" target="_blank" title="Print">
+                                    <img src="/assets/img/printer.png" />
+                                </a>
+                                <a href="" title="Resend">
+                                    <img src="/assets/img/mail.png" />
+                                </a>
                             </td>
                         </tr>
                         <tr class="odd">
                             <td class="title-col">
-
-                                <div class="event-icon g"></div>
-                            </td>
-                            <td class="title-col">
-                                Happy Birthday!                            </td>
-                            <td class="title-col">
-                            </td>
-                            <td class="title-col">
-                            </td>
-                            <td class="title-col value">
-                                08/12/2022                            </td>
-                            <td class="title-col" id="pdf-465656">
-                            </td>
-                            <td class="title-col value">
-                                0                            </td>
-                            <td>
-                                
-                                    <a href="/manager/participant/print-award-email/404628/465656" target="_blank" title="Print"><img src="/assets/img/printer.png"/></a>
-
-                                    <a href="" onclick="Participant.getInstance().resendAward(404628 , 465656); return false;" title="Resend"><img src="/assets/img/mail.png"/></a>
-                                
-                            </td>
-                        </tr>
-                        <tr class="even">
-                            <td class="title-col">
-
-                                <div class="event-icon g"></div>
-                            </td>
-                            <td class="title-col">
-                                Award                            </td>
-                            <td class="title-col">
-                            </td>
-                            <td class="title-col">
-                            </td>
-                            <td class="title-col value">
-                                04/14/2022                            </td>
-                            <td class="title-col" id="pdf-449264">
-                            </td>
-                            <td class="title-col value">
-                                400                            </td>
-                            <td>
-                                
-                                    <a href="/manager/participant/print-award-email/404628/449264" target="_blank" title="Print"><img src="/assets/img/printer.png"/></a>
-
-                                    <a href="" onclick="Participant.getInstance().resendAward(404628 , 449264); return false;" title="Resend"><img src="/assets/img/mail.png"/></a>
-                               
-                            </td>
-                        </tr>
-                        <tr class="odd">
-                            <td class="title-col">
-
                                 <div class="event-icon i"></div>
                             </td>
-                            <td class="title-col">
-                                Helping Hand                            </td>
-                            <td class="title-col">
-                                Peer 2 Peer Award                            </td>
-                            <td class="title-col">
-                            </td>
-                            <td class="title-col value">
-                                04/06/2022                            </td>
-                            <td class="title-col" id="pdf-448261">
-                            </td>
-                            <td class="title-col value">
-                                0                            </td>
+                            <td class="title-col"> Helping Hand </td>
+                            <td class="title-col"> Peer 2 Peer Award </td>
+                            <td class="title-col"></td>
+                            <td class="title-col value"> 04/06/2022 </td>
+                            <td class="title-col" id="pdf-448261"></td>
+                            <td class="title-col value"> 0 </td>
                             <td>
-                                
-                                    <a href="/manager/participant/print-award-email/404628/448261" target="_blank" title="Print"><img src="/assets/img/printer.png"/></a>
-
-                                    <a href="" onclick="Participant.getInstance().resendAward(404628 , 448261); return false;" title="Resend"><img src="/assets/img/mail.png"/></a>
-                              
+                                <a href="/manager/participant/print-award-email/404628/448261" target="_blank" title="Print">
+                                    <img src="/assets/img/printer.png" />
+                                </a>
+                                <a href="" title="Resend">
+                                    <img src="/assets/img/mail.png" />
+                                </a>
                             </td>
                         </tr>
                         <tr class="even">
                             <td class="title-col">
-
-                                <div class="event-icon i"/>
+                                <div class="event-icon i" />
                             </td>
-                            <td class="title-col">
-                                Helping Hand                            </td>
-                            <td class="title-col">
-                                Peer 2 Peer Award                            </td>
-                            <td class="title-col">
-                            </td>
-                            <td class="title-col value">
-                                03/03/2022                            </td>
-                            <td class="title-col" id="pdf-444680">
-                            </td>
-                            <td class="title-col value">
-                                0                            </td>
+                            <td class="title-col"> Helping Hand </td>
+                            <td class="title-col"> Peer 2 Peer Award </td>
+                            <td class="title-col"></td>
+                            <td class="title-col value"> 03/03/2022 </td>
+                            <td class="title-col" id="pdf-444680"></td>
+                            <td class="title-col value"> 0 </td>
                             <td>
-                                
-                                    <a href="/manager/participant/print-award-email/404628/444680" target="_blank" title="Print"><img src="/assets/img/printer.png"/></a>
-
-                                    <a href="" onclick="Participant.getInstance().resendAward(404628 , 444680); return false;" title="Resend"><img src="/assets/img/mail.png"/></a>
-                               
+                                <a href="/manager/participant/print-award-email/404628/444680" target="_blank" title="Print">
+                                    <img src="/assets/img/printer.png" />
+                                </a>
+                                <a href="" title="Resend">
+                                    <img src="/assets/img/mail.png" />
+                                </a>
                             </td>
                         </tr>
                         <tr class="odd">
                             <td class="title-col">
-
-                                <div  class="event-icon g"></div>
-                            </td>
-                            <td class="title-col">
-                                Peer Award Limited                            </td>
-                            <td class="title-col">
-                                Peer 2 Peer Award                            </td>
-                            <td class="title-col">
-                            </td>
-                            <td class="title-col value">
-                                03/03/2022                            </td>
-                            <td class="title-col" id="pdf-444679">
-                            </td>
-                            <td class="title-col value">
-                                200                            </td>
-                            <td>
-                               
-                                    <a href="/manager/participant/print-award-email/404628/444679" target="_blank" title="Print"><img src="/assets/img/printer.png"/></a>
-
-                                    <a href="" onclick="Participant.getInstance().resendAward(404628 , 444679); return false;" title="Resend"><img src="/assets/img/mail.png"/></a>
-                              
-                            </td>
-                        </tr>
-                        <tr class="even">
-                            <td class="title-col">
-
-                            </td>
-                            <td class="title-col">
-                                Expire points                            </td>
-                            <td class="title-col">
-                            </td>
-                            <td class="title-col">
-                            </td>
-                            <td class="title-col value">
-                                01/06/2022                            </td>
-                            <td class="title-col" id="pdf-">
-                            </td>
-                            <td class="title-col value">
-                                -40                            </td>
-                            <td>
-                            </td>
-                        </tr>
-                        <tr class="odd">
-                            <td class="title-col">
-
-                            </td>
-                            <td class="title-col">
-                                Expire points                            </td>
-                            <td class="title-col">
-                            </td>
-                            <td class="title-col">
-                            </td>
-                            <td class="title-col value">
-                                12/31/2021                            </td>
-                            <td class="title-col" id="pdf-">
-                            </td>
-                            <td class="title-col value">
-                                -3,960                            </td>
-                            <td>
-                            </td>
-                        </tr>
-                        <tr class="even">
-                            <td class="title-col">
-
                                 <div class="event-icon g"></div>
                             </td>
-                            <td class="title-col">
-                                Happy Birthday!                            </td>
-                            <td class="title-col">
-                            </td>
-                            <td class="title-col">
-                            </td>
-                            <td class="title-col value">
-                                08/12/2021                            </td>
-                            <td class="title-col" id="pdf-407214">
-                            </td>
-                            <td class="title-col value">
-                                0                            </td>
+                            <td class="title-col"> Peer Award Limited </td>
+                            <td class="title-col"> Peer 2 Peer Award </td>
+                            <td class="title-col"></td>
+                            <td class="title-col value"> 03/03/2022 </td>
+                            <td class="title-col" id="pdf-444679"></td>
+                            <td class="title-col value"> 200 </td>
                             <td>
-                              
-                                    <a href="/manager/participant/print-award-email/404628/407214" target="_blank" title="Print"><img src="/assets/img/printer.png"/></a>
-
-                                    <a href="" onclick="Participant.getInstance().resendAward(404628 , 407214); return false;" title="Resend"><img src="/assets/img/mail.png"/></a>
-                                
+                                <a href="/manager/participant/print-award-email/404628/444679" target="_blank" title="Print">
+                                    <img src="/assets/img/printer.png" />
+                                </a>
+                                <a href="" title="Resend">
+                                    <img src="/assets/img/mail.png" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="even">
+                            <td class="title-col"></td>
+                            <td class="title-col"> Expire points </td>
+                            <td class="title-col"></td>
+                            <td class="title-col"></td>
+                            <td class="title-col value"> 01/06/2022 </td>
+                            <td class="title-col" id="pdf-"></td>
+                            <td class="title-col value"> -40 </td>
+                            <td></td>
+                        </tr>
+                        <tr class="odd">
+                            <td class="title-col"></td>
+                            <td class="title-col"> Expire points </td>
+                            <td class="title-col"></td>
+                            <td class="title-col"></td>
+                            <td class="title-col value"> 12/31/2021 </td>
+                            <td class="title-col" id="pdf-"></td>
+                            <td class="title-col value"> -3,960 </td>
+                            <td></td>
+                        </tr>
+                        <tr class="even">
+                            <td class="title-col">
+                                <div class="event-icon g"></div>
+                            </td>
+                            <td class="title-col"> Happy Birthday! </td>
+                            <td class="title-col"></td>
+                            <td class="title-col"></td>
+                            <td class="title-col value"> 08/12/2021 </td>
+                            <td class="title-col" id="pdf-407214"></td>
+                            <td class="title-col value"> 0 </td>
+                            <td>
+                                <a href="/manager/participant/print-award-email/404628/407214" target="_blank" title="Print">
+                                    <img src="/assets/img/printer.png" />
+                                </a>
+                                <a href="" title="Resend">
+                                    <img src="/assets/img/mail.png" />
+                                </a>
                             </td>
                         </tr>
                     </tbody>
                 </Table>
             </Container>
+            <ModalWrapper
+                name={modalName}
+                isOpen={isActionOpen}
+                setOpen={setActionOpen}
+                toggle={toggle_modal}
+                participants={participant}
+            />
         </Modal>
+
     );
 };
 export default ParticipantViewModal;
