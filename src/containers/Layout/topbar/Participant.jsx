@@ -53,7 +53,7 @@ const ParticipantTopbar = ({ template, themeName }) => {
   useEffect(() => {
     let lang = localStorage.getItem("i18nextLng") || "en-US";
     let option = languageOptions.filter((item) => item.value == lang)[0];
-    console.log("option: participant topbar", lang);
+    // console.log("option: participant topbar", lang);
     setLanguage(option);
   }, []);
 

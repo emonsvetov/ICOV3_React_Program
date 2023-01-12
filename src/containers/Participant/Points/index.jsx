@@ -31,7 +31,7 @@ const RedeemBtn = ({ props }) => {
 const MyPoints = ({ template }) => {
   const { t } = useTranslation();
   
-  console.log("template in MyPoints:", template);
+  // console.log("template in MyPoints:", template);
 
   const MyPointsOrigin = () => {
     return (
