@@ -5,6 +5,7 @@ import { POINTS_SUMMARY_DATA } from "./Mockdata";
 import { SUMMARY_COLUMNS } from "./columns";
 import { useTable } from "react-table";
 import { useTranslation } from "react-i18next";
+import {connect} from "react-redux";
 
 const SUMMARY_DATA = [
   { index: "balance", text: "Your Points Balance", value: 0 },
@@ -12,7 +13,7 @@ const SUMMARY_DATA = [
   { index: "expired", text: "Points Expired", value: 2720 },
 ];
 
-const PointsSummary = () => {
+const PointsSummary = ({ myPoints }) => {
   const { t } = useTranslation();
   const columns = React.useMemo(() => SUMMARY_COLUMNS, []);
   const data = React.useMemo(() => POINTS_SUMMARY_DATA, []);
@@ -33,7 +34,17 @@ const PointsSummary = () => {
                 className="summary-item d-flex flex-column rounded-3"
               >
                 <strong className={`point-value index-${index}`}>
-                  {item.value.toLocaleString("en-US")}
+                  {
+                    item.index === 'expired' ? (
+                        myPoints.expiredBalance
+                      ) : item.index === 'redeemed' ?
+                      (
+                        myPoints.redeemedBalance
+                      ) : item.index === 'balance' ?
+                      (
+                        myPoints.amount
+                      ) : ''
+                  }
                 </strong>
                 <span>{item.text}</span>
               </div>
@@ -74,4 +85,10 @@ const PointsSummary = () => {
   );
 };
 
-export default PointsSummary;
+const mapStateToProps = (state) => {
+  return {
+    myPoints: state.pointBalance,
+  };
+};
+
+export default connect(mapStateToProps)(PointsSummary);
