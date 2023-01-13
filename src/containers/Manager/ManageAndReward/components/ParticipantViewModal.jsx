@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ResendIcon from "mdi-react/AccountPlusIcon";
+import MailIcon from "mdi-react/MailOutlineIcon";
 import ParticipantGoalPlans from "./ParticipantGoalPlans";
+import PeerIcon from "mdi-react/PostItNoteAddIcon";
 import Select from "react-select";
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
@@ -59,27 +61,24 @@ const ParticipantViewModal = ({
                         <Button
                             type="button"
                             aria-label="button collapse"
-                            className="template-button border-0 btn btn-secondary me-2"
+                            className="action-item template-button border-0 btn btn-secondary me-2"
                             onClick={(e) => {
                                 window.location.href = `mailto: ${participants.email}`;
                                 e.preventDefault();
                             }}
                         // onClick={handleToggleCollapse}
-                        >Email</Button>
-                        <Button
+                        ><MailIcon />Email</Button>
+                        <span
                             onClick={() => onClickAction("Resend Invite", participants)}
                             type="button"
                             aria-label="button collapse"
-                            className="template-button border-0 btn btn-secondary me-2"
-                        // onClick={handleToggleCollapse}
-                        >Resend Invite</Button>
+                            className="action-item template-button border-0 btn btn-secondary me-2"
+                        ><ResendIcon />Resend Invite</span>
                         <Button
-
                             type="button"
                             aria-label="button collapse"
                             className="template-button border-0 btn btn-secondary me-2"
-                        // onClick={handleToggleCollapse}
-                        >Reclaim Peer Allocations</Button>
+                        ><PeerIcon />Reclaim Peer Allocations</Button>
                     </Col>
                 </Row>
 
