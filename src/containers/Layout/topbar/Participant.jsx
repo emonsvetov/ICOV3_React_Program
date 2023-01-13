@@ -17,8 +17,6 @@ import CartOrigin from "../../Participant/components/CartOrigin";
 import { useTranslation } from "react-i18next";
 import Select from "react-select";
 
-import { SWITCH_THEME, themeContext } from "@/context/themeContext";
-
 // const Brand = `${process.env.PUBLIC_URL}/img/logo/logo_light.svg`;
 const LINKS = [
   { to: "/participant/home", text: "home" },
@@ -46,13 +44,10 @@ const themeOptions = [
   { value: "original", label: "Original" },
 ];
 
-const ParticipantTopbar = ({ template }) => {
+const ParticipantTopbar = ({ template, themeName }) => {
   const { t, i18n } = useTranslation();
   const [language, setLanguage] = useState();
-  const {
-    state: { themeName },
-    actions: { switchTheme },
-  } = useContext(themeContext);
+  
   const [currentTheme, setCurrentTheme] = useState();
 
   useEffect(() => {
@@ -74,10 +69,10 @@ const ParticipantTopbar = ({ template }) => {
   };
 
   const onSelectTheme = (selectedOption) => {
-    switchTheme({
-      type: SWITCH_THEME,
-      payload: selectedOption.value,
-    });
+    // switchTheme({
+    //   type: SWITCH_THEME,
+    //   payload: selectedOption.value,
+    // });
     setCurrentTheme(selectedOption);
   };
 
@@ -101,7 +96,8 @@ const ParticipantTopbar = ({ template }) => {
     );
   };
 
-  // if (!template) return t("loading");
+  if (!template) return t("loading");
+  // console.log(template)
   const NewNavbar = () => {
     const Brand = `${process.env.REACT_APP_API_STORAGE_URL}/${template.small_logo}`;
     const [isOpen, setOpen] = useState(false);
@@ -133,7 +129,7 @@ const ParticipantTopbar = ({ template }) => {
                   <TopbarProfile />
                 </div>
                 <LanguageBar />
-                <ThemeBar />
+                {/* <ThemeBar /> */}
               </div>
             </Navbar>
           </Container>
@@ -184,7 +180,7 @@ const ParticipantTopbar = ({ template }) => {
               </ul>
             </nav>
             <LanguageBar />
-            <ThemeBar />
+            {/* <ThemeBar /> */}
           </div>
         </Navbar>
 
@@ -201,6 +197,7 @@ const ParticipantTopbar = ({ template }) => {
 const mapStateToProps = (state) => {
   return {
     template: state.template,
+    themeName: "new"
   };
 };
 

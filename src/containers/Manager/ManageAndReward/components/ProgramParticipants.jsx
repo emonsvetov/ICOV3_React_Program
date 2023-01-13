@@ -18,6 +18,7 @@ import RewardIcon from "mdi-react/PostItNoteAddIcon";
 import GoalIcon from "mdi-react/BullseyeArrowIcon";
 import ResendIcon from "mdi-react/AccountPlusIcon";
 import DeactivateIcon from "mdi-react/CancelIcon";
+import ActivateIcon from "mdi-react/RefreshIcon";
 import ImportIcon from "mdi-react/ImportIcon";
 import PeerIcon from "mdi-react/PostItNoteAddIcon";
 import apiTableService from "@/services/apiTableService";
@@ -36,10 +37,11 @@ const QUERY_PAGE_SIZE = 10;
 
 const ACTIONS = [
   { name: "Reward", link: "", icon: <RewardIcon /> },
-  { name: "Add Goal", link: "", icon: <GoalIcon /> },
-  { name: "Email", link: "", icon: <MailIcon /> },
+  /*{ name: "Add Goal", link: "", icon: <GoalIcon /> },*/
+  /*{ name: "Email", link: "", icon: <MailIcon /> },*/
   { name: "Resend Invite", link: "", icon: <ResendIcon /> },
   { name: "Deactivate", link: "", icon: <DeactivateIcon /> },
+  { name: "Activate", link: "", icon: <ActivateIcon /> },
   { name: "Import", link: "", icon: <ImportIcon /> },
   { name: "Peer Allocation", link: "", icon: <PeerIcon /> },
 ];
@@ -99,12 +101,21 @@ const ProgramParticipants = ({ program, organization }) => {
   }, [action, participants]);
 
   const toggle = (name = null) => {
+    console.log('d');
+    console.log(name);
     if (name) setModalName(name);
     setOpen((prevState) => !prevState);
   };
+
+
   const onClickAction = (name, row) => {
     // setCurrentRow(row)
-    setParticipants([row]);
+    if(name == 'Name') {
+      setParticipants(row);
+    } else {
+      setParticipants([row]);
+    }
+    
     toggle(name);
   };
   const onSelectAction = (name) => {
@@ -141,10 +152,23 @@ const ProgramParticipants = ({ program, organization }) => {
   const RenderActions = ({ row }) => {
     return ACTIONS.map((item, index) => {
       let statusLabel = item.name;
+      const currentStatus = row.original.status.status;
       // if(item.name === 'Deactivate') {
       //     const currentStatus = row.original.status.status;
       //     statusLabel = currentStatus === 'Deactivated' ? 'Activate' : 'Deactivate'
       // }
+      if (item.name === "Deactivate") {
+        if (currentStatus === "Deactivated") {
+          return false;
+        }
+        statusLabel = "Deactivate";
+      }
+      if (item.name === "Activate") {
+        if (currentStatus === "Active") {
+          return false;
+        }
+        statusLabel = "Activate";
+      }
       return (
         <span
           key={index}
@@ -176,7 +200,23 @@ const ProgramParticipants = ({ program, organization }) => {
   // const data = React.useMemo(() => users, [])
 
   const totalPageCount = Math.ceil(users?.count / QUERY_PAGE_SIZE);
-
+  /*const onClickStatus = (name,p) => {
+    alert('ll')
+    console.log(name);
+    console.log('kkk');
+    setParticipants(p);
+    toggle(name);
+  }*/
+  const strShowName = (name, p) => {
+     // console.log(p);  console.log("ff");
+    return p?.name ? <span onClick={() => onClickAction(name,p)} className={'link'}>{p.name}</span> : ''
+}
+columns.forEach( (column, i) => {
+    if( column.Header === 'Name')
+    {
+      columns[i].Cell =  ({ row, value }) => { return strShowName(column.Header, row.original)}
+    }
+})
   const {
     getTableProps,
     getTableBodyProps,

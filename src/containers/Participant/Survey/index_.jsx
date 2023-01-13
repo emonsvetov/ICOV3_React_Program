@@ -14,7 +14,6 @@ import {
 import { Col, Row, Container } from "reactstrap";
 import { connect } from "react-redux";
 import { SidebarOrigin } from "../../Layout/sidebar";
-import { themeContext } from "@/context/themeContext";
 
 const Survey = ({ template }) => {
   const [step, setStep] = useState(0);

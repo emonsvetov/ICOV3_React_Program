@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { getEvents } from "@/services/program/getEvents";
-import { getEvent } from "@/services/program/getEvent";
+import axios from 'axios';
+import { Link } from "react-router-dom";
+import { Table } from "reactstrap";
 import { useTable } from "react-table";
 import PencilIcon from "mdi-react/PencilIcon";
 import TrashIcon from "mdi-react/TrashCanIcon";
-import { Link } from "react-router-dom";
-import { Table } from "reactstrap";
-import ModalWrapper from "./ModalWrapper";
 import { useTranslation } from "react-i18next";
+
+import { getEvents } from "@/services/program/getEvents";
+import { getEvent } from "@/services/program/getEvent";
+import ModalWrapper from "../components/ModalWrapper";
+import {useDispatch, flashError, flashSuccess} from "@/shared/components/flash"
 
 const EVENTS_COLUMNS = [
   {
@@ -16,14 +19,22 @@ const EVENTS_COLUMNS = [
   },
   {
     Header: "Event Type",
-    accessor: "type",
+    accessor: "event_type.name",
+  },
+  {
+    Header: "Status",
+    accessor: "enable",
+    Cell: ({ row, value }) => value ? 'Active' : 'Disabled',
   },
 ];
 
 const Events = ({ program, organization }) => {
+
+  const dispatch = useDispatch()
   // console.log(program)
   // console.log(organization)
   const { t } = useTranslation();
+  const [trigger, setTrigger] = useState(0);
   const [events, setEvents] = useState([]);
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -36,14 +47,32 @@ const Events = ({ program, organization }) => {
   };
 
   const onClickEditEvent = (eventId) => {
-    getEvent(organization.id, program.id, eventId).then((item) => {
+    getEvent(program.organization_id, program.id, eventId).then((item) => {
       // console.log(item)
       setEvent(item);
       toggle("EditEvent");
       setLoading(false);
     });
   };
-  const onDeleteEvent = (e, event_id) => {};
+  const onDeleteEvent = (e, event_id) => {
+    axios.delete(
+        `/organization/${program.organization_id}/program/${program.id}/event/${event_id}`
+    )
+    .then((res) => {
+      //   console.log(res)
+      if (res.status == 200) {
+        flashSuccess(dispatch, "Event was deleted!");
+        setLoading(false);
+        setTrigger(Math.floor(Date.now() / 1000))
+        // var t = setTimeout(window.location.reload(), 3000);
+      }
+    })
+    .catch((err) => {
+      //console.log(error.response.data);
+      flashError(dispatch, err.response.data);
+      setLoading(false);
+    });
+  };
 
   const RenderActions = ({ row }) => {
     return (
@@ -84,14 +113,14 @@ const Events = ({ program, organization }) => {
   useEffect(() => {
     let mounted = true;
     setLoading(true);
-    getEvents(organization.id, program.id).then((items) => {
+    getEvents(organization.id, program.id, {disabled: true}).then((items) => {
       if (mounted) {
         setEvents(items);
         setLoading(false);
       }
     });
     return () => (mounted = false);
-  }, []);
+  }, [trigger]);
 
   const columns = React.useMemo(() => final_columns, []);
   // const data = React.useMemo(() => fetchEvents(organization, program), [])
@@ -141,6 +170,7 @@ const Events = ({ program, organization }) => {
         toggle={toggle}
         event={event}
         setEvent={setEvent}
+        setTrigger={setTrigger}
       />
     </>
   );

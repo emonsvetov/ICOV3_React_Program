@@ -4,10 +4,9 @@ import { Col, Container, Row, NavLink, Button } from "reactstrap";
 import { useLocation } from "react-router-dom";
 
 import SelectProgram from "../components/SelectProgram";
-import Events from "./components/Events";
 import GoalPlans from "./components/GoalPlans";
+import Events from "./Events";
 import Leaderboards from "./components/Leaderboards";
-import { isEmpty } from "@/shared/helper";
 import ModalWrapper from "./components/ModalWrapper";
 import { useEffect } from "react";
 import TemplateButton from "@/shared/components/TemplateButton";

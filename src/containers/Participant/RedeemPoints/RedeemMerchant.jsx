@@ -9,7 +9,6 @@ import { getSlideImg } from "../Home";
 import { SliderOrigin } from "../Home/components/slider";
 import Redeem from "./components/Redeem";
 import { useTranslation } from "react-i18next";
-import { themeContext } from "@/context/themeContext";
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-points.jpg`;
 

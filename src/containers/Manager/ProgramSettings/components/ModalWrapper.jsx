@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import AddEventPopup from "./AddEventPopup";
 import AddGoalPlanModal from "./AddGoalPlanModal";
-import EditEventModal from "./EditEventModal";
 import EditGoalPlanModal from "./EditGoalPlanModal";
+import AddEventPopup from "../Events/AddEventModal";
+import AddGoalPlanPopup from "./AddGoalPlanPopup";
+import EditEventModal from "../Events/EditEventModal";
 import AddLeaderboardModal from "./AddLeaderboardModal";
 import { useTranslation } from "react-i18next";
 
@@ -18,6 +19,7 @@ const ModalWrapper = ({
   setEvent,
   goalplan,
   setGoalPlan,
+  setTrigger
 }) => {
   const { t } = useTranslation();
   const props = {
@@ -30,6 +32,7 @@ const ModalWrapper = ({
     setEvent,
     goalplan,
     setGoalPlan,
+    setTrigger
   };
   // console.log(leaderboard, '-----------')
   if (!organization?.id || !program?.id) return t("loading");

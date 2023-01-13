@@ -21,7 +21,7 @@ export const SidebarOrigin = () => {
 
   return (
     <div className="sidebar">
-      <SlideOutMenu isFixed={true} />
+      <SlideOutMenu isFixed={false} />
       <div className="space-30" />
       <PointsOrigin />
       <div className="space-30" />
