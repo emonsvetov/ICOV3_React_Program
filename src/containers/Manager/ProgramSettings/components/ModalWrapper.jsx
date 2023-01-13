@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import AddGoalPlanModal from "./AddGoalPlanModal";
 import EditGoalPlanModal from "./EditGoalPlanModal";
 import AddEventPopup from "../Events/AddEventModal";
-import AddGoalPlanPopup from "./AddGoalPlanPopup";
 import EditEventModal from "../Events/EditEventModal";
 import AddLeaderboardModal from "./AddLeaderboardModal";
 import { useTranslation } from "react-i18next";
