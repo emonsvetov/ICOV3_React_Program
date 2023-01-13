@@ -6,7 +6,7 @@ const ParticipantGoalPlans = ({ program, organization }) => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <td colspan="8" class="title">
+            <td colSpan="8" className="title">
               Goal Plans
             </td>
           </tr>
