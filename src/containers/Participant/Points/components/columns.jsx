@@ -6,9 +6,9 @@ export const SUMMARY_COLUMNS = [
   {
     Header: "Points",
     accessor: "point",
-    Cell: ({ row, value }) => {
-      return value.toLocaleString();
-    },
+    // Cell: ({ row, value }) => {
+    //   return value.toLocaleString();
+    // },
   },
 ];
 
@@ -32,8 +32,8 @@ export const DETAIL_COLUMNS = [
   {
     Header: "Points",
     accessor: "amount",
-    Cell: ({ row, value }) => {
-      return value.toLocaleString();
-    },
+    // Cell: ({ row, value }) => {
+    //   return value.toLocaleString();
+    // },
   },
 ];
