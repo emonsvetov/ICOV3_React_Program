@@ -23,15 +23,15 @@ export const DETAIL_COLUMNS = [
   },
   {
     Header: "Event",
-    accessor: "event",
+    accessor: "name",
   },
   {
     Header: "Date",
-    accessor: "date",
+    accessor: "journal_event_timestamp",
   },
   {
     Header: "Points",
-    accessor: "point",
+    accessor: "amount",
     Cell: ({ row, value }) => {
       return value.toLocaleString();
     },
