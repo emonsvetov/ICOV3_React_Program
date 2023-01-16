@@ -101,8 +101,6 @@ const ProgramParticipants = ({ program, organization }) => {
   }, [action, participants]);
 
   const toggle = (name = null) => {
-    console.log('d');
-    console.log(name);
     if (name) setModalName(name);
     setOpen((prevState) => !prevState);
   };
@@ -143,7 +141,6 @@ const ProgramParticipants = ({ program, organization }) => {
   useEffect(() => {
     // console.log(mounted)
     if (status && mounted) {
-      // console.log(status)
       setFilter({ keyword: filter.keyword, status: status });
     }
     return () => setMounted(true);
@@ -200,15 +197,7 @@ const ProgramParticipants = ({ program, organization }) => {
   // const data = React.useMemo(() => users, [])
 
   const totalPageCount = Math.ceil(users?.count / QUERY_PAGE_SIZE);
-  /*const onClickStatus = (name,p) => {
-    alert('ll')
-    console.log(name);
-    console.log('kkk');
-    setParticipants(p);
-    toggle(name);
-  }*/
   const strShowName = (name, p) => {
-     // console.log(p);  console.log("ff");
     return p?.name ? <span onClick={() => onClickAction(name,p)} className={'link'}>{p.name}</span> : ''
 }
 columns.forEach( (column, i) => {
