@@ -45,7 +45,7 @@ const Home = ({ auth, organization, program, template }) => {
   }, [auth, program]);
 
   if (!auth || !program || !template) return t("loading");
-console.log(template);
+
   let slide_imgs = getSlideImg();
 
   const HomeOrigin = () => {
@@ -72,8 +72,9 @@ console.log(template);
             </Col>
           </Row>
         </Container>
+        {showSocialWall && <SocialWallPanel />}
         <Container className="">
-          {!showSocialWall && <SocialWallPanel />}
+
         </Container>
         <div className="mt-5">
           <h6 className="m-3">
