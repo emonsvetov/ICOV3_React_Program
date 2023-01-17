@@ -19,7 +19,7 @@ const COLUMNS = [
   },
   {
     Header: "",
-    accessor: "type",
+    accessor: "leaderboard_type.name",
   },
 ];
 
@@ -76,6 +76,7 @@ const Leaderboards = ({ program, organization }) => {
   };
 
   const RenderActions = ({ row }) => {
+    console.log(row);
     return (
       <span>
         <Link
