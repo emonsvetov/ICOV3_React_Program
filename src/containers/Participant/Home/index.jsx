@@ -73,7 +73,11 @@ console.log(template);
           </Row>
         </Container>
         <Container className="">
-          {!showSocialWall && <SocialWallPanel />}
+          {showSocialWall && (
+              <>
+                <SocialWallPanel />
+              </>
+          )}
         </Container>
         <div className="mt-5">
           <h6 className="m-3">
