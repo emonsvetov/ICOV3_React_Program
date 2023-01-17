@@ -38,7 +38,7 @@ const QUERY_PAGE_SIZE = 10;
 const ACTIONS = [
   { name: "Reward", link: "", icon: <RewardIcon /> },
   /*{ name: "Add Goal", link: "", icon: <GoalIcon /> },*/
-  /*{ name: "Email", link: "", icon: <MailIcon /> },*/
+  { name: "Email", link: "", icon: <MailIcon /> },
   { name: "Resend Invite", link: "", icon: <ResendIcon /> },
   { name: "Deactivate", link: "", icon: <DeactivateIcon /> },
   { name: "Activate", link: "", icon: <ActivateIcon /> },
@@ -183,14 +183,19 @@ const ProgramParticipants = ({ program, organization }) => {
 
   let final_columns = [
     ...USERS_COLUMNS,
-    ...[
+    /*  {
+      Header: "Status",
+      accessor: "status.status",
+      }
+    ]*/
+    /*...[
       {
         Header: "",
         accessor: "action",
         Footer: "Action",
         Cell: ({ row }) => <RenderActions row={row} />,
       },
-    ],
+    ],*/
   ];
 
   const columns = React.useMemo(() => final_columns, []);
