@@ -76,6 +76,7 @@ const Leaderboards = ({ program, organization }) => {
   };
 
   const RenderActions = ({ row }) => {
+    console.log(row);
     return (
       <span>
         <Link
