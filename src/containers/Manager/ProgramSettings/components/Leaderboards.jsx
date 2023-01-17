@@ -19,7 +19,7 @@ const COLUMNS = [
   },
   {
     Header: "",
-    accessor: "type",
+    accessor: "leaderboard_type.name",
   },
 ];
 
