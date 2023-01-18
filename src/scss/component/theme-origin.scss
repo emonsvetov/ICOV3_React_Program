@@ -26,6 +26,9 @@
     background-color: var(--app-themeColor);
     color: white;
     border: 0;
+    position: absolute;
+    right: 0px;
+    margin-right: 10px;
 }
 .btn-blue:hover, .btn-blue:focus, .btn-blue:active, .btn-blue.active, .open>.dropdown-toggle.btn-blue {
     color: #fff;
