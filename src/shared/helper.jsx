@@ -178,3 +178,7 @@ export const prepareRequestParams = (filter, fields) => {
 export const validEmail = (email) => {
   return /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/i.test(email)
 }
+
+export const createMarkup = (value) => {
+  return {__html: value};
+}
