@@ -45,7 +45,7 @@ const Home = ({ auth, organization, program, template }) => {
   }, [auth, program]);
 
   if (!auth || !program || !template) return t("loading");
-console.log(template);
+
   let slide_imgs = getSlideImg();
 
   const HomeOrigin = () => {
@@ -72,13 +72,7 @@ console.log(template);
             </Col>
           </Row>
         </Container>
-        <Container className="">
-          {showSocialWall && (
-              <>
-                <SocialWallPanel />
-              </>
-          )}
-        </Container>
+        {showSocialWall && <SocialWallPanel />}
         <div className="mt-5">
           <h6 className="m-3">
             {t("select_a_merchant_to_redeem_your_points")}

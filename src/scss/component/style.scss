@@ -968,7 +968,7 @@ footer{
 /**
  * Social Wall
  */
-.social-wall-panel{
+.social-wall-panel-New{
     max-height: 600px;
     overflow-y: auto;
     background: #f7f8fa;
@@ -980,7 +980,7 @@ footer{
 .add-new-post {
     width:130px;
 }
-.social-wall-item{
+.social-wall-panel-New .social-wall-item{
     padding: 30px 20px;
     .comment-btn, .delete-activity-btn{
         margin-bottom: 5px;
@@ -1028,6 +1028,112 @@ footer{
     .deleteComment:hover {
         text-decoration: underline;
     }
+}
+
+.social-wall-panel-Original {
+    background: transparent;
+    margin: 20px;
+    overflow-y: scroll;
+    min-height: 200px;
+}
+
+.social-wall-panel-Original .social-wall-item-header {
+    font-weight: bold;
+    font-size: 1.4em;
+}
+.social-wall-panel-Original .social-wall-item-header td{
+    padding: 10px;
+}
+
+.social-wall-panel-Original .social-wall-item-notification-body {
+    text-align: center;
+    border: 1px solid #999999;
+}
+.social-wall-panel-Original .social-wall-item-notification-body td {
+    padding: 5px 10px;
+}
+
+.social-wall-panel-Original .social-wall-comment td {
+    padding: 5px 10px;
+}
+
+.social-wall-panel-Original .social-wall-item-from {
+    text-align: right;
+    font-weight: bold;
+}
+
+.social-wall-panel-Original .social-wall-time {
+    font-style: italic;
+    font-size: .8em;
+    color: #999999;
+}
+
+.social-wall-panel-Original .social-wall-post-comment-container {
+    float: right;
+    padding-top: 10px;
+}
+
+.social-wall-panel-Original .social-wall-comment {
+    border: 1px solid #999999;
+    margin-bottom: 3px;
+}
+
+.social-wall-panel-Original .social-wall-comments-container
+{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.social-wall-panel-Original .social-wall-comments-container
+{
+    padding: 5px 0px 5px 0px;
+}
+
+.social-wall-panel-Original .social-wall-post-tl,
+.social-wall-panel-Original .social-wall-post-tr,
+.social-wall-panel-Original .social-wall-post-bl,
+.social-wall-panel-Original .social-wall-post-br
+{
+    height: 24px;
+    width: 24px;
+}
+
+.social-wall-panel-Original .social-wall-post-tl{
+    background: url('../../../public/original/img/social_wall/social-post-tl.png') 0px 0px no-repeat;
+}
+
+.social-wall-panel-Original .social-wall-post-tr{
+    background: url('../../../public/original/img/social_wall/social-post-tr.png') 0px 0px no-repeat;
+}
+
+.social-wall-panel-Original .social-wall-post-t{
+    background: url('../../../public/original/img/social_wall/social-post-t.png') 0px 0px repeat-x;
+}
+
+.social-wall-panel-Original .social-wall-post-l{
+    background: url('../../../public/original/img/social_wall/social-post-l.png') 0px 0px repeat-y;
+}
+
+.social-wall-panel-Original .social-wall-post-r{
+    background: url('../../../public/original/img/social_wall/social-post-r.png') 0px 0px repeat-y;
+}
+
+.social-wall-panel-Original .social-wall-post-bl{
+    background: url('../../../public/original/img/social_wall/social-post-bl.png') 0px 0px no-repeat;
+}
+
+.social-wall-panel-Original .social-wall-post-br{
+    background: url('../../../public/original/img/social_wall/social-post-br.png') 0px 0px no-repeat;
+}
+
+.social-wall-panel-Original .social-wall-post-b{
+    background: url('../../../public/original/img/social_wall/social-post-b.png') 0px 0px repeat-x;
+}
+
+.social-wall-panel-Original .social-wall-post-tail{
+    height: 55px;
+    width: 75px;
+    background: url('../../../public/original/img/social_wall/social-post-tail.png') 0px 0px no-repeat;
 }
 
 .template-button {
@@ -1156,5 +1262,20 @@ footer{
     {
         background-size: contain;
         min-width: 150px;
+    }
+}
+
+/* home page slider */
+.carousel-item {
+    @media (max-width: $xs) {
+    }
+    @media (min-width: $sm-from) and (max-width: $sm-to) {
+        max-height: 500px;
+    }
+    @media (min-width: $md-from) and (max-width: $md-to) {
+        max-height: 500px;
+    }
+    @media (min-width: $lg) {
+        max-height: 500px;
     }
 }
