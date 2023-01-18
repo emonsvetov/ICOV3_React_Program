@@ -8,22 +8,24 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { getAuthProgram } from "@/containers/App/auth";
 import { useTranslation } from "react-i18next";
 
-export const ParticipantTabNavsOrigin = (props) => {
+const program = getAuthProgram();
+
+export const ParticipantTabNavsOrigin = () => {
   const { t } = useTranslation();
   const TAB_ITEMS = [
     { title: "my_rewards", icon: "MyRewards", to: `/participant/my-points` },
-    {
-      title: "peer_to_peer",
-      icon: "PeerToPeer",
-      to: "/participant/peer-to-peer",
-    },
+    { title: "peer_to_peer", icon: "PeerToPeer", to: "/participant/peer-to-peer"},
     { title: "my_goals", icon: "MyGoals", to: "/participant/my-goals" },
-    {
+  ];
+
+  if(program.uses_leaderboards > 0){
+    TAB_ITEMS.push({
       title: "leaderboards",
       icon: "Leaderboards",
       to: "/participant/leaderboards",
-    },
-  ];
+    },)
+  }
+
   let navigate = useNavigate();
   return (
     <div className="">
@@ -70,7 +72,6 @@ export const ParticipantTabNavs = (props) => {
 };
 
 export const ManagerTabNavs = (props) => {
-  const program = getAuthProgram();
   let MANAGER_ITEMS;
   if (program.uses_social_wall > 0) {
     MANAGER_ITEMS = [
