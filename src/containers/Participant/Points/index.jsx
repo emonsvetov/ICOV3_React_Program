@@ -10,7 +10,7 @@ import { POINTS_DETAIL_DATA, POINTS_SUMMARY_DATA } from "./components/Mockdata";
 import { DETAIL_COLUMNS, SUMMARY_COLUMNS } from "./components/columns";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
-import TemplateButton from "@/shared/components/TemplateButton";
+import TemplateButton from "@/shared/components/TemplateButton"
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-points.jpg`;
 
@@ -42,16 +42,9 @@ const MyPoints = ({ template }) => {
             <SidebarOrigin />
           </Col>
           <Col md={8} className="">
-            <div className="d-flex justify-content-around">
-              <RedeemBtn
-                props={{ src: IMG_GIFT, link: "/participant/browse-merchants" }}
-              />
-              <RedeemBtn
-                props={{
-                  src: IMG_MERCHAN,
-                  link: "/participant/select-global-merchant",
-                }}
-              />
+            <div className="d-flex justify-content-around rewardButtonWrap">
+              <TemplateButton className="rewardButton" text='Redeem My Rewards<br/> for Gift Codes' link="/participant/browse-merchants" />
+              <TemplateButton className="rewardButton" text='Redeem My Rewards<br/> for Merchandise & More' link="/participant/select-global-merchant" />
             </div>
             <h3 className="pt-5" style={{ fontSize: "16px" }}>
               {" "}
