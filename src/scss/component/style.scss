@@ -1264,3 +1264,18 @@ footer{
         min-width: 150px;
     }
 }
+
+/* home page slider */
+.carousel-item {
+    @media (max-width: $xs) {
+    }
+    @media (min-width: $sm-from) and (max-width: $sm-to) {
+        max-height: 500px;
+    }
+    @media (min-width: $md-from) and (max-width: $md-to) {
+        max-height: 500px;
+    }
+    @media (min-width: $lg) {
+        max-height: 500px;
+    }
+}
