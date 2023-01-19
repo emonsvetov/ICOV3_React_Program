@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 const MYPOINTS = [
   {
-    name: "points_to_redeem",
+    name: "Points to Redeem",
     value: 800,
   },
   {
@@ -14,6 +14,7 @@ const MYPOINTS = [
   },
 ];
 const PointsOrigin = ({ myPoints }) => {
+  console.log(myPoints)
   const { t } = useTranslation();
   if (!myPoints) return t("loading");
   return (
@@ -21,19 +22,22 @@ const PointsOrigin = ({ myPoints }) => {
       <div className="points-origin-header bg-blue">{t("my_balance")}</div>
       <table className="points-origin-table" width="100%">
         <tbody>
-          {MYPOINTS.map((item, index) => (
-            <React.Fragment key={index}>
-              <tr>
-                <td className="points-title text-uppercase">
-                  {" "}
-                  {t(item.name)}:
-                </td>
-              </tr>
-              <tr>
-                <td className="value"> {item.value.toLocaleString()}</td>
-              </tr>
-            </React.Fragment>
-          ))}
+          <tr>
+            <td className="points-title text-uppercase">
+              {t("Points to Redeem")}:
+            </td>
+          </tr>
+          <tr>
+            <td className="value"> {myPoints.amount * myPoints.factor}</td>
+          </tr>
+          <tr>
+            <td className="points-title text-uppercase">
+              {t("Peer Points to Award")}:
+            </td>
+          </tr>
+          <tr>
+            <td className="value"> {myPoints.peerBalance * myPoints.factor}</td>
+          </tr>
         </tbody>
       </table>
     </div>

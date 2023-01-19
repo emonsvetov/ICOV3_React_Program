@@ -5,6 +5,7 @@ import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
 
 const Points = ({ myPoints }) => {
+  console.log(myPoints)
   const { t } = useTranslation();
   if (!myPoints) return t("loading");
   return (
