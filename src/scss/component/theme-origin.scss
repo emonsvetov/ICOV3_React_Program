@@ -32,7 +32,7 @@
 }
 .btn-blue:hover, .btn-blue:focus, .btn-blue:active, .btn-blue.active, .open>.dropdown-toggle.btn-blue {
     color: #fff;
-    background-color: #0092F2;
+    background-color: var(--app-themeColor);
     
 }
 
