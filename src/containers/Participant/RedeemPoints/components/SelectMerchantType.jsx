@@ -16,14 +16,14 @@ const SelectMerchantType = () => {
         <h4>{t("redeem_points_desc_2")}</h4>
       </div>
 
-      <div
-        className="panel mt-3 p-4 red"
-        onClick={() => navigate("/participant/browse-merchants")}
-      >
-        <h2>{t("redeem_your_points")} </h2>
-        <h4>{t("redeem_your_points_desc_1")}</h4>
-        <h2>{t("redeem_your_points_desc_2")}</h2>
-      </div>
+      {/*<div*/}
+      {/*  className="panel mt-3 p-4 red"*/}
+      {/*  onClick={() => navigate("/participant/browse-merchants")}*/}
+      {/*>*/}
+      {/*  <h2>{t("redeem_your_points")} </h2>*/}
+      {/*  <h4>{t("redeem_your_points_desc_1")}</h4>*/}
+      {/*  <h2>{t("redeem_your_points_desc_2")}</h2>*/}
+      {/*</div>*/}
     </div>
   );
 };

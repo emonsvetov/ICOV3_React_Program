@@ -32,8 +32,9 @@ export const DETAIL_COLUMNS = [
   {
     Header: "Points",
     accessor: "amount",
-    // Cell: ({ row, value }) => {
-    //   return value.toLocaleString();
-    // },
+    Cell: ({ row, value }) => {
+      // TODO:
+      return 'sd'; //value?.toLocaleString();
+    },
   },
 ];

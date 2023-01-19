@@ -18,7 +18,7 @@ const LINKS = [
 ];
 
 const SlideOutMenu = ({ isFixed }) => {
-  const [isMenuOpen, setMenuOpen] = useState(isFixed);
+  const [isMenuOpen, setMenuOpen] = useState(true);
   const { t } = useTranslation();
   const toggleMenu = () => {
     if (!isFixed) setMenuOpen((prev) => !prev);

@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import axios from "axios";
 import Routes from "./Routes";
 import store from "./store";
+import "../../scss/theme_variable.scss";
 import "../../scss/app.scss";
 import {
   getBearer,
@@ -81,6 +82,7 @@ const App = () => {
       );
 
       setCustomLink(domain.program.template.font_family, domain.program.template);
+      setThemeCss(domain.program.template);
     });
     store.dispatch(setOrganization(getOrganization()));
     store.dispatch(setAuthUser(getAuthUser()));
@@ -118,6 +120,12 @@ const App = () => {
         href +
         "', sans-serif;} ";
       head.appendChild(style);
+    }
+  };
+
+  const setThemeCss = (template) => {
+    if (template.theme_color) {
+      document.documentElement.style.setProperty('--app-themeColor', template.theme_color)
     }
   };
 
