@@ -32,6 +32,8 @@ const RedeemBtn = ({ props }) => {
 const MyPoints = ({ dispatch, auth, program, template, myPoints, pointBalance }) => {
   const { t } = useTranslation();
 
+  console.log(template)
+
   useEffect( () => {
     if( auth?.id && program?.id)
     {
@@ -68,79 +70,46 @@ const MyPoints = ({ dispatch, auth, program, template, myPoints, pointBalance })
 
   // console.log(points_summary)
 
-  const MyPointsOrigin = () => {
-    return (
-      <Container fluid>
-        <Row className="mt-4">
-          <div className="space-30"></div>
-          <Col md={4}>
-            <SidebarOrigin />
-          </Col>
-          <Col md={8} className="">
-            <div className="d-flex justify-content-around">
-              <RedeemBtn
-                props={{ src: IMG_GIFT, link: "/participant/browse-merchants" }}
-              />
-              <RedeemBtn
-                props={{
-                  src: IMG_MERCHAN,
-                  link: "/participant/select-global-merchant",
-                }}
-              />
-            </div>
-            <h3 className="pt-5" style={{ fontSize: "16px" }}>
-              {" "}
-              {t("my_points")}
-            </h3>
-            <div className="origin-table">
-              <TablePointsExpiration />
-            </div>
-            <PointsTemplateTable
-              title={t("points_summary")}
-              table_columns={SUMMARY_COLUMNS}
-              table_data={points_summary}
-            />
-            <PointsTemplateTable
-              title={t("points_detail")}
-              table_columns={DETAIL_COLUMNS}
-              table_data={POINTS_DETAIL_DATA}
-            />
-          </Col>
-        </Row>
-      </Container>
-    );
-  };
-  const MyPointsNew = () => {
-    return (
-      <>
-        <div className="mainboard">
-          <img src={IMG_BACK} alt={"my_points"} />
-          <div className="title">{t("my_points")}</div>
-        </div>
-        <Container>
-          <ParticipantTabNavs />
-        </Container>
-        <Container>
-          <Row>
-            <Col md={9}>
-              <div className="dashboard">
-                <PointsSummary />
-
-                <PointsDetail />
-              </div>
-            </Col>
-            <Col md={3}>
-              <Sidebar />
-            </Col>
-          </Row>
-        </Container>
-      </>
-    );
-  };
-
   return (
-    (template?.name === "New" && <MyPointsNew />) ||
-    (template?.name === "Original" && <MyPointsOrigin />)
+    <Container fluid>
+      <Row className="mt-4">
+        <div className="space-30"></div>
+        <Col md={4}>
+          <SidebarOrigin />
+        </Col>
+        <Col md={8} className="">
+          <div className="d-flex justify-content-around">
+            <RedeemBtn
+              props={{ src: IMG_GIFT, link: "/participant/browse-merchants" }}
+            />
+            <RedeemBtn
+              props={{
+                src: IMG_MERCHAN,
+                link: "/participant/select-global-merchant",
+              }}
+            />
+          </div>
+          <h3 className="pt-5" style={{ fontSize: "16px" }}>
+            {" "}
+            {t("my_points")}
+          </h3>
+          <div className="origin-table">
+            <TablePointsExpiration />
+          </div>
+          <PointsSummary />
+          <PointsTemplateTable
+            title={t("points_summary")}
+            table_columns={SUMMARY_COLUMNS}
+            table_data={points_summary}
+          />
+          <PointsTemplateTable
+            title={t("points_detail")}
+            table_columns={DETAIL_COLUMNS}
+            table_data={POINTS_DETAIL_DATA}
+          />
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
