@@ -188,14 +188,14 @@ const ProgramParticipants = ({ program, organization }) => {
       accessor: "status.status",
       }
     ]*/
-    /*...[
+    ...[
       {
         Header: "",
         accessor: "action",
         Footer: "Action",
         Cell: ({ row }) => <RenderActions row={row} />,
       },
-    ],*/
+    ],
   ];
 
   const columns = React.useMemo(() => final_columns, []);
