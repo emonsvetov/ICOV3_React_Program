@@ -48,12 +48,20 @@ const AddGoalPlanModal = ({
   });
 
   //const [fields, setFields] = useState({});
-
-  const onSelectGoalPlanType = (selectedOption) => {
-    //console.log('goal type selected');
+ /* const onSelectGoalPlanType = (selectedOption) => {
+    
     //console.log(selectedOption);
     //goalPlanData.award_per_progress=1;
-  };
+  };*/
+  const onChangeGoalType = ([field], state, { setIn, changeValue }) => {
+    let event_type = 'standard'
+    if(field.label == "Recognition Goal") {//Recognition Goal 
+       event_type = 'badge'
+    }
+    getEvents(organization.id, program.id, event_type).then((evts) => {
+      setEvents(labelizeNamedData(evts));
+    });
+   }
 
   const onSubmit = (values) => {
     let goalPlanData = {};
@@ -198,7 +206,7 @@ const AddGoalPlanModal = ({
       setExpirationRules(labelizeNamedData(ertypes));
     });
 
-    getEvents(organization.id, program.id).then((evts) => {
+    getEvents(organization.id, program.id,'standard').then((evts) => {
       setEvents(labelizeNamedData(evts));
     });
 
@@ -217,7 +225,8 @@ const AddGoalPlanModal = ({
     program_email_templates,
     // handleChange,
     loading,
-    onSelectGoalPlanType,
+   // onSelectGoalPlanType,
+   onChangeGoalType,
     onSubmit,
   };
 
