@@ -15,7 +15,7 @@ const IMG_GIFT = `${process.env.PUBLIC_URL}/original/img/GiftCode_button.png`;
 const IMG_MERCHAN = `${process.env.PUBLIC_URL}/original/img/Merchandise_button.png`;
 
 const MyPointsNew = () => {
-  
+
   return (
     <>
       <div className="mainboard">
