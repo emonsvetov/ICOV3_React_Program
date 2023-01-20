@@ -149,7 +149,8 @@ const ProgramParticipants = ({ program, organization }) => {
   const RenderActions = ({ row }) => {
     return ACTIONS.map((item, index) => {
       let statusLabel = item.name;
-      const currentStatus = row.original.status.status;
+      //const currentStatus = row.original.status;
+      const currentStatus = row.original.status === null ? null : row.original.status.status;
       // if(item.name === 'Deactivate') {
       //     const currentStatus = row.original.status.status;
       //     statusLabel = currentStatus === 'Deactivated' ? 'Activate' : 'Deactivate'
@@ -157,11 +158,15 @@ const ProgramParticipants = ({ program, organization }) => {
       if (item.name === "Deactivate") {
         if (currentStatus === "Deactivated") {
           return false;
+        } else if(currentStatus === null) {
+          return false;
         }
         statusLabel = "Deactivate";
       }
       if (item.name === "Activate") {
         if (currentStatus === "Active") {
+          return false;
+        } else if(currentStatus === null) {
           return false;
         }
         statusLabel = "Activate";
