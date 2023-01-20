@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import { patch4Select } from "@/shared/helper";
 import { Link } from "react-router-dom";
 //import Switch from '@/shared/components/form/Switch';
-import Select from 'react-select';
+import Select from "react-select";
 import renderSelectField from "@/shared/components/form/Select";
 import renderToggleButtonField from "@/shared/components/form/ToggleButton";
 //import formValidation from "@/validation/addGoalPlan";
@@ -73,6 +73,7 @@ const GoalPlanForm = ({
   expirationRules,
   events,
   goalplan,
+  goalPlanTypeId,
   program_email_templates,
   //event,
   //loading,
@@ -85,6 +86,9 @@ const GoalPlanForm = ({
   //program
 }) => {
   if (goalplan) {
+    if(goalPlanTypeId) {
+      goalplan.goal_plan_type_id =goalPlanTypeId
+    }
     if (goalplan.goal_plan_type_id)
       goalplan = patch4Select(goalplan, "goal_plan_type_id", goalPlanTypes);
     if (goalplan.automatic_progress) {
@@ -193,7 +197,7 @@ const GoalPlanForm = ({
     //values.assign_goal_all_participants_now.value=1;
     //return false;
   };
-   /*const onChangeGoalType = ([field,value], state, { setIn, changeValue }) => {
+  /*const onChangeGoalType = ([field,value], state, { setIn, changeValue }) => {
 
     console.log('kk');
     console.log(field);
@@ -218,8 +222,8 @@ const GoalPlanForm = ({
       validate={validate}
       //validate={(values) => formValidation.validateForm(values)}
       mutators={{
-        onChangeGoalType
-        }}
+        onChangeGoalType,
+      }}
       initialValues={goalplan}
     >
       {({ handleSubmit, form, submitting, pristine, values }) => {
@@ -299,16 +303,16 @@ const GoalPlanForm = ({
                     className="react-select"
                     options={goalPlanTypes}
                     placeholder={"Select Goal Plan Type*"}
+                    // initialValue ={2}
                     //onChange={(e) =>onSelectGoalPlanType(e)}
                     //onChange={(val, prevVal) => console.log(val, prevVal)}
                     /*parse={value => {
                         form.mutators.onChangeGoalType(value);
                         return value;
                     }}*/
-                   parse={form.mutators.onChangeGoalType}
-                   component={renderSelectField}
+                    parse={form.mutators.onChangeGoalType}
+                    component={renderSelectField}
                   />
-                 
                 )}
               </Col>
             </Row>

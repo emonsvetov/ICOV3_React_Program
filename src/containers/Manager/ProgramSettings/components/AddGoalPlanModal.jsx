@@ -33,9 +33,8 @@ const AddGoalPlanModal = ({
   const [goalPlanTypes, setGoalPlanTypes] = useState([]);
   const [expirationRules, setExpirationRules] = useState([]);
   const current = new Date();
-  const date = `${current.getFullYear()}-${
-    current.getMonth() + 1
-  }-${current.getDate()}`;
+  const date = `${current.getFullYear()}-${current.getMonth() + 1
+    }-${current.getDate()}`;
   const [events, setEvents] = useState([]);
   const [program_email_templates, setProgramEmailTemplates] = useState([]);
   const [goalplan, setGoalPlan] = useState({
@@ -48,20 +47,28 @@ const AddGoalPlanModal = ({
   });
 
   //const [fields, setFields] = useState({});
- /* const onSelectGoalPlanType = (selectedOption) => {
-    
-    //console.log(selectedOption);
-    //goalPlanData.award_per_progress=1;
-  };*/
+  /* const onSelectGoalPlanType = (selectedOption) => {
+     
+     //console.log(selectedOption);
+     //goalPlanData.award_per_progress=1;
+   };*/
+  const [goalPlanTypeId, setgoalPlanTypeId] = useState([]);
+  const goal_plan_type = '';
   const onChangeGoalType = ([field], state, { setIn, changeValue }) => {
+    //console.log(field);
     let event_type = 'standard'
-    if(field.label == "Recognition Goal") {//Recognition Goal 
-       event_type = 'badge'
+    if (field.label == "Recognition Goal") {//Recognition Goal 
+      event_type = 'badge'
     }
     getEvents(organization.id, program.id, event_type).then((evts) => {
       setEvents(labelizeNamedData(evts));
     });
-   }
+    setgoalPlanTypeId(field.value);
+    /*setGoalPlan({
+      ...goalplan,
+      goal_plan_type_id:
+  })*/
+  }
 
   const onSubmit = (values) => {
     let goalPlanData = {};
@@ -206,7 +213,7 @@ const AddGoalPlanModal = ({
       setExpirationRules(labelizeNamedData(ertypes));
     });
 
-    getEvents(organization.id, program.id,'standard').then((evts) => {
+    getEvents(organization.id, program.id, 'standard').then((evts) => {
       setEvents(labelizeNamedData(evts));
     });
 
@@ -225,8 +232,9 @@ const AddGoalPlanModal = ({
     program_email_templates,
     // handleChange,
     loading,
-   // onSelectGoalPlanType,
-   onChangeGoalType,
+    // onSelectGoalPlanType,
+    onChangeGoalType,
+    goalPlanTypeId,
     onSubmit,
   };
 
