@@ -1,14 +1,14 @@
 export const SUMMARY_COLUMNS = [
   {
     Header: "Event",
-    accessor: "event",
+    accessor: "name",
   },
   {
     Header: "Points",
-    accessor: "point",
-    // Cell: ({ row, value }) => {
-    //   return value.toLocaleString();
-    // },
+    accessor: "points",
+    Cell: ({ row, value }) => {
+      return parseInt(value);
+    },
   },
 ];
 

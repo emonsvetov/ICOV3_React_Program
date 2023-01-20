@@ -13,7 +13,7 @@ const SUMMARY_DATA = [
   { index: "expired", text: "Points Expired", value: 2720 },
 ];
 
-const PointsSummary = ({ myPoints }) => {
+const PointsSummary = ({ pointBalance }) => {
   const { t } = useTranslation();
   const columns = React.useMemo(() => SUMMARY_COLUMNS, []);
   const data = React.useMemo(() => POINTS_SUMMARY_DATA, []);
@@ -36,13 +36,13 @@ const PointsSummary = ({ myPoints }) => {
                 <strong className={`point-value index-${index}`}>
                   {
                     item.index === 'expired' ? (
-                        myPoints.expiredBalance
+                        pointBalance.expiredBalance
                       ) : item.index === 'redeemed' ?
                       (
-                        myPoints.redeemedBalance
+                        pointBalance.redeemedBalance
                       ) : item.index === 'balance' ?
                       (
-                        myPoints.amount
+                        pointBalance.amount
                       ) : ''
                   }
                 </strong>
@@ -87,7 +87,7 @@ const PointsSummary = ({ myPoints }) => {
 
 const mapStateToProps = (state) => {
   return {
-    myPoints: state.pointBalance,
+    pointBalance: state.pointBalance,
   };
 };
 

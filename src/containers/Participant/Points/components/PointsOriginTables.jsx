@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "reactstrap";
 import { useTable } from "react-table";
 
-export const PointsOrigin = ({ title, table_columns, table_data }) => {
+const PointsTemplateTable = ({ title, table_columns, table_data }) => {
   const columns = React.useMemo(() => table_columns, []);
   const data = React.useMemo(() => table_data, []);
   const { getTableProps, headerGroups, rows, prepareRow } = useTable({
@@ -51,3 +51,5 @@ export const PointsOrigin = ({ title, table_columns, table_data }) => {
     </>
   );
 };
+
+export default PointsTemplateTable

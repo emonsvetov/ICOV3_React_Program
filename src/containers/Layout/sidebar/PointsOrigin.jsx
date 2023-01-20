@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 
-const MYPOINTS = [
+const pointBalance = [
   {
     name: "Points to Redeem",
     value: 800,
@@ -13,10 +13,9 @@ const MYPOINTS = [
     value: 4000,
   },
 ];
-const PointsOrigin = ({ myPoints }) => {
-  console.log(myPoints)
+const PointsOrigin = ({ pointBalance }) => {
   const { t } = useTranslation();
-  if (!myPoints) return t("loading");
+  if (!pointBalance) return t("loading");
   return (
     <div className="points-origin flex-column p-2">
       <div className="points-origin-header bg-blue">{t("my_balance")}</div>
@@ -28,7 +27,7 @@ const PointsOrigin = ({ myPoints }) => {
             </td>
           </tr>
           <tr>
-            <td className="value"> {myPoints.amount * myPoints.factor}</td>
+            <td className="value"> {pointBalance.amount * pointBalance.factor}</td>
           </tr>
           <tr>
             <td className="points-title text-uppercase">
@@ -36,7 +35,7 @@ const PointsOrigin = ({ myPoints }) => {
             </td>
           </tr>
           <tr>
-            <td className="value"> {myPoints.peerBalance * myPoints.factor}</td>
+            <td className="value"> {pointBalance.peerBalance * pointBalance.factor}</td>
           </tr>
         </tbody>
       </table>
@@ -45,7 +44,7 @@ const PointsOrigin = ({ myPoints }) => {
 };
 const mapStateToProps = (state) => {
   return {
-    myPoints: state.pointBalance,
+    pointBalance: state.pointBalance,
   };
 };
 
