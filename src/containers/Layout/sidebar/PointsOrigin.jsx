@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 
-const MYPOINTS = [
+const pointBalance = [
   {
-    name: "points_to_redeem",
+    name: "Points to Redeem",
     value: 800,
   },
   {
@@ -13,27 +13,30 @@ const MYPOINTS = [
     value: 4000,
   },
 ];
-const PointsOrigin = ({ myPoints }) => {
+const PointsOrigin = ({ pointBalance }) => {
   const { t } = useTranslation();
-  if (!myPoints) return t("loading");
+  if (!pointBalance) return t("loading");
   return (
     <div className="points-origin flex-column p-2">
       <div className="points-origin-header bg-blue">{t("my_balance")}</div>
       <table className="points-origin-table" width="100%">
         <tbody>
-          {MYPOINTS.map((item, index) => (
-            <React.Fragment key={index}>
-              <tr>
-                <td className="points-title text-uppercase">
-                  {" "}
-                  {t(item.name)}:
-                </td>
-              </tr>
-              <tr>
-                <td className="value"> {item.value.toLocaleString()}</td>
-              </tr>
-            </React.Fragment>
-          ))}
+          <tr>
+            <td className="points-title text-uppercase">
+              {t("Points to Redeem")}:
+            </td>
+          </tr>
+          <tr>
+            <td className="value"> {pointBalance.amount * pointBalance.factor}</td>
+          </tr>
+          <tr>
+            <td className="points-title text-uppercase">
+              {t("Peer Points to Award")}:
+            </td>
+          </tr>
+          <tr>
+            <td className="value"> {pointBalance.peerBalance * pointBalance.factor}</td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -41,7 +44,7 @@ const PointsOrigin = ({ myPoints }) => {
 };
 const mapStateToProps = (state) => {
   return {
-    myPoints: state.pointBalance,
+    pointBalance: state.pointBalance,
   };
 };
 
