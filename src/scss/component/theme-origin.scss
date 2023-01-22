@@ -1,10 +1,9 @@
-$theme-color-origin:#0047ab;
 
 .space-30{
     margin-top: 30px;
 }
 .origin{
-    color: $theme-color-origin;
+    color: var(--app-themeColor);
     .teritery-menu{
         ul{
             float: right;
@@ -21,18 +20,29 @@ $theme-color-origin:#0047ab;
     }
 }
 .bg-blue{
-    background-color: $theme-color-origin;
+    background-color: var(--app-themeColor);
 }
 .btn-blue{
-    background-color: $theme-color-origin;
+    background-color: var(--app-themeColor);
     color: white;
     border: 0;
+    position: absolute;
+    right: 0px;
+    margin-right: 10px;
 }
 .btn-blue:hover, .btn-blue:focus, .btn-blue:active, .btn-blue.active, .open>.dropdown-toggle.btn-blue {
     color: #fff;
-    background-color: #0092F2;
+    background-color: var(--app-themeColor);
     
 }
+
+.rewardButtonWrap {
+  min-height: 150px;
+  .rewardButton {
+    font-size: 1.5em;
+  }
+}
+
 
 //login
 .login-popup-origin{
@@ -69,7 +79,7 @@ $theme-color-origin:#0047ab;
     .points-origin-table{
         .points-title{
             // text-transform: uppercase;
-            color: $theme-color-origin;
+            color: var(--app-themeColor);
             font-size: 14px;
             font-weight: 600;
         }
@@ -89,7 +99,7 @@ $theme-color-origin:#0047ab;
 .origin-table{
     table{
         .title{
-            background-color: $theme-color-origin;
+            background-color: var(--app-themeColor);
             color: white;
             font-weight: bold;
             font-size: 1em;
@@ -168,7 +178,7 @@ $theme-color-origin:#0047ab;
 }
 
 #cart_menu:hover .s_grand_total{
-	background-color: $theme-color-origin;
+	background-color: var(--app-themeColor);
 	/*background-color: rgb(0, 13, 112);*/
 	color: #FFFFFF;
 }
@@ -192,7 +202,7 @@ $theme-color-origin:#0047ab;
     background-image: url(../../../public/original/img/sprites-002.png);
 	background-repeat: no-repeat;
 	background-position: 0 -241px;
-	background-color: $theme-color-origin;
+	background-color: var(--app-themeColor);
 }
 
 #cart_menu small.s_text {
@@ -240,7 +250,7 @@ $theme-color-origin:#0047ab;
 //         display: block;
 //         width: 22px;
 //         height: 23px;
-//         background-color: $theme-color-origin;
+//         background-color: var(--app-themeColor);
 //         background-image: url(../../../public/img/sprites-002.png);
 //         background-repeat: no-repeat;
 //         background-position: 0 -241px;
@@ -296,7 +306,7 @@ $theme-color-origin:#0047ab;
 // }
 
 // #cart_menu:hover .s_grand_total{
-//     background-color: $theme-color-origin;
+//     background-color: var(--app-themeColor);
 //     color: white;
 // }
 

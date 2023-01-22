@@ -1,5 +1,6 @@
 //topbar
 $yellow-color: #FCB040;
+$gray-color: #c0c0c0;
 
 .topbar {
     // background-color: white;
@@ -57,13 +58,12 @@ $yellow-color: #FCB040;
         height: 100%;    
         margin-bottom: 10px;
         ul.horizontal a{
-            padding: 10px 20px;
+            padding: 10px 10px;
             &.active{
-                color: $yellow-color;
-                background-color: rgba($color: $yellow-color, $alpha: 0.1);
+              //color: $gray-color;
             }
             &:hover{
-                color: $yellow-color;
+                color: $gray-color;
             }
         }
         

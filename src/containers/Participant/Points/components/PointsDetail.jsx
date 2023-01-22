@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
-import {Table, Col, Button, Row} from "reactstrap";
-import {POINTS_DETAIL_DATA} from "./Mockdata";
+import {Table} from "reactstrap";
 import {DETAIL_COLUMNS} from "./columns";
 import {useTable} from "react-table";
 import {useTranslation} from "react-i18next";
@@ -12,13 +10,32 @@ const PointsDetail = ({program, organization, auth}) => {
   const {t} = useTranslation();
   const [data, setData] = useState([]);
 
-  const columns = React.useMemo(() => DETAIL_COLUMNS, []);
+  let detail_columns = [
+    ...DETAIL_COLUMNS
+    // Add any new columns here
+    // {
+    // }
+  ];
+
+  detail_columns.forEach( (column, i) => {
+    if( column.Header === 'Points')
+    {
+      detail_columns[i].Cell =  ({ row, value }) => {
+        // alert(value * factor_valuation);
+        // console.log(value * program.factor_valuation)
+        return value * program.factor_valuation
+      }
+    }
+  })
+
+  const columns = React.useMemo(() => detail_columns, []);
 
   useEffect(() => {
     (async () => {
       if (organization?.id && program?.id && auth?.id) {
         getUserEventHistory(organization.id, program.id, auth.id, 0, 10)
           .then(data => {
+            data.results.map( row => row.amount)
             setData(data.results);
           })
           .catch(error => {
@@ -35,14 +52,19 @@ const PointsDetail = ({program, organization, auth}) => {
 
   if (!data) return t("loading");
 
+  console.log(data)
+
   return (
     <>
-      <div className="points-detail pt-3">
-        <h2>{t("points_detail")}</h2>
-      </div>
-      <div className="points-detail-table">
-        <Table striped borderless size="md" {...getTableProps()}>
+        <Table striped bordered hover size="md" {...getTableProps()}>
           <thead>
+            <tr>
+              <td colSpan={4} className="title">
+                {t("points_detail")}
+              </td>
+            </tr>
+          </thead>
+          <tbody>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
@@ -52,8 +74,6 @@ const PointsDetail = ({program, organization, auth}) => {
               ))}
             </tr>
           ))}
-          </thead>
-          <tbody>
           {rows.map((row, i) => {
             prepareRow(row);
             return (
@@ -68,7 +88,6 @@ const PointsDetail = ({program, organization, auth}) => {
           })}
           </tbody>
         </Table>
-      </div>
     </>
   );
 };

@@ -1,13 +1,13 @@
 export const SUMMARY_COLUMNS = [
   {
     Header: "Event",
-    accessor: "event",
+    accessor: "name",
   },
   {
     Header: "Points",
-    accessor: "point",
+    accessor: "points",
     Cell: ({ row, value }) => {
-      return value.toLocaleString();
+      return parseInt(value);
     },
   },
 ];
@@ -18,7 +18,7 @@ export const DETAIL_COLUMNS = [
     accessor: "icon",
     // align: "center",
     Cell: ({ row, value }) => (
-      <img src={value} alt={value} width="30px" height="30px" />
+      `${value} Icon`
     ),
   },
   {
@@ -28,12 +28,12 @@ export const DETAIL_COLUMNS = [
   {
     Header: "Date",
     accessor: "journal_event_timestamp",
+    Cell: ({ row, value }) => {
+      return `${new Date(value).toLocaleDateString("en-US", {})}`;
+    },
   },
   {
     Header: "Points",
     accessor: "amount",
-    Cell: ({ row, value }) => {
-      return value.toLocaleString();
-    },
   },
 ];

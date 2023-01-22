@@ -44,7 +44,7 @@ const RewardPeerPopup = ({
   participants,
   program,
   organization,
-  myPoints,
+  pointBalance,
   auth,
 }) => {
   const { t } = useTranslation();
@@ -311,7 +311,7 @@ const RewardPeerPopup = ({
                       <Label>{t("you_can_award")}</Label>
                     </Col>
                     <Col md="6">
-                      <Label>{myPoints.peerBalance.toLocaleString()}</Label>
+                      <Label>{pointBalance.peerBalance.toLocaleString()}</Label>
                     </Col>
                   </Row>
                   <Row>
@@ -349,7 +349,7 @@ const RewardPeerPopup = ({
 
 const mapStateToProps = (state) => {
   return {
-    myPoints: state.pointBalance,
+    pointBalance: state.pointBalance,
   };
 };
 
