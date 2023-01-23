@@ -6,10 +6,6 @@ import { Form, Field } from 'react-final-form';
 import CloseIcon from 'mdi-react/CloseIcon';
 import LogInForm from './LogInForm';
 
-const GiveRewardImg = `/img/pages/giveReward.png`;
-const Participants = [
-  'Bobrowski Robert'
-]
 const LoginPopup = ({onCancelHandler}) => {
   const [value, setValue] = useState(false);
   const onSubmit = values => {

@@ -101,6 +101,11 @@ const TableFilter = ({ config, filter, setFilter}) => {
                 {options.keyword && 
                     <>
                         <input value={keyword}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                onClickFilter()
+                            }
+                        }}
                         onChange={onKeywordChange}
                         type="text"
                         placeholder={`Search`}

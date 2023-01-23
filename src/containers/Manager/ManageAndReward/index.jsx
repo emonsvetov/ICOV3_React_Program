@@ -8,6 +8,7 @@ import SearchIcon from 'mdi-react/SearchIcon';
 import SelectProgram from '../components/SelectProgram'
 import ProgramParticipants from './components/ProgramParticipants'
 import {isEmpty} from '@/shared/helper'
+
 const ManageAndReward = ({auth, program, organization}) => {
   return (
     <div className='manage-reward'>
@@ -24,7 +25,7 @@ const ManageAndReward = ({auth, program, organization}) => {
           </div>
           <div className='d-flex'>
             <SearchIcon size={36} className='icon'/>
-            <span>Search in all Programs</span>
+            <span>Search Program</span>
           </div>
         </div>
         {auth && program && !isEmpty(organization) && <ProgramParticipants organization={organization} program={program} />}

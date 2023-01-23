@@ -10,7 +10,6 @@ const validationSchema = {
         event_id: [Validators.required.validator],
         override_cash_value: [Validators.required.validator],
         awarding_points: [Validators.required.validator, isNumber.validator],
-        referrer: [Validators.required.validator],
         message: [Validators.required.validator],
     }
 }
