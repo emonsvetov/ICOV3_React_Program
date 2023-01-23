@@ -12,6 +12,7 @@ import rootProgramReducer from './rootProgramReducer';
 import cartReducer from './cartReducer';
 import balanceReducer from './balanceReducer';
 import socialWallPostReducer from './socialWallPostReducer';
+import participantReducer from './participantReducer';
 export {
   themeReducer,
   sidebarReducer,
@@ -27,4 +28,5 @@ export {
   balanceReducer,
   templateReducer,
   socialWallPostReducer,
+  participantReducer,
 }

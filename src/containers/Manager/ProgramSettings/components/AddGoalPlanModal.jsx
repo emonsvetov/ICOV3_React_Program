@@ -1,47 +1,81 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 //import Select from 'react-select';
 //import { Link } from 'react-router-dom';
-import axios from 'axios';
-import {Modal} from 'reactstrap';
-import { Form, Field } from 'react-final-form';
-import CloseIcon from 'mdi-react/CloseIcon';
+import axios from "axios";
+import { Modal } from "reactstrap";
+//import { Form, Field } from 'react-final-form';
+import CloseIcon from "mdi-react/CloseIcon";
 //import Switch from '@/shared/components/form/Switch';
-import {getGoalPlanTypes} from '@/services/getGoalPlanTypes';
-import {getEvents} from '@/services/getEvents';
-import {getExpirationRules} from '@/services/getExpirationRules';
-import {labelizeNamedData} from '@/shared/helper';
+import { getGoalPlanTypes } from "@/services/getGoalPlanTypes";
+import { getEvents } from "@/services/getEvents";
+import { getProgramEmailTemplates } from "@/services/getProgramEmailTemplates";
+import { getExpirationRules } from "@/services/getExpirationRules";
+import { labelizeNamedData } from "@/shared/helper";
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
-import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
-import GoalPlanForm from './GoalPlanForm'
+import { useDispatch, sendFlashMessage } from "@/shared/components/flash";
+import GoalPlanForm from "./GoalPlanForm";
 //import Switch from '@/shared/components/form/Switch';
 //import TemplateButton from "@/shared/components/TemplateButton"
 
 const AddGoalPlanImg = `/img/pages/addGoalPlan.png`;
 
-const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}) => {
+const AddGoalPlanModal = ({
+  program,
+  organization,
+  isOpen,
+  setOpen,
+  toggle,
+  data,
+}) => {
   const [value, setValue] = useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [goalPlanTypes, setGoalPlanTypes] = useState([]);
   const [expirationRules, setExpirationRules] = useState([]);
+  const current = new Date();
+  const date = `${current.getFullYear()}-${current.getMonth() + 1
+    }-${current.getDate()}`;
   const [events, setEvents] = useState([]);
+  const [program_email_templates, setProgramEmailTemplates] = useState([]);
+  const [goalplan, setGoalPlan] = useState({
+    is_recurring: 1,
+    default_target: 0,
+    goal_measurement_label: "$",
+    goal_plan_type_id: 1,
+    automatic_progress: 0,
+    date_begin: date,
+  });
 
   //const [fields, setFields] = useState({});
-  
-  const onSelectGoalPlanType = (selectedOption) => {
-    //console.log('goal type selected');
-    //console.log(selectedOption);
-    //goalPlanData.award_per_progress=1;
-  };
-  
+  /* const onSelectGoalPlanType = (selectedOption) => {
+     
+     //console.log(selectedOption);
+     //goalPlanData.award_per_progress=1;
+   };*/
+  const [goalPlanTypeId, setgoalPlanTypeId] = useState([]);
+  const goal_plan_type = '';
+  const onChangeGoalType = ([field], state, { setIn, changeValue }) => {
+    //console.log(field);
+    let event_type = 'standard'
+    if (field.label == "Recognition Goal") {//Recognition Goal 
+      event_type = 'badge'
+    }
+    getEvents(organization.id, program.id, event_type).then((evts) => {
+      setEvents(labelizeNamedData(evts));
+    });
+    setgoalPlanTypeId(field.value);
+    /*setGoalPlan({
+      ...goalplan,
+      goal_plan_type_id:
+  })*/
+  }
 
   const onSubmit = (values) => {
     let goalPlanData = {};
     goalPlanData["organization_id"] = organization.id;
     goalPlanData["program_id"] = program.id;
 
-   
-  // console.log(values); return;
+    // console.log(values); return;
     let {
       name,
       goal_measurement_label,
@@ -62,124 +96,172 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
       date_end,
       factor_before,
       factor_after,
+      progress_email_template_id,
       is_recurring,
       award_per_progress,
       award_email_per_progress,
       progress_requires_unique_ref_num,
       progress_notification_email_id,
-      assign_goal_all_participants_default
+      assign_goal_all_participants_default,
     } = values;
 
-    goalPlanData.name= name;
+    goalPlanData.name = name;
     goalPlanData.goal_measurement_label = goal_measurement_label;
-    goalPlanData.goal_plan_type_id = goal_plan_type_id ? goal_plan_type_id.value : 1;
+    goalPlanData.goal_plan_type_id = goal_plan_type_id
+      ? goal_plan_type_id.value
+      : 1;
     goalPlanData.default_target = default_target;
-    goalPlanData.automatic_progress = automatic_progress ? automatic_progress.value: 0;
+    goalPlanData.automatic_progress = automatic_progress
+      ? automatic_progress.value
+      : 0;
     goalPlanData.email_template_id = email_template_id;
-    goalPlanData.achieved_event_id= achieved_event_id ? achieved_event_id.value : null; //pending
-    goalPlanData.exceeded_event_id= exceeded_event_id ? exceeded_event_id.value : null; //pending
-    goalPlanData.automatic_frequency =  automatic_frequency ? automatic_frequency.value : null;
+    goalPlanData.achieved_event_id = achieved_event_id
+      ? achieved_event_id.value
+      : null; //pending
+    goalPlanData.exceeded_event_id = exceeded_event_id
+      ? exceeded_event_id.value
+      : null; //pending
+    goalPlanData.automatic_frequency = automatic_frequency
+      ? automatic_frequency.value
+      : null;
     goalPlanData.automatic_value = automatic_value;
-    goalPlanData.expiration_rule_id = expiration_rule_id ? expiration_rule_id.value : 1;
+    goalPlanData.expiration_rule_id = expiration_rule_id
+      ? expiration_rule_id.value
+      : 1;
     goalPlanData.custom_expire_offset = custom_expire_offset;
-    goalPlanData.custom_expire_units = custom_expire_units ? custom_expire_units.value: null;
-    goalPlanData.annual_expire_month = annual_expire_month ? annual_expire_month.value: null;
-    goalPlanData.annual_expire_day = annual_expire_day ?annual_expire_day.value:null;
+    goalPlanData.custom_expire_units = custom_expire_units
+      ? custom_expire_units.value
+      : null;
+    goalPlanData.annual_expire_month = annual_expire_month
+      ? annual_expire_month.value
+      : null;
+    goalPlanData.annual_expire_day = annual_expire_day
+      ? annual_expire_day.value
+      : null;
     goalPlanData.date_begin = date_begin;
     goalPlanData.date_end = date_end;
-    goalPlanData.factor_before =  factor_before;
+    goalPlanData.factor_before = factor_before;
     goalPlanData.factor_after = factor_after;
+    goalPlanData.progress_email_template_id = progress_email_template_id
+      ? progress_email_template_id.value
+      : null;
     goalPlanData.is_recurring = is_recurring;
     goalPlanData.award_per_progress = award_per_progress;
     goalPlanData.award_email_per_progress = award_email_per_progress;
-    goalPlanData.progress_requires_unique_ref_num = progress_requires_unique_ref_num;
-    goalPlanData.assign_goal_all_participants_default = assign_goal_all_participants_default;
+    goalPlanData.progress_requires_unique_ref_num =
+      progress_requires_unique_ref_num;
+    goalPlanData.assign_goal_all_participants_default =
+      assign_goal_all_participants_default;
 
     //penidng fiels (for testing only
-    goalPlanData.state_type_id = 1;
-    goalPlanData.program_id = 12; //pending to make it dynamic
-    goalPlanData.progress_notification_email_id = 1; //pending to make it dynamic
-    goalPlanData.created_by = 1;
-
-    //console.log('FDF');
-     //console.log(goalPlanData)
+    //goalPlanData.state_type_id = 1;
+    goalPlanData.progress_notification_email_id = progress_notification_email_id
+      ? progress_notification_email_id.value
+      : null;
+    //goalPlanData.progress_notification_email_id = 1; //pending to make it dynamic
+    setGoalPlan(goalPlanData);
     //return;
-    setLoading(true)
+    setLoading(true);
     axios
-      .post(`/organization/${organization.id}/program/${program.id}/goalplan`, goalPlanData)
+      .post(
+        `/organization/${organization.id}/program/${program.id}/goalplan`,
+        goalPlanData
+      )
       .then((res) => {
         //console.log(res)
         if (res.status == 200) {
           //console.log(res);
-         window.location.reload()
-         if (res.data.assign_msg)
-         dispatch(sendFlashMessage('Goal Plan added successfully! '+res.data.assign_msg, 'alert-success', 'top'))
-         else
-         dispatch(sendFlashMessage('Goal Plan added successfully!', 'alert-success', 'top'))
+          //window.location.reload()
+          if (res.data.assign_msg)
+            dispatch(
+              sendFlashMessage(
+                "Goal Plan added successfully! " + res.data.assign_msg,
+                "alert-success",
+                "top"
+              )
+            );
+          else
+            dispatch(
+              sendFlashMessage(
+                "Goal Plan added successfully!",
+                "alert-success",
+                "top"
+              )
+            );
 
-         setLoading(false)
+          setLoading(false);
         }
       })
       .catch((err) => {
         //console.log(error.response.data);
-        dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
-        setLoading(false)
+        dispatch(
+          sendFlashMessage(
+            <ApiErrorMessage errors={err.response.data} />,
+            "alert-danger",
+            "top"
+          )
+        );
+        setLoading(false);
       });
   };
-  useEffect( () => {
-    getGoalPlanTypes()
-    .then( gptypes => {
-      //console.log(gptypes);
-      setGoalPlanTypes(labelizeNamedData(gptypes))
-    })
+  useEffect(() => {
+    getGoalPlanTypes().then((gptypes) => {
+      setGoalPlanTypes(labelizeNamedData(gptypes));
+    });
 
-    getExpirationRules()
-    .then( ertypes => {
-      setExpirationRules(labelizeNamedData(ertypes))
-    })
-    
-    getEvents(organization.id,program.id)
-    .then( evts => {
-      //console.log("program="+program.id);
-      setEvents(labelizeNamedData(evts))
-    })
-    
-  }, [])
+    getExpirationRules().then((ertypes) => {
+      setExpirationRules(labelizeNamedData(ertypes));
+    });
+
+    getEvents(organization.id, program.id, 'standard').then((evts) => {
+      setEvents(labelizeNamedData(evts));
+    });
+
+    getProgramEmailTemplates(organization.id, program.id, "Goal Progress").then(
+      (evts) => {
+        setProgramEmailTemplates(labelizeNamedData(evts));
+      }
+    );
+  }, []);
   let props = {
-    btnLabel: 'Add New Goal Plan',
+    btnLabel: "Add New Goal Plan",
     goalPlanTypes,
     expirationRules,
     events,
-   // handleChange,
+    goalplan,
+    program_email_templates,
+    // handleChange,
     loading,
-    onSelectGoalPlanType,
-    onSubmit
-  }
+    // onSelectGoalPlanType,
+    onChangeGoalType,
+    goalPlanTypeId,
+    onSubmit,
+  };
 
   //console.log(events);
   return (
-    <Modal className={`program-settings modal-2col modal-xl`} isOpen={isOpen} toggle={() => setOpen(true)}>
-      
-          <div className='close cursor-pointer'>
-            <CloseIcon onClick={toggle} size={30}/>
-          </div>
-          <div className="left">
-            <div className='title mb-5'>
-              <h3>Add New Goal Plan</h3>
-              <span>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
-              </span>
-            </div>
-            <img src={AddGoalPlanImg}/>
-          </div>
-          <div className="right">
-          <GoalPlanForm {...props} />
-          
-          
+    <Modal
+      className={`program-settings modal-2col modal-xl`}
+      isOpen={isOpen}
+      toggle={() => setOpen(true)}
+    >
+      <div className="close cursor-pointer">
+        <CloseIcon onClick={toggle} size={30} />
+      </div>
+      <div className="left">
+        <div className="title mb-5">
+          <h3>Add New Goal Plan</h3>
+          <span>
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+            nonummy nibh euismod tincidunt ut laoreet dolore magna.
+          </span>
         </div>
-
-        
-           {/* <Form
+        <img src={AddGoalPlanImg} />
+      </div>
+      <div className="right">
+        <GoalPlanForm {...props} />
+      </div>
+      {/* <Form
               onSubmit={onSubmit}
               
               initialValues={{}}
@@ -478,8 +560,9 @@ const AddGoalPlanModal = ({program, organization, isOpen, setOpen, toggle, data}
                   </div>
                 </form>
               )}
-                          </Form> */}
-</Modal>
-)}
+      </Form> */}
+    </Modal>
+  );
+};
 
 export default AddGoalPlanModal;

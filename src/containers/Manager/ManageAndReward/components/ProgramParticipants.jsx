@@ -150,7 +150,7 @@ const ProgramParticipants = ({ program, organization }) => {
     return ACTIONS.map((item, index) => {
       let statusLabel = item.name;
       //const currentStatus = row.original.status;
-      const currentStatus = row.original.status === null ? null : row.original.status.status;
+      const currentStatus = row.original.status?.status ? row.original.status.status : null
       // if(item.name === 'Deactivate') {
       //     const currentStatus = row.original.status.status;
       //     statusLabel = currentStatus === 'Deactivated' ? 'Activate' : 'Deactivate'
