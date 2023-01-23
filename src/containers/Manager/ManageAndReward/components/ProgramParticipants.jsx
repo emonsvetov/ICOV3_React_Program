@@ -71,10 +71,10 @@ const ProgramParticipants = ({ program, organization }) => {
   const [participants, setParticipants] = useState([]);
   const [status, setStatus] = useState([]);
 
+  console.log(users)
+
   // selectedFlatRows.map(d => d.original)/
   const doAction = (action, participants) => {
-    console.log(action);
-    console.log(participants);
     if (action === "Email") {
       const emails = collectEmails(participants);
       window.location.href = `mailto:${emails.join(
@@ -172,15 +172,14 @@ const ProgramParticipants = ({ program, organization }) => {
         statusLabel = "Activate";
       }
       return (
-        <span
-          key={index}
-          onClick={() => onClickAction(item.name, row.original)}
-        >
-          <span className={`action-item ${item.name}`}>
-            {item.icon}
-            {statusLabel}
+          <span
+              key={index}
+              onClick={() => onClickAction(item.name, row.original)}
+          >
+          <span className={`action-item ${item.name} hover-text`}>{item.icon}
+            <div className={`tooltip-text`}>{statusLabel}</div>
           </span>
-          <span style={{ width: "5px", display: "inline-block" }}></span>
+          <span className={`space-5`}></span>
         </span>
       );
     });
