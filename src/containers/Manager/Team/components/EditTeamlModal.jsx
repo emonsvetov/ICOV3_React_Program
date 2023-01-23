@@ -43,9 +43,9 @@ const EditTeamModal = ({program, organization, isOpen, setOpen, toggle, data, ma
         <div className="left">
           <div className='title mb-5'>
             <h3>Edit Teammate "{mate.name}"</h3>
-            <span>
-              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
-            </span>
+            {/*<span>*/}
+            {/*  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.*/}
+            {/*</span>*/}
           </div>
           <img src={AddEventImg}/>
         </div>
