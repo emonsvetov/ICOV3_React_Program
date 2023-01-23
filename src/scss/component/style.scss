@@ -473,7 +473,35 @@ ul.horizontal {
                 margin-right: 1px;
             }
         }
+
     }
+}
+
+.tooltip-text {
+    visibility: hidden;
+    position: absolute;
+    z-index: 1;
+    color: white;
+    font-size: 11px;
+    background-color: #052654;
+    border-radius: 10px;
+    padding: 10px 15px 10px 15px;
+    width: 150px;
+}
+
+.hover-text:hover .tooltip-text {
+    visibility: visible;
+}
+.hover-text {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    width: 2em;
+}
+
+.space-5 {
+    width: 5px;
+    display: inline-block;
 }
 
 .survey{
@@ -807,15 +835,19 @@ ul.horizontal {
             }
         }
         thead, tbody, tfoot, tr, td, th{
-            padding-top: 1rem;
-            padding-left: 2rem;
-            padding-bottom: 1rem;
+            //padding-top: 1rem;
+            padding-left: 1rem;
+            //padding-bottom: 1rem;
         }
         tr{
             td:last-child{
-                width: 100%;
+                //width: 100%;
             }
         }
+        .link{
+            cursor: pointer;
+        }
+
         .action-item{
             padding: 0.375rem 0.75rem;
             font-size: 1rem;
