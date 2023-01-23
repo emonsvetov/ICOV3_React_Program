@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
-// import {getEvents} from '@/services/program/getEvents'
-// import {getEvent} from '@/services/program/getEvent'
+ import {getTeams} from '@/services/team/getTeams'
+ import {getTeam} from '@/services/team/getTeam'
 import { useTable } from "react-table";
 import PencilIcon from "mdi-react/PencilIcon";
 import TrashIcon from "mdi-react/TrashCanIcon";
@@ -11,14 +12,16 @@ import { TEAM_COLUMNS, TEAM_DATA } from "./Mockdata";
 import { Table } from "reactstrap";
 import ModalWrapper from "./ModalWrapper";
 import { useTranslation } from "react-i18next";
+import {useDispatch, flashError, flashSuccess} from "@/shared/components/flash"
 
 const Teams = ({ program, organization }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch()
   // console.log(program)
   // console.log(organization)
 
-  const [events, setEvents] = useState([]);
-  const [mate, setMate] = useState(null);
+  const [teams, setTeams] = useState([]);
+  const [team, setTeam] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isOpen, setOpen] = useState(false);
   const [modalName, setModalName] = useState(null);
@@ -29,27 +32,45 @@ const Teams = ({ program, organization }) => {
     setOpen((prevState) => !prevState);
   };
 
-  const onClickEditMate = (e, mateId) => {
-    // getEvent(organization.id, program.id, referralId)
-    // .then(item => {
-    //   // console.log(item)
-    //   setReferral(item)
-    //   toggle('EditEvent');
-    //   setLoading(false)
-    // })
-    e.preventDefault();
-    setMate(TEAM_DATA[0]);
-    toggle("EditTeam");
-    setLoading(false);
+  const onClickEditTeam = (teamId) => {
+     //getTeam(organization.id, program.id, referralId)
+     getTeam(organization.id, program.id, teamId).then((item) => {
+       //console.log(item)
+       setTeam(item)
+       toggle('EditTeam');
+       setLoading(false)
+     })
   };
-  const onDeleteTeam = (e, mate_id) => {};
-
+  const onClickViewTeam = (teamId) => {
+    //getTeam(organization.id, program.id, referralId)
+    getTeam(organization.id, program.id, teamId).then((item) => {
+      //console.log(item)
+      setTeam(item)
+      toggle('ViewTeam');
+      setLoading(false)
+    })
+ };
+  const onDeleteTeam = (e, team_id) => {
+    axios.delete(
+        `/organization/${program.organization_id}/program/${program.id}/team/${team_id}`
+    )
+    .then((res) => {
+      if (res.status == 200) {
+        flashSuccess(dispatch, "Team was deleted!");
+        setLoading(false);
+      }
+    })
+    .catch((err) => {
+      flashError(dispatch, err.response.data);
+      setLoading(false);
+    });
+  };
   const RenderActions = ({ row }) => {
     return (
       <span>
-        <Link to={`/manager/team/${row.original.id}`}> View</Link>
+        <Link to={{}} onClick={(e) => onClickViewTeam(row.original.id)}> View</Link>
         <span style={{ width: "2.5rem", display: "inline-block" }}></span>
-        <Link to={{}} onClick={(e) => onClickEditMate(e, row.original.id)}>
+        <Link to={{}} onClick={(e) => onClickEditTeam(row.original.id)}>
           {" "}
           Edit
         </Link>
@@ -84,24 +105,24 @@ const Teams = ({ program, organization }) => {
   useEffect(() => {
     let mounted = true;
     setLoading(true);
-    // getEvents(organization.id, program.id)
-    //   .then(items => {
-    //     if(mounted) {
-    //       setEvents(items)
-    //       setLoading(false)
-    //     }
-    //   })
+     getTeams(organization.id, program.id)
+       .then(items => {
+         if(mounted) {
+           setTeams(items)
+           setLoading(false)
+         }
+       })
     setLoading(false);
     return () => (mounted = false);
   }, []);
 
   const columns = React.useMemo(() => final_columns, []);
-  const data = React.useMemo(() => TEAM_DATA, []);
+  //const data = React.useMemo(() => TEAM_DATA, []);
 
   // console.log(data)
   const { getTableProps, headerGroups, rows, prepareRow } = useTable({
     columns,
-    data,
+    data: teams,
   });
 
   if (loading) return t("loading");
@@ -141,8 +162,8 @@ const Teams = ({ program, organization }) => {
         isOpen={isOpen}
         setOpen={setOpen}
         toggle={toggle}
-        mate={mate}
-        setMate={setMate}
+        team={team}
+        setTeam={setTeam}
       />
     </>
   );

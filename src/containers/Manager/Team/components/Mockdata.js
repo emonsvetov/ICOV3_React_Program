@@ -24,11 +24,11 @@ export const TEAM_COLUMNS = [
   },
   {
     Header: "Contact Phone",
-    accessor: "phone",
+    accessor: "contact_phone",
   },
   {
     Header: "Contact Email",
-    accessor: "email",
+    accessor: "contact_email",
   },
 ];
 
