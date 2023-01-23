@@ -42,7 +42,7 @@ const ACTIONS = [
   { name: "Resend Invite", link: "", icon: <ResendIcon /> },
   { name: "Deactivate", link: "", icon: <DeactivateIcon /> },
   { name: "Activate", link: "", icon: <ActivateIcon /> },
-  { name: "Import", link: "", icon: <ImportIcon /> },
+  //{ name: "Import", link: "", icon: <ImportIcon /> },
   { name: "Peer Allocation", link: "", icon: <PeerIcon /> },
 ];
 const ENTRIES = [{ value: 10 }, { value: 25 }, { value: 50 }, { value: 100 }];
