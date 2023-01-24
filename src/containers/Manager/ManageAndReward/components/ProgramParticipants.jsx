@@ -42,7 +42,7 @@ const ACTIONS = [
   { name: "Resend Invite", link: "", icon: <ResendIcon /> },
   { name: "Deactivate", link: "", icon: <DeactivateIcon /> },
   { name: "Activate", link: "", icon: <ActivateIcon /> },
-  { name: "Import", link: "", icon: <ImportIcon /> },
+  //{ name: "Import", link: "", icon: <ImportIcon /> },
   { name: "Peer Allocation", link: "", icon: <PeerIcon /> },
 ];
 const ENTRIES = [{ value: 10 }, { value: 25 }, { value: 50 }, { value: 100 }];
@@ -71,10 +71,10 @@ const ProgramParticipants = ({ program, organization }) => {
   const [participants, setParticipants] = useState([]);
   const [status, setStatus] = useState([]);
 
+  console.log(users)
+
   // selectedFlatRows.map(d => d.original)/
   const doAction = (action, participants) => {
-    console.log(action);
-    console.log(participants);
     if (action === "Email") {
       const emails = collectEmails(participants);
       window.location.href = `mailto:${emails.join(
@@ -149,7 +149,8 @@ const ProgramParticipants = ({ program, organization }) => {
   const RenderActions = ({ row }) => {
     return ACTIONS.map((item, index) => {
       let statusLabel = item.name;
-      const currentStatus = row.original.status.status;
+      //const currentStatus = row.original.status;
+      const currentStatus = row.original.status?.status ? row.original.status.status : null
       // if(item.name === 'Deactivate') {
       //     const currentStatus = row.original.status.status;
       //     statusLabel = currentStatus === 'Deactivated' ? 'Activate' : 'Deactivate'
@@ -157,25 +158,28 @@ const ProgramParticipants = ({ program, organization }) => {
       if (item.name === "Deactivate") {
         if (currentStatus === "Deactivated") {
           return false;
+        } else if(currentStatus === null) {
+          return false;
         }
         statusLabel = "Deactivate";
       }
       if (item.name === "Activate") {
         if (currentStatus === "Active") {
           return false;
+        } else if(currentStatus === null) {
+          return false;
         }
         statusLabel = "Activate";
       }
       return (
-        <span
-          key={index}
-          onClick={() => onClickAction(item.name, row.original)}
-        >
-          <span className={`action-item ${item.name}`}>
-            {item.icon}
-            {statusLabel}
+          <span
+              key={index}
+              onClick={() => onClickAction(item.name, row.original)}
+          >
+          <span className={`action-item ${item.name} hover-text`}>{item.icon}
+            <div className={`tooltip-text`}>{statusLabel}</div>
           </span>
-          <span style={{ width: "5px", display: "inline-block" }}></span>
+          <span className={`space-5`}></span>
         </span>
       );
     });

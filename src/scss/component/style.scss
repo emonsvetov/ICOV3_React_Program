@@ -473,7 +473,35 @@ ul.horizontal {
                 margin-right: 1px;
             }
         }
+
     }
+}
+
+.tooltip-text {
+    visibility: hidden;
+    position: absolute;
+    z-index: 1;
+    color: white;
+    font-size: 11px;
+    background-color: #052654;
+    border-radius: 10px;
+    padding: 10px 15px 10px 15px;
+    width: 150px;
+}
+
+.hover-text:hover .tooltip-text {
+    visibility: visible;
+}
+.hover-text {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    width: 2em;
+}
+
+.space-5 {
+    width: 5px;
+    display: inline-block;
 }
 
 .survey{
@@ -807,17 +835,20 @@ ul.horizontal {
             }
         }
         thead, tbody, tfoot, tr, td, th{
-            padding-top: 1rem;
-            padding-left: 2rem;
-            padding-bottom: 1rem;
+            //padding-top: 1rem;
+            padding-left: 1rem;
+            //padding-bottom: 1rem;
         }
         tr{
             td:last-child{
-                width: 100%;
+                //width: 100%;
             }
         }
+        .link{
+            cursor: pointer;
+        }
+
         .action-item{
-            padding: 0.375rem 0.75rem;
             font-size: 1rem;
             border-radius: 0.25rem;
             cursor: pointer;
@@ -843,11 +874,11 @@ ul.horizontal {
 
             &.Deactivate{
                 background-color: #EAEFF4;
-                color: #9E9E9E;
+                color: #E55E5E;
             }
             &.Import{
                 background-color: #F2E8EE;
-                color: #E55E5E;
+                color: #9E9E9E;
             }
             &.Peer{
                 background-color: #E6E6FC;
@@ -984,6 +1015,9 @@ footer{
     padding: 30px 20px;
     .comment-btn, .delete-activity-btn{
         margin-bottom: 5px;
+        position: absolute;
+        right: 0px;
+        margin-right: 10px;
     }
     .title {
         font-size: 20px;
@@ -1047,7 +1081,7 @@ footer{
 
 .social-wall-panel-Original .social-wall-item-notification-body {
     text-align: center;
-    border: 1px solid #999999;
+    //border: 1px solid #999999;
 }
 .social-wall-panel-Original .social-wall-item-notification-body td {
     padding: 5px 10px;
@@ -1058,13 +1092,32 @@ footer{
 }
 
 .social-wall-panel-Original .social-wall-item-from {
-    text-align: right;
     font-weight: bold;
+    font-size: .80em;
+}
+
+.social-wall-comment-text-right {
+    text-align: right;
+}
+
+.circular--portrait {
+    position: relative;
+    width: 50px; height: 50px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+.circular--portrait img {
+    width: 100%;
+    height: auto;
+}
+
+.tr-spacing {
+    padding-bottom: 1em;
 }
 
 .social-wall-panel-Original .social-wall-time {
     font-style: italic;
-    font-size: .8em;
+    font-size: .80em;
     color: #999999;
 }
 
@@ -1075,7 +1128,9 @@ footer{
 
 .social-wall-panel-Original .social-wall-comment {
     border: 1px solid #999999;
-    margin-bottom: 3px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background-color: #F2F3F5;
 }
 
 .social-wall-panel-Original .social-wall-comments-container
@@ -1130,11 +1185,11 @@ footer{
     background: url('../../../public/original/img/social_wall/social-post-b.png') 0px 0px repeat-x;
 }
 
-.social-wall-panel-Original .social-wall-post-tail{
-    height: 55px;
-    width: 75px;
-    background: url('../../../public/original/img/social_wall/social-post-tail.png') 0px 0px no-repeat;
-}
+//.social-wall-panel-Original .social-wall-post-tail{
+//    height: 55px;
+//    width: 75px;
+//    background: url('../../../public/original/img/social_wall/social-post-tail.png') 0px 0px no-repeat;
+//}
 
 .template-button {
     padding: 5px 8px;
