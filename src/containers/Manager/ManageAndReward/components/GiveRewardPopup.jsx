@@ -230,10 +230,10 @@ const GiveRewardPopup = ({
       <div className="left">
         <div className="title mb-5">
           <h3>Give A Reward</h3>
-          <span>
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
-            nonummy nibh euismod tincidunt ut laoreet dolore magna.
-          </span>
+          {/*<span>*/}
+          {/*  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam*/}
+          {/*  nonummy nibh euismod tincidunt ut laoreet dolore magna.*/}
+          {/*</span>*/}
         </div>
         <Img src="img/pages/giveReward.png" className="manage" />
       </div>
