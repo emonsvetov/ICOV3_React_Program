@@ -54,6 +54,7 @@ const Teams = ({ program, organization }) => {
         if (res.status == 200) {
           flashSuccess(dispatch, "Team was deleted!");
           setLoading(false);
+          window.location.reload()
         }
       })
       .catch((err) => {

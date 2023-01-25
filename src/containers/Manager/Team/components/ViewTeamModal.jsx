@@ -37,7 +37,7 @@ const ViewTeamModal = ({ program, isOpen, setOpen, toggle, team }) => {
                             <Col md="6">
                                 <FormGroup className="d-flex justify-content-between">
                                     <Label>Photo:(300 * 300px)</Label>
-
+                                    <img src={team?.photo} style={{}} />
                                 </FormGroup>
                             </Col>
                         </Row>
