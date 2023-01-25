@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import AddTeamPopup from "./AddTeamPopup";
-import EditTeamModal from "./EditTeamlModal";
+import AddTeamModal from "./AddTeamModal";
+import EditTeamModal from "./EditTeamModal";
+import ViewTeamModal from "./ViewTeamModal"; 
 import { useTranslation } from "react-i18next";
 
 const MainModalWrapper = ({
@@ -11,8 +12,8 @@ const MainModalWrapper = ({
   isOpen,
   setOpen,
   toggle,
-  mate,
-  setMate,
+  team,
+  setTeam,
 }) => {
   const { t } = useTranslation();
   const props = {
@@ -21,14 +22,15 @@ const MainModalWrapper = ({
     toggle,
     organization,
     program,
-    mate,
-    setMate,
+    team,
+    setTeam,
   };
   if (!organization?.id || !program?.id) return t("loading");
   return (
     <>
-      {name === "AddTeam" && <AddTeamPopup {...props} />}
+      {name === "AddTeam" && <AddTeamModal {...props} />}
       {name === "EditTeam" && <EditTeamModal {...props} />}
+      {name === "ViewTeam" && <ViewTeamModal {...props} />}
     </>
   );
 };
