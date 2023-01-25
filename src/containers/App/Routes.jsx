@@ -146,7 +146,7 @@ const RouteIndex = () => (
           <Route path="referral" element={<Referral />} />
           <Route path="team" element={<Team />} />
           <Route path="my-account" element={<ManagerAccountIndex />} />
-          <Route path="team/:mateId" element={<TeamView />} />
+          <Route path="team/:teamId" element={<TeamView />} />
           <Route path="report" element={<Report />}>
             <Route path="invoices" element={<Invoices />} />
             <Route path="program-status" element={<ProgramStatus />} />
