@@ -7,7 +7,7 @@ export const TEAM_COLUMNS = [
     Header: "Photo",
     accessor: "photo",
     Cell: ({ row, value }) => {
-      return <img src={value} style={{ width: "30px" }} />;
+      return <img src={`${process.env.REACT_APP_API_STORAGE_URL}/${value}`} style={{ width: "30px" }} />;
     },
   },
   {
