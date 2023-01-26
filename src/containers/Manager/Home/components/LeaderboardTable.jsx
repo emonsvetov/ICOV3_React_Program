@@ -8,7 +8,7 @@ import { LEADERBOARD_DATA, LEADERBOARD_COLUMNS } from "./Mockdata";
 import AwardHistoryPopup from "./AwardHistoryPopup";
 import { useTranslation } from "react-i18next";
 
-const LeaderboardTable = ({ id }) => {
+const LeaderboardTable = ({ id, leaderboard }) => {
   const { t } = useTranslation();
   // console.log(program)
   // console.log(organization)
@@ -19,16 +19,6 @@ const LeaderboardTable = ({ id }) => {
 
   const toggle = () => {
     setOpen((prevState) => !prevState);
-  };
-
-  const fetchData = (id) => {
-    let res = [];
-    LEADERBOARD_DATA.forEach((item) => {
-      if (item.id == id) {
-        res = item.data;
-      }
-    });
-    return res;
   };
 
   // const onClickEditEvent = (eventId) => {
@@ -46,7 +36,15 @@ const LeaderboardTable = ({ id }) => {
     toggle();
   };
 
-  let final_columns = [...LEADERBOARD_COLUMNS];
+  let final_columns = [
+    ...LEADERBOARD_COLUMNS,
+    ...[
+      {
+        Header: leaderboard.leaderboard_type.name === 'Goal Progress' ? t("Progress") : t("awards"),
+        accessor: "total",
+      },
+    ],
+  ];
 
   // useEffect(() => {
   //     let mounted = true;
@@ -64,10 +62,9 @@ const LeaderboardTable = ({ id }) => {
   const columns = React.useMemo(() => final_columns, []);
   // const data = React.useMemo(() => fetchEvents(organization, program), [])
 
-  // console.log(data)
   const { getTableProps, headerGroups, rows, prepareRow } = useTable({
     columns,
-    data: fetchData(id),
+    data: leaderboard.leaders,
   });
 
   if (loading) return t("loading");
