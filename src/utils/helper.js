@@ -6,7 +6,8 @@ function numFormatter(num) {
     } else if (num >= 1000000000) {
       return (num / 1000000000).toFixed(1) + "B"; // convert to M for number from > 1 million
     } else if (num < 900) {
-      return num; // if value < 1000, nothing to do
+      num = num * 1;
+      return num.toFixed(1); // if value < 1000, nothing to do
     }
 }
 
