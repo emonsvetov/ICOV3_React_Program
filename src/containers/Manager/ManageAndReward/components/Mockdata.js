@@ -182,6 +182,14 @@ export const USERS_COLUMNS = [
     {
         Header: "Point Balance",
         accessor: "pointBalance",
+    },
+    {
+        Header: "Redeemed",
+        accessor: "redeemedBalance",
+    },
+    {
+        Header: "Peer Balance",
+        accessor: "peerBalance",
     }
 ]
 
