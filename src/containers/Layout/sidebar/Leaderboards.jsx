@@ -1,41 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Col, Button, Row } from "reactstrap";
+import {Col, Button, Row, NavItem, NavLink} from "reactstrap";
 import Leaderboard from "./Leaderboard";
 import { useTranslation } from "react-i18next";
+import { getLeaderboardLeaders } from "@/services/program/getLeaderboardLeaders";
+import {connect} from "react-redux";
+import {t} from "i18next";
+import classnames from "classnames";
 
 const leaders = [
   { name: "Jay Moore", award: 800 },
   { name: "Mary-Kate Olsen", award: 600 },
 ];
-// const participants = [
-//   { name: "Jay Moore", award: 800 },
-//   { name: "Mary-Kate Olsen", award: 600 },
-//   { name: "Jason Hembre", award: 400 },
-//   { name: "Susan Jackson", award: 500 },
-//   { name: "G W", award: 300 },
-// ];
-const Leaderboards = () => {
+
+const Leaderboards = ({ program, organization }) => {
   const { t } = useTranslation();
+  const [loading, setLoading] = useState(true);
+  const [leaderboardLeaders, setLeaderboardLeaders] = useState([]);
+
+  useEffect(() => {
+    if (organization && program) {
+      setLoading(true);
+      getLeaderboardLeaders(organization.id, program.id).then((items) => {
+        setLeaderboardLeaders(items);
+        setLoading(false);
+      });
+    }
+  }, [organization, program]);
+
+  if (loading) {
+    return <p>{t("loading")}</p>;
+  }
+
   return (
     <div className="leaderboards mt-3">
       <h3>{t("leaderboards")}</h3>
       <div className="panel leader-panel">
-        <Leaderboard />
-        <div className="matching black fw-bold">
-          <span>{t("participant")}</span>
-          <span>{t("awards")}</span>
-        </div>
-        <div className="red mb-3">
-          {leaders.map((item, index) => {
-            return (
-              <div className="matching" key={index}>
-                <span>{item.name}</span>
-                <span>{item.award}</span>
-              </div>
-            );
-          })}
-        </div>
+        {leaderboardLeaders.map((item, index) => {
+          return (
+            <Leaderboard key={index} leaderboard={item} />
+          );
+        })}
         {/*<h4>{t("great_reviews")}</h4>*/}
         {/*<div className="matching black mt-3 fw-bold">*/}
         {/*  <span>{t("participant")}</span>*/}
@@ -56,4 +61,10 @@ const Leaderboards = () => {
   );
 };
 
-export default Leaderboards;
+const mapStateToProps = (state) => {
+  return {
+    program: state.program,
+    organization: state.organization,
+  };
+};
+export default connect(mapStateToProps)(Leaderboards);
