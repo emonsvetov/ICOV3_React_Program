@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { 
   Container, 
   TabContent, 
@@ -11,20 +11,36 @@ import {
 } from 'reactstrap';
 import classnames from 'classnames';
 import LeaderboardTable from '../components/LeaderboardTable';
+import { getLeaderboardLeaders } from "@/services/program/getLeaderboardLeaders";
+import {t} from "i18next";
+import {connect} from "react-redux";
 
-const LEADERBOARDS = [
-  { id: 21, name: 'Team Leaderboard' },
-  { id: 28, name: 'Great Reviews' }
-];
+const Leaderboards = ({ program, organization }) => {
+  const [activeTab, setActiveTab] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [leaderboardLeaders, setLeaderboardLeaders] = useState([]);
 
-const Leaderboards = () => {
-  const [activeTab, setActiveTab] = useState(0);  
   const toggle = (tab) => {
     if (activeTab !== tab) {
       
         setActiveTab(tab);
     }
   }
+
+  useEffect(() => {
+    if (organization && program) {
+      setLoading(true);
+      getLeaderboardLeaders(organization.id, program.id).then((items) => {
+        setLeaderboardLeaders(items);
+        setLoading(false);
+      });
+    }
+  }, [organization, program]);
+
+  if (loading) {
+    return <p>{t("loading")}</p>;
+  }
+
   return (
     <Container className='leaderboards'>
       
@@ -43,7 +59,7 @@ const Leaderboards = () => {
       </div>   */}
       <Nav tabs>
             {
-              LEADERBOARDS.map((item, index) =>{
+              leaderboardLeaders.map((item, index) =>{
 
                 return <NavItem key={index} className={'cursor-pointer'}>
                           <NavLink 
@@ -58,10 +74,10 @@ const Leaderboards = () => {
         </Nav>
         <TabContent activeTab={activeTab}>
           {
-            LEADERBOARDS.map((item, index) =>{
+            leaderboardLeaders.map((item, index) =>{
 
               return <TabPane tabId={index} key={index}>
-                      <LeaderboardTable id={item.id}/>   
+                      <LeaderboardTable id={item.id} leaderboard={item}/>
                   </TabPane>
             })
           }
@@ -71,4 +87,10 @@ const Leaderboards = () => {
     </Container>
 )}
 
-export default Leaderboards;
+const mapStateToProps = (state) => {
+  return {
+    program: state.program,
+    organization: state.organization,
+  };
+};
+export default connect(mapStateToProps)(Leaderboards);
