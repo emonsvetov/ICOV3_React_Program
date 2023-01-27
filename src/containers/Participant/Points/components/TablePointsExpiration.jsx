@@ -26,7 +26,7 @@ const TablePointsExpiration = ({ myPoints, program }) => {
   ];
 
   const columns = React.useMemo(() => EXPIRATION_COLUMNS, []);
-  // console.log(myPoints)
+  console.log(myPoints)
   const data = React.useMemo(() => myPoints?.expiration ? myPoints.expiration : [], []);
   const { getTableProps, headerGroups, rows, prepareRow } = useTable({
     columns,
