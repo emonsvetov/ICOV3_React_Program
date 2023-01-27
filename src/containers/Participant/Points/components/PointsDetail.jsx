@@ -50,7 +50,7 @@ const PointsDetail = ({program, organization, auth}) => {
 
   if (!data) return t("loading");
 
-  console.log(data)
+  // console.log(data)
 
   if( data.length <= 0 ) return ''
 

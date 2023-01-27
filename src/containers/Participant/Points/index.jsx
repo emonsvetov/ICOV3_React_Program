@@ -65,7 +65,7 @@ const MyPoints = ({ dispatch, auth, program, template, myPoints, pointBalance })
     'points': parseInt(pointBalance.points)
   }]
 
-  console.log(points_summary)
+  // console.log(points_summary)
 
   return (
     <Container fluid>
