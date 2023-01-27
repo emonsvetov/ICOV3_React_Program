@@ -2,13 +2,15 @@ import { handleActions } from 'redux-actions';
 import {
     setPointsDataForParticipant,
     setGiftcodesDataForParticipant,
-    setGoalsDataForParticipant
+    setGoalsDataForParticipant,
+    setCurrentPointsDataForParticipant
 } from '../actions/userActions';
 
 const defaultState = {
     myPoints: null,
     myGiftcodes: null,
     myGoals: null,
+    currentPoints: null
 }
 
 export default handleActions(
@@ -21,6 +23,9 @@ export default handleActions(
         },
         [setGoalsDataForParticipant]( state, action ) {
             return { ...state, myGoals: action.payload };
+        },
+        [setCurrentPointsDataForParticipant]( state, action ) {
+            return { ...state, currentPoints: action.payload };
         }
     },
     defaultState,

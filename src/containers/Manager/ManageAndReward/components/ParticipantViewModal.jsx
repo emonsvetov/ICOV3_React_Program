@@ -3,10 +3,13 @@ import ResendIcon from "mdi-react/AccountPlusIcon";
 import MailIcon from "mdi-react/MailOutlineIcon";
 import ParticipantGoalPlans from "./ParticipantGoalPlans";
 import PeerIcon from "mdi-react/PostItNoteAddIcon";
+import { getParticipantMypointsAction } from '@/redux/actions/userActions';
 import Select from "react-select";
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
 import ModalWrapper from "./ModalWrapper";
+import ParticipantCurrentPoints from "./ParticipantCurrentPoints";
+
 import {
     Modal,
     Col,
@@ -169,26 +172,7 @@ const ParticipantViewModal = ({
                     <Col md={6}>
 
                         {/* <Link className="text-right"  to={`/users/edit/${data.id}`}>Edit Participant</Link> */}
-
-                        <Table striped bordered hover>
-                            <tbody>
-                                <tr>
-                                    <td>Total Points Rewarded:</td>
-                                    <td>4,000</td>
-
-                                </tr>
-                                <tr>
-                                    <td><strong>Current Points Balance:</strong></td>
-                                    <td><strong>0</strong></td>
-
-                                </tr>
-                                <tr>
-                                    <td><strong>Current Peer Points Balance:</strong></td>
-                                    <td><strong>200</strong></td>
-                                </tr>
-
-                            </tbody>
-                        </Table>
+                        <ParticipantCurrentPoints participant={participants}/>
                     </Col>
                 </Row>
                 <ParticipantGoalPlans></ParticipantGoalPlans>
