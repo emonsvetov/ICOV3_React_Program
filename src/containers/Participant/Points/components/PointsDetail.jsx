@@ -31,18 +31,16 @@ const PointsDetail = ({program, organization, auth}) => {
   const columns = React.useMemo(() => detail_columns, []);
 
   useEffect(() => {
-    (async () => {
-      if (organization?.id && program?.id && auth?.id) {
-        getUserEventHistory(organization.id, program.id, auth.id, 0, 10)
-          .then(data => {
-            data.results.map( row => row.amount)
-            setData(data.results);
-          })
-          .catch(error => {
-            console.log(error.response.data);
-          })
-      }
-    })();
+    if (organization?.id && program?.id && auth?.id) {
+      getUserEventHistory(organization.id, program.id, auth.id, 0, 10)
+      .then(data => {
+        data.results.map( row => row.amount)
+        setData(data.results);
+      })
+      .catch(error => {
+        console.log(error.response.data);
+      })
+    }
   }, [organization, program, auth]);
 
   const {getTableProps, headerGroups, rows, prepareRow} = useTable({
