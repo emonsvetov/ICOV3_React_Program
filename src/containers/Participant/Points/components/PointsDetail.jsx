@@ -54,6 +54,8 @@ const PointsDetail = ({program, organization, auth}) => {
 
   console.log(data)
 
+  if( data.length <= 0 ) return ''
+
   return (
     <>
         <Table striped bordered hover size="md" {...getTableProps()}>
