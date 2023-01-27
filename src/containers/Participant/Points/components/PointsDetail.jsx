@@ -43,7 +43,7 @@ const PointsDetail = ({program, organization, auth}) => {
           })
       }
     })();
-  }, []);
+  }, [organization, program, auth]);
 
   const {getTableProps, headerGroups, rows, prepareRow} = useTable({
     columns,
