@@ -445,7 +445,7 @@ ul.horizontal {
             border: 0;
         }
         .wrapper {
-            position:relative;    
+            position:relative;
         }  
         
         
@@ -945,13 +945,13 @@ ul.horizontal {
     
 
 }
-footer{    
+footer{
+    position: fixed;
+    bottom: 0;
     width: 100%;
-    height: 100px;
+    text-align: center;
     background-color: black;
-    padding: 20px;
     color: white;
-    margin-top: 30px;
     // position:absolute;
     // bottom: 0;
     .teritery-menu{
@@ -960,7 +960,7 @@ footer{
         }
         ul.horizontal li {
             a{
-                border-right: solid 1px;
+                border-right: solid 0px;
                 padding: 0 10px;
                 color: white;       
             }   
