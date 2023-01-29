@@ -46,6 +46,7 @@ const ParticipantViewModal = ({
         toggle_modal(name);
     };
     const fullName = `${participants.first_name} ${participants.last_name}`
+    console.log(participants);
     return (
         <Modal
             className={`program-settings modal-2col modal-xl`}

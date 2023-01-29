@@ -190,7 +190,11 @@ export const USERS_COLUMNS = [
     {
         Header: "Peer Balance",
         accessor: "peerBalance",
-    }
+    },
+    /*{
+        Header: "Total Points Rewarded",
+        accessor: "totalPointsRewarded",
+    }*/
 ]
 
 export const USERS_DATA =[

@@ -25,17 +25,19 @@ console.log(currentPoints);
             <tbody>
                 <tr>
                     <td>Total Points Rewarded:</td>
-                    <td>4,000</td>
+                    <td>{participant?.totalPointsRewarded}</td>
 
                 </tr>
                 <tr>
                     <td><strong>Current Points Balance:</strong></td>
-                    <td><strong>{currentPoints?.current_points_balance}</strong></td>
+                    <td><strong>{participant?.pointBalance}</strong></td>
+                    {/*<td><strong>{currentPoints?.current_points_balance}</strong></td>*/}
 
                 </tr>
                 <tr>
                     <td><strong>Current Peer Points Balance:</strong></td>
-                    <td><strong>{currentPoints?.current_peers_balance}</strong></td>
+                    <td><strong>{participant?.peerBalance}</strong></td>
+                    {/*<td><strong>{currentPoints?.current_peers_balance}</strong></td>*/}
                 </tr>
 
             </tbody>
@@ -54,3 +56,4 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(ParticipantCurrentPoints);
+    
