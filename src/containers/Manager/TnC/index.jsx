@@ -12,7 +12,7 @@ const Faqs = ({ template }) => {
   const NewFaqs = () => {
     return (
       <>
-        <Container fluid className="dashboard" style={{padding: "0px 200px 0px 200px"}}>
+        <Container fluid className="dashboard">
           <h2 className="my-3">{t("faqs")}</h2>
           {t("congratulations_faq")}
           <h6>{t("enjoy")}!</h6>
@@ -20,7 +20,7 @@ const Faqs = ({ template }) => {
         <Container>
           <YoutubeEmbed embedId={"zytPldZoXiE"} />
         </Container>
-        <Container fluid className="content" style={{padding: "0px 200px 50px 200px"}}>
+        <Container fluid className="content">
           <Queries />
         </Container>
       </>
@@ -30,12 +30,12 @@ const Faqs = ({ template }) => {
   const OriginalFaqs = () => {
     return (
       <>
-        <Container fluid className="dashboard" style={{padding: "0px 200px 0px 200px"}}>
+        <Container fluid className="dashboard">
           <h2 className="my-3">{t("faqs")}</h2>
           {t("congratulations_faq")}
           <h6>{t("enjoy")}!</h6>
         </Container>
-        <Container fluid className="content" style={{padding: "0px 200px 50px 200px"}}>
+        <Container fluid className="content">
           <QueriesOrigin />
         </Container>
       </>
