@@ -180,6 +180,10 @@ export const USERS_COLUMNS = [
         accessor: "status.status",
     },
     {
+        Header: "Points Earned",
+        accessor: "totalPointsRewarded",
+    },
+    {
         Header: "Point Balance",
         accessor: "pointBalance",
     },
@@ -191,10 +195,6 @@ export const USERS_COLUMNS = [
         Header: "Peer Balance",
         accessor: "peerBalance",
     },
-    /*{
-        Header: "Total Points Rewarded",
-        accessor: "totalPointsRewarded",
-    }*/
 ]
 
 export const USERS_DATA =[
@@ -357,8 +357,8 @@ export const REWARD_HISTORY_COLUMNS = [
       accessor: "icon",
       // align: "center",
       Cell: ({ row, value }) => (
-        /*`${value} Icon`*/
-        <img src={setIconPath(value)} alt="icons" />
+        `${value} Icon`
+        /*<img src={setIconPath(value)} alt="icons" />*/
       ),
     }
   ];

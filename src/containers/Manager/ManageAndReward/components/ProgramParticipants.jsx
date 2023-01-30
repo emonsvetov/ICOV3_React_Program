@@ -195,13 +195,13 @@ const ProgramParticipants = ({ program, organization }) => {
       },
     ],
   ];
-  /*final_columns.forEach((column, i) => {
-    if (column.Header === 'Peer Balance' || column.Header === 'Redeemed' || column.Header === 'Point Balance') {
+  final_columns.forEach((column, i) => {
+    if (column.Header === 'Peer Balance' || column.Header === 'Redeemed' || column.Header === 'Point Balance' || column.Header === 'Points Earned') {
       final_columns[i].Cell = ({ row, value }) => {
         return value * program.factor_valuation
       }
     }
-  })*/
+  })
   const columns = React.useMemo(() => final_columns, []);
   // const data = React.useMemo(() => users, [])
 

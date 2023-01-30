@@ -18,15 +18,12 @@ const ParticipantRewardHistory = ({ participant, auth, program, organization }) 
     reward_history_columns.forEach((column, i) => {
         if (column.Header === 'Points') {
             reward_history_columns[i].Cell = ({ row, value }) => {
-                // alert(value * factor_valuation);
                 // console.log(value * program.factor_valuation)
                 return value * program.factor_valuation
             }
         }
     })
     const columns = React.useMemo(() => reward_history_columns, []);
-    console.log(program);
-    console.log(participant);
     useEffect(() => {
         (async () => {
             if (organization?.id && program?.id && auth?.id) {
@@ -46,8 +43,6 @@ const ParticipantRewardHistory = ({ participant, auth, program, organization }) 
         data,
     });
     if (!data) return t("loading");
-
-    console.log(data)
 
     return (
         <>
@@ -83,8 +78,8 @@ const ParticipantRewardHistory = ({ participant, auth, program, organization }) 
                     })}
                 </tbody>
             </Table>
-     </>
- );
+        </>
+    );
 };
 
 const mapStateToProps = (state) => {

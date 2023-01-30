@@ -3,7 +3,6 @@ import {
     setPointsDataForParticipant,
     setGiftcodesDataForParticipant,
     setGoalsDataForParticipant,
-    setCurrentPointsDataForParticipant
 } from '../actions/userActions';
 
 const defaultState = {
@@ -23,9 +22,6 @@ export default handleActions(
         },
         [setGoalsDataForParticipant]( state, action ) {
             return { ...state, myGoals: action.payload };
-        },
-        [setCurrentPointsDataForParticipant]( state, action ) {
-            return { ...state, currentPoints: action.payload };
         }
     },
     defaultState,

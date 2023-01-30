@@ -1,39 +1,26 @@
 import React, { useEffect } from "react";
 import { Table, Col, Container, Row } from "reactstrap";
-import { getParticipantCurrentPointsAction } from '@/redux/actions/userActions';
 import { connect } from "react-redux";
 
-const ParticipantCurrentPoints = ({ dispatch,participant,auth, program,currentPoints}) => {
-  useEffect( () => {
-    if( participant?.id && program?.id)
-    {
-      dispatch(
-        getParticipantCurrentPointsAction(
-          program.organization_id, 
-          program.id,
-          participant.id
-        )
-      )
-    }
-  }, [auth, program])
+const ParticipantCurrentPoints = ({participant,auth, program}) => {
   return (
     <>
         <Table striped bordered hover>
             <tbody>
                 <tr>
                     <td>Total Points Rewarded:</td>
-                    <td>{participant?.totalPointsRewarded}</td>
+                    <td>{participant?.totalPointsRewarded ? participant.totalPointsRewarded * program.factor_valuation : 0} </td>
 
                 </tr>
                 <tr>
                     <td><strong>Current Points Balance:</strong></td>
-                    <td><strong>{participant?.pointBalance}</strong></td>
+                    <td><strong>{participant?.pointBalance ? participant?.pointBalance * program.factor_valuation : 0 }</strong></td>
                     {/*<td><strong>{currentPoints?.current_points_balance}</strong></td>*/}
 
                 </tr>
                 <tr>
                     <td><strong>Current Peer Points Balance:</strong></td>
-                    <td><strong>{participant?.peerBalance}</strong></td>
+                    <td><strong>{participant?.peerBalance ? participant?.peerBalance * program.factor_valuation : 0}</strong></td>
                     {/*<td><strong>{currentPoints?.current_peers_balance}</strong></td>*/}
                 </tr>
 
@@ -48,7 +35,6 @@ const mapStateToProps = (state) => {
   return {
     program: state.program,
     auth: state.auth,
-    currentPoints: state.participant.currentPoints,
   };
 };
 
