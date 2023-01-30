@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 const ParticipantInfo = ({ participant, auth, program }) => {
     const fullName = `${participant.first_name} ${participant.last_name}`
+    console.log(participant);
     return (
         <>
             <Row>
@@ -17,7 +18,8 @@ const ParticipantInfo = ({ participant, auth, program }) => {
                     Participant Since:
                 </Col>
                 <Col md="6" lg="6" xl="6" sm="12" >
-                    09/13/2019
+                    {participant.created_at}
+                    {/*TO DO created_at*/}
                 </Col>
             </Row>
             <Row>
@@ -25,7 +27,7 @@ const ParticipantInfo = ({ participant, auth, program }) => {
                     Last Activity:
                 </Col>
                 <Col md="6" lg="6" xl="6" sm="12">
-
+                    {/*TO DO last_login*/}
                 </Col>
             </Row>
             <Row>
@@ -33,7 +35,7 @@ const ParticipantInfo = ({ participant, auth, program }) => {
                     Current Status:
                 </Col>
                 <Col md="6" lg="6" xl="6" sm="12">
-                    {participant.status.status}
+                    {participant.status?.status ? participant.status.status : ''}
                 </Col>
             </Row>
             <Row>
@@ -41,7 +43,7 @@ const ParticipantInfo = ({ participant, auth, program }) => {
                     External ID:
                 </Col>
                 <Col md="6" lg="6" xl="6" sm="12">
-
+                    {participant.organization_id}
                 </Col>
             </Row>
             <Row>
@@ -62,26 +64,10 @@ const ParticipantInfo = ({ participant, auth, program }) => {
             </Row>
             <Row>
                 <Col md="6" lg="6" xl="6" sm="12">
-                    Work Anniversary:
-                </Col>
-                <Col md="6" lg="6" xl="6" sm="12">
-                    {participant.work_anniversary}
-                </Col>
-            </Row>
-            <Row>
-                <Col md="6" lg="6" xl="6" sm="12">
                     Department / Team:
                 </Col>
                 <Col md="6" lg="6" xl="6" sm="12">
                     {participant.division}
-                </Col>
-            </Row>
-            <Row>
-                <Col md="6" lg="6" xl="6" sm="12">
-                    Birthday:
-                </Col>
-                <Col md="6" lg="6" xl="6" sm="12">
-                    {participant.dob}
                 </Col>
             </Row>
         </>

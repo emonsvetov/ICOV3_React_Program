@@ -88,12 +88,19 @@ const ParticipantViewModal = ({
                     </Col>
                     <Col md={6}>
                         {/* <Link className="text-right"  to={`/users/edit/${data.id}`}>Edit Participant</Link> */}
-                        <ParticipantCurrentPoints participant={participants}/>
+                        <ParticipantCurrentPoints participant={participants} />
                     </Col>
                 </Row>
-                <ParticipantGoalPlans></ParticipantGoalPlans>
-                <ParticipantRewardHistory></ParticipantRewardHistory>
-                
+                <Row>
+                    <Col md={12}>
+                        <ParticipantGoalPlans></ParticipantGoalPlans>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={12}>
+                        <ParticipantRewardHistory></ParticipantRewardHistory>
+                    </Col>
+                </Row>
             </Container>
             <ModalWrapper
                 name={modalName}
