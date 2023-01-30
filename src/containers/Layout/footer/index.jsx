@@ -18,29 +18,26 @@ const Footer = () => {
           <nav className="col-md-6 teritery-menu">
             <ul className="horizontal">
               <li>
-                <Link to="/" className="link">
+                <Link to="/participant/about" className="link">
                   {t("about_us")}
                 </Link>
               </li>
               <li>
-                <Link to="/" className="link">
+                <Link to="/participant/privacy" className="link">
                   {t("privacy")}
                 </Link>
               </li>
               <li>
-                <Link to="/" className="link">
+                <Link to="/participant/tnc" className="link">
                   {t("terms_and_conditions")}
                 </Link>
               </li>
               <li>
-                <Link to="/" className="link">
+                <Link to="/participant/faqs" className="link">
                   {t("faqs")}
                 </Link>
               </li>
-              <li>
-                <Link to="/" className="link">
-                  {t("support_request")}
-                </Link>
+              <li><a href={"https://incentco.zendesk.com/hc/en-us/requests/new"} className="link">{t("support_request")}</a>
               </li>
             </ul>
           </nav>
