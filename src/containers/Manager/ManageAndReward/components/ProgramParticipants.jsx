@@ -108,12 +108,12 @@ const ProgramParticipants = ({ program, organization }) => {
 
   const onClickAction = (name, row) => {
     // setCurrentRow(row)
-    if(name == 'Name') {
+    if (name == 'Name') {
       setParticipants(row);
     } else {
       setParticipants([row]);
     }
-    
+
     toggle(name);
   };
   const onSelectAction = (name) => {
@@ -158,7 +158,7 @@ const ProgramParticipants = ({ program, organization }) => {
       if (item.name === "Deactivate") {
         if (currentStatus === "Deactivated") {
           return false;
-        } else if(currentStatus === null) {
+        } else if (currentStatus === null) {
           return false;
         }
         statusLabel = "Deactivate";
@@ -166,16 +166,16 @@ const ProgramParticipants = ({ program, organization }) => {
       if (item.name === "Activate") {
         if (currentStatus === "Active") {
           return false;
-        } else if(currentStatus === null) {
+        } else if (currentStatus === null) {
           return false;
         }
         statusLabel = "Activate";
       }
       return (
-          <span
-              key={index}
-              onClick={() => onClickAction(item.name, row.original)}
-          >
+        <span
+          key={index}
+          onClick={() => onClickAction(item.name, row.original)}
+        >
           <span className={`action-item ${item.name} hover-text`}>{item.icon}
             <div className={`tooltip-text`}>{statusLabel}</div>
           </span>
@@ -184,7 +184,6 @@ const ProgramParticipants = ({ program, organization }) => {
       );
     });
   };
-
   let final_columns = [
     ...USERS_COLUMNS,
     ...[
@@ -196,20 +195,25 @@ const ProgramParticipants = ({ program, organization }) => {
       },
     ],
   ];
-
+  final_columns.forEach((column, i) => {
+    if (column.Header === 'Peer Balance' || column.Header === 'Redeemed' || column.Header === 'Point Balance' || column.Header === 'Points Earned') {
+      final_columns[i].Cell = ({ row, value }) => {
+        return value * program.factor_valuation
+      }
+    }
+  })
   const columns = React.useMemo(() => final_columns, []);
   // const data = React.useMemo(() => users, [])
 
   const totalPageCount = Math.ceil(users?.count / QUERY_PAGE_SIZE);
   const strShowName = (name, p) => {
-    return p?.name ? <span onClick={() => onClickAction(name,p)} className={'link'}>{p.name}</span> : ''
-}
-columns.forEach( (column, i) => {
-    if( column.Header === 'Name')
-    {
-      columns[i].Cell =  ({ row, value }) => { return strShowName(column.Header, row.original)}
+    return p?.name ? <span onClick={() => onClickAction(name, p)} className={'link'}>{p.name}</span> : ''
+  }
+  columns.forEach((column, i) => {
+    if (column.Header === 'Name') {
+      columns[i].Cell = ({ row, value }) => { return strShowName(column.Header, row.original) }
     }
-})
+  })
   const {
     getTableProps,
     getTableBodyProps,
@@ -407,7 +411,7 @@ columns.forEach( (column, i) => {
                   checked={status.indexOf(item.name) > -1}
                   type="checkbox"
                   style={{ marginRight: "10px" }}
-                  onChange={() => {}}
+                  onChange={() => { }}
                 />
                 {item.name}
               </DropdownItem>

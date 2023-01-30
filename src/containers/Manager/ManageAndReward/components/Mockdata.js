@@ -180,6 +180,10 @@ export const USERS_COLUMNS = [
         accessor: "status.status",
     },
     {
+        Header: "Points Earned",
+        accessor: "totalPointsRewarded",
+    },
+    {
         Header: "Point Balance",
         accessor: "pointBalance",
     },
@@ -190,7 +194,7 @@ export const USERS_COLUMNS = [
     {
         Header: "Peer Balance",
         accessor: "peerBalance",
-    }
+    },
 ]
 
 export const USERS_DATA =[
@@ -316,3 +320,45 @@ export const PARTICIPANT_GOALPLAN_DATA =[
     },
     
 ];
+const setIconPath = (icon) => {
+    const path = process.env.REACT_APP_API_STORAGE_URL + "/" + icon;
+    return path;
+  }
+export const REWARD_HISTORY_COLUMNS = [
+    {
+        Header: "Event",
+        accessor: "name",
+    },
+    {
+        Header: "Notes",
+        accessor: "notes",
+    },
+    {
+        Header: "Referrer",
+        accessor: "referrer",
+    },
+    {
+        Header: "Date",
+        accessor: "journal_event_timestamp",
+        Cell: ({ row, value }) => {
+          return `${new Date(value).toLocaleDateString("en-US", {})}`;
+        },
+    },
+    {
+        Header: "Reference Document",
+        accessor: "",
+    },
+    {
+        Header: "Points",
+        accessor: "amount",
+    },
+    {
+      Header: "",
+      accessor: "icon",
+      // align: "center",
+      Cell: ({ row, value }) => (
+        `${value} Icon`
+        /*<img src={setIconPath(value)} alt="icons" />*/
+      ),
+    }
+  ];
