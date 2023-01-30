@@ -4,9 +4,6 @@ import { getParticipantCurrentPointsAction } from '@/redux/actions/userActions';
 import { connect } from "react-redux";
 
 const ParticipantCurrentPoints = ({ dispatch,participant,auth, program,currentPoints}) => {
-console.log(program);
-console.log(participant);
-console.log(currentPoints);
   useEffect( () => {
     if( participant?.id && program?.id)
     {
