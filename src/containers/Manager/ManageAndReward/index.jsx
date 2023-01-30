@@ -15,8 +15,8 @@ const ManageAndReward = ({auth, program, organization}) => {
       <Container>
         <div style={{color:'white'}}>
           <h3>Manage & Reward</h3>
-          <div>You can search for users by name, email or unit/suite number(if applicable), reward users instantly, or deactivate an account.</div>
-          <div>You can also select or multiple users from the list to send an email</div>
+          {/*<div>You can search for users by name, email or unit/suite number(if applicable), reward users instantly, or deactivate an account.</div>*/}
+          {/*<div>You can also select or multiple users from the list to send an email</div>*/}
 
         </div>
         <div className='my-4 d-flex program-select justify-content-between'>

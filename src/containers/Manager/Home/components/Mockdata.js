@@ -117,16 +117,12 @@ export const CHART_DATA = [
 export const LEADERBOARD_COLUMNS = [
     {
         Header: "Rank",
-        accessor: "rank",
+        accessor: "ranking",
     },
     {
         Header: "Participant",
-        accessor: "name",
+        accessor: "display_name",
     },
-    {
-        Header: "Award",
-        accessor: "award",
-    }
 ]
 
 export const LEADERBOARD_DATA =[

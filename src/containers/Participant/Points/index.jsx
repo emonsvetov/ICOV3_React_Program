@@ -44,9 +44,11 @@ const MyPoints = ({ dispatch, auth, program, template, myPoints, pointBalance })
 
   if( !myPoints ) return 'loading...'
 
+  // console.log(myPoints)
+
   const factor_valuation = program.factor_valuation
 
-  let points_summary = myPoints.points_summary
+  let points_summary = myPoints?.points_summary ? myPoints.points_summary : []
 
   // console.log(myPoints)
   points_summary = [...points_summary, {
@@ -89,7 +91,7 @@ const MyPoints = ({ dispatch, auth, program, template, myPoints, pointBalance })
             {t("my_points")}
           </h3>
           <div className="origin-table">
-            <TablePointsExpiration />
+          {myPoints.expiration && <TablePointsExpiration />}
           </div>
           <div className="origin-table">
             <PointsSummary />

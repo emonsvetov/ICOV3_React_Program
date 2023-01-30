@@ -37,6 +37,9 @@ import {
 } from "../Participant/RedeemPoints";
 import Lead from "../Participant/Lead";
 import Faqs from "../Participant/Faqs/index";
+import About from "../Participant/About/index";
+import Privacy from "../Participant/Privacy/index";
+import TnC from "../Participant/TnC/index";
 import Peer2Peer from "../Participant/Peer2Peer/index";
 import Survey from "../Participant/Survey";
 import Calendar from "../Participant/Calendar";
@@ -117,6 +120,9 @@ const RouteIndex = () => (
           <Route path="my-goals" element={<GoalIndex />} />
           <Route path="my-goals/:goalId" element={<GoalView />} />
           <Route path="faqs" element={<Faqs />} />
+          <Route path="about" element={<About />} />
+          <Route path="privacy" element={<Privacy />} />
+          <Route path="tnc" element={<TnC />} />
           <Route path="select-merchants" element={<SelectMerchants />} />
           <Route path="browse-merchants" element={<BrowseMerchants />} />
           <Route path="select-global-merchant" element={<GlobalMerchants />} />
@@ -146,7 +152,7 @@ const RouteIndex = () => (
           <Route path="referral" element={<Referral />} />
           <Route path="team" element={<Team />} />
           <Route path="my-account" element={<ManagerAccountIndex />} />
-          <Route path="team/:mateId" element={<TeamView />} />
+          <Route path="team/:teamId" element={<TeamView />} />
           <Route path="report" element={<Report />}>
             <Route path="invoices" element={<Invoices />} />
             <Route path="program-status" element={<ProgramStatus />} />
