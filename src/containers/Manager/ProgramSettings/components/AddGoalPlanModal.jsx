@@ -18,8 +18,6 @@ import {Img} from '@/theme'
 //import Switch from '@/shared/components/form/Switch';
 //import TemplateButton from "@/shared/components/TemplateButton"
 
-const AddGoalPlanImg = `/img/pages/addGoalPlan.png`;
-
 const AddGoalPlanModal = ({
   program,
   organization,
