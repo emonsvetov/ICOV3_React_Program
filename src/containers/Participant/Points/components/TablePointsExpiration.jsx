@@ -35,7 +35,6 @@ const TablePointsExpiration = ({ myPoints, program }) => {
   // if(!myPoints.expiration) return 'loading...'
   console.log(data)
 
-
   return (
     <>
       <div className="origin-table">

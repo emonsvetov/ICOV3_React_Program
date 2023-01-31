@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import CloseIcon from 'mdi-react/CloseIcon';
 import { Modal } from 'reactstrap';
-
 import TeamForm from './TeamForm'
-
-const AddEventImg = `/img/pages/addEvent.png`;
+import { Img } from '@/theme'
 
 const AddTeamModal = ({ program, isOpen, setOpen, toggle }) => {
   /*const [loading, setLoading] = useState(false);
@@ -32,7 +30,7 @@ const AddTeamModal = ({ program, isOpen, setOpen, toggle }) => {
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
           </span>
         </div>
-        <img src={AddEventImg} />
+        <Img src='img/pages/addTeammate.png' />
       </div>
 
       <div className="right">
