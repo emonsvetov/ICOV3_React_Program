@@ -74,7 +74,6 @@ const GoalPlanForm = ({
   events,
   goalplan,
   goalPlanTypeId,
-  program_email_templates,
   //event,
   //loading,
   btnLabel = "Save",
@@ -120,13 +119,6 @@ const GoalPlanForm = ({
         goalplan,
         "automatic_frequency",
         automaticFrequencyOptions
-      );
-    }
-    if (goalplan.progress_notification_email_id) {
-      goalplan = patch4Select(
-        goalplan,
-        "progress_notification_email_id",
-        program_email_templates
       );
     }
   }
@@ -610,23 +602,6 @@ const GoalPlanForm = ({
                   placeholder={"Goal Plan Achieved Event*"}
                   component={renderSelectField}
                 />
-              </Col>
-            </Row>
-            <Row className="align-items-baseline">
-              <Col md="10">
-                <label className="form-label">
-                  Goal Plan Progress Email Template*
-                </label>
-                <Field
-                  name="progress_notification_email_id"
-                  className="react-select"
-                  options={program_email_templates}
-                  placeholder={"Goal Plan Progress Email Template*"}
-                  component={renderSelectField}
-                />
-              </Col>
-              <Col md="2">
-                <Link to={""}> Preview</Link>
               </Col>
             </Row>
             <Row>

@@ -23,11 +23,9 @@ const EditGoalPlanModal = ({
   isOpen,
   setOpen,
   toggle,
-  data,
   goalplan,
   setGoalPlan,
 }) => {
-  const [value, setValue] = useState(false);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [goalPlanTypes, setGoalPlanTypes] = useState([]);
@@ -149,24 +147,14 @@ const EditGoalPlanModal = ({
       .then((res) => {
         //   console.log(res)
         if (res.status == 200) {
+          let msg = "Goal Plan updated successfully!"
           if (res.data.assign_msg)
-            dispatch(
-              sendFlashMessage(
-                "Goal Plan updated successfully! " + res.data.assign_msg,
-                "alert-success",
-                "top"
-              )
-            );
-          else
-            dispatch(
-              sendFlashMessage(
-                "Goal Plan updated successfully!",
-                "alert-success",
-                "top"
-              )
-            );
-          window.location.reload();
+          {
+            msg += " " + res.data.assign_msg
+          }
+          dispatch(sendFlashMessage(msg));
           setLoading(false);
+          setOpen(false);
         }
       })
       .catch((err) => {
