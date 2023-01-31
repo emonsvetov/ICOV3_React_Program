@@ -10,7 +10,7 @@ const ParticipantInfo = ({ participant, auth, program }) => {
             <Row>
                 <Col md="6" lg="6" xl="6">
                     <p>{fullName}</p>
-                    <span>{participant.email}</span>
+                    <span>{participant?.email}</span>
                 </Col>
             </Row>
             <Row>
@@ -18,7 +18,7 @@ const ParticipantInfo = ({ participant, auth, program }) => {
                     Participant Since:
                 </Col>
                 <Col md="6" lg="6" xl="6" sm="12" >
-                    {`${new Date(participant.created_at).toLocaleDateString("en-US", {})}`}
+                    {participant?.created_at ? `${new Date(participant.created_at).toLocaleDateString("en-US", {})}` : ''}
                 </Col>
             </Row>
             <Row>
@@ -42,7 +42,7 @@ const ParticipantInfo = ({ participant, auth, program }) => {
                     External ID:
                 </Col>
                 <Col md="6" lg="6" xl="6" sm="12">
-                    {participant.organization_id}
+                    {participant?.organization_id}
                 </Col>
             </Row>
             <Row>
@@ -50,7 +50,7 @@ const ParticipantInfo = ({ participant, auth, program }) => {
                     Anniversary:
                 </Col>
                 <Col md="6" lg="6" xl="6" sm="12">
-                    {`${new Date(participant.work_anniversary).toLocaleDateString("en-US", {})}`}
+                    { participant?.work_anniversary ? `${new Date(participant.work_anniversary).toLocaleDateString("en-US", {})}`: ''}
                 </Col>
             </Row>
             <Row>
@@ -58,7 +58,7 @@ const ParticipantInfo = ({ participant, auth, program }) => {
                     Birthday:
                 </Col>
                 <Col md="6" lg="6" xl="6" sm="12">
-                    {`${new Date(participant.dob).toLocaleDateString("en-US", {})}`}
+                    { participant?.dob ? `${new Date(participant.dob).toLocaleDateString("en-US", {})}`: ''}
                 </Col>
             </Row>
             <Row>
@@ -66,7 +66,7 @@ const ParticipantInfo = ({ participant, auth, program }) => {
                     Department / Team:
                 </Col>
                 <Col md="6" lg="6" xl="6" sm="12">
-                    {participant.division}
+                    {participant?.division}
                 </Col>
             </Row>
         </>

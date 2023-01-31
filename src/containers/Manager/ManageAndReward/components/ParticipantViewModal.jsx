@@ -98,7 +98,7 @@ const ParticipantViewModal = ({
                 </Row>
                 <Row>
                     <Col md={12}>
-                        <ParticipantRewardHistory></ParticipantRewardHistory>
+                        <ParticipantRewardHistory participant={participants}></ParticipantRewardHistory>
                     </Col>
                 </Row>
             </Container>

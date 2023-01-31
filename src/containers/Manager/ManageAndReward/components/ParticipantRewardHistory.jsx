@@ -26,8 +26,8 @@ const ParticipantRewardHistory = ({ participant, auth, program, organization }) 
     const columns = React.useMemo(() => reward_history_columns, []);
     useEffect(() => {
         (async () => {
-            if (organization?.id && program?.id && auth?.id) {
-                getUserEventHistory(organization.id, program.id, auth.id, 0, 10)
+            if (organization?.id && program?.id && participant?.id) {
+                getUserEventHistory(organization.id, program.id, participant.id, 0, 10)
                     .then(data => {
                         data.results.map(row => row.amount)
                         setData(data.results);
