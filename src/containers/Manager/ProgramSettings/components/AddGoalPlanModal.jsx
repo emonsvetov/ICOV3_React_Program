@@ -14,6 +14,7 @@ import { labelizeNamedData } from "@/shared/helper";
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import { useDispatch, sendFlashMessage } from "@/shared/components/flash";
 import GoalPlanForm from "./GoalPlanForm";
+import {Img} from '@/theme'
 //import Switch from '@/shared/components/form/Switch';
 //import TemplateButton from "@/shared/components/TemplateButton"
 
@@ -252,11 +253,10 @@ const AddGoalPlanModal = ({
         <div className="title mb-5">
           <h3>Add New Goal Plan</h3>
           <span>
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
-            nonummy nibh euismod tincidunt ut laoreet dolore magna.
+            Add new Goal Plan Here.
           </span>
         </div>
-        <img src={AddGoalPlanImg} />
+        <Img src="img/pages/addGoalPlan.png" className="add-goalplan" />
       </div>
       <div className="right">
         <GoalPlanForm {...props} />

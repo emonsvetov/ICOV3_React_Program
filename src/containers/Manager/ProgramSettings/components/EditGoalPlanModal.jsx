@@ -15,8 +15,7 @@ import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import { useDispatch, sendFlashMessage } from "@/shared/components/flash";
 //import GoalPlanForm from './GoalPlanForm'
 import GoalPlanForm from "./GoalPlanForm";
-
-const EditGoalPlanImg = `/img/pages/editGoalPlan.png`;
+import {Img} from '@/theme'
 
 const EditGoalPlanModal = ({
   program,
@@ -228,11 +227,10 @@ const EditGoalPlanModal = ({
         <div className="title mb-5">
           <h3>Edit Goal Plan</h3>
           <span>
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
-            nonummy nibh euismod tincidunt ut laoreet dolore magna.
+            Edit Goal Plan here.
           </span>
         </div>
-        <img src={EditGoalPlanImg} />
+        <Img src="img/pages/addGoalPlan.png" className="edit-goalplan" />
       </div>
       <div className="right">
         <GoalPlanForm {...props} />
