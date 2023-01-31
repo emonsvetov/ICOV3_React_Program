@@ -2,43 +2,44 @@ import { Input, Col, Row, FormGroup, Label, Button } from 'reactstrap';
 import React, { useState, useEffect } from "react";
 import { Form, Field } from 'react-final-form';
 import axios from 'axios';
+import {
+  mapFormDataUploads,
+  unpatchMedia,
+  patchMediaURL,
+} from "@/shared/helper";
 
 import { useDispatch, flashError, flashSuccess } from "@/shared/components/flash"
 import formValidation from "@/validation/addTeam"
 import TemplateButton from "@/shared/components/TemplateButton"
 
+const MEDIA_FIELDS = ["photo"];
+
 const TeamForm = ({
-    data,
+    team,
     toggle,
-    //organization,
     program,
     btnLabel = 'Save',
     //team = {}
 }) => {
-    const [photo, setPhoto] = useState('');
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false);
-    let [team, setTeam] = useState(null);
-    const photoChangeHandler = (event) => {
-        setPhoto(event.target.files[0]);
-    };
-    useEffect(() => {
-        if (data?.id) {
-            //console.log("Setting Team")
-            setTeam(data)
-        }
-    }, [data])
+
+    team = patchMediaURL(team, MEDIA_FIELDS);
 
     const onSubmit = (values) => {
-        console.log(values);
-        const formData = new FormData();
+        // console.log(values);
+        if( !(values["photo"] instanceof File))
+        {
+          console.log("alert: deleting")
+          delete values["photo"]
+        }
+        values = unpatchMedia(values, MEDIA_FIELDS);
+        let formData = mapFormDataUploads(values);
+        if( values["photo"] instanceof File )
+        {
+          formData.append('photo', values.photo);
+        }
 
-        formData.append('name', values.name);
-        formData.append('title', values?.title ? values.title : '');
-        formData.append('description', values?.description ? values.description : '');
-        formData.append('contact_email', values?.contact_email ? values.contact_email : '');
-        formData.append('contact_phone', values?.contact_phone ? values.contact_phone : '');
-        formData.append('photo', photo);
         let url = `/organization/${program.organization_id}/program/${program.id}/team`
         let method = 'post'
 
@@ -72,7 +73,6 @@ const TeamForm = ({
                 setLoading(false)
             });
     };
-    //if (!team) return t("loading");
     return (
         <Form
             onSubmit={onSubmit}
@@ -83,16 +83,15 @@ const TeamForm = ({
                 <form className="form d-flex flex-column justify-content-evenly" onSubmit={handleSubmit}>
                     <Row>
                         <Col md="12">
-                            <Field name="photo1">
-                                {({ input, meta }) => (
+                            <Field name="photo">
+                                {({ input: { value, onChange, ...input }, meta }) => (
                                     <FormGroup>
                                         <Label>Photo:(300 * 300px)</Label>
                                         <Input
                                             placeholder="Photo"
                                             type="file"
-
+                                            onChange={({ target }) => onChange(target.files[0])}
                                             {...input}
-                                            onChange={(e) => { photoChangeHandler(e) }}
                                         />
                                         {meta.touched && meta.error && <span className="text-danger">
                                             {meta.error}
@@ -100,6 +99,7 @@ const TeamForm = ({
                                     </FormGroup>
                                 )}
                             </Field>
+                            <RenderImage src={team?.photo} />
                         </Col>
                     </Row>
                     <Row>
@@ -209,5 +209,16 @@ const TeamForm = ({
         </Form>
     )
 }
+
+const RenderImage = ({ src }) => {
+  if (!src || typeof src === "undefined") return "";
+  return (
+    <div className="dropzone-img">
+      <a href={src} target="_blank" title="View the picture">
+        <img style={{ maxHeight: 120 }} src={src} />
+      </a>
+    </div>
+  );
+};
 
 export default TeamForm;
