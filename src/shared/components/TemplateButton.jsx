@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "reactstrap";
+import { Button, Spinner } from "reactstrap";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +14,7 @@ const TemplateButton = ({
   disabled,
   link,
   color,
+  spinner
 }) => {
   let navigate = useNavigate();
   const routeChange = () => {
@@ -40,6 +41,13 @@ const TemplateButton = ({
         type={type ? type : "submit"}
         disabled={disabled}
       >
+        {spinner && <Spinner
+          as="span"
+          animation="grow"
+          size="sm"
+          role="status"
+          aria-hidden="true"
+        />}
         <div dangerouslySetInnerHTML={createMarkup(text)}/>
       </Button>
     </>

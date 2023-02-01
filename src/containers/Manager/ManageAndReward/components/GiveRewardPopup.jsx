@@ -7,9 +7,7 @@ import {
   Col,
   Row,
   FormGroup,
-  FormFeedback,
   Label,
-  Button,
 } from "reactstrap";
 import { Form, Field } from "react-final-form";
 import CloseIcon from "mdi-react/CloseIcon";
@@ -90,9 +88,9 @@ const GiveRewardPopup = ({
     if (values?.email_template_id && values.email_template_id?.value && !isNaN(values.email_template_id.value)) {
       formData["email_template_id"] = parseInt(values.email_template_id.value)
     }
-    console.log(formData)
+    // console.log(formData)
     // return
-    // setSaving(true)
+    setSaving(true)
 
     axios
       .post(
@@ -141,8 +139,8 @@ const GiveRewardPopup = ({
               }
             );
           }
-          // setSaving(false)
-          // window.location.reload()
+          setSaving(false)
+          window.location.reload()
         }
       })
       .catch((err) => {
@@ -436,6 +434,7 @@ const GiveRewardPopup = ({
                     <div className="d-flex justify-content-end">
                       <TemplateButton
                         disabled={saving}
+                        spinner={saving}
                         type="submit"
                         text="Save Reward"
                       />
