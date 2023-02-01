@@ -1,15 +1,16 @@
-import React, {useRef, useState} from "react";
-import { Link } from "react-router-dom";
+import React, {useState, useRef} from "react";
+import {Link} from "react-router-dom";
 import PrinterIcon from "mdi-react/PrinterIcon";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 import RedemptionInstructionsModalWrapper from "./RedemptionInstructionsModalWrapper";
 import { RedemptionToPrint } from './RedemptionToPrint';
 import { useReactToPrint } from 'react-to-print';
 
+
 const storageUrl = `${process.env.REACT_APP_API_STORAGE_URL}/`
 
-const GiftCard = (props) => {
-  const { t } = useTranslation();
+const GiftCardOriginal = (props) => {
+  const {t} = useTranslation();
   const {merchant, redemption_date, code, pin, sku_value} = props.data;
 
   const popupToggle = () => {
@@ -60,11 +61,6 @@ const GiftCard = (props) => {
           </a>
         </div>
       </div>
-      {/*<div className="gift-amount">*/}
-      {/*  <div className="amount-wrapper">*/}
-      {/*    <h6>${amount.toFixed(2)}</h6>*/}
-      {/*  </div>*/}
-      {/*</div>*/}
       <div style={{ display: "none" }}><RedemptionToPrint ref={componentRef} merchant={merchant} /></div>
       <RedemptionInstructionsModalWrapper
         isOpen={isOpen}
@@ -76,4 +72,4 @@ const GiftCard = (props) => {
   );
 };
 
-export default GiftCard;
+export default GiftCardOriginal;
