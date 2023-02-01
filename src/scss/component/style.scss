@@ -257,6 +257,7 @@ ul.horizontal {
             text-decoration: underline;
             color: $yellow-color;
             text-decoration-color: $yellow-color;
+            cursor: pointer;
         }
     }
     .gift-amount{
@@ -302,6 +303,19 @@ ul.horizontal {
             background: linear-gradient(rgba(235,235,235,0.8) 0%, rgba(235,235,235,0.8) 50%,rgba(240,240,240,1) 50%, rgba(255,255,255,0) 100%);
             // background: radial-gradient(circle,#FFFFFF 0%, #EEEEEE 100%);
         }    
+    }
+    .redemption_instruction_modal {
+        img {
+            float: left;
+            margin: 10px;
+        }
+    }
+    .printIcon {
+        cursor: pointer;
+    }
+    .print_content {
+        padding: 10px;
+        margin: 10px;
     }
 }
 
