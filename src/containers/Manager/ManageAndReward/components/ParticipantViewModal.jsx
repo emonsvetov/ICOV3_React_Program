@@ -76,6 +76,7 @@ const ParticipantViewModal = ({
                             className="action-item template-button border-0 btn btn-secondary me-2"
                         ><ResendIcon />Resend Invite</span>
                         <Button
+                            onClick={() => onClickAction("Reclaim Peer Allocations", participants)}
                             type="button"
                             aria-label="button collapse"
                             className="template-button border-0 btn btn-secondary me-2"
