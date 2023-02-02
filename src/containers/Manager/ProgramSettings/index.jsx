@@ -103,7 +103,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
           <div className="my-3 d-flex justify-content-between">
             <h3>Goal Plans</h3>
             <TemplateButton
-              onClick={() => toggle("AddGoal")}
+              onClick={() => toggle("AddGoalPlan")}
               text="Add New Goal Plan"
             />
           </div>
@@ -122,7 +122,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
           <div className="my-3 d-flex justify-content-between">
             <h3>Goal Plans</h3>
             <TemplateButton
-              onClick={() => toggle("AddGoal")}
+              onClick={() => toggle("AddGoalPlan")}
               text="Add New Goal Plan"
             />
           </div>
@@ -141,7 +141,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
           <div className="my-3 d-flex justify-content-between">
             <h3>Goal Plans</h3>
             <TemplateButton
-              onClick={() => toggle("AddGoal")}
+              onClick={() => toggle("AddGoalPlan")}
               text="Add New Goal Plan"
             />
           </div>

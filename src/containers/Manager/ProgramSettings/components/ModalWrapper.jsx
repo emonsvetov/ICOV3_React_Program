@@ -40,7 +40,7 @@ const ModalWrapper = ({
     <>
       {name === "AddEvent" && <AddEventPopup {...props} />}
       {name === "EditEvent" && <EditEventModal {...props} />}
-      {name === "AddGoal" && <AddGoalPlanModal {...props} />}
+      {name === "AddGoalPlan" && <AddGoalPlanModal {...props} />}
       {name === "EditGoalPlan" && <EditGoalPlanModal {...props} />}
       {name === "AddLeaderboard" && <AddLeaderboardModal {...props} />}
     </>
