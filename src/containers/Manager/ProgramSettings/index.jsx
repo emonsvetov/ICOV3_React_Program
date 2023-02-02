@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Col, Container, Row, NavLink, Button } from "reactstrap";
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-import SelectProgram from "../components/SelectProgram";
+import SelectProgram from '../components/SelectProgram'
+import GoalPlans from './components/GoalPlans'
+import ModalWrapper from './components/ModalWrapper';
 import Events from "./Events";
 import Leaderboards from "./components/Leaderboards";
-import ModalWrapper from "./components/ModalWrapper";
-import { useEffect } from "react";
 import TemplateButton from "@/shared/components/TemplateButton";
-import { useTranslation } from "react-i18next";
 
 const LINKS = [
   { to: "#events", text: "Events" },
@@ -103,9 +103,18 @@ const ProgramSettings = ({ auth, program, organization }) => {
           <div className="my-3 d-flex justify-content-between">
             <h3>Goal Plans</h3>
             <TemplateButton
-              onClick={() => toggle("AddGoal")}
+              onClick={() => toggle("AddGoalPlan")}
               text="Add New Goal Plan"
             />
+          </div>
+          <div className="expired-goalplan-table">
+            {activeTab === 1 && (
+              <GoalPlans
+                program={program}
+                organization={organization}
+                status="Expired"
+              />
+            )}
           </div>
         </div>
 
@@ -113,9 +122,18 @@ const ProgramSettings = ({ auth, program, organization }) => {
           <div className="my-3 d-flex justify-content-between">
             <h3>Goal Plans</h3>
             <TemplateButton
-              onClick={() => toggle("AddGoal")}
+              onClick={() => toggle("AddGoalPlan")}
               text="Add New Goal Plan"
             />
+          </div>
+          <div className="active-goalplan-table">
+            {activeTab === 2 && (
+              <GoalPlans
+                program={program}
+                organization={organization}
+                status="Active"
+              />
+            )}
           </div>
         </div>
 
@@ -123,9 +141,18 @@ const ProgramSettings = ({ auth, program, organization }) => {
           <div className="my-3 d-flex justify-content-between">
             <h3>Goal Plans</h3>
             <TemplateButton
-              onClick={() => toggle("AddGoal")}
+              onClick={() => toggle("AddGoalPlan")}
               text="Add New Goal Plan"
             />
+          </div>
+          <div className="future-goalplan-table">
+            {activeTab === 3 && (
+              <GoalPlans
+                program={program}
+                organization={organization}
+                status="Future"
+              />
+            )}
           </div>
         </div>
 
