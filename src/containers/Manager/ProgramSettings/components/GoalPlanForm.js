@@ -417,10 +417,12 @@ const GoalPlanForm = ({
                     >
                         <Row>
                             <Col md="4">
-                                <label className="form-label">Select Goal Plan Type*: {goalplan?.goal_plan_type?.name && (
-                                    <p>Goal Plan Type: {goalplan.goal_plan_type.name}</p>
-                                )}</label>
+                                {!goalplan?.id && <label className="form-label">Select Goal Plan Type*:</label>}
                                 
+                                {goalplan?.goal_plan_type?.name && (
+                                    <p>Goal Plan Type:<br/> {goalplan.goal_plan_type.name}</p>
+                                )}
+                                    
                                 {!goalplan?.id && <Field
                                     name="goal_plan_type_id"
                                     className="react-select"
