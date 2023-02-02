@@ -8,6 +8,7 @@ const EventField = ({name, placeholder, goalPlanType, program}) => {
   const [loading, setLoading] = useState(true);
   const [events, setEvents] = useState(null);
   const [goalPlanTypeId, setGoalPlanTypeId] = useState(null);
+  console.log(program)
   useEffect(() => {
       let mounted = true;
       if( program?.id && goalPlanType?.value && (!events || goalPlanTypeId !== goalPlanType.value) )
