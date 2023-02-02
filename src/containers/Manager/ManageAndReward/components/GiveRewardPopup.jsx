@@ -180,6 +180,7 @@ const GiveRewardPopup = ({
           // console.log(items)
           if (items.length > 0) {
             setEvents(labelizeNamedData(items));
+            setEvent(items.shift());
           }
           setLoading(false);
         }
@@ -201,6 +202,7 @@ const GiveRewardPopup = ({
       },
     };
   }
+
   return (
     <Modal
       className={`program-settings modal-2col modal-xl`}
@@ -249,6 +251,7 @@ const GiveRewardPopup = ({
                             className="react-select"
                             placeholder={"Select an Event"}
                             classNamePrefix="react-select"
+                            value={event ? labelizeNamedData([event]) : null}
                           />
                           {meta.touched && meta.error && (
                             <span className="text-danger">{meta.error}</span>
