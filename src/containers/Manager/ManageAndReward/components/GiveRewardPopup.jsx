@@ -7,9 +7,7 @@ import {
   Col,
   Row,
   FormGroup,
-  FormFeedback,
   Label,
-  Button,
 } from "reactstrap";
 import { Form, Field } from "react-final-form";
 import CloseIcon from "mdi-react/CloseIcon";
@@ -24,7 +22,6 @@ import {
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import axios from "axios";
 import formValidation from "@/validation/giveReward";
-import { fetchEmailTemplates } from "@/services/getEmailTemplates";
 
 import { createSocialWallPost } from "@/redux/actions/socialWallPostActions";
 import { getSocialWallPostTypeEvent } from "@/services/program/getSocialWallPostTypes";
@@ -59,7 +56,6 @@ const GiveRewardPopup = ({
   const [loading, setLoading] = useState(true);
   const [loadingEvent, setLoadingEvent] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [emailTemplates, setEmailTemplates] = useState([]);
 
   const onChangeAwardValue = ([field], state, { setIn, changeValue }) => {
     const v = field.target.value;
@@ -92,9 +88,9 @@ const GiveRewardPopup = ({
     if (values?.email_template_id && values.email_template_id?.value && !isNaN(values.email_template_id.value)) {
       formData["email_template_id"] = parseInt(values.email_template_id.value)
     }
-    console.log(formData)
+    // console.log(formData)
     // return
-    // setSaving(true)
+    setSaving(true)
 
     axios
       .post(
@@ -107,9 +103,7 @@ const GiveRewardPopup = ({
           toggle()
           dispatch(
             flashMessage(
-              "Participants Awarded successfully!",
-              "alert-success",
-              "top"
+              "Participants Awarded successfully!"
             )
           );
 
@@ -145,8 +139,8 @@ const GiveRewardPopup = ({
               }
             );
           }
-          // setSaving(false)
-          // window.location.reload()
+          setSaving(false)
+          window.location.reload()
         }
       })
       .catch((err) => {
@@ -160,8 +154,6 @@ const GiveRewardPopup = ({
         );
         setSaving(false);
       });
-
-    console.log(formData);
   };
 
   const onChangeEvent = (selectedOption) => {
@@ -188,36 +180,29 @@ const GiveRewardPopup = ({
           // console.log(items)
           if (items.length > 0) {
             setEvents(labelizeNamedData(items));
+            setEvent(items.shift());
           }
           setLoading(false);
         }
       }
     );
-    fetchEmailTemplates(organization.id, program.id, "program_event").then((res) => {
-      // console.log(res)
-      setEmailTemplates(labelizeNamedData(res));
-    });
     return () => (mounted = false);
   }, [organization, program]);
 
   if (loading) return t("loading");
 
   let initialValues = {};
-  let email_template_selected = null
   if (event) {
-    if (emailTemplates.length > 0 && event?.email_template_id) {
-      email_template_selected = emailTemplates.find(tpl => String(tpl.value) === String(event?.email_template_id))
-    }
     initialValues = {
       ...initialValues,
       ...{
         event_id: event.id,
         awarding_points: program.factor_valuation * event.max_awardable_amount,
         message: event.message ? event.message : DEFAULT_MSG_PARTICIPANT,
-        email_template_id: email_template_selected,
       },
     };
   }
+
   return (
     <Modal
       className={`program-settings modal-2col modal-xl`}
@@ -266,6 +251,7 @@ const GiveRewardPopup = ({
                             className="react-select"
                             placeholder={"Select an Event"}
                             classNamePrefix="react-select"
+                            value={event ? labelizeNamedData([event]) : null}
                           />
                           {meta.touched && meta.error && (
                             <span className="text-danger">{meta.error}</span>
@@ -362,28 +348,6 @@ const GiveRewardPopup = ({
                       </Col>
                     </Row>
                     <Row>
-                      {emailTemplates.length > 0 &&
-                        <Col md="6">
-                          <Label>Email Template</Label><br />
-                          <Field name="email_template_id">
-                            {({ input, meta }) => (
-                              <FormGroup>
-                                <Select
-                                  options={emailTemplates}
-                                  className="react-select"
-                                  // placeholder={" - Select - "}
-                                  classNamePrefix="react-select"
-                                  {...input}
-                                />
-                                {meta.touched && meta.error && (
-                                  <span className="text-danger">
-                                    {meta.error}
-                                  </span>
-                                )}
-                              </FormGroup>
-                            )}
-                          </Field>
-                        </Col>}
                       <Col md="6">
                         <Label>Referrer</Label><br />
                         <Field name="referrer">
@@ -473,6 +437,7 @@ const GiveRewardPopup = ({
                     <div className="d-flex justify-content-end">
                       <TemplateButton
                         disabled={saving}
+                        spinner={saving}
                         type="submit"
                         text="Save Reward"
                       />

@@ -71,7 +71,7 @@ const ProgramParticipants = ({ program, organization }) => {
   const [participants, setParticipants] = useState([]);
   const [status, setStatus] = useState([]);
 
-  console.log(users)
+  // console.log(users)
 
   // selectedFlatRows.map(d => d.original)/
   const doAction = (action, participants) => {

@@ -23,15 +23,17 @@ import {
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import axios from "axios";
 import formValidation from "@/validation/giveReward";
-import { fetchEmailTemplates } from "@/services/getEmailTemplates";
 
 import { createSocialWallPost } from "@/redux/actions/socialWallPostActions";
 import { getSocialWallPostTypeEvent } from "@/services/program/getSocialWallPostTypes";
 import TemplateButton from "@/shared/components/TemplateButton";
 import EVENT_TYPES from "@/shared/json/eventTypes.json";
 import { useTranslation } from "react-i18next";
+import {Img} from '@/theme'
 
-const GiveRewardImg = `/img/pages/giveReward.png`;
+const GiveRewardImg = `img/pages/giveReward.png`;
+const DEFAULT_MSG_PARTICIPANT =
+  "We wanted to thank you for all your extra efforts over the last couple of days.\n\nThough your response and tireless efforts. You made a BIG Different!!\n\nWe would like to recognize those efforts with this award to reflect our appreciation.\n\nGreg, Gerry and Bruce\n\nGreg and Gerry";
 
 const PeerAllocationPopup = ({
   isOpen,
@@ -44,18 +46,11 @@ const PeerAllocationPopup = ({
 }) => {
   const { t } = useTranslation();
   const dispatch = flashDispatch();
-  const [value, setValue] = useState(false);
   const [events, setEvents] = useState([]);
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loadingEvent, setLoadingEvent] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [emailTemplates, setEmailTemplates] = useState([]);
-  const [templateContents, setTemplateContents] = useState([]);
-
-  const handleTemplateChange = (selected) => {
-    // setCurrentTemplate(selected.value - 1)
-  };
 
   const onChangeAwardValue = ([field], state, { setIn, changeValue }) => {
     const v = field.target.value;
@@ -87,7 +82,7 @@ const PeerAllocationPopup = ({
       email_template_id: values.email_template_id,
     };
     // console.log(formData)
-
+    setSaving(true)
     axios
       .post(
         `/organization/${organization.id}/program/${program.id}/award/`,
@@ -98,9 +93,7 @@ const PeerAllocationPopup = ({
         if (res.status === 200) {
           dispatch(
             flashMessage(
-              "Participants Awarded successfully!",
-              "alert-success",
-              "top"
+              "Participants Awarded successfully!"
             )
           );
 
@@ -179,10 +172,6 @@ const PeerAllocationPopup = ({
         setLoading(false);
       }
     });
-    fetchEmailTemplates(organization.id, program.id, "program_event").then((res) => {
-      setEmailTemplates(labelizeNamedData(res));
-      setTemplateContents(res);
-    });
     return () => (mounted = false);
   }, []);
 
@@ -197,7 +186,7 @@ const PeerAllocationPopup = ({
       ...{
         event_id: event.id,
         awarding_points: program.factor_valuation * event.max_awardable_amount,
-        message: "",
+        message: event.message ? event.message : DEFAULT_MSG_PARTICIPANT,
         email_template_id: 1,
       },
     };
@@ -220,8 +209,7 @@ const PeerAllocationPopup = ({
           {/*  nonummy nibh euismod tincidunt ut laoreet dolore magna.*/}
           {/*</span>*/}
         </div>
-
-        <img src={GiveRewardImg} className="manage" />
+        <Img src={GiveRewardImg} className="peer-allocation" />
       </div>
       <div className="right">
         {saving && "Saving, please wait..."}
@@ -342,54 +330,6 @@ const PeerAllocationPopup = ({
                     </Row>
                     <Row>
                       <Col md="6">
-                        <Field name="email_template_id">
-                          {({ input, meta }) => (
-                            <FormGroup>
-                              <Select
-                                options={emailTemplates}
-                                initialValue={
-                                  emailTemplates[event.email_template_id - 1]
-                                }
-                                clearable={false}
-                                className="react-select"
-                                placeholder={"Email Template"}
-                                classNamePrefix="react-select"
-                                parse={(value) => {
-                                  handleTemplateChange(value);
-                                  form.mutators.onChangeEmailTemplate(value);
-                                  return value;
-                                }}
-                              />
-                              {meta.touched && meta.error && (
-                                <span className="text-danger">
-                                  {meta.error}
-                                </span>
-                              )}
-                            </FormGroup>
-                          )}
-                        </Field>
-                      </Col>
-                      <Col md="6">
-                        <Field name="referrer">
-                          {({ input, meta }) => (
-                            <FormGroup>
-                              <Input
-                                placeholder="Referrer"
-                                type="text"
-                                {...input}
-                              />
-                              {meta.touched && meta.error && (
-                                <span className="text-danger">
-                                  {meta.error}
-                                </span>
-                              )}
-                            </FormGroup>
-                          )}
-                        </Field>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md="6">
                         <Label>Total People Selected</Label>
                       </Col>
                       <Col md="6">
@@ -461,6 +401,7 @@ const PeerAllocationPopup = ({
                               <Input
                                 placeholder="Message to Participant(s)"
                                 type="textarea"
+                                readOnly={!event.award_message_editable}
                                 {...input}
                               />
                               {meta.touched && meta.error && (
@@ -476,6 +417,7 @@ const PeerAllocationPopup = ({
                     <div className="d-flex justify-content-end">
                       <TemplateButton
                         disabled={saving}
+                        spinner={saving}
                         type="submit"
                         text="Save Reward"
                       />

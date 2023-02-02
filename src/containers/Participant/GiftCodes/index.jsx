@@ -1,18 +1,36 @@
-import React, { useContext } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { Col, Container, Row } from "reactstrap";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import { Sidebar } from "../../Layout/sidebar";
 import GiftCard from "./components/GiftCard";
+import GiftCardOriginal from "./components/GiftCardOriginal";
 import giftData from "./components/Mockdata.json";
 import { connect } from "react-redux";
 import { SidebarOrigin } from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
+import {getGiftCodes} from '@/services/user/getGiftCodes'
 
 const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-gift-codes.jpg`;
 
-const MyGiftCodes = ({ template }) => {
+const MyGiftCodes = ({ template, auth, organization, program }) => {
   const { t } = useTranslation();
-  
+  const [loading, setLoading] = useState(true);
+  let [giftCodes, setGiftCodes] = useState(null);
+
+  useEffect(() => {
+    if (organization && program) {
+      setLoading(true);
+      getGiftCodes(organization.id, program.id, auth.id)
+        .then((data) => {
+          // console.log(data)
+          setGiftCodes(data);
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+        });
+    }
+  }, [organization, program]);
+
 
   const MyGiftCodesOrigin = () => {
     return (
@@ -27,7 +45,13 @@ const MyGiftCodes = ({ template }) => {
               {" "}
               {t("my_gift_codes")}
             </h3>
-            <p className="text-center">{t("no_gift_codes")}</p>
+            <div className="dashboard">
+              {giftCodes ? giftCodes.map((item, index) => {
+                return <GiftCardOriginal key={index} data={item} />;
+              }) :
+                <p className="text-center">{t("no_gift_codes")}</p>
+              }
+            </div>
           </Col>
         </Row>
       </Container>
@@ -48,9 +72,11 @@ const MyGiftCodes = ({ template }) => {
           <Row>
             <Col md={9}>
               <div className="dashboard">
-                {giftData.map((item, index) => {
-                  return <GiftCard key={index} data={item} />;
-                })}
+                {giftCodes ? giftCodes.map((item, index) => {
+                    return <GiftCard key={index} data={item} />;
+                  }) :
+                  <p className="text-center">{t("no_gift_codes")}</p>
+                }
               </div>
             </Col>
             <Col md={3}>
@@ -71,6 +97,9 @@ const MyGiftCodes = ({ template }) => {
 const mapStateToProps = (state) => {
   return {
     template: state.template,
+    auth: state.auth,
+    program: state.program,
+    organization: state.organization,
   };
 };
 
