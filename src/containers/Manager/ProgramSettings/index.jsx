@@ -112,7 +112,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
               <GoalPlans
                 program={program}
                 organization={organization}
-                status="9"
+                status="Expired"
               />
             )}
           </div>
@@ -131,7 +131,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
               <GoalPlans
                 program={program}
                 organization={organization}
-                status="8"
+                status="Active"
               />
             )}
           </div>
@@ -150,7 +150,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
               <GoalPlans
                 program={program}
                 organization={organization}
-                status="7"
+                status="Future"
               />
             )}
           </div>

@@ -87,7 +87,7 @@ const GoalPlans = ({program, organization, status}) => {
     useEffect(() => {
         let mounted = true;
         setLoading(true)
-        getGoalPlans(organization.id, program.id,status)
+        getGoalPlans(organization.id, program.id, status)
           .then(items => {
             if(mounted) {
               setGoalPlans(items)
