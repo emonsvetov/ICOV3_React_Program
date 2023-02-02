@@ -22,7 +22,6 @@ const ReclaimPeerAllocationsModal = ({isOpen, setOpen, toggle, participants, pro
     useEffect(() => {
         let mounted = true;
         if(participant) {
-            console.log('dfdf');
             setLoading(true);
             getReclaimablePeerPoints(organization.id, program.id, participant.id).then((items) => {
                 setReclaimablePeerPoints(items);
@@ -30,7 +29,7 @@ const ReclaimPeerAllocationsModal = ({isOpen, setOpen, toggle, participants, pro
             });
         }
         return () => (mounted = false);
-    },[participant]);
+    },['participant']);
 
    if (loading) return t("loading");
     return (
