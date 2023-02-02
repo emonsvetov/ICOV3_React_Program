@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Field } from 'react-final-form';
-// import renderCheckBoxField from '../../../shared/components/form/CheckBox';
 import {login} from '../../App/auth';
 import {isProgramManager, isProgramParticipant, hasRoleInProgram} from "@/shared/helper"
 import {useDispatch, flash422} from "@/shared/components/flash"
 import Select from 'react-select'
 import { ButtonToolbar } from 'reactstrap';
-// import {getProgram} from '@/services/program/getProgram';
 import TemplateButton from "@/shared/components/TemplateButton"
 
 const axios = require('axios');
