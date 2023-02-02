@@ -14,7 +14,7 @@ const EventField = ({name, placeholder, goalPlanType, program}) => {
       if( program?.id && goalPlanType?.value && (!events || goalPlanTypeId !== goalPlanType.value) )
       {
           setLoading(true)
-          getEvents(program.organization.id, program.id, goalPlanType.label == "Recognition Goal" ? 'badge': 'standard')
+          getEvents(program.organization_id, program.id, goalPlanType.label == "Recognition Goal" ? 'badge': 'standard')
           .then(items => {
               if(mounted) {
                   setGoalPlanTypeId(goalPlanType.value)

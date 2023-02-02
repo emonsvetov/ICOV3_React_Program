@@ -81,7 +81,7 @@ const GoalPlanForm = ({
         getExpirationRules().then((ertypes) => {
             setExpirationRules(labelizeNamedData(ertypes));
         });
-        getEvents(program.organization.id, program.id)
+        getEvents(program.organization_id, program.id)
         .then(items => {
             setEvents(labelizeNamedData(items))
         })
@@ -162,7 +162,7 @@ const GoalPlanForm = ({
 
     const onSubmitEdit = (values) => {
         let goalPlanData = {};
-        goalPlanData["organization_id"] = program.organization.id;
+        goalPlanData["organization_id"] = program.organization_id;
         goalPlanData["program_id"] = program.id;
         console.log("submit");
         // console.log(values); return;
@@ -251,7 +251,7 @@ const GoalPlanForm = ({
         setLoading(true);
         axios
           .put(
-            `/organization/${program.organization.id}/program/${program.id}/goalplan/${goalplan.id}`,
+            `/organization/${program.organization_id}/program/${program.id}/goalplan/${goalplan.id}`,
             goalPlanData
           )
           .then((res) => {
