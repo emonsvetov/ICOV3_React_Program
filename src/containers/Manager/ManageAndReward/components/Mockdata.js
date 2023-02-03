@@ -362,3 +362,36 @@ export const REWARD_HISTORY_COLUMNS = [
       ),
     }
   ];
+  export const PEER_RECLAIM_DATA =[
+    { 
+        'awarded': '2023-02-03 07:51:44', 
+        'event_name': 'Test',
+        'amount': 200, 
+        'id': 100, 
+        'journal_event_id': 1 
+    },
+    { 
+        'awarded': '2023-02-03 07:51:44', 
+        'event_name': 'Test',
+        'amount': 200, 
+        'id': 100, 
+        'journal_event_id': 1 
+    }, 
+]
+export const PEER_RECLAIM_COLUMNS = [
+    {
+        Header: "Date",
+        accessor: "awarded",
+        Cell: ({ row, value }) => {
+          return `${new Date(value).toLocaleDateString("en-US", {})}`;
+        },
+    },
+    {
+        Header: "Event",
+        accessor: "event_name",
+    },
+    {
+        Header: "Points",
+        accessor: "amount",
+    },
+  ];
