@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Modal, Input, Col, Row, FormGroup, Label, Button, Container, Table } from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 import { useTranslation } from "react-i18next";
-import TemplateButton from "@/shared/components/TemplateButton"; 
+import TemplateButton from "@/shared/components/TemplateButton";
+import CheckboxField from "@/shared/components/form/CheckboxField";
 
 import CloseIcon from "mdi-react/CloseIcon";
 import renderToggleButtonField from "@/shared/components/form/ToggleButton";
@@ -10,28 +11,33 @@ import { getReclaimablePeerPoints } from "@/services/user/getReclaimablePeerPoin
 
 
 
-const ReclaimPeerAllocationsModal = ({isOpen, setOpen, toggle, participants, program, organization}) => {
+const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, program, organization }) => {
     const [loading, setLoading] = useState(true);
-    const [reclaimable_peer_points, setReclaimablePeerPoints] = useState([]);
+    const [reclaimable_peer_points_list, setReclaimablePeerPoints] = useState([]);
     const { t } = useTranslation();
     let participant = participants[0];
-    
+
     const onSubmit = (values) => {
-        
+
+    };
+    const onClickReclaimablePeerPoints = (award) => {
+        console.log(award);
     };
     useEffect(() => {
         let mounted = true;
-        if(participant) {
+        if (participant) {
             setLoading(true);
             getReclaimablePeerPoints(organization.id, program.id, participant.id).then((items) => {
-                setReclaimablePeerPoints(items);
+                //setReclaimablePeerPoints(items);
+                setReclaimablePeerPoints([{ 'awarded': '2023-02-03 07:51:44', 'event_name': 'Test', 'amount': 200, 'id': 100, 'journal_event_id': 1 }, { 'awarded': '2023-03-03 07:51:44', 'event_name': 'Test', 'amount': 200, 'id': 100, 'journal_event_id': 1 }]);
+
                 setLoading(false);
             });
         }
         return () => (mounted = false);
-    },['participant']);
-
-   if (loading) return t("loading");
+    }, ['participant']);
+    console.log(reclaimable_peer_points_list);
+    if (loading) return t("loading");
     return (
         <Modal
             className={`program-settings modal-2col modal-xl`}
@@ -72,33 +78,54 @@ const ReclaimPeerAllocationsModal = ({isOpen, setOpen, toggle, participants, pro
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>03/25/2022	</td>
-                                                    <td>Event</td>
-                                                    <td>100</td>
-                                                    <td><FormGroup className='d-flex justify-content-between'>
-                                                        <Field
-                                                            name="award_message_editable"
-                                                            component={renderToggleButtonField}
-                                                        />
-                                                    </FormGroup></td>
-                                                    <td>
-                                                        <Field name="name">
-                                                            {({ input, meta }) => (
-                                                                <FormGroup>
-                                                                    <Input
-                                                                        placeholder="Leaderboard Name"
-                                                                        type="text"
-                                                                        {...input}
-                                                                    />
-                                                                    {meta.touched && meta.error && <span className="text-danger">
-                                                                        {meta.error}
-                                                                    </span>}
-                                                                </FormGroup>
-                                                            )}
-                                                        </Field></td>
-                                                    <td></td>
-                                                </tr>
+
+                                                {reclaimable_peer_points_list.map((item, index) => {
+                                                    return (
+                                                        <tr>
+                                                            <td>{item?.created_at ? `${new Date(item.created_at).toLocaleDateString("en-US", {})}` : ''}</td>
+                                                            <td>{item?.event_name}</td>
+                                                            <td>{item?.amount ? item?.amount * program.factor_valuation : 0}</td>
+                                                            <td> <CheckboxField
+                                                                name="points[]"
+                                                                label="kk"
+                                                            />
+                                                            </td>
+                                                            <td>
+                                                                <input
+                                                                    type="hidden"
+                                                                />
+                                                                <input
+                                                                    type="hidden" name={`amount_${item?.id}`}
+                                                                    value={item?.amount} />
+                                                                <input type="hidden"
+                                                                    name={`journal_event_${item?.id}`}
+                                                                    value={item?.journal_event_id} />
+                                                                <Field name="name">
+                                                                    {({ input, meta }) => (
+                                                                        <FormGroup>
+                                                                            <Input
+                                                                                name={`notes_${item?.id}`}
+                                                                                placeholder=""
+                                                                                type="text"
+                                                                                {...input}
+                                                                            />
+                                                                            {meta.touched && meta.error && <span className="text-danger">
+                                                                                {meta.error}
+                                                                            </span>}
+                                                                        </FormGroup>
+                                                                    )}
+                                                                </Field>
+                                                            </td>
+                                                            <td>
+                                                                <Button
+                                                                    type="button"
+                                                                    aria-label="button collapse"
+                                                                    className="template-button border-0 btn btn-secondary me-2"
+                                                                >Reclaim Peer Allocations</Button></td>
+                                                        </tr>
+                                                    )
+                                                }
+                                                )}
                                             </tbody>
                                         </Table>
 
