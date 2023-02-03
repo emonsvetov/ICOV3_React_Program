@@ -1,15 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import Select from 'react-select';
-//import formValidation from "@/validation/inviteParticipant"
-//import { Link } from 'react-router-dom';
 import { Input, Col, Row, FormGroup } from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {useDispatch, flashSuccess, flash422} from "@/shared/components/flash"
-//import SelectProgram from '../components/SelectProgram'
-//import {setAuthProgram} from '@/containers/App/auth';
-//import {getProgram} from '@/services/program/getProgram';
 import { makeLabelizedOptionsFromTree } from '@/shared/helper';
 import {getProgramTree} from '@/services/program/getProgramTree';
 import TemplateButton from "@/shared/components/TemplateButton"
@@ -33,25 +28,15 @@ const InviteParticipant = ({auth, organization, rootProgram}) => {
   let [program, setProgram] = useState(null);
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
-  //const programs = getProgram(organization.id,null);
-  // console.log(organization)
-  //const program_list =  axios.get(`/organization/${organization.id}/program?minimal=true`)
-  //console.log(program_list)
-  //console.log(auth);
   const onSelectProgram = (selectedOption) => {
     setProgram( selectedOption )
   };
   const onSubmit  = values  => {
-    //  console.log(values)
-   //console.log(program_list)
-  //  console.log( `/organization/${organization.id}/program/${values.program.value}/invite`)
-  //   return
     setLoading(true)
     axios.put(`/organization/${organization.id}/program/${values.program.value}/invite`, values)
     .then( (res) => {
         // console.log(res)
         if(res.status == 200)  {
-           // window.location = `/organization/${organization.id}/program/${values.program_id}/invite?message=User saved successfully`
            window.location.reload()
            flashSuccess(dispatch, 'The participant has been invited to your program!')
            setLoading(false)

@@ -81,7 +81,7 @@ const GoalPlanForm = ({
         getExpirationRules().then((ertypes) => {
             setExpirationRules(labelizeNamedData(ertypes));
         });
-        getEvents(program.organization.id, program.id)
+        getEvents(program.organization_id, program.id)
         .then(items => {
             setEvents(labelizeNamedData(items))
         })
@@ -162,7 +162,7 @@ const GoalPlanForm = ({
 
     const onSubmitEdit = (values) => {
         let goalPlanData = {};
-        goalPlanData["organization_id"] = program.organization.id;
+        goalPlanData["organization_id"] = program.organization_id;
         goalPlanData["program_id"] = program.id;
         console.log("submit");
         // console.log(values); return;
@@ -251,7 +251,7 @@ const GoalPlanForm = ({
         setLoading(true);
         axios
           .put(
-            `/organization/${program.organization.id}/program/${program.id}/goalplan/${goalplan.id}`,
+            `/organization/${program.organization_id}/program/${program.id}/goalplan/${goalplan.id}`,
             goalPlanData
           )
           .then((res) => {
@@ -417,10 +417,12 @@ const GoalPlanForm = ({
                     >
                         <Row>
                             <Col md="4">
-                                <label className="form-label">Select Goal Plan Type*: {goalplan?.goal_plan_type?.name && (
-                                    <p>Goal Plan Type: {goalplan.goal_plan_type.name}</p>
-                                )}</label>
+                                {!goalplan?.id && <label className="form-label">Select Goal Plan Type*:</label>}
                                 
+                                {goalplan?.goal_plan_type?.name && (
+                                    <p>Goal Plan Type:<br/> {goalplan.goal_plan_type.name}</p>
+                                )}
+                                    
                                 {!goalplan?.id && <Field
                                     name="goal_plan_type_id"
                                     className="react-select"
