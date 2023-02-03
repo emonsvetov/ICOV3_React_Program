@@ -106,39 +106,6 @@ const GiveRewardPopup = ({
               "Participants Awarded successfully!"
             )
           );
-
-          // Post to Social Wall
-          if (program.uses_social_wall) {
-            let resultObject = res.data;
-
-            getSocialWallPostTypeEvent(organization.id, program.id).then(
-              (socialWallPostTypeEvent) => {
-                Object.keys(resultObject).map((key) => {
-                  let resultData = resultObject[key];
-
-                  let socialWallPostData = {
-                    social_wall_post_type_id: socialWallPostTypeEvent.id,
-                    social_wall_post_id: null,
-                    event_xml_data_id: resultData.event_xml_data_id,
-                    program_id: program.id,
-                    organization_id: organization.id,
-                    awarder_program_id: null,
-                    sender_user_account_holder_id: auth.account_holder_id,
-                    receiver_user_account_holder_id:
-                      resultData.userAccountHolderId,
-                  };
-                  // console.log(socialWallPostData);
-                  dispatch(
-                    createSocialWallPost(
-                      organization.id,
-                      program.id,
-                      socialWallPostData
-                    )
-                  );
-                });
-              }
-            );
-          }
           setSaving(false)
           window.location.reload()
         }
