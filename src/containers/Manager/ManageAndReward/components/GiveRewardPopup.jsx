@@ -247,7 +247,7 @@ const GiveRewardPopup = ({
                     </Row>
                     <Row>
                       <Col md="6">
-                        <Label>Maximum Cash Value per Particiapnt</Label>
+                        <Label>Maximum Cash Value per Participant</Label>
                       </Col>
                       <Col md="6">
                         <strong>{`$${event?.max_awardable_amount}`}</strong>
@@ -255,7 +255,7 @@ const GiveRewardPopup = ({
                     </Row>
                     <Row>
                       <Col md="6">
-                        <Label>Custom Cash Value per Particiapnt</Label>
+                        <Label>Custom Cash Value per Participant</Label>
                       </Col>
                       <Col md="6">
                         <Field name="override_cash_value">
@@ -279,7 +279,7 @@ const GiveRewardPopup = ({
                     </Row>
                     <Row>
                       <Col md="4">
-                        <Label>Points per Particiapnt</Label>: &nbsp;
+                        <Label>Points per Participant</Label>: &nbsp;
                         <Field name="awarding_points">
                           {({ input, meta }) => {
                             // console.log(input)
