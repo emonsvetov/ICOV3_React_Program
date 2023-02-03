@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import DatePicker from 'react-datepicker';
 import PropTypes from 'prop-types';
 import "react-datepicker/dist/react-datepicker.css";
 
-const DatePickerField = ({ onChange }) => {
+const DatePickerField = ({ onChange, selectedDate }) => {
   const [startDate, setStartDate] = useState(null);
+
+  useEffect(() => {
+    if(startDate === null && selectedDate){
+      setStartDate(selectedDate);
+    }
+  }, []);
+
   const handleChange = (date) => {
     setStartDate(date);
     onChange(date);
@@ -25,6 +32,7 @@ const DatePickerField = ({ onChange }) => {
 
 DatePickerField.propTypes = {
   onChange: PropTypes.func.isRequired,
+  selectedDate: PropTypes.instanceOf(Date),
 };
 
 
