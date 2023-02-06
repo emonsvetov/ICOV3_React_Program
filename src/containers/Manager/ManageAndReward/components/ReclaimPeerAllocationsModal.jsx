@@ -20,6 +20,7 @@ const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, pr
     const { t } = useTranslation();
     let participant = participants[0];
     const QUERY_PAGE_SIZE = 10;
+    const [reclaimable_peer_points, setReclaimablePeerPoint] = useState([]);
     const [queryPageSize, setQueryPageSize] = useState(QUERY_PAGE_SIZE);
     const onSubmit = (values) => {
 
@@ -28,11 +29,48 @@ const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, pr
         console.log(award);
     };*/
 
-    const columns = PEER_RECLAIM_COLUMNS;
-    // const data = React.useMemo(() => reclaimable_peer_points_list, [])
+    //const columns = PEER_RECLAIM_COLUMNS;
+    const onClickAction = () => {
+        alert('new');
+       
+        const rows = selectedFlatRows.map((d) => d.original);
+        console.log("mmm");
+        console.log("mmm");
+        console.log(rows.length);
+        alert(rows.length);
+        if (rows.length === 0) {
+            alert("Select participants");
+            return;
+        }
+        alert(reclaimable_peer_points.awarded);
+        setReclaimablePeerPoint(rows);
+        console.log(reclaimable_peer_points);
+        console.log("kkk");
+    }
+    let final_columns = [
+        ...PEER_RECLAIM_COLUMNS,
+        ...[
+            {
+                Header: "Reason / Notes",
+                accessor: "action",
+                Footer: "Action",
+                Cell: ({ row }) => {
+                    return (
+                        <Input
+                            name="notes"
+                            placeholder=""
+                            type="text"
+                        />
+                    )
+                }
+            },
+        ],
+    ];
+    const columns = React.useMemo(() => final_columns, []);
+    //const data = React.useMemo(() => reclaimable_peer_points_list, [])
 
     const totalPageCount = Math.ceil(reclaimable_peer_points_list?.count / QUERY_PAGE_SIZE);
-   
+
     const {
         getTableProps,
         getTableBodyProps,
@@ -147,14 +185,14 @@ const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, pr
             setLoading(true);
             getReclaimablePeerPoints(organization.id, program.id, participant.id).then((items) => {
                 //setReclaimablePeerPoints(items);
-                setReclaimablePeerPoints([{ 'awarded': '2023-02-03 07:51:44', 'event_name': 'Test', 'amount': 200, 'id': 100, 'journal_event_id': 1 }, { 'awarded': '2023-03-03 07:51:44', 'event_name': 'Test', 'amount': 200, 'id': 100, 'journal_event_id': 1 }]);
+                setReclaimablePeerPoints(PEER_RECLAIM_DATA);
 
                 setLoading(false);
             });
         }
         return () => (mounted = false);
     }, ['participant']);
-    console.log(reclaimable_peer_points_list);
+    //console.log(reclaimable_peer_points_list);
     if (loading) return t("loading");
     return (
         <Modal
@@ -165,127 +203,53 @@ const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, pr
             <div className="close cursor-pointer">
                 <CloseIcon onClick={toggle} size={30} />
             </div>
-            
+
             <Container fluid>
-            <div className="reclaimable_peer_points_list">
-                <UserTable />
-            </div>
-            <div className="my-3 status">
-                {rows.length > 0 && (
-                    <>
-                        <ReactTablePagination
-                            page={page}
-                            gotoPage={gotoPage}
-                            previousPage={previousPage}
-                            nextPage={nextPage}
-                            canPreviousPage={canPreviousPage}
-                            canNextPage={canNextPage}
-                            pageOptions={pageOptions}
-                            pageSize={pageSize}
-                            pageIndex={pageIndex}
-                            pageCount={pageCount}
-                            setPageSize={setPageSize}
-                            manualPageSize={manualPageSize}
-                            dataLength={10}
-                        />
-                    </>
-                )}
-            </div>
-                <Form
-                    onSubmit={onSubmit}
-                >
-                    {({ handleSubmit, form, submitting, pristine, values }) => (
-                        <form className="form d-flex flex-column justify-content-evenly" onSubmit={handleSubmit}>
-                            <Row>
-                                <Col md={12}>
-                                    <h3>Reclaim Peer Allocations</h3>
-                                    <div>Peer Points Balance: </div>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col md={12}>
-                                    <>
-                                        <Table striped bordered hover>
-                                            <thead>
-                                                <tr>
-                                                    <td colSpan="8" className="title">
-                                                        Peer Allocations
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Date</th>
-                                                    <th>Event</th>
-                                                    <th>Points</th>
-                                                    <th>Reclaim?</th>
-                                                    <th>Reason / Notes</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                <div className="reclaimable_peer_points_list">
 
-                                                {reclaimable_peer_points_list.map((item, index) => {
-                                                    return (
-                                                        <tr>
-                                                            <td>{item?.created_at ? `${new Date(item.created_at).toLocaleDateString("en-US", {})}` : ''}</td>
-                                                            <td>{item?.event_name}</td>
-                                                            <td>{item?.amount ? item?.amount * program.factor_valuation : 0}</td>
-                                                            <td> <CheckboxField
-                                                                name="points[]"
-                                                                label="kk"
-                                                            />
-                                                            </td>
-                                                            <td>
-                                                                <input
-                                                                    type="hidden"
-                                                                />
-                                                                <input
-                                                                    type="hidden" name={`amount_${item?.id}`}
-                                                                    value={item?.amount} />
-                                                                <input type="hidden"
-                                                                    name={`journal_event_${item?.id}`}
-                                                                    value={item?.journal_event_id} />
-                                                                <Field name="name">
-                                                                    {({ input, meta }) => (
-                                                                        <FormGroup>
-                                                                            <Input
-                                                                                name={`notes_${item?.id}`}
-                                                                                placeholder=""
-                                                                                type="text"
-                                                                                {...input}
-                                                                            />
-                                                                            {meta.touched && meta.error && <span className="text-danger">
-                                                                                {meta.error}
-                                                                            </span>}
-                                                                        </FormGroup>
-                                                                    )}
-                                                                </Field>
-                                                            </td>
-                                                            <td>
-                                                                <Button
-                                                                    type="button"
-                                                                    aria-label="button collapse"
-                                                                    className="template-button border-0 btn btn-secondary me-2"
-                                                                >Reclaim Peer Allocations</Button></td>
-                                                        </tr>
-                                                    )
-                                                }
-                                                )}
-                                            </tbody>
-                                        </Table>
+                    <Row>
+                        <Col md={12}>
+                            <h3>Reclaim Peer Allocations</h3>
+                            <div>Peer Points Balance: {participant?.peerBalance ? participant?.peerBalance * program.factor_valuation : 0}</div>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={12}>
+                            <>
+                                <UserTable />
+                            </>
+                        </Col>
 
-                                    </>
-                                </Col>
-
-                            </Row>
-                            <Row>
-                                <Col md={12}>
-                                    <div className='d-flex justify-content-end'>
-                                        <TemplateButton type='submit' text='Reclaim Peer Allocations' />
-                                    </div>
-                                </Col>
-                            </Row>
-                        </form>
+                    </Row>
+                    <Row>
+                        <Col md={12}>
+                            <div className='d-flex justify-content-end'>
+                                <TemplateButton type='submit' text='Reclaim Peer Allocations' onClick={() => onClickAction()} />
+                            </div>
+                        </Col>
+                    </Row>
+                </div>
+                <div className="my-3 status">
+                    {rows.length > 0 && (
+                        <>
+                            <ReactTablePagination
+                                page={page}
+                                gotoPage={gotoPage}
+                                previousPage={previousPage}
+                                nextPage={nextPage}
+                                canPreviousPage={canPreviousPage}
+                                canNextPage={canNextPage}
+                                pageOptions={pageOptions}
+                                pageSize={pageSize}
+                                pageIndex={pageIndex}
+                                pageCount={pageCount}
+                                setPageSize={setPageSize}
+                                manualPageSize={manualPageSize}
+                                dataLength={10}
+                            />
+                        </>
                     )}
-                </Form>
+                </div>
             </Container>
         </Modal>
 

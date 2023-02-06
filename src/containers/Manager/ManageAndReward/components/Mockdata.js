@@ -365,7 +365,7 @@ export const REWARD_HISTORY_COLUMNS = [
   export const PEER_RECLAIM_DATA =[
     { 
         'awarded': '2023-02-03 07:51:44', 
-        'event_name': 'Test',
+        'event_name': 'Testttt',
         'amount': 200, 
         'id': 100, 
         'journal_event_id': 1 
@@ -375,7 +375,21 @@ export const REWARD_HISTORY_COLUMNS = [
         'event_name': 'Test',
         'amount': 200, 
         'id': 100, 
-        'journal_event_id': 1 
+        'journal_event_id': 2 
+    },
+    { 
+        'awarded': '2023-02-03 07:51:44', 
+        'event_name': 'Test',
+        'amount': 200, 
+        'id': 100, 
+        'journal_event_id': 3
+    },
+    { 
+        'awarded': '2023-02-03 07:51:44', 
+        'event_name': 'Test',
+        'amount': 200, 
+        'id': 100, 
+        'journal_event_id': 4 
     }, 
 ]
 export const PEER_RECLAIM_COLUMNS = [
@@ -394,4 +408,5 @@ export const PEER_RECLAIM_COLUMNS = [
         Header: "Points",
         accessor: "amount",
     },
+   
   ];
