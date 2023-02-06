@@ -30,15 +30,16 @@ const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, pr
     };*/
 
     //const columns = PEER_RECLAIM_COLUMNS;
-    const onClickAction = () => {
+    const onClickAction = (e) => {
         alert('new');
-       
+        let notes = e.target.value;alert(e.target.value);
         const rows = selectedFlatRows.map((d) => d.original);
-        console.log("mmm");
-        console.log("mmm");
+        console.log(rows);
+        console.log(notes);
         console.log(rows.length);
         alert(rows.length);
         if (rows.length === 0) {
+
             alert("Select participants");
             return;
         }
@@ -55,9 +56,10 @@ const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, pr
                 accessor: "action",
                 Footer: "Action",
                 Cell: ({ row }) => {
+                    console.log(row);
                     return (
                         <Input
-                            name="notes"
+                            name={`notes_${row.original.journal_event_id}`}
                             placeholder=""
                             type="text"
                         />
@@ -66,6 +68,7 @@ const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, pr
             },
         ],
     ];
+
     const columns = React.useMemo(() => final_columns, []);
     //const data = React.useMemo(() => reclaimable_peer_points_list, [])
 
@@ -224,7 +227,7 @@ const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, pr
                     <Row>
                         <Col md={12}>
                             <div className='d-flex justify-content-end'>
-                                <TemplateButton type='submit' text='Reclaim Peer Allocations' onClick={() => onClickAction()} />
+                                <TemplateButton type='submit' text='Reclaim Peer Allocations' onClick={(e) => onClickAction(e)} />
                             </div>
                         </Col>
                     </Row>
