@@ -7,6 +7,9 @@ import CheckboxField from "@/shared/components/form/CheckboxField";
 import { useTable, usePagination, useRowSelect } from "react-table";
 import ReactTablePagination from "@/shared/components/table/components/ReactTablePagination";
 import { PEER_RECLAIM_COLUMNS, PEER_RECLAIM_DATA } from "./Mockdata";
+import { flashDispatch, flashMessage } from '@/shared/helper'
+import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
+import axios from 'axios'
 
 import CloseIcon from "mdi-react/CloseIcon";
 import renderToggleButtonField from "@/shared/components/form/ToggleButton";
@@ -15,38 +18,99 @@ import { getReclaimablePeerPoints } from "@/services/user/getReclaimablePeerPoin
 
 
 const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, program, organization }) => {
+    const dispatch = flashDispatch()
+    // console.log(participants)
+    const [saving, setSaving] = useState(false);
     const [loading, setLoading] = useState(true);
     const [reclaimable_peer_points_list, setReclaimablePeerPoints] = useState([]);
     const { t } = useTranslation();
     let participant = participants[0];
     const QUERY_PAGE_SIZE = 10;
-    const [reclaimable_peer_points, setReclaimablePeerPoint] = useState([]);
     const [queryPageSize, setQueryPageSize] = useState(QUERY_PAGE_SIZE);
+    //const regInput = React.useRef();
+
     const onSubmit = (values) => {
 
+        console.log(values)
+        const rows = selectedFlatRows.map((d) => d.original);
+        var formData = {
+            points: {},
+        }
+        values.notes.map((item, index) => { //notes
+            console.log(index);
+            rows.map((row, row_index) => { //points
+                if(row.journal_event_id == index)
+                formData.points = Object.assign(formData.points, { 'journal_event_id': index, 'notes': item, 'amount': row.amount })
+            }) 
+            console.log(formData);
+        });
+        console.log(formData);
+        // console.log(formData)
+        setSaving(true)
+        // return
+        axios
+            .post(`/organization/${organization.id}/program/${program.id}/user/${participant.id}/ReclaimPeerPoints`, formData)
+            .then((res) => {
+                // console.log(res)
+                if (res.status == 200) {
+                    dispatch(flashMessage('reclaimed successfully!', 'alert-success', 'top'))
+                    setSaving(false)
+                    toggle()
+                    // window.location.reload()
+                }
+            })
+            .catch((err) => {
+                //console.log(error.response.data);
+                dispatch(flashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
+                setSaving(false)
+            });
+
+        console.log(formData)
+        /**let formData = {
+         event_id: values.event_id,
+        notes: values.notes,
+        message: values.message,
+        user_id: participants.map((p) => p.id),
+        override_cash_value: values.override_cash_value
+        ? values.override_cash_value
+        : null,
+        referrer: values.referrer ? values.referrer : null
+        }; */
+        //const v = regInput.current.value;
+        //console.log(regInput.current.props);
+        //event.preventDefault();
+        //console.log(values)
+
+        //setReclaimablePeerPoint(rows);
+        console.log(rows)
+
     };
-    /*const onClickReclaimablePeerPoints = (award) => {
-        console.log(award);
-    };*/
+    const handleChange = (values) => {
+        // setReclaimablePeerPoint(values);
+        console.log(values);
+
+    };
 
     //const columns = PEER_RECLAIM_COLUMNS;
     const onClickAction = (e) => {
-        alert('new');
-        let notes = e.target.value;alert(e.target.value);
-        const rows = selectedFlatRows.map((d) => d.original);
-        console.log(rows);
+        //let notes = e.target.value;
+        //const v = regInput.current.value;
+        //alert(regInput);
+        // alert(e.target.value);
+        //console.log(selectedFlatRows);
+        //const rows = selectedFlatRows.map((d) => d.original);
+        /*console.log(rows);
         console.log(notes);
-        console.log(rows.length);
-        alert(rows.length);
-        if (rows.length === 0) {
+        console.log(rows.length);*/
+        /*if (rows.length === 0) {
 
             alert("Select participants");
             return;
-        }
-        alert(reclaimable_peer_points.awarded);
-        setReclaimablePeerPoint(rows);
-        console.log(reclaimable_peer_points);
-        console.log("kkk");
+        }*/
+        //alert(reclaimable_peer_points.awarded);
+        //setReclaimablePeerPoint(rows);
+        //console.log(reclaimable_peer_points);
+        //console.log("kkk");
     }
     let final_columns = [
         ...PEER_RECLAIM_COLUMNS,
@@ -56,13 +120,31 @@ const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, pr
                 accessor: "action",
                 Footer: "Action",
                 Cell: ({ row }) => {
-                    console.log(row);
+                    // console.log(row);
+
                     return (
-                        <Input
-                            name={`notes_${row.original.journal_event_id}`}
-                            placeholder=""
-                            type="text"
-                        />
+                        <Field name={`notes[${row.original.journal_event_id}]`}>
+                            {({ input, meta }) => (
+                                <FormGroup>
+                                    <Input
+                                        //ref={regInput}
+                                        name={`notes[${row.original.journal_event_id}]`}
+                                        placeholder=""
+                                        type="text"
+                                        {...input}
+                                        onKeyUp={(e) => {
+                                            //row.original.value
+                                            handleChange({
+                                                ...row.original,
+                                                notes: e.target.value,
+                                            });
+                                        }}
+                                    //value={input.value}
+                                    />
+
+                                </FormGroup>
+                            )}
+                        </Field>
                     )
                 }
             },
@@ -127,6 +209,24 @@ const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, pr
                         </div>
                     ),
                 },
+                /*{
+                    id: "jj",
+                    // The header can use the table's getToggleAllRowsSelectedProps method
+                    // to render a checkbox
+                    Header: ({ getToggleAllPageRowsSelectedProps }) => (
+                        <div>
+                           test
+                        </div>
+                    ),
+                    // The cell can use the individual row's getToggleRowSelectedProps method
+                    // to the render a checkbox
+                    Cell: ({ row }) => (
+                        <div>
+                            <IndeterminateCheckbox1 {...row.getToggleRowSelectedProps()} />
+                            
+                        </div>
+                    ),
+                },*/
                 ...columns,
             ]);
         }
@@ -148,37 +248,68 @@ const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, pr
             );
         }
     );
+    const IndeterminateCheckbox1 = React.forwardRef(
+        ({ indeterminate, ...rest }, ref) => {
+            const defaultRef = React.useRef();
+            const resolvedRef = ref || defaultRef;
+
+            React.useEffect(() => {
+                resolvedRef.current.indeterminate = indeterminate;
+            }, [resolvedRef, indeterminate]);
+
+            return (
+                <>
+                    <input name="note2" type="text" ref={resolvedRef} {...rest} />
+                </>
+            );
+        }
+    );
     const manualPageSize = [];
     const UserTable = () => {
         return (
             <div className="points-summary-table">
-                <Table striped borderless size="md" {...getTableProps()}>
-                    <thead>
-                        {headerGroups.map((headerGroup) => (
-                            <tr {...headerGroup.getHeaderGroupProps()}>
-                                {headerGroup.headers.map((column) => (
-                                    <th {...column.getHeaderProps()}>
-                                        {column.render("Header")}
-                                    </th>
-                                ))}
-                            </tr>
-                        ))}
-                    </thead>
-                    <tbody {...getTableBodyProps()}>
-                        {rows.map((row, i) => {
-                            prepareRow(row);
-                            return (
-                                <tr {...row.getRowProps()}>
-                                    {row.cells.map((cell) => {
-                                        return (
-                                            <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                                        );
-                                    })}
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </Table>
+                <Form
+                    onSubmit={onSubmit}
+
+                >
+                    {({ handleSubmit, form, submitting, pristine, values }) => {
+                        // console.log(values)
+                        return (
+                            <form className="form d-flex flex-column justify-content-evenly p-2" onSubmit={handleSubmit}>
+                                <Table striped borderless size="md" {...getTableProps()}>
+                                    <thead>
+                                        {headerGroups.map((headerGroup) => (
+                                            <tr {...headerGroup.getHeaderGroupProps()}>
+                                                {headerGroup.headers.map((column) => (
+                                                    <th {...column.getHeaderProps()}>
+                                                        {column.render("Header")}
+                                                    </th>
+                                                ))}
+                                            </tr>
+                                        ))}
+                                    </thead>
+                                    <tbody {...getTableBodyProps()}>
+                                        {rows.map((row, i) => {
+                                            prepareRow(row);
+                                            return (
+                                                <tr {...row.getRowProps()}>
+                                                    {row.cells.map((cell) => {
+                                                        return (
+                                                            <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                                                        );
+                                                    })}
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </Table>
+                                <div className='d-flex justify-content-end'>
+                                    <TemplateButton type='submit' text='Reclaim Peer Allocations' />
+                                </div>
+                            </form>
+                        )
+                    }}
+                </Form>
             </div>
         );
     };

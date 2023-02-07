@@ -368,28 +368,28 @@ export const REWARD_HISTORY_COLUMNS = [
         'event_name': 'Testttt',
         'amount': 200, 
         'id': 100, 
-        'journal_event_id': 1 
+        'journal_event_id': 17 
     },
     { 
         'awarded': '2023-02-03 07:51:44', 
         'event_name': 'Test',
         'amount': 200, 
         'id': 100, 
-        'journal_event_id': 2 
+        'journal_event_id': 26 
     },
     { 
         'awarded': '2023-02-03 07:51:44', 
         'event_name': 'Test',
         'amount': 200, 
         'id': 100, 
-        'journal_event_id': 3
+        'journal_event_id': 39
     },
     { 
         'awarded': '2023-02-03 07:51:44', 
         'event_name': 'Test',
         'amount': 200, 
         'id': 100, 
-        'journal_event_id': 4 
+        'journal_event_id': 49 
     }, 
 ]
 export const PEER_RECLAIM_COLUMNS = [
