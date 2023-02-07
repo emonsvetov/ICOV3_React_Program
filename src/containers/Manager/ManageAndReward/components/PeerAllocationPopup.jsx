@@ -269,7 +269,7 @@ const PeerAllocationPopup = ({
                     </Row>
                     <Row>
                       <Col md="6">
-                        <Label>Maximum Cash Value per Particiapnt</Label>
+                        <Label>Maximum Cash Value per Participant</Label>
                       </Col>
                       <Col md="6">
                         <strong>{`$${event?.max_awardable_amount}`}</strong>

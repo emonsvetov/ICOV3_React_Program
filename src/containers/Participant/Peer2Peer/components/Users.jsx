@@ -192,10 +192,10 @@ const ProgramUsers = ({ program, organization, auth, template }) => {
   return (
     <>
       <div className="users">
-        <div className={template?.name === "Original" ? "header origin" : "header"}>
+        <div className={template?.name === "Clear" ? "header origin" : "header"}>
           <div className="d-flex w-25 justify-content-between">
             <TemplateButton
-              color={template?.name === "Original" ? "light" : null}
+              color={template?.name === "Clear" ? "light" : null}
               onClick={() => onClickReward()}
               text={t("reward")}
             />

@@ -136,8 +136,8 @@ const SocialWallPanel = ({ auth, organization, program, isManager, template }) =
   };
 
   return (
-    (template?.name === "Original" && <SocialWallOrigin />) ||
-    (template?.name === "New" && <SocialWallNew />)
+    (template?.name === "Clear" && <SocialWallOrigin />) ||
+    (template?.name === "Classic" && <SocialWallNew />)
   );
 };
 

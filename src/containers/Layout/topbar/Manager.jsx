@@ -15,11 +15,11 @@ import {
 
 const LINKS = [
   { to: "/manager/home", text: "Home" },
-  { to: "/manager/program-settings", text: "Program Settings" },
+  { to: "/manager/program-settings", text: "Reward Events" },
   { to: "/manager/manage-and-reward", text: "Manage and Reward" },
   { to: "/manager/report/invoices", text: "View Reports" },
   { to: "/manager/invite-participant", text: "Invite New Participant" },
-  { to: "/manager/referral", text: "Referral Recipients" },
+  { to: "/manager/referral", text: "Referral Administrator" },
   { to: "/manager/team", text: "Team" },
 ];
 

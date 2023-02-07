@@ -126,8 +126,8 @@ const GoalView = ({ template }) => {
   };
 
   return (
-    (template?.name === "Original" && <GoalOrigin />) ||
-    (template?.name === "New" && <GoalNew />)
+    (template?.name === "Clear" && <GoalOrigin />) ||
+    (template?.name === "Classic" && <GoalNew />)
   );
 };
 const mapStateToProps = (state) => {

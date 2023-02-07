@@ -71,7 +71,7 @@ const LogIn = ({ template }) => {
   };
 
   if (!template) return t("loading");
-  console.log(template, "------------------");
+  // console.log(template, "------------------");
 
   const CarouselNew = () => {
     return (
