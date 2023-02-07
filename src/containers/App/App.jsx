@@ -65,11 +65,9 @@ const App = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    window.addEventListener("load", () => {
       setIsLoading(false);
       setTimeout(() => setIsLoaded(true), 500);
       setAuthOrganization();
-    });
   }, []);
 
   const setAuthOrganization = () => {

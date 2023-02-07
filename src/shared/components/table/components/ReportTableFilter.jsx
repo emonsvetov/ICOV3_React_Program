@@ -104,13 +104,13 @@ const ReportTableFilter = ({ config, filter, setFilter}) => {
                         <Col md={6}>
                             <FormGroup className="d-flex">
                                 <Label  className="form-label"> From </Label>
-                                <DatePickerField  name='from' onChange = {() =>{}} />
+                                <DatePickerField selectedDate={from} name='from' onChange = {() =>{}} />
                             </FormGroup>
                         </Col>
                         <Col md={6}>
                             <FormGroup className="d-flex">
                                 <Label for='picker-to' className="form-label"> To </Label>
-                                <DatePickerField id='picker-to' name='to' onChange = {() =>{}} />
+                                <DatePickerField selectedDate={to} id='picker-to' name='to' onChange = {() =>{}} />
                             </FormGroup>
                         </Col>
                     </Row>}
