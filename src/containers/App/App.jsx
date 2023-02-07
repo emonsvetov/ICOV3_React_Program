@@ -73,12 +73,13 @@ const App = () => {
   }, []);
 
   const setAuthOrganization = () => {
-    store.dispatch(setTheme(getTheme()));
+    // store.dispatch(setTheme(getTheme()));
     getAuthDomain().then((domain) => {
       // console.log(domain)
+      // console.log(domain.program.template)
       store.dispatch(setDomain(domain));
       store.dispatch(
-        setTemplate({ name: domain.program.template.name ? domain.program.template.name : "Original", ...domain.program.template })
+        setTemplate(domain.program.template)
       );
 
       setCustomLink(domain.program.template.font_family, domain.program.template);
@@ -96,7 +97,7 @@ const App = () => {
 
   const setCustomLink = (href, template) => {
     let head = document.head;
-    if (template.name === 'Original') {
+    if (template.name === 'Clear') {
       let originalStyle = document.createElement("style");
       originalStyle.innerHTML =
         "*, body, div, p, span, li, ul, i { font-family: 'CircularStdBold', sans-serif;} ";

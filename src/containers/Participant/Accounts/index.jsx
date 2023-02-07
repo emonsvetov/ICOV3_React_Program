@@ -61,8 +61,8 @@ const Account = ({ template }) => {
   };
 
   return (
-    (template?.name === "Original" && <AccountOrigin />) ||
-    (template?.name === "New" && <AccountNew />)
+    (template?.name === "Clear" && <AccountOrigin />) ||
+    (template?.name === "Classic" && <AccountNew />)
   );
 };
 

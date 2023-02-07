@@ -57,8 +57,8 @@ const Peer2Peer = ({ auth, program, organization, template }) => {
   };
 
   return (
-    (template?.name === "Original" && <Peer2PeerOrigin />) ||
-    (template?.name === "New" && <Peer2PeerNew />)
+    (template?.name === "Clear" && <Peer2PeerOrigin />) ||
+    (template?.name === "Classic" && <Peer2PeerNew />)
   );
 };
 

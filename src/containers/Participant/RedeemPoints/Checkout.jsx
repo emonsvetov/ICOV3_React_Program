@@ -56,8 +56,8 @@ export const Checkout = ({ template }) => {
   };
 
   return (
-    (template?.name === "Original" && <OriginCheckout />) ||
-    (template?.name === "New" && <NewCheckout />)
+    (template?.name === "Clear" && <OriginCheckout />) ||
+    (template?.name === "Classic" && <NewCheckout />)
   );
 };
 
