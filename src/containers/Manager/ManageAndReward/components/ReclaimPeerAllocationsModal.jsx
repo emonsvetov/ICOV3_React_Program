@@ -27,10 +27,12 @@ const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, pr
     let participant = participants[0];
     const QUERY_PAGE_SIZE = 10;
     const [queryPageSize, setQueryPageSize] = useState(QUERY_PAGE_SIZE);
+
+    const [notes, setNotes] = useState([]);
     //const regInput = React.useRef();
-
+    //
     const onSubmit = (values) => {
-
+        console.log(notes)
         console.log(values)
         const rows = selectedFlatRows.map((d) => d.original);
         var formData = {
@@ -39,9 +41,9 @@ const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, pr
         values.notes.map((item, index) => { //notes
             console.log(index);
             rows.map((row, row_index) => { //points
-                if(row.journal_event_id == index)
-                formData.points = Object.assign(formData.points, { 'journal_event_id': index, 'notes': item, 'amount': row.amount })
-            }) 
+                if (row.journal_event_id == index)
+                    formData.points = Object.assign(formData.points, { 'journal_event_id': index, 'notes': item, 'amount': row.amount })
+            })
             console.log(formData);
         });
         console.log(formData);
@@ -85,10 +87,15 @@ const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, pr
         console.log(rows)
 
     };
-    const handleChange = (values) => {
+    const handleChangeNote = (journal_event_id, value) => {
         // setReclaimablePeerPoint(values);
-        console.log(values);
-
+        console.log(journal_event_id);
+        console.log(notes);
+        let newNotes = [...notes, { 'journal_event_id': journal_event_id, 'value': value }];
+        //let newNotes = notes.push({'journal_event_id':journal_event_id,'value':value});
+        //setNotes(notes => [...notes, { 'journal_event_id': journal_event_id, 'value': value }]);
+        //  console.log(notes)
+        ///ls
     };
 
     //const columns = PEER_RECLAIM_COLUMNS;
@@ -112,6 +119,7 @@ const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, pr
         //console.log(reclaimable_peer_points);
         //console.log("kkk");
     }
+
     let final_columns = [
         ...PEER_RECLAIM_COLUMNS,
         ...[
@@ -120,9 +128,22 @@ const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, pr
                 accessor: "action",
                 Footer: "Action",
                 Cell: ({ row }) => {
-                    // console.log(row);
 
+                    //console.log(notes[row.original.journal_event_id]);
+                    let noteValue = '';
+                    const noteNote = notes.filter(item => item.journal_event_id === row.original.journal_event_id);
+                    console.log(noteNote);
+                    if (noteNote && noteNote.length > 0) {
+                        //noteValue = noteNote[0]['value'];
+                        noteValue = noteNote[0].value
+                    }
+                    //[0]['value']
+                    console.log(noteValue);
+
+                    //rows.map((row, row_index) => { //points
+                    //}
                     return (
+                        //
                         <Field name={`notes[${row.original.journal_event_id}]`}>
                             {({ input, meta }) => (
                                 <FormGroup>
@@ -131,19 +152,31 @@ const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, pr
                                         name={`notes[${row.original.journal_event_id}]`}
                                         placeholder=""
                                         type="text"
-                                        {...input}
+
                                         onKeyUp={(e) => {
                                             //row.original.value
-                                            handleChange({
-                                                ...row.original,
-                                                notes: e.target.value,
-                                            });
+                                            handleChangeNote(
+                                                row.original.journal_event_id,
+                                                e.target.value,
+                                            );
+                                            /*onKeyUp={(e) => {
+                                                //row.original.value
+                                                handleChange({
+                                                    ...row.original,
+                                                    notes: e.target.value,
+                                                });*/
                                         }}
-                                    //value={input.value}
+
+                                        /*value={notes[row.original.journal_event_id]?notes[row.original.journal_event_id] :'' }*/
+                                        // defaultValue={noteValue}
+                                        {...input}
+
+                                        //value={noteValue ? noteValue : input.value}
                                     />
 
                                 </FormGroup>
                             )}
+
                         </Field>
                     )
                 }
@@ -265,7 +298,10 @@ const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, pr
         }
     );
     const manualPageSize = [];
+    console.log("notes:")
+    console.log(notes)
     const UserTable = () => {
+        console.log(notes)
         return (
             <div className="points-summary-table">
                 <Form
