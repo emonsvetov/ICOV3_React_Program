@@ -5,7 +5,7 @@ import Select from "react-select";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
 
-const IMG_GLOBAL = `${process.env.PUBLIC_URL}/original/img/global_merchants_image.jpg`;
+const IMG_GLOBAL = `${process.env.PUBLIC_URL}/theme/original/img/global_merchants_image.jpg`;
 
 const GLOBAL_MERCHANTS = [
   {

@@ -9,7 +9,7 @@ const Chart = (props) => {
   let { display_name, total, avatar } = props.data;
   const Ava = avatar
     ? `${process.env.REACT_APP_API_STORAGE_URL}/` + avatar
-    : `${process.env.PUBLIC_URL}/new/img/avatar/avatar.jpg`;
+    : `${process.env.PUBLIC_URL}/theme/new/img/avatar/avatar.jpg`;
   const { index } = props;
   display_name = display_name.length > 10  ? display_name.substring(0, 8)+'..' : display_name;
 

@@ -10,7 +10,7 @@ import { SliderOrigin } from "../Home/components/slider";
 import Redeem from "./components/Redeem";
 import { useTranslation } from "react-i18next";
 
-const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-points.jpg`;
+const IMG_BACK = `${process.env.PUBLIC_URL}/theme/new/img/pages/my-points.jpg`;
 
 export const RedeemMerchant = ({ template }) => {
   const { t } = useTranslation();

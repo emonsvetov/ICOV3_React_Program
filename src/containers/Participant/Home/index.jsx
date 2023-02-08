@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 export const getSlideImg = () => {
   let imgs = [];
   for (let i = 1; i < 9; i++) {
-    imgs.push(`${process.env.PUBLIC_URL}/new/img/merchants/${i}.png`);
+    imgs.push(`${process.env.PUBLIC_URL}/theme/new/img/merchants/${i}.png`);
   }
   return imgs;
 };
@@ -51,7 +51,7 @@ console.log(template);
   const HomeOrigin = () => {
     const IMG_BACK = template.hero_banner
       ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.hero_banner}`
-      : `${process.env.PUBLIC_URL}/original/img/back.jpg`;
+      : `${process.env.PUBLIC_URL}/theme/original/img/back.jpg`;
     return (
       <>
         <div className="mainboard">
@@ -91,7 +91,7 @@ console.log(template);
   const HomeNew = () => {
     const IMG_BACK = template.hero_banner
       ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.hero_banner}`
-      : `${process.env.PUBLIC_URL}/new/img/back.png`;
+      : `${process.env.PUBLIC_URL}/theme/new/img/back.png`;
     return (
       <>
         <div className="mainboard">

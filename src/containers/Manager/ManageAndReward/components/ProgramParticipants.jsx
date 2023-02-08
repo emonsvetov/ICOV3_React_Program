@@ -86,7 +86,8 @@ const ProgramParticipants = ({ program, organization }) => {
       action === "Resend Invite" ||
       action === "Deactivate" ||
       action === "Activate" ||
-      action === "Peer Allocation"
+      action === "Peer Allocation"||
+      action === "Reclaim Peer Allocations"
     ) {
       //Add more later
       toggle(action);
