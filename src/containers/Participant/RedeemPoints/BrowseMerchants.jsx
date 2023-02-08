@@ -6,7 +6,7 @@ import OurMerchants from "./components/BrowseMerchant";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 
-const IMG_BACK = `${process.env.PUBLIC_URL}/new/img/pages/my-points.jpg`;
+const IMG_BACK = `${process.env.PUBLIC_URL}/theme/new/img/pages/my-points.jpg`;
 
 const BrowseMerchants = ({ template }) => {
   const { t } = useTranslation();
