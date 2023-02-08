@@ -10,27 +10,16 @@ import { Modal } from 'reactstrap';
 
 const AddEventImg = `/img/pages/addEvent.png`;
 
-const EditEventModal = ({program, organization, isOpen, setOpen, toggle, data, referral, setReferral}) => {
-  const dispatch = useDispatch()
-  
-  const [loading, setLoading] = useState(false);
+const EditEventModal = ({ program, isOpen, setOpen, toggle, referral }) => {
 
   
-  // console.log(program)
-  const onSubmit = (values) => {
 
-  
-    setReferral( referral )
-    setLoading(true)
-    
-  };
-  
 
   let props = {
     // btnLabel: 'Add New Event',
-    loading,
-    onSubmit,
-    referral
+    toggle,
+    referral,
+    program,
   }
 
   return (
@@ -42,7 +31,7 @@ const EditEventModal = ({program, organization, isOpen, setOpen, toggle, data, r
       
         <div className="left">
           <div className='title mb-5'>
-            <h3>Edit Referral {referral.email}</h3>
+            <h3>Edit Referral {referral?.referral_notification_recipient_email}</h3>
             {/*<span>*/}
             {/*  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.*/}
             {/*</span>*/}

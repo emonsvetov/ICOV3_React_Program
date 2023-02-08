@@ -10,13 +10,16 @@ import { REFERRAL_COLUMNS, REFERRAL_DATA } from "./Mockdata";
 
 import { Table } from "reactstrap";
 import ModalWrapper from "./ModalWrapper";
+import { getReferralNotificationRecipients } from '@/services/referral/getReferralNotificationRecipients'
+import { getReferralNotificationRecipient } from '@/services/referral/getReferralNotificationRecipient'
 import { useTranslation } from "react-i18next";
 
 const Referrals = ({ program, organization }) => {
   // console.log(program)
-  // console.log(organization)
+  // 
+  //console.log(organization)
   const { t } = useTranslation();
-  const [events, setEvents] = useState([]);
+  const [referrals, setReferrals] = useState([]);
   const [referral, setReferral] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isOpen, setOpen] = useState(false);
@@ -28,15 +31,15 @@ const Referrals = ({ program, organization }) => {
   };
 
   const onClickEditReferral = (referralId) => {
-    // getEvent(organization.id, program.id, referralId)
-    // .then(item => {
-    //   // console.log(item)
-    //   setReferral(item)
-    //   toggle('EditEvent');
-    //   setLoading(false)
-    // })
-
-    setReferral(REFERRAL_DATA[0]);
+     getReferralNotificationRecipient(organization.id, program.id, referralId)
+     .then(item => {
+       // console.log(item)
+       setReferral(item)
+       //toggle('EditEvent');
+       setLoading(false)
+     })
+     //setReferral
+   // setReferral(REFERRAL_DATA[0]);
     toggle("EditReferral");
     setLoading(false);
   };
@@ -81,24 +84,24 @@ const Referrals = ({ program, organization }) => {
   useEffect(() => {
     let mounted = true;
     setLoading(true);
-    // getEvents(organization.id, program.id)
-    //   .then(items => {
-    //     if(mounted) {
-    //       setEvents(items)
-    //       setLoading(false)
-    //     }
-    //   })
+    getReferralNotificationRecipients(organization.id, program.id)
+       .then(items => {
+         if(mounted) {
+          setReferrals(items)
+          console.log(items)
+           setLoading(false)
+         }
+       })
     setLoading(false);
     return () => (mounted = false);
-  }, []);
+  },[]);
 
   const columns = React.useMemo(() => final_columns, []);
-  const data = React.useMemo(() => REFERRAL_DATA, []);
-
-  // console.log(data)
+  //onst data = React.useMemo(() => referrals, []);
+   console.log(referrals)
   const { getTableProps, headerGroups, rows, prepareRow } = useTable({
     columns,
-    data,
+    data: referrals,
   });
 
   if (loading) return t("loading");

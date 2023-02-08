@@ -1,29 +1,15 @@
-import React, {useState, useEffect} from 'react';
-import axios from 'axios';
+import React from 'react';
 import CloseIcon from 'mdi-react/CloseIcon';
-import {getEventTypes} from '@/services/getEventTypes'
-import {labelizeNamedData} from '@/shared/helper'
-import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
-import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 import ReferralForm from './ReferralForm'
 import { Modal } from 'reactstrap';
 
 const AddEventImg = `/img/pages/addEvent.png`;
 
-const AddReferralPopup = ({program, organization, isOpen, setOpen, toggle, data}) => {
-  const dispatch = useDispatch()
-  const [eventTypes, setEventTypes] = useState([]);
-  const [loading, setLoading] = useState(false);
-  // console.log(program)
+const AddReferralModal= ({program, isOpen, setOpen, toggle}) => {
 
-  const onSubmit = (values) => {
-    
-  };
-  
   let props = {
     btnLabel: 'Add New Referral',
-    loading,
-    onSubmit
+    program,
   }
 
   return (
@@ -51,4 +37,4 @@ const AddReferralPopup = ({program, organization, isOpen, setOpen, toggle, data}
     </Modal>
 )}
 
-export default AddReferralPopup;
+export default AddReferralModal;
