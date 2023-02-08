@@ -1,11 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
 
 const Points = ({ pointBalance }) => {
-  console.log(pointBalance)
+  // console.log(pointBalance)
   const { t } = useTranslation();
   if (!pointBalance) return t("loading");
   return (

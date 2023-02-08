@@ -44,7 +44,7 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
       getMerchantRedeemable(organization.id, program.id, merchantId).then(
         (payload) => {
           // console.log(payload)
-          if (payload?.data?.length > 0) {
+          if (payload?.data) {
             setGiftcodes(payload.data);
             setLoadingGiftcodes(false);
           }
@@ -157,6 +157,7 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
     }
     // console.log(selectedGiftcode)
     // console.log(giftcodeOptions)
+    console.log(loadingGiftcodes)
     return (
       <>
         <Row className="get-giftcode mt-3">
