@@ -22,10 +22,9 @@ const HomeTopbar = ({ onClickLogin, onClickSignup, template }) => {
   const toggle = () => {
     setOpen((prev) => !prev);
   };
-
+  // console.log(template)
   if (!template) return t("loading");
   const Brand = `${process.env.REACT_APP_API_STORAGE_URL}/${template.big_logo}`;
-
   return (
     <div className="topbar home">
       <div className="topbar__wrapper">

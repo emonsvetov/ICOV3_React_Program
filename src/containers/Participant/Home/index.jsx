@@ -137,8 +137,8 @@ console.log(template);
     );
   };
   return (
-    (template?.name === "Original" && <HomeOrigin />) ||
-    (template?.name === "New" && <HomeNew />)
+    (template?.name === "Clear" && <HomeOrigin />) ||
+    (template?.name === "Classic" && <HomeNew />)
   );
 };
 

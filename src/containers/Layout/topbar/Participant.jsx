@@ -40,8 +40,8 @@ const languageOptions = [
 ];
 
 const themeOptions = [
-  { value: "new", label: "New" },
-  { value: "original", label: "Original" },
+  { value: "clear", label: "Clear" },
+  { value: "classic", label: "Classic" },
 ];
 
 const ParticipantTopbar = ({ template, themeName }) => {

@@ -151,8 +151,8 @@ const Survey = ({ template }) => {
   };
 
   return (
-    (template?.name === "New" && <SurveyNew />) ||
-    (template?.name === "Original" && <SurveyOrigin />)
+    (template?.name === "Classic" && <SurveyNew />) ||
+    (template?.name === "Clear" && <SurveyOrigin />)
   );
 };
 

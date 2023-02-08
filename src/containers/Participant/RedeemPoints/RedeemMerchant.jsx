@@ -69,8 +69,8 @@ export const RedeemMerchant = ({ template }) => {
   };
 
   return (
-    (template?.name === "Original" && <OriginRedeemMerchant />) ||
-    (template?.name === "New" && <NewRedeemMerchant />)
+    (template?.name === "Clear" && <OriginRedeemMerchant />) ||
+    (template?.name === "Classic" && <NewRedeemMerchant />)
   );
 };
 

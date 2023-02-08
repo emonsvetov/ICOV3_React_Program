@@ -61,8 +61,8 @@ const Newsletter = ({ template }) => {
   };
 
   return (
-    (template?.name === "New" && <NewsletterNew />) ||
-    (template?.name === "Original" && <NewsletterOrigin />)
+    (template?.name === "Classic" && <NewsletterNew />) ||
+    (template?.name === "Clear" && <NewsletterOrigin />)
   );
 };
 

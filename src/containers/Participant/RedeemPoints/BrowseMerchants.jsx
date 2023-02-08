@@ -56,8 +56,8 @@ const BrowseMerchants = ({ template }) => {
   };
 
   return (
-    (template?.name === "Original" && <OriginBrowseMerchants />) ||
-    (template?.name === "New" && <NewBrowseMerchants />)
+    (template?.name === "Clear" && <OriginBrowseMerchants />) ||
+    (template?.name === "Classic" && <NewBrowseMerchants />)
   );
 };
 

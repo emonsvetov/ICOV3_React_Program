@@ -56,8 +56,8 @@ export const Cart = ({ template }) => {
   };
 
   return (
-    (template?.name === "Original" && <OriginCart />) ||
-    (template?.name === "New" && <NewCart />)
+    (template?.name === "Clear" && <OriginCart />) ||
+    (template?.name === "Classic" && <NewCart />)
   );
 };
 

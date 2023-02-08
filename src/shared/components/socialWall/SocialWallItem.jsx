@@ -161,8 +161,8 @@ const SocialWallItem = (props) => {
   };
 
   return (
-    (template?.name === "Original" && <SocialWallOrigin />) ||
-    (template?.name === "New" && <SocialWallNew />)
+    (template?.name === "Clear" && <SocialWallOrigin />) ||
+    (template?.name === "Classic" && <SocialWallNew />)
   );
 }
 
