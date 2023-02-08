@@ -190,7 +190,7 @@ const ReferralForm = ({ organization, program, auth }) => {
                       </FormGroup>
                     )}
                   </Field>
-                  <span class="phone-separate" aria-hidden="true">
+                  <span className="phone-separate" aria-hidden="true">
                     &nbsp;- &nbsp;
                   </span>
                   <Field name="number">

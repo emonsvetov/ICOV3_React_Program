@@ -8,10 +8,10 @@ import { motion, useAnimationControls } from "framer-motion";
 import Editor from "@/shared/components/form/Editor";
 import { useTranslation } from "react-i18next";
 
-const IMG_ANGRY = `${process.env.PUBLIC_URL}/original/img/feeling/angry.png`;
-const IMG_HAPPY = `${process.env.PUBLIC_URL}/original/img/feeling/happy.png`;
-const IMG_OK = `${process.env.PUBLIC_URL}/original/img/feeling/ok.png`;
-const IMG_SAD = `${process.env.PUBLIC_URL}/original/img/feeling/sad.png`;
+const IMG_ANGRY = `${process.env.PUBLIC_URL}/theme/original/img/feeling/angry.png`;
+const IMG_HAPPY = `${process.env.PUBLIC_URL}/theme/original/img/feeling/happy.png`;
+const IMG_OK = `${process.env.PUBLIC_URL}/theme/original/img/feeling/ok.png`;
+const IMG_SAD = `${process.env.PUBLIC_URL}/theme/original/img/feeling/sad.png`;
 
 const LightIcon = () => {
   return (
