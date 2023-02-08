@@ -9,7 +9,7 @@ import TemplateButton from "@/shared/components/TemplateButton";
 import { SidebarOrigin } from "../../Layout/sidebar";
 import ReferralForm from "./components/ReferralForm";
 
-const IMG_REFERRAL = `${process.env.PUBLIC_URL}/original/img/MyPath_Color_outlines.635ff927bd7f32.03885491.png`;
+const IMG_REFERRAL = `${process.env.PUBLIC_URL}/theme/original/img/MyPath_Color_outlines.635ff927bd7f32.03885491.png`;
 
 const SubmitReferral = ({ template }) => {
   // console.log(auth)

@@ -14,9 +14,7 @@ import {
   getAuthRootProgram,
   getAuthPoints,
   getAuthCart,
-  setAuthDomain,
   getAuthDomain,
-  getTheme
 } from "./auth";
 import { setOrganization } from "@/redux/actions/organizationActions";
 import { setAuthUser } from "@/redux/actions/userActions";
@@ -27,7 +25,7 @@ import { setCart } from "@/redux/actions/cartActions";
 import { FlashMessage } from "@/shared/components/flash";
 import { setDomain } from "@/redux/actions/domainActions";
 import { setTemplate } from "@/redux/actions/templateActions"; //from API
-import { setTheme } from "@/redux/actions/themeActions"; //Local Theme
+import { setThemeAction } from "@/redux/actions/themeActions"; //Local Theme
 
 // require('dotenv').config()
 axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL + "/api/v1";
@@ -71,17 +69,23 @@ const App = () => {
   }, []);
 
   const setAuthOrganization = () => {
-    // store.dispatch(setTheme(getTheme()));
     getAuthDomain().then((domain) => {
       // console.log(domain)
       // console.log(domain.program.template)
       store.dispatch(setDomain(domain));
-      store.dispatch(
-        setTemplate(domain.program.template)
-      );
-
-      setCustomLink(domain.program.template.font_family, domain.program.template);
-      setThemeCss(domain.program.template);
+      if( domain.program?.template )
+      {
+        const template = domain.program.template
+        store.dispatch(
+          setTemplate(template)
+        );
+        setCustomLink(template.font_family, template);
+        setThemeCss(template);
+        // console.log(getTheme())
+        const dirName = template.name === 'Clear' ? 'original': 'new'
+        const dirPath = `${process.env.PUBLIC_URL}/theme/${dirName}`
+        store.dispatch(setThemeAction({name: template.name, alias: dirName, dirName, dirPath}));
+      }
     });
     store.dispatch(setOrganization(getOrganization()));
     store.dispatch(setAuthUser(getAuthUser()));

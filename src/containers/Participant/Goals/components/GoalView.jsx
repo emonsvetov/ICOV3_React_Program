@@ -75,7 +75,7 @@ const GoalView = ({ template }) => {
                   <Table className="goal-table">
                     <thead>
                       <tr>
-                        <td colspan="2" class="title">
+                        <td colspan="2" className="title">
                           {t("goal_information")}
                         </td>
                       </tr>
@@ -84,8 +84,8 @@ const GoalView = ({ template }) => {
                       {columns.map((item, index) => {
                         return (
                           <tr key={index}>
-                            <td class="title-col">{item.Header}</td>
-                            <td class="value">{t("employee_referral")} </td>
+                            <td className="title-col">{item.Header}</td>
+                            <td className="value">{t("employee_referral")} </td>
                           </tr>
                         );
                       })}
@@ -95,14 +95,14 @@ const GoalView = ({ template }) => {
                     <tbody>
                       <tr>
                         {summary_columns.map((item, index) => (
-                          <th key={index} class="title-col">
+                          <th key={index} className="title-col">
                             {item.Header}
                           </th>
                         ))}
                       </tr>
                       <tr>
                         {summary_columns.map((item, index) => (
-                          <td key={index} class="title-col">
+                          <td key={index} className="title-col">
                             {"****"}
                           </td>
                         ))}

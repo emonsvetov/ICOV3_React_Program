@@ -69,6 +69,10 @@ export const getTheme = () => {
   return JSON.parse(localStorage.getItem(AUTH_THEME));
 };
 
+export const setTheme = ( theme ) => {
+  localStorage.setItem(AUTH_THEME, JSON.stringify(theme));
+};
+
 export const getAuthRootProgram = () => {
   return JSON.parse(localStorage.getItem(AUTH_ROOT_PROGRAM_KEY));
 };
@@ -130,7 +134,6 @@ export const setAuthDomain = (domain) => {
 export const getAuthDomain = async (hydrate = true) => {
   // localStorage.removeItem(AUTH_DOMAIN_KEY);
   const storageDomain = localStorage.getItem(AUTH_DOMAIN_KEY);
-  // console.log(JSON.parse(storageDomain))
   if (hydrate || !storageDomain) return hydrateDomain();
   return JSON.parse(storageDomain);
 };
