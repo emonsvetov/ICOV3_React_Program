@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 
 const ParticipantInfo = ({ participant, auth, program }) => {
     const fullName = `${participant.first_name} ${participant.last_name}`
-    console.log(participant);
     return (
         <>
             <Row>
