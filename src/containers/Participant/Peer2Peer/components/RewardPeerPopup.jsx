@@ -164,10 +164,16 @@ const RewardPeerPopup = ({
   if (loading) return t("loading");
 
   let initialValues = {};
+  let eventIconSrc = `${process.env.PUBLIC_URL}/img/award-event-icon.png`
 
   if (event) {
     // console.log(p2p);
     // console.log(event);
+    
+    if( event?.icon?.id )
+    {
+      eventIconSrc = `${process.env.REACT_APP_API_STORAGE_URL}/${event.icon.path}`
+    }
     initialValues = {
       ...initialValues,
       ...{
@@ -224,7 +230,7 @@ const RewardPeerPopup = ({
 
                   <Row>
                     <Col md="6">
-                      <img alt="Event"></img>
+                      <img alt="Event" src={eventIconSrc} style={{maxHeight:40}}></img>
                     </Col>
                     <Col md="6">
                       <Field name="event_id">

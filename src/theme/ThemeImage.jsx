@@ -5,8 +5,9 @@ const ThemeImage = ({ src, width, height, className, theme, themed, title }) => 
 
   let imgSrc = `${src}`
 
-  if ( themed ) {
-    imgSrc = `theme/${theme.name}/${imgSrc}`
+  if( theme && themed )
+  {
+    imgSrc = `theme/${theme.dirName}/${imgSrc}`
   }
 
   imgSrc = `${process.env.PUBLIC_URL}${imgSrc.indexOf('/') === 0 ? '' : '/'}${imgSrc}`
@@ -44,6 +45,5 @@ ThemeImage.defaultProps = {
 };
 
 export default connect((state) => ({
-  // template: state.template,
   theme: state.theme
 }))(ThemeImage);

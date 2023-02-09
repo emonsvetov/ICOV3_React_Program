@@ -83,8 +83,8 @@ const App = () => {
         setThemeCss(template);
         // console.log(getTheme())
         const dirName = template.name === 'Clear' ? 'original': 'new'
-        const dirPath = `${process.env.PUBLIC_URL}/theme/${dirName}`
-        store.dispatch(setThemeAction({name: template.name, alias: dirName, dirName, dirPath}));
+        const dirUrl = `${process.env.PUBLIC_URL}/theme/${dirName}`
+        store.dispatch(setThemeAction({name: template.name, alias: dirName, dirName, dirUrl}));
       }
     });
     store.dispatch(setOrganization(getOrganization()));
