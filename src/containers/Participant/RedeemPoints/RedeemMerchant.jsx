@@ -9,12 +9,10 @@ import { getSlideImg } from "../Home";
 import { SliderOrigin } from "../Home/components/slider";
 import Redeem from "./components/Redeem";
 import { useTranslation } from "react-i18next";
+import {Img} from '@/theme'
 
-const IMG_BACK = `${process.env.PUBLIC_URL}/theme/new/img/pages/my-points.jpg`;
-
-export const RedeemMerchant = ({ template }) => {
+export const RedeemMerchant = ({ theme }) => {
   const { t } = useTranslation();
-  
 
   let params = useParams();
   let { merchantId } = params;
@@ -46,7 +44,7 @@ export const RedeemMerchant = ({ template }) => {
     return (
       <>
         <div className="mainboard">
-          <img src={IMG_BACK} />
+          <Img src={'img/pages/my-points.jpg'} />
           <div className="title">{t("redeem_my_points")}</div>
         </div>
         <Container>
@@ -69,14 +67,14 @@ export const RedeemMerchant = ({ template }) => {
   };
 
   return (
-    (template?.name === "Clear" && <OriginRedeemMerchant />) ||
-    (template?.name === "Classic" && <NewRedeemMerchant />)
+    (theme?.name === "Clear" && <OriginRedeemMerchant />) ||
+    (theme?.name === "Classic" && <NewRedeemMerchant />)
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    template: state.template,
+    theme: state.theme,
   };
 };
 

@@ -11,7 +11,7 @@ const defaultState = {
   name: 'Clear',
   alias: 'original',
   dirName: 'original',
-  dirPath: `${process.env.PUBLIC_URL}/theme/original`
+  dirUrl: `${process.env.PUBLIC_URL}/theme/original`
 };
 
 export default handleActions(
