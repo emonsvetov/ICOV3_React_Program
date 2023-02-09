@@ -14,14 +14,6 @@ export const SUMMARY_COLUMNS = [
 
 export const DETAIL_COLUMNS = [
   {
-    Header: "",
-    accessor: "icon",
-    // align: "center",
-    Cell: ({ row, value }) => (
-      `${value} Icon`
-    ),
-  },
-  {
     Header: "Event",
     accessor: "name",
   },

@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import TopbarProfile from "./TopbarProfile";
 import { connect } from "react-redux";
@@ -39,16 +38,16 @@ const languageOptions = [
   { value: "es", label: "Español" },
 ];
 
-const themeOptions = [
-  { value: "clear", label: "Clear" },
-  { value: "classic", label: "Classic" },
-];
+// const themeOptions = [
+//   { value: "Clear", label: "Clear" },
+//   { value: "Clear", label: "Classic" },
+// ];
 
 const ParticipantTopbar = ({ template, themeName }) => {
   const { t, i18n } = useTranslation();
   const [language, setLanguage] = useState();
   
-  const [currentTheme, setCurrentTheme] = useState();
+  // const [currentTheme, setCurrentTheme] = useState();
 
   useEffect(() => {
     let lang = localStorage.getItem("i18nextLng") || "en-US";
@@ -57,10 +56,10 @@ const ParticipantTopbar = ({ template, themeName }) => {
     setLanguage(option);
   }, []);
 
-  useEffect(() => {
-    let [option] = themeOptions.filter((item) => item.value === themeName);
-    setCurrentTheme(option);
-  }, [themeName]);
+  // useEffect(() => {
+  //   let [option] = themeOptions.filter((item) => item.value === themeName);
+  //   setCurrentTheme(option);
+  // }, [themeName]);
 
   const onSelectLanguage = (selectedOption) => {
     // alert(JSON.stringify(selectedOption))
@@ -68,13 +67,13 @@ const ParticipantTopbar = ({ template, themeName }) => {
     setLanguage(selectedOption);
   };
 
-  const onSelectTheme = (selectedOption) => {
-    // switchTheme({
-    //   type: SWITCH_THEME,
-    //   payload: selectedOption.value,
-    // });
-    setCurrentTheme(selectedOption);
-  };
+  // const onSelectTheme = (selectedOption) => {
+  //   // switchTheme({
+  //   //   type: SWITCH_THEME,
+  //   //   payload: selectedOption.value,
+  //   // });
+  //   setCurrentTheme(selectedOption);
+  // };
 
   const LanguageBar = () => {
     return (
@@ -82,16 +81,6 @@ const ParticipantTopbar = ({ template, themeName }) => {
         options={languageOptions}
         value={language}
         onChange={onSelectLanguage}
-      />
-    );
-  };
-
-  const ThemeBar = () => {
-    return (
-      <Select
-        options={themeOptions}
-        value={currentTheme}
-        onChange={onSelectTheme}
       />
     );
   };
@@ -188,16 +177,20 @@ const ParticipantTopbar = ({ template, themeName }) => {
       </>
     );
   };
+  const component = {
+    "Classic": <NewNavbar />,
+    "Clear": <OriginalNavbar />
+  }
+  // alert(currentTheme?.value)
   return (
-    (currentTheme?.value === "new" && <NewNavbar />) ||
-    (currentTheme?.value === "original" && <OriginalNavbar />)
+    component[themeName]
   );
 };
 
 const mapStateToProps = (state) => {
   return {
     template: state.template,
-    themeName: "new"
+    themeName: state.theme?.name
   };
 };
 

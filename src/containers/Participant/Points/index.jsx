@@ -10,8 +10,8 @@ import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { getParticipantMypointsAction } from '@/redux/actions/userActions';
 
-const IMG_GIFT = `${process.env.PUBLIC_URL}/original/img/GiftCode_button.png`;
-const IMG_MERCHAN = `${process.env.PUBLIC_URL}/original/img/Merchandise_button.png`;
+const IMG_GIFT = `${process.env.PUBLIC_URL}/theme/original/img/GiftCode_button.png`;
+const IMG_MERCHAN = `${process.env.PUBLIC_URL}/theme/original/img/Merchandise_button.png`;
 
 const RedeemBtn = ({ props }) => {
   const { src, link } = props;

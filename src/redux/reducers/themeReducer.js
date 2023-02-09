@@ -1,16 +1,17 @@
 import { handleActions } from 'redux-actions';
 import {
-  setTheme,
+  setThemeAction,
   changeThemeToDark,
   changeThemeToLight,
 } from '../actions/themeActions';
+import { setTheme } from "@/containers/App/auth";
 
 const defaultState = {
   className: 'theme-light',
-  name: 'original',
-  big_logo: `logo/big_logo.png`, // ALL Media paths relative to public/theme/{name} folder
-  small_logo: `logo/small_logo.png`,
-  welcome_message: `Welcome to INCENTCO's Global Solutions rewards site! When you participate in our program, you'll earn rewards for various activities.`,
+  name: 'Clear',
+  alias: 'original',
+  dirName: 'original',
+  dirUrl: `${process.env.PUBLIC_URL}/theme/original`
 };
 
 export default handleActions(
@@ -21,7 +22,8 @@ export default handleActions(
     [changeThemeToLight]() {
       return { className: 'theme-light' };
     },    
-    [setTheme](state, action) {
+    [setThemeAction](state, action) {
+        setTheme(action.payload)
         return { ...state, ...action.payload }
     }
   },
