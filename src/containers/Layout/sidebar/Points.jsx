@@ -12,7 +12,7 @@ const Points = ({ pointBalance }) => {
       <h3>{t("my_points")}</h3>
       <div className="panel redeem-panel">
         <div className="mb-3">
-          <h6> {t("points_to_redeem")} </h6>
+          <h6> {t("Points to Redeem")} </h6>
           <div className="panel-group">
             <h4>{pointBalance.points.toLocaleString()}</h4>
             <TemplateButton
@@ -23,7 +23,7 @@ const Points = ({ pointBalance }) => {
           </div>
         </div>
         <div className="point-award">
-          <h6> {t("peer_points_to_award")} </h6>
+          <h6> {t("Peer Points to Award")} </h6>
           <h4> {pointBalance.peerBalance.toLocaleString()}</h4>
         </div>
       </div>
