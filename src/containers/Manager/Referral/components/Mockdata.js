@@ -11,6 +11,7 @@ export const REFERRAL_COLUMNS = [
     {
         Header: "Status",
         accessor: "referral_notification_recipient_active",
+        Cell: ({ row, value }) => {return row.original.referral_notification_recipient_active? 'Active' : 'Deactivated'},
     }
 ]
 

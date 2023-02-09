@@ -18,11 +18,12 @@ const ReferralForm = ({
     const [loading, setLoading] = useState(false);
 
     const onSubmit = (values) => {
+        console.log('edit')
         let formData = {};
-        formData["referral_notification_recipient_email"] = values.referral_notification_recipient_email;
-        formData["referral_notification_recipient_name"] = values.referral_notification_recipient_name;
-        formData["referral_notification_recipient_lastname"] = values.referral_notification_recipient_lastname;
-        formData["referral_notification_recipient_active"] = values.referral_notification_recipient_active;
+        formData.referral_notification_recipient_email = values?.referral_notification_recipient_email;
+        formData.referral_notification_recipient_name = values?.referral_notification_recipient_name;
+        formData.referral_notification_recipient_lastname= values?.referral_notification_recipient_lastname;
+        formData.referral_notification_recipient_active = values?.referral_notification_recipient_active;
     
         console.log(formData)
 
@@ -31,14 +32,14 @@ const ReferralForm = ({
 
         if (referral?.id) //Is Edit
         {
-            //formData.append("_method", "PUT");
-            formData.append('id', referral.id);
+            formData._method = "PUT";
+            formData.id = referral.id;
             url += `/${referral.id}`
             method = 'put'
         }
         setLoading(true)
         axios.post(url, formData).then((res) => {
-                    // console.log(res)
+                     console.log(res)
                     if (res.status == 200) {
                         flashSuccess(dispatch, 'Referral saved successfully!')
                         setLoading(false)
