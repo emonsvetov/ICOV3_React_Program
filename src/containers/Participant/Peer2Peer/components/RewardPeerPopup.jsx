@@ -85,7 +85,7 @@ const RewardPeerPopup = ({
         formData
       )
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status === 200) {
           dispatch(flashMessage(t("award_success"), "alert-success", "top"));
 
@@ -126,7 +126,7 @@ const RewardPeerPopup = ({
         }
       })
       .catch((err) => {
-        //console.log(error.response.data);
+        console.log(err.response.data);
         dispatch(
           flashMessage(
             <ApiErrorMessage errors={err.response.data} />,
