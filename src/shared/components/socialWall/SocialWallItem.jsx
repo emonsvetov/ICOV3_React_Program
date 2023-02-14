@@ -30,6 +30,15 @@ const SocialWallItem = (props) => {
     confirmRef.current.toggle()
   }
 
+  const TimeZone = (UTCdate) => {
+    let date = new Date(UTCdate)
+    let timezoneDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+    let offset = date.getTimezoneOffset() / 60;
+    let hours = date.getHours();
+
+    return timezoneDate.setHours(hours - offset);
+  }
+
   const postAvatar = avatar ? storageUrl + avatar : defaultAvatar;
 
   const SocialWallOrigin = () => {
@@ -71,7 +80,7 @@ const SocialWallItem = (props) => {
             </div>
             <div className="social-wall-item-from">
               {from}<span>&nbsp;</span>
-              <span className="social-wall-time"><TimeAgo date={created_at} /></span>
+              <span className="social-wall-time"><TimeAgo date={TimeZone(created_at)}/></span>
               {props.program.uses_social_wall &&
                   <div className='flex-column'>
                     <TemplateButton text='Comment' className='comment-btn' onClick={commentEvent} />
@@ -90,7 +99,7 @@ const SocialWallItem = (props) => {
                   <table width="100%">
                     <tbody>
                     <tr>
-                      <td><img className="circular--portrait" src={commentAvatar} alt="avatar" /></td>
+                      <td><img className="circular--portrait_comment" src={commentAvatar} alt="avatar" /></td>
                       <td valign="top" width="100%">
                         <span className="social-wall-item-from">{item.fromUser}</span>
                         {
@@ -98,7 +107,7 @@ const SocialWallItem = (props) => {
                           <span className='deleteComment' onClick={() => DeleteActivityEvent(confirmRef, item.id)}>Delete</span>
                         }
                         <div className="right" dangerouslySetInnerHTML={createMarkup(item.comment)}/>
-                        <span className="social-wall-time"><TimeAgo date={item.created_at_formated} /></span>
+                        <span className="social-wall-time"><TimeAgo date={TimeZone(item.created_at_formated)} /></span>
                       </td>
                     </tr>
                     </tbody>

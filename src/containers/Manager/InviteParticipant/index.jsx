@@ -5,7 +5,7 @@ import { Form, Field } from 'react-final-form';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {useDispatch, flashSuccess, flash422} from "@/shared/components/flash"
-import { makeLabelizedOptionsFromTree } from '@/shared/helper';
+import { makeLabelizedOptionsFromTree } from '@/shared/helpers';
 import {getProgramTree} from '@/services/program/getProgramTree';
 import TemplateButton from "@/shared/components/TemplateButton"
 

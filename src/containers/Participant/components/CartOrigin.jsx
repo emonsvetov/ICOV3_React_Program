@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Row, Col, Button } from "reactstrap";
 import CartItemOrigin from "./CartItemOrigin";
-import { isEmpty } from "@/shared/helper";
+import { isEmpty } from "@/shared/helpers";
 import { useTranslation } from "react-i18next";
 
 const CartOrigin = ({ cart, pointBalance }) => {

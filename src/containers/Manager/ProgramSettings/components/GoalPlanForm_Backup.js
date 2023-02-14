@@ -1,6 +1,6 @@
 import { Input, Col, Row, FormGroup, Label, Button, FormFeedback} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
-import {patch4Select} from '@/shared/helper'
+import {patch4Select} from '@/shared/helpers'
 import { Link } from 'react-router-dom';
 import Switch from '@/shared/components/form/Switch';
 import Select from 'react-select';

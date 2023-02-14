@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Field } from "react-final-form";
-import { labelizeNamedData, patch4Select } from "@/shared/helper";
+import { labelizeNamedData, patch4Select } from "@/shared/helpers";
 import renderSelectField from "@/shared/components/form/Select";
 import { getEvents } from "@/services/getEvents";
 

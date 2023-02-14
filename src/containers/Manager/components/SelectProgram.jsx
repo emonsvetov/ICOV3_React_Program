@@ -6,7 +6,7 @@ import { getProgramTree } from "@/services/program/getProgramTree";
 
 import { Input } from "reactstrap";
 
-import { BuildProgramOptions } from "@/shared/helper";
+import { BuildProgramOptions } from "@/shared/helpers";
 import { useTranslation } from "react-i18next";
 
 const SelectProgram = ({ auth, program, rootProgram }) => {

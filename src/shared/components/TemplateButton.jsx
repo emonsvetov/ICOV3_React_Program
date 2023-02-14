@@ -3,7 +3,7 @@ import { Button, Spinner } from "reactstrap";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import { createMarkup } from "@/shared/helper";
+import { createMarkup } from "@/shared/helpers";
 
 const TemplateButton = ({
   template,

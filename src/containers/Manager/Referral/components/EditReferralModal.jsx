@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import CloseIcon from 'mdi-react/CloseIcon';
 import {getEventTypes} from '@/services/getEventTypes'
-import {labelizeNamedData, patch4Select} from '@/shared/helper'
+import {labelizeNamedData, patch4Select} from '@/shared/helpers'
 import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 import ReferralForm from './ReferralForm'

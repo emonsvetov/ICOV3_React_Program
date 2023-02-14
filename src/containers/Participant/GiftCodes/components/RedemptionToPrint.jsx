@@ -1,5 +1,5 @@
 import React from "react";
-import {createMarkup} from "@/shared/helper";
+import {createMarkup} from "@/shared/helpers";
 
 const storageUrl = `${process.env.REACT_APP_API_STORAGE_URL}/`
 
