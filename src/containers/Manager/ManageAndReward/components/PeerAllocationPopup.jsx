@@ -19,7 +19,7 @@ import {
   patch4Select,
   flashDispatch,
   flashMessage,
-} from "@/shared/helper";
+} from "@/shared/helpers";
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import axios from "axios";
 import formValidation from "@/validation/giveReward";

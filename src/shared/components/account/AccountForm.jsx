@@ -16,7 +16,7 @@ import {
   mapFormDataUploads,
   unpatchMedia,
   patchMediaURL,
-} from "@/shared/helper";
+} from "@/shared/helpers";
 import { getAuthUser, AUTH_USER_KEY } from "@/containers/App/auth";
 import { ErrorMessage } from "../ErrorMsg";
 import { useTranslation } from "react-i18next";

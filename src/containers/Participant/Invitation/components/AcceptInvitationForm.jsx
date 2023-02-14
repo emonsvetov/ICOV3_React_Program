@@ -3,7 +3,7 @@ import { Form, Field } from "react-final-form";
 import { Spinner } from "reactstrap";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { ApiErrorMessage } from "@/shared/components/flash";
-import { validEmail } from "@/shared/helper";
+import { validEmail } from "@/shared/helpers";
 import { useTranslation } from "react-i18next";
 
 const AcceptInvitationForm = ({ onSubmit, errors, loading }) => {

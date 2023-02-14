@@ -8,7 +8,7 @@ import {
 } from "reactstrap";
 import { Form, Field } from "react-final-form";
 import React, { useEffect, useState } from "react";
-import { labelizeNamedData, patch4Select } from "@/shared/helper";
+import { labelizeNamedData, patch4Select } from "@/shared/helpers";
 import axios from "axios";
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import { useDispatch, sendFlashMessage } from "@/shared/components/flash";

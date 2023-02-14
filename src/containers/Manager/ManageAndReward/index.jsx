@@ -7,7 +7,7 @@ import {
 import SearchIcon from 'mdi-react/SearchIcon';
 import SelectProgram from '../components/SelectProgram'
 import ProgramParticipants from './components/ProgramParticipants'
-import {isEmpty} from '@/shared/helper'
+import {isEmpty} from '@/shared/helpers'
 
 const ManageAndReward = ({auth, program, organization}) => {
   return (
