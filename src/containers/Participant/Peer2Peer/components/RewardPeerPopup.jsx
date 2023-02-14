@@ -26,7 +26,7 @@ import {
   patch4Select,
   flashDispatch,
   flashMessage,
-} from "@/shared/helper";
+} from "@/shared/helpers";
 import formValidation from "@/validation/givePeer2PeerReward";
 import { connect } from "react-redux";
 import axios from "axios";

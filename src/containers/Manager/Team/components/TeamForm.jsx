@@ -6,7 +6,7 @@ import {
   mapFormDataUploads,
   unpatchMedia,
   patchMediaURL,
-} from "@/shared/helper";
+} from "@/shared/helpers";
 
 import { useDispatch, flashError, flashSuccess } from "@/shared/components/flash"
 import formValidation from "@/validation/addTeam"

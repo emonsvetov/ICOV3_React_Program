@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Col, Button, Row } from "reactstrap";
 import { numFormatter } from "../../../utils/helper";
 import { useTranslation } from "react-i18next";
-import { isEmpty } from "@/shared/helper";
+import { isEmpty } from "@/shared/helpers";
 
 const Chart = (props) => {
   let { display_name, total, avatar } = props.data;

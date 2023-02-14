@@ -182,3 +182,18 @@ export const validEmail = (email) => {
 export const createMarkup = (value) => {
   return {__html: value};
 }
+
+export const getFirstDay = () => {
+  let date = new Date();
+  return new Date(date.getFullYear(), 0, 1)
+}
+
+export const indexOfAll = (array, searchItem) => {
+  let i = array.indexOf(searchItem),
+    indexes = [];
+  while (i !== -1) {
+    indexes.push(i);
+    i = array.indexOf(searchItem, ++i);
+  }
+  return indexes;
+}

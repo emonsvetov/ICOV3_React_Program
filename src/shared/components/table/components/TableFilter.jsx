@@ -1,5 +1,5 @@
 import React from "react"
-import {dateStrToYmd} from '@/shared/helper'
+import {dateStrToYmd} from '@/shared/helpers'
 import SearchIcon from 'mdi-react/SearchIcon'
 
 const getFirstDayOfMonth = () =>{

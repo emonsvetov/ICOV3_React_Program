@@ -1,5 +1,5 @@
 import React from "react";
-import { validEmail } from "@/shared/helper";
+import { validEmail } from "@/shared/helpers";
 import { Form, Field } from "react-final-form";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { ApiErrorMessage } from "@/shared/components/flash";

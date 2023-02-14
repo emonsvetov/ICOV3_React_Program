@@ -13,7 +13,7 @@ import {
   CardBody,
 } from "reactstrap";
 import { Form, Field } from "react-final-form";
-import { labelizeNamedData, patch4Select } from "@/shared/helper";
+import { labelizeNamedData, patch4Select } from "@/shared/helpers";
 import { useDispatch, sendFlashMessage } from "@/shared/components/flash";
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import { getLeaderboardTypes } from "@/services/program/getLeaderboardTypes";

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { Input, Col, Row, FormGroup, Label, Button} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 import axios from 'axios'
-import {labelizeNamedData} from '@/shared/helper'
+import {labelizeNamedData} from '@/shared/helpers'
 import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 import {getLeaderboardTypes} from '@/services/program/getLeaderboardTypes'

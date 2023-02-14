@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Field } from 'react-final-form';
 import {login} from '../../App/auth';
-import {isProgramManager, isProgramParticipant, hasRoleInProgram} from "@/shared/helper"
+import {isProgramManager, isProgramParticipant, hasRoleInProgram} from "@/shared/helpers"
 import {useDispatch, flash422} from "@/shared/components/flash"
 import Select from 'react-select'
 import { ButtonToolbar } from 'reactstrap';
