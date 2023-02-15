@@ -72,7 +72,6 @@ const RewardPeerPopup = ({
       event_id: values.event_id,
       message: values.message,
       user_id: participants.map((p) => p.id),
-      email_template_id: event.email_template_id ? event.email_template_id : 1, // TODO email template
       override_cash_value:
         event && event.event_type && event.event_type.type === p2p
           ? sliderValue
