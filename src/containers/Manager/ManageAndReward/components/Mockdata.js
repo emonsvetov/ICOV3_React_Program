@@ -179,10 +179,10 @@ export const USERS_COLUMNS = [
         Header: "Status",
         accessor: "status.status",
     },
-    {
-        Header: "Points Earned",
-        accessor: "totalPointsRewarded",
-    },
+    // {
+    //     Header: "Points Earned",
+    //     accessor: "totalPointsRewarded",
+    // },
     {
         Header: "Point Balance",
         accessor: "pointBalance",
