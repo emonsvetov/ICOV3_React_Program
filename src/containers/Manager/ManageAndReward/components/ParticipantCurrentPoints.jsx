@@ -31,7 +31,7 @@ const ParticipantCurrentPoints = ({participant,auth, program}) => {
 };
 
 const mapStateToProps = (state) => {
-    console.log(state.currentPoints)
+    // console.log(state.currentPoints)
   return {
     program: state.program,
     auth: state.auth,

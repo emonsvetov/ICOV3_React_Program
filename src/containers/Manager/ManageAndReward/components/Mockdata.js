@@ -392,21 +392,3 @@ export const REWARD_HISTORY_COLUMNS = [
         'journal_event_id': 49 
     }, 
 ]
-export const PEER_RECLAIM_COLUMNS = [
-    {
-        Header: "Date",
-        accessor: "awarded",
-        Cell: ({ row, value }) => {
-          return `${new Date(value).toLocaleDateString("en-US", {})}`;
-        },
-    },
-    {
-        Header: "Event",
-        accessor: "event_name",
-    },
-    {
-        Header: "Points",
-        accessor: "amount",
-    },
-   
-  ];
