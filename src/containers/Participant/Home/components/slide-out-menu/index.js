@@ -4,7 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 import { Nav, NavItem } from "reactstrap";
 import { useTranslation } from "react-i18next";
 import {connect} from "react-redux";
-import {MEDIA_TYPES} from "../../../../LogIn/components/LogInForm";
+import {MEDIA_TYPES} from "@/containers/LogIn/components/LogInForm";
 
 const LINKS = [
   { to: "/participant/my-points", text: "my_rewards" },
