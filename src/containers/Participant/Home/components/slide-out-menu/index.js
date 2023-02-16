@@ -8,13 +8,8 @@ import {MEDIA_TYPES} from "../../../../LogIn/components/LogInForm";
 
 const LINKS = [
   { to: "/participant/my-points", text: "my_rewards" },
-  { to: "/participant/peer-to-peer", text: "give_an_award" },
-  { to: "/participant/referral", text: "submit_a_referral" },
-  { to: "/participant/suggestion_box", text: "suggestion_box" },
   { to: "/participant/survey", text: "survey" },
   { to: "/participant/calendar", text: "calendar" },
-  { to: "/participant/program_rules", text: "program_rules" },
-  { to: "/participant/training", text: "training" },
   { to: "/participant/feeling", text: "how_are_you_feeling" },
 ];
 
