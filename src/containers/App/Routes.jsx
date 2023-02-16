@@ -44,6 +44,7 @@ import Peer2Peer from "../Participant/Peer2Peer/index";
 import Survey from "../Participant/Survey";
 import Calendar from "../Participant/Calendar";
 import Newsletter from "../Participant/Newsletter";
+import Media from "../Participant/Media";
 import Training from "../Participant/Training";
 import ProgramRules from "../Participant/ProgramRules";
 import Feeling from "../Participant/Feeling";
@@ -140,6 +141,7 @@ const RouteIndex = () => (
           <Route path="calendar" element={<Calendar />} />
           <Route path="program_rules" element={<ProgramRules />} />
           <Route path="newsletter" element={<Newsletter />} />
+          <Route path="media/:categoryId" element={<Media />} />
           <Route path="training" element={<Training />} />
           <Route path="feeling" element={<Feeling />} />
         </Route>
