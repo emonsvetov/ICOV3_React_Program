@@ -50,7 +50,7 @@ const AddGoalPlanModal = ({
   const onChangeGoalPlan = (selectedOption) => {
     goalplans.map((item, index) => {
       if(item.id == selectedOption.value) {
-        setGoalPlan(item);
+        //setGoalPlan(item);
       }
     });
   
@@ -153,8 +153,8 @@ const AddGoalPlanModal = ({
             // onChangeAwardValue
           }}
         >
-          {({ handleSubmit, form, submitting, pristine, values }) => {
-            console.log(goalplan)
+          {({ handleSubmit, form, submitting, pristine, values}) => {
+            console.log(values)
             return (
               <form
                 className="form d-flex flex-column justify-content-evenly"
@@ -190,6 +190,7 @@ const AddGoalPlanModal = ({
                           <Input
                             placeholder="Target"
                             type="text"
+                            
                             //onKeyUp={form.mutators.onChangeAwardValue}
                             {...input}
                           />
