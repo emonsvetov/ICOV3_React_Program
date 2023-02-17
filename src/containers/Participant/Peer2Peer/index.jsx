@@ -5,7 +5,7 @@ import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import { Sidebar } from "../../Layout/sidebar";
 // import SelectProgram from '../components/SelectProgram'
 import Users from "./components/Users";
-import { isEmpty } from "@/shared/helper";
+import { isEmpty } from "@/shared/helpers";
 import { SidebarOrigin } from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
 

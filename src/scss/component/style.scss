@@ -1117,13 +1117,21 @@ footer{
 
 .circular--portrait {
     position: relative;
-    width: 50px; height: 50px;
+    width: 50px;
+    height: 50px;
     overflow: hidden;
     border-radius: 50%;
 }
 .circular--portrait img {
     width: 100%;
     height: auto;
+}
+
+.circular--portrait_comment {
+    position: relative;
+    width: 50px;
+    overflow: hidden;
+    border-radius: 50%;
 }
 
 .tr-spacing {
@@ -1347,5 +1355,79 @@ footer{
     }
     @media (min-width: $lg) {
         max-height: 500px;
+    }
+}
+
+/* Table Helper */
+.table-filter-form.form {
+    .MuiInputBase-input {
+        font-size: 12px !important;
+        padding: 1px 6px 1px 1px !important;
+        outline: none;
+    }
+
+    .MuiInput-underline:before, .MuiInput-underline:after {
+        border: none !important;
+    }
+
+    .form__form-group-label {
+        width: auto !important;
+        padding-right: 10px;
+    }
+
+    .float-filter:first-child {
+
+    }
+
+    .float-filter {
+        padding-right: 30px;
+        float: left;
+        margin-bottom: 10px;
+    }
+
+    .form__form-group {
+        margin-bottom: 0px;
+    }
+
+    .form__form-group-label {
+        font-weight: bold;
+    }
+    .react-datepicker-wrapper {
+        input { width:100%; }
+    }
+}
+
+.table-filter-form.form .form__form-group {
+    display: flex;
+    align-items: center;
+}
+
+.table-filter-form-fields .form__form-group-field {
+    margin-left: 0 !important;
+    padding-left: 0px !important;
+}
+.report-table {
+    tr {
+        border: none !important;
+    }
+    thead {
+        & > :first-child {
+            border-bottom:1px solid #000 !important;
+        }
+    }
+    & > :not(:first-child) {
+      border-top: none;
+    }
+    & > :not(caption) > * > * {
+        border: none;
+    }
+}
+
+.pointer {
+    cursor: pointer !important;
+}
+.table-striped {
+    td {
+        span { box-shadow: none; }
     }
 }

@@ -7,7 +7,7 @@ import CheckboxField from "@/shared/components/form/CheckboxField";
 import { useTable, usePagination, useRowSelect } from "react-table";
 import ReactTablePagination from "@/shared/components/table/components/ReactTablePagination";
 import { PEER_RECLAIM_COLUMNS, PEER_RECLAIM_DATA } from "./Mockdata";
-import { flashDispatch, flashMessage } from '@/shared/helper'
+import { flashDispatch, flashMessage } from '@/shared/helpers'
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 import axios from 'axios'
 

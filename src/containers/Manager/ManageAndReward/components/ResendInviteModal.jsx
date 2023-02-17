@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { Modal, Input, Col, Row, FormGroup, FormFeedback, Label, Button} from 'reactstrap'
 import { Form, Field } from 'react-final-form'
 import CloseIcon from 'mdi-react/CloseIcon'
-import {flashDispatch, flashMessage } from '@/shared/helper'
+import {flashDispatch, flashMessage } from '@/shared/helpers'
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 import axios from 'axios'
 import TemplateButton from "@/shared/components/TemplateButton"

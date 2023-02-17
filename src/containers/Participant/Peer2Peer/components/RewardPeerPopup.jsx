@@ -26,7 +26,7 @@ import {
   patch4Select,
   flashDispatch,
   flashMessage,
-} from "@/shared/helper";
+} from "@/shared/helpers";
 import formValidation from "@/validation/givePeer2PeerReward";
 import { connect } from "react-redux";
 import axios from "axios";
@@ -72,7 +72,6 @@ const RewardPeerPopup = ({
       event_id: values.event_id,
       message: values.message,
       user_id: participants.map((p) => p.id),
-      email_template_id: event.email_template_id ? event.email_template_id : 1, // TODO email template
       override_cash_value:
         event && event.event_type && event.event_type.type === p2p
           ? sliderValue
@@ -85,7 +84,7 @@ const RewardPeerPopup = ({
         formData
       )
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status === 200) {
           dispatch(flashMessage(t("award_success"), "alert-success", "top"));
 
@@ -126,7 +125,7 @@ const RewardPeerPopup = ({
         }
       })
       .catch((err) => {
-        //console.log(error.response.data);
+        console.log(err.response.data);
         dispatch(
           flashMessage(
             <ApiErrorMessage errors={err.response.data} />,

@@ -14,15 +14,30 @@ export const ParticipantTabNavsOrigin = () => {
   const { t } = useTranslation();
   const TAB_ITEMS = [
     { title: "my_rewards", icon: "MyRewards", to: `/participant/my-points` },
-    { title: "peer_to_peer", icon: "PeerToPeer", to: "/participant/peer-to-peer"},
-    { title: "my_goals", icon: "MyGoals", to: "/participant/my-goals" },
   ];
+
+  if(program.uses_peer2peer
+      > 0){
+    TAB_ITEMS.push({
+      title: "peer_to_peer",
+      icon: "PeerToPeer",
+      to: "/participant/peer-to-peer",
+    },)
+  }
 
   if(program.uses_leaderboards > 0){
     TAB_ITEMS.push({
       title: "leaderboards",
       icon: "Leaderboards",
       to: "/participant/leaderboards",
+    },)
+  }
+
+  if(program.uses_goal_tracker > 0){
+    TAB_ITEMS.push({
+      title: "my_goals",
+      icon: "MyGoals",
+      to: "/participant/my-goals",
     },)
   }
 

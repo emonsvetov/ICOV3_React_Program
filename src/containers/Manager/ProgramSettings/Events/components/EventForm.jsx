@@ -6,7 +6,7 @@ import axios from 'axios';
 import {useDispatch, flashError, flashSuccess} from "@/shared/components/flash"
 import renderSelectField from '@/shared/components/form/Select'
 import {getEventTypes} from '@/services/getEventTypes'
-import {labelizeNamedData, patch4Select} from '@/shared/helper'
+import {labelizeNamedData, patch4Select} from '@/shared/helpers'
 import renderToggleButtonField from "@/shared/components/form/ToggleButton"
 import formValidation from "@/validation/addEvent"
 import TemplateButton from "@/shared/components/TemplateButton"

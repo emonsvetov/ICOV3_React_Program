@@ -6,7 +6,7 @@ import { Col, Container, Row, NavLink, Button } from "reactstrap";
 
 import SelectProgram from "../components/SelectProgram";
 import Referrals from "./components/Referrals";
-import { isEmpty } from "@/shared/helper";
+import { isEmpty } from "@/shared/helpers";
 import ModalWrapper from "./components/ModalWrapper";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";

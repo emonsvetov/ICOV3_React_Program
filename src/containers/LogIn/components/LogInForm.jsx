@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Field } from 'react-final-form';
 import {login} from '../../App/auth';
-import {isProgramManager, isProgramParticipant, hasRoleInProgram} from "@/shared/helper"
+import {isProgramManager, isProgramParticipant, hasRoleInProgram} from "@/shared/helpers"
 import {useDispatch, flash422} from "@/shared/components/flash"
 import Select from 'react-select'
 import { ButtonToolbar } from 'reactstrap';
 import TemplateButton from "@/shared/components/TemplateButton"
 
 const axios = require('axios');
+export const MEDIA_TYPES = [];
 
 const LogInForm = () => {
 
@@ -23,6 +24,7 @@ const LogInForm = () => {
   let [program, setProgram] = useState(null);
   const [isManager, setIsManager] = useState(false);
   const [isParticipant, setIsParticipant] = useState(false);
+  const [mediaTypes, setMediaTypes] = useState([]);
 
   useEffect( () => {
     // setUser(getAuthUser())
@@ -194,10 +196,18 @@ const LogInForm = () => {
               let sendTo = '/'
               if( user.loginAs.name === 'Manager')  {
                 sendTo = '/manager/home'
+                var t = setTimeout(window.location = sendTo, 500);
+
               } else  if( user.loginAs.name === 'Participant')  {
                 sendTo = '/participant/home'
-              } 
-              var t = setTimeout(window.location = sendTo, 500)
+                axios.get(`/organization/${organization.id}/program/${program.value}/digital-media-type`, {
+                  headers: {"Authorization" : `Bearer ${accessToken}`}
+                })
+                    .then(  (res) => {
+                        localStorage.setItem(MEDIA_TYPES, JSON.stringify(res.data));
+                        var t = setTimeout(window.location = sendTo, 500)
+                    });
+              }
             } else  {
               alert("Invalid Program")
             }

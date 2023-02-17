@@ -19,7 +19,7 @@ import {
   patch4Select,
   flashDispatch,
   flashMessage,
-} from "@/shared/helper";
+} from "@/shared/helpers";
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import axios from "axios";
 import formValidation from "@/validation/giveReward";
@@ -79,7 +79,6 @@ const PeerAllocationPopup = ({
         ? values.override_cash_value
         : null,
       referrer: values.referrer ? values.referrer : null,
-      email_template_id: values.email_template_id,
     };
     // console.log(formData)
     setSaving(true)
@@ -187,7 +186,6 @@ const PeerAllocationPopup = ({
         event_id: event.id,
         awarding_points: program.factor_valuation * event.max_awardable_amount,
         message: event.message ? event.message : DEFAULT_MSG_PARTICIPANT,
-        email_template_id: 1,
       },
     };
   }

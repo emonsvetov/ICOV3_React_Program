@@ -44,6 +44,7 @@ import Peer2Peer from "../Participant/Peer2Peer/index";
 import Survey from "../Participant/Survey";
 import Calendar from "../Participant/Calendar";
 import Newsletter from "../Participant/Newsletter";
+import Media from "../Participant/Media";
 import Training from "../Participant/Training";
 import ProgramRules from "../Participant/ProgramRules";
 import Feeling from "../Participant/Feeling";
@@ -64,6 +65,7 @@ import Team from "../Manager/Team";
 import TeamView from "../Manager/Team/components/TeamView";
 import Report from "../Manager/Report";
 import Invoices from "../Manager/Report/components/Invoices";
+import SupplierRedemption from "../Manager/Report/SupplierRedemption/index";
 import ProgramStatus from "../Manager/Report/components/ProgramStatus";
 import AwardDetail from "../Manager/Report/components/AwardDetail";
 import AwardSummary from "../Manager/Report/components/AwardSummary";
@@ -139,6 +141,7 @@ const RouteIndex = () => (
           <Route path="calendar" element={<Calendar />} />
           <Route path="program_rules" element={<ProgramRules />} />
           <Route path="newsletter" element={<Newsletter />} />
+          <Route path="media/:categoryId" element={<Media />} />
           <Route path="training" element={<Training />} />
           <Route path="feeling" element={<Feeling />} />
         </Route>
@@ -155,6 +158,7 @@ const RouteIndex = () => (
           <Route path="team/:teamId" element={<TeamView />} />
           <Route path="report" element={<Report />}>
             <Route path="invoices" element={<Invoices />} />
+            <Route path="supplier-redemption" element={<SupplierRedemption />} />
             <Route path="program-status" element={<ProgramStatus />} />
             {/* <Route path="annual-awards-summary" element={<AnnualAwardsSummary />} />
             <Route path="award-account-summary-gl" element={<AwardAccountSummaryGl />} /> */}

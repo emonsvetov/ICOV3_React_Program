@@ -1,6 +1,6 @@
 
 import axios from 'axios'
-import {prepareRequestParams} from '@/shared/helper'
+import {prepareRequestParams} from '@/shared/helpers'
 
 export const getEvents = async(organizationId, programId, filter = null) => {
     let paramStr = prepareRequestParams(filter, ['type', 'except_type', 'disabled']);
