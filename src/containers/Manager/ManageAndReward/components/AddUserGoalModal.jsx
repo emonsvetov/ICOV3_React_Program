@@ -20,13 +20,13 @@ import {
 } from "@/shared/helpers";
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import axios from "axios";
-import formValidation from "@/validation/giveReward";
-
+import formValidation from "@/validation/addUserGoal";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
+
 import { Img } from '@/theme'
 
-const AddGoalPlanModal = ({
+const AddUserGoalModal = ({
   isOpen,
   setOpen,
   toggle,
@@ -96,28 +96,33 @@ const AddGoalPlanModal = ({
   }
 
   const onSubmit = (values) => {
+    //alert('hi');
     let formData = {
       goal_plan_id: values.goal_plan_id,
       goal_target: values.goal_target,
+      user_id: participants.map((p) => p.id),
     };
     setSaving(true)
 
     axios
       .post(
-        `/organization/${organization.id}/program/${program.id}/`,
+        `/organization/${organization.id}/program/${program.id}/create-user-goals`,
         formData
       )
       .then((res) => {
         //   console.log(res)
         if (res.status === 200) {
           toggle()
-          dispatch(
-            flashMessage(
-              "Participants assigned successfully!"
-            )
-          );
+          //let msg = "User Goal Plan created successfully!"
+          let msg='';
+          console.log(res);
+          if (res.data.message)
+          {
+            msg += " " + res.data.message
+          }
+          dispatch(flashMessage(msg));
           setSaving(false)
-          window.location.reload()
+         // window.location.reload()
         }
       })
       .catch((err) => {
@@ -283,4 +288,4 @@ const mapStateToProps = (state) => {
     theme: state.theme
   };
 };
-export default connect(mapStateToProps)(AddGoalPlanModal);
+export default connect(mapStateToProps)(AddUserGoalModal);
