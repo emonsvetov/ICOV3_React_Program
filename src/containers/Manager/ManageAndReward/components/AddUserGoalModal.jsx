@@ -23,6 +23,8 @@ import formValidation from "@/validation/addUserGoal";
 import TemplateButton from "@/shared/components/TemplateButton";
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import { getActiveGoalPlansByProgram } from "@/services/program/getActiveGoalPlansByProgram";
+import { getGoalPlan } from "@/services/program/getGoalPlan";
+import renderSelectField from "@/shared/components/form/Select";
 
 import { Img } from '@/theme'
 
@@ -42,23 +44,33 @@ const AddUserGoalModal = ({
   const [goalplans, setGoalPlans] = useState([]);
   const [goalplan, setGoalPlan] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [loadingGoalPlans, setLoadingGoalPlans] = useState(false);
+  const [loadingGoalPlan, setLoadingGoalPlan] = useState(false);
+  const [showFactors, setShowFactors] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  const onChangeGoalPlan = (selectedOption) => {
-    goalplans.map((item, index) => {
-      if (item.id == selectedOption.value) {
-        //setGoalPlan(item);
-      }
+  const onChangeGoalPlan = ([field], state, { setIn, changeValue }) => {
+    console.log(state);
+    setLoadingGoalPlan(true);
+    getGoalPlan(organization.id, program.id, field.value).then((item) => {
+      setGoalPlan(item);
     });
-
-    /*getActiveGoalPlansByProgram(organization.id, program.id, selectedOption.value).then((item) => {
-      // console.log(item)
-      setGoalPlans(item);
-      setLoadingGoalPlans(false);
-    });*/
+    setLoadingGoalPlan(false);
+    changeValue(state, 'target_value', () => goalplan.default_target);
+    changeValue(state, 'date_begin', () => goalplan.date_begin);
+    changeValue(state, 'date_end', () => goalplan.date_end);
+    changeValue(state, 'factor_before', () => goalplan.factor_before);
+    changeValue(state, 'factor_after', () => goalplan.factor_after);
+    changeValue(state, 'achieved_callback_id', () => goalplan.achieved_callback_id);
+    changeValue(state, 'exceeded_callback_id', () => goalplan.exceeded_callback_id);
+    /*if (goalplan.goal_plan_type_name == "Sales Goal") {
+      setShowFactors(true)
+    } else {
+      setShowFactors(false)
+    }*/
   };
+
   useEffect(() => {
+    console.log('there');
     setLoading(false);
     if (!organization?.id || !program?.id) return;
     let mounted = true;
@@ -66,17 +78,22 @@ const AddUserGoalModal = ({
     getActiveGoalPlansByProgram(organization.id, program.id).then(
       (items) => {
         if (mounted) {
-          // console.log(items)
           if (items.length > 0) {
             setGoalPlans(labelizeNamedData(items));
             setGoalPlan(items.shift());
+            /*if (goalplan.goal_plan_type_name == "Sales Goal") {
+              setShowFactors(true)
+            } else {
+              setShowFactors(false)
+            }*/
           }
           setLoading(false);
         }
       }
     );
     return () => (mounted = false);
-  }, [organization, program]);
+  }, []);
+  //}, [organization, program]);
 
   if (loading) return t("loading");
 
@@ -86,9 +103,14 @@ const AddUserGoalModal = ({
       ...initialValues,
       ...{
         goal_plan_id: goalplan.id,
-        goal_target: goalplan.default_target,
+        target_value: goalplan.default_target,
         date_begin: goalplan.date_begin,
-        date_end: goalplan.date_end
+        date_end: goalplan.date_end,
+        factor_before: goalplan.factor_before,
+        factor_after: goalplan.factor_after,
+        achieved_callback_id: goalplan.achieved_callback_id,
+        exceeded_callback_id: goalplan.exceeded_callback_id,
+        // goal_plan_type_name: goalplan.goal_plan_type_name
       },
     };
   }
@@ -96,7 +118,13 @@ const AddUserGoalModal = ({
   const onSubmit = (values) => {
     let formData = {
       goal_plan_id: values.goal_plan_id,
-      goal_target: values.goal_target,
+      target_value: values.target_value,
+      date_begin: values.date_begin,
+      date_end: values.date_end,
+      factor_before: values?.factor_before,
+      factor_after: values?.factor_after,
+      achieved_callback_id: values?.achieved_callback_id ? values.achieved_callback_id : null,
+      exceeded_callback_id: values?.exceeded_callback_id ? values.exceeded_callback_id : null,
       user_id: participants.map((p) => p.id),
     };
     setSaving(true)
@@ -149,11 +177,13 @@ const AddUserGoalModal = ({
           initialValues={initialValues}
           validate={(values) => formValidation.validateForm(values)}
           mutators={{
-            // onChangeAwardValue
+            onChangeGoalPlan
           }}
         >
+
           {({ handleSubmit, form, submitting, pristine, values }) => {
-            console.log(values)
+            // console.log(values)
+            console.log(values);
             return (
               <form
                 className="form d-flex flex-column justify-content-evenly"
@@ -165,12 +195,13 @@ const AddUserGoalModal = ({
                       {({ input, meta }) => (
                         <FormGroup>
                           <Select
-                            onChange={onChangeGoalPlan}
                             options={goalplans}
                             clearable={false}
                             className="react-select"
                             placeholder={"Select a Goal Plan:"}
                             classNamePrefix="react-select"
+                            {...input}
+                            onChange={form.mutators.onChangeGoalPlan}
                             value={goalplan ? labelizeNamedData([goalplan]) : null}
                           />
                           {meta.touched && meta.error && (
@@ -179,11 +210,12 @@ const AddUserGoalModal = ({
                         </FormGroup>
                       )}
                     </Field>
+                    {loadingGoalPlan && <span>{t("loading")}</span>}
                   </Col>
                 </Row>
                 <Row>
                   <Col md="12">
-                    <Field name="goal_target">
+                    <Field name="target_value">
                       {({ input, meta }) => (
                         <FormGroup>
                           <Input
@@ -209,7 +241,7 @@ const AddUserGoalModal = ({
                       {({ input, meta }) => (
                         <FormGroup>
                           <Input
-                            placeholder="Target"
+                            placeholder="Date Begin"
                             type="text"
                             readOnly={true}
                             //onKeyUp={form.mutators.onChangeAwardValue}
@@ -231,9 +263,8 @@ const AddUserGoalModal = ({
                       {({ input, meta }) => (
                         <FormGroup>
                           <Input
-                            placeholder="Target"
+                            placeholder="Date End"
                             type="text"
-                            readOnly={true}
                             {...input}
                           />
                           {meta.touched && meta.error && (
@@ -246,8 +277,49 @@ const AddUserGoalModal = ({
                     </Field>
                   </Col>
                 </Row>
-
-
+                
+                  <Row>
+                    <Col md="12">
+                      <Field name="factor_before">
+                        {({ input, meta }) => (
+                          <FormGroup>
+                            <Input
+                              placeholder="Factor Before"
+                              type="text"
+                              readOnly={true}
+                              {...input}
+                            />
+                            {meta.touched && meta.error && (
+                              <span className="text-danger">
+                                {meta.error}
+                              </span>
+                            )}
+                          </FormGroup>
+                        )}
+                      </Field>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md="12">
+                      <Field name="factor_after">
+                        {({ input, meta }) => (
+                          <FormGroup>
+                            <Input
+                              placeholder="Factor After"
+                              type="text"
+                              {...input}
+                            />
+                            {meta.touched && meta.error && (
+                              <span className="text-danger">
+                                {meta.error}
+                              </span>
+                            )}
+                          </FormGroup>
+                        )}
+                      </Field>
+                    </Col>
+                  </Row>
+                
                 <div className="d-flex justify-content-end">
                   <TemplateButton
                     disabled={saving}
