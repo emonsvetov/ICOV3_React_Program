@@ -11,18 +11,18 @@ import {
 } from "reactstrap";
 import { Form, Field } from "react-final-form";
 import CloseIcon from "mdi-react/CloseIcon";
-import { getActiveGoalPlansByProgram } from "@/services/program/getActiveGoalPlansByProgram";
+import { useTranslation } from "react-i18next";
 import {
   labelizeNamedData,
   patch4Select,
   flashDispatch,
   flashMessage,
 } from "@/shared/helpers";
-import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import axios from "axios";
 import formValidation from "@/validation/addUserGoal";
 import TemplateButton from "@/shared/components/TemplateButton";
-import { useTranslation } from "react-i18next";
+import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
+import { getActiveGoalPlansByProgram } from "@/services/program/getActiveGoalPlansByProgram";
 
 import { Img } from '@/theme'
 
@@ -37,10 +37,8 @@ const AddUserGoalModal = ({
   template,
   theme
 }) => {
-  // console.log(theme)
   const dispatch = flashDispatch();
   const { t } = useTranslation();
-  // console.log(participants)
   const [goalplans, setGoalPlans] = useState([]);
   const [goalplan, setGoalPlan] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -49,11 +47,11 @@ const AddUserGoalModal = ({
 
   const onChangeGoalPlan = (selectedOption) => {
     goalplans.map((item, index) => {
-      if(item.id == selectedOption.value) {
+      if (item.id == selectedOption.value) {
         //setGoalPlan(item);
       }
     });
-  
+
     /*getActiveGoalPlansByProgram(organization.id, program.id, selectedOption.value).then((item) => {
       // console.log(item)
       setGoalPlans(item);
@@ -96,7 +94,6 @@ const AddUserGoalModal = ({
   }
 
   const onSubmit = (values) => {
-    //alert('hi');
     let formData = {
       goal_plan_id: values.goal_plan_id,
       goal_target: values.goal_target,
@@ -114,19 +111,16 @@ const AddUserGoalModal = ({
         if (res.status === 200) {
           toggle()
           //let msg = "User Goal Plan created successfully!"
-          let msg='';
-          console.log(res);
-          if (res.data.message)
-          {
+          let msg = ''
+          if (res.data.message) {
             msg += " " + res.data.message
           }
           dispatch(flashMessage(msg));
           setSaving(false)
-         // window.location.reload()
+          window.location.reload()
         }
       })
       .catch((err) => {
-        //console.log(error.response.data);
         dispatch(
           flashMessage(
             <ApiErrorMessage errors={err.response.data} />,
@@ -158,7 +152,7 @@ const AddUserGoalModal = ({
             // onChangeAwardValue
           }}
         >
-          {({ handleSubmit, form, submitting, pristine, values}) => {
+          {({ handleSubmit, form, submitting, pristine, values }) => {
             console.log(values)
             return (
               <form
@@ -195,7 +189,7 @@ const AddUserGoalModal = ({
                           <Input
                             placeholder="Target"
                             type="text"
-                            
+
                             //onKeyUp={form.mutators.onChangeAwardValue}
                             {...input}
                           />
