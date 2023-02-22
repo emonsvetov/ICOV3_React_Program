@@ -197,3 +197,18 @@ export const indexOfAll = (array, searchItem) => {
   }
   return indexes;
 }
+
+export const toCurrency = (numberString) => {
+  let locale = 'en-US';
+  let options = {style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2};
+  let formatter = new Intl.NumberFormat(locale, options);
+  return formatter.format(numberString);
+}
+
+export const toPoints = (numberString) => {
+  let locale = 'en-US';
+  let options = {style: 'decimal', minimumFractionDigits: 3, maximumFractionDigits: 3};
+  let formatter = new Intl.NumberFormat(locale, options);
+  let number = formatter.format(numberString);
+  return number.toString().replace(/\./g, ",");
+}

@@ -35,9 +35,10 @@ const Media = ({ template, auth, program, organization }) => {
         <SidebarOrigin />
       </Col>
 
-      <Col md={3}>
+      <Col md={8}>
         <div className="pdf-link">
-          <h2 className="text-uppercase text-center mb-5">{t("media")}</h2>
+          <h2 className="text-uppercase text-center mb-5"></h2>
+          <div className="d-flex flex-row mb-3 flex-wrap mt-4" >
             {media.map((file, index) => {
                 const img = process.env.REACT_APP_API_STORAGE_URL + '/' + file.icon_path;
                 const link = process.env.REACT_APP_API_STORAGE_URL + '/' + file.path;;
@@ -48,11 +49,12 @@ const Media = ({ template, auth, program, organization }) => {
 
                 const props = {img, link, title, contStyle, hrefStyle, iconStyle};
                 return (
-                    <div className="d-flex" >
+                    <div className="p-1">
                         <PDF props={props} />
                     </div>
                 );
             })}
+          </div>
         </div>
       </Col>
     </Row>
