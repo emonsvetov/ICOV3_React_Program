@@ -62,8 +62,7 @@ const ReclaimForm = ({ toggle, participant, program, organization }) => {
           id: data[rIndex]['id'],
           note: values?.notes ? values.notes[rIndex] : "",
           journal_event_id: data[rIndex]['journal_event_id'],
-          amount: data[rIndex]['amount'],
-          recipient_id: data[rIndex]['recipient_id'],
+          amount: parseFloat(data[rIndex]['amount']).toFixed(0),
         })
       }
     })
