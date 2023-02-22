@@ -17,7 +17,7 @@ const LINKS = [
   { to: "/manager/home", text: "Home" },
   { to: "/manager/program-settings", text: "Reward Events" },
   { to: "/manager/manage-and-reward", text: "Manage and Reward" },
-  { to: "/manager/report/invoices", text: "View Reports" },
+  { to: "/manager/report/supplier-redemption", text: "View Reports" },
   { to: "/manager/invite-participant", text: "Invite New Participant" },
   { to: "/manager/referral", text: "Referral Administrator" },
   { to: "/manager/team", text: "Team" },
