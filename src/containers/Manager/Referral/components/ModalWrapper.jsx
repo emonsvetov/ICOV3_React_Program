@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import AddReferralPopup from "./AddReferralPopup";
+import AddReferralModal from "./AddReferralModal";
 import EditReferralModal from "./EditReferralModal";
 import { useTranslation } from "react-i18next";
 
@@ -28,7 +28,7 @@ const MainModalWrapper = ({
 
   return (
     <>
-      {name === "AddReferral" && <AddReferralPopup {...props} />}
+      {name === "AddReferral" && <AddReferralModal {...props} />}
       {name === "EditReferral" && <EditReferralModal {...props} />}
     </>
   );
