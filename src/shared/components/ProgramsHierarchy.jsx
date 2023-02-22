@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {useQuery} from "react-query";
 import {isEmpty} from '@/shared/helpers'
 
-const ProgramsHierarchy = ({defaultPrograms, organization, selectedPrograms, setSelectedPrograms}) => {
+const ProgramsHierarchy = ({defaultPrograms, organization, program, selectedPrograms, setSelectedPrograms}) => {
   const [programs, setPrograms] = useState([]);
 
   const fetchProgramData = async (pageFilterO) => {
@@ -17,7 +17,7 @@ const ProgramsHierarchy = ({defaultPrograms, organization, selectedPrograms, set
       // console.log(params)
       paramStr = params.join('&')
     }
-    const apiUrl = `/organization/${organization.id}/program?page=0&limit=9999999999&hierarchy=1`
+    const apiUrl = `/organization/${organization.id}/program/${program.id}/descendents?includeSelf=1`
 
     if(isEmpty(programs)) {
       try {
@@ -26,7 +26,7 @@ const ProgramsHierarchy = ({defaultPrograms, organization, selectedPrograms, set
         );
         // console.log(response);
         if (response.data.length === 0) return {results: [], count: 0}
-        const data = response.data.data;
+        const data = response.data;
         setPrograms(data);
         return data;
       } catch (e) {
