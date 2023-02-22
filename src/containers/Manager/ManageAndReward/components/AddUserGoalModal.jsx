@@ -24,7 +24,6 @@ import TemplateButton from "@/shared/components/TemplateButton";
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import { getActiveGoalPlansByProgram } from "@/services/program/getActiveGoalPlansByProgram";
 import { getGoalPlan } from "@/services/program/getGoalPlan";
-import renderSelectField from "@/shared/components/form/Select";
 
 import { Img } from '@/theme'
 
@@ -49,43 +48,44 @@ const AddUserGoalModal = ({
   const [saving, setSaving] = useState(false);
 
   const onChangeGoalPlan = ([field], state, { setIn, changeValue }) => {
-    console.log(state);
     setLoadingGoalPlan(true);
     getGoalPlan(organization.id, program.id, field.value).then((item) => {
       setGoalPlan(item);
+      changeValue(state, 'target_value', () => item.default_target);
+      changeValue(state, 'date_begin', () => item.date_begin);
+      changeValue(state, 'date_end', () => item.date_end);
+      changeValue(state, 'factor_before', () => item.factor_before);
+      changeValue(state, 'factor_after', () => item.factor_after);
+      changeValue(state, 'achieved_callback_id', () => item.achieved_callback_id);
+      changeValue(state, 'exceeded_callback_id', () => item.exceeded_callback_id);
+      if (item.goal_plan_type.name == "Sales Goal") {
+        setShowFactors(true)
+      } else {
+        setShowFactors(false)
+      }
     });
     setLoadingGoalPlan(false);
-    changeValue(state, 'target_value', () => goalplan.default_target);
-    changeValue(state, 'date_begin', () => goalplan.date_begin);
-    changeValue(state, 'date_end', () => goalplan.date_end);
-    changeValue(state, 'factor_before', () => goalplan.factor_before);
-    changeValue(state, 'factor_after', () => goalplan.factor_after);
-    changeValue(state, 'achieved_callback_id', () => goalplan.achieved_callback_id);
-    changeValue(state, 'exceeded_callback_id', () => goalplan.exceeded_callback_id);
-    /*if (goalplan.goal_plan_type_name == "Sales Goal") {
-      setShowFactors(true)
-    } else {
-      setShowFactors(false)
-    }*/
+
   };
 
   useEffect(() => {
-    console.log('there');
-    setLoading(false);
+    console.log('hi')
+    setLoading(true);
+    console.log('useeffect')
     if (!organization?.id || !program?.id) return;
     let mounted = true;
-    setLoading(true);
     getActiveGoalPlansByProgram(organization.id, program.id).then(
       (items) => {
         if (mounted) {
           if (items.length > 0) {
             setGoalPlans(labelizeNamedData(items));
-            setGoalPlan(items.shift());
-            /*if (goalplan.goal_plan_type_name == "Sales Goal") {
+            let item = items.shift()
+            setGoalPlan(item);
+            if (item.goal_plan_type_name == "Sales Goal") {
               setShowFactors(true)
             } else {
               setShowFactors(false)
-            }*/
+            }
           }
           setLoading(false);
         }
@@ -93,7 +93,6 @@ const AddUserGoalModal = ({
     );
     return () => (mounted = false);
   }, []);
-  //}, [organization, program]);
 
   if (loading) return t("loading");
 
@@ -110,10 +109,10 @@ const AddUserGoalModal = ({
         factor_after: goalplan.factor_after,
         achieved_callback_id: goalplan.achieved_callback_id,
         exceeded_callback_id: goalplan.exceeded_callback_id,
-        // goal_plan_type_name: goalplan.goal_plan_type_name
       },
     };
   }
+
 
   const onSubmit = (values) => {
     let formData = {
@@ -135,7 +134,7 @@ const AddUserGoalModal = ({
         formData
       )
       .then((res) => {
-        //   console.log(res)
+        //console.log(res)
         if (res.status === 200) {
           toggle()
           //let msg = "User Goal Plan created successfully!"
@@ -160,6 +159,7 @@ const AddUserGoalModal = ({
       });
   };
   return (
+
     <Modal
       className={`program-settings modal-2col modal-xl`}
       isOpen={isOpen}
@@ -182,8 +182,6 @@ const AddUserGoalModal = ({
         >
 
           {({ handleSubmit, form, submitting, pristine, values }) => {
-            // console.log(values)
-            console.log(values);
             return (
               <form
                 className="form d-flex flex-column justify-content-evenly"
@@ -277,49 +275,51 @@ const AddUserGoalModal = ({
                     </Field>
                   </Col>
                 </Row>
-                
-                  <Row>
-                    <Col md="12">
-                      <Field name="factor_before">
-                        {({ input, meta }) => (
-                          <FormGroup>
-                            <Input
-                              placeholder="Factor Before"
-                              type="text"
-                              readOnly={true}
-                              {...input}
-                            />
-                            {meta.touched && meta.error && (
-                              <span className="text-danger">
-                                {meta.error}
-                              </span>
-                            )}
-                          </FormGroup>
-                        )}
-                      </Field>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="12">
-                      <Field name="factor_after">
-                        {({ input, meta }) => (
-                          <FormGroup>
-                            <Input
-                              placeholder="Factor After"
-                              type="text"
-                              {...input}
-                            />
-                            {meta.touched && meta.error && (
-                              <span className="text-danger">
-                                {meta.error}
-                              </span>
-                            )}
-                          </FormGroup>
-                        )}
-                      </Field>
-                    </Col>
-                  </Row>
-                
+                {showFactors &&
+                  <>
+                    <Row>
+                      <Col md="12">
+                        <Field name="factor_before">
+                          {({ input, meta }) => (
+                            <FormGroup>
+                              <Input
+                                placeholder="Factor Before"
+                                type="text"
+                                readOnly={true}
+                                {...input}
+                              />
+                              {meta.touched && meta.error && (
+                                <span className="text-danger">
+                                  {meta.error}
+                                </span>
+                              )}
+                            </FormGroup>
+                          )}
+                        </Field>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col md="12">
+                        <Field name="factor_after">
+                          {({ input, meta }) => (
+                            <FormGroup>
+                              <Input
+                                placeholder="Factor After"
+                                type="text"
+                                {...input}
+                              />
+                              {meta.touched && meta.error && (
+                                <span className="text-danger">
+                                  {meta.error}
+                                </span>
+                              )}
+                            </FormGroup>
+                          )}
+                        </Field>
+                      </Col>
+                    </Row>
+                  </>
+                }
                 <div className="d-flex justify-content-end">
                   <TemplateButton
                     disabled={saving}
