@@ -1,6 +1,5 @@
 
 import axios from 'axios'
-import {prepareRequestParams} from '@/shared/helper'
 
 export const getReferralNotificationRecipients = async(organizationId, programId, filter = null) => {
 
