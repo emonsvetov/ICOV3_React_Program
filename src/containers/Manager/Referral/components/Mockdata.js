@@ -2,15 +2,16 @@ export const REFERRAL_COLUMNS = [
     {
         Header: "Name",
         accessor: "name",
-        Cell: ({ row, value }) => {return `${row.original.first_name} ${row.original.last_name}`},
+        Cell: ({ row, value }) => {return `${row.original.referral_notification_recipient_name} ${row.original.referral_notification_recipient_lastname}`},
     },
     {
         Header: "Email Address",
-        accessor: "email",
+        accessor: "referral_notification_recipient_email",
     },
     {
         Header: "Status",
-        accessor: "status",
+        accessor: "referral_notification_recipient_active",
+        Cell: ({ row, value }) => {return row.original.referral_notification_recipient_active? 'Active' : 'Deactivated'},
     }
 ]
 
