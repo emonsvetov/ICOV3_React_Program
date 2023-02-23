@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
-// import {getEvents} from '@/services/program/getEvents'
-// import {getEvent} from '@/services/program/getEvent'
 import { useTable } from "react-table";
+import axios from 'axios';
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Table } from "reactstrap";
 import PencilIcon from "mdi-react/PencilIcon";
 import TrashIcon from "mdi-react/TrashCanIcon";
-import { Link } from "react-router-dom";
 
-import { REFERRAL_COLUMNS, REFERRAL_DATA } from "./Mockdata";
-
-import { Table } from "reactstrap";
+import { REFERRAL_COLUMNS } from "./Mockdata";
 import ModalWrapper from "./ModalWrapper";
-import { useTranslation } from "react-i18next";
+import { getReferralNotificationRecipients } from '@/services/referral/getReferralNotificationRecipients'
+import { getReferralNotificationRecipient } from '@/services/referral/getReferralNotificationRecipient'
+import { useDispatch, flashError, flashSuccess } from "@/shared/components/flash"
 
 const Referrals = ({ program, organization }) => {
-  // console.log(program)
-  // console.log(organization)
+  const dispatch = useDispatch()
   const { t } = useTranslation();
-  const [events, setEvents] = useState([]);
+  const [referrals, setReferrals] = useState([]);
   const [referral, setReferral] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isOpen, setOpen] = useState(false);
@@ -28,20 +28,29 @@ const Referrals = ({ program, organization }) => {
   };
 
   const onClickEditReferral = (referralId) => {
-    // getEvent(organization.id, program.id, referralId)
-    // .then(item => {
-    //   // console.log(item)
-    //   setReferral(item)
-    //   toggle('EditEvent');
-    //   setLoading(false)
-    // })
-
-    setReferral(REFERRAL_DATA[0]);
-    toggle("EditReferral");
-    setLoading(false);
+    getReferralNotificationRecipient(organization.id, program.id, referralId)
+      .then(item => {
+        setReferral(item)
+        toggle('EditReferral');
+        setLoading(false)
+      })
   };
-  const onDeleteReferral = (e, referral_id) => {};
-
+  const onDeleteReferral = (e, referral_id) => {
+    axios.delete(
+      `/organization/${program.organization_id}/program/${program.id}/referral-notification-recipient/${referral_id}`
+    )
+      .then((res) => {
+        if (res.status == 200) {
+          flashSuccess(dispatch, "Referral was deleted!");
+          setLoading(false);
+          window.location.reload()
+        }
+      })
+      .catch((err) => {
+        flashError(dispatch, err.response.data);
+        setLoading(false);
+      });
+  };
   const RenderActions = ({ row }) => {
     return (
       <span>
@@ -81,30 +90,25 @@ const Referrals = ({ program, organization }) => {
   useEffect(() => {
     let mounted = true;
     setLoading(true);
-    // getEvents(organization.id, program.id)
-    //   .then(items => {
-    //     if(mounted) {
-    //       setEvents(items)
-    //       setLoading(false)
-    //     }
-    //   })
+    getReferralNotificationRecipients(organization.id, program.id)
+      .then(items => {
+        if (mounted) {
+          setReferrals(items)
+          console.log(items)
+          setLoading(false)
+        }
+      })
     setLoading(false);
     return () => (mounted = false);
   }, []);
 
   const columns = React.useMemo(() => final_columns, []);
-  const data = React.useMemo(() => REFERRAL_DATA, []);
-
-  // console.log(data)
   const { getTableProps, headerGroups, rows, prepareRow } = useTable({
     columns,
-    data,
+    data: referrals,
   });
 
   if (loading) return t("loading");
-
-  // return ;
-  // console.log(event)
 
   return (
     <>
