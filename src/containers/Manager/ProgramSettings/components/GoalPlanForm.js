@@ -404,6 +404,7 @@ const GoalPlanForm = ({
 
     return (
         <Form
+        keepDirtyOnReinitialize 
             onSubmit={goalplan?.id ? onSubmitEdit : onSubmitAdd}
             validate={validate}
             initialValues={goalplan}
