@@ -390,8 +390,6 @@ const GoalPlanForm = ({
                 dispatch(sendFlashMessage(msg));
                 setLoading(false);
                 setOpen(false);
-                
-            // toggle()
               }
           })
           .catch((err) => {
