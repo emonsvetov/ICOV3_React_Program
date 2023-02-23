@@ -21,7 +21,7 @@ const GOAL_PLAN_COLUMNS = [
     },
     {
         Header: "Goal Plan Type",
-        accessor: "type",
+        accessor: "goal_plan_type.name",
     }
 ]
 
@@ -106,7 +106,7 @@ const GoalPlans = ({program, organization, status}) => {
     if( loading ) return 'Loading..'
   
     // return ;
-    // console.log(goalplan)
+     console.log(goalplan)
   
     return (
       <>
