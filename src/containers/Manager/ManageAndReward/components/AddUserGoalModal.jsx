@@ -24,6 +24,8 @@ import TemplateButton from "@/shared/components/TemplateButton";
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import { getActiveGoalPlansByProgram } from "@/services/program/getActiveGoalPlansByProgram";
 import { getGoalPlan } from "@/services/program/getGoalPlan";
+import { getGoalExceededProgramCallbacks } from "@/services/externalCallbacks/getGoalExceededProgramCallbacks";
+import { getGoalMetProgramCallbacks } from "@/services/externalCallbacks/getGoalMetProgramCallbacks";
 
 import { Img } from '@/theme'
 
@@ -44,8 +46,10 @@ const AddUserGoalModal = ({
   const [goalplan, setGoalPlan] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loadingGoalPlan, setLoadingGoalPlan] = useState(false);
-  const [showFactors, setShowFactors] = useState(false);
+  const [fieldsDisplay, setFieldsDisplay] = useState({ factor_before: false, factor_after: false, exceeded_callback_id: false, achieved_callback_id: false });
   const [saving, setSaving] = useState(false);
+  const [goalExceededProgramCallbacks, setGoalExceededProgramCallbacks] = useState([]);
+  const [goalMetProgramCallbacks, setGoalMetProgramCallbacks] = useState([]);
 
   const onChangeGoalPlan = ([field], state, { setIn, changeValue }) => {
     setLoadingGoalPlan(true);
@@ -54,14 +58,35 @@ const AddUserGoalModal = ({
       changeValue(state, 'target_value', () => item.default_target);
       changeValue(state, 'date_begin', () => item.date_begin);
       changeValue(state, 'date_end', () => item.date_end);
-      changeValue(state, 'factor_before', () => item.factor_before);
-      changeValue(state, 'factor_after', () => item.factor_after);
+      
       changeValue(state, 'achieved_callback_id', () => item.achieved_callback_id);
       changeValue(state, 'exceeded_callback_id', () => item.exceeded_callback_id);
+
       if (item.goal_plan_type.name == "Sales Goal") {
-        setShowFactors(true)
+        changeValue(state, 'factor_before', () => item.factor_before);
+        changeValue(state, 'factor_after', () => item.factor_after);
+        setFieldsDisplay({
+          factor_before: true,
+          factor_after: true,
+          exceeded_callback_id: goalExceededProgramCallbacks.length > 0 ? true : false,
+          achieved_callback_id: goalMetProgramCallbacks.length > 0 ? true : false
+        });
+
+      } else if (item.goal_plan_type.name == "Recognition Goal") {
+        setFieldsDisplay({
+          factor_before: false,
+          factor_after: false,
+          exceeded_callback_id: false,
+          achieved_callback_id: goalMetProgramCallbacks.length > 0 ? true : false
+      });
+
       } else {
-        setShowFactors(false)
+        setFieldsDisplay({
+          factor_before: false,
+          factor_after: false,
+          exceeded_callback_id: false,
+          achieved_callback_id: goalMetProgramCallbacks.length > 0 ? true : false
+        });
       }
     });
     setLoadingGoalPlan(false);
@@ -69,34 +94,66 @@ const AddUserGoalModal = ({
   };
 
   useEffect(() => {
-    console.log('hi')
     setLoading(true);
-    console.log('useeffect')
     if (!organization?.id || !program?.id) return;
     let mounted = true;
-    getActiveGoalPlansByProgram(organization.id, program.id).then(
+    getActiveGoalPlansByProgram(organization.id, program.id, 1000).then(
       (items) => {
         if (mounted) {
           if (items.length > 0) {
             setGoalPlans(labelizeNamedData(items));
             let item = items.shift()
-            setGoalPlan(item);
+            
             if (item.goal_plan_type_name == "Sales Goal") {
-              setShowFactors(true)
+              setFieldsDisplay({
+                factor_before: true,
+                factor_after: true,
+                exceeded_callback_id: goalExceededProgramCallbacks.length > 0 ? true : false,
+                achieved_callback_id: goalMetProgramCallbacks.length > 0 ? true : false
+              });
+
+            } else if (item.goal_plan_type_name == "Recognition Goal") { 
+              setFieldsDisplay({
+                factor_before: false,
+                factor_after: false,
+                exceeded_callback_id: false,
+                achieved_callback_id: goalMetProgramCallbacks.length > 0 ? true : false
+              });
+
             } else {
-              setShowFactors(false)
+              setFieldsDisplay({
+                factor_before: false,
+                factor_after: false,
+                exceeded_callback_id: false,
+                achieved_callback_id: goalMetProgramCallbacks.length > 0 ? true : false
+              });
             }
+            //set goalplan here
+            setGoalPlan(item);
           }
           setLoading(false);
         }
       }
     );
+
+    getGoalExceededProgramCallbacks(program.organization_id, program.id)
+      .then(items => {
+        setGoalExceededProgramCallbacks(labelizeNamedData(items))
+      })
+    getGoalMetProgramCallbacks(program.organization_id, program.id)
+      .then(items => {
+        setGoalMetProgramCallbacks(labelizeNamedData(items))
+      })
+
+    //console.log(goalExceededProgramCallbacks);
+    //console.log(goalMetProgramCallbacks);
     return () => (mounted = false);
   }, []);
 
   if (loading) return t("loading");
 
   let initialValues = {};
+  console.log(goalplan);
   if (goalplan) {
     initialValues = {
       ...initialValues,
@@ -144,7 +201,7 @@ const AddUserGoalModal = ({
           }
           dispatch(flashMessage(msg));
           setSaving(false)
-          window.location.reload()
+         // window.location.reload()
         }
       })
       .catch((err) => {
@@ -182,6 +239,7 @@ const AddUserGoalModal = ({
         >
 
           {({ handleSubmit, form, submitting, pristine, values }) => {
+            console.log(values)
             return (
               <form
                 className="form d-flex flex-column justify-content-evenly"
@@ -263,6 +321,7 @@ const AddUserGoalModal = ({
                           <Input
                             placeholder="Date End"
                             type="text"
+                            readOnly={true}
                             {...input}
                           />
                           {meta.touched && meta.error && (
@@ -275,51 +334,96 @@ const AddUserGoalModal = ({
                     </Field>
                   </Col>
                 </Row>
-                {showFactors &&
-                  <>
-                    <Row>
-                      <Col md="12">
-                        <Field name="factor_before">
-                          {({ input, meta }) => (
-                            <FormGroup>
-                              <Input
-                                placeholder="Factor Before"
-                                type="text"
-                                readOnly={true}
-                                {...input}
-                              />
-                              {meta.touched && meta.error && (
-                                <span className="text-danger">
-                                  {meta.error}
-                                </span>
-                              )}
-                            </FormGroup>
-                          )}
-                        </Field>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md="12">
-                        <Field name="factor_after">
-                          {({ input, meta }) => (
-                            <FormGroup>
-                              <Input
-                                placeholder="Factor After"
-                                type="text"
-                                {...input}
-                              />
-                              {meta.touched && meta.error && (
-                                <span className="text-danger">
-                                  {meta.error}
-                                </span>
-                              )}
-                            </FormGroup>
-                          )}
-                        </Field>
-                      </Col>
-                    </Row>
-                  </>
-                }
+                {fieldsDisplay.hasOwnProperty("factor_before") && fieldsDisplay.factor_before && (
+                  <Row>
+                    <Col md="12">
+                      <Field name="factor_before">
+                        {({ input, meta }) => (
+                          <FormGroup>
+                            <Input
+                              placeholder="Factor Before"
+                              type="text"
+                              {...input}
+                            />
+                            {meta.touched && meta.error && (
+                              <span className="text-danger">
+                                {meta.error}
+                              </span>
+                            )}
+                          </FormGroup>
+                        )}
+                      </Field>
+                    </Col>
+                  </Row>
+                )}
+                {fieldsDisplay.hasOwnProperty("factor_after") && fieldsDisplay.factor_after && (
+                  <Row>
+                    <Col md="12">
+                      <Field name="factor_after">
+                        {({ input, meta }) => (
+                          <FormGroup>
+                            <Input
+                              placeholder="Factor After"
+                              type="text"
+                              {...input}
+                            />
+                            {meta.touched && meta.error && (
+                              <span className="text-danger">
+                                {meta.error}
+                              </span>
+                            )}
+                          </FormGroup>
+                        )}
+                      </Field>
+                    </Col>
+                  </Row>
+                )}
+                {fieldsDisplay.hasOwnProperty("exceeded_callback_id") && fieldsDisplay.exceeded_callback_id && (
+                  <Row>
+                    <Col md="12">
+                      <Field name="exceeded_callback_id">
+                        {({ input, meta }) => (
+                          <FormGroup>
+                            <Select
+                              options={goalExceededProgramCallbacks}
+                              clearable={false}
+                              className="react-select"
+                              placeholder={"Goal Plan Exceeded"}
+                              classNamePrefix="react-select"
+                              {...input}
+                            />
+                            {meta.touched && meta.error && (
+                              <span className="text-danger">{meta.error}</span>
+                            )}
+                          </FormGroup>
+                        )}
+                      </Field>
+                    </Col>
+                  </Row>
+                )}
+                {fieldsDisplay.hasOwnProperty("achieved_callback_id") && fieldsDisplay.achieved_callback_id && (
+                  <Row>
+                    <Col md="12">
+                      <Field name="achieved_callback_id">
+                        {({ input, meta }) => (
+                          <FormGroup>
+                            <Select
+                              options={goalMetProgramCallbacks}
+                              clearable={false}
+                              className="react-select"
+                              placeholder={"Goal Plan Achieved"}
+                              classNamePrefix="react-select"
+                              {...input}
+                            />
+                            {meta.touched && meta.error && (
+                              <span className="text-danger">{meta.error}</span>
+                            )}
+                          </FormGroup>
+                        )}
+                      </Field>
+                    </Col>
+                  </Row>
+                )}
                 <div className="d-flex justify-content-end">
                   <TemplateButton
                     disabled={saving}

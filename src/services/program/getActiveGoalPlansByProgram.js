@@ -1,12 +1,14 @@
 import axios from "axios";
+import {prepareRequestParams} from '@/shared/helpers'
 
 export const getActiveGoalPlansByProgram = async (
   organizationId,
-  programId
+  programId,
+  pageSize=10
 ) => {
   try {
     const response = await axios.get(
-      `/organization/${organizationId}/program/${programId}/read-active-goalplans-by-program`
+      `/organization/${organizationId}/program/${programId}/read-active-goalplans-by-program?pageSize=${pageSize}`
     );
     const results = response.data;
     return results;
