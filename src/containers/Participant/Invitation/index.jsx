@@ -3,8 +3,11 @@ import { connect } from "react-redux";
 import axios from "axios";
 import AcceptInvitationForm from "./components/AcceptInvitationForm";
 import { useTranslation } from "react-i18next";
+import {login} from '@/containers/App/auth';
+import {useDispatch, flashSuccess, flashError} from "@/shared/components/flash"
 
 const Invitation = ({ template }) => {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   useEffect(() => {
     // Update the document title using the browser API
@@ -28,16 +31,35 @@ const Invitation = ({ template }) => {
     axios
       .post("/invitation/accept", values)
       .then((res) => {
-        // console.log(res)
-        // console.log(res.status == 200)
+        console.log(res)
         if (res.status == 200) {
-          // var t = setTimeout(window.location = '/', 500)
-          window.location = "/invitation/success";
+          const access_token = res.data?.access_token ? res.data.access_token : null
+          const user = res.data.user ? res.data.user : null
+          const program = res.data?.program?.id ? res.data.program : null
+          const organization = user?.organization?.id ? user.organization : null
+          if( access_token && user && program && organization )
+          {
+            user.loginAs = res.data?.role ? res.data.role : null
+              login({
+                user,
+                access_token,
+                program,
+                rootProgram: program,
+                organization
+              })
+              flashSuccess(dispatch, 'Invitation accepted. Redirecting to Dashboard...')
+              setTimeout( () => window.location="/participant/home?message=Invitation accepted. Please start awarding", 2000);
+          } else {
+            setTimeout( () => window.location="/invitation/success?message=Invitation accepted. Please Login.", 2000);
+            flashSuccess(dispatch, 'Invitation accepted. Please Login.')
+          }
+        } else {
+          flashError(dispatch, res.response.error)
+          setLoading(false);
         }
       })
       .catch((error) => {
-        // console.log(error.response.data);
-        setErrors(error.response.data);
+        flashError(dispatch, error.response.data)
         setLoading(false);
       });
   };
