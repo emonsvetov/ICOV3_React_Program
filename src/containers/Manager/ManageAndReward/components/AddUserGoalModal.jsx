@@ -184,10 +184,11 @@ const AddUserGoalModal = ({
       date_end: values.date_end,
       factor_before: values?.factor_before,
       factor_after: values?.factor_after,
-      achieved_callback_id: values?.achieved_callback_id ? values.achieved_callback_id : null,
-      exceeded_callback_id: values?.exceeded_callback_id ? values.exceeded_callback_id : null,
+      achieved_callback_id: values?.achieved_callback_id ? values.achieved_callback_id.value : null,
+      exceeded_callback_id: values?.exceeded_callback_id ? values.exceeded_callback_id.value : null,
       user_id: participants.map((p) => p.id),
     };
+    console.log(formData)
     setSaving(true)
 
     axios
