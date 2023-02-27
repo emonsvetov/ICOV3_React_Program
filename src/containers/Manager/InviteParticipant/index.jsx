@@ -178,7 +178,7 @@ const InviteParticipant = ({auth, organization, rootProgram}) => {
                     </Col>
                   </Row>
                   <div className='d-flex justify-content-center'>
-                    <TemplateButton type='submit' text='Invite Participant' />
+                    <TemplateButton type='submit' text='Invite Participant' disabled={loading} />
                   </div>
                 </form>
               )}

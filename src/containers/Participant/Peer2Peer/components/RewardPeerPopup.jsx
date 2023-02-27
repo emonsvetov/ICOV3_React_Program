@@ -1,36 +1,29 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import { Link } from "react-router-dom";
 import {
   Modal,
   Input,
   Col,
   Row,
   FormGroup,
-  FormFeedback,
   Label,
   Button,
   Card,
   CardHeader,
   CardBody,
-  CardTitle,
-  CardText,
 } from "reactstrap";
 import { Form, Field } from "react-final-form";
-import CloseIcon from "mdi-react/CloseIcon";
 import { getEvents } from "@/services/program/getEvents";
 import { getEvent } from "@/services/program/getEvent";
 import EVENT_TYPES from "@/shared/json/eventTypes.json";
 import {
   labelizeNamedData,
-  patch4Select,
   flashDispatch,
   flashMessage,
 } from "@/shared/helpers";
 import formValidation from "@/validation/givePeer2PeerReward";
 import { connect } from "react-redux";
 import axios from "axios";
-import TemplateButton from "@/shared/components/TemplateButton";
 import { getSocialWallPostTypeEvent } from "@/services/program/getSocialWallPostTypes";
 import { createSocialWallPost } from "@/redux/actions/socialWallPostActions";
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
@@ -49,7 +42,6 @@ const RewardPeerPopup = ({
 }) => {
   const { t } = useTranslation();
   const dispatch = flashDispatch();
-  const [value, setValue] = useState(false);
   const [loading, setLoading] = useState(true);
   const [events, setEvents] = useState([]);
   const [event, setEvent] = useState(null);
@@ -58,7 +50,7 @@ const RewardPeerPopup = ({
   const p2pBadge = EVENT_TYPES.find(
     (type) => type.name === "peer2peer badge"
   )?.value;
-  const [sliderValue, setSliderValue] = useState(1);
+  const [sliderValue, setSliderValue] = useState(program.factor_valuation);
 
   const sliderHandler = (event, newValue) => {
     if (typeof newValue === "number") {
@@ -78,6 +70,8 @@ const RewardPeerPopup = ({
           : null,
     };
 
+    formData.override_cash_value = formData.override_cash_value / program.factor_valuation
+    setSaving(true)
     axios
       .post(
         `/organization/${organization.id}/program/${program.id}/award/`,
@@ -125,7 +119,7 @@ const RewardPeerPopup = ({
         }
       })
       .catch((err) => {
-        console.log(err.response.data);
+        // console.log(err.response.data);
         dispatch(
           flashMessage(
             <ApiErrorMessage errors={err.response.data} />,
@@ -165,6 +159,9 @@ const RewardPeerPopup = ({
   let initialValues = {};
   let eventIconSrc = `${process.env.PUBLIC_URL}/img/award-event-icon.png`
 
+  const peerBalance = pointBalance?.peerBalance ? pointBalance.peerBalance : 0;
+  let max_awardable_points = peerBalance * program.factor_valuation;
+
   if (event) {
     // console.log(p2p);
     // console.log(event);
@@ -173,11 +170,18 @@ const RewardPeerPopup = ({
     {
       eventIconSrc = `${process.env.REACT_APP_API_STORAGE_URL}/${event.icon.path}`
     }
+
+    const max_awardable_amount = event.max_awardable_amount ? event.max_awardable_amount : 0;
+    if( max_awardable_amount < peerBalance ) {
+      max_awardable_points = max_awardable_amount * program.factor_valuation;
+    }
+    
+
     initialValues = {
       ...initialValues,
       ...{
         event_id: event.id,
-        awarding_points: program.factor_valuation * event.max_awardable_amount,
+        awarding_points: max_awardable_points,
         message: event.message,
         email_template_id: 1,
       },
@@ -290,13 +294,10 @@ const RewardPeerPopup = ({
                                     defaultValue={input.value}
                                     // getAriaValueText="asd"
                                     valueLabelDisplay="auto"
-                                    step={1}
+                                    step={program.factor_valuation}
                                     // marks
-                                    min={1}
-                                    max={
-                                      event.max_awardable_amount *
-                                      program.factor_valuation
-                                    }
+                                    min={0}
+                                    max={max_awardable_points}
                                     name={input.name}
                                   />
                                   {meta.touched && meta.error && (
@@ -316,7 +317,7 @@ const RewardPeerPopup = ({
                       <Label>{t("you_can_award")}</Label>
                     </Col>
                     <Col md="6">
-                      <Label>{pointBalance.peerBalance.toLocaleString()}</Label>
+                      <Label>{max_awardable_points.toLocaleString()}</Label>
                     </Col>
                   </Row>
                   <Row>
@@ -338,7 +339,7 @@ const RewardPeerPopup = ({
                     </Col>
                   </Row>
                   <div className="d-flex justify-content-end">
-                    <Button color="danger" type="submit">
+                    <Button color="danger" type="submit" disabled={saving}>
                       {t("reward_now")}
                     </Button>
                   </div>
