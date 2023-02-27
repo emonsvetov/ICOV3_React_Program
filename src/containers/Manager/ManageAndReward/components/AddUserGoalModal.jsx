@@ -54,11 +54,11 @@ const AddUserGoalModal = ({
   const onChangeGoalPlan = ([field], state, { setIn, changeValue }) => {
     setLoadingGoalPlan(true);
     getGoalPlan(organization.id, program.id, field.value).then((item) => {
-      setGoalPlan(item);
+
       changeValue(state, 'target_value', () => item.default_target);
       changeValue(state, 'date_begin', () => item.date_begin);
       changeValue(state, 'date_end', () => item.date_end);
-      
+
       changeValue(state, 'achieved_callback_id', () => item.achieved_callback_id);
       changeValue(state, 'exceeded_callback_id', () => item.exceeded_callback_id);
 
@@ -73,14 +73,18 @@ const AddUserGoalModal = ({
         });
 
       } else if (item.goal_plan_type.name == "Recognition Goal") {
+        item.factor_before = 0;
+        item.factor_after = 0;
         setFieldsDisplay({
           factor_before: false,
           factor_after: false,
           exceeded_callback_id: false,
           achieved_callback_id: goalMetProgramCallbacks.length > 0 ? true : false
-      });
+        });
 
       } else {
+        item.factor_before = 0;
+        item.factor_after = 0;
         setFieldsDisplay({
           factor_before: false,
           factor_after: false,
@@ -88,6 +92,7 @@ const AddUserGoalModal = ({
           achieved_callback_id: goalMetProgramCallbacks.length > 0 ? true : false
         });
       }
+      setGoalPlan(item);
     });
     setLoadingGoalPlan(false);
 
@@ -103,7 +108,7 @@ const AddUserGoalModal = ({
           if (items.length > 0) {
             setGoalPlans(labelizeNamedData(items));
             let item = items.shift()
-            
+
             if (item.goal_plan_type_name == "Sales Goal") {
               setFieldsDisplay({
                 factor_before: true,
@@ -112,7 +117,9 @@ const AddUserGoalModal = ({
                 achieved_callback_id: goalMetProgramCallbacks.length > 0 ? true : false
               });
 
-            } else if (item.goal_plan_type_name == "Recognition Goal") { 
+            } else if (item.goal_plan_type_name == "Recognition Goal") {
+              item.factor_before = 0;
+              item.factor_after = 0;
               setFieldsDisplay({
                 factor_before: false,
                 factor_after: false,
@@ -121,6 +128,8 @@ const AddUserGoalModal = ({
               });
 
             } else {
+              item.factor_before = 0;
+              item.factor_after = 0;
               setFieldsDisplay({
                 factor_before: false,
                 factor_after: false,
@@ -144,16 +153,12 @@ const AddUserGoalModal = ({
       .then(items => {
         setGoalMetProgramCallbacks(labelizeNamedData(items))
       })
-
-    //console.log(goalExceededProgramCallbacks);
-    //console.log(goalMetProgramCallbacks);
     return () => (mounted = false);
   }, []);
 
   if (loading) return t("loading");
 
   let initialValues = {};
-  console.log(goalplan);
   if (goalplan) {
     initialValues = {
       ...initialValues,
@@ -201,7 +206,7 @@ const AddUserGoalModal = ({
           }
           dispatch(flashMessage(msg));
           setSaving(false)
-         // window.location.reload()
+          window.location.reload()
         }
       })
       .catch((err) => {
