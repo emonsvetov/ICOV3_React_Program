@@ -135,7 +135,7 @@ const ParticipantTopbar = ({ template, themeName }) => {
   };
 
   const OriginalNavbar = () => {
-    const Brand = `${process.env.REACT_APP_API_STORAGE_URL}/logo/big_logo.png`;
+    const Brand = `${process.env.REACT_APP_API_STORAGE_URL}/${template.small_logo}`;
     return (
       <>
         <Navbar

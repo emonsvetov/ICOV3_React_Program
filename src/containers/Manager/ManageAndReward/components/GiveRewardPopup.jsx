@@ -233,7 +233,7 @@ const GiveRewardPopup = ({
                   <>
                     <Row>
                       <Col md="6">
-                        <Label>Participant List to be Rewarded</Label>
+                        <Label>Participant list to be rewarded</Label>
                       </Col>
                       <Col md="6">
                         {participants.map((item, index) => {
@@ -247,7 +247,7 @@ const GiveRewardPopup = ({
                     </Row>
                     <Row>
                       <Col md="6">
-                        <Label>Maximum Cash Value per Participant</Label>
+                        <Label>Maximum cash value per participant</Label>
                       </Col>
                       <Col md="6">
                         <strong>{`$${event?.max_awardable_amount}`}</strong>
@@ -255,7 +255,7 @@ const GiveRewardPopup = ({
                     </Row>
                     <Row>
                       <Col md="6">
-                        <Label>Custom Cash Value per Participant</Label>
+                        <Label>Custom cash value per participant</Label>
                       </Col>
                       <Col md="6">
                         <Field name="override_cash_value">
@@ -279,7 +279,7 @@ const GiveRewardPopup = ({
                     </Row>
                     <Row>
                       <Col md="4">
-                        <Label>Points per Participant</Label>: &nbsp;
+                        <Label>Points per participant</Label>: &nbsp;
                         <Field name="awarding_points">
                           {({ input, meta }) => {
                             // console.log(input)
@@ -302,60 +302,16 @@ const GiveRewardPopup = ({
                         </Field>
                       </Col>
                       <Col md="4">
-                        <Label>Total People Selected: <strong>{participants.length}</strong></Label>
+                        <Label>Total users selected: <strong>{participants.length}</strong></Label>
                       </Col>
                       <Col md="4">
-                        <Label>Total Award: <strong>
+                        <Label>Total award: <strong>
                           $
                           {participants.length *
                             (values?.override_cash_value
                               ? values.override_cash_value
                               : event.max_awardable_amount)}
                         </strong></Label>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md="6">
-                        <Label>Referrer</Label><br />
-                        <Field name="referrer">
-                          {({ input, meta }) => (
-                            <FormGroup>
-                              <Input
-                                placeholder="Referrer"
-                                type="text"
-                                {...input}
-                              />
-                              {meta.touched && meta.error && (
-                                <span className="text-danger">
-                                  {meta.error}
-                                </span>
-                              )}
-                            </FormGroup>
-                          )}
-                        </Field>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md="6">
-                        <Label>Documentation</Label>
-                      </Col>
-                      <Col md="6">
-                        <Field name="doc_file">
-                          {({ input, meta }) => (
-                            <FormGroup>
-                              <Input
-                                placeholder="Browse"
-                                type="file"
-                                {...input}
-                              />
-                              {meta.touched && meta.error && (
-                                <span className="text-danger">
-                                  {meta.error}
-                                </span>
-                              )}
-                            </FormGroup>
-                          )}
-                        </Field>
                       </Col>
                     </Row>
                     <Row>
@@ -401,12 +357,58 @@ const GiveRewardPopup = ({
                         </Field>
                       </Col>
                     </Row>
+                    <Row>
+                      <Col md="6">
+                        <Label>Documentation</Label>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col md="6">
+                        <Field name="doc_file">
+                          {({ input, meta }) => (
+                              <FormGroup>
+                                <Input
+                                    placeholder="Browse"
+                                    type="file"
+                                    {...input}
+                                />
+                                {meta.touched && meta.error && (
+                                    <span className="text-danger">
+                                  {meta.error}
+                                </span>
+                                )}
+                              </FormGroup>
+                          )}
+                        </Field>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col md="6">
+                        <Label>Referrer</Label><br />
+                        <Field name="referrer">
+                          {({ input, meta }) => (
+                              <FormGroup>
+                                <Input
+                                    placeholder="Referrer"
+                                    type="text"
+                                    {...input}
+                                />
+                                {meta.touched && meta.error && (
+                                    <span className="text-danger">
+                                  {meta.error}
+                                </span>
+                                )}
+                              </FormGroup>
+                          )}
+                        </Field>
+                      </Col>
+                    </Row>
                     <div className="d-flex justify-content-end">
                       <TemplateButton
                         disabled={saving}
                         spinner={saving}
                         type="submit"
-                        text="Save Reward"
+                        text="Reward"
                       />
                     </div>
                   </>

@@ -129,7 +129,7 @@ const ProgramUsers = ({ program, organization, auth, template }) => {
   useEffect(() => {
     let mounted = true;
     setLoading(true);
-    // filter.except = [auth.id];  //need to consider
+    filter.except = [auth.id];
     apiTableService
       .fetchData({
         url: `/organization/${organization.id}/program/${program.id}/participant`,
