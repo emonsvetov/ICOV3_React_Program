@@ -37,7 +37,7 @@ const AcceptInvitationForm = ({ onSubmit, errors, loading }) => {
     <Form
       onSubmit={onSubmit}
       validate={validate}
-      initialValues={{"email":"testdev1008@gmail.com"}}
+      // initialValues={{"email":"testdev1008@gmail.com"}}
       render={({ handleSubmit, form, submitting, pristine, values }) => (
         <form className="form" onSubmit={handleSubmit}>
           <div className="card-header">{t("set_your_password")}</div>
