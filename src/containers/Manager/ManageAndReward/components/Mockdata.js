@@ -1,3 +1,4 @@
+import {toCurrency,showPercentage} from '@/shared/helpers'
 export const TODAY_DATA =[
     {
         title: "Today's Awards",
@@ -391,4 +392,46 @@ export const REWARD_HISTORY_COLUMNS = [
         'id': 100, 
         'journal_event_id': 49 
     }, 
-]
+];
+export const USER_GOALS_COLUMNS =[
+    {
+        Header: "Name",
+        accessor: "plan_name",
+    },
+    {
+        Header: "Type",
+        accessor: "goal_plan_type_name",
+    },
+    {
+        Header: "Status",
+        accessor: "goal_state_type_name",
+    },
+    {
+        Header: "Date Begin",
+        accessor: "date_begin",
+        Cell: ({ row, value }) => {
+            return `${new Date(value).toLocaleDateString("en-US", {})}`;
+          },
+    },
+    {
+        Header: "Date End",
+        accessor: "date_end",
+        Cell: ({ row, value }) => {
+            return `${new Date(value).toLocaleDateString("en-US", {})}`;
+        },
+    },
+    {
+        Header: "Target",
+        accessor: "target_value",  
+        Cell: ({ row, value }) => {
+            return `${toCurrency(value)}`;
+        },
+    },
+    {
+        Header: "Progress",
+        accessor: "calc_progress_percentage",
+        Cell: ({ row, value }) => (
+            `${showPercentage(value)} ${row.values.iterations ? row.values.iterations :''}`
+        ),
+    },
+];
