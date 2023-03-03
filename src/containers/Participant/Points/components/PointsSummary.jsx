@@ -41,10 +41,10 @@ const PointsSummary = ({ program, pointBalance, myPoints }) => {
               <strong className={`point-value index-${index}`}>
                 {
                   item.index === 'expired' ? (
-                      pointBalance.expiredBalance
+                      pointBalance.expiredBalance * factor_valuation
                     ) : item.index === 'redeemed' ?
                     (
-                      pointBalance.redeemedBalance
+                      pointBalance.redeemedBalance * factor_valuation
                     ) : item.index === 'balance' ?
                     (
                       pointBalance.amount * factor_valuation

@@ -55,7 +55,9 @@ console.log(template);
     return (
       <>
         <div className="mainboard">
-          <img src={IMG_BACK} />
+          <div className="homeImgWrap">
+            <img src={IMG_BACK} />
+          </div>
           <SlideOutMenu isFixed={false} />
         </div>
         <Container className="origin mt-5" fluid>
@@ -95,7 +97,9 @@ console.log(template);
     return (
       <>
         <div className="mainboard">
-          <img src={IMG_BACK} />
+          <div className="homeImgWrap">
+              <img src={IMG_BACK} />
+          </div>
         </div>
         <Container>
           <ParticipantTabNavs />

@@ -275,7 +275,7 @@ const PeerAllocationPopup = ({
                     </Row>
                     <Row>
                       <Col md="6">
-                        <Label>Custom Cash Value per Particiapnt</Label>
+                        <Label>Custom Cash Value per Participant</Label>
                       </Col>
                       <Col md="6">
                         <Field name="override_cash_value">
@@ -299,7 +299,7 @@ const PeerAllocationPopup = ({
                     </Row>
                     <Row>
                       <Col md="6">
-                        <Label>Points per Particiapnt</Label>
+                        <Label>Points per Participant</Label>
                       </Col>
                       <Col md="6">
                         <Field name="awarding_points">

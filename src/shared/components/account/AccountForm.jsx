@@ -258,7 +258,7 @@ const RenderImage = ({ src }) => {
   return (
     <div className="dropzone-img">
       <a href={src} target="_blank" title="View the picture">
-        <img style={{ maxHeight: 200 }} src={src} />
+        <img src={src} />
       </a>
     </div>
   );
