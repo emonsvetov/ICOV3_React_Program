@@ -37,7 +37,7 @@ const QUERY_PAGE_SIZE = 10;
 
 const ACTIONS = [
   { name: "Reward", link: "", icon: <RewardIcon /> },
-  /*{ name: "Add Goal", link: "", icon: <GoalIcon /> },*/
+  { name: "Add Goal", link: "", icon: <GoalIcon /> },
   /*{ name: "Email", link: "", icon: <MailIcon /> },*/
   { name: "Resend Invite", link: "", icon: <ResendIcon /> },
   { name: "Deactivate", link: "", icon: <DeactivateIcon /> },
@@ -87,7 +87,8 @@ const ProgramParticipants = ({ program, organization }) => {
       action === "Deactivate" ||
       action === "Activate" ||
       action === "Peer Allocation"||
-      action === "Reclaim Peer Allocations"
+      action === "Reclaim Peer Allocations"||
+      action === "Add Goal"
     ) {
       //Add more later
       toggle(action);
@@ -114,7 +115,6 @@ const ProgramParticipants = ({ program, organization }) => {
     } else {
       setParticipants([row]);
     }
-
     toggle(name);
   };
   const onSelectAction = (name) => {
