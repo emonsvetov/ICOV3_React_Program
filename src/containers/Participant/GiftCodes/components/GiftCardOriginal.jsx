@@ -61,7 +61,8 @@ const GiftCardOriginal = (props) => {
           </a>
         </div>
       </div>
-      <div style={{ display: "none" }}><RedemptionToPrint ref={componentRef} merchant={merchant} /></div>
+      <div style={{ display: "none" }}><RedemptionToPrint ref={componentRef} merchant={merchant} sku_value={sku_value}
+                                                          code={code} pin={pin}/></div>
       <RedemptionInstructionsModalWrapper
         isOpen={isOpen}
         setOpen={setOpen}

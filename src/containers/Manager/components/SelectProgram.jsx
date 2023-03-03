@@ -36,7 +36,7 @@ const SelectProgram = ({ auth, program, rootProgram }) => {
   // console.log(program)
   return (
     <>
-      <span>For Program:</span>
+      <span>For&nbsp;Program:</span>
       <div className="mb-0">
         <Input
           type="select"

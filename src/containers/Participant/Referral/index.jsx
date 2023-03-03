@@ -9,7 +9,6 @@ import TemplateButton from "@/shared/components/TemplateButton";
 import { SidebarOrigin } from "../../Layout/sidebar";
 import ReferralForm from "./components/ReferralForm";
 
-const IMG_REFERRAL = `${process.env.PUBLIC_URL}/theme/original/img/MyPath_Color_outlines.635ff927bd7f32.03885491.png`;
 
 const SubmitReferral = ({ template }) => {
   // console.log(auth)
@@ -22,9 +21,6 @@ const SubmitReferral = ({ template }) => {
         </Col>
         <Col md={1}></Col>
         <Col md={6}>
-          <div className="d-flex justify-content-center mb-5">
-            <img src={IMG_REFERRAL} alt="My Path logo" width={"100px"}></img>
-          </div>
           <ReferralForm />
         </Col>
       </Row>

@@ -370,7 +370,8 @@ ul.horizontal {
     }
     .cart-item{
         img{
-            width: 100%;
+            max-width: 100px;
+            max-heigth: 100px;
         }
     }
 }
@@ -1358,6 +1359,29 @@ footer{
     }
 }
 
+.homeImgWrap {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+        max-height: 100%;
+        max-width: 100%;
+    }
+    @media (max-width: $xs) {
+    }
+    @media (min-width: $sm-from) and (max-width: $sm-to) {
+        max-height: 500px;
+    }
+    @media (min-width: $md-from) and (max-width: $md-to) {
+        max-height: 500px;
+    }
+    @media (min-width: $lg) {
+        max-height: 500px;
+    }
+}
+
 /* Table Helper */
 .table-filter-form.form {
     .MuiInputBase-input {
@@ -1433,4 +1457,22 @@ footer{
 }
 .img__logo_sm{
     max-height: 100px;
+}
+
+.image-wrap {
+    width: 200px;
+    height: 200px;
+    flex: none;
+    overflow: visible;
+
+    .dropzone-img {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            max-height: 100%;
+            max-width: 100%;
+        }
+    }
 }

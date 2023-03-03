@@ -53,7 +53,7 @@ import LeaderboardPage from "../Participant/leaderboards/index";
 //manager
 
 import {
-  Home as ManagerHome,
+  default as ManagerHome,
   Leaderboards,
   NSpireWall,
 } from "../Manager/Home/index";
