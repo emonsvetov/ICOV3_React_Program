@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Col, Container, Row, FormGroup, Input } from "reactstrap";
 
 import { ManagerTabNavs } from "../../../shared/components/tabNavs";
@@ -9,8 +9,24 @@ import Leaderboard from "./View/Leaderboards";
 import Spirewall from "./View/SpireWall";
 import SocialWallPanel from "@/shared/components/socialWall/SocialWallPanel";
 import { getAuthProgram } from "@/containers/App/auth";
+import { getBalance } from "@/services/program/getBalance";
+import {connect} from "react-redux";
 
-export const Home = () => {
+const Home = ({ program, organization }) => {
+  const [balance, setBalance] = useState(0);
+
+  useEffect(() => {
+    if (organization && program) {
+      getBalance(organization.id, program.id)
+        .then((data) => {
+          setBalance(data);
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+        });
+    }
+  }, [organization, program]);
+
   return (
     <>
       <Container>
@@ -22,12 +38,21 @@ export const Home = () => {
             <ManagerTabNavs />
           </Col>
         </Row>
+        <div align="right">Current Balance: {balance}</div>
       </Container>
       <hr></hr>
       <Dashboard />
     </>
   );
 };
+
+const mapStateToProps = (state) => {
+  return {
+    program: state.program,
+    organization: state.organization,
+  };
+};
+export default connect(mapStateToProps)(Home);
 
 export const NSpireWall = () => {
   const program = getAuthProgram();

@@ -13,9 +13,6 @@ const CartItemOrigin = ({ index, item, program }) => {
   const merchant_icon_src = `${process.env.REACT_APP_API_STORAGE_URL}/${item.merchant_icon}`;
   return (
     <Row className="cart-item mb-3">
-      <Col md={2}>
-        <img src={merchant_icon_src} alt="merchant" />
-      </Col>
       <Col md={4} className="flex-column">
         <div>
           <strong>{item.merchant_name}</strong>
@@ -34,7 +31,7 @@ const CartItemOrigin = ({ index, item, program }) => {
       <Col md={1}>
         <span
           onClick={() => onClickRemoveItem(index, program.factor_valuation)}
-          style={{ color: "red", fontSize: 11, fontWeight: 700 }}
+          style={{ color: "red", fontSize: 11, fontWeight: 700, cursor: 'pointer' }}
         >
           X
         </span>
