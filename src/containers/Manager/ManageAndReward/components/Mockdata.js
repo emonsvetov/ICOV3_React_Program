@@ -430,8 +430,8 @@ export const USER_GOALS_COLUMNS =[
     {
         Header: "Progress",
         accessor: "calc_progress_percentage",
-        Cell: ({ row, value }) => (
-            `${showPercentage(value)} ${row.values.iterations ? row.values.iterations :''}`
-        ),
+        Cell: ({ row, value }) => {
+            return  <>${showPercentage(value)} <span style={{ fontWeight:'bold'}}>{row.original.iterations? `(${row.original.iterations})` :''}</span></>;
+        }
     },
 ];
