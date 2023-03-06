@@ -392,10 +392,10 @@ const GoalPlanForm = ({
                 {
                   msg += " " + res.data.assign_msg
                 }
-                //window.location.reload()
-               // dispatch(sendFlashMessage(msg));
+                window.location.reload()
+                dispatch(sendFlashMessage(msg));
                 setLoading(false);
-                //setOpen(false);
+                setOpen(false);
               }
           })
           .catch((err) => {
