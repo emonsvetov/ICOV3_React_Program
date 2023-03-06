@@ -212,3 +212,10 @@ export const toPoints = (numberString) => {
   let number = formatter.format(numberString);
   return number.toString().replace(/\./g, ",");
 }
+
+export const showPercentage = (numberString) => {
+  let locale = 'en-US';
+  let options = {style: 'percent', minimumFractionDigits: 2, maximumFractionDigits: 2};
+  let formatter = new Intl.NumberFormat(locale, options);
+  return formatter.format(numberString);
+}

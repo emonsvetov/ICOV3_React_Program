@@ -265,6 +265,8 @@ const GoalPlanForm = ({
               dispatch(sendFlashMessage(msg));
               setLoading(false);
               setOpen(false);
+              window.location.reload()
+              
             }
           })
           .catch((err) => {
@@ -384,6 +386,7 @@ const GoalPlanForm = ({
                 {
                   msg += " " + res.data.assign_msg
                 }
+                window.location.reload()
                 dispatch(sendFlashMessage(msg));
                 setLoading(false);
                 setOpen(false);
@@ -404,6 +407,7 @@ const GoalPlanForm = ({
 
     return (
         <Form
+        keepDirtyOnReinitialize 
             onSubmit={goalplan?.id ? onSubmitEdit : onSubmitAdd}
             validate={validate}
             initialValues={goalplan}
