@@ -214,7 +214,9 @@ const GoalPlanForm = ({
         goalPlanData.automatic_frequency = automatic_frequency
           ? automatic_frequency.value
           : null;
-        goalPlanData.automatic_value = automatic_value;
+        goalPlanData.automatic_value = automatic_value
+        ? automatic_value
+        : null;
         goalPlanData.expiration_rule_id = expiration_rule_id
           ? expiration_rule_id.value
           : 1;
@@ -315,7 +317,7 @@ const GoalPlanForm = ({
           progress_notification_email_id,
           assign_goal_all_participants_default,
         } = values;
-    
+        console.log(goalPlanData);
         goalPlanData.name = name;
         goalPlanData.goal_measurement_label = goal_measurement_label;
         goalPlanData.goal_plan_type_id = goal_plan_type_id
@@ -335,7 +337,10 @@ const GoalPlanForm = ({
         goalPlanData.automatic_frequency = automatic_frequency
           ? automatic_frequency.value
           : null;
-        goalPlanData.automatic_value = automatic_value;
+
+        goalPlanData.automatic_value = automatic_value ? 
+        automatic_value
+        : null;
         goalPlanData.expiration_rule_id = expiration_rule_id
           ? expiration_rule_id.value
           : 1;
@@ -372,6 +377,7 @@ const GoalPlanForm = ({
         //goalPlanData.progress_notification_email_id = 1; //pending to make it dynamic
         // setGoalPlan(goalPlanData);
         //return;
+        console.log(goalPlanData);
         setLoading(true);
         axios
           .post(
@@ -386,10 +392,10 @@ const GoalPlanForm = ({
                 {
                   msg += " " + res.data.assign_msg
                 }
-                window.location.reload()
-                dispatch(sendFlashMessage(msg));
+                //window.location.reload()
+               // dispatch(sendFlashMessage(msg));
                 setLoading(false);
-                setOpen(false);
+                //setOpen(false);
               }
           })
           .catch((err) => {
@@ -697,7 +703,7 @@ const GoalPlanForm = ({
                                                 <FormGroup>
                                                     <Input
                                                         placeholder=" enter a number "
-                                                        type="text"
+                                                        type="number"
                                                         {...input}
                                                     />
                                                     {meta.touched && meta.error && (
@@ -858,7 +864,7 @@ const GoalPlanForm = ({
 };
 
 const validate = (values) => {
-    let required_field_msg = "This field is required";
+   /* let required_field_msg = "This field is required";
     let errors = {};
     if (!values.name) errors.name = required_field_msg;
 
@@ -905,7 +911,7 @@ const validate = (values) => {
             errors.custom_expire_units = required_field_msg;
     }
 
-    return errors;
+    return errors;*/
 };
 
 export default GoalPlanForm;
