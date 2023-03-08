@@ -18,6 +18,7 @@ import { getGoalPlanTypes } from "@/services/getGoalPlanTypes";
 import { getExpirationRules } from "@/services/getExpirationRules";
 import { getEvents } from "@/services/getEvents";
 import EventField from "./EventField";
+import formValidation from "@/validation/addGoalPlan";
 const current = new Date();
 const date = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
 const automaticProgressOptions = [
@@ -50,9 +51,9 @@ const daysOptions = [
 ];
 
 const customUnitsOptions = [
-    { value: "months", label: "Months" },
-    { value: "days", label: "Days" },
-    { value: "years", label: "Years" },
+    { value: "month", label: "Months" },
+    { value: "day", label: "Days" },
+    { value: "year", label: "Years" },
 ];
 
 const automaticFrequencyOptions = [
@@ -490,6 +491,7 @@ const GoalPlanForm = ({
                                                         <span className="form-error">{meta.error}</span>
                                                     )}
                                                 </FormGroup>
+                                                
                                             )}
                                         </Field>
                                     </Col>
