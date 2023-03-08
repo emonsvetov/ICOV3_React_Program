@@ -6,7 +6,7 @@ import {connect} from "react-redux";
 const SUMMARY_LABELS = [
   { index: "balance", text: "Your Points Balance", value: 0 },
   { index: "redeemed", text: "Points Redeemed", value: 0 },
-  { index: "expired", text: "Points Expired", value: 0 },
+  // { index: "expired", text: "Points Expired", value: 0 },
 ];
 
 const PointsSummary = ({ program, pointBalance, myPoints }) => {
