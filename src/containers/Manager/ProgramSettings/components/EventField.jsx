@@ -14,7 +14,7 @@ const EventField = ({name, placeholder, goalPlanType, program}) => {
       if( program?.id && goalPlanType?.value && (!events || goalPlanTypeId !== goalPlanType.value) )
       {
           setLoading(true)
-          getEvents(program.organization_id, program.id, goalPlanType.label == "Recognition Goal" ? 'badge': 'standard')
+          getEvents(program.organization_id, program.id, goalPlanType.label == "Recognition Goal" ? 'badge': 'standard') //To DO Exclude "Activation" event type in create goal plan 
           .then(items => {
               if(mounted) {
                   setGoalPlanTypeId(goalPlanType.value)

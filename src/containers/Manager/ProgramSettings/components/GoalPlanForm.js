@@ -136,6 +136,20 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
         automaticFrequencyOptions
       );
     }
+    if (goalplan.achieved_callback_id) {
+      goalplan = patch4Select(
+        goalplan,
+        "achieved_callback_id",
+        goalMetProgramCallbacks
+      );
+    }
+    if (goalplan.exceeded_callback_id) {
+      goalplan = patch4Select(
+        goalplan,
+        "exceeded_callback_id",
+        goalExceededProgramCallbacks
+      );
+    }
     // console.log(goalplan.exceeded_event_id)
     console.log(goalplan.automatic_progress);
   } else {
@@ -201,6 +215,8 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
       created_by,
       progress_notification_email_id,
       assign_goal_all_participants_default,
+      achieved_callback_id,
+      exceeded_callback_id
     } = values;
 
     goalPlanData.name = name;
@@ -255,6 +271,12 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
     goalPlanData.progress_notification_email_id = progress_notification_email_id
       ? progress_notification_email_id.value
       : null;
+     goalPlanData.achieved_callback_id = achieved_callback_id
+      ? achieved_callback_id.value
+      : null; 
+    goalPlanData.exceeded_callback_id = exceeded_callback_id
+      ? exceeded_callback_id.value
+      : null; 
     //goalPlanData.created_by = 1;
     setLoading(true);
     axios
@@ -320,6 +342,8 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
       progress_requires_unique_ref_num,
       progress_notification_email_id,
       assign_goal_all_participants_default,
+      achieved_callback_id,
+      exceeded_callback_id,
     } = values;
     console.log(goalPlanData);
     goalPlanData.name = name;
@@ -377,8 +401,13 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
       ? progress_notification_email_id.value
       : null;
     //goalPlanData.progress_notification_email_id = 1; //pending to make it dynamic
+    goalPlanData.achieved_callback_id = achieved_callback_id
+    ? achieved_callback_id.value
+    : null; 
+    goalPlanData.exceeded_callback_id = exceeded_callback_id
+    ? exceeded_callback_id.value
+    : null; 
     // setGoalPlan(goalPlanData);
-    //return;
     console.log(goalPlanData);
     setLoading(true);
     axios
@@ -639,7 +668,7 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
                     component={renderSelectField}
                   />
                 </Col>
-              )}
+              )} 
               {goalMetProgramCallbacks.length > 0 && (
                 <Col md="6">
                   <label className="form-label">
@@ -815,12 +844,12 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
                   defaultValue={values.achieved_event_id}
                 />
                 {/* <Field
-                                    name="achieved_event_id"
-                                    className="react-select"
-                                    options={events}
-                                    placeholder={"Goal Plan Achieved Event*"}
-                                    component={renderSelectField}
-                                /> */}
+                    name="achieved_event_id"
+                    className="react-select"
+                    options={events}
+                    placeholder={"Goal Plan Achieved Event*"}
+                    component={renderSelectField}
+                /> */}
               </Col>
             </Row>
             <Row>
@@ -849,8 +878,10 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
 
                   <Field
                     name="award_per_progress"
-                    //enable="1"
                     component={renderToggleButtonField}
+                    //enable="1"
+                    //checked="checked"
+                   //TO DO - If goal_plan_type is "Event Count Goal" and "Sales Goal"then show it checked by default otherwise show disabled
                   />
                 </FormGroup>
               </Col>
@@ -868,6 +899,7 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
                     name="award_email_per_progress"
                     //enable="1"
                     component={renderToggleButtonField}
+                      //TO DO - If goal_plan_type is "Sales Goal" then show it checked by default otherwise show disabled
                   />
                 </FormGroup>
               </Col>
