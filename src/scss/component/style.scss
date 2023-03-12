@@ -616,7 +616,7 @@ ul.horizontal {
         color: white;
         border-radius: 0.5rem 0.5rem 0 0;
         .title-right{
-            span{
+            > span{
                 margin: auto 20px;
             }
         }
