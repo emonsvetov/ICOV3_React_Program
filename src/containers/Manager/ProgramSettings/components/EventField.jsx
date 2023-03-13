@@ -2,19 +2,18 @@ import React, { useEffect, useState } from "react";
 import { Field } from "react-final-form";
 import { labelizeNamedData, patch4Select } from "@/shared/helpers";
 import renderSelectField from "@/shared/components/form/Select";
-import { getEvents } from "@/services/getEvents";
+import { getEvents } from "@/services/program/getEvents";
 
 const EventField = ({name, placeholder, goalPlanType, program}) => {
   const [loading, setLoading] = useState(true);
   const [events, setEvents] = useState(null);
   const [goalPlanTypeId, setGoalPlanTypeId] = useState(null);
-  console.log(program)
   useEffect(() => {
       let mounted = true;
       if( program?.id && goalPlanType?.value && (!events || goalPlanTypeId !== goalPlanType.value) )
       {
           setLoading(true)
-          getEvents(program.organization_id, program.id, goalPlanType.label == "Recognition Goal" ? 'badge': 'standard') //To DO Exclude "Activation" event type in create goal plan 
+          getEvents(program.organization_id, program.id, {'type':goalPlanType.label == "Recognition Goal" ? 'badge': 'standard','except_type':'Activation'}) //To DO Exclude "Activation" event type in create goal plan 
           .then(items => {
               if(mounted) {
                   setGoalPlanTypeId(goalPlanType.value)
