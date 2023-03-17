@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 
 const API_STORAGE_URL = `${process.env.REACT_APP_API_STORAGE_URL}`;
 
-const CartPage = ({ cart, program, pointBalance, organization }) => {
+const CartPage = ({ cart, program, pointBalance, template }) => {
   const { t } = useTranslation();
   const flashDispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
@@ -73,7 +73,7 @@ const CartPage = ({ cart, program, pointBalance, organization }) => {
   return (
     <>
       <div className="cart">
-        <div className="clear-table mt-4">
+        <div className={`${template.name}-table mt-4`}>
           <strong>{t("cart")}</strong>
           <Table striped size="md" {...getTableProps()}>
             <thead>
@@ -152,4 +152,5 @@ export default connect((state) => ({
   program: state.program,
   pointBalance: state.pointBalance,
   organization: state.organization,
+  template: state.template,
 }))(CartPage);

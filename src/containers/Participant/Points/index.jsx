@@ -90,13 +90,13 @@ const MyPoints = ({ dispatch, auth, program, template, myPoints, pointBalance })
             {" "}
             {t("my_points")}
           </h3>
-          <div className="clear-table">
+          <div className={`${template.name}-table`}>
           {myPoints.expiration && <TablePointsExpiration />}
           </div>
-          <div className="clear-table">
+          <div className={`${template.name}-table`}>
             <PointsSummary />
           </div>
-          <div className="clear-table">
+          <div className={`${template.name}-table`}>
             <PointsDetail />
           </div>
         </Col>

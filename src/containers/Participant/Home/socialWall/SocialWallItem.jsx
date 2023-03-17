@@ -6,10 +6,12 @@ import TemplateButton from "@/shared/components/TemplateButton"
 import SocialWallCommentModalWrapper from "./SocialWallCommentModalWrapper";
 import {connect} from "react-redux";
 import TimeAgo from 'react-timeago'
-
+import SocialWallItemClassic from "./themed/SocialWallItemClassic";
+import SocialWallItemClear from "./themed/SocialWallItemClear";
+import {Themed} from '@/theme'
 
 const SocialWallItem = (props) => {
-  const {id, title, content, from, created_at, icon, comments, avatar} = props.data;
+  const {id, title, content, from, created_at, comments, avatar} = props.data;
   const {template} = props;
   const isManager = props.isManager;
   const confirmRef = props.confirmRef;
@@ -169,10 +171,12 @@ const SocialWallItem = (props) => {
     );
   };
 
-  return (
-    (template?.name === "clear" && <SocialWallOrigin />) ||
-    (template?.name === "classic" && <SocialWallNew />)
-  );
+  const comProps = {
+    program: props.program, postAvatar, title, content, TimeAgo, TimeZone, from, created_at, commentEvent, comments, DeleteActivityEvent, createMarkup, isManager, confirmRef, id, storageUrl, defaultAvatar, template
+  }
+
+  return <Themed component="SocialWallItem" {...comProps}  />
+
 }
 
 const mapStateToProps = (state) => {

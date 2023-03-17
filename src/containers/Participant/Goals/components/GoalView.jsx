@@ -71,7 +71,7 @@ const GoalView = ({ template }) => {
               </Col>
               <Col md={1}></Col>
               <Col md={7}>
-                <div className="clear-table">
+                <div className={`${template.name}-table`}>
                   <Table className="goal-table">
                     <thead>
                       <tr>
