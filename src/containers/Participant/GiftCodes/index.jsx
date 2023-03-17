@@ -10,7 +10,7 @@ import { SidebarOrigin } from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
 import {getGiftCodes} from '@/services/user/getGiftCodes'
 
-const IMG_BACK = `${process.env.PUBLIC_URL}/theme/new/img/pages/my-gift-codes.jpg`;
+const IMG_BACK = `${process.env.PUBLIC_URL}/theme/classic/img/pages/my-gift-codes.jpg`;
 
 const MyGiftCodes = ({ template, auth, organization, program }) => {
   const { t } = useTranslation();
@@ -89,7 +89,7 @@ const MyGiftCodes = ({ template, auth, organization, program }) => {
   };
 
   return (
-    (template?.name === "Classic" && <MyGiftCodesNew />) ||
+    (template?.name === "classic" && <MyGiftCodesNew />) ||
     (template?.name === "Clear" && <MyGiftCodesOrigin />)
   );
 };

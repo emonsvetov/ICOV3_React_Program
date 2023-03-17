@@ -73,7 +73,7 @@ const CartPage = ({ cart, program, pointBalance, organization }) => {
   return (
     <>
       <div className="cart">
-        <div className="origin-table mt-4">
+        <div className="clear-table mt-4">
           <strong>{t("cart")}</strong>
           <Table striped size="md" {...getTableProps()}>
             <thead>

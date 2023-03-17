@@ -12,7 +12,7 @@ const PointsTemplateTable = ({ title, table_columns, table_data }) => {
 
   return (
     <>
-      <div className="origin-table">
+      <div className="clear-table">
         <Table striped bordered hover size="md" {...getTableProps()}>
           <thead>
             <tr>

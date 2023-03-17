@@ -2,7 +2,7 @@
 .space-30{
     margin-top: 30px;
 }
-.origin{
+.clear{
     color: var(--app-themeColor);
     .teritery-menu{
         ul{
@@ -45,7 +45,7 @@
 
 
 //login
-.login-popup-origin{
+.login-popup-clear{
     z-index: 1000;
     .popup{
         &__header{
@@ -68,15 +68,15 @@
     }
 }
 
-.points-origin{
-    .points-origin-header{
+.points-clear{
+    .points-clear-header{
         color: white;
         font-size: 20px;
         border-top-left-radius: 6px;
         border-top-right-radius: 6px;
         text-align: center;
     }
-    .points-origin-table{
+    .points-clear-table{
         .points-title{
             // text-transform: uppercase;
             color: var(--app-themeColor);
@@ -96,7 +96,7 @@
 }
 
 
-.origin-table{
+.clear-table{
     table{
         .title{
             background-color: var(--app-themeColor);
@@ -199,7 +199,7 @@
 	display: block;
 	width: 22px;
 	height: 23px;
-    background-image: url(../../../public/theme/original/img/sprites-002.png);
+    background-image: url(../../../public/theme/clear/img/sprites-002.png);
 	background-repeat: no-repeat;
 	background-position: 0 -241px;
 	background-color: var(--app-themeColor);

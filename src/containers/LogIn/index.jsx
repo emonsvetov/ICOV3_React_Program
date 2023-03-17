@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 const getSlideIcons = () => {
   let icons = [];
   for (let i = 1; i < 9; i++) {
-    icons.push(`${process.env.PUBLIC_URL}/theme/new/img/merchants/${i}.png`);
+    icons.push(`${process.env.PUBLIC_URL}/theme/classic/img/merchants/${i}.png`);
   }
   return icons;
 };
@@ -27,8 +27,8 @@ const getOriginSlideImgs = (template) => {
   for (let i = 1; i <= count; i++) {
     let img_src = template[`slider_0${i}`]
         ? `${process.env.REACT_APP_API_STORAGE_URL}/`+template[`slider_0${i}`]
-        : template.name === 'New' ? `${process.env.PUBLIC_URL}/theme/new/img/slider/slider-02.jpg`
-        : `${process.env.PUBLIC_URL}/theme/original/img/slider/slider-0${i}.jpg`;
+        : template.name === 'New' ? `${process.env.PUBLIC_URL}/theme/classic/img/slider/slider-02.jpg`
+        : `${process.env.PUBLIC_URL}/theme/clear/img/slider/slider-0${i}.jpg`;
     imgs.push({
       src: img_src,
       altText: `Slide ${i}`,
@@ -131,19 +131,19 @@ const LogIn = ({ template }) => {
     {
       src: template.slider_01
         ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.slider_01}`
-        : `${process.env.PUBLIC_URL}/theme/new/img/slider/slider-01.jpg`,
+        : `${process.env.PUBLIC_URL}/theme/classic/img/slider/slider-01.jpg`,
       altText: "Slide 1",
     },
     {
       src: template.slider_02
         ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.slider_02}`
-        : `${process.env.PUBLIC_URL}/theme/new/img/slider/slider-02.jpg`,
+        : `${process.env.PUBLIC_URL}/theme/classic/img/slider/slider-02.jpg`,
       altText: "Slide 2",
     },
     {
       src: template.slider_03
         ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.slider_03}`
-        : `${process.env.PUBLIC_URL}/theme/new/img/slider/slider-03.jpg`,
+        : `${process.env.PUBLIC_URL}/theme/classic/img/slider/slider-03.jpg`,
       altText: "Slide 3",
     },
   ];

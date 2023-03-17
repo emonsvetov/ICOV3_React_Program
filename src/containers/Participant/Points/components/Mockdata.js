@@ -1,4 +1,4 @@
-const IMG_BACK = `${process.env.PUBLIC_URL}/theme/original/img/tab_navs/MyRewards.png`;
+const IMG_BACK = `${process.env.PUBLIC_URL}/theme/clear/img/tab_navs/MyRewards.png`;
 export const POINTS_SUMMARY_DATA = [
   {
     event: "Abrove and Beyond!!!",

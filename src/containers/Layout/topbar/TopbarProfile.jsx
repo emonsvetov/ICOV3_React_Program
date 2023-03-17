@@ -24,7 +24,7 @@ const TopbarProfile = ({ isManager, auth }) => {
   };
   const Ava = auth.avatar
     ? `${process.env.REACT_APP_API_STORAGE_URL}/` + auth.avatar
-    : `${process.env.PUBLIC_URL}/theme/new/img/avatar/avatar.jpg`;
+    : `${process.env.PUBLIC_URL}/theme/classic/img/avatar/avatar.jpg`;
 
   return (
     <div className="topbar__profile">

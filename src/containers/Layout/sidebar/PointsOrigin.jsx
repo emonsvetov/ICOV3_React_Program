@@ -13,13 +13,13 @@ const pointBalance = [
     value: 4000,
   },
 ];
-const PointsOrigin = ({ pointBalance }) => {
+const PointsClear = ({ pointBalance }) => {
   const { t } = useTranslation();
   if (!pointBalance) return t("loading");
   return (
-    <div className="points-origin flex-column p-2">
-      <div className="points-origin-header bg-blue">{t("my_balance")}</div>
-      <table className="points-origin-table" width="100%">
+    <div className="points-clear flex-column p-2">
+      <div className="points-clear-header bg-blue">{t("my_balance")}</div>
+      <table className="points-clear-table" width="100%">
         <tbody>
           <tr>
             <td className="points-title text-uppercase">
@@ -48,4 +48,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(PointsOrigin);
+export default connect(mapStateToProps)(PointsClear);

@@ -14,7 +14,7 @@ const SocialWallItem = (props) => {
   const isManager = props.isManager;
   const confirmRef = props.confirmRef;
   const setDeleteActivityId = props.setDeleteActivityId;
-  const defaultAvatar = `${process.env.PUBLIC_URL}/theme/new/img/avatar/avatar.jpg`
+  const defaultAvatar = `${process.env.PUBLIC_URL}/theme/classic/img/avatar/avatar.jpg`
   const storageUrl = `${process.env.REACT_APP_API_STORAGE_URL}/`
 
   const commentEvent = () => {
@@ -170,8 +170,8 @@ const SocialWallItem = (props) => {
   };
 
   return (
-    (template?.name === "Clear" && <SocialWallOrigin />) ||
-    (template?.name === "Classic" && <SocialWallNew />)
+    (template?.name === "clear" && <SocialWallOrigin />) ||
+    (template?.name === "classic" && <SocialWallNew />)
   );
 }
 

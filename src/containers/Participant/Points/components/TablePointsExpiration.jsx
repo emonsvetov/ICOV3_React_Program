@@ -37,7 +37,7 @@ const TablePointsExpiration = ({ myPoints, program }) => {
 
   return (
     <>
-      <div className="origin-table">
+      <div className="clear-table">
         <Table striped bordered hover size="md" {...getTableProps()}>
           <thead>
             <tr>

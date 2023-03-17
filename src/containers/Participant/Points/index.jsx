@@ -10,8 +10,8 @@ import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { getParticipantMypointsAction } from '@/redux/actions/userActions';
 
-const IMG_GIFT = `${process.env.PUBLIC_URL}/theme/original/img/GiftCode_button.png`;
-const IMG_MERCHAN = `${process.env.PUBLIC_URL}/theme/original/img/Merchandise_button.png`;
+const IMG_GIFT = `${process.env.PUBLIC_URL}/theme/clear/img/GiftCode_button.png`;
+const IMG_MERCHAN = `${process.env.PUBLIC_URL}/theme/clear/img/Merchandise_button.png`;
 
 const RedeemBtn = ({ props }) => {
   const { src, link } = props;
@@ -90,13 +90,13 @@ const MyPoints = ({ dispatch, auth, program, template, myPoints, pointBalance })
             {" "}
             {t("my_points")}
           </h3>
-          <div className="origin-table">
+          <div className="clear-table">
           {myPoints.expiration && <TablePointsExpiration />}
           </div>
-          <div className="origin-table">
+          <div className="clear-table">
             <PointsSummary />
           </div>
-          <div className="origin-table">
+          <div className="clear-table">
             <PointsDetail />
           </div>
         </Col>

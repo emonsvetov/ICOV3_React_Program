@@ -71,7 +71,7 @@ const GoalView = ({ template }) => {
               </Col>
               <Col md={1}></Col>
               <Col md={7}>
-                <div className="origin-table">
+                <div className="clear-table">
                   <Table className="goal-table">
                     <thead>
                       <tr>
@@ -126,8 +126,8 @@ const GoalView = ({ template }) => {
   };
 
   return (
-    (template?.name === "Clear" && <GoalOrigin />) ||
-    (template?.name === "Classic" && <GoalNew />)
+    (template?.name === "clear" && <GoalOrigin />) ||
+    (template?.name === "classic" && <GoalNew />)
   );
 };
 const mapStateToProps = (state) => {

@@ -39,8 +39,8 @@ const languageOptions = [
 ];
 
 // const themeOptions = [
-//   { value: "Clear", label: "Clear" },
-//   { value: "Clear", label: "Classic" },
+//   { value: "clear", label: "clear" },
+//   { value: "clear", label: "classic" },
 // ];
 
 const ParticipantTopbar = ({ template, themeName }) => {
@@ -144,7 +144,7 @@ const ParticipantTopbar = ({ template, themeName }) => {
           fixed=""
           container="fluid"
           light
-          className="origin"
+          className="clear"
         >
           <NavbarBrand href="/">
             <img alt={"brand"} src={Brand} />
@@ -178,8 +178,8 @@ const ParticipantTopbar = ({ template, themeName }) => {
     );
   };
   const component = {
-    "Classic": <NewNavbar />,
-    "Clear": <OriginalNavbar />
+    "classic": <NewNavbar />,
+    "clear": <OriginalNavbar />
   }
   // alert(currentTheme?.value)
   return (

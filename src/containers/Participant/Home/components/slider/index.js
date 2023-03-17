@@ -77,7 +77,7 @@ Slider.defaultProps = {
 
 export function SliderOrigin(props ) {   
     const { data} = props;
-    return <div className="merchant-slider origin mt-5">
+    return <div className="merchant-slider clear mt-5">
             <Carousel
                 additionalTransfrom={0}
                 arrows={true}
@@ -129,7 +129,7 @@ export function SliderOrigin(props ) {
                 
             >
                 {data.map((item, key )=> {
-                    return <div key={key} className={`merchant-wrapper origin`}>
+                    return <div key={key} className={`merchant-wrapper clear`}>
                             <img alt={key} src={item}/>
                         </div>
                     }
