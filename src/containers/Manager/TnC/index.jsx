@@ -43,8 +43,8 @@ const Faqs = ({ template }) => {
   };
 
   return (
-    (template?.name === "Classic" && <NewFaqs />) ||
-    (template?.name === "Clear" && <OriginalFaqs />)
+    (template?.name === "classic" && <NewFaqs />) ||
+    (template?.name === "clear" && <OriginalFaqs />)
   );
 };
 

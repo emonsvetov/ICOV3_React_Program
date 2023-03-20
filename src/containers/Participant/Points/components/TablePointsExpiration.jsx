@@ -4,7 +4,7 @@ import { Table } from "reactstrap";
 import { useTable } from "react-table";
 import { useTranslation } from "react-i18next";
 
-const TablePointsExpiration = ({ myPoints, program }) => {
+const TablePointsExpiration = ({ myPoints, program, template }) => {
 
   const { t } = useTranslation();
 
@@ -33,11 +33,11 @@ const TablePointsExpiration = ({ myPoints, program }) => {
   });
 
   // if(!myPoints.expiration) return 'loading...'
-  console.log(data)
+  // console.log(data)
 
   return (
     <>
-      <div className="origin-table">
+      <div className={`${template.name}-table`}>
         <Table striped bordered hover size="md" {...getTableProps()}>
           <thead>
             <tr>
@@ -68,7 +68,8 @@ const TablePointsExpiration = ({ myPoints, program }) => {
 const mapStateToProps = (state) => {
   return {
     myPoints: state.participant.myPoints,
-    program: state.program
+    program: state.program,
+    template: state.template,
   };
 };
 

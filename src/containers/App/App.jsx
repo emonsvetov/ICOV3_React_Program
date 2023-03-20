@@ -76,13 +76,16 @@ const App = () => {
       if( domain.program?.template )
       {
         const template = domain.program.template
+        template.name = template.name.toLowerCase()
         store.dispatch(
           setTemplate(template)
         );
         setCustomLink(template.font_family, template);
         setThemeCss(template);
         // console.log(getTheme())
-        const dirName = template.name === 'Clear' ? 'original': 'new'
+        // console.log(template)
+        // const dirName = template.name === 'clear' ? 'original': 'new'
+        const dirName = template?.name ? template.name : 'default'
         const dirUrl = `${process.env.PUBLIC_URL}/theme/${dirName}`
         store.dispatch(setThemeAction({name: template.name, alias: dirName, dirName, dirUrl}));
       }
@@ -99,7 +102,7 @@ const App = () => {
 
   const setCustomLink = (href, template) => {
     let head = document.head;
-    if (template.name === 'Clear') {
+    if (template.name === 'clear') {
       let originalStyle = document.createElement("style");
       originalStyle.innerHTML =
         "*, body, div, p, span, li, ul, i { font-family: 'CircularStdBold', sans-serif;} ";

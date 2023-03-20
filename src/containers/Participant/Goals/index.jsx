@@ -120,8 +120,8 @@ const Goals = ({ template }) => {
   };
 
   return (
-    (template?.name === "Clear" && <GoalsOrigin />) ||
-    (template?.name === "Classic" && <GoalsNew />)
+    (template?.name === "clear" && <GoalsOrigin />) ||
+    (template?.name === "classic" && <GoalsNew />)
   );
 };
 const mapStateToProps = (state) => {

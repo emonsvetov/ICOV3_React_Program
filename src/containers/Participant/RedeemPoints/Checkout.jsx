@@ -7,7 +7,7 @@ import PointsOrigin from "../../Layout/sidebar/PointsOrigin";
 import CheckoutPage from "./components/CheckoutPage";
 import { useTranslation } from "react-i18next";
 
-const IMG_BACK = `${process.env.PUBLIC_URL}/theme/new/img/pages/my-points.jpg`;
+const IMG_BACK = `${process.env.PUBLIC_URL}/theme/classic/img/pages/my-points.jpg`;
 
 export const Checkout = ({ template }) => {
   const { t } = useTranslation();
@@ -56,8 +56,8 @@ export const Checkout = ({ template }) => {
   };
 
   return (
-    (template?.name === "Clear" && <OriginCheckout />) ||
-    (template?.name === "Classic" && <NewCheckout />)
+    (template?.name === "clear" && <OriginCheckout />) ||
+    (template?.name === "classic" && <NewCheckout />)
   );
 };
 

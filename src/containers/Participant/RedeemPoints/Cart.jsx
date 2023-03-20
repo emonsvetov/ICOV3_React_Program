@@ -7,7 +7,7 @@ import PointsOrigin from "../../Layout/sidebar/PointsOrigin";
 import CartPage from "./components/CartPage";
 import { useTranslation } from "react-i18next";
 
-const IMG_BACK = `${process.env.PUBLIC_URL}/theme/new/img/pages/my-points.jpg`;
+const IMG_BACK = `${process.env.PUBLIC_URL}/theme/classic/img/pages/my-points.jpg`;
 
 export const Cart = ({ template }) => {
   const { t } = useTranslation();
@@ -56,8 +56,8 @@ export const Cart = ({ template }) => {
   };
 
   return (
-    (template?.name === "Clear" && <OriginCart />) ||
-    (template?.name === "Classic" && <NewCart />)
+    (template?.name === "clear" && <OriginCart />) ||
+    (template?.name === "classic" && <NewCart />)
   );
 };
 

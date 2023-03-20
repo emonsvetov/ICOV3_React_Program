@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 
 const Newsletter = ({ template }) => {
-  const img = `${process.env.PUBLIC_URL}/theme/original/img/thumbnail_The-Changing-Face-of-Incentive-Travel.jpg`;
+  const img = `${process.env.PUBLIC_URL}/theme/clear/img/thumbnail_The-Changing-Face-of-Incentive-Travel.jpg`;
   const link =
     "https://staging-mypathpps.incentco.com/assets/theme/mypathpps/img/newsletter/The%20Changing%20Face%20of%20Incentive%20Travel.pdf";
   const title = "The Changing Face of Incentive Travel";
@@ -61,8 +61,8 @@ const Newsletter = ({ template }) => {
   };
 
   return (
-    (template?.name === "Classic" && <NewsletterNew />) ||
-    (template?.name === "Clear" && <NewsletterOrigin />)
+    (template?.name === "classic" && <NewsletterNew />) ||
+    (template?.name === "clear" && <NewsletterOrigin />)
   );
 };
 
