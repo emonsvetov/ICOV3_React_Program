@@ -8,10 +8,10 @@ import { setTheme } from "@/containers/App/auth";
 
 const defaultState = {
   className: 'theme-light',
-  name: 'Clear',
-  alias: 'original',
-  dirName: 'original',
-  dirUrl: `${process.env.PUBLIC_URL}/theme/original`
+  name: 'clear',
+  alias: 'clear',
+  dirName: 'clear',
+  dirUrl: `${process.env.PUBLIC_URL}/theme/clear`
 };
 
 export default handleActions(

@@ -4,7 +4,7 @@ import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import { Sidebar } from "../../Layout/sidebar";
 import SelectMerchantType from "./components/SelectMerchantType";
 import { useTranslation } from "react-i18next";
-const IMG_BACK = `${process.env.PUBLIC_URL}/theme/new/img/pages/my-points.jpg`;
+const IMG_BACK = `${process.env.PUBLIC_URL}/theme/classic/img/pages/my-points.jpg`;
 
 export const SelectMerchants = () => {
   const { t } = useTranslation();

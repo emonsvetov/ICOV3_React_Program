@@ -6,7 +6,7 @@ import { SidebarOrigin } from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
 
 const Training = ({ template }) => {
-  const img = `${process.env.PUBLIC_URL}/theme/original/img/training_thumbnail.jpg`;
+  const img = `${process.env.PUBLIC_URL}/theme/clear/img/training_thumbnail.jpg`;
   const link =
     "https://staging-mypathpps.incentco.com/assets/theme/mypathpps/img/training/Training_flyer.pdf";
   const title = "Training";
