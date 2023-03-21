@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 const MainWrapper = ({theme, template, children}) => {
   const direction = 'ltr';
 
+  if( !template?.name ) return 'loading...'
+
   return (
     <div className={`${theme.className} theme-${template.name} ${direction}-support`} dir={direction}>
       <div className="wrapper">
