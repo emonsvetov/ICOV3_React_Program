@@ -278,7 +278,7 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
       ? exceeded_callback_id.value
       : null; 
     //goalPlanData.created_by = 1;
-    setLoading(true);
+    setSaving(true)
     axios
       .put(
         `/organization/${program.organization_id}/program/${program.id}/goalplan/${goalplan.id}`,
@@ -292,7 +292,8 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
             msg += " " + res.data.assign_msg;
           }
           dispatch(sendFlashMessage(msg));
-          setLoading(false);
+          //setLoading(false);
+          setSaving(false)
           setOpen(false);
           window.location.reload();
         }
@@ -306,6 +307,7 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
             "top"
           )
         );
+        setSaving(false)
       });
   };
 
@@ -442,6 +444,8 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
   };
 
   return (
+    <>
+    {saving && "Saving, please wait..."}
     <Form
       keepDirtyOnReinitialize
       onSubmit={goalplan?.id ? onSubmitEdit : onSubmitAdd}
@@ -957,6 +961,7 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
         );
       }}
     </Form>
+    </>
   );
 };
 
