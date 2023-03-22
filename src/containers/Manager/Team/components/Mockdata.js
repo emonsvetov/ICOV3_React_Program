@@ -32,7 +32,7 @@ export const TEAM_COLUMNS = [
   },
 ];
 
-const AVATAR_IMG = `${process.env.PUBLIC_URL}/theme/new/img/avatar/avatar.jpg`;
+const AVATAR_IMG = `${process.env.PUBLIC_URL}/theme/classic/img/avatar/avatar.jpg`;
 export const TEAM_DATA = [
   {
     id: 139,

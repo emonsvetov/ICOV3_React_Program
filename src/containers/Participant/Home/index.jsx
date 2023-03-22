@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Col, Container, Row } from "reactstrap";
-import SocialWallPanel from "@/shared/components/socialWall/SocialWallPanel";
+import SocialWallPanel from "@/containers/Participant/Home/socialWall/SocialWallPanel";
 import { Slider, SliderOrigin } from "./components/slider";
 import {
   ParticipantTabNavs,
@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 export const getSlideImg = () => {
   let imgs = [];
   for (let i = 1; i < 9; i++) {
-    imgs.push(`${process.env.PUBLIC_URL}/theme/new/img/merchants/${i}.png`);
+    imgs.push(`${process.env.PUBLIC_URL}/theme/classic/img/merchants/${i}.png`);
   }
   return imgs;
 };
@@ -45,13 +45,12 @@ const Home = ({ auth, organization, program, template }) => {
   }, [auth, program]);
 
   if (!auth || !program || !template) return t("loading");
-console.log(template);
   let slide_imgs = getSlideImg();
 
   const HomeOrigin = () => {
     const IMG_BACK = template.hero_banner
       ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.hero_banner}`
-      : `${process.env.PUBLIC_URL}/theme/original/img/back.jpg`;
+      : `${process.env.PUBLIC_URL}/theme/clear/img/back.jpg`;
     return (
       <>
         <div className="mainboard">
@@ -60,7 +59,7 @@ console.log(template);
           </div>
           <SlideOutMenu isFixed={false} />
         </div>
-        <Container className="origin mt-5" fluid>
+        <Container className={`${template.name} mt-5`} fluid>
           <Row>
             <Col md={3}>
               <h2 style={{ fontSize: "18px" }}>
@@ -93,7 +92,7 @@ console.log(template);
   const HomeNew = () => {
     const IMG_BACK = template.hero_banner
       ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.hero_banner}`
-      : `${process.env.PUBLIC_URL}/theme/new/img/back.png`;
+      : `${process.env.PUBLIC_URL}/theme/classic/img/back.png`;
     return (
       <>
         <div className="mainboard">
@@ -141,8 +140,8 @@ console.log(template);
     );
   };
   return (
-    (template?.name === "Clear" && <HomeOrigin />) ||
-    (template?.name === "Classic" && <HomeNew />)
+    (template?.name === "clear" && <HomeOrigin />) ||
+    (template?.name === "classic" && <HomeNew />)
   );
 };
 

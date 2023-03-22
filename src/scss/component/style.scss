@@ -445,8 +445,8 @@ ul.horizontal {
                 right:2px;
                 transform: translateY(-50%) rotate(90deg) ;
             }
-            &.origin{
-                background-image: url(../../../public/theme/original/img/ui-bg_highlight-soft_75_cccccc_1x100.png);
+            &.clear{
+                background-image: url(../../../public/theme/clear/img/ui-bg_highlight-soft_75_cccccc_1x100.png);
                 border: 1px solid #aaa;
                 color: #222;   
                 .icon {
@@ -1080,38 +1080,6 @@ footer{
     }
 }
 
-.social-wall-panel-Clear {
-    background: transparent;
-    margin: 20px;
-    overflow-y: scroll;
-    min-height: 200px;
-}
-
-.social-wall-panel-Clear .social-wall-item-header {
-    font-weight: bold;
-    font-size: 1.4em;
-}
-.social-wall-panel-Clear .social-wall-item-header td{
-    padding: 10px;
-}
-
-.social-wall-panel-Clear .social-wall-item-notification-body {
-    text-align: center;
-    //border: 1px solid #999999;
-}
-.social-wall-panel-Clear .social-wall-item-notification-body td {
-    padding: 5px 10px;
-}
-
-.social-wall-panel-Clear .social-wall-comment td {
-    padding: 5px 10px;
-}
-
-.social-wall-panel-Clear .social-wall-item-from {
-    font-weight: bold;
-    font-size: .80em;
-}
-
 .social-wall-comment-text-right {
     text-align: right;
 }
@@ -1138,82 +1106,6 @@ footer{
 .tr-spacing {
     padding-bottom: 1em;
 }
-
-.social-wall-panel-Clear .social-wall-time {
-    font-style: italic;
-    font-size: .80em;
-    color: #999999;
-}
-
-.social-wall-panel-Clear .social-wall-post-comment-container {
-    float: right;
-    padding-top: 10px;
-}
-
-.social-wall-panel-Clear .social-wall-comment {
-    border: 1px solid #999999;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    background-color: #F2F3F5;
-}
-
-.social-wall-panel-Clear .social-wall-comments-container
-{
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-.social-wall-panel-Clear .social-wall-comments-container
-{
-    padding: 5px 0px 5px 0px;
-}
-
-.social-wall-panel-Clear .social-wall-post-tl,
-.social-wall-panel-Clear .social-wall-post-tr,
-.social-wall-panel-Clear .social-wall-post-bl,
-.social-wall-panel-Clear .social-wall-post-br
-{
-    height: 24px;
-    width: 24px;
-}
-
-.social-wall-panel-Clear .social-wall-post-tl{
-    background: url('../../../public/theme/original/img/social_wall/social-post-tl.png') 0px 0px no-repeat;
-}
-
-.social-wall-panel-Clear .social-wall-post-tr{
-    background: url('../../../public/theme/original/img/social_wall/social-post-tr.png') 0px 0px no-repeat;
-}
-
-.social-wall-panel-Clear .social-wall-post-t{
-    background: url('../../../public/theme/original/img/social_wall/social-post-t.png') 0px 0px repeat-x;
-}
-
-.social-wall-panel-Clear .social-wall-post-l{
-    background: url('../../../public/theme/original/img/social_wall/social-post-l.png') 0px 0px repeat-y;
-}
-
-.social-wall-panel-Clear .social-wall-post-r{
-    background: url('../../../public/theme/original/img/social_wall/social-post-r.png') 0px 0px repeat-y;
-}
-
-.social-wall-panel-Clear .social-wall-post-bl{
-    background: url('../../../public/theme/original/img/social_wall/social-post-bl.png') 0px 0px no-repeat;
-}
-
-.social-wall-panel-Clear .social-wall-post-br{
-    background: url('../../../public/theme/original/img/social_wall/social-post-br.png') 0px 0px no-repeat;
-}
-
-.social-wall-panel-Clear .social-wall-post-b{
-    background: url('../../../public/theme/original/img/social_wall/social-post-b.png') 0px 0px repeat-x;
-}
-
-//.social-wall-panel-Clear .social-wall-post-tail{
-//    height: 55px;
-//    width: 75px;
-//    background: url('../../../public/theme/original/img/social_wall/social-post-tail.png') 0px 0px no-repeat;
-//}
 
 .template-button {
     padding: 5px 8px;

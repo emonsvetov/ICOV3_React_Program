@@ -1,6 +1,6 @@
 import React from "react";
 
-const IMG_Exclamation_Point = `${process.env.PUBLIC_URL}/theme/original/img/exclamation-octagon.png`;
+const IMG_Exclamation_Point = `${process.env.PUBLIC_URL}/theme/clear/img/exclamation-octagon.png`;
 
 export const ErrorMessage = ({ msg }) => {
   return (

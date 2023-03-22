@@ -67,8 +67,8 @@ export const RedeemMerchant = ({ theme }) => {
   };
 
   return (
-    (theme?.name === "Clear" && <OriginRedeemMerchant />) ||
-    (theme?.name === "Classic" && <NewRedeemMerchant />)
+    (theme?.name === "clear" && <OriginRedeemMerchant />) ||
+    (theme?.name === "classic" && <NewRedeemMerchant />)
   );
 };
 
