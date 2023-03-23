@@ -1350,3 +1350,9 @@ footer{
         }
     }
 }
+.tab-navs {
+    ul.horizontal{
+        display: flex;
+        justify-content: center;
+    }
+}
