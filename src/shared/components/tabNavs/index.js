@@ -37,7 +37,7 @@ export const ParticipantTabNavs = ({program}) => {
       to: "/participant/my-goals",
     })
   }
-  
+
   let navigate = useNavigate();
   if( ! program ) return 'loading...'
   return (
