@@ -37,22 +37,7 @@ export const ParticipantTabNavs = ({program}) => {
       to: "/participant/my-goals",
     })
   }
-
-  if(1 === 1){ 
-    //if survey
-    TAB_ITEMS.push({
-      title: "survey",
-      icon: "survey",
-      to: "/participant/survey",
-    })
-  }
-  if( 1===1) {
-    TAB_ITEMS.push({ 
-        title: "newsletter", 
-        icon: "newsletter", 
-        to: "/participant/newsletter" 
-    })
-  }
+  
   let navigate = useNavigate();
   if( ! program ) return 'loading...'
   return (
