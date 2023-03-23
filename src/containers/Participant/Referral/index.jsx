@@ -1,14 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import { Col, Container, Row, NavLink, Button } from "reactstrap";
+import { Col, Row } from "reactstrap";
 
-import TemplateButton from "@/shared/components/TemplateButton";
-
-import { SidebarOrigin } from "../../Layout/sidebar";
+import Sidebar from "@/containers/Layout/sidebar";
 import ReferralForm from "./components/ReferralForm";
-
 
 const SubmitReferral = ({ template }) => {
   // console.log(auth)
@@ -17,7 +12,7 @@ const SubmitReferral = ({ template }) => {
     <div className="submit-referral">
       <Row className="mt-4">
         <Col md={4}>
-          <SidebarOrigin />
+          <Sidebar />
         </Col>
         <Col md={1}></Col>
         <Col md={6}>

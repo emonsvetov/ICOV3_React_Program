@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ReactTooltip from "react-tooltip";
-import { Col, Container, Row } from "reactstrap";
+import { Col, Row } from "reactstrap";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { SidebarOrigin } from "../../Layout/sidebar";
+import Sidebar from "@/containers/Layout/sidebar";
 import {
   VeryFirstStep,
   FirstStep,
@@ -41,7 +41,7 @@ const Survey = () => {
     <>
       <Row className="mt-4">
         <Col md={3}>
-          <SidebarOrigin />
+          <Sidebar />
         </Col>
 
         <Col md={9}>

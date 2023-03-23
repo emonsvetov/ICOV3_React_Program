@@ -357,24 +357,6 @@ ul.horizontal {
     }
 }
 
-.cart-new{
-    position: absolute;
-    right: 0px;
-    margin-right: 10px;
-    z-index: 9999;
-
-    .popover{
-        max-width: 25%;
-        min-width: 25%;
-
-    }
-    .cart-item{
-        img{
-            max-width: 100px;
-            max-heigth: 100px;
-        }
-    }
-}
 .checkout{
     table img{
         margin-left: 10px;

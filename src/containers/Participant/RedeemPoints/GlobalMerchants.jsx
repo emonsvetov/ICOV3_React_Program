@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col, Container, FormGroup, Row } from "reactstrap";
-import { SidebarOrigin } from "../../Layout/sidebar";
+import Sidebar from "../../Layout/sidebar";
 import Select from "react-select";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
@@ -42,7 +42,7 @@ export const GlobalMerchants = () => {
       <Row className="mt-4">
         <div className="space-30"></div>
         <Col md={3}>
-          <SidebarOrigin />
+          <Sidebar />
         </Col>
         <Col md={9} className="">
           <div className="mb-3" style={{ fontWeight: 600 }}>

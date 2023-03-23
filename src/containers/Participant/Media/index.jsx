@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import { PDF } from "@/containers/Participant/Training/components/PDF";
 import { Col, Container, Row } from "reactstrap";
-import { Sidebar, SidebarOrigin } from "@/containers/Layout/sidebar";
+import Sidebar from "@/containers/Layout/sidebar";
 import { useTranslation } from "react-i18next";
 import { ParticipantTabNavs } from "@/shared/components/tabNavs";
 import axios from 'axios'
@@ -32,7 +32,7 @@ const Media = ({ template, auth, program, organization }) => {
   return (
     <Row className="mt-4">
       <Col md={4}>
-        <SidebarOrigin />
+        <Sidebar />
       </Col>
 
       <Col md={8}>

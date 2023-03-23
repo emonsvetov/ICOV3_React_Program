@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { ParticipantTabNavs } from '../../../shared/components/tabNavs';
-import {Sidebar} from '../../Layout/sidebar';
+import Sidebar from '../../Layout/sidebar';
 import LeadForm from './components/LeadForm'
 import { Input, Col, Row,Container} from 'reactstrap';
 

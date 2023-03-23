@@ -1,6 +1,6 @@
 import React from "react";
-import { Col, Container, Row } from "reactstrap";
-import { SidebarOrigin } from "../../Layout/sidebar";
+import { Col, Row } from "reactstrap";
+import Sidebar from "../../Layout/sidebar";
 import { MyCalendar } from "./components/calendar";
 import { useTranslation } from "react-i18next";
 
@@ -10,7 +10,7 @@ const Calendar = () => {
     <>
       <Row className="mt-4">
         <Col md={4}>
-          <SidebarOrigin />
+          <Sidebar />
         </Col>
 
         <Col md={7}>
