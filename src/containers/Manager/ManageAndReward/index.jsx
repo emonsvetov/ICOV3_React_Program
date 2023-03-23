@@ -13,6 +13,7 @@ import {getBalance} from "@/services/program/getBalance";
 const ManageAndReward = ({auth, program, organization}) => {
   const [balance, setBalance] = useState(0);
 
+  /*
   useEffect(() => {
     if (organization && program) {
       getBalance(organization.id, program.id)
@@ -20,10 +21,11 @@ const ManageAndReward = ({auth, program, organization}) => {
           setBalance(data);
         })
         .catch((error) => {
-          console.log(error.response.data);
+          console.log(error);
         });
     }
   }, [organization, program]);
+  */
 
   return (
     <div className='manage-reward'>

@@ -3,8 +3,7 @@ import TabNav from "./components/Tabnav";
 import "./style.scss";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
-// const program = getAuthProgram();
+import { getAuthProgram } from "@/containers/App/auth";
 
 export const ParticipantTabNavs = ({program}) => {
   const { t } = useTranslation();
@@ -71,6 +70,9 @@ export const ParticipantTabNavs = ({program}) => {
 };
 
 export const ManagerTabNavs = ({program}) => {
+  if(!program){
+    program = getAuthProgram();
+  }
   let MANAGER_ITEMS;
   if (program.uses_social_wall > 0) {
     MANAGER_ITEMS = [
