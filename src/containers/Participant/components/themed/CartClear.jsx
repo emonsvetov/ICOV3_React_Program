@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Row, Col, Button } from "reactstrap";
-import CartItemOrigin from "./CartItemOrigin";
+import CartItemOrigin from "../CartItemOrigin";
 import { isEmpty } from "@/shared/helpers";
 import { useTranslation } from "react-i18next";
 
-const CartOrigin = ({ cart, pointBalance }) => {
+const CartClear = ({ cart, pointBalance }) => {
   const { t } = useTranslation();
   let navigate = useNavigate();
 
@@ -80,4 +80,4 @@ export default connect((state) => ({
   cart: state.cart,
   pointBalance: state.pointBalance,
   program: state.program,
-}))(CartOrigin);
+}))(CartClear);

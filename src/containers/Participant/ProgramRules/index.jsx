@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Container, Row } from "reactstrap";
 import { Queries } from "./components/Queries";
-import { SidebarOrigin } from "../../Layout/sidebar";
+import Sidebar from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
 
 const ProgramRules = () => {
@@ -10,7 +10,7 @@ const ProgramRules = () => {
     <Container fluid>
       <Row className="mt-4">
         <Col md={4}>
-          <SidebarOrigin />
+          <Sidebar />
         </Col>
 
         <Col md={7}>

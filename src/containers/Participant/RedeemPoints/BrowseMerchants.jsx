@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Col, Container, FormGroup, Row } from "reactstrap";
-import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
-import { Sidebar, SidebarOrigin } from "../../Layout/sidebar";
+import React from "react";
+import { Col, Container, Row } from "reactstrap";
+import { ParticipantTabNavs } from "@/shared/components/tabNavs";
+import Sidebar from "@/containers/Layout/sidebar";
 import OurMerchants from "./components/BrowseMerchant";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
@@ -18,7 +18,7 @@ const BrowseMerchants = ({ template }) => {
         <Row className="mt-4">
           <div className="space-30"></div>
           <Col md={4}>
-            <SidebarOrigin />
+            <Sidebar />
           </Col>
           <Col md={8} className="">
             <p className="fw-bold pb-3">{t("browse_merchant_desc")}</p>

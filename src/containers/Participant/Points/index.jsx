@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Col, Container, Row } from "reactstrap";
-import { SidebarOrigin } from "../../Layout/sidebar";
+import Sidebar from "../../Layout/sidebar";
 import PointsSummary from "./components/PointsSummary";
 import PointsDetail from "./components/PointsDetail";
 
@@ -72,7 +72,7 @@ const MyPoints = ({ dispatch, auth, program, template, myPoints, pointBalance })
       <Row className="mt-4">
         <div className="space-30"></div>
         <Col md={4}>
-          <SidebarOrigin />
+          <Sidebar />
         </Col>
         <Col md={8} className="">
           <div className="d-flex justify-content-around">

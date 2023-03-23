@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Col, Container, FormGroup, Row } from "reactstrap";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
-import { Sidebar } from "../../Layout/sidebar";
+import Sidebar from "../../Layout/sidebar";
 import PointsOrigin from "../../Layout/sidebar/PointsOrigin";
 import CartPage from "./components/CartPage";
 import { useTranslation } from "react-i18next";

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Table, Col, Row, Container } from "reactstrap";
 import { connect } from "react-redux";
-import { ParticipantTabNavs } from "../../../../shared/components/tabNavs";
-import { SidebarOrigin, Sidebar } from "../../../Layout/sidebar/index";
+import { ParticipantTabNavs } from "@/shared/components/tabNavs";
+import Sidebar from "@/containers/Layout/sidebar";
 import { useParams, useNavigate } from "react-router-dom";
 import { GOAL_DATA } from "./Mockdata";
 import { GOAL_COLUMNS, GOAL_SUMMARY_COLUMNS } from "./columns";
@@ -53,7 +53,7 @@ const GoalView = ({ template }) => {
         <Row className="mt-4">
           <div className="space-30"></div>
           <Col md={4}>
-            <SidebarOrigin />
+            <Sidebar />
           </Col>
           <Col md={8} className="">
             <h3 className="pt-1" style={{ fontSize: "16px" }}>

@@ -3,10 +3,9 @@ import { Col, Container, Row } from "reactstrap";
 import SocialWallPanel from "@/containers/Participant/Home/socialWall/SocialWallPanel";
 import { Slider, SliderOrigin } from "./components/slider";
 import {
-  ParticipantTabNavs,
-  ParticipantTabNavsOrigin,
-} from "../../../shared/components/tabNavs";
-import { Sidebar } from "../../Layout/sidebar";
+  ParticipantTabNavs
+} from "@/shared/components/tabNavs";
+import Sidebar from "../../Layout/sidebar";
 import { connect } from "react-redux";
 import { USER_STATUS_PENDING_DEACTIVATION } from "@/services/user/getUser";
 import SlideOutMenu from "./components/slide-out-menu";
@@ -47,7 +46,7 @@ const Home = ({ auth, organization, program, template }) => {
   if (!auth || !program || !template) return t("loading");
   let slide_imgs = getSlideImg();
 
-  const HomeOrigin = () => {
+  const HomeClear = () => {
     const IMG_BACK = template.hero_banner
       ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.hero_banner}`
       : `${process.env.PUBLIC_URL}/theme/clear/img/back.jpg`;
@@ -62,14 +61,10 @@ const Home = ({ auth, organization, program, template }) => {
         <Container className={`${template.name} mt-5`} fluid>
           <Row>
             <Col md={3}>
-              <h2 style={{ fontSize: "18px" }}>
-                {" "}
-                {t("welcome_back")} {auth && auth.first_name}
-              </h2>
               <PointsOrigin />
             </Col>
             <Col md={9}>
-              <ParticipantTabNavsOrigin />
+              <ParticipantTabNavs program={program} />
             </Col>
           </Row>
         </Container>
@@ -89,19 +84,20 @@ const Home = ({ auth, organization, program, template }) => {
       </>
     );
   };
-  const HomeNew = () => {
+  const HomeClassic = () => {
     const IMG_BACK = template.hero_banner
       ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.hero_banner}`
       : `${process.env.PUBLIC_URL}/theme/classic/img/back.png`;
     return (
       <>
-        <div className="mainboard">
+        <div className={"mainboard d-flex"}>
+          <SlideOutMenu isFixed={true} />
           <div className="homeImgWrap">
               <img src={IMG_BACK} />
           </div>
         </div>
         <Container>
-          <ParticipantTabNavs />
+          <ParticipantTabNavs program={program} />
         </Container>
         <Container>
           <Row>
@@ -109,19 +105,6 @@ const Home = ({ auth, organization, program, template }) => {
               <div className="dashboard">
                 {showSocialWall && (
                   <>
-                    <div className="mb-3">
-                      <Row>
-                        <Col md={8}>
-                          <h1>
-                            {" "}
-                            {t("welcome_back")} {auth && auth.first_name}!{" "}
-                          </h1>
-                          <div className="description">
-                            {t("congratulations_welcome")}
-                          </div>
-                        </Col>
-                      </Row>
-                    </div>
                     <SocialWallPanel />
                   </>
                 )}
@@ -140,8 +123,8 @@ const Home = ({ auth, organization, program, template }) => {
     );
   };
   return (
-    (template?.name === "clear" && <HomeOrigin />) ||
-    (template?.name === "classic" && <HomeNew />)
+    (template?.name === "clear" && <HomeClear />) ||
+    (template?.name === "classic" && <HomeClassic />)
   );
 };
 

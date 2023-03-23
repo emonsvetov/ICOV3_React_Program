@@ -1,12 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Container, Row, Col } from "reactstrap";
-import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
-import { Sidebar } from "../../Layout/sidebar";
-// import SelectProgram from '../components/SelectProgram'
+import { ParticipantTabNavs } from "@/shared/components/tabNavs";
 import Users from "./components/Users";
 import { isEmpty } from "@/shared/helpers";
-import { SidebarOrigin } from "../../Layout/sidebar";
+import Sidebar from "@/containers/Layout/sidebar";
 import { useTranslation } from "react-i18next";
 
 const Peer2Peer = ({ auth, program, organization, template }) => {
@@ -18,7 +16,7 @@ const Peer2Peer = ({ auth, program, organization, template }) => {
       <Row className="mt-4">
         <div className="space-30"></div>
         <Col md={4}>
-          <SidebarOrigin />
+          <Sidebar />
         </Col>
         <Col md={7} className="peer-peer">
           <div className="mb-5">

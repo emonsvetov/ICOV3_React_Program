@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
-import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
-import { Sidebar } from "../../Layout/sidebar";
+import React, { useState } from "react";
+import { ParticipantTabNavs } from "@/shared/components/tabNavs";
+import Sidebar from "@/containers/Layout/sidebar";
 import {
   Start,
   FullName,
@@ -13,7 +13,6 @@ import {
 } from "./components/SurveyForm";
 import { Col, Row, Container } from "reactstrap";
 import { connect } from "react-redux";
-import { SidebarOrigin } from "../../Layout/sidebar";
 
 const Survey = ({ template }) => {
   const [step, setStep] = useState(0);
@@ -132,7 +131,7 @@ const Survey = ({ template }) => {
       <>
         <Row className="mt-4">
           <Col md={4}>
-            <SidebarOrigin />
+            <Sidebar />
           </Col>
           <Col md={1}></Col>
           <Col md={6} className="">
