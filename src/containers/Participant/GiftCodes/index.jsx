@@ -1,12 +1,11 @@
 import React, {useContext, useEffect, useState} from "react";
 import { Col, Container, Row } from "reactstrap";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
-import { Sidebar } from "../../Layout/sidebar";
 import GiftCard from "./components/GiftCard";
 import GiftCardOriginal from "./components/GiftCardOriginal";
 import giftData from "./components/Mockdata.json";
 import { connect } from "react-redux";
-import { SidebarOrigin } from "../../Layout/sidebar";
+import Sidebar from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
 import {getGiftCodes} from '@/services/user/getGiftCodes'
 
@@ -38,7 +37,7 @@ const MyGiftCodes = ({ template, auth, organization, program }) => {
         <Row className="mt-4">
           <div className="space-30"></div>
           <Col md={4}>
-            <SidebarOrigin />
+            <Sidebar />
           </Col>
           <Col md={7} className="">
             <h3 className="pt-1" style={{ fontSize: "16px" }}>

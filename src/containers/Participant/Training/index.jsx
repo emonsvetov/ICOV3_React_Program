@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { PDF } from "./components/PDF";
 import { Col, Row, Container } from "reactstrap";
-import { SidebarOrigin } from "../../Layout/sidebar";
+import Sidebar from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
 
 const Training = ({ template }) => {
@@ -16,7 +16,7 @@ const Training = ({ template }) => {
   return (
     <Row className="mt-4">
       <Col md={4}>
-        <SidebarOrigin />
+        <Sidebar />
       </Col>
 
       <Col md={3}>

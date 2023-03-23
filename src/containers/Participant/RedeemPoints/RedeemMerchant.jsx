@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { Col, Container, FormGroup, Row } from "reactstrap";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
-import { Sidebar } from "../../Layout/sidebar";
+import Sidebar from "../../Layout/sidebar";
 import PointsOrigin from "../../Layout/sidebar/PointsOrigin";
 import { getSlideImg } from "../Home";
 import { SliderOrigin } from "../Home/components/slider";

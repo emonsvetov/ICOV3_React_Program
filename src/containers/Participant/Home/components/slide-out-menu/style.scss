@@ -24,7 +24,7 @@
 
     &.fixed{
         position: relative;
-        
+        display: none;
     }
     .line{
         transition: all 450ms ease-in-out;
@@ -61,8 +61,8 @@
     display: flex;
     flex-direction: column;
     margin-left: -10px;
-    padding-left: 50px;
-    padding-top: 50px;
+    padding-left: 1vw;
+    padding-top: 1vw;
     z-index: 2;
     position: absolute;
     top: 0;
@@ -70,15 +70,18 @@
     opacity: 0.94 !important;
     background-color: #F5F8FC;
     box-shadow: 5px 0px 10px 0px #aaa;
-    width: 350px;
+    width: 27vh;
+    min-width: 300px;
+    max-width: 350px;
     transform: translateX(-100%);
     transition: transform 0.5s ease-in-out;
     &.show {
         transform: translateX(0%);     
     }
     &.fixed{
+        margin-left: 1vw;
         position: relative;
-        margin-top : -15px;
+        margin-right: 15px;
     }
     li{
         margin-bottom: 1.1rem;

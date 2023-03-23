@@ -12,12 +12,12 @@ import {
 } from "reactstrap";
 import CartIcon from "mdi-react/CartIcon";
 import CloseIcon from "mdi-react/CloseIcon";
-import CartItem from "./CartItem";
+import CartItem from "../CartItem";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { isEmpty } from "@/shared/helpers";
 import { useTranslation } from "react-i18next";
 
-const Cart = ({ cart, pointBalance }) => {
+const CartClassic = ({ cart, pointBalance }) => {
   const [isOpen, setIsOpen] = useState();
   const { t } = useTranslation();
   const toggle = () => {
@@ -31,12 +31,11 @@ const Cart = ({ cart, pointBalance }) => {
   let navigate = useNavigate();
 
   if (!cart || !pointBalance) return t("loading_cart");
-  // console.log(cart)
-  // console.log(isEmpty(cart))
+
   const isEmptyCart = isEmpty(cart) || cart.items.length <= 0;
-  // return 'Here'
+
   return (
-    <div className="cart-new cart-popover">
+    <div className="cart-classic cart-popover">
       <span className="cursor-pointer" id="PopoverFocus">
         <CartIcon className="redtext" />
         <strong>{t("cart")}</strong>
@@ -111,4 +110,4 @@ export default connect((state) => ({
   cart: state.cart,
   pointBalance: state.pointBalance,
   program: state.program,
-}))(Cart);
+}))(CartClassic);
