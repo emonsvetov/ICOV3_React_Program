@@ -114,8 +114,8 @@ const Home = ({ auth, organization, program, template }) => {
                 </div>
               </div>
             </Col>
-            <Col md={3} className="mt-5">
-              <Sidebar />
+            <Col md={3} className="mt-2">
+              <PointsOrigin />
             </Col>
           </Row>
         </Container>
