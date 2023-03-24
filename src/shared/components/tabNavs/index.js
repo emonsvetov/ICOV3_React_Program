@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {connect} from 'react-redux';
 import TabNav from "./components/Tabnav";
 import "./style.scss";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -8,7 +9,7 @@ export const ParticipantTabNavs = () => {
   return <Themed component={'ParticipantTabnav'} />
 };
 
-export const ManagerTabNavs = ({program}) => {
+let ManagerTabNavsTmp = ({program}) => {
   let MANAGER_ITEMS;
   if (program.uses_social_wall > 0) {
     MANAGER_ITEMS = [
@@ -41,6 +42,8 @@ export const ManagerTabNavs = ({program}) => {
   }, [location]);
   let navigate = useNavigate();
 
+  if( !program ) return 'loading...'
+
   return (
     <div className="tab-navs items-3">
       <ul className="horizontal">
@@ -59,3 +62,10 @@ export const ManagerTabNavs = ({program}) => {
     </div>
   );
 };
+ManagerTabNavsTmp =  connect((state) => ({
+    program: state.program
+  }))(ManagerTabNavsTmp);
+
+export const ManagerTabNavs = () => {
+    return <ManagerTabNavsTmp />
+}
