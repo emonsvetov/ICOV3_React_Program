@@ -285,7 +285,7 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
         goalPlanData
       )
       .then((res) => {
-        //   console.log(res)
+           console.log(res)
         if (res.status == 200) {
           let msg = "Goal Plan updated successfully!";
           if (res.data.assign_msg) {
