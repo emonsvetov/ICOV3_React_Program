@@ -5,7 +5,6 @@ import { Slider, SliderOrigin } from "./components/slider";
 import {
   ParticipantTabNavs
 } from "@/shared/components/tabNavs";
-import Sidebar from "../../Layout/sidebar";
 import { connect } from "react-redux";
 import { USER_STATUS_PENDING_DEACTIVATION } from "@/services/user/getUser";
 import SlideOutMenu from "./components/slide-out-menu";
