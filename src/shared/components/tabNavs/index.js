@@ -2,57 +2,10 @@ import React, { useState, useEffect } from "react";
 import TabNav from "./components/Tabnav";
 import "./style.scss";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import {Themed} from '@/theme'
 
-// const program = getAuthProgram();
-
-export const ParticipantTabNavs = ({program}) => {
-  const { t } = useTranslation();
-
-  const TAB_ITEMS = [
-    { title: "my_rewards", icon: "redeem", to: `/participant/my-points` },
-  ];
-
-  if(program?.uses_peer2peer
-      > 0) {
-    TAB_ITEMS.push({
-      title: "peer_to_peer",
-      icon: "gift",
-      to: "/participant/peer-to-peer",
-    })
-  }
-
-  if(program?.uses_leaderboards > 0){
-    TAB_ITEMS.push({
-      title: "leaderboards",
-      icon: "leaderboard",
-      to: "/participant/leaderboards",
-    })
-  }
-
-  if(program?.uses_goal_tracker > 0){
-    TAB_ITEMS.push({
-      title: "my_goals",
-      icon: "survey",
-      to: "/participant/my-goals",
-    })
-  }
-
-  let navigate = useNavigate();
-  if( ! program ) return 'loading...'
-  return (
-    <div className="tab-navs items-5">
-      <ul className="horizontal">
-        {TAB_ITEMS.map((item, key) => {
-          return (
-            <li key={key} onClick={() => navigate(item.to)}>
-              <TabNav title={t(item.title)} icon={item.icon} />
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  );
+export const ParticipantTabNavs = () => {
+  return <Themed component={'ParticipantTabnav'} />
 };
 
 export const ManagerTabNavs = ({program}) => {

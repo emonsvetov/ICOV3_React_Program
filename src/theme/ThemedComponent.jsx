@@ -6,15 +6,17 @@ const paths = {
   Sidebar: "containers/Layout/sidebar",
   Cart: "containers/Participant/components",
   Navbar: "containers/Layout/topbar",
+  ParticipantTabnav: "shared/components/tabNavs",
 };
 const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 const ThemedComponent = (props) => {
   const { component, template } = props;
+  const tplPostfix = capitalizeFirstLetter(template.name)
   const Component = React.lazy(() =>
-    import(`@/${paths[component]}/themed/${component}${capitalizeFirstLetter(template.name)}`).catch(
-      () => ({ default: () => <div>Template [{component}] Not found</div> })
+    import(`@/${paths[component]}/themed/${component}${tplPostfix}`).catch(
+      (e) => ({ default: () => <div>Template [{component}{tplPostfix}] Not found</div> })
     )
   );
   if( !template?.name ) return ''
