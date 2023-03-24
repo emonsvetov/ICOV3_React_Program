@@ -1,80 +1,49 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import TabNav from "./components/Tabnav";
-import TabNavOrigin from "./components/TabnavOrigin";
-import { Container } from "reactstrap";
 import "./style.scss";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getAuthProgram } from "@/containers/App/auth";
 import { useTranslation } from "react-i18next";
 
-const program = getAuthProgram();
+// const program = getAuthProgram();
 
-export const ParticipantTabNavsOrigin = () => {
+export const ParticipantTabNavs = ({program}) => {
   const { t } = useTranslation();
+
   const TAB_ITEMS = [
-    { title: "my_rewards", icon: "MyRewards", to: `/participant/my-points` },
+    { title: "my_rewards", icon: "redeem", to: `/participant/my-points` },
   ];
 
-  if(program.uses_peer2peer
-      > 0){
+  if(program?.uses_peer2peer
+      > 0) {
     TAB_ITEMS.push({
       title: "peer_to_peer",
-      icon: "PeerToPeer",
+      icon: "gift",
       to: "/participant/peer-to-peer",
-    },)
+    })
   }
 
-  if(program.uses_leaderboards > 0){
+  if(program?.uses_leaderboards > 0){
     TAB_ITEMS.push({
       title: "leaderboards",
-      icon: "Leaderboards",
+      icon: "leaderboard",
       to: "/participant/leaderboards",
-    },)
+    })
   }
 
-  if(program.uses_goal_tracker > 0){
+  if(program?.uses_goal_tracker > 0){
     TAB_ITEMS.push({
       title: "my_goals",
-      icon: "MyGoals",
+      icon: "survey",
       to: "/participant/my-goals",
-    },)
+    })
   }
 
   let navigate = useNavigate();
-  return (
-    <div className="">
-      <ul className="horizontal d-flex justify-content-evenly">
-        {TAB_ITEMS.map((item, key) => {
-          return (
-            <li key={key} onClick={() => navigate(item.to)}>
-              <TabNavOrigin title={t(item.title)} icon={item.icon} />
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  );
-};
-
-export const ParticipantTabNavs = (props) => {
-  const { t } = useTranslation();
-  const PARTICIPANT_ITEMS = [
-    {
-      title: "redeem_my_points",
-      icon: "redeem",
-      to: `/participant/select-merchants`,
-    },
-    { title: "peer_to_peer", icon: "gift", to: "/participant/peer-to-peer" },
-    { title: "survey", icon: "survey", to: "/participant/survey" },
-    { title: "newsletter", icon: "newsletter", to: "/participant/newsletter" },
-    { title: "submit_a_lead", icon: "submit", to: "/participant/lead" },
-  ];
-  let navigate = useNavigate();
+  if( ! program ) return 'loading...'
   return (
     <div className="tab-navs items-5">
       <ul className="horizontal">
-        {PARTICIPANT_ITEMS.map((item, key) => {
+        {TAB_ITEMS.map((item, key) => {
           return (
             <li key={key} onClick={() => navigate(item.to)}>
               <TabNav title={t(item.title)} icon={item.icon} />
@@ -86,7 +55,7 @@ export const ParticipantTabNavs = (props) => {
   );
 };
 
-export const ManagerTabNavs = (props) => {
+export const ManagerTabNavs = ({program}) => {
   let MANAGER_ITEMS;
   if (program.uses_social_wall > 0) {
     MANAGER_ITEMS = [

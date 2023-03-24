@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Table, Col, Container, Row } from "reactstrap";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
-import { Sidebar, SidebarOrigin } from "../../Layout/sidebar";
+import Sidebar from "../../Layout/sidebar";
 import PointsSummary from "./components/PointsSummary";
 import PointsDetail from "./components/PointsDetail";
 import { connect } from "react-redux";

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { connect } from "react-redux";
 import { PDF } from "../Training/components/PDF";
 import { Col, Container, Row } from "reactstrap";
-import { Sidebar, SidebarOrigin } from "../../Layout/sidebar";
+import Sidebar from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 
@@ -20,7 +20,7 @@ const Newsletter = ({ template }) => {
     return (
       <Row className="mt-4">
         <Col md={4}>
-          <SidebarOrigin />
+          <Sidebar />
         </Col>
 
         <Col md={3}>

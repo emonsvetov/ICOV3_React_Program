@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-const TopbarProfile = ({ isManager, auth }) => {
+const TopbarProfile = ({ isManager, auth, template }) => {
   const { t } = useTranslation();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const handleToggleCollapse = () => {
@@ -59,20 +59,11 @@ const TopbarProfile = ({ isManager, auth }) => {
           onClick={handleToggleCollapse}
         />
       )}
-      {/* <Collapse isOpen={isCollapsed} className="topbar__menu-wrap">
-        <div className="topbar__menu">
-          <TopbarMenuLink title="Dashboard" icon="list" path="/" />
-          <div className="topbar__menu-divider" />
-          <TopbarMenuLink title="Log Out" icon="exit" path="" onClick={()=>{
-          if(window.confirm('Are you sure to log out?')) {
-            logout()
-          }}} />
-         </div>
-      </Collapse> */}
     </div>
   );
 };
 
 export default connect((state) => ({
   auth: state.auth,
+  template: state.template
 }))(TopbarProfile);

@@ -682,3 +682,23 @@
 //    width: 75px;
 //    background: url('../../../public/theme/classic/img/social_wall/social-post-tail.png') 0px 0px no-repeat;
 //}
+
+.cart-classic{
+    position: absolute;
+    right: 0px;
+    margin-right: 10px;
+    z-index: 1;
+    top: -5px;
+
+    .popover{
+        max-width: 25%;
+        min-width: 25%;
+
+    }
+    .cart-item{
+        img{
+            max-width: 100px;
+            max-heigth: 100px;
+        }
+    }
+}

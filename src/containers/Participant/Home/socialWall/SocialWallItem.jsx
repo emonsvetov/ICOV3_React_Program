@@ -1,13 +1,8 @@
-import React, {useState, useRef} from 'react';
-import PlusCircleIcon from 'mdi-react/PlusCircleIcon';
+import React from 'react';
 import SocialWallIcon from './SocialWallIcon';
-import {Button} from "reactstrap";
 import TemplateButton from "@/shared/components/TemplateButton"
-import SocialWallCommentModalWrapper from "./SocialWallCommentModalWrapper";
 import {connect} from "react-redux";
 import TimeAgo from 'react-timeago'
-import SocialWallItemClassic from "./themed/SocialWallItemClassic";
-import SocialWallItemClear from "./themed/SocialWallItemClear";
 import {Themed} from '@/theme'
 
 const SocialWallItem = (props) => {
