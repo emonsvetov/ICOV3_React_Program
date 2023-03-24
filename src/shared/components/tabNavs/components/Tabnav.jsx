@@ -11,7 +11,7 @@ import DashboardIcon from "mdi-react/ViewDashboardIcon";
 import SpireIcon from "mdi-react/StarBoxIcon";
 import LeaderboardIcon from "mdi-react/ChartBarIcon";
 
-function TabNav(props) {
+function Tabnav(props) {
   const { title, icon, isActive } = props;
   return (
     <div className={"tab-nav"}>
@@ -47,11 +47,11 @@ function TabNav(props) {
   );
 }
 
-TabNav.propTypes = {
+Tabnav.propTypes = {
   title: PropTypes.string,
   icon: PropTypes.string,
 };
 
-TabNav.defaultProps = {};
+Tabnav.defaultProps = {};
 
-export default TabNav;
+export default Tabnav;
