@@ -6,6 +6,53 @@ import { useTranslation } from "react-i18next";
 
 // const program = getAuthProgram();
 
+export const ParticipantTabNavsOrigin = () => {
+    const { t } = useTranslation();
+    const TAB_ITEMS = [
+      { title: "my_rewards", icon: "MyRewards", to: `/participant/my-points` },
+    ];
+  
+    if(program.uses_peer2peer
+        > 0){
+      TAB_ITEMS.push({
+        title: "peer_to_peer",
+        icon: "PeerToPeer",
+        to: "/participant/peer-to-peer",
+      },)
+    }
+  
+    if(program.uses_leaderboards > 0){
+      TAB_ITEMS.push({
+        title: "leaderboards",
+        icon: "Leaderboards",
+        to: "/participant/leaderboards",
+      },)
+    }
+  
+    if(program.uses_goal_tracker > 0){
+      TAB_ITEMS.push({
+        title: "my_goals",
+        icon: "MyGoals",
+        to: "/participant/my-goals",
+      },)
+    }
+  
+    let navigate = useNavigate();
+    return (
+      <div className="">
+        <ul className="horizontal d-flex justify-content-evenly">
+          {TAB_ITEMS.map((item, key) => {
+            return (
+              <li key={key} onClick={() => navigate(item.to)}>
+                <TabNavOrigin title={t(item.title)} icon={item.icon} />
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    );
+  };
+
 export const ParticipantTabNavs = ({program}) => {
   const { t } = useTranslation();
 
