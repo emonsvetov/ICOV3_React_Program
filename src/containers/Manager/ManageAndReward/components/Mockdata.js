@@ -404,7 +404,7 @@ export const USER_GOALS_COLUMNS =[
     },
     {
         Header: "Status",
-        accessor: "goal_state_type_name",
+        accessor: "goal_state_name",
     },
     {
         Header: "Date Begin",
