@@ -15,7 +15,7 @@ const monthsOptions = [{ value: 1, label: 'January' }, { value: 2, label: 'Febru
 
 const daysOptions =[{ value: 1, label: 1 }, { value: 5, label: 5 }, { value: 10, label: 10 }, { value: 15, label: 15 }, { value: 20, label: 20 }, { value: 25, label: 25 }];
 
-const customUnitsOptions = [{ value: 'months', label: 'Months' },{ value: 'days', label: 'Days' }, { value: 'years', label: 'Years' }];
+const customUnitsOptions = [{ value: 'month', label: 'Months' },{ value: 'day', label: 'Days' }, { value: 'year', label: 'Years' }];
 
 
 const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
