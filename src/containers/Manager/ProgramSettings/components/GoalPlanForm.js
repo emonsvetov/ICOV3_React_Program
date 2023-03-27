@@ -16,7 +16,8 @@ import formValidation from "@/validation/addGoalPlan";
 import { getGoalExceededProgramCallbacks } from "@/services/externalCallbacks/getGoalExceededProgramCallbacks";
 import { getGoalMetProgramCallbacks } from "@/services/externalCallbacks/getGoalMetProgramCallbacks";
 
-import DatePickerField from "@/shared/components/form/DatePicker";
+//import DatePickerField from "@/shared/components/form/DatePicker";
+import FileldDatePicker from "@/shared/components/form/DatePickerComponent";
 const current = new Date();
 const date = `${current.getFullYear()}-${
   current.getMonth() + 1
@@ -65,7 +66,7 @@ const automaticFrequencyOptions = [
 //console.log(date);
 const GoalPlanForm = ({ program, goalplan, setOpen }) => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+  //const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [events, setEvents] = useState([]);
   const [goalPlanTypes, setGoalPlanTypes] = useState([]);
@@ -216,7 +217,7 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
       progress_notification_email_id,
       assign_goal_all_participants_default,
       achieved_callback_id,
-      exceeded_callback_id
+      exceeded_callback_id,
     } = values;
 
     goalPlanData.name = name;
@@ -271,31 +272,32 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
     goalPlanData.progress_notification_email_id = progress_notification_email_id
       ? progress_notification_email_id.value
       : null;
-     goalPlanData.achieved_callback_id = achieved_callback_id
+    goalPlanData.achieved_callback_id = achieved_callback_id
       ? achieved_callback_id.value
-      : null; 
+      : null;
     goalPlanData.exceeded_callback_id = exceeded_callback_id
       ? exceeded_callback_id.value
-      : null; 
+      : null;
     //goalPlanData.created_by = 1;
-    setSaving(true)
+    setSaving(true);
     axios
       .put(
         `/organization/${program.organization_id}/program/${program.id}/goalplan/${goalplan.id}`,
         goalPlanData
       )
       .then((res) => {
-           console.log(res)
+      console.log(res);
         if (res.status == 200) {
           let msg = "Goal Plan updated successfully!";
           if (res.data.assign_msg) {
             msg += " " + res.data.assign_msg;
           }
           dispatch(sendFlashMessage(msg));
-          //setLoading(false);
-          setSaving(false)
-          setOpen(false);
           window.location.reload();
+          //setLoading(false);
+          setSaving(false);
+          setOpen(false);
+          
         }
       })
       .catch((err) => {
@@ -307,7 +309,7 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
             "top"
           )
         );
-        setSaving(false)
+        setSaving(false);
       });
   };
 
@@ -404,14 +406,14 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
       : null;
     //goalPlanData.progress_notification_email_id = 1; //pending to make it dynamic
     goalPlanData.achieved_callback_id = achieved_callback_id
-    ? achieved_callback_id.value
-    : null; 
+      ? achieved_callback_id.value
+      : null;
     goalPlanData.exceeded_callback_id = exceeded_callback_id
-    ? exceeded_callback_id.value
-    : null; 
+      ? exceeded_callback_id.value
+      : null;
     // setGoalPlan(goalPlanData);
-    console.log(goalPlanData);
-    setLoading(true);
+   // console.log(goalPlanData);
+    setSaving(true);
     axios
       .post(
         `/organization/${program.organization_id}/program/${program.id}/goalplan`,
@@ -424,9 +426,10 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
           if (res.data.assign_msg) {
             msg += " " + res.data.assign_msg;
           }
-          window.location.reload();
           dispatch(sendFlashMessage(msg));
-          setLoading(false);
+          window.location.reload();
+          //setLoading(false);
+          setSaving(false);
           setOpen(false);
         }
       })
@@ -439,113 +442,125 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
             "top"
           )
         );
-        setLoading(false);
+        setSaving(false);
       });
   };
 
   return (
     <>
-    {saving && "Saving, please wait..."}
-    <Form
-      keepDirtyOnReinitialize
-      onSubmit={goalplan?.id ? onSubmitEdit : onSubmitAdd}
-      validate={validate}
-      initialValues={goalplan}
-    >
-      {({ handleSubmit, form, submitting, pristine, values }) => {
-        //console.log(values)
-        return (
-          <form
-            className="form d-flex flex-column justify-content-evenly"
-            onSubmit={handleSubmit}
-          >
-            <Row>
-              <Col md="4">
-                {!goalplan?.id && (
-                  <label className="form-label">Select Goal Plan Type*:</label>
-                )}
-
-                {goalplan?.goal_plan_type?.name && (
-                  <p>
-                    Goal Plan Type:
-                    <br /> {goalplan.goal_plan_type.name}
-                  </p>
-                )}
-
-                {!goalplan?.id && (
-                  <Field
-                    name="goal_plan_type_id"
-                    className="react-select"
-                    options={goalPlanTypes}
-                    placeholder={"-- select --"}
-                    component={renderSelectField}
-                  />
-                )}
-              </Col>
-
-              <Col md="8">
-                <label className="form-label">Goal Plan Name*</label>
-                <Field name="name">
-                  {({ input, meta }) => (
-                    <FormGroup>
-                      <Input
-                        placeholder="Goal Plan Name*"
-                        type="text"
-                        // onChange={(e) =>handleChange(input,value)}
-                        {...input}
-                      />
-                      {meta.touched && meta.error && (
-                        <span className="form-error">{meta.error}</span>
-                      )}
-                      {/*meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>*/}
-                    </FormGroup>
+      {saving && "Saving, please wait..."}
+      <Form
+        keepDirtyOnReinitialize
+        onSubmit={goalplan?.id ? onSubmitEdit : onSubmitAdd}
+        validate={validate}
+        initialValues={goalplan}
+      >
+        {({ handleSubmit, form, submitting, pristine, values }) => {
+          //console.log(values)
+          return (
+            <form
+              className="form d-flex flex-column justify-content-evenly"
+              onSubmit={handleSubmit}
+            >
+              <Row>
+                <Col md="4">
+                  {!goalplan?.id && (
+                    <label className="form-label">
+                      Select Goal Plan Type*:
+                    </label>
                   )}
-                </Field>
-              </Col>
-            </Row>
-            <Row>
-              <p>
-                <strong>Goal Plan Expiration</strong>
-              </p>
-              <Col md="12">
-                <Row>
-                  {!goalplan.id && (
+
+                  {goalplan?.goal_plan_type?.name && (
+                    <p>
+                      Goal Plan Type:
+                      <br /> {goalplan.goal_plan_type.name}
+                    </p>
+                  )}
+
+                  {!goalplan?.id && (
+                    <Field
+                      name="goal_plan_type_id"
+                      className="react-select"
+                      options={goalPlanTypes}
+                      placeholder={"-- select --"}
+                      component={renderSelectField}
+                    />
+                  )}
+                </Col>
+
+                <Col md="8">
+                  <label className="form-label">Goal Plan Name*</label>
+                  <Field name="name">
+                    {({ input, meta }) => (
+                      <FormGroup>
+                        <Input
+                          placeholder="Goal Plan Name*"
+                          type="text"
+                          // onChange={(e) =>handleChange(input,value)}
+                          {...input}
+                        />
+                        {meta.touched && meta.error && (
+                          <span className="form-error">{meta.error}</span>
+                        )}
+                        {/*meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>*/}
+                      </FormGroup>
+                    )}
+                  </Field>
+                </Col>
+              </Row>
+              <Row>
+                <p>
+                  <strong>Goal Plan Expiration</strong>
+                </p>
+                <Col md="12">
+                  <Row>
+                    {!goalplan.id && (
+                      <Col md="6">
+                        <label className="form-label">
+                          Goal Plan Expiration Rule*
+                        </label>
+                        <Field
+                          name="expiration_rule_id"
+                          className="react-select"
+                          options={expirationRules}
+                          placeholder={"-- select --"}
+                          component={renderSelectField}
+                        />
+                      </Col>
+                    )}
                     <Col md="6">
-                      <label className="form-label">
-                        Goal Plan Expiration Rule*
-                      </label>
-                      <Field
-                        name="expiration_rule_id"
-                        className="react-select"
-                        options={expirationRules}
-                        placeholder={"-- select --"}
-                        component={renderSelectField}
-                      />
-                    </Col>
-                  )}
-                  <Col md="6">
-                    <Field name="date_begin">
+                      {/* <Field name="date_begin">
                       {({ input, meta }) => (
                         <FormGroup>
                           <label className="form-label">Start Date</label>
                           <Input placeholder="Start" type="date" {...input} />
                           {meta.touched && meta.error && (
                             <span className="form-error">{meta.error}</span>
-                          )}
-
-                          {/* <DatePickerField
-                                                    dateFormat="MM/dd/yyyy"
-                                                    name="date_begin"
-                                                    placeholder="Start"
-                                                    class="form-control"
-                                                    />*/}
-                        </FormGroup>
-                      )}
-                    </Field>
-                  </Col>
-                  {goalplan?.id && (
-                    <Col md="6">
-                      <Field name="date_end">
+                          )} */}
+                      <FormGroup>
+                        <label className="form-label">Start Date</label>
+                        <Field
+                          name="date_begin"
+                          dateFormat="yyyy-MM-dd"
+                          component={FileldDatePicker}
+                          validate={(value) =>
+                            value ? undefined : "This field is required"
+                          }
+                        />
+                      </FormGroup>
+                      {/* <DatePickerField
+                                dateFormat="yyyy/MM/dd"
+                                name="date_begin"
+                                placeholder="Start"
+                                class="form-control"
+                                /> */}
+                      {/* </FormGroup>
+                        )} </Col> 
+                    </Field>*/}
+                    </Col>
+                    {goalplan?.id && (
+                      <Col md="6">
+                        {/*<Field name="date_end">
                         {({ input, meta }) => (
                           <FormGroup>
                             <label className="form-label">End Date</label>
@@ -555,88 +570,97 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
                             )}
                           </FormGroup>
                         )}
-                      </Field>
-                    </Col>
-                  )}
-                </Row>
-                {values.hasOwnProperty("expiration_rule_id") &&
-                  values.expiration_rule_id.value == "4" && (
-                    <Row>
-                      <Col md="6">
-                        <label className="form-label">
-                          Goal Plan Custom Expiration - Expires after*
-                        </label>
-                        <Field name="custom_expire_offset">
-                          {({ input, meta }) => (
-                            <FormGroup>
-                              <Input
-                                placeholder="1,2,3 etc."
-                                type="number"
-                                {...input}
-                              />
-                              {meta.touched && meta.error && (
-                                <span className="form-error">{meta.error}</span>
-                              )}
-                            </FormGroup>
-                          )}
-                        </Field>
-                      </Col>
-                      <Col md="6">
-                        <label className="form-label">
-                          Goal Plan Custom Expiration*
-                        </label>
+                      </Field> */}
+
+                        <label className="form-label">End Date</label>
                         <Field
-                          name="custom_expire_units"
-                          className="react-select"
-                          options={customUnitsOptions}
-                          placeholder={"day/month/year "}
-                          component={renderSelectField}
+                          name="date_end"
+                          dateFormat="yyyy-MM-dd"
+                          component={FileldDatePicker}
                         />
                       </Col>
-                    </Row>
-                  )}
-                {
-                  //Annual expiration date
-                  values.hasOwnProperty("expiration_rule_id") &&
-                    values.expiration_rule_id.value == "5" && (
+                    )}
+                  </Row>
+                  {values.hasOwnProperty("expiration_rule_id") &&
+                    values.expiration_rule_id.value == "4" && (
                       <Row>
                         <Col md="6">
                           <label className="form-label">
-                            Goal Plan Annual Expiration Month*
+                            Goal Plan Custom Expiration - Expires after*
                           </label>
-                          <Field
-                            name="annual_expire_month"
-                            className="react-select"
-                            options={monthsOptions}
-                            placeholder={"-- select --"}
-                            component={renderSelectField}
-                          />
+                          <Field name="custom_expire_offset">
+                            {({ input, meta }) => (
+                              <FormGroup>
+                                <Input
+                                  placeholder="1,2,3 etc."
+                                  type="number"
+                                  {...input}
+                                />
+                                {meta.touched && meta.error && (
+                                  <span className="form-error">
+                                    {meta.error}
+                                  </span>
+                                )}
+                              </FormGroup>
+                            )}
+                          </Field>
                         </Col>
                         <Col md="6">
                           <label className="form-label">
-                            Goal Plan Annual Expiration Day*
+                            Goal Plan Custom Expiration*
                           </label>
                           <Field
-                            name="annual_expire_day"
+                            name="custom_expire_units"
                             className="react-select"
-                            options={daysOptions}
-                            placeholder={"-- select --"}
+                            options={customUnitsOptions}
+                            placeholder={"day/month/year "}
                             component={renderSelectField}
                           />
                         </Col>
                       </Row>
-                    )
-                }
-                {
-                  //Specifield expiration date
-                  values.hasOwnProperty("expiration_rule_id") &&
-                    values.expiration_rule_id.value == "6" && (
-                      <Row>
-                        <Col md="12">
-                          <label className="form-label">
-                            Goal Plan Specified Expiration*
-                          </label>
-                          <Field name="date_end">
+                    )}
+                  {
+                    //Annual expiration date
+                    values.hasOwnProperty("expiration_rule_id") &&
+                      values.expiration_rule_id.value == "5" && (
+                        <Row>
+                          <Col md="6">
+                            <label className="form-label">
+                              Goal Plan Annual Expiration Month*
+                            </label>
+                            <Field
+                              name="annual_expire_month"
+                              className="react-select"
+                              options={monthsOptions}
+                              placeholder={"-- select --"}
+                              component={renderSelectField}
+                            />
+                          </Col>
+                          <Col md="6">
+                            <label className="form-label">
+                              Goal Plan Annual Expiration Day*
+                            </label>
+                            <Field
+                              name="annual_expire_day"
+                              className="react-select"
+                              options={daysOptions}
+                              placeholder={"-- select --"}
+                              component={renderSelectField}
+                            />
+                          </Col>
+                        </Row>
+                      )
+                  }
+                  {
+                    //Specifield expiration date
+                    values.hasOwnProperty("expiration_rule_id") &&
+                      values.expiration_rule_id.value == "6" && (
+                        <Row>
+                          <Col md="12">
+                            <label className="form-label">
+                              Goal Plan Specified Expiration*
+                            </label>
+                            {/*<Field name="date_end">
                             {({ input, meta }) => (
                               <FormGroup>
                                 <Input //by default set default to +1 year from begin date (pending here)
@@ -651,316 +675,327 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
                                 )}
                               </FormGroup>
                             )}
-                          </Field>
-                        </Col>
-                      </Row>
-                    )
-                }
-              </Col>
-            </Row>
-            <Row>
-              {goalExceededProgramCallbacks.length > 0 && (
-                <Col md="6">
-                  <label className="form-label">
-                    Goal Plan Exceeded Callback
-                  </label>
-                  <Field
-                    name="exceeded_callback_id"
-                    className="react-select"
-                    options={goalExceededProgramCallbacks}
-                    placeholder={"-- select --"}
-                    component={renderSelectField}
-                  />
+                           </Field>*/}
+                            <label className="form-label">
+                              Goal Plan Specified Expiration*
+                            </label>
+                            <Field
+                              name="date_end" //by default set default to +1 year from begin date (pending here)
+                              placeholder="Goal Plan Specified Expiration*"
+                              dateFormat="yyyy-MM-dd"
+                              component={FileldDatePicker}
+                            />
+                          </Col>
+                        </Row>
+                      )
+                  }
                 </Col>
-              )} 
-              {goalMetProgramCallbacks.length > 0 && (
-                <Col md="6">
-                  <label className="form-label">
-                    Goal Plan Achieved Callback
-                  </label>
-                  <Field
-                    name="achieved_callback_id"
-                    className="react-select"
-                    options={goalMetProgramCallbacks}
-                    placeholder={"-- select --"}
-                    component={renderSelectField}
-                  />
-                </Col>
-              )}
-            </Row>
-            <Row>
-              <Col md="5">
-                <label className="form-label">
-                  Accrue Progress Automatically*
-                </label>
-                <Field
-                  name="automatic_progress"
-                  className="react-select"
-                  options={automaticProgressOptions}
-                  placeholder={"-- select --"}
-                  component={renderSelectField}
-                />
-              </Col>
-            </Row>
-            {values.hasOwnProperty("automatic_progress") &&
-              values.automatic_progress.value == "1" && (
-                <Row>
+              </Row>
+              <Row>
+                {goalExceededProgramCallbacks.length > 0 && (
                   <Col md="6">
                     <label className="form-label">
-                      Automatic Goal Frequency*
+                      Goal Plan Exceeded Callback
                     </label>
                     <Field
-                      name="automatic_frequency"
+                      name="exceeded_callback_id"
                       className="react-select"
-                      //value={value}
-                      options={automaticFrequencyOptions}
+                      options={goalExceededProgramCallbacks}
                       placeholder={"-- select --"}
-                      //label="Automatic Goal Frequency"
                       component={renderSelectField}
                     />
                   </Col>
+                )}
+                {goalMetProgramCallbacks.length > 0 && (
                   <Col md="6">
                     <label className="form-label">
-                      Amount of Progress To Assign*
+                      Goal Plan Achieved Callback
                     </label>
-                    <Field name="automatic_value">
-                      {({ input, meta }) => (
-                        <FormGroup>
-                          <Input
-                            placeholder="Amount of Progress To Assign*"
-                            type="number"
-                            {...input}
-                          />
-                          {meta.touched && meta.error && (
-                            <span className="form-error">{meta.error}</span>
-                          )}
-                        </FormGroup>
-                      )}
-                    </Field>
-                  </Col>
-                </Row>
-              )}
-            <Row>
-              <Col md="6">
-                <label className="form-label">Default Target*</label>
-                <Field name="default_target">
-                  {({ input, meta }) => (
-                    <FormGroup>
-                      <Input
-                        placeholder="Default Target*"
-                        type="number"
-                        {...input}
-                      />
-                      {meta.touched && meta.error && (
-                        <span className="form-error">{meta.error}</span>
-                      )}
-                    </FormGroup>
-                  )}
-                </Field>
-              </Col>
-              <Col md="6">
-                <label className="form-label">Measurement Label*</label>
-                <Field name="goal_measurement_label">
-                  {({ input, meta }) => (
-                    <FormGroup>
-                      <Input
-                        placeholder="Measurement Label*"
-                        type="text"
-                        {...input}
-                      />
-                      {meta.touched && meta.error && (
-                        <span className="form-error">{meta.error}</span>
-                      )}
-                    </FormGroup>
-                  )}
-                </Field>
-              </Col>
-            </Row>
-            {values.hasOwnProperty("goal_plan_type_id") &&
-              values.goal_plan_type_id.label == "Sales Goal" && (
-                <Row>
-                  <Col md="6">
-                    <label className="form-label">
-                      Goal Plan Achieved Factor*
-                    </label>
-                    <Field name="factor_before">
-                      {({ input, meta }) => (
-                        <FormGroup>
-                          <Input
-                            placeholder=" enter a number "
-                            type="number"
-                            {...input}
-                          />
-                          {meta.touched && meta.error && (
-                            <span className="form-error">{meta.error}</span>
-                          )}
-                        </FormGroup>
-                      )}
-                    </Field>
-                  </Col>
-                  <Col md="6">
-                    <label className="form-label">
-                      Goal Plan Exceeded Factor*
-                    </label>
-                    <Field name="factor_after">
-                      {({ input, meta }) => (
-                        <FormGroup>
-                          <Input
-                            placeholder=" enter a number "
-                            type="text"
-                            {...input}
-                          />
-                          {meta.touched && meta.error && (
-                            <span className="form-error">{meta.error}</span>
-                          )}
-                        </FormGroup>
-                      )}
-                    </Field>
-                  </Col>
-                </Row>
-              )}
-            <Row>
-              {values.hasOwnProperty("goal_plan_type_id") &&
-                values.goal_plan_type_id.label == "Sales Goal" && (
-                  <Col md="6">
-                    <label className="form-label">
-                      Goal Plan Exceeded Event*
-                    </label>
-                    <EventField
-                      name="exceeded_event_id"
-                      placeholder={"-- choose event --"}
-                      goalPlanType={values.goal_plan_type_id}
-                      program={program}
-                      defaultValue={values.exceeded_event_id}
+                    <Field
+                      name="achieved_callback_id"
+                      className="react-select"
+                      options={goalMetProgramCallbacks}
+                      placeholder={"-- select --"}
+                      component={renderSelectField}
                     />
                   </Col>
                 )}
-            </Row>
-            <Row>
-              <Col md="6">
-                <label className="form-label">Goal Plan Achieved Event*</label>
-                <EventField
-                  name="achieved_event_id"
-                  placeholder={"-- choose event --"}
-                  goalPlanType={values.goal_plan_type_id}
-                  program={program}
-                  values={values}
-                  defaultValue={values.achieved_event_id}
-                />
-                {/* <Field
+              </Row>
+              <Row>
+                <Col md="5">
+                  <label className="form-label">
+                    Accrue Progress Automatically*
+                  </label>
+                  <Field
+                    name="automatic_progress"
+                    className="react-select"
+                    options={automaticProgressOptions}
+                    placeholder={"-- select --"}
+                    component={renderSelectField}
+                  />
+                </Col>
+              </Row>
+              {values.hasOwnProperty("automatic_progress") &&
+                values.automatic_progress.value == "1" && (
+                  <Row>
+                    <Col md="6">
+                      <label className="form-label">
+                        Automatic Goal Frequency*
+                      </label>
+                      <Field
+                        name="automatic_frequency"
+                        className="react-select"
+                        //value={value}
+                        options={automaticFrequencyOptions}
+                        placeholder={"-- select --"}
+                        //label="Automatic Goal Frequency"
+                        component={renderSelectField}
+                      />
+                    </Col>
+                    <Col md="6">
+                      <label className="form-label">
+                        Amount of Progress To Assign*
+                      </label>
+                      <Field name="automatic_value">
+                        {({ input, meta }) => (
+                          <FormGroup>
+                            <Input
+                              placeholder="Amount of Progress To Assign*"
+                              type="number"
+                              {...input}
+                            />
+                            {meta.touched && meta.error && (
+                              <span className="form-error">{meta.error}</span>
+                            )}
+                          </FormGroup>
+                        )}
+                      </Field>
+                    </Col>
+                  </Row>
+                )}
+              <Row>
+                <Col md="6">
+                  <label className="form-label">Default Target*</label>
+                  <Field name="default_target">
+                    {({ input, meta }) => (
+                      <FormGroup>
+                        <Input
+                          placeholder="Default Target*"
+                          type="number"
+                          {...input}
+                        />
+                        {meta.touched && meta.error && (
+                          <span className="form-error">{meta.error}</span>
+                        )}
+                      </FormGroup>
+                    )}
+                  </Field>
+                </Col>
+                <Col md="6">
+                  <label className="form-label">Measurement Label*</label>
+                  <Field name="goal_measurement_label">
+                    {({ input, meta }) => (
+                      <FormGroup>
+                        <Input
+                          placeholder="Measurement Label*"
+                          type="text"
+                          {...input}
+                        />
+                        {meta.touched && meta.error && (
+                          <span className="form-error">{meta.error}</span>
+                        )}
+                      </FormGroup>
+                    )}
+                  </Field>
+                </Col>
+              </Row>
+              {values.hasOwnProperty("goal_plan_type_id") &&
+                values.goal_plan_type_id.label == "Sales Goal" && (
+                  <Row>
+                    <Col md="6">
+                      <label className="form-label">
+                        Goal Plan Achieved Factor*
+                      </label>
+                      <Field name="factor_before">
+                        {({ input, meta }) => (
+                          <FormGroup>
+                            <Input
+                              placeholder=" enter a number "
+                              type="number"
+                              {...input}
+                            />
+                            {meta.touched && meta.error && (
+                              <span className="form-error">{meta.error}</span>
+                            )}
+                          </FormGroup>
+                        )}
+                      </Field>
+                    </Col>
+                    <Col md="6">
+                      <label className="form-label">
+                        Goal Plan Exceeded Factor*
+                      </label>
+                      <Field name="factor_after">
+                        {({ input, meta }) => (
+                          <FormGroup>
+                            <Input
+                              placeholder=" enter a number "
+                              type="text"
+                              {...input}
+                            />
+                            {meta.touched && meta.error && (
+                              <span className="form-error">{meta.error}</span>
+                            )}
+                          </FormGroup>
+                        )}
+                      </Field>
+                    </Col>
+                  </Row>
+                )}
+              <Row>
+                {values.hasOwnProperty("goal_plan_type_id") &&
+                  values.goal_plan_type_id.label == "Sales Goal" && (
+                    <Col md="6">
+                      <label className="form-label">
+                        Goal Plan Exceeded Event*
+                      </label>
+                      <EventField
+                        name="exceeded_event_id"
+                        placeholder={"-- choose event --"}
+                        goalPlanType={values.goal_plan_type_id}
+                        program={program}
+                        defaultValue={values.exceeded_event_id}
+                      />
+                    </Col>
+                  )}
+              </Row>
+              <Row>
+                <Col md="6">
+                  <label className="form-label">
+                    Goal Plan Achieved Event*
+                  </label>
+                  <EventField
+                    name="achieved_event_id"
+                    placeholder={"-- choose event --"}
+                    goalPlanType={values.goal_plan_type_id}
+                    program={program}
+                    values={values}
+                    defaultValue={values.achieved_event_id}
+                  />
+                  {/* <Field
                     name="achieved_event_id"
                     className="react-select"
                     options={events}
                     placeholder={"Goal Plan Achieved Event*"}
                     component={renderSelectField}
                 /> */}
-              </Col>
-            </Row>
-            <Row>
-              <Col md="12">
-                <FormGroup className="d-flex justify-content-between">
-                  <label className="form-label">Recurring:</label>
-                  <Label></Label>
-                  <Field
-                    name="is_recurring"
-                    //enable="1"
-                    component={renderToggleButtonField}
-                  />
-                </FormGroup>
-              </Col>
-            </Row>
-            <Row>
-              <Col md="12">
-                <FormGroup className="d-flex justify-content-between">
-                  <label className="form-label">
-                    Award Per Goal Progress Item:
-                  </label>
-                  <small>
-                    (If turned on, when a goal is met 1 award will be given for
-                    each goal progress item)
-                  </small>
+                </Col>
+              </Row>
+              <Row>
+                <Col md="12">
+                  <FormGroup className="d-flex justify-content-between">
+                    <label className="form-label">Recurring:</label>
+                    <Label></Label>
+                    <Field
+                      name="is_recurring"
+                      //enable="1"
+                      component={renderToggleButtonField}
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col md="12">
+                  <FormGroup className="d-flex justify-content-between">
+                    <label className="form-label">
+                      Award Per Goal Progress Item:
+                    </label>
+                    <small>
+                      (If turned on, when a goal is met 1 award will be given
+                      for each goal progress item)
+                    </small>
 
-                  <Field
-                    name="award_per_progress"
-                    component={renderToggleButtonField}
-                    //enable="1"
-                    //checked="checked"
-                   //TO DO - If goal_plan_type is "Event Count Goal" and "Sales Goal"then show it checked by default otherwise show disabled
-                  />
-                </FormGroup>
-              </Col>
-            </Row>
-            <Row>
-              <Col md="12">
-                <FormGroup className="d-flex justify-content-between">
-                  <Label className="form-label">Award Email Per Award:</Label>
-                  <small>
-                    (If turned off, when a goal is met only 1 award email will
-                    be sent regardless of the number of awards generated)
-                  </small>
+                    <Field
+                      name="award_per_progress"
+                      component={renderToggleButtonField}
+                      //enable="1"
+                      //checked="checked"
+                      //TO DO - If goal_plan_type is "Event Count Goal" and "Sales Goal"then show it checked by default otherwise show disabled
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col md="12">
+                  <FormGroup className="d-flex justify-content-between">
+                    <Label className="form-label">Award Email Per Award:</Label>
+                    <small>
+                      (If turned off, when a goal is met only 1 award email will
+                      be sent regardless of the number of awards generated)
+                    </small>
 
-                  <Field
-                    name="award_email_per_progress"
-                    //enable="1"
-                    component={renderToggleButtonField}
+                    <Field
+                      name="award_email_per_progress"
+                      //enable="1"
+                      component={renderToggleButtonField}
                       //TO DO - If goal_plan_type is "Sales Goal" then show it checked by default otherwise show disabled
-                  />
-                </FormGroup>
-              </Col>
-            </Row>
-            <Row>
-              <Col md="12">
-                <FormGroup className="d-flex justify-content-between">
-                  <Label className="form-label">
-                    Goal Progress Items Require Unique Reference Number:
-                  </Label>
-                  <Field
-                    name="progress_requires_unique_ref_num"
-                    //enable="1"
-                    component={renderToggleButtonField}
-                  />
-                </FormGroup>
-              </Col>
-            </Row>
-            <Row>
-              <Col md="12">
-                <FormGroup className="d-flex justify-content-between">
-                  <Label className="form-label">
-                    Assign Goal To All Participants By Default
-                  </Label>
-                  <Field
-                    name="assign_goal_all_participants_default"
-                    //enable="1"
-                    //disabled={1}
-                    component={renderToggleButtonField}
-                    parse={(value) => {
-                      return confirmAssignAllParticipant(value);
-                      //return value;
-                      //handleToggle("featured", value, row.original.id);
-                      //return value;
-                    }}
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col md="12">
+                  <FormGroup className="d-flex justify-content-between">
+                    <Label className="form-label">
+                      Goal Progress Items Require Unique Reference Number:
+                    </Label>
+                    <Field
+                      name="progress_requires_unique_ref_num"
+                      //enable="1"
+                      component={renderToggleButtonField}
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col md="12">
+                  <FormGroup className="d-flex justify-content-between">
+                    <Label className="form-label">
+                      Assign Goal To All Participants By Default
+                    </Label>
+                    <Field
+                      name="assign_goal_all_participants_default"
+                      //enable="1"
+                      //disabled={1}
+                      component={renderToggleButtonField}
+                      parse={(value) => {
+                        return confirmAssignAllParticipant(value);
+                        //return value;
+                        //handleToggle("featured", value, row.original.id);
+                        //return value;
+                      }}
 
-                    //  onChange={(e) => confirmAssignAllParticipant(e)}
-                  />
-                  <input
-                    name="assign_goal_all_participants_now"
-                    type="hidden"
-                    value="0"
-                  />
+                      //  onChange={(e) => confirmAssignAllParticipant(e)}
+                    />
+                    <input
+                      name="assign_goal_all_participants_now"
+                      type="hidden"
+                      value="0"
+                    />
 
-                  {/* <Field field="assign_goal_all_participants_now" value="hiddenFieldName" type="hidden" /> */}
-                </FormGroup>
-              </Col>
-            </Row>
-            <div className="d-flex justify-content-end">
-              <Button color="danger" type="submit" disabled={saving}>
-                Save Goal Plan
-              </Button>
-            </div>
-          </form>
-        );
-      }}
-    </Form>
+                    {/* <Field field="assign_goal_all_participants_now" value="hiddenFieldName" type="hidden" /> */}
+                  </FormGroup>
+                </Col>
+              </Row>
+              <div className="d-flex justify-content-end">
+                <Button color="danger" type="submit" disabled={saving}>
+                  Save Goal Plan
+                </Button>
+              </div>
+            </form>
+          );
+        }}
+      </Form>
     </>
   );
 };
