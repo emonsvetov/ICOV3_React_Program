@@ -4,38 +4,12 @@ import { UncontrolledCarousel } from "reactstrap";
 import HomeTopbar from "../Layout/topbar/Home";
 import LoginPopup from "./components/LoginPopup";
 // import Signup from './components/SignupPopup';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import "react-multi-carousel/lib/styles.css";
 import Carousel from "react-multi-carousel";
-import { SliderOrigin } from "../Participant/Home/components/slider";
+import { SliderClear, getSliderImgs, getMerchantIcons } from "../Participant/Home/components/slider";
 import LogInForm from "./components/LogInForm";
 import { useTranslation } from "react-i18next";
-
-const getSlideIcons = () => {
-  let icons = [];
-  for (let i = 1; i < 9; i++) {
-    icons.push(`${process.env.PUBLIC_URL}/theme/classic/img/merchants/${i}.png`);
-  }
-  return icons;
-};
-const getOriginSlideImgs = (template) => {
-  let imgs = [];
-  let count = 4;
-  if (template.slider_01 || template.slider_02 || template.slider_03){
-    count = 3;
-  }
-  for (let i = 1; i <= count; i++) {
-    let img_src = template[`slider_0${i}`]
-        ? `${process.env.REACT_APP_API_STORAGE_URL}/`+template[`slider_0${i}`]
-        : template.name === 'New' ? `${process.env.PUBLIC_URL}/theme/classic/img/slider/slider-02.jpg`
-        : `${process.env.PUBLIC_URL}/theme/clear/img/slider/slider-0${i}.jpg`;
-    imgs.push({
-      src: img_src,
-      altText: `Slide ${i}`,
-    });
-  }
-  return imgs;
-};
 
 const responsive = {
   desktop: {
@@ -127,30 +101,8 @@ const LogIn = ({ template }) => {
       </Carousel>
     );
   };
-  const items = [
-    {
-      src: template.slider_01
-        ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.slider_01}`
-        : `${process.env.PUBLIC_URL}/theme/classic/img/slider/slider-01.jpg`,
-      altText: "Slide 1",
-    },
-    {
-      src: template.slider_02
-        ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.slider_02}`
-        : `${process.env.PUBLIC_URL}/theme/classic/img/slider/slider-02.jpg`,
-      altText: "Slide 2",
-    },
-    {
-      src: template.slider_03
-        ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.slider_03}`
-        : `${process.env.PUBLIC_URL}/theme/classic/img/slider/slider-03.jpg`,
-      altText: "Slide 3",
-    },
-  ];
 
-  const items_origin = getOriginSlideImgs(template);
-
-  let slide_icons = getSlideIcons();
+  let slide_icons = getMerchantIcons();
   return (
     <div>
       <HomeTopbar
@@ -158,7 +110,7 @@ const LogIn = ({ template }) => {
         onClickSignup={signupToggle}
       />
       <UncontrolledCarousel
-        items={template ? items_origin : items}
+        items={getSliderImgs(template)}
         indicators={false}
         controls={false}
       />
@@ -170,7 +122,7 @@ const LogIn = ({ template }) => {
         </strong>
       </div>
 
-      {(template && <SliderOrigin data={slide_icons} />) ||
+      {(template && <SliderClear data={slide_icons} />) ||
         (!template && <CarouselNew />)}
       {showLoginPopup && <LoginPopup onCancelHandler={popupToggle} />}
       {/* {showSignup && <Signup onCancelHandler={signupToggle} />} */}

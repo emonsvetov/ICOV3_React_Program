@@ -6,7 +6,7 @@ import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import Sidebar from "../../Layout/sidebar";
 import PointsOrigin from "../../Layout/sidebar/PointsOrigin";
 import { getSlideImg } from "../Home";
-import { SliderOrigin } from "../Home/components/slider";
+import { SliderClear } from "../Home/components/slider";
 import Redeem from "./components/Redeem";
 import { useTranslation } from "react-i18next";
 import {Img} from '@/theme'
@@ -34,7 +34,7 @@ export const RedeemMerchant = ({ theme }) => {
           <h6 className="m-3">
             {t("select_a_merchant_to_redeem_your_points")}
           </h6>
-          <SliderOrigin data={slide_imgs} />
+          <SliderClear data={slide_imgs} />
         </div>
       </Container>
     );
