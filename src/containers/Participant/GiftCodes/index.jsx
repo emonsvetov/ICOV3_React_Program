@@ -89,7 +89,7 @@ const MyGiftCodes = ({ template, auth, organization, program }) => {
 
   return (
     (template?.name === "classic" && <MyGiftCodesNew />) ||
-    (template?.name === "Clear" && <MyGiftCodesOrigin />)
+    (template?.name === "clear" && <MyGiftCodesOrigin />)
   );
 };
 
