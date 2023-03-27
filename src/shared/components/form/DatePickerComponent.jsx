@@ -15,8 +15,10 @@ const FieldDatePicker = ({ name, input, input: { value, onChange } }) => {
   return (
     <DatePicker
       //withPortal={isMobileOnly}
-      placeholderText={value ? format(new Date(value), "yyyy-MM-dd") : "Select date"}
+      placeholderText={"Select date"}
+      value={value ? format(new Date(value), "yyyy-MM-dd") : ""}
       dateFormat="P"
+      className="form-control" 
       selected={selected} // needs to be checked if it is valid date
       disabledKeyboardNavigation
       name={name}

@@ -3,6 +3,7 @@ import { Form, Field } from "react-final-form";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import axios from "axios";
+import {format, addYears} from "date-fns";
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import { useDispatch, sendFlashMessage } from "@/shared/components/flash";
 import { labelizeNamedData, patch4Select } from "@/shared/helpers";
@@ -19,14 +20,16 @@ import { getGoalMetProgramCallbacks } from "@/services/externalCallbacks/getGoal
 //import DatePickerField from "@/shared/components/form/DatePicker";
 import FileldDatePicker from "@/shared/components/form/DatePickerComponent";
 const current = new Date();
-const date = `${current.getFullYear()}-${
+/*const date = `${current.getFullYear()}-${
   current.getMonth() + 1
-}-${current.getDate()}`;
+}-${current.getDate()}`;*/
+const date = format(new Date(current), "yyyy-MM-dd");
+const defaultEndDate = format(new Date(addYears(current, 1)), "yyyy-MM-dd"); 
+
 const automaticProgressOptions = [
   { value: "1", label: "Yes" },
   { value: "0", label: "No" },
 ];
-
 const monthsOptions = [
   { value: 1, label: "January" },
   { value: 2, label: "February" },
@@ -152,7 +155,7 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
       );
     }
     // console.log(goalplan.exceeded_event_id)
-    console.log(goalplan.automatic_progress);
+    //console.log(goalplan.automatic_progress);
   } else {
     goalplan = {
       is_recurring: 1,
@@ -161,6 +164,7 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
       goal_plan_type_id: { label: "Sales Goal", value: "1" },
       automatic_progress: 0,
       date_begin: date,
+     // date_end: defaultEndDate
     };
     // console.log(goalplan)
   }
@@ -279,6 +283,7 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
       ? exceeded_callback_id.value
       : null;
     //goalPlanData.created_by = 1;
+    console.log(goalPlanData)
     setSaving(true);
     axios
       .put(
@@ -412,7 +417,7 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
       ? exceeded_callback_id.value
       : null;
     // setGoalPlan(goalPlanData);
-   // console.log(goalPlanData);
+   console.log(goalPlanData);
     setSaving(true);
     axios
       .post(
@@ -537,17 +542,17 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
                           {meta.touched && meta.error && (
                             <span className="form-error">{meta.error}</span>
                           )} */}
-                      <FormGroup>
                         <label className="form-label">Start Date</label>
-                        <Field
-                          name="date_begin"
-                          dateFormat="yyyy-MM-dd"
-                          component={FileldDatePicker}
-                          validate={(value) =>
-                            value ? undefined : "This field is required"
-                          }
-                        />
-                      </FormGroup>
+                        <div class="mb-3">
+                          <Field
+                            name="date_begin"
+                            dateFormat="yyyy-MM-dd"
+                            component={FileldDatePicker}
+                            validate={(value) =>
+                              value ? undefined : "This field is required"
+                            }
+                          />
+                        </div>
                       {/* <DatePickerField
                                 dateFormat="yyyy/MM/dd"
                                 name="date_begin"
@@ -571,13 +576,14 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
                           </FormGroup>
                         )}
                       </Field> */}
-
                         <label className="form-label">End Date</label>
-                        <Field
-                          name="date_end"
-                          dateFormat="yyyy-MM-dd"
-                          component={FileldDatePicker}
-                        />
+                        <div class="mb-3">
+                          <Field
+                            name="date_end"
+                            dateFormat="yyyy-MM-dd"
+                            component={FileldDatePicker}
+                          />
+                        </div>
                       </Col>
                     )}
                   </Row>
@@ -657,10 +663,10 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
                       values.expiration_rule_id.value == "6" && (
                         <Row>
                           <Col md="12">
-                            <label className="form-label">
+                            {/*<label className="form-label">
                               Goal Plan Specified Expiration*
                             </label>
-                            {/*<Field name="date_end">
+                            <Field name="date_end">
                             {({ input, meta }) => (
                               <FormGroup>
                                 <Input //by default set default to +1 year from begin date (pending here)
@@ -679,12 +685,14 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
                             <label className="form-label">
                               Goal Plan Specified Expiration*
                             </label>
-                            <Field
-                              name="date_end" //by default set default to +1 year from begin date (pending here)
-                              placeholder="Goal Plan Specified Expiration*"
-                              dateFormat="yyyy-MM-dd"
-                              component={FileldDatePicker}
-                            />
+                            <div class="mb-3">
+                              <Field
+                                name="date_end" //by default set default to +1 year from begin date (pending here)
+                                placeholder="Goal Plan Specified Expiration*"
+                                dateFormat="yyyy-MM-dd"
+                                component={FileldDatePicker}
+                              />
+                            </div>
                           </Col>
                         </Row>
                       )
