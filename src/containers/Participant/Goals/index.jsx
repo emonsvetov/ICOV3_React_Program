@@ -8,17 +8,29 @@ import { Link } from "react-router-dom";
 import { GOAL_DATA } from "./components/Mockdata";
 import Sidebar from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
+import { readActiveByProgramAndUser } from "@/services/user/readActiveByProgramAndUser";
 
-const Goals = ({ template }) => {
+const Goals = ({ template, auth, organization, program }) => {
   const { t } = useTranslation();
   
+  const [goals, setGoals] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const [goals, setGoals] = useState(null);
-
-  const onSubmit = (values) => {};
-
+  useEffect(() => {
+      if (organization?.id && program?.id && auth?.id) {
+        readActiveByProgramAndUser(organization.id, program.id, auth.id)
+          .then(data => {
+            setGoals(data)
+            setLoading(false)
+          })
+          .catch(error => {
+            console.log(error.response.data);
+          })
+      }
+  }, []);
   const GoalTable = () => {
     const RenderActions = ({ row }) => {
+
       return (
         <span>
           <Link to={`/participant/my-goals/${row.original.id}`}>
@@ -42,13 +54,15 @@ const Goals = ({ template }) => {
     ];
 
     const columns = React.useMemo(() => final_columns, []);
-    const data = React.useMemo(() => GOAL_DATA, []);
+  //const data = React.useMemo(() => GOAL_DATA, []);
 
     const { getTableProps, headerGroups, rows, prepareRow } = useTable({
       columns,
-      data,
+      data: goals,
     });
-
+    if (loading) {
+      return <p>{t("loading")}</p>;
+    }
     return (
       <Table striped borderless size="md" {...getTableProps()}>
         <thead>
@@ -126,6 +140,9 @@ const Goals = ({ template }) => {
 const mapStateToProps = (state) => {
   return {
     template: state.template,
+    auth: state.auth,
+    program: state.program,
+    organization: state.organization,
   };
 };
 export default connect(mapStateToProps)(Goals);
