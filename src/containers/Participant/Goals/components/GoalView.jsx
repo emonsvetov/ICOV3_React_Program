@@ -8,22 +8,26 @@ import { GOAL_DATA } from "./Mockdata";
 import { GOAL_COLUMNS, GOAL_SUMMARY_COLUMNS } from "./columns";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
+import { getUserGoal } from "@/services/program/getUserGoal";
 
-const GoalView = ({ template }) => {
+
+const GoalView = ({ template, organization, program, usergoalId }) => {
   const { t } = useTranslation();
-  
+
   const { goalId } = useParams();
-  const [goal, setGoal] = useState(null);
+  const [goal, setGoal] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
+  console.log(goalId);
   useEffect(() => {
-    // getEvent(organization.id, program.id, eventId)
-    // .then(item => {
-    //     // console.log(item)
-    //     setEvent(item)
-    //     toggle('EditEvent');
-    //     setLoading(false)
-    // })
-    setGoal(GOAL_DATA[0]);
+    getUserGoal(organization.id, program.id, goalId)
+      .then(item => {
+        setGoal(item[0])
+        //console.log(item);
+        setLoading(false)
+      })
+    //setGoal(GOAL_DATA[0]);
   }, [goalId]);
 
   const GoalNew = () => {
@@ -85,7 +89,9 @@ const GoalView = ({ template }) => {
                         return (
                           <tr key={index}>
                             <td className="title-col">{item.Header}</td>
-                            <td className="value">{t("employee_referral")} </td>
+                            <td className="value">
+                             { goal[item.accessor] ? goal[item.accessor] : ''}
+                             </td>
                           </tr>
                         );
                       })}
@@ -133,6 +139,9 @@ const GoalView = ({ template }) => {
 const mapStateToProps = (state) => {
   return {
     template: state.template,
+    auth: state.auth,
+    program: state.program,
+    organization: state.organization,
   };
 };
 export default connect(mapStateToProps)(GoalView);
