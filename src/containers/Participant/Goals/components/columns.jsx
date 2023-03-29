@@ -36,11 +36,14 @@ export const GOAL_COLUMNS = [
 export const GOAL_SUMMARY_COLUMNS = [
   {
     Header: "Date",
-    accessor: "date_begin",
+    accessor: "created_at",
+    Cell: ({ row, value }) => {
+        return `${new Date(value).toLocaleDateString("en-US", {})}`;
+    },
   },
   {
     Header: "Value",
-    accessor: "value",
+    accessor: "progress_value",
   },
   {
     Header: "Comment",

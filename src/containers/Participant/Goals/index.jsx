@@ -5,28 +5,28 @@ import { connect } from "react-redux";
 import { useTable, usePagination, useRowSelect } from "react-table";
 import { GOAL_COLUMNS } from "./components/columns";
 import { Link } from "react-router-dom";
-import { GOAL_DATA } from "./components/Mockdata";
+//import { GOAL_DATA } from "./components/Mockdata";
 import Sidebar from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
 import { readActiveByProgramAndUser } from "@/services/user/readActiveByProgramAndUser";
 
 const Goals = ({ template, auth, organization, program }) => {
   const { t } = useTranslation();
-  
+
   const [goals, setGoals] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-      if (organization?.id && program?.id && auth?.id) {
-        readActiveByProgramAndUser(organization.id, program.id, auth.id)
-          .then(data => {
-            setGoals(data)
-            setLoading(false)
-          })
-          .catch(error => {
-            console.log(error.response.data);
-          })
-      }
+    if (organization?.id && program?.id && auth?.id) {
+      readActiveByProgramAndUser(organization.id, program.id, auth.id)
+        .then(data => {
+          setGoals(data)
+          setLoading(false)
+        })
+        .catch(error => {
+          console.log(error.response.data);
+        })
+    }
   }, []);
   const GoalTable = () => {
     const RenderActions = ({ row }) => {
@@ -54,7 +54,7 @@ const Goals = ({ template, auth, organization, program }) => {
     ];
 
     const columns = React.useMemo(() => final_columns, []);
-  //const data = React.useMemo(() => GOAL_DATA, []);
+    //const data = React.useMemo(() => GOAL_DATA, []);
 
     const { getTableProps, headerGroups, rows, prepareRow } = useTable({
       columns,
