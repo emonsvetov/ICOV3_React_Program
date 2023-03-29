@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Carousel from "react-multi-carousel";
 import './style.scss'; 
 
-export function Slider(props ) {   
+export function SliderClassic(props ) {   
     const { data} = props;
     return <div className="merchant-slider mt-5">
             <Carousel
@@ -67,15 +67,15 @@ export function Slider(props ) {
     </div>
 }
 
-Slider.propTypes = {
+SliderClassic.propTypes = {
     data: PropTypes.array,
 };
 
-Slider.defaultProps = {
+SliderClassic.defaultProps = {
     data: []
 }
 
-export function SliderOrigin(props ) {   
+export function SliderClear(props ) {   
     const { data} = props;
     return <div className="merchant-slider clear mt-5">
             <Carousel
@@ -139,10 +139,40 @@ export function SliderOrigin(props ) {
     </div>
 }
 
-SliderOrigin.propTypes = {
+SliderClear.propTypes = {
     data: PropTypes.array,
 };
 
-SliderOrigin.defaultProps = {
+SliderClear.defaultProps = {
     data: []
 }
+
+export const getSliderImgs = (template) => {
+    let imgs = [];
+    let count = 4;
+    if (template.slider_01 || template.slider_02 || template.slider_03){
+      count = 3;
+    }
+    for (let i = 1; i <= count; i++) {
+      let img_src = template[`slider_0${i}`]
+          ? `${process.env.REACT_APP_API_STORAGE_URL}/`+template[`slider_0${i}`]
+          : getThemedSliderImage(template, i);
+      imgs.push({
+        src: img_src,
+        altText: `Slide ${i}`,
+      });
+    }
+    return imgs;
+}
+
+export const getThemedSliderImage = (template, i) => {
+    return `${process.env.PUBLIC_URL}/theme/${template.name}/img/slider/slider-0${i}.jpg`;
+}
+
+export const getMerchantIcons = (n = 9) => {
+    let icons = [];
+    for (let i = 1; i < n; i++) {
+      icons.push(`${process.env.PUBLIC_URL}/img/merchants/${i}.png`);
+    }
+    return icons;
+  }

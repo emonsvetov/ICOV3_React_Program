@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Col, Container, Row } from "reactstrap";
 import SocialWallPanel from "@/containers/Participant/Home/socialWall/SocialWallPanel";
-import { Slider, SliderOrigin } from "./components/slider";
+import { SliderClassic, SliderClear } from "./components/slider";
 import {
   ParticipantTabNavs
 } from "@/shared/components/tabNavs";
@@ -14,10 +14,10 @@ import { useTranslation } from "react-i18next";
 export const getSlideImg = () => {
   let imgs = [];
   for (let i = 1; i < 9; i++) {
-    imgs.push(`${process.env.PUBLIC_URL}/theme/classic/img/merchants/${i}.png`);
+    imgs.push(`${process.env.PUBLIC_URL}/img/merchants/${i}.png`);
   }
   return imgs;
-};
+}
 
 const Home = ({ auth, organization, program, template }) => {
   const { t } = useTranslation();
@@ -78,7 +78,7 @@ const Home = ({ auth, organization, program, template }) => {
           <h6 className="m-3">
             {t("select_a_merchant_to_redeem_your_points")}
           </h6>
-          <SliderOrigin data={slide_imgs} />
+          <SliderClear data={slide_imgs} />
         </div>
       </>
     );
@@ -109,7 +109,7 @@ const Home = ({ auth, organization, program, template }) => {
                 )}
                 <div className="mt-5">
                   <h3>{t("select_a_merchant_to_redeem_your_points")}</h3>
-                  <Slider data={slide_imgs} />
+                  <SliderClassic data={slide_imgs} />
                 </div>
               </div>
             </Col>
