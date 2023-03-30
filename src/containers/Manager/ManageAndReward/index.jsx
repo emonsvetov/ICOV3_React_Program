@@ -14,7 +14,7 @@ const ManageAndReward = ({auth, program, organization}) => {
   const [balance, setBalance] = useState(0);
 
   useEffect(() => {
-    if (organization && program) {
+    if (organization?.id && program?.id) {
       getBalance(organization.id, program.id)
         .then((data) => {
           setBalance(data);
@@ -24,6 +24,8 @@ const ManageAndReward = ({auth, program, organization}) => {
         });
     }
   }, [organization, program]);
+
+  if( !organization?.id || !program?.id || !auth ) return 'loading...'
 
   return (
     <div className='manage-reward'>
