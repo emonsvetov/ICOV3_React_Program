@@ -121,7 +121,7 @@ const RouteIndex = () => (
           <Route path="my-gift-codes" element={<GiftCodeIndex />} />
           <Route path="my-points" element={<PointIndex />} />
           <Route path="my-goals" element={<GoalIndex />} />
-          <Route path="my-goals/:goalId" element={<GoalView />} />
+          <Route path="my-goals/:userGoalId" element={<GoalView />} />
           <Route path="faqs" element={<Faqs />} />
           <Route path="about" element={<About />} />
           <Route path="privacy" element={<Privacy />} />
