@@ -1,26 +1,32 @@
 export const GOAL_COLUMNS = [
   {
     Header: "Name",
-    accessor: "name",
+    accessor: "plan_name",
   },
   {
     Header: "Date Begin",
     accessor: "date_begin",
+    Cell: ({ row, value }) => {
+        return `${new Date(value).toLocaleDateString("en-US", {})}`;
+    },
   },
   {
     Header: "Date End",
     accessor: "date_end",
+    Cell: ({ row, value }) => {
+        return `${new Date(value).toLocaleDateString("en-US", {})}`;
+    },
   },
   {
     Header: "Target",
-    accessor: "target",
+    accessor: "target_value",
     Cell: ({ row, value }) => {
       return Number(value).toFixed(2);
     },
   },
   {
     Header: "Progress",
-    accessor: "progress",
+    accessor: "calc_progress_percentage",
     Cell: ({ row, value }) => {
       return `${Number(value).toFixed(2)}%`;
     },
@@ -30,11 +36,14 @@ export const GOAL_COLUMNS = [
 export const GOAL_SUMMARY_COLUMNS = [
   {
     Header: "Date",
-    accessor: "date_begin",
+    accessor: "created_at",
+    Cell: ({ row, value }) => {
+        return `${new Date(value).toLocaleDateString("en-US", {})}`;
+    },
   },
   {
     Header: "Value",
-    accessor: "value",
+    accessor: "progress_value",
   },
   {
     Header: "Comment",

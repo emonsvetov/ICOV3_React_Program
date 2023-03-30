@@ -1,30 +1,39 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Table, Col, Row, Container } from "reactstrap";
 import { connect } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
 import { ParticipantTabNavs } from "@/shared/components/tabNavs";
 import Sidebar from "@/containers/Layout/sidebar";
-import { useParams, useNavigate } from "react-router-dom";
-import { GOAL_DATA } from "./Mockdata";
+//import { GOAL_DATA } from "./Mockdata";
 import { GOAL_COLUMNS, GOAL_SUMMARY_COLUMNS } from "./columns";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
+import { getUserGoal } from "@/services/program/getUserGoal";
+import { readUserGoalProgressDetail } from "@/services/user/readUserGoalProgressDetail";
 
-const GoalView = ({ template }) => {
+const GoalView = ({ template, organization, program }) => {
   const { t } = useTranslation();
-  
-  const { goalId } = useParams();
-  const [goal, setGoal] = useState(null);
+
+  const { userGoalId } = useParams();
+  const [userGoal, setUserGoal] = useState([]);
+  const [userGoalProgress, setUserGoalProgress] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const ProgressPer = (userGoal?.calc_progress_percentage ? (userGoal?.calc_progress_percentage > 100 ? 100 : userGoal.calc_progress_percentage) : 0);
   const navigate = useNavigate();
+  console.log(userGoalId);
   useEffect(() => {
-    // getEvent(organization.id, program.id, eventId)
-    // .then(item => {
-    //     // console.log(item)
-    //     setEvent(item)
-    //     toggle('EditEvent');
-    //     setLoading(false)
-    // })
-    setGoal(GOAL_DATA[0]);
-  }, [goalId]);
+    getUserGoal(organization.id, program.id, userGoalId)
+      .then(item => {
+        setUserGoal(item[0])
+        setLoading(false)
+      })
+    //setUserGoal(GOAL_DATA[0]);
+    readUserGoalProgressDetail(organization.id, program.id, userGoalId)
+      .then(item => {
+        setUserGoalProgress(item)
+        setLoading(false)
+      })
+  }, [userGoalId]);
 
   const GoalNew = () => {
     return (
@@ -63,9 +72,9 @@ const GoalView = ({ template }) => {
             <Row>
               <Col md={4} className="gauge">
                 <div className="gauge__body">
-                  <div className="gauge__fill" style={{ width: `${50}%` }} />
+                  <div className="gauge__fill" style={{ width: `${ProgressPer}%` }} />
                   <div className="gauge__cover">
-                    <div className="text__cover">50%</div>
+                    <div className="text__cover">{ProgressPer}%</div>
                   </div>
                 </div>
               </Col>
@@ -81,14 +90,40 @@ const GoalView = ({ template }) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {columns.map((item, index) => {
-                        return (
-                          <tr key={index}>
-                            <td className="title-col">{item.Header}</td>
-                            <td className="value">{t("employee_referral")} </td>
-                          </tr>
-                        );
-                      })}
+                      {
+                        columns.map((item, index) => {
+                          let value = '';
+                          if (userGoal.id) {
+                            switch (item.Header) {
+                              case 'Name':
+                                value = userGoal.plan_name
+                                break;
+                              case 'Date Begin':
+                                value = new Date(userGoal.date_begin).toLocaleDateString("en-US", {})
+                                break;
+                              case 'Date End':
+                                value = new Date(userGoal.date_end).toLocaleDateString("en-US", {})
+                                break;
+                              case 'Target':
+                                value = Number(userGoal.target_value).toFixed(2)
+                                break;
+                              case 'Progress':
+                                value = `${Number(userGoal.calc_progress_percentage).toFixed(2)}%`
+                                break;
+                              default:
+                                value = ''
+                            }
+                          }
+                          return (
+                            <tr key={index}>
+                              <td className="title-col">{item.Header}</td>
+                              <td className="value">
+                                {value}
+                              </td>
+                            </tr>
+                          )
+                        })}
+
                     </tbody>
                   </Table>
                   <Table className="goal-summary-table">
@@ -100,13 +135,29 @@ const GoalView = ({ template }) => {
                           </th>
                         ))}
                       </tr>
-                      <tr>
-                        {summary_columns.map((item, index) => (
+                      {/*userGoalProgress.map((item, index) => (
                           <td key={index} className="title-col">
                             {"****"}
                           </td>
-                        ))}
-                      </tr>
+                        ))*/}
+                      {
+                        userGoalProgress.map((item, index) => (
+                          <tr>
+                            <td className="title-col">
+                              {`${new Date(item.created_at).toLocaleDateString("en-US", {})}`}
+                            </td>
+                            <td className="title-col">
+                              {item.progress_value}
+                            </td>
+                            <td className="title-col">
+                              {item.comment}
+                            </td>
+                            <td className="title-col">
+                              {item.ref_num}
+                            </td>
+                          </tr>
+                        ))
+                      }
                     </tbody>
                   </Table>
                 </div>
@@ -133,6 +184,9 @@ const GoalView = ({ template }) => {
 const mapStateToProps = (state) => {
   return {
     template: state.template,
+    auth: state.auth,
+    program: state.program,
+    organization: state.organization,
   };
 };
 export default connect(mapStateToProps)(GoalView);
