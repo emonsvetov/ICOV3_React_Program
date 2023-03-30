@@ -588,7 +588,7 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
                     )}
                   </Row>
                   {values.hasOwnProperty("expiration_rule_id") &&
-                    values.expiration_rule_id.value == "4" && (
+                    values.expiration_rule_id.value == "4" && !goalplan?.id && (
                       <Row>
                         <Col md="6">
                           <label className="form-label">
@@ -628,7 +628,7 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
                   {
                     //Annual expiration date
                     values.hasOwnProperty("expiration_rule_id") &&
-                      values.expiration_rule_id.value == "5" && (
+                      values.expiration_rule_id.value == "5" && !goalplan?.id && (
                         <Row>
                           <Col md="6">
                             <label className="form-label">
