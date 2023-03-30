@@ -13,17 +13,17 @@ import {getBalance} from "@/services/program/getBalance";
 const ManageAndReward = ({auth, program, organization}) => {
   const [balance, setBalance] = useState(0);
 
-  useEffect(() => {
-    if (organization?.id && program?.id) {
-      getBalance(organization.id, program.id)
-        .then((data) => {
-          setBalance(data);
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
-    }
-  }, [organization, program]);
+  // useEffect(() => {
+  //   if (organization?.id && program?.id) {
+  //     getBalance(organization.id, program.id)
+  //       .then((data) => {
+  //         setBalance(data);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error.response.data);
+  //       });
+  //   }
+  // }, [organization, program]);
 
   if( !organization?.id || !program?.id || !auth ) return 'loading...'
 
