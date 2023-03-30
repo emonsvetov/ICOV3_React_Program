@@ -7,7 +7,6 @@ import {
 import SearchIcon from 'mdi-react/SearchIcon';
 import SelectProgram from '../components/SelectProgram'
 import ProgramParticipants from './components/ProgramParticipants'
-import {isEmpty} from '@/shared/helpers'
 import {getBalance} from "@/services/program/getBalance";
 
 const ManageAndReward = ({auth, program, organization}) => {
@@ -47,7 +46,7 @@ const ManageAndReward = ({auth, program, organization}) => {
           </div>
         </div>
         <div align="right">Current Balance: {balance}</div>
-        <ProgramParticipants organization={organization} program={program} />
+        {/* <ProgramParticipants organization={organization} program={program} /> */}
       </Container>
     </div>
 )}
