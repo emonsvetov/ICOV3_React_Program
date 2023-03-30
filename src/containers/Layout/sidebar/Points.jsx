@@ -1,40 +1,41 @@
 import React from "react";
 import { connect } from "react-redux";
-import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
 
-const Points = ({ pointBalance }) => {
-  // console.log(pointBalance)
+const PointsClear = ({ pointBalance, template }) => {
   const { t } = useTranslation();
   if (!pointBalance) return t("loading");
   return (
-    <div className="points">
-      <h3>{t("my_points")}</h3>
-      <div className="panel redeem-panel">
-        <div className="mb-3">
-          <h6> {t("Points to Redeem")} </h6>
-          <div className="panel-group">
-            <h4>{pointBalance.points.toLocaleString()}</h4>
-            <TemplateButton
-              text={t("redeem_points")}
-              link="/participant/select-merchants"
-            />
-            {/* <Button className='btn-round'> Redeem Points</Button> */}
-          </div>
-        </div>
-        <div className="point-award">
-          <h6> {t("Peer Points to Award")} </h6>
-          <h4> {pointBalance.peerBalance.toLocaleString()}</h4>
-        </div>
-      </div>
+    <div className={`points-${template.name} flex-column p-2`}>
+      <div className={`points-${template.name}-header bg-blue`}>{t("my_balance")}</div>
+      <table className={`points-${template.name}-table`} width="100%">
+        <tbody>
+          <tr>
+            <td className="points-title text-uppercase">
+              {t("Points to Redeem")}:
+            </td>
+          </tr>
+          <tr>
+            <td className="value"> {pointBalance.amount * pointBalance.factor}</td>
+          </tr>
+          <tr>
+            <td className="points-title text-uppercase">
+              {t("Peer Points to Award")}:
+            </td>
+          </tr>
+          <tr>
+            <td className="value"> {pointBalance.peerBalance * pointBalance.factor}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };
 const mapStateToProps = (state) => {
   return {
     pointBalance: state.pointBalance,
+    template: state.template,
   };
 };
 
-export default connect(mapStateToProps)(Points);
-// export default Points;
+export default connect(mapStateToProps)(PointsClear);

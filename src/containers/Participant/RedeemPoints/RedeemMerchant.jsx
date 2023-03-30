@@ -1,12 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import { Link, useParams } from "react-router-dom";
-import { Col, Container, FormGroup, Row } from "reactstrap";
-import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
-import Sidebar from "../../Layout/sidebar";
-import PointsOrigin from "../../Layout/sidebar/PointsOrigin";
-import { getSlideImg } from "../Home";
-import { SliderClear } from "../Home/components/slider";
+import { useParams } from "react-router-dom";
+import { Col, Container, Row } from "reactstrap";
+import { ParticipantTabNavs } from "@/shared/components/tabNavs";
+import Sidebar from "@/containers/Layout/sidebar";
+import Points from "@/containers/Layout/sidebar/Points";
+import { SliderClear, getMerchantLogos } from "../Home/components/slider";
 import Redeem from "./components/Redeem";
 import { useTranslation } from "react-i18next";
 import {Img} from '@/theme'
@@ -16,7 +15,7 @@ export const RedeemMerchant = ({ theme }) => {
 
   let params = useParams();
   let { merchantId } = params;
-  let slide_imgs = getSlideImg();
+  let slide_imgs = getMerchantLogos();
 
   const OriginRedeemMerchant = () => {
     return (
@@ -24,7 +23,7 @@ export const RedeemMerchant = ({ theme }) => {
         <Row className="mt-4">
           <div className="space-30"></div>
           <Col md={3}>
-            <PointsOrigin />
+            <Points />
           </Col>
           <Col md={9} className="">
             <Redeem />

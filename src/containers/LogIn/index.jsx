@@ -7,7 +7,7 @@ import LoginPopup from "./components/LoginPopup";
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import "react-multi-carousel/lib/styles.css";
 import Carousel from "react-multi-carousel";
-import { SliderClear, getSliderImgs, getMerchantIcons } from "../Participant/Home/components/slider";
+import { SliderClear, getSliderImgs, getMerchantLogos } from "../Participant/Home/components/slider";
 import LogInForm from "./components/LogInForm";
 import { useTranslation } from "react-i18next";
 
@@ -102,7 +102,7 @@ const LogIn = ({ template }) => {
     );
   };
 
-  let slide_icons = getMerchantIcons();
+  let slide_icons = getMerchantLogos();
   return (
     <div>
       <HomeTopbar

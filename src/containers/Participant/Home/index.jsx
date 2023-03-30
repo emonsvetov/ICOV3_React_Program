@@ -1,23 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Col, Container, Row } from "reactstrap";
 import SocialWallPanel from "@/containers/Participant/Home/socialWall/SocialWallPanel";
-import { SliderClassic, SliderClear } from "./components/slider";
+import { SliderClassic, SliderClear, getMerchantLogos } from "./components/slider";
 import {
   ParticipantTabNavs
 } from "@/shared/components/tabNavs";
 import { connect } from "react-redux";
 import { USER_STATUS_PENDING_DEACTIVATION } from "@/services/user/getUser";
 import SlideOutMenu from "./components/slide-out-menu";
-import PointsOrigin from "../../Layout/sidebar/PointsOrigin";
+import Points from "../../Layout/sidebar/Points";
 import { useTranslation } from "react-i18next";
-
-export const getSlideImg = () => {
-  let imgs = [];
-  for (let i = 1; i < 9; i++) {
-    imgs.push(`${process.env.PUBLIC_URL}/img/merchants/${i}.png`);
-  }
-  return imgs;
-}
 
 const Home = ({ auth, organization, program, template }) => {
   const { t } = useTranslation();
@@ -43,7 +35,7 @@ const Home = ({ auth, organization, program, template }) => {
   }, [auth, program]);
 
   if (!auth || !program || !template) return t("loading");
-  let slide_imgs = getSlideImg();
+  let merchant_logos = getMerchantLogos();
 
   const HomeClear = () => {
     const IMG_BACK = template.hero_banner
@@ -60,7 +52,7 @@ const Home = ({ auth, organization, program, template }) => {
         <Container className={`${template.name} mt-5`} fluid>
           <Row>
             <Col md={3}>
-              <PointsOrigin />
+              <Points />
             </Col>
             <Col md={9}>
               <ParticipantTabNavs program={program} />
@@ -78,7 +70,7 @@ const Home = ({ auth, organization, program, template }) => {
           <h6 className="m-3">
             {t("select_a_merchant_to_redeem_your_points")}
           </h6>
-          <SliderClear data={slide_imgs} />
+          <SliderClear data={merchant_logos} />
         </div>
       </>
     );
@@ -109,12 +101,12 @@ const Home = ({ auth, organization, program, template }) => {
                 )}
                 <div className="mt-5">
                   <h3>{t("select_a_merchant_to_redeem_your_points")}</h3>
-                  <SliderClassic data={slide_imgs} />
+                  <SliderClassic data={merchant_logos} />
                 </div>
               </div>
             </Col>
             <Col md={3} className="mt-2">
-              <PointsOrigin />
+              <Points />
             </Col>
           </Row>
         </Container>
