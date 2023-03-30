@@ -18,7 +18,7 @@ const ManageAndReward = ({auth, program, organization}) => {
       getBalance(organization.id, program.id)
         .then((data) => {
           console.log(data)
-          // setBalance(data);
+          setBalance(data);
         })
         .catch((error) => {
           console.log(error.response.data);
