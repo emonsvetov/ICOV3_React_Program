@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Col, Container, FormGroup, Row } from "reactstrap";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import Sidebar from "../../Layout/sidebar";
-import PointsOrigin from "../../Layout/sidebar/PointsOrigin";
+import Points from "../../Layout/sidebar/Points";
 import CheckoutPage from "./components/CheckoutPage";
 import { useTranslation } from "react-i18next";
 
@@ -19,7 +19,7 @@ export const Checkout = ({ template }) => {
         <Row className="mt-4">
           <div className="space-30"></div>
           <Col md={3}>
-            <PointsOrigin />
+            <Points />
           </Col>
           <Col md={9} className="">
             <CheckoutPage />

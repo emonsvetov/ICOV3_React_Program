@@ -169,7 +169,7 @@ export const getThemedSliderImage = (template, i) => {
     return `${process.env.PUBLIC_URL}/theme/${template.name}/img/slider/slider-0${i}.jpg`;
 }
 
-export const getMerchantIcons = (n = 9) => {
+export const getMerchantLogos = (n = 9) => {
     let icons = [];
     for (let i = 1; i < n; i++) {
       icons.push(`${process.env.PUBLIC_URL}/img/merchants/${i}.png`);
