@@ -46,7 +46,7 @@ const ManageAndReward = ({auth, program, organization}) => {
           </div>
         </div>
         <div align="right">Current Balance: {balance}</div>
-        {/* <ProgramParticipants organization={organization} program={program} /> */}
+        <ProgramParticipants organization={organization} program={program} />
       </Container>
     </div>
 )}
