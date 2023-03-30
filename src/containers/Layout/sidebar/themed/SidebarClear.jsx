@@ -1,5 +1,5 @@
 import React from "react";
-import PointsOrigin from "../PointsOrigin";
+import Points from "../Points";
 import SlideOutMenu from "../../../Participant/Home/components/slide-out-menu";
 
 const Sidebar = () => {
@@ -7,7 +7,7 @@ const Sidebar = () => {
     <div className="sidebar">
       <SlideOutMenu isFixed={false} />
       <div className="space-30" />
-      <PointsOrigin />
+      <Points />
       <div className="space-30" />
     </div>
   );
