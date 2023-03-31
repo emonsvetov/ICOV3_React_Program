@@ -235,6 +235,24 @@ const ProgramParticipants = ({ program, organization }) => {
 
   const columns = React.useMemo(() => final_columns, []);
 
+  const tableInstance = useTable(
+    {
+      columns,
+      data: users ? users.results : [],
+      initialState: {
+        pageIndex: 0,
+        pageSize: queryPageSize,
+      },
+      manualPagination: false, // Tell the usePagination
+      pageCount: users ? totalPageCount : null,
+      autoResetSortBy: false,
+      autoResetExpanded: false,
+      autoResetPage: false,
+    },
+    usePagination,
+    useRowSelect
+  );
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -252,30 +270,7 @@ const ProgramParticipants = ({ program, organization }) => {
     setPageSize,
     selectedFlatRows,
     state: { pageIndex, pageSize, selectedRowIds },
-  } = useTable(
-    {
-      columns,
-      data: users ? users.results : [],
-      initialState: {
-        pageIndex: 0,
-        pageSize: queryPageSize,
-      },
-      manualPagination: false, // Tell the usePagination
-      pageCount: users ? totalPageCount : null,
-      autoResetSortBy: false,
-      autoResetExpanded: false,
-      autoResetPage: false,
-    },
-    usePagination,
-    useRowSelect,
-    // (hooks) => {
-    //   hooks.visibleColumns.push((columns) => [
-    //     // Let's make a column for selection
-    //     toggleColumnCached,
-    //     ...columns,
-    //   ]);
-    // }
-  );
+  } = tableInstance;
 
   useEffect(() => {
     let mounted = true;
