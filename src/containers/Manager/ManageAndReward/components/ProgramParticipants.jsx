@@ -78,6 +78,45 @@ const SELECTION_COLUMN = {
   ),
 }
 
+const RenderActions = ({ row, onClickActionCb }) => {
+  return ACTIONS.map((item, index) => {
+    let statusLabel = item.name;
+    //const currentStatus = row.original.status;
+    const currentStatus = row.original.status?.status ? row.original.status.status : null
+    // if(item.name === 'Deactivate') {
+    //     const currentStatus = row.original.status.status;
+    //     statusLabel = currentStatus === 'Deactivated' ? 'Activate' : 'Deactivate'
+    // }
+    if (item.name === "Deactivate") {
+      if (currentStatus === "Deactivated") {
+        return false;
+      } else if (currentStatus === null) {
+        return false;
+      }
+      statusLabel = "Deactivate";
+    }
+    if (item.name === "Activate") {
+      if (currentStatus === "Active") {
+        return false;
+      } else if (currentStatus === null) {
+        return false;
+      }
+      statusLabel = "Activate";
+    }
+    return (
+      <span
+        key={index}
+        onClick={() => onClickActionCb(item.name, row.original)}
+      >
+        <span className={`action-item ${item.name} hover-text`}>{item.icon}
+          <div className={`tooltip-text`}>{statusLabel}</div>
+        </span>
+        <span className={`space-5`}></span>
+      </span>
+    );
+  });
+};
+
 const ProgramParticipants = ({ program, organization }) => {
   const { t } = useTranslation();
   const [modalName, setModalName] = useState(null);
@@ -157,45 +196,6 @@ const ProgramParticipants = ({ program, organization }) => {
     return () => setMounted(true);
   }, [status]);
 
-  const RenderActions = ({ row }) => {
-    return ACTIONS.map((item, index) => {
-      let statusLabel = item.name;
-      //const currentStatus = row.original.status;
-      const currentStatus = row.original.status?.status ? row.original.status.status : null
-      // if(item.name === 'Deactivate') {
-      //     const currentStatus = row.original.status.status;
-      //     statusLabel = currentStatus === 'Deactivated' ? 'Activate' : 'Deactivate'
-      // }
-      if (item.name === "Deactivate") {
-        if (currentStatus === "Deactivated") {
-          return false;
-        } else if (currentStatus === null) {
-          return false;
-        }
-        statusLabel = "Deactivate";
-      }
-      if (item.name === "Activate") {
-        if (currentStatus === "Active") {
-          return false;
-        } else if (currentStatus === null) {
-          return false;
-        }
-        statusLabel = "Activate";
-      }
-      return (
-        <span
-          key={index}
-          onClick={() => onClickAction(item.name, row.original)}
-        >
-          <span className={`action-item ${item.name} hover-text`}>{item.icon}
-            <div className={`tooltip-text`}>{statusLabel}</div>
-          </span>
-          <span className={`space-5`}></span>
-        </span>
-      );
-    });
-  };
-
   const preColumns = React.useMemo(() => [
     ...[
       SELECTION_COLUMN,
@@ -210,7 +210,7 @@ const ProgramParticipants = ({ program, organization }) => {
         Header: "",
         accessor: "action",
         Footer: "Action",
-        Cell: ({ row }) => <RenderActions row={row} />,
+        Cell: ({ row }) => <RenderActions row={row} onClickActionCb={onClickAction} />,
       }
     ],
   ];
