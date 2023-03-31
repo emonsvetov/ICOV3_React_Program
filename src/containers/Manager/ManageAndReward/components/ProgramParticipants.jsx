@@ -277,25 +277,25 @@ const ProgramParticipants = ({ program, organization }) => {
     // }
   );
 
-  // useEffect(() => {
-  //   let mounted = true;
-  //   setLoading(true);
-  //   apiTableService
-  //     .fetchData({
-  //       url: `/organization/${organization.id}/program/${program.id}/participant`,
-  //       page: pageIndex,
-  //       size: queryPageSize,
-  //       filter,
-  //     })
-  //     .then((items) => {
-  //       if (mounted) {
-  //         // console.log(items)
-  //         setUsers(items);
-  //         setLoading(false);
-  //       }
-  //     });
-  //   return () => (mounted = false);
-  // }, [getUsers, setLoading, setUsers, pageIndex, queryPageSize, filter]);
+  useEffect(() => {
+    let mounted = true;
+    setLoading(true);
+    apiTableService
+      .fetchData({
+        url: `/organization/${organization.id}/program/${program.id}/participant`,
+        page: pageIndex,
+        size: queryPageSize,
+        filter,
+      })
+      .then((items) => {
+        if (mounted) {
+          // console.log(items)
+          setUsers(items);
+          setLoading(false);
+        }
+      });
+    return () => (mounted = false);
+  }, [getUsers, setLoading, setUsers, pageIndex, queryPageSize, filter]);
 
   const manualPageSize = [];
 
