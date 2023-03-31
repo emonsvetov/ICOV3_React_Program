@@ -93,12 +93,12 @@ const ProgramParticipants = ({ program, organization }) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (action && participants) {
-  //     doAction(action, participants);
-  //     // toggle(action)
-  //   }
-  // }, [action, participants]);
+  useEffect(() => {
+    if (action && participants) {
+      doAction(action, participants);
+      // toggle(action)
+    }
+  }, [action, participants]);
 
   const toggle = (name = null) => {
     if (name) setModalName(name);
@@ -248,27 +248,26 @@ const ProgramParticipants = ({ program, organization }) => {
       autoResetPage: false,
     },
     usePagination,
-    useRowSelect,
     (hooks) => {
       hooks.visibleColumns.push((columns) => [
         // Let's make a column for selection
-        {
-          id: "selection",
-          // The header can use the table's getToggleAllRowsSelectedProps method
-          // to render a checkbox
-          Header: ({ getToggleAllPageRowsSelectedProps }) => (
-            <div>
-              <IndeterminateCheckbox {...getToggleAllPageRowsSelectedProps()} />
-            </div>
-          ),
-          // The cell can use the individual row's getToggleRowSelectedProps method
-          // to the render a checkbox
-          Cell: ({ row }) => (
-            <div>
-              <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-            </div>
-          ),
-        },
+        // {
+        //   id: "selection",
+        //   // The header can use the table's getToggleAllRowsSelectedProps method
+        //   // to render a checkbox
+        //   Header: ({ getToggleAllPageRowsSelectedProps }) => (
+        //     <div>
+        //       <IndeterminateCheckbox {...getToggleAllPageRowsSelectedProps()} />
+        //     </div>
+        //   ),
+        //   // The cell can use the individual row's getToggleRowSelectedProps method
+        //   // to the render a checkbox
+        //   Cell: ({ row }) => (
+        //     <div>
+        //       <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+        //     </div>
+        //   ),
+        // },
         ...columns,
       ]);
     }
