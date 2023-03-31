@@ -196,10 +196,16 @@ const ProgramParticipants = ({ program, organization }) => {
     });
   };
 
-  let final_columns = [
+  const columns = React.useMemo(() => [
     ...[
       SELECTION_COLUMN,
-      ...USERS_COLUMNS,
+      ...USERS_COLUMNS
+    ],
+  ], []);
+
+  let final_columns = [
+    ...[
+      ...columns,
       {
         Header: "",
         accessor: "action",
@@ -217,7 +223,7 @@ const ProgramParticipants = ({ program, organization }) => {
     }
   })
 
-  const columns = React.useMemo(() => final_columns, []);
+  // const columns = React.useMemo(() => final_columns, []);
 
   const totalPageCount = Math.ceil(users?.count / QUERY_PAGE_SIZE);
   const strShowName = (name, p) => {
