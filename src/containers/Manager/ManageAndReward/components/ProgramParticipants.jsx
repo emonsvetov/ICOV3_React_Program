@@ -260,7 +260,7 @@ const ProgramParticipants = ({ program, organization }) => {
         pageIndex: 0,
         pageSize: queryPageSize,
       },
-      manualPagination: true, // Tell the usePagination
+      manualPagination: false, // Tell the usePagination
       pageCount: users ? totalPageCount : null,
       autoResetSortBy: false,
       autoResetExpanded: false,
