@@ -95,12 +95,12 @@ const ProgramParticipants = ({ program, organization }) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (action && participants) {
-  //     doAction(action, participants);
-  //     // toggle(action)
-  //   }
-  // }, [action, participants]);
+  useEffect(() => {
+    if (action && participants) {
+      doAction(action, participants);
+      // toggle(action)
+    }
+  }, [action, participants]);
 
   const toggle = (name = null) => {
     if (name) setModalName(name);
