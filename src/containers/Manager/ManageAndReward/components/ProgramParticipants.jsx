@@ -10,7 +10,7 @@ import { useTable, usePagination, useRowSelect } from "react-table";
 import ReactTablePagination from "@/shared/components/table/components/ReactTablePagination";
 import TableFilter from "@/shared/components/table/components/TableFilter";
 import IndeterminateCheckbox from "@/shared/components/form/IndeterminateCheckbox";
-import { USERS_COLUMNS } from "./Mockdata";
+import { USERS_COLUMNS } from "./columns";
 import { getUsers } from "@/services/program/getUsers";
 import ModalWrapper from "./ModalWrapper";
 import RewardIcon from "mdi-react/PostItNoteAddIcon";
@@ -72,33 +72,33 @@ const ProgramParticipants = ({ program, organization }) => {
   // console.log(users)
 
   // selectedFlatRows.map(d => d.original)/
-  // const doAction = (action, participants) => {
-  //   if (action === "Email") {
-  //     const emails = collectEmails(participants);
-  //     window.location.href = `mailto:${emails.join(
-  //       ","
-  //     )}?subject=You have received a message!`;
-  //   }
-  //   if (
-  //     action === "Reward" ||
-  //     action === "Resend Invite" ||
-  //     action === "Deactivate" ||
-  //     action === "Activate" ||
-  //     action === "Peer Allocation"||
-  //     action === "Reclaim Peer Allocations"||
-  //     action === "Add Goal"
-  //   ) {
-  //     //Add more later
-  //     toggle(action);
-  //   }
-  // };
+  const doAction = (action, participants) => {
+    if (action === "Email") {
+      const emails = collectEmails(participants);
+      window.location.href = `mailto:${emails.join(
+        ","
+      )}?subject=You have received a message!`;
+    }
+    if (
+      action === "Reward" ||
+      action === "Resend Invite" ||
+      action === "Deactivate" ||
+      action === "Activate" ||
+      action === "Peer Allocation"||
+      action === "Reclaim Peer Allocations"||
+      action === "Add Goal"
+    ) {
+      //Add more later
+      toggle(action);
+    }
+  };
 
-  // useEffect(() => {
-  //   if (action && participants) {
-  //     doAction(action, participants);
-  //     // toggle(action)
-  //   }
-  // }, [action, participants]);
+  useEffect(() => {
+    if (action && participants) {
+      doAction(action, participants);
+      // toggle(action)
+    }
+  }, [action, participants]);
 
   const toggle = (name = null) => {
     if (name) setModalName(name);
@@ -196,6 +196,7 @@ const ProgramParticipants = ({ program, organization }) => {
       },
     ],
   ];
+
   final_columns.forEach((column, i) => {
     if (column.Header === 'Peer Balance' || column.Header === 'Redeemed' || column.Header === 'Point Balance' || column.Header === 'Points Earned') {
       final_columns[i].Cell = ({ row, value }) => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTable } from "react-table";
-import { REWARD_HISTORY_COLUMNS } from "./Mockdata";
-import { Table, Col, Container, Row } from "reactstrap";
+import { REWARD_HISTORY_COLUMNS } from "./columns";
+import { Table} from "reactstrap";
 import { connect } from "react-redux";
 import { getUserEventHistory } from "@/services/program/getUserEvents";
 import { useTranslation } from "react-i18next";
