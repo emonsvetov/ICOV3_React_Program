@@ -21,10 +21,10 @@ import ActivateIcon from "mdi-react/RefreshIcon";
 import PeerIcon from "mdi-react/PostItNoteAddIcon";
 import apiTableService from "@/services/apiTableService";
 import { useTranslation } from "react-i18next";
+import {inArray} from "@/shared/helpers"
 
 const collectEmails = (users) => {
   let emails = [];
-  console.log(users);
   users.map((user) => {
     emails.push(user.email);
   });
@@ -54,17 +54,23 @@ const STATUS = [
   { name: "Pending Deactivation" },
 ];
 
-let SELECTION_COLUMN = {
+const BULK_ACTIONS = [
+  "Reward",
+  "Resend Invite",
+  "Deactivate",
+  "Activate",
+  "Peer Allocation",
+  "Reclaim Peer Allocations",
+  "Add Goal"
+]
+
+const SELECTION_COLUMN = {
   id: "selection",
-  // The header can use the table's getToggleAllRowsSelectedProps method
-  // to render a checkbox
   Header: ({ getToggleAllPageRowsSelectedProps }) => (
     <div>
       <IndeterminateCheckbox {...getToggleAllPageRowsSelectedProps()} />
     </div>
   ),
-  // The cell can use the individual row's getToggleRowSelectedProps method
-  // to the render a checkbox
   Cell: ({ row }) => (
     <div>
       <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
@@ -73,13 +79,11 @@ let SELECTION_COLUMN = {
 }
 
 const ProgramParticipants = ({ program, organization }) => {
-  // console.log("ProgramParticipants")
   const { t } = useTranslation();
   const [modalName, setModalName] = useState(null);
   const [isOpen, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [users, setUsers] = useState(null);
-  // const [currentRow, setCurrentRow] = useState(null);
   const [action, setAction] = useState("");
   const [queryPageSize, setQueryPageSize] = useState(QUERY_PAGE_SIZE);
   const [loading, setLoading] = useState(true);
@@ -87,9 +91,6 @@ const ProgramParticipants = ({ program, organization }) => {
   const [participants, setParticipants] = useState([]);
   const [status, setStatus] = useState([]);
 
-  // console.log(users)
-
-  // selectedFlatRows.map(d => d.original)/
   const doAction = (action, participants) => {
     if (action === "Email") {
       const emails = collectEmails(participants);
@@ -97,16 +98,7 @@ const ProgramParticipants = ({ program, organization }) => {
         ","
       )}?subject=You have received a message!`;
     }
-    if (
-      action === "Reward" ||
-      action === "Resend Invite" ||
-      action === "Deactivate" ||
-      action === "Activate" ||
-      action === "Peer Allocation"||
-      action === "Reclaim Peer Allocations"||
-      action === "Add Goal"
-    ) {
-      //Add more later
+    if ( inArray(action, BULK_ACTIONS) ) {
       toggle(action);
     }
   };
@@ -205,14 +197,15 @@ const ProgramParticipants = ({ program, organization }) => {
   };
 
   let final_columns = [
-    ...USERS_COLUMNS,
     ...[
+      SELECTION_COLUMN,
+      ...USERS_COLUMNS,
       {
         Header: "",
         accessor: "action",
         Footer: "Action",
         Cell: ({ row }) => <RenderActions row={row} />,
-      },
+      }
     ],
   ];
 
@@ -225,7 +218,6 @@ const ProgramParticipants = ({ program, organization }) => {
   })
 
   const columns = React.useMemo(() => final_columns, []);
-  // const data = React.useMemo(() => users, [])
 
   const totalPageCount = Math.ceil(users?.count / QUERY_PAGE_SIZE);
   const strShowName = (name, p) => {
@@ -236,8 +228,6 @@ const ProgramParticipants = ({ program, organization }) => {
       columns[i].Cell = ({ row, value }) => { return strShowName(column.Header, row.original) }
     }
   })
-
-const toggleColumnCached = React.useMemo(() => SELECTION_COLUMN, []);
 
   const {
     getTableProps,
@@ -272,13 +262,13 @@ const toggleColumnCached = React.useMemo(() => SELECTION_COLUMN, []);
     },
     usePagination,
     useRowSelect,
-    (hooks) => {
-      hooks.visibleColumns.push((columns) => [
-        // Let's make a column for selection
-        toggleColumnCached,
-        ...columns,
-      ]);
-    }
+    // (hooks) => {
+    //   hooks.visibleColumns.push((columns) => [
+    //     // Let's make a column for selection
+    //     toggleColumnCached,
+    //     ...columns,
+    //   ]);
+    // }
   );
 
   useEffect(() => {
