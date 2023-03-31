@@ -103,7 +103,7 @@ const ProgramParticipants = ({ program, organization }) => {
   const toggle = (name = null) => {
     if (name) setModalName(name);
     setOpen((prevState) => !prevState);
-  };
+  }
 
 
   const onClickAction = (name, row) => {
@@ -114,7 +114,8 @@ const ProgramParticipants = ({ program, organization }) => {
       setParticipants([row]);
     }
     toggle(name);
-  };
+  }
+
   const onSelectAction = (name) => {
     const rows = selectedFlatRows.map((d) => d.original);
     if (rows.length === 0) {
@@ -123,11 +124,11 @@ const ProgramParticipants = ({ program, organization }) => {
     }
     setAction(name);
     setParticipants(rows);
-  };
+  }
   
   const onSelectEntry = (value) => {
     setQueryPageSize(value);
-  };
+  }
 
   const onSelectStatus = (value) => {
     if (status.includes(value)) {
@@ -136,7 +137,7 @@ const ProgramParticipants = ({ program, organization }) => {
       setStatus([...status, ...[value]]);
     }
     setMounted(true);
-  };
+  }
 
   useEffect(() => {
     // console.log(mounted)
@@ -204,6 +205,7 @@ const ProgramParticipants = ({ program, organization }) => {
       }
     }
   })
+  
   const columns = React.useMemo(() => final_columns, []);
   // const data = React.useMemo(() => users, [])
 
@@ -248,26 +250,27 @@ const ProgramParticipants = ({ program, organization }) => {
       autoResetPage: false,
     },
     usePagination,
+    useRowSelect,
     (hooks) => {
       hooks.visibleColumns.push((columns) => [
         // Let's make a column for selection
-        // {
-        //   id: "selection",
-        //   // The header can use the table's getToggleAllRowsSelectedProps method
-        //   // to render a checkbox
-        //   Header: ({ getToggleAllPageRowsSelectedProps }) => (
-        //     <div>
-        //       <IndeterminateCheckbox {...getToggleAllPageRowsSelectedProps()} />
-        //     </div>
-        //   ),
-        //   // The cell can use the individual row's getToggleRowSelectedProps method
-        //   // to the render a checkbox
-        //   Cell: ({ row }) => (
-        //     <div>
-        //       <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-        //     </div>
-        //   ),
-        // },
+        {
+          id: "selection",
+          // The header can use the table's getToggleAllRowsSelectedProps method
+          // to render a checkbox
+          Header: ({ getToggleAllPageRowsSelectedProps }) => (
+            <div>
+              <IndeterminateCheckbox {...getToggleAllPageRowsSelectedProps()} />
+            </div>
+          ),
+          // The cell can use the individual row's getToggleRowSelectedProps method
+          // to the render a checkbox
+          Cell: ({ row }) => (
+            <div>
+              <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+            </div>
+          ),
+        },
         ...columns,
       ]);
     }
