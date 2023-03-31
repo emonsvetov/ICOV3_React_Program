@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Input, Col, Row, FormGroup, Label, Button, Container, Table } from 'reactstrap';
+import { Modal, Input, Col, Row, FormGroup, Container, Table } from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 import { useTranslation } from "react-i18next";
 import TemplateButton from "@/shared/components/TemplateButton";
-import CheckboxField from "@/shared/components/form/CheckboxField";
 import { useTable, usePagination, useRowSelect } from "react-table";
 import ReactTablePagination from "@/shared/components/table/components/ReactTablePagination";
-import { PEER_RECLAIM_COLUMNS, PEER_RECLAIM_DATA } from "./Mockdata";
+import { PEER_RECLAIM_COLUMNS, PEER_RECLAIM_DATA } from "./columns";
 import { flashDispatch, flashMessage } from '@/shared/helpers'
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
 import axios from 'axios'
 
 import CloseIcon from "mdi-react/CloseIcon";
-import renderToggleButtonField from "@/shared/components/form/ToggleButton";
-import { getReclaimablePeerPoints } from "@/services/user/getReclaimablePeerPoints";
-
-
 
 const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, program, organization }) => {
     const dispatch = flashDispatch()
@@ -26,7 +21,6 @@ const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, pr
     const { t } = useTranslation();
     let participant = participants[0];
     const QUERY_PAGE_SIZE = 10;
-    const [queryPageSize, setQueryPageSize] = useState(QUERY_PAGE_SIZE);
 
     const [notes, setNotes] = useState([]);
     //const regInput = React.useRef();
@@ -194,7 +188,7 @@ const ReclaimPeerAllocationsModal = ({ isOpen, setOpen, toggle, participants, pr
             data: reclaimable_peer_points_list ? reclaimable_peer_points_list : [],
             initialState: {
                 pageIndex: 0,
-                pageSize: queryPageSize,
+                pageSize: QUERY_PAGE_SIZE,
             },
             manualPagination: true, // Tell the usePagination
             pageCount: reclaimable_peer_points_list ? totalPageCount : null,

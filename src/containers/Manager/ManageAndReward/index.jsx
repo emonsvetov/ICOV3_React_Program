@@ -7,7 +7,6 @@ import {
 import SearchIcon from 'mdi-react/SearchIcon';
 import SelectProgram from '../components/SelectProgram'
 import ProgramParticipants from './components/ProgramParticipants'
-import {isEmpty} from '@/shared/helpers'
 import {getBalance} from "@/services/program/getBalance";
 
 const ManageAndReward = ({auth, program, organization}) => {
@@ -17,10 +16,11 @@ const ManageAndReward = ({auth, program, organization}) => {
     if (organization?.id && program?.id) {
       getBalance(organization.id, program.id)
         .then((data) => {
+          console.log(data)
           setBalance(data);
         })
         .catch((error) => {
-          console.log(error.response.data);
+          console.log(error);
         });
     }
   }, [organization, program]);
@@ -46,7 +46,7 @@ const ManageAndReward = ({auth, program, organization}) => {
           </div>
         </div>
         <div align="right">Current Balance: {balance}</div>
-        {auth && program && !isEmpty(organization) && <ProgramParticipants organization={organization} program={program} />}
+        <ProgramParticipants organization={organization} program={program} />
       </Container>
     </div>
 )}
