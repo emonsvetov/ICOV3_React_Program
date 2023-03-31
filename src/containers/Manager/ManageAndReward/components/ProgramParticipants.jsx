@@ -196,7 +196,7 @@ const ProgramParticipants = ({ program, organization }) => {
     });
   };
 
-  const columns = React.useMemo(() => [
+  const preColumns = React.useMemo(() => [
     ...[
       SELECTION_COLUMN,
       ...USERS_COLUMNS
@@ -205,7 +205,7 @@ const ProgramParticipants = ({ program, organization }) => {
 
   let final_columns = [
     ...[
-      ...columns,
+      ...preColumns,
       {
         Header: "",
         accessor: "action",
@@ -223,17 +223,17 @@ const ProgramParticipants = ({ program, organization }) => {
     }
   })
 
-  // const columns = React.useMemo(() => final_columns, []);
-
   const totalPageCount = Math.ceil(users?.count / QUERY_PAGE_SIZE);
   const strShowName = (name, p) => {
     return p?.name ? <span onClick={() => onClickAction(name, p)} className={'link'}>{p.name}</span> : ''
   }
-  columns.forEach((column, i) => {
+  final_columns.forEach((column, i) => {
     if (column.Header === 'Name') {
-      columns[i].Cell = ({ row, value }) => { return strShowName(column.Header, row.original) }
+      final_columns[i].Cell = ({ row, value }) => { return strShowName(column.Header, row.original) }
     }
   })
+
+  const columns = React.useMemo(() => final_columns, []);
 
   const {
     getTableProps,
