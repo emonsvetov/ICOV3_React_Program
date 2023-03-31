@@ -126,6 +126,7 @@ const ProgramParticipants = ({ program, organization }) => {
     setAction(name);
     setParticipants(rows);
   };
+  
   const onSelectEntry = (value) => {
     setQueryPageSize(value);
   };
@@ -139,13 +140,13 @@ const ProgramParticipants = ({ program, organization }) => {
     setMounted(true);
   };
 
-  useEffect(() => {
-    // console.log(mounted)
-    if (status && mounted) {
-      setFilter({ keyword: filter.keyword, status: status });
-    }
-    return () => setMounted(true);
-  }, [status]);
+  // useEffect(() => {
+  //   // console.log(mounted)
+  //   if (status && mounted) {
+  //     setFilter({ keyword: filter.keyword, status: status });
+  //   }
+  //   return () => setMounted(true);
+  // }, [status]);
 
   const RenderActions = ({ row }) => {
     return ACTIONS.map((item, index) => {
