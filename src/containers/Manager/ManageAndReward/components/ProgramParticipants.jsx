@@ -68,12 +68,12 @@ const SELECTION_COLUMN = {
   id: "selection",
   Header: ({ getToggleAllPageRowsSelectedProps }) => (
     <div>
-      <IndeterminateCheckbox {...getToggleAllPageRowsSelectedProps()} />
+      Checkbox
     </div>
   ),
   Cell: ({ row }) => (
     <div>
-      <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+      Checkbox
     </div>
   ),
 }
