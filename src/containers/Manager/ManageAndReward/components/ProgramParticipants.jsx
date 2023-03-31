@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   Table,
-  Input,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
@@ -10,16 +9,15 @@ import {
 import { useTable, usePagination, useRowSelect } from "react-table";
 import ReactTablePagination from "@/shared/components/table/components/ReactTablePagination";
 import TableFilter from "@/shared/components/table/components/TableFilter";
-import { USERS_COLUMNS, USERS_DATA } from "./Mockdata";
+import IndeterminateCheckbox from "@/shared/components/form/IndeterminateCheckbox";
+import { USERS_COLUMNS } from "./Mockdata";
 import { getUsers } from "@/services/program/getUsers";
-import MailIcon from "mdi-react/PostItNoteAddIcon";
 import ModalWrapper from "./ModalWrapper";
 import RewardIcon from "mdi-react/PostItNoteAddIcon";
 import GoalIcon from "mdi-react/BullseyeArrowIcon";
 import ResendIcon from "mdi-react/AccountPlusIcon";
 import DeactivateIcon from "mdi-react/CancelIcon";
 import ActivateIcon from "mdi-react/RefreshIcon";
-import ImportIcon from "mdi-react/ImportIcon";
 import PeerIcon from "mdi-react/PostItNoteAddIcon";
 import apiTableService from "@/services/apiTableService";
 import { useTranslation } from "react-i18next";
@@ -74,33 +72,33 @@ const ProgramParticipants = ({ program, organization }) => {
   // console.log(users)
 
   // selectedFlatRows.map(d => d.original)/
-  const doAction = (action, participants) => {
-    if (action === "Email") {
-      const emails = collectEmails(participants);
-      window.location.href = `mailto:${emails.join(
-        ","
-      )}?subject=You have received a message!`;
-    }
-    if (
-      action === "Reward" ||
-      action === "Resend Invite" ||
-      action === "Deactivate" ||
-      action === "Activate" ||
-      action === "Peer Allocation"||
-      action === "Reclaim Peer Allocations"||
-      action === "Add Goal"
-    ) {
-      //Add more later
-      toggle(action);
-    }
-  };
+  // const doAction = (action, participants) => {
+  //   if (action === "Email") {
+  //     const emails = collectEmails(participants);
+  //     window.location.href = `mailto:${emails.join(
+  //       ","
+  //     )}?subject=You have received a message!`;
+  //   }
+  //   if (
+  //     action === "Reward" ||
+  //     action === "Resend Invite" ||
+  //     action === "Deactivate" ||
+  //     action === "Activate" ||
+  //     action === "Peer Allocation"||
+  //     action === "Reclaim Peer Allocations"||
+  //     action === "Add Goal"
+  //   ) {
+  //     //Add more later
+  //     toggle(action);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (action && participants) {
-      doAction(action, participants);
-      // toggle(action)
-    }
-  }, [action, participants]);
+  // useEffect(() => {
+  //   if (action && participants) {
+  //     doAction(action, participants);
+  //     // toggle(action)
+  //   }
+  // }, [action, participants]);
 
   const toggle = (name = null) => {
     if (name) setModalName(name);
@@ -140,13 +138,13 @@ const ProgramParticipants = ({ program, organization }) => {
     setMounted(true);
   };
 
-  // useEffect(() => {
-  //   // console.log(mounted)
-  //   if (status && mounted) {
-  //     setFilter({ keyword: filter.keyword, status: status });
-  //   }
-  //   return () => setMounted(true);
-  // }, [status]);
+  useEffect(() => {
+    // console.log(mounted)
+    if (status && mounted) {
+      setFilter({ keyword: filter.keyword, status: status });
+    }
+    return () => setMounted(true);
+  }, [status]);
 
   const RenderActions = ({ row }) => {
     return ACTIONS.map((item, index) => {
@@ -186,6 +184,7 @@ const ProgramParticipants = ({ program, organization }) => {
       );
     });
   };
+
   let final_columns = [
     ...USERS_COLUMNS,
     ...[
@@ -273,25 +272,6 @@ const ProgramParticipants = ({ program, organization }) => {
       ]);
     }
   );
-
-  const IndeterminateCheckbox = React.forwardRef(
-    ({ indeterminate, ...rest }, ref) => {
-      const defaultRef = React.useRef();
-      const resolvedRef = ref || defaultRef;
-
-      React.useEffect(() => {
-        resolvedRef.current.indeterminate = indeterminate;
-      }, [resolvedRef, indeterminate]);
-
-      return (
-        <>
-          <input type="checkbox" ref={resolvedRef} {...rest} />
-        </>
-      );
-    }
-  );
-
-  // console.log(filter)
 
   useEffect(() => {
     let mounted = true;
