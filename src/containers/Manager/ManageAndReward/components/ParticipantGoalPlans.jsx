@@ -3,13 +3,11 @@ import { Table } from "reactstrap";
 import { useTable } from 'react-table'
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { Link } from 'react-router-dom';
-import PencilIcon from 'mdi-react/PencilIcon';
 
 import { readListByProgramAndUser } from "@/services/program/readListByProgramAndUser";
-import { USER_GOALS_COLUMNS } from "./Mockdata";
+import { USER_GOALS_COLUMNS } from "./columns";
 
-const ParticipantGoalPlans = ({ participant, auth, program, organization }) => {
+const ParticipantGoalPlans = ({ participant, program, organization }) => {
   const [usergoals, setUserGoals] = useState([]);
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation();

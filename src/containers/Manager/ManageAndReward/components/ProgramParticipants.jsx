@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   Table,
-  Input,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
@@ -10,23 +9,22 @@ import {
 import { useTable, usePagination, useRowSelect } from "react-table";
 import ReactTablePagination from "@/shared/components/table/components/ReactTablePagination";
 import TableFilter from "@/shared/components/table/components/TableFilter";
-import { USERS_COLUMNS, USERS_DATA } from "./Mockdata";
+import IndeterminateCheckbox from "@/shared/components/form/IndeterminateCheckbox";
+import { USERS_COLUMNS } from "./columns";
 import { getUsers } from "@/services/program/getUsers";
-import MailIcon from "mdi-react/PostItNoteAddIcon";
 import ModalWrapper from "./ModalWrapper";
 import RewardIcon from "mdi-react/PostItNoteAddIcon";
 import GoalIcon from "mdi-react/BullseyeArrowIcon";
 import ResendIcon from "mdi-react/AccountPlusIcon";
 import DeactivateIcon from "mdi-react/CancelIcon";
 import ActivateIcon from "mdi-react/RefreshIcon";
-import ImportIcon from "mdi-react/ImportIcon";
 import PeerIcon from "mdi-react/PostItNoteAddIcon";
 import apiTableService from "@/services/apiTableService";
 import { useTranslation } from "react-i18next";
+import {inArray} from "@/shared/helpers"
 
 const collectEmails = (users) => {
   let emails = [];
-  console.log(users);
   users.map((user) => {
     emails.push(user.email);
   });
@@ -56,14 +54,36 @@ const STATUS = [
   { name: "Pending Deactivation" },
 ];
 
+const BULK_ACTIONS = [
+  "Reward",
+  "Resend Invite",
+  "Deactivate",
+  "Activate",
+  "Peer Allocation",
+  "Reclaim Peer Allocations",
+  "Add Goal"
+]
+
+const SELECTION_COLUMN = {
+  id: "selection",
+  Header: ({ getToggleAllPageRowsSelectedProps }) => (
+    <div>
+      <IndeterminateCheckbox {...getToggleAllPageRowsSelectedProps()} />
+    </div>
+  ),
+  Cell: ({ row }) => (
+    <div>
+      <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+    </div>
+  ),
+}
+
 const ProgramParticipants = ({ program, organization }) => {
-  // console.log("ProgramParticipants")
   const { t } = useTranslation();
   const [modalName, setModalName] = useState(null);
   const [isOpen, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [users, setUsers] = useState(null);
-  // const [currentRow, setCurrentRow] = useState(null);
   const [action, setAction] = useState("");
   const [queryPageSize, setQueryPageSize] = useState(QUERY_PAGE_SIZE);
   const [loading, setLoading] = useState(true);
@@ -71,9 +91,6 @@ const ProgramParticipants = ({ program, organization }) => {
   const [participants, setParticipants] = useState([]);
   const [status, setStatus] = useState([]);
 
-  // console.log(users)
-
-  // selectedFlatRows.map(d => d.original)/
   const doAction = (action, participants) => {
     if (action === "Email") {
       const emails = collectEmails(participants);
@@ -81,16 +98,7 @@ const ProgramParticipants = ({ program, organization }) => {
         ","
       )}?subject=You have received a message!`;
     }
-    if (
-      action === "Reward" ||
-      action === "Resend Invite" ||
-      action === "Deactivate" ||
-      action === "Activate" ||
-      action === "Peer Allocation"||
-      action === "Reclaim Peer Allocations"||
-      action === "Add Goal"
-    ) {
-      //Add more later
+    if ( inArray(action, BULK_ACTIONS) ) {
       toggle(action);
     }
   };
@@ -105,7 +113,7 @@ const ProgramParticipants = ({ program, organization }) => {
   const toggle = (name = null) => {
     if (name) setModalName(name);
     setOpen((prevState) => !prevState);
-  };
+  }
 
 
   const onClickAction = (name, row) => {
@@ -116,7 +124,8 @@ const ProgramParticipants = ({ program, organization }) => {
       setParticipants([row]);
     }
     toggle(name);
-  };
+  }
+
   const onSelectAction = (name) => {
     const rows = selectedFlatRows.map((d) => d.original);
     if (rows.length === 0) {
@@ -125,10 +134,11 @@ const ProgramParticipants = ({ program, organization }) => {
     }
     setAction(name);
     setParticipants(rows);
-  };
+  }
+  
   const onSelectEntry = (value) => {
     setQueryPageSize(value);
-  };
+  }
 
   const onSelectStatus = (value) => {
     if (status.includes(value)) {
@@ -137,7 +147,7 @@ const ProgramParticipants = ({ program, organization }) => {
       setStatus([...status, ...[value]]);
     }
     setMounted(true);
-  };
+  }
 
   useEffect(() => {
     // console.log(mounted)
@@ -185,17 +195,20 @@ const ProgramParticipants = ({ program, organization }) => {
       );
     });
   };
+
   let final_columns = [
-    ...USERS_COLUMNS,
     ...[
+      SELECTION_COLUMN,
+      ...USERS_COLUMNS,
       {
         Header: "",
         accessor: "action",
         Footer: "Action",
         Cell: ({ row }) => <RenderActions row={row} />,
-      },
+      }
     ],
   ];
+
   final_columns.forEach((column, i) => {
     if (column.Header === 'Peer Balance' || column.Header === 'Redeemed' || column.Header === 'Point Balance' || column.Header === 'Points Earned') {
       final_columns[i].Cell = ({ row, value }) => {
@@ -203,8 +216,8 @@ const ProgramParticipants = ({ program, organization }) => {
       }
     }
   })
+
   const columns = React.useMemo(() => final_columns, []);
-  // const data = React.useMemo(() => users, [])
 
   const totalPageCount = Math.ceil(users?.count / QUERY_PAGE_SIZE);
   const strShowName = (name, p) => {
@@ -215,6 +228,7 @@ const ProgramParticipants = ({ program, organization }) => {
       columns[i].Cell = ({ row, value }) => { return strShowName(column.Header, row.original) }
     }
   })
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -248,49 +262,14 @@ const ProgramParticipants = ({ program, organization }) => {
     },
     usePagination,
     useRowSelect,
-    (hooks) => {
-      hooks.visibleColumns.push((columns) => [
-        // Let's make a column for selection
-        {
-          id: "selection",
-          // The header can use the table's getToggleAllRowsSelectedProps method
-          // to render a checkbox
-          Header: ({ getToggleAllPageRowsSelectedProps }) => (
-            <div>
-              <IndeterminateCheckbox {...getToggleAllPageRowsSelectedProps()} />
-            </div>
-          ),
-          // The cell can use the individual row's getToggleRowSelectedProps method
-          // to the render a checkbox
-          Cell: ({ row }) => (
-            <div>
-              <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-            </div>
-          ),
-        },
-        ...columns,
-      ]);
-    }
+    // (hooks) => {
+    //   hooks.visibleColumns.push((columns) => [
+    //     // Let's make a column for selection
+    //     toggleColumnCached,
+    //     ...columns,
+    //   ]);
+    // }
   );
-
-  const IndeterminateCheckbox = React.forwardRef(
-    ({ indeterminate, ...rest }, ref) => {
-      const defaultRef = React.useRef();
-      const resolvedRef = ref || defaultRef;
-
-      React.useEffect(() => {
-        resolvedRef.current.indeterminate = indeterminate;
-      }, [resolvedRef, indeterminate]);
-
-      return (
-        <>
-          <input type="checkbox" ref={resolvedRef} {...rest} />
-        </>
-      );
-    }
-  );
-
-  // console.log(filter)
 
   useEffect(() => {
     let mounted = true;
