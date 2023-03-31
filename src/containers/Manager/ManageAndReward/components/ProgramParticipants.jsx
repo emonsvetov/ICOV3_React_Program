@@ -205,7 +205,7 @@ const ProgramParticipants = ({ program, organization }) => {
       }
     }
   })
-  
+
   const columns = React.useMemo(() => final_columns, []);
   // const data = React.useMemo(() => users, [])
 
@@ -218,6 +218,27 @@ const ProgramParticipants = ({ program, organization }) => {
       columns[i].Cell = ({ row, value }) => { return strShowName(column.Header, row.original) }
     }
   })
+
+let toggleColumn = {
+  id: "selection",
+  // The header can use the table's getToggleAllRowsSelectedProps method
+  // to render a checkbox
+  Header: ({ getToggleAllPageRowsSelectedProps }) => (
+    <div>
+      <IndeterminateCheckbox {...getToggleAllPageRowsSelectedProps()} />
+    </div>
+  ),
+  // The cell can use the individual row's getToggleRowSelectedProps method
+  // to the render a checkbox
+  Cell: ({ row }) => (
+    <div>
+      <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+    </div>
+  ),
+}
+
+const toggleColumnCached = React.useMemo(() => toggleColumn, []);
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -254,23 +275,7 @@ const ProgramParticipants = ({ program, organization }) => {
     (hooks) => {
       hooks.visibleColumns.push((columns) => [
         // Let's make a column for selection
-        {
-          id: "selection",
-          // The header can use the table's getToggleAllRowsSelectedProps method
-          // to render a checkbox
-          Header: ({ getToggleAllPageRowsSelectedProps }) => (
-            <div>
-              <IndeterminateCheckbox {...getToggleAllPageRowsSelectedProps()} />
-            </div>
-          ),
-          // The cell can use the individual row's getToggleRowSelectedProps method
-          // to the render a checkbox
-          Cell: ({ row }) => (
-            <div>
-              <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-            </div>
-          ),
-        },
+        toggleColumnCached,
         ...columns,
       ]);
     }
