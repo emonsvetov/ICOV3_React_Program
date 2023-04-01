@@ -64,6 +64,13 @@ const BULK_ACTIONS = [
   "Add Goal"
 ]
 
+const POINT_COLUMN_HEADERS = [
+  "Peer Balance",
+  "Redeemed",
+  "Point Balance",
+  "Points Earned"
+]
+
 const SELECTION_COLUMN = {
   id: "selection",
   Header: ({ getToggleAllPageRowsSelectedProps }) => (
@@ -198,7 +205,7 @@ const ProgramParticipants = ({ program, organization }) => {
 
   const preColumns = React.useMemo(() => [
     ...[
-      // SELECTION_COLUMN,
+      SELECTION_COLUMN,
       ...USERS_COLUMNS
     ],
   ], []);
@@ -216,24 +223,25 @@ const ProgramParticipants = ({ program, organization }) => {
   ];
 
   final_columns.forEach((column, i) => {
-    if (column.Header === 'Peer Balance' || column.Header === 'Redeemed' || column.Header === 'Point Balance' || column.Header === 'Points Earned') {
+    if (column.Header === 'Name') {
+      final_columns[i].Cell = ({ row, value }) => {
+        return strShowName(column.Header, row.original)
+      }
+    }
+
+    if ( inArray(column.Header, POINT_COLUMN_HEADERS) ) {
       final_columns[i].Cell = ({ row, value }) => {
         return value * program.factor_valuation
       }
     }
   })
 
+  const columns = React.useMemo(() => final_columns, []);
+
   const totalPageCount = Math.ceil(users?.count / QUERY_PAGE_SIZE);
   const strShowName = (name, p) => {
     return p?.name ? <span onClick={() => onClickAction(name, p)} className={'link'}>{p.name}</span> : ''
   }
-  final_columns.forEach((column, i) => {
-    if (column.Header === 'Name') {
-      final_columns[i].Cell = ({ row, value }) => { return strShowName(column.Header, row.original) }
-    }
-  })
-
-  const columns = React.useMemo(() => final_columns, []);
 
   const tableInstance = useTable(
     {
@@ -250,7 +258,7 @@ const ProgramParticipants = ({ program, organization }) => {
       autoResetPage: false,
     },
     usePagination,
-    // useRowSelect
+    useRowSelect
   );
 
   const {
