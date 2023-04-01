@@ -198,7 +198,7 @@ const ProgramParticipants = ({ program, organization }) => {
 
   const preColumns = React.useMemo(() => [
     ...[
-      SELECTION_COLUMN,
+      // SELECTION_COLUMN,
       ...USERS_COLUMNS
     ],
   ], []);
@@ -250,7 +250,7 @@ const ProgramParticipants = ({ program, organization }) => {
       autoResetPage: false,
     },
     usePagination,
-    useRowSelect
+    // useRowSelect
   );
 
   const {
