@@ -163,7 +163,6 @@ const ProgramParticipants = ({ program, organization }) => {
 
 
   const onClickAction = (name, row) => {
-    // setCurrentRow(row)
     if (name == 'Name') {
       setParticipants(row);
     } else {
@@ -239,6 +238,7 @@ const ProgramParticipants = ({ program, organization }) => {
   const columns = React.useMemo(() => final_columns, []);
 
   const totalPageCount = Math.ceil(users?.count / QUERY_PAGE_SIZE);
+
   const strShowName = (name, p) => {
     return p?.name ? <span onClick={() => onClickAction(name, p)} className={'link'}>{p.name}</span> : ''
   }
