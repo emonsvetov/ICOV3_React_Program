@@ -277,7 +277,7 @@ const ProgramParticipants = ({ program, organization }) => {
     canNextPage,
     setPageSize,
     selectedFlatRows,
-    state: { pageIndex, pageSize, selectedRowIds },
+    state: { pageIndex, pageSize },
   } = tableInstance;
 
   useEffect(() => {
