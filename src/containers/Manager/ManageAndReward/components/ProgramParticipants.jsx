@@ -424,13 +424,13 @@ const ProgramParticipants = ({ program, organization }) => {
       <div className="users">
         <div className="header d-flex  justify-content-between">
           <div className="d-flex w-25 justify-content-between dropdown-group">
-            {/* <ActionsDropdown />
+            <ActionsDropdown />
             <EntriesDropdown />
-            <StatusDropdown /> */}
+            <StatusDropdown />
           </div>
-          {/* <TableFilter filter={filter} setFilter={setFilter} /> */}
+          <TableFilter filter={filter} setFilter={setFilter} />
         </div>
-        {/* <UserTable /> */}
+        <UserTable />
       </div>
       <div className="my-3 status">
         {rows.length > 0 && (
