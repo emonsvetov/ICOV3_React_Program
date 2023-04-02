@@ -10,6 +10,7 @@ export const AUTH_ORGANIZATION_KEY = "authOrganization";
 export const AUTH_CART = "authCart";
 export const AUTH_DOMAIN_KEY = "icoDomain";
 export const AUTH_THEME = "icoTheme";
+export const AUTH_SELECT_PROGRAM_TREE = "authSelectProgramTree";
 export const DEFAULT_TEMPLATE = {
   big_logo: `logo/big_logo.png`,
   small_logo: `logo/small_logo.png`,
@@ -45,6 +46,8 @@ export const flushUserSession = () => {
   localStorage.removeItem(AUTH_POINTS_KEY);
   localStorage.removeItem(AUTH_CART);
   localStorage.removeItem(AUTH_DOMAIN_KEY);
+  localStorage.removeItem(AUTH_SELECT_PROGRAM_TREE);
+  localStorage.removeItem('SELECT_PROGRAM_TREE'); //tmp, remove
 };
 
 export const isAuthenticated = () => {
