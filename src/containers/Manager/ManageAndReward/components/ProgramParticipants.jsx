@@ -428,9 +428,9 @@ const ProgramParticipants = ({ program, organization }) => {
             <EntriesDropdown />
             <StatusDropdown /> */}
           </div>
-          <TableFilter filter={filter} setFilter={setFilter} />
+          {/* <TableFilter filter={filter} setFilter={setFilter} /> */}
         </div>
-        <UserTable />
+        {/* <UserTable /> */}
       </div>
       <div className="my-3 status">
         {rows.length > 0 && (
