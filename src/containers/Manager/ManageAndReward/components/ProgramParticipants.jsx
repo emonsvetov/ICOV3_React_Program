@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Table,
   UncontrolledDropdown,
@@ -246,7 +246,7 @@ const ProgramParticipants = ({ program, organization }) => {
   const tableInstance = useTable(
     {
       columns,
-      data: users ? users.results : [],
+      data: useMemo( () => users ? users.results : [], [users]),
       initialState: {
         pageIndex: 0,
         pageSize: queryPageSize,
