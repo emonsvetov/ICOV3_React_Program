@@ -15,7 +15,7 @@ const ParticipantTabnavClassic = ({program}) => {
     { title: "my_rewards", icon: "redeem", to: `/participant/my-points` },
   ];
 
-  if(program?.uses_peer2peer
+  if(program.uses_peer2peer
       > 0) {
     TAB_ITEMS.push({
       title: "peer_to_peer",
@@ -24,7 +24,7 @@ const ParticipantTabnavClassic = ({program}) => {
     })
   }
 
-  if(program?.uses_leaderboards > 0){
+  if(program.uses_leaderboards > 0){
     TAB_ITEMS.push({
       title: "leaderboards",
       icon: "leaderboard",
@@ -32,7 +32,7 @@ const ParticipantTabnavClassic = ({program}) => {
     })
   }
 
-  if(program?.uses_goal_tracker > 0){
+  if(program.uses_goal_tracker > 0){
     TAB_ITEMS.push({
       title: "my_goals",
       icon: "survey",
@@ -43,17 +43,20 @@ const ParticipantTabnavClassic = ({program}) => {
   let navigate = useNavigate();
   if( ! program ) return 'loading...'
   return (
-    <div className="tab-navs items-5">
-      <ul className="horizontal">
-        {TAB_ITEMS.map((item, key) => {
-          return (
-            <li key={key} onClick={() => navigate(item.to)}>
-              <TabnavClassic title={t(item.title)} icon={item.icon} />
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+      <div className="">
+        <ul className="horizontal d-flex justify-content-evenly">
+          {TAB_ITEMS.map((item, key) => {
+            return (
+                Object.keys(TAB_ITEMS).length > 1 ?
+                    <li key={key} onClick={() => navigate(item.to)}>
+                      <TabnavClassic title={t(item.title)} icon={item.icon}/>
+                    </li>
+                    :
+                    <h5 style={{color: 'black'}} className="social-wall-item-notification-body padding-10">Rewards can be redeemed with leading national retailers offering millions of products and brands. Redeem your rewards when you earn them or save them up for a 'rainy day'.</h5>
+            );
+          })}
+        </ul>
+      </div>
   );
 };
 export default connect((state) => ({

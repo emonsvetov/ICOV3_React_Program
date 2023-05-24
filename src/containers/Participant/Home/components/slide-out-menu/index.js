@@ -12,7 +12,7 @@ const LINKS = [
   { to: "/participant/referral", text: "submit_a_referral" },
   //{ to: "/participant/suggestion_box", text: "suggestion_box" },
   //{ to: "/participant/survey", text: "survey" },
-  { to: "/participant/calendar", text: "calendar" },
+  //{ to: "/participant/calendar", text: "calendar" },
   // { to: "/participant/program_rules", text: "program_rules" },
   // { to: "/participant/newsletter", text: "newsletter" },
   { to: "/participant/feeling", text: "how_are_you_feeling" },
