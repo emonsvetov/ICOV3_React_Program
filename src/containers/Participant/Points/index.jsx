@@ -71,10 +71,10 @@ const MyPoints = ({ dispatch, auth, program, template, myPoints, pointBalance })
     <Container fluid>
       <Row className="mt-4">
         <div className="space-30"></div>
-        <Col md={4}>
+        <Col md={3}>
           <Sidebar />
         </Col>
-        <Col md={12}>
+        <Col md={9}>
           <div className="d-flex justify-content-around">
             <RedeemBtn
               props={{ src: IMG_GIFT, link: "/participant/browse-merchants" }}
