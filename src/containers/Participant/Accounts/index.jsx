@@ -44,10 +44,10 @@ const Account = ({ template }) => {
       <Container fluid>
         <Row className="mt-4">
           <div className="space-30"></div>
-          <Col md={4}>
+          <Col md={3}>
             <Sidebar />
           </Col>
-          <Col md={7} className="">
+          <Col md={9} className="">
             <h3 className="pt-1" style={{ fontSize: "16px" }}>
               {" "}
               {t("my_account")}
