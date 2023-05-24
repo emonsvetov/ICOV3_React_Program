@@ -71,9 +71,9 @@ const MyPoints = ({ dispatch, auth, program, template, myPoints, pointBalance })
     <Container fluid>
       <Row className="mt-4">
         <div className="space-30"></div>
-        {/*<Col md={4}>*/}
-        {/*  <Sidebar />*/}
-        {/*</Col>*/}
+        <Col md={4}>
+          <Sidebar />
+        </Col>
         <Col md={12}>
           <div className="d-flex justify-content-around">
             <RedeemBtn
