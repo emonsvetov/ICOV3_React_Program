@@ -34,7 +34,7 @@ const MyPoints = ({ dispatch, auth, program, template, myPoints, pointBalance })
     {
       dispatch(
         getParticipantMypointsAction(
-          program.organization_id, 
+          program.organization_id,
           program.id,
           auth.id
         )
@@ -79,16 +79,16 @@ const MyPoints = ({ dispatch, auth, program, template, myPoints, pointBalance })
             <RedeemBtn
               props={{ src: IMG_GIFT, link: "/participant/browse-merchants" }}
             />
-            <RedeemBtn
-              props={{
-                src: IMG_MERCHAN,
-                link: "/participant/select-global-merchant",
-              }}
-            />
+            {/*<RedeemBtn*/}
+            {/*  props={{*/}
+            {/*    src: IMG_MERCHAN,*/}
+            {/*    link: "/participant/select-global-merchant",*/}
+            {/*  }}*/}
+            {/*/>*/}
           </div>
           <h3 className="pt-5" style={{ fontSize: "16px" }}>
-            {" "}
-            {t("my_points")}
+            {/*{" "}*/}
+            {/*{t("my_points")}*/}
           </h3>
           <div className={`${template.name}-table`}>
           {myPoints.expiration && <TablePointsExpiration />}

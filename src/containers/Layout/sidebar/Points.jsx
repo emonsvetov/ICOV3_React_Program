@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 
-const PointsClear = ({ pointBalance, template }) => {
+const PointsClear = ({ pointBalance, template, program }) => {
   const { t } = useTranslation();
   if (!pointBalance) return t("loading");
   return (
@@ -18,14 +18,17 @@ const PointsClear = ({ pointBalance, template }) => {
           <tr>
             <td className="value"> {pointBalance.amount * pointBalance.factor}</td>
           </tr>
-          <tr>
-            <td className="points-title text-uppercase">
-              {t("Peer Points to Award")}:
-            </td>
-          </tr>
-          <tr>
+          {
+            program.uses_peer2peer > 0 &&
+            <tr>
+              <td className="points-title text-uppercase">
+                {t("Peer Points to Award")}:
+              </td>
+            </tr> &&
+            <tr>
             <td className="value"> {pointBalance.peerBalance * pointBalance.factor}</td>
-          </tr>
+            </tr>
+          }
         </tbody>
       </table>
     </div>
@@ -35,6 +38,7 @@ const mapStateToProps = (state) => {
   return {
     pointBalance: state.pointBalance,
     template: state.template,
+    program: state.program,
   };
 };
 

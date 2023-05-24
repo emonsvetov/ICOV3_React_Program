@@ -66,9 +66,12 @@ export const ParticipantTabnavClear = ({program}) => {
         <ul className="horizontal d-flex justify-content-evenly">
           {TAB_ITEMS.map((item, key) => {
             return (
-              <li key={key} onClick={() => navigate(item.to)}>
-                <TabnavClear title={t(item.title)} icon={item.icon} />
-              </li>
+                Object.keys(TAB_ITEMS).length > 1 ?
+                    <li key={key} onClick={() => navigate(item.to)}>
+                        <TabnavClear title={t(item.title)} icon={item.icon}/>
+                    </li>
+                    :
+                    <h5 style={{color: 'black'}} className="social-wall-item-notification-body padding-10">Rewards can be redeemed with leading national retailers offering millions of products and brands. Redeem your rewards when you earn them or save them up for a 'rainy day'.</h5>
             );
           })}
         </ul>
