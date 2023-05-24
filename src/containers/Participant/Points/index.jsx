@@ -71,10 +71,10 @@ const MyPoints = ({ dispatch, auth, program, template, myPoints, pointBalance })
     <Container fluid>
       <Row className="mt-4">
         <div className="space-30"></div>
-        <Col md={4}>
-          <Sidebar />
-        </Col>
-        <Col md={8} className="">
+        {/*<Col md={4}>*/}
+        {/*  <Sidebar />*/}
+        {/*</Col>*/}
+        <Col md={12}>
           <div className="d-flex justify-content-around">
             <RedeemBtn
               props={{ src: IMG_GIFT, link: "/participant/browse-merchants" }}
@@ -91,10 +91,10 @@ const MyPoints = ({ dispatch, auth, program, template, myPoints, pointBalance })
             {/*{t("my_points")}*/}
           </h3>
           <div className={`${template.name}-table`}>
-          {myPoints.expiration && <TablePointsExpiration />}
+            <PointsSummary />
           </div>
           <div className={`${template.name}-table`}>
-            <PointsSummary />
+            {myPoints.expiration && <TablePointsExpiration />}
           </div>
           <div className={`${template.name}-table`}>
             <PointsDetail />
