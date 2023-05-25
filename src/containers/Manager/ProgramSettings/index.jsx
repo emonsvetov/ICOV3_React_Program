@@ -11,16 +11,40 @@ import Events from "./Events";
 import Leaderboards from "./components/Leaderboards";
 import TemplateButton from "@/shared/components/TemplateButton";
 
-const LINKS = [
-  { to: "#events", text: "Events" },
-  { to: "#expired-goalplans", text: "Expired Goal Plans" },
-  { to: "#active-goalplans", text: "Active Goal Plans" },
-  { to: "#future-goalplans", text: "Future Goal Plans" },
-  { to: "#leaderboards", text: "Leaderboards" },
-];
-
 const ProgramSettings = ({ auth, program, organization }) => {
   // console.log(auth)
+  // { to: "#expired-goalplans", text: "Expired Goal Plans" },
+  // { to: "#active-goalplans", text: "Active Goal Plans" },
+  // { to: "#future-goalplans", text: "Future Goal Plans" },
+  // { to: "#leaderboards", text: "Leaderboards" },
+
+  const LINKS = [
+    { to: "#events", text: "Events" },
+  ];
+
+  if(program.uses_goal_tracker > 0) {
+    LINKS.push({
+      to: "#expired-goalplans",
+      text: "Expired Goal Plans",
+    })
+    LINKS.push({
+      to: "#active-goalplans",
+      text: "Active Goal Plans",
+    })
+    LINKS.push({
+      to: "#future-goalplans",
+      text: "Future Goal Plans",
+    })
+  }
+
+  if(program.uses_leaderboards
+      > 0) {
+    LINKS.push({
+      to: "#leaderboards",
+      text: "Leaderboards",
+    })
+  }
+
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(0);
   const [isOpen, setOpen] = useState(false);
