@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Input} from 'reactstrap';
-import {getDashboard, getDashboardTopAwards, getDashboardTopMerchants} from '@/services/program/getDashboard'
+import { getDashboardTopMerchants} from '@/services/program/getDashboard'
 import {connect} from "react-redux";
 import {useTranslation} from "react-i18next";
 
@@ -46,7 +46,7 @@ const TopPanelMerchant = ({organization, program}) => {
   return (
     <div className={`rounded-panel top-panel index-0`}>
       <div className='title d-flex justify-content-between'>
-        <h4>Top Merchants}</h4>
+        <h4>Top Merchants</h4>
         <div className='title-right d-flex'>
           <span className='w-50'>
             <span onClick={() => {

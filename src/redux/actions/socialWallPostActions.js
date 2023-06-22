@@ -1,4 +1,4 @@
-import {createAction} from 'redux-actions';
+// import {createAction} from 'redux-actions';
 import axios from 'axios';
 
 export const SocialWallPostSuccess = (data) => {

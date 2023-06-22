@@ -15,7 +15,7 @@ import { getEvents } from "@/services/program/getEvents";
 import { getEvent } from "@/services/program/getEvent";
 import {
   labelizeNamedData,
-  patch4Select,
+
   flashDispatch,
   flashMessage,
 } from "@/shared/helpers";
@@ -23,8 +23,7 @@ import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import axios from "axios";
 import formValidation from "@/validation/giveReward";
 
-import { createSocialWallPost } from "@/redux/actions/socialWallPostActions";
-import { getSocialWallPostTypeEvent } from "@/services/program/getSocialWallPostTypes";
+
 import TemplateButton from "@/shared/components/TemplateButton";
 import EVENT_TYPES from "@/shared/json/eventTypes.json";
 import { useTranslation } from "react-i18next";

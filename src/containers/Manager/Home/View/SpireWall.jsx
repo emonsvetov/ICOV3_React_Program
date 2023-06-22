@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import { 
-    Col, 
+
     Container, 
-    Row, 
+   
     Button,
 } from 'reactstrap';
 import RewardItem from '../components/RewardItem';

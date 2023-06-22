@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Input, Table } from "reactstrap";
+import {  Table } from "reactstrap";
 import { CART_COLUMNS } from "./columns";
 import { useTable } from "react-table";
 import { connect } from "react-redux";
-import {
-  useDispatch,
-  sendFlashMessage,
-  ApiErrorMessage,
-} from "@/shared/components/flash";
+
 import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
 
@@ -16,7 +12,6 @@ const API_STORAGE_URL = `${process.env.REACT_APP_API_STORAGE_URL}`;
 
 const CartPage = ({ cart, program, pointBalance, template }) => {
   const { t } = useTranslation();
-  const flashDispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
   const [cartIsEmpty, setCartIsEmpty] = useState(true);
   const [cartObject, setCartObject] = useState({

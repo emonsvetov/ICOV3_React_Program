@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 // import {getEvents} from '@/services/program/getEvents'
 // import {getEvent} from '@/services/program/getEvent'
 import { useTable } from "react-table";

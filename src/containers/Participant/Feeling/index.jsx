@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactTooltip from "react-tooltip";
-import { Col, Container, Row } from "reactstrap";
+import { Col, Row } from "reactstrap";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Sidebar from "../../Layout/sidebar";
 import {

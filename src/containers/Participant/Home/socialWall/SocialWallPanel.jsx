@@ -1,12 +1,8 @@
-import React, { useEffect, useRef, useState, lazy, Suspense } from "react";
-import SocialWallItem from "./SocialWallItem";
+import React, { useEffect, useRef, useState } from "react";
 import { getSocialWallPosts } from "@/services/program/getSocialWallPosts";
-import SocialWallCommentModalWrapper from "./SocialWallCommentModalWrapper";
-import ConfirmModalWrapper from "@/shared/components/modal/confirmModal/ConfirmModalWrapper";
 import { connect } from "react-redux";
 import { deleteSocialWallPost } from "@/redux/actions/socialWallPostActions";
 import { useDispatch } from "react-redux";
-import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
 import {Themed} from '@/theme'
 // import {SocialWall} from './themed'

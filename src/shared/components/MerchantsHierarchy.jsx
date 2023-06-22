@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import CheckboxHierarchy from '@/shared/components/form/CheckboxHierarchy'
 import axios from 'axios'
 import {connect} from "react-redux";

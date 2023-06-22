@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Col, Container, FormGroup, Row } from "reactstrap";
+import React from "react";
+import { Col, Container, Row } from "reactstrap";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import Sidebar from "../../Layout/sidebar";
 import SelectMerchantType from "./components/SelectMerchantType";
@@ -11,7 +11,7 @@ export const SelectMerchants = () => {
   return (
     <>
       <div className="mainboard">
-        <img src={IMG_BACK} />
+        <img src={IMG_BACK} alt="img" />
         <div className="title">{t("redeem_my_points")}</div>
       </div>
       <Container>

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import CloseIcon from 'mdi-react/CloseIcon';
 import EventForm from './components/EventForm'
 import { Modal } from 'reactstrap';

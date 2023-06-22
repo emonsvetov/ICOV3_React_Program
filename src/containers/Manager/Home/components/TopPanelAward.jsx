@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Input} from 'reactstrap';
-import {getDashboard, getDashboardTopAwards, getDashboardTopMerchants} from '@/services/program/getDashboard'
+import { getDashboardTopAwards } from '@/services/program/getDashboard'
 import {connect} from "react-redux";
 import {useTranslation} from "react-i18next";
 

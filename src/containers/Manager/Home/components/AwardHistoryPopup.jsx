@@ -1,21 +1,13 @@
-import React, {useState} from 'react';
-import Select from 'react-select';
-import { Link } from 'react-router-dom';
+import React from 'react';
+
 import {Modal,
-   Input, 
-   Col, 
-   Row, 
-   FormGroup, 
-   FormFeedback, 
-   Label, 
-   Button,
    Card,
    CardBody,
    CardHeader
 } from 'reactstrap';
-import { Form, Field } from 'react-final-form';
+
 import CloseIcon from 'mdi-react/CloseIcon';
-import Switch from '@/shared/components/form/Switch';
+
 
 import AwardHistoryTable from './AwardHistoryTable';
 

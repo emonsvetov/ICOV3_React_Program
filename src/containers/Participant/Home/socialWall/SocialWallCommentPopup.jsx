@@ -1,7 +1,7 @@
-import React, {useRef, useState} from 'react';
+import React, { useState} from 'react';
 import {
   Modal,
-  Input,
+
   Col,
   Row,
   FormGroup,

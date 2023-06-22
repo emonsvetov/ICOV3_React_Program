@@ -1,5 +1,5 @@
 import React from 'react';
-import {Col, Container, Row} from 'reactstrap';
+import { Row} from 'reactstrap';
 import ParticipantAccountSummaryCard from './components/ParticipantAccountSummaryIndex.jsx';
 
 const ParticipantAccountSummary = () => {

@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import { Col, Container, FormGroup, Row } from "reactstrap";
+import { Col, Container, Row } from "reactstrap";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import Sidebar from "../../Layout/sidebar";
 import Points from "../../Layout/sidebar/Points";
@@ -33,7 +33,7 @@ export const Cart = ({ template }) => {
     return (
       <>
         <div className="mainboard">
-          <img src={IMG_BACK} />
+          <img src={IMG_BACK} alt="point_img" />
           <div className="title">{t("redeem_my_points")}</div>
         </div>
         <Container>

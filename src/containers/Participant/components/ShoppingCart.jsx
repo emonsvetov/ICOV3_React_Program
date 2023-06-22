@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import {
-  Col,
-  Button,
-  Row,
+  
   UncontrolledPopover,
-  PopoverBody,
-  ButtonToolbar,
+  
 } from "reactstrap";
 import CartIcon from "mdi-react/CartIcon";
-import CloseIcon from "mdi-react/CloseIcon";
-import CartItem from "./CartItem";
-import { useNavigate } from "react-router-dom";
+
+
 import CartBody from "./CartBody";
 import { useTranslation } from "react-i18next";
 
 const ShoppingCart = ({ cart }) => {
   const { t } = useTranslation();
   const [points, setPoints] = useState(0);
-  let navigate = useNavigate();
+  
 
   useEffect(() => {
     let amount = 0;

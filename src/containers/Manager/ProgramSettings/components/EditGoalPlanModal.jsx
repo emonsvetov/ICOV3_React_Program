@@ -32,7 +32,7 @@ const EditGoalPlanModal = ({
             Edit Goal Plan here.
           </span>
         </div>
-        <Img src="img/pages/addGoalPlan.png" className="edit-goalplan" />
+        <Img src="img/pages/addGoalPlan.png" className="edit-goalplan" alt="goal-plan.img" />
       </div>
       <div className="right">
         <GoalPlanForm {...props} />

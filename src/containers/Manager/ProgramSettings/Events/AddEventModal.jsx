@@ -25,7 +25,7 @@ const AddEventPopup = ({program, isOpen, setOpen, toggle, setTrigger}) => {
               Add new event here.
             </span>
           </div>
-          <Img src="img/pages/addEvent.png" className="add-event" />
+          <Img src="img/pages/addEvent.png" className="add-event" alt="Event-img" />
         </div>
 
         <div className="right">

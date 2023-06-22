@@ -5,9 +5,8 @@ import { useTable, usePagination, useRowSelect } from "react-table";
 import ReactTablePagination from "@/shared/components/table/components/ReactTablePagination";
 import ReportTableFilter from "@/shared/components/table/components/ReportTableFilter";
 import { FILE_IMPORT_COLUMNS, FILE_IMPORT_DATA } from "./Mockdata";
-import { getUsers } from "@/services/program/getUsers";
 import { Link } from "react-router-dom";
-import apiTableService from "@/services/apiTableService";
+
 import { useTranslation } from "react-i18next";
 
 const QUERY_PAGE_SIZE = 20;

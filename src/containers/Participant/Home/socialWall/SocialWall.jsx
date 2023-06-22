@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import ConfirmModalWrapper from "@/shared/components/modal/confirmModal/ConfirmModalWrapper";
 import TemplateButton from "@/shared/components/TemplateButton";
 import SocialWallItem from "./SocialWallItem";

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Col, Button, Row } from "reactstrap";
+import { Col, Row } from "reactstrap";
 import Select from "react-select";
 import store from "../../../App/store";
 import { setCart } from "@/redux/actions/cartActions";
@@ -162,7 +162,7 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
       <>
         <Row className="get-giftcode mt-3">
           <Col md={2}>
-            <img src={`${LOGO_PUBLIC_URL}/${merchant.logo}`} />
+            <img src={`${LOGO_PUBLIC_URL}/${merchant.logo}`} alt="merchantlogo" />
           </Col>
           <Col md={10}>
             <h4>{merchant.name}</h4>

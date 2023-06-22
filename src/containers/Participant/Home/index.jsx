@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { Col, Container, Row } from "reactstrap";
 import SocialWallPanel from "@/containers/Participant/Home/socialWall/SocialWallPanel";
 import { SliderClassic, SliderClear, getMerchantLogos } from "./components/slider";
@@ -13,10 +13,10 @@ import { useTranslation } from "react-i18next";
 
 const Home = ({ auth, organization, program, template }) => {
   const { t } = useTranslation();
-  let props = {
-    organization,
-    program,
-  };
+  // let props = {
+  //   organization,
+  //   program,
+  // };
   let [showSocialWall, setShowSocialWall] = useState(null);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const Home = ({ auth, organization, program, template }) => {
       <>
         <div className="mainboard">
           <div className="homeImgWrap">
-            <img src={IMG_BACK} />
+            <img src={IMG_BACK} alt="home_Img" />
           </div>
           <SlideOutMenu isFixed={false} />
         </div>
@@ -84,7 +84,7 @@ const Home = ({ auth, organization, program, template }) => {
         <div className={"mainboard d-flex"}>
           <SlideOutMenu isFixed={true} />
           <div className="homeImgWrap">
-              <img src={IMG_BACK} />
+              <img src={IMG_BACK} alt="home_mg"/>
           </div>
         </div>
         <Container>

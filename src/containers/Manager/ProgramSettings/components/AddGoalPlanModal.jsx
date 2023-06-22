@@ -29,7 +29,7 @@ const AddGoalPlanModal = ({
             Add new Goal Plan Here.
           </span>
         </div>
-        <Img src="img/pages/addGoalPlan.png" className="add-goalplan" />
+        <Img src="img/pages/addGoalPlan.png" className="add-goalplan" alt="goal-plan"/>
       </div>
       <div className="right">
         <GoalPlanForm {...props} />

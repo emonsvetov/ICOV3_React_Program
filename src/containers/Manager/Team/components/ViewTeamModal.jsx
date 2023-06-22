@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 //import axios from 'axios';
 import CloseIcon from 'mdi-react/CloseIcon';
 import {
@@ -12,11 +12,11 @@ import {
 //import { useTranslation } from "react-i18next";
 
 const ViewTeamModal = ({ program, isOpen, setOpen, toggle, team }) => {
-    let props = {
-        toggle,
-        data: team,
-        program,
-    }
+    // let props = {
+    //     toggle,
+    //     data: team,
+    //     program,
+    // }
     return (
         <Modal className={`program-settings  modal-xl`} isOpen={isOpen} toggle={() => setOpen(true)}>
             <div className='close cursor-pointer'>
@@ -38,7 +38,7 @@ const ViewTeamModal = ({ program, isOpen, setOpen, toggle, team }) => {
                                 <FormGroup className="d-flex justify-content-between">
                                     <Label>Photo:(300 * 300px)</Label>
                                     {/*<img src={team?.photo} style={{}} /> */}
-                                    <img src={`${process.env.REACT_APP_API_STORAGE_URL}/${team?.photo}`} style={{}} />
+                                    <img src={`${process.env.REACT_APP_API_STORAGE_URL}/${team?.photo}`} style={{}} alt='team_pic' />
                                 </FormGroup>
                             </Col>
                         </Row>

@@ -30,7 +30,7 @@ const HomeTopbar = ({ onClickLogin, onClickSignup, template }) => {
       <div className="topbar__wrapper">
         <Navbar color="" expand="md" fixed="" light>
           <NavbarBrand href="/">
-            <img src={Brand} />
+            <img src={Brand}  alt="Brand"/>
           </NavbarBrand>
           <NavbarToggler onClick={toggle} />
           <Collapse navbar>

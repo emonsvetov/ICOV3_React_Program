@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import CloseIcon from 'mdi-react/CloseIcon';
 import { Modal } from 'reactstrap';
 import TeamForm from './TeamForm'
@@ -38,7 +38,7 @@ const EditTeamModal = ({ program, isOpen, setOpen, toggle, team }) => {
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
           </span>
         </div>
-        <Img src='img/pages/addTeammate.png' />
+        <Img src='img/pages/addTeammate.png' alt="teamate-image"/>
       </div>
 
       <div className="right">
