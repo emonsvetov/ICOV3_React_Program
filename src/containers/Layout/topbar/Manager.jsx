@@ -20,6 +20,7 @@ const LINKS = [
   { to: "/manager/report/supplier-redemption", text: "View Reports" },
   { to: "/manager/invite-participant", text: "Invite New Participant" },
   { to: "/manager/referral", text: "Referral Administrator" },
+  { to: "/manager/manage-account", text: "Manage Account" },
   { to: "/manager/team", text: "Team" },
 ];
 
