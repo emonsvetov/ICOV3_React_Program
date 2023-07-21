@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Container, Row } from "reactstrap";
+import { Col, Row } from "reactstrap";
 import { useTranslation } from "react-i18next";
 
 const Calendar = () => {

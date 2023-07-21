@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { PDF } from "../Training/components/PDF";
 import { Col, Container, Row } from "reactstrap";

@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Input, Col, Row, FormGroup, FormFeedback, Label } from "reactstrap";
+import { Input, Col, Row, FormGroup, Label } from "reactstrap";
 import { Form, Field } from "react-final-form";
 import { getUser } from "@/services/program/getUser";
 import axios from "axios";
-import {
-  useDispatch,
-  sendFlashMessage,
-  ApiErrorMessage,
-} from "@/shared/components/flash";
+// import {
+//   useDispatch,
+
+// } from "@/shared/components/flash";
 import TemplateButton from "@/shared/components/TemplateButton";
 import {
   mapFormDataUploads,
@@ -23,7 +22,7 @@ const MEDIA_FIELDS = ["avatar"];
 
 const ReferralForm = ({ organization, program, auth }) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   let [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
 

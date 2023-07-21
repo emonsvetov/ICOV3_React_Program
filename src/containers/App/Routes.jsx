@@ -79,7 +79,8 @@ import ParticipantAccount from "../Manager/Report/components/ParticipantAccount"
 import ParticipantStatus from "../Manager/Report/components/ParticipantStatus";
 import QuarterlyAward from "../Manager/Report/components/QuarterlyAward";
 import MainWrapper from "./MainWrapper";
-import { Train } from "@material-ui/icons";
+import ManageAccount from "../Manager/ManageAccount/index";
+// import { Train } from "@material-ui/icons";
 
 // const Accounts = () => (
 //   <Routes>
@@ -135,7 +136,6 @@ const RouteIndex = () => (
           <Route path="lead" element={<Lead />} />
           <Route path="peer-to-peer" element={<Peer2Peer />} />
           <Route path="leaderboards" element={<LeaderboardPage />} />
-
           <Route path="referral" element={<SubmitReferral />} />
           <Route path="suggestion_box" element={<SuggestionBox />} />
           <Route path="survey" element={<Survey />} />
@@ -153,6 +153,7 @@ const RouteIndex = () => (
           <Route path="program-settings" element={<ProgramSettings />} />
           <Route path="manage-and-reward" element={<ManageAndReward />} />
           <Route path="invite-participant" element={<InviteParticipant />} />
+          <Route path="manage-account" element={<ManageAccount/>} />
           <Route path="referral" element={<Referral />} />
           <Route path="team" element={<Team />} />
           <Route path="my-account" element={<ManagerAccountIndex />} />

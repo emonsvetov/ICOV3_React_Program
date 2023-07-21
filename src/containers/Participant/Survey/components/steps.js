@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
-import MaximizeIcon from "mdi-react/ArrowTopRightBottomLeftIcon";
 import RightIcon from "mdi-react/ArrowRightIcon";
 import LeftIcon from "mdi-react/ArrowLeftIcon";
 import { motion, useAnimationControls } from "framer-motion";

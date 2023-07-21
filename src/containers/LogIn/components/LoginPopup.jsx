@@ -1,8 +1,5 @@
 import React, {useState} from 'react';
-import Select from 'react-select';
-import { Link } from 'react-router-dom';
-import { Input, Col, Row, FormGroup, FormFeedback, Label, Button} from 'reactstrap';
-import { Form, Field } from 'react-final-form';
+
 import CloseIcon from 'mdi-react/CloseIcon';
 import LogInForm from './LogInForm';
 

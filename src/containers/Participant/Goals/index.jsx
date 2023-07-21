@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import { Table, Col, Row, Container } from "reactstrap";
 import { connect } from "react-redux";
-import { useTable, usePagination, useRowSelect } from "react-table";
+import { useTable } from "react-table";
 import { GOAL_COLUMNS } from "./components/columns";
 import { Link } from "react-router-dom";
 //import { GOAL_DATA } from "./components/Mockdata";

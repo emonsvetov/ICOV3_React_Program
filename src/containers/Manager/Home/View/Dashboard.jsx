@@ -10,7 +10,7 @@ import TodayItem from '../components/TodayItem';
 import TopPanelMerchant from '../components/TopPanelMerchant';
 import TopPanelAward from '../components/TopPanelAward';
 import {getDashboard} from '@/services/program/getDashboard'
-import {TODAY_DATA, CHART_DATA} from '../components/Mockdata';
+// import {TODAY_DATA, CHART_DATA} from '../components/Mockdata';
 import {connect} from "react-redux";
 import {useTranslation} from "react-i18next";
 

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 // import {getEvents} from '@/services/program/getEvents'
 // import {getEvent} from '@/services/program/getEvent'
 import { useTable } from "react-table";
 import { Table } from "reactstrap";
 // import ModalWrapper from './ModalWrapper';
-import { LEADERBOARD_DATA, LEADERBOARD_COLUMNS } from "./Mockdata";
+import {  LEADERBOARD_COLUMNS } from "./Mockdata";
 import AwardHistoryPopup from "./AwardHistoryPopup";
 import { useTranslation } from "react-i18next";
 

@@ -7,10 +7,10 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
-import { useTable, usePagination, useFlexLayout } from "react-table";
+import { useTable, usePagination } from "react-table";
 import ReactTablePagination from "@/shared/components/table/components/ReactTablePagination";
 import TableFilter from "@/shared/components/table/components/TableFilter";
-import { USERS_COLUMNS, USERS_DATA } from "./Mockdata";
+import { USERS_COLUMNS } from "./Mockdata";
 import { getUsers } from "@/services/program/getUsers";
 import MailIcon from "mdi-react/PostItNoteAddIcon";
 import ModalWrapper from "./ModalWrapper";

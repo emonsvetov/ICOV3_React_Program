@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Col, Button, Row } from "reactstrap";
+
 import { numFormatter } from "../../../utils/helper";
 import { useTranslation } from "react-i18next";
 import { isEmpty } from "@/shared/helpers";

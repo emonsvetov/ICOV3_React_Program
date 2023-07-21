@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { PDF } from "./components/PDF";
-import { Col, Row, Container } from "reactstrap";
+import { Col, Row } from "reactstrap";
 import Sidebar from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
 

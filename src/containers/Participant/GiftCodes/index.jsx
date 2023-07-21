@@ -1,9 +1,9 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import { Col, Container, Row } from "reactstrap";
 import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
 import GiftCard from "./components/GiftCard";
 import GiftCardOriginal from "./components/GiftCardOriginal";
-import giftData from "./components/Mockdata.json";
+
 import { connect } from "react-redux";
 import Sidebar from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
@@ -61,7 +61,7 @@ const MyGiftCodes = ({ template, auth, organization, program }) => {
     return (
       <>
         <div className="mainboard">
-          <img src={IMG_BACK} />
+          <img src={IMG_BACK} alt="gift_codes_img" />
           <div className="title text-dark">{t("my_gift_codes")}</div>
         </div>
         <Container>

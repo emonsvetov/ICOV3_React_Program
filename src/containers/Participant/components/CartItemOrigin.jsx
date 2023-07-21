@@ -10,7 +10,7 @@ const CartItemOrigin = ({ index, item, program }) => {
   )} Gift Code`;
   const redemptionPoints =
     item.redemption_value * program.factor_valuation * item.qty;
-  const merchant_icon_src = `${process.env.REACT_APP_API_STORAGE_URL}/${item.merchant_icon}`;
+  // const merchant_icon_src = `${process.env.REACT_APP_API_STORAGE_URL}/${item.merchant_icon}`;
   return (
     <Row className="cart-item mb-3">
       <Col md={4} className="flex-column">

@@ -1,16 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 
-import {
-  Card,
-  Button,
-  CardHeader,
-  CardFooter,
-  CardBody,
-  CardTitle,
-  CardText,
-} from "reactstrap";
 
-import { Input, Col, Row, FormGroup, FormFeedback, Label } from "reactstrap";
+
+import { Input, FormGroup, Label } from "reactstrap";
 import TemplateButton from "@/shared/components/TemplateButton";
 
 export const Start = ({ nextStep }) => {

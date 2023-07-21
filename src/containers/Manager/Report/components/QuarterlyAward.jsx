@@ -5,8 +5,7 @@ import { useTable, usePagination, useRowSelect } from "react-table";
 import ReactTablePagination from "@/shared/components/table/components/ReactTablePagination";
 import ReportTableFilter from "@/shared/components/table/components/ReportTableFilter";
 import { QUARTERLY_AWARD_COLUMNS, QUARTERLY_AWARD_DATA } from "./Mockdata";
-import { getUsers } from "@/services/program/getUsers";
-import apiTableService from "@/services/apiTableService";
+
 import { useTranslation } from "react-i18next";
 
 const QUERY_PAGE_SIZE = 20;

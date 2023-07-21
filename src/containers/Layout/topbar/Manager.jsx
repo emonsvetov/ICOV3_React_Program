@@ -20,6 +20,7 @@ const LINKS = [
   { to: "/manager/report/supplier-redemption", text: "View Reports" },
   { to: "/manager/invite-participant", text: "Invite New Participant" },
   { to: "/manager/referral", text: "Referral Administrator" },
+  { to: "/manager/manage-account", text: "Manage Account" },
   { to: "/manager/team", text: "Team" },
 ];
 
@@ -39,7 +40,7 @@ const ManagerTopbar = ({ template }) => {
       <Container fluid className="topbar__wrapper">
         <Navbar color="" expand="md" fixed="" light>
           <NavbarBrand href="/">
-            <img src={Brand} />
+            <img src={Brand} alt="brand-logo" />
           </NavbarBrand>
           <NavbarToggler onClick={toggle} />
           <Collapse navbar>

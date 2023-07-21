@@ -4,7 +4,6 @@ import ParticipantAccountSummaryTable from './ParticipantAccountSummaryTable';
 import axios from "axios";
 import {isEmpty} from '@/shared/helpers'
 import {connect} from "react-redux";
-import ParticipantAccountSummary from "../index";
 
 const ParticipantAccountSummaryIndex = ({ organization, program }) => {
   const [programs, setPrograms] = useState([]);

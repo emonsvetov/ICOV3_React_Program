@@ -5,10 +5,10 @@ import {
   Row,
   Col,
   Button,
-  UncontrolledPopover,
+ 
   PopoverBody,
   Popover,
-  Container,
+ 
 } from "reactstrap";
 import CartIcon from "mdi-react/CartIcon";
 import CloseIcon from "mdi-react/CloseIcon";

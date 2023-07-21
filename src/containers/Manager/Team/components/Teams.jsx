@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import { Table } from "reactstrap";
 import { useTranslation } from "react-i18next";
 
-import { TEAM_COLUMNS, TEAM_DATA } from "./Mockdata";
+import { TEAM_COLUMNS } from "./Mockdata";
 import ModalWrapper from "./ModalWrapper";
 import { getTeams } from '@/services/team/getTeams'
 import { getTeam } from '@/services/team/getTeam'
@@ -21,7 +20,7 @@ const Teams = ({ program, organization }) => {
   const [loading, setLoading] = useState(true);
   const [isOpen, setOpen] = useState(false);
   const [modalName, setModalName] = useState(null);
-  let navigate = useNavigate();
+  
 
   const toggle = (name = null) => {
     if (name) setModalName(name);

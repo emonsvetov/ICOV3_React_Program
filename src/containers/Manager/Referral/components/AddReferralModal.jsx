@@ -3,7 +3,7 @@ import CloseIcon from 'mdi-react/CloseIcon';
 import ReferralForm from './ReferralForm'
 import { Modal } from 'reactstrap';
 
-const AddEventImg = `/img/pages/addEvent.png`;
+// const AddEventImg = `/img/pages/addEvent.png`;
 
 const AddReferralModal= ({program, isOpen, setOpen, toggle}) => {
 

@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { ParticipantTabNavs } from '../../../shared/components/tabNavs';
 import Sidebar from '../../Layout/sidebar';
 import LeadForm from './components/LeadForm'
-import { Input, Col, Row,Container} from 'reactstrap';
+import {  Col, Row,Container} from 'reactstrap';
 
 
 const Lead = () => {
-  const [value, setValue] = useState(false);
+  // const [value, setValue] = useState(false);
   const onSubmit = values => {
     
   }

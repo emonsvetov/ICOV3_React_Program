@@ -13,7 +13,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import {connect} from "react-redux";
-import {getDashboardAwardDetail, getDashboardAwardPeerDetail} from "@/services/program/getDashboard";
+import { getDashboardAwardPeerDetail} from "@/services/program/getDashboard";
 import {useTranslation} from "react-i18next";
 
 ChartJS.register(

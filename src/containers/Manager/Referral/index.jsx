@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import { Col, Container, Row, NavLink, Button } from "reactstrap";
+
+import { Col, Container, Row } from "reactstrap";
 
 import SelectProgram from "../components/SelectProgram";
 import Referrals from "./components/Referrals";

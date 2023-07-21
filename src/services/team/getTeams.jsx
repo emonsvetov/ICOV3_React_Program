@@ -1,6 +1,6 @@
 
 import axios from 'axios'
-import {prepareRequestParams} from '@/shared/helpers'
+
 
 export const getTeams = async(organizationId, programId, filter = null) => {
 

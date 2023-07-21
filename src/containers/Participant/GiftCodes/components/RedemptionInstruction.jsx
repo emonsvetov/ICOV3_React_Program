@@ -1,11 +1,7 @@
-import React, {useRef, useState} from 'react';
+import React from 'react';
 import {
   Modal,
-  Input,
-  Col,
-  Row,
-  FormGroup,
-  FormFeedback,
+ 
   Button,
   Card,
   CardHeader,
@@ -26,7 +22,7 @@ const RedemptionInstruction = ({isOpen, setOpen, toggle, merchant, program, orga
           <Button className='btn btn-lg float-end' close onClick={toggle}/>
         </CardHeader>
         <CardBody>
-          <img width="100" src={storageUrl + merchant.icon} className="gift-icon"></img>
+          <img width="100" src={storageUrl + merchant.icon} className="gift-icon" alt='gift-icon'></img>
           <div className="right" dangerouslySetInnerHTML={createMarkup(merchant.redemption_instruction)}/>
         </CardBody>
       </Card>

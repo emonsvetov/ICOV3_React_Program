@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { ParticipantTabNavs } from "@/shared/components/tabNavs";
 import Sidebar from "@/containers/Layout/sidebar";
 import AccountForm from "@/shared/components/account/AccountForm";
-import { Input, Col, Row, Container } from "reactstrap";
+import { Col, Row, Container } from "reactstrap";
 import { getAuthUser } from "@/containers/App/auth";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 const Account = ({ template }) => {
   const { t } = useTranslation();
-  const [value, setValue] = useState(false);
+  // const [value, setValue] = useState(false);
   const [user, setUser] = useState(null);
-  const onSubmit = (values) => {};
+  // const onSubmit = (values) => {};
 
   useEffect(() => {
     let user = getAuthUser();

@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import {Col, Button, Row, NavItem, NavLink} from "reactstrap";
+
 import Leaderboard from "./Leaderboard";
 import { useTranslation } from "react-i18next";
 import { getLeaderboardLeaders } from "@/services/program/getLeaderboardLeaders";
 import {connect} from "react-redux";
-import {t} from "i18next";
-import classnames from "classnames";
+
 
 const leaders = [
   { name: "Jay Moore", award: 800 },

@@ -3,10 +3,7 @@ import ResendIcon from "mdi-react/AccountPlusIcon";
 import MailIcon from "mdi-react/MailOutlineIcon";
 import ParticipantGoalPlans from "./ParticipantGoalPlans";
 import PeerIcon from "mdi-react/PostItNoteAddIcon";
-import { getParticipantMypointsAction } from '@/redux/actions/userActions';
-import Select from "react-select";
-import { connect } from "react-redux";
-import { Link } from 'react-router-dom';
+
 import ModalWrapper from "./ModalWrapper";
 import ParticipantCurrentPoints from "./ParticipantCurrentPoints";
 import ParticipantInfo from "./ParticipantInfo";

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Col, Table, Button, Row } from "reactstrap";
+import { Col, Table, Row } from "reactstrap";
 import { CHECKOUT_COLUMNS } from "./columns";
 import { useTable } from "react-table";
 import { connect } from "react-redux";
@@ -100,7 +99,7 @@ const CheckoutPage = ({ cart, program, pointBalance, organization }) => {
     columns,
     data,
   });
-  let navigate = useNavigate();
+
 
   if (cartIsEmpty) return t("cart_empty");
   //   console.log(data)
