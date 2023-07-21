@@ -1,7 +1,6 @@
 import React from "react"
 import {dateStrToYmd} from '@/shared/helpers'
 import DatePickerField from '@/shared/components/form/DatePicker';
-import { Field, Form } from 'react-final-form';
 import { Row, Col, Label, FormGroup } from "reactstrap";
 const getFirstDayOfMonth = () =>{
     let date = new Date();
@@ -40,15 +39,7 @@ const ReportTableFilter = ({ config, filter, setFilter}) => {
         // setTo(finalFilter.to)
     }
 
-    const onKeywordChange = (e) => {
-        setKeyword( e.target.value )
-    }
-    const onStartChange = ( value ) => {
-        setFrom( value)
-    }
-    const onEndChange = ( value ) => {
-        setTo(  value )
-    }
+    
     const onClickFilter = (reset = false) => {
         let dataSet = {}
         if( options.keyword ) {

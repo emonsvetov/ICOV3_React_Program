@@ -6,8 +6,7 @@ import {
   Nav, 
   NavItem, 
   NavLink, 
-  Row, 
-  Col
+ 
 } from 'reactstrap';
 import classnames from 'classnames';
 import LeaderboardTable from '../components/LeaderboardTable';

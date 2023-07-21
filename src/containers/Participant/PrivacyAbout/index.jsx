@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Container, Row } from "reactstrap";
+import { Col, Row } from "reactstrap";
 import Sidebar from "@/containers/Layout/sidebar";
 import { useTranslation } from "react-i18next";
 

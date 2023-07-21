@@ -14,7 +14,7 @@ import CloseIcon from "mdi-react/CloseIcon";
 import { useTranslation } from "react-i18next";
 import {
   labelizeNamedData,
-  patch4Select,
+
   flashDispatch,
   flashMessage,
 } from "@/shared/helpers";
@@ -27,7 +27,7 @@ import { getGoalPlan } from "@/services/program/getGoalPlan";
 import { getGoalExceededProgramCallbacks } from "@/services/externalCallbacks/getGoalExceededProgramCallbacks";
 import { getGoalMetProgramCallbacks } from "@/services/externalCallbacks/getGoalMetProgramCallbacks";
 
-import { Img } from '@/theme'
+// import { Img } from '@/theme'
 
 const AddUserGoalModal = ({
   isOpen,

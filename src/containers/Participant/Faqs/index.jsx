@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import YoutubeEmbed from "./components/YoutubeEmbed";
-import { Col, Container, Row } from "reactstrap";
+import {  Container } from "reactstrap";
 import { Queries, QueriesOrigin } from "./components/Queries";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";

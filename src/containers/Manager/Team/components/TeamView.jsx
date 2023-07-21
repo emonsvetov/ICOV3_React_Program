@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
-  Input,
+  
   Col,
   Container,
   Row,
@@ -11,7 +11,6 @@ import {
 } from "reactstrap";
 import { connect } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { getEvent } from "@/services/program/getEvent";
 import { TEAM_DATA } from "./Mockdata";
 import ModalWrapper from "./ModalWrapper";
 import { useTranslation } from "react-i18next";
@@ -77,7 +76,7 @@ const TeamView = ({ auth, program, organization }) => {
             <Col md="6">
               <FormGroup className="d-flex justify-content-between">
                 <Label>Photo:(300 * 300px)</Label>
-                <img src={mate?.photo} style={{}} />
+                <img src={mate?.photo} style={{}} alt="mate-pic"/>
               </FormGroup>
             </Col>
           </Row>

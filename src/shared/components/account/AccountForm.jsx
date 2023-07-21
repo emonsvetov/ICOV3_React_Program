@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Card, Button, CardHeader, CardBody } from "reactstrap";
-import { Input, Col, Row, FormGroup, FormFeedback, Label } from "reactstrap";
+import { Card, CardHeader, CardBody } from "reactstrap";
+import { Input, Col, Row, FormGroup, Label } from "reactstrap";
 import { Form, Field } from "react-final-form";
 import { getUser } from "@/services/program/getUser";
 import axios from "axios";
@@ -258,7 +258,7 @@ const RenderImage = ({ src }) => {
   return (
     <div className="dropzone-img">
       <a href={src} target="_blank" title="View the picture">
-        <img src={src} />
+        <img src={src} alt="img"/>
       </a>
     </div>
   );

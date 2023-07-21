@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Table, Button } from "reactstrap";
+import React, { useState, useEffect } from "react";
+import { Table } from "reactstrap";
 import { useTable, usePagination, useRowSelect } from "react-table";
 import ReactTablePagination from "@/shared/components/table/components/ReactTablePagination";
 import TableFilter from "@/shared/components/table/components/TableFilter";
-import { USERS_COLUMNS, USERS_DATA } from "./Mockdata";
+import { USERS_COLUMNS } from "./Mockdata";
 import { getUsers } from "@/services/program/getUsers";
 import ModalWrapper from "./ModalWrapper";
 import apiTableService from "@/services/apiTableService";

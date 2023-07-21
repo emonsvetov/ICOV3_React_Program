@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./style.scss";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Nav, NavItem } from "reactstrap";
 import { useTranslation } from "react-i18next";
 import {connect} from "react-redux";

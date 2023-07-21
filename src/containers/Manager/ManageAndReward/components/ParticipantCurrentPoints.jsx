@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Table, Col, Container, Row } from "reactstrap";
+import React from "react";
+import { Table } from "reactstrap";
 import { connect } from "react-redux";
 
 const ParticipantCurrentPoints = ({participant,auth, program}) => {

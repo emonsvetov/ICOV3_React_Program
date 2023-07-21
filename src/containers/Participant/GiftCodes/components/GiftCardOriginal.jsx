@@ -1,5 +1,4 @@
 import React, {useState, useRef} from "react";
-import {Link} from "react-router-dom";
 import PrinterIcon from "mdi-react/PrinterIcon";
 import {useTranslation} from "react-i18next";
 import RedemptionInstructionsModalWrapper from "./RedemptionInstructionsModalWrapper";
@@ -32,7 +31,7 @@ const GiftCardOriginal = (props) => {
   return (
     <div className="panel gift-card d-flex mb-5 rounded-3">
       <div className="gift-icon-wrapper">
-        <img src={storageUrl + merchant.icon} className="gift-icon"></img>
+        <img src={storageUrl + merchant.icon} className="gift-icon" alt="gift-icon"></img>
       </div>
       <div className="gift-info d-flex flex-column justify-content-evenly pr-2">
         <div className="d-flex justify-content-between">

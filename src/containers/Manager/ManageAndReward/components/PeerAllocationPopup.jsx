@@ -6,9 +6,9 @@ import {
   Col,
   Row,
   FormGroup,
-  FormFeedback,
+ 
   Label,
-  Button,
+
 } from "reactstrap";
 import { Form, Field } from "react-final-form";
 import CloseIcon from "mdi-react/CloseIcon";
@@ -16,7 +16,7 @@ import { getEvents } from "@/services/program/getEvents";
 import { getEvent } from "@/services/program/getEvent";
 import {
   labelizeNamedData,
-  patch4Select,
+ 
   flashDispatch,
   flashMessage,
 } from "@/shared/helpers";

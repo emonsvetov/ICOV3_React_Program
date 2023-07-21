@@ -1,5 +1,4 @@
 import axios from "axios";
-import {prepareRequestParams} from '@/shared/helpers'
 
 export const getActiveGoalPlansByProgram = async (
   organizationId,

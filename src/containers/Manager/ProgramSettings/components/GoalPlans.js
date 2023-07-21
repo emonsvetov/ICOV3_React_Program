@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios'
-import {getGoalPlanTypes} from '@/services/getGoalPlanTypes'
 import {getGoalPlans} from '@/services/program/getGoalPlans';
 import {getGoalPlan} from '@/services/program/getGoalPlan';
 import { useTable } from 'react-table'

@@ -3,7 +3,7 @@ import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
 import MaximizeIcon from "mdi-react/ArrowTopRightBottomLeftIcon";
 import RightIcon from "mdi-react/ArrowRightIcon";
 import LeftIcon from "mdi-react/ArrowLeftIcon";
-import ThemeIcon from "mdi-react/ThemeLightDarkIcon";
+
 import { motion, useAnimationControls } from "framer-motion";
 import Editor from "@/shared/components/form/Editor";
 import { useTranslation } from "react-i18next";

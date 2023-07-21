@@ -1,7 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { Col, Container, Row } from "reactstrap";
+import {  Container, Row } from "reactstrap";
 import { useTranslation } from "react-i18next";
 
 const Footer = () => {

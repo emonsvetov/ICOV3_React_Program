@@ -8,14 +8,13 @@ import {
   PARTICIPANT_STATUS_COLUMNS,
   PARTICIPANT_STATUS_DATA,
 } from "./Mockdata";
-import { getUsers } from "@/services/program/getUsers";
-import apiTableService from "@/services/apiTableService";
-import { useTranslation } from "react-i18next";
+
+// import { useTranslation } from "react-i18next";
 
 const QUERY_PAGE_SIZE = 20;
 
 const ParticipantStatus = () => {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
 
   // const [users, setUsers] = useState(null);
   // const [currentRow, setCurrentRow] = useState(null);

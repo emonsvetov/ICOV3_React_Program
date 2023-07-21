@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react'
+import React, { useState} from 'react'
 import ProgramsHierarchy from '@/shared/components/ProgramsHierarchy'
 import {connect} from 'react-redux'
-import PropTypes from 'prop-types'
 
 import {Button, Col, Row} from "reactstrap";
 import DatePicker from "react-datepicker";
@@ -9,9 +8,7 @@ import {CSVLink} from "react-csv";
 import {getFirstDay} from '@/shared/helpers'
 import {dateStrToYmd} from '@/shared/helpers';
 import {isEqual, clone} from 'lodash';
-import {Field} from "react-final-form";
 import {CheckBoxField} from '@/shared/components/form/CheckBox';
-import RadioButtonField from '@/shared/components/form/RadioButton';
 
 const defaultFrom = getFirstDay()
 const defaultTo = new Date()

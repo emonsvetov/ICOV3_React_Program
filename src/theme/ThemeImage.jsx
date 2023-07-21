@@ -29,7 +29,7 @@ const ThemeImage = ({ src, width, height, className, theme, themed, title }) => 
   //   //Do whatever you want when the image failed to load here
   // }
 
-  return <img {...imgProps} />
+  return <img {...imgProps} alt="img" />
 }
 
 ThemeImage.propTypes = {

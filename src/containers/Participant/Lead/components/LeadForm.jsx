@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { Card, Button, CardHeader, CardFooter, CardBody } from "reactstrap";
+import { Card, CardHeader, CardBody } from "reactstrap";
 import formValidation from "@/validation/lead";
-import { Input, Col, Row, FormGroup, FormFeedback, Label } from "reactstrap";
+import { Input, Col, Row, FormGroup, Label } from "reactstrap";
 import { Form, Field } from "react-final-form";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
 
 const LeadForm = () => {
-  const [value, setValue] = useState(false);
+  
   const { t } = useTranslation();
   const onSubmit = (values) => {};
   return (

@@ -1,7 +1,7 @@
 import { Input, Col, Row, FormGroup, Label, Button } from "reactstrap";
 import { Form, Field } from "react-final-form";
 import React, { useEffect, useState } from "react";
-import Select from "react-select";
+
 import axios from "axios";
 import {format, addYears} from "date-fns";
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
@@ -13,7 +13,7 @@ import { getGoalPlanTypes } from "@/services/getGoalPlanTypes";
 import { getExpirationRules } from "@/services/getExpirationRules";
 import { getEvents } from "@/services/getEvents";
 import EventField from "./EventField";
-import formValidation from "@/validation/addGoalPlan";
+
 import { getGoalExceededProgramCallbacks } from "@/services/externalCallbacks/getGoalExceededProgramCallbacks";
 import { getGoalMetProgramCallbacks } from "@/services/externalCallbacks/getGoalMetProgramCallbacks";
 

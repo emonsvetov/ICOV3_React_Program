@@ -1,13 +1,11 @@
-import { Input, Col, Row, FormGroup, Label, Button, FormFeedback} from 'reactstrap';
+import { Input, Col, Row, FormGroup, Label, Button} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 import {patch4Select} from '@/shared/helpers'
 import { Link } from 'react-router-dom';
-import Switch from '@/shared/components/form/Switch';
-import Select from 'react-select';
+
 import renderSelectField from '@/shared/components/form/Select';
 import renderToggleButtonField from "@/shared/components/form/ToggleButton";
-import formValidation from "@/validation/addGoalPlan";
-import DatePickerField from '@/shared/components/form/DatePicker';
+
 const current = new Date();
 const automaticProgressOptions = [{ value: '1', label: 'Yes' }, { value: '0', label: 'No' }];
 

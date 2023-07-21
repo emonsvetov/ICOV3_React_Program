@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import {
-  Container,
+ 
   TabContent,
   TabPane,
   Nav,
   NavItem,
   NavLink,
-  Row,
-  Col,
+  
 } from "reactstrap";
 import classnames from "classnames";
 import LeaderboardTable from "../../../Manager/Home/components/LeaderboardTable";

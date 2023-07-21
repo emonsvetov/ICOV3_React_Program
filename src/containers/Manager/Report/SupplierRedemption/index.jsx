@@ -1,6 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-import {Col, Container, Row} from 'reactstrap';
+import { Row} from 'reactstrap';
 import SupplierRedemptionCard from './components/SupplierRedemptionIndex.jsx';
 
 const SupplierRedemption = () => {
