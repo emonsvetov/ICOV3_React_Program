@@ -9,10 +9,7 @@ import formValidation from "@/validation/addReferralNotificationRecipient"
 import TemplateButton from "@/shared/components/TemplateButton"
 import SelectProgram from '../../components/SelectProgram';
 
-
-
-
-const ReferralForm = ({
+const CreateInvoiceForm = ({
     referral,
     toggle,
     program,
@@ -26,7 +23,7 @@ const ReferralForm = ({
         // // console.log('edit')
         let formData = {};
         formData.amount = values?.amount;
-        formData.confirm_amount = values?.confirm_amount;
+        formData.amount_confirmation = values?.amount_confirmation;
         
     
         console.log(formData)
@@ -101,7 +98,7 @@ const ReferralForm = ({
 
                 <Row>
                     <Col md="12">
-                        <Field name="confirm_amount">
+                        <Field name="amount_confirmation">
                         {({ input, meta }) => (
                             <FormGroup>
                                 <Input
@@ -127,4 +124,4 @@ const ReferralForm = ({
     )
 }
 
-export default ReferralForm;
+export default CreateInvoiceForm;
