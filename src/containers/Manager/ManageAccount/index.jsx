@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Col, Container, Row } from "reactstrap";
 
 import SelectProgram from "../components/SelectProgram";
-import Referrals from "./components/Referrals";
+import Invoices from "./components/Invoices";
 import { isEmpty } from "@/shared/helpers";
 import ModalWrapper from "./components/ModalWrapper";
 import TemplateButton from "@/shared/components/TemplateButton";
@@ -31,7 +31,7 @@ const ManageAccount = ({ auth, program, organization }) => {
             <div className="my-3 d-flex justify-content-between">
               <h3>Manage Account</h3>
               <TemplateButton
-                onClick={() => toggle("AddReferral")}
+                onClick={() => toggle("CreateInvoice")}
                 text="Create Invoice"
               />
             </div>
@@ -42,8 +42,22 @@ const ManageAccount = ({ auth, program, organization }) => {
         </Row>
 
         <div className="points-summary-table">
+          <div className="buttonWrapper">
+            <TemplateButton
+              onClick={() => toggle("CreateInvoice")}
+              text="Create an Invoice"
+            />
+            <TemplateButton
+              onClick={() => toggle("Transfer")}
+              text="Create Multiple Invoices"
+            />
+            <TemplateButton
+              onClick={() => toggle("Pay")}
+              text="Make Payment using Credit Card"
+            />
+          </div>
           {auth && program && !isEmpty(organization) && (
-            <Referrals program={program} organization={organization} />
+            <Invoices program={program} organization={organization} />
           )}
         </div>
       </Container>

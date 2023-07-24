@@ -2,7 +2,7 @@ import React from 'react';
 import CloseIcon from 'mdi-react/CloseIcon';
 import { Modal } from 'reactstrap';
 
-import ReferralForm from './ReferralForm'
+import ReferralForm from './CreateInvoiceForm'
 
 //const AddEventImg = `/img/pages/addEvent.png`;
 
