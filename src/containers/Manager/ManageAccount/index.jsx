@@ -10,6 +10,9 @@ import ModalWrapper from "./components/ModalWrapper";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
 
+
+
+
 const ManageAccount = ({ auth, program, organization }) => {
   // console.log(auth)
   const { t } = useTranslation();
@@ -48,8 +51,12 @@ const ManageAccount = ({ auth, program, organization }) => {
               text="Create an Invoice"
             />
             <TemplateButton
-              onClick={() => toggle("Transfer")}
+              onClick={() => toggle("MultipleInvoices")}
               text="Create Multiple Invoices"
+            />
+            <TemplateButton
+              onClick={() => toggle("TransferMoney")}
+              text="Transfer Money Between Programs"
             />
             <TemplateButton
               onClick={() => toggle("Pay")}

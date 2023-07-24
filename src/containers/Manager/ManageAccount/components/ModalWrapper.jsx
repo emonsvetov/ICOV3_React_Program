@@ -3,6 +3,9 @@ import { connect } from "react-redux";
 import CreateInvoiceModal from "./CreateInvoiceModal";
 import EditReferralModal from "./EditReferralModal";
 import { useTranslation } from "react-i18next";
+import TransferMoneyModal from "./TransferMoneyModal";
+import MultipleInvoiceModal from "./MultipleInvoiceModal";
+import PaymentCreditCardModal from "./PaymentCreditCardModal";
 
 const MainModalWrapper = ({
   organization,
@@ -29,7 +32,9 @@ const MainModalWrapper = ({
   return (
     <>
       {name === "CreateInvoice" && <CreateInvoiceModal {...props} />}
-      {name === "EditReferral" && <EditReferralModal {...props} />}
+      {name === "MultipleInvoices" && <MultipleInvoiceModal {...props} />}
+      {name === "TransferMoney" && <TransferMoneyModal {...props} />}
+      {name === "Pay" && <PaymentCreditCardModal {...props} />}
     </>
   );
 };

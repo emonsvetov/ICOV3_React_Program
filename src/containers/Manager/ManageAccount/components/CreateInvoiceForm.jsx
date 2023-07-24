@@ -2,10 +2,10 @@ import { Input, Col, Row, FormGroup, Label, Button} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 import React, { useState } from "react";
 import axios from 'axios';
-import renderToggleButtonField from "@/shared/components/form/ToggleButton"
+// import renderToggleButtonField from "@/shared/components/form/ToggleButton"
 
 import { useDispatch, flashError, flashSuccess } from "@/shared/components/flash"
-import formValidation from "@/validation/addReferralNotificationRecipient"
+// import formValidation from "@/validation/addReferralNotificationRecipient"
 import TemplateButton from "@/shared/components/TemplateButton"
 import SelectProgram from '../../components/SelectProgram';
 
@@ -29,20 +29,12 @@ const CreateInvoiceForm = ({
         console.log(formData)
 
         let url = `organization/${program.organization_id}/program/${program.id}/invoice/on-demand`
-        let method = 'post'
-
-        if (referral?.id) //Is Edit
-        {
-            formData._method = "PUT";
-            formData.id = referral.id;
-            url += `/${referral.id}`
-            method = 'put'
-        }
+     
         setLoading(true)
         axios.post(url, formData).then((res) => {
                      console.log(res)
                     if (res.status == 200) {
-                        flashSuccess(dispatch, 'Referral saved successfully!')
+                        flashSuccess(dispatch, 'Invoice created successfully!')
                         setLoading(false)
                         window.location.reload()
                         toggle()
@@ -83,7 +75,7 @@ const CreateInvoiceForm = ({
                         {({ input, meta }) => (
                             <FormGroup>
                                 <Input
-                                placeholder="Amount"
+                                placeholder="$ Amount"
                                 type="text"
                                 {...input}
                                 />
@@ -102,7 +94,7 @@ const CreateInvoiceForm = ({
                         {({ input, meta }) => (
                             <FormGroup>
                                 <Input
-                                placeholder="Confirm Amount"
+                                placeholder="$ Confirm Amount"
                                 type="text"
                                 {...input}
                                 />
