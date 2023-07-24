@@ -26,7 +26,7 @@ const ReferralForm = ({
         // // console.log('edit')
         let formData = {};
         formData.amount = values?.amount;
-        formData.confirm_amount = values?.confirm_amount;
+        formData.amount_confirmation = values?.amount_confirmation;
         
     
         console.log(formData)
@@ -101,7 +101,7 @@ const ReferralForm = ({
 
                 <Row>
                     <Col md="12">
-                        <Field name="confirm_amount">
+                        <Field name="amount_confirmation">
                         {({ input, meta }) => (
                             <FormGroup>
                                 <Input
