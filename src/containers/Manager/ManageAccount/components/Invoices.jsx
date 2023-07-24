@@ -9,15 +9,14 @@ import TrashIcon from "mdi-react/TrashCanIcon";
 
 import { REFERRAL_COLUMNS } from "./Mockdata";
 import ModalWrapper from "./ModalWrapper";
-import { getReferralNotificationRecipients } from '@/services/referral/getReferralNotificationRecipients'
-import { getReferralNotificationRecipient } from '@/services/referral/getReferralNotificationRecipient'
+// import { getinvoiceNotificationRecipients } from '@/services/invoice/getinvoiceNotificationRecipients'
 import { useDispatch, flashError, flashSuccess } from "@/shared/components/flash"
 
-const Referrals = ({ program, organization }) => {
+const Invoices = ({ program, organization }) => {
   const dispatch = useDispatch()
   const { t } = useTranslation();
-  const [referrals, setReferrals] = useState([]);
-  const [referral, setReferral] = useState(null);
+  const [invoices, setInvoices] = useState([]);
+  const [invoice, setinvoice] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isOpen, setOpen] = useState(false);
   const [modalName, setModalName] = useState(null);
@@ -27,21 +26,21 @@ const Referrals = ({ program, organization }) => {
     setOpen((prevState) => !prevState);
   };
 
-  const onClickEditReferral = (referralId) => {
-    getReferralNotificationRecipient(organization.id, program.id, referralId)
-      .then(item => {
-        setReferral(item)
-        toggle('EditReferral');
-        setLoading(false)
-      })
+  const onClickEditinvoice = (invoiceId) => {
+    // getinvoiceNotificationRecipient(organization.id, program.id, invoiceId)
+    //   .then(item => {
+    //     setinvoice(item)
+    //     toggle('Editinvoice');
+    //     setLoading(false)
+    //   })
   };
-  const onDeleteReferral = (e, referral_id) => {
+  const onDeleteinvoice = (e, invoice_id) => {
     axios.delete(
-      `/organization/${program.organization_id}/program/${program.id}/referral-notification-recipient/${referral_id}`
+      `/organization/${program.organization_id}/program/${program.id}/invoice-notification-recipient/${invoice_id}`
     )
       .then((res) => {
         if (res.status == 200) {
-          flashSuccess(dispatch, "Referral was deleted!");
+          flashSuccess(dispatch, "invoice was deleted!");
           setLoading(false);
           window.location.reload()
         }
@@ -54,7 +53,7 @@ const Referrals = ({ program, organization }) => {
   const RenderActions = ({ row }) => {
     return (
       <span>
-        <Link to={{}} onClick={() => onClickEditReferral(row.original.id)}>
+        <Link to={{}} onClick={() => onClickEditinvoice(row.original.id)}>
           <PencilIcon style={{ marginRight: "0.5rem" }} />
           Edit
         </Link>
@@ -64,7 +63,7 @@ const Referrals = ({ program, organization }) => {
           className="delete-column"
           onClick={(e) => {
             if (window.confirm("Are you sure to delete this Administrator?")) {
-              onDeleteReferral(e, row.original.id);
+              onDeleteinvoice(e, row.original.id);
             }
           }}
         >
@@ -90,14 +89,14 @@ const Referrals = ({ program, organization }) => {
   useEffect(() => {
     let mounted = true;
     setLoading(true);
-    getReferralNotificationRecipients(organization.id, program.id)
-      .then(items => {
-        if (mounted) {
-          setReferrals(items)
-          console.log(items)
-          setLoading(false)
-        }
-      })
+    // getinvoiceNotificationRecipients(organization.id, program.id)
+    //   .then(items => {
+    //     if (mounted) {
+    //       setInvoices(items)
+    //       console.log(items)
+    //       setLoading(false)
+    //     }
+    //   })
     setLoading(false);
     return () => (mounted = false);
   }, []);
@@ -105,7 +104,7 @@ const Referrals = ({ program, organization }) => {
   const columns = React.useMemo(() => final_columns, []);
   const { getTableProps, headerGroups, rows, prepareRow } = useTable({
     columns,
-    data: referrals,
+    data: invoices,
   });
 
   if (loading) return t("loading");
@@ -142,11 +141,11 @@ const Referrals = ({ program, organization }) => {
         isOpen={isOpen}
         setOpen={setOpen}
         toggle={toggle}
-        referral={referral}
-        setReferral={setReferral}
+        invoice={invoice}
+        setinvoice={setinvoice}
       />
     </>
   );
 };
 
-export default Referrals;
+export default Invoices;

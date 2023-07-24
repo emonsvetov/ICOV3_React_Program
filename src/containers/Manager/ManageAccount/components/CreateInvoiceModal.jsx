@@ -1,11 +1,11 @@
 import React from 'react';
 import CloseIcon from 'mdi-react/CloseIcon';
-import ReferralForm from './ReferralForm'
+import CreateInvoiceForm from './CreateInvoiceForm'
 import { Modal } from 'reactstrap';
 
 // const AddEventImg = `/img/pages/addEvent.png`;
 
-const AddReferralModal= ({program, isOpen, setOpen, toggle}) => {
+const CreateInvoiceModal= ({program, isOpen, setOpen, toggle}) => {
 
   let props = {
     btnLabel: 'Generate Invoice',
@@ -30,11 +30,11 @@ const AddReferralModal= ({program, isOpen, setOpen, toggle}) => {
         </div>
 
         <div className="right">
-          <ReferralForm {...props} />
+          <CreateInvoiceForm {...props} />
         </div>
         
 
     </Modal>
 )}
 
-export default AddReferralModal;
+export default CreateInvoiceModal;

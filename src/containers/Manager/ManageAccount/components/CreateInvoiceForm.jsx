@@ -9,10 +9,7 @@ import formValidation from "@/validation/addReferralNotificationRecipient"
 import TemplateButton from "@/shared/components/TemplateButton"
 import SelectProgram from '../../components/SelectProgram';
 
-
-
-
-const ReferralForm = ({
+const CreateInvoiceForm = ({
     referral,
     toggle,
     program,
@@ -127,4 +124,4 @@ const ReferralForm = ({
     )
 }
 
-export default ReferralForm;
+export default CreateInvoiceForm;
