@@ -32,8 +32,6 @@ const MultipleInvoiceModal= ({program, isOpen, setOpen, toggle}) => {
         <div className="right">
           <MultipleInvoiceForm {...props} />
         </div>
-        
-
     </Modal>
 )}
 

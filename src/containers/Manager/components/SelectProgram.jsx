@@ -1,21 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { setAuthProgram, AUTH_SELECT_PROGRAM_TREE } from "@/containers/App/auth";
+import { Input } from "reactstrap";
+
+import { setAuthProgram } from "@/containers/App/auth";
 import { getProgram } from "@/services/program/getProgram";
 import { getProgramTree } from "@/services/program/getProgramTree";
 
-import { Input } from "reactstrap";
-
-import { BuildProgramOptions } from "@/shared/helpers";
+import { BuildProgramOptions, cacheProgramTree, getCachedProgramTree } from "@/shared/helpers";
 import { useTranslation } from "react-i18next";
-
-const cacheProgramTree = (tree) => {
-  localStorage.setItem(AUTH_SELECT_PROGRAM_TREE, JSON.stringify(tree));
-}
-
-const getCachedProgramTree = (tree) => {
-  return localStorage.getItem(AUTH_SELECT_PROGRAM_TREE);
-}
 
 const SelectProgram = ({ auth, program, rootProgram }) => {
   const { t } = useTranslation();

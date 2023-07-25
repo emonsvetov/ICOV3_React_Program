@@ -1,4 +1,5 @@
 import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
+import { AUTH_SELECT_PROGRAM_TREE } from "@/containers/App/auth";
 
 export const flashDispatch = useDispatch
 export const flashMessage = sendFlashMessage
@@ -218,4 +219,12 @@ export const showPercentage = (numberString) => {
   let options = {style: 'percent', minimumFractionDigits: 2, maximumFractionDigits: 2};
   let formatter = new Intl.NumberFormat(locale, options);
   return formatter.format(numberString);
+}
+
+export const cacheProgramTree = (tree) => {
+  localStorage.setItem(AUTH_SELECT_PROGRAM_TREE, JSON.stringify(tree));
+}
+
+export const getCachedProgramTree = () => {
+  return localStorage.getItem(AUTH_SELECT_PROGRAM_TREE);
 }
