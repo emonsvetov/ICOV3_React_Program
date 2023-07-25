@@ -1,6 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-import {Col, Button, Row} from 'reactstrap';
+import {Col, Row} from 'reactstrap';
 import RedeemIcon from 'mdi-react/TrophyIcon';
 import UsersIcon from 'mdi-react/AccountGroupIcon';
 //type 0: awards or redemptions

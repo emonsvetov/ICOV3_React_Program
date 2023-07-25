@@ -1,6 +1,6 @@
 import React from 'react';
 import CloseIcon from 'mdi-react/CloseIcon';
-import CreateInvoiceForm from './CreateInvoiceForm'
+
 import { Modal } from 'reactstrap';
 import PaymentCreditCardForm from './PaymentCreditCardForm';
 

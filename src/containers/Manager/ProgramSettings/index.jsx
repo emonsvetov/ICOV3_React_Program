@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Col, Container, Row, NavLink, Button } from "reactstrap";
+import { Col, Container, Row, NavLink } from "reactstrap";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 

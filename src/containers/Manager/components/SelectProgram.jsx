@@ -4,7 +4,7 @@ import { setAuthProgram, AUTH_SELECT_PROGRAM_TREE } from "@/containers/App/auth"
 import { getProgram } from "@/services/program/getProgram";
 import { getProgramTree } from "@/services/program/getProgramTree";
 import CachedIcon from '@material-ui/icons/Cached';
-import { Button, Input } from "reactstrap";
+import { Input } from "reactstrap";
 
 import { BuildProgramOptions } from "@/shared/helpers";
 import { useTranslation } from "react-i18next";

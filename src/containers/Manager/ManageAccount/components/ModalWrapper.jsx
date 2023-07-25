@@ -32,6 +32,7 @@ const MainModalWrapper = ({
   return (
     <>
       {name === "CreateInvoice" && <CreateInvoiceModal {...props} />}
+      {name === "EditReferral" && <EditReferralModal {...props} />}
       {name === "MultipleInvoices" && <MultipleInvoiceModal {...props} />}
       {name === "TransferMoney" && <TransferMoneyModal {...props} />}
       {name === "Pay" && <PaymentCreditCardModal {...props} />}
