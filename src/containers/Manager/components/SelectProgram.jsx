@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { setAuthProgram, AUTH_SELECT_PROGRAM_TREE } from "@/containers/App/auth";
 import { getProgram } from "@/services/program/getProgram";
 import { getProgramTree } from "@/services/program/getProgramTree";
-
-import { Input } from "reactstrap";
+import CachedIcon from '@material-ui/icons/Cached';
+import { Button, Input } from "reactstrap";
 
 import { BuildProgramOptions } from "@/shared/helpers";
 import { useTranslation } from "react-i18next";
@@ -47,6 +47,12 @@ const SelectProgram = ({ auth, program, rootProgram }) => {
   };
   if (!auth || !program) return t("loading");
   // console.log(program)
+const RefreshProgram=()=>{
+  getProgramTree(auth.organization_id, rootProgram.id).then((p) => {
+    cacheProgramTree(p);
+    setOptions(p);
+  });
+}
   return (
     <>
       <span>For&nbsp;Program:</span>
@@ -61,6 +67,7 @@ const SelectProgram = ({ auth, program, rootProgram }) => {
           <BuildProgramOptions programs={options} />
         </Input>
       </div>
+     <span><CachedIcon style={{cursor:"pointer"}} onClick={RefreshProgram}/></span>
     </>
   );
 };
