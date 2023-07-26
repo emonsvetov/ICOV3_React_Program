@@ -1,4 +1,4 @@
-import { Input, Col, Row, FormGroup, Label, Button } from "reactstrap";
+import { Input, Col, Row, FormGroup } from "reactstrap";
 import { Form, Field } from "react-final-form";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -75,22 +75,22 @@ const MultipleInvoiceForm = ({
       }, invoice.pId);
       result.push(res);
       submitted++;
-      console.log("In loop" + submitted)
+      // console.log("In loop" + submitted)
     }
-    console.log("At End: Total: " + submitted)
-    console.log(result)
+    // console.log("At End: Total: " + submitted)
+    // console.log(result)
     if( submitted >= validated.length) {
       flashSuccess(dispatch, `${submitted} invoices created successfully!`);
       setLoading(false);
-      setTimeout(() => toggle(), 2000);
+      setTimeout( toggle, 500);
       // setTimeout(() => window.location.reload(), 2000);
       // toggle();
     }
   }
 
   const submitSingleInvoice = async (formData, pId) => {
-    console.log(formData)
-    console.log(pId);
+    // console.log(formData)
+    // console.log(pId);
     // await new Promise(r => setTimeout(r, 2000));
     // return;
     // return;
@@ -99,7 +99,7 @@ const MultipleInvoiceForm = ({
     return axios
     .post(url, formData)
     .then((res) => {
-      console.log(res);
+      // console.log(res);
       if (res.status == 200) {
         return res.data;
       }

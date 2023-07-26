@@ -10,7 +10,7 @@ import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import EditLeaderboardModal from "./EditLeaderboardModal";
 import { useTranslation } from "react-i18next";
 import { Table } from "reactstrap";
-import ModalWrapper from "./ModalWrapper";
+
 
 const COLUMNS = [
   {

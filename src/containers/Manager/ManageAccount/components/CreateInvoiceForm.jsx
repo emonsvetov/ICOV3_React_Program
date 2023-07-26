@@ -1,4 +1,4 @@
-import { Input, Col, Row, FormGroup, Label, Button} from 'reactstrap';
+import { Input, Col, Row, FormGroup} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 import React, { useState } from "react";
 import axios from 'axios';
@@ -10,48 +10,71 @@ import TemplateButton from "@/shared/components/TemplateButton"
 import SelectProgram from '../../components/SelectProgram';
 
 const CreateInvoiceForm = ({
-    referral,
     toggle,
     program,
     btnLabel = 'Save',
 }) => {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false);
+    const [pId, setpId] = useState(program.id);
+
+    const onProgramChange = (e) => {
+      // console.log(e.target.value)
+      setpId(e.target.value);
+      // console.log("on program change")
+    }
+
+    const invalidAmount = (v) => {
+      return typeof v == 'undefined' || isNaN(parseFloat(v)) || parseFloat(v) <= 0 
+    }
+
+    const validate = (values) => {
+      let errors = {};
+      // console.log(validAmount(values['amount']))
+      if( invalidAmount(values['amount']) ) {
+        errors['amount'] = "enter amount"
+      } else if(invalidAmount(values['amount_confirmation']) ) {
+        errors['amount_confirmation'] = "confirm amount"
+      }  else if( parseFloat(values['amount']) !== parseFloat(values['amount_confirmation'])) {
+        errors['amount_confirmation'] = "amount mismatch"
+      }
+      return errors;
+    };
 
     const onSubmit = (values) => {
         // console.log('data aa gya', values)
-        // // console.log('edit')
+        if( !pId ) {
+          console.log("pId not set");
+          return;
+        }
+
         let formData = {};
         formData.amount = values?.amount;
         formData.amount_confirmation = values?.amount_confirmation;
-        
-    
-        console.log(formData)
 
-        let url = `organization/${program.organization_id}/program/${program.id}/invoice/on-demand`
+        let url = `organization/${program.organization_id}/program/${pId}/invoice/on-demand`
      
         setLoading(true)
         axios.post(url, formData).then((res) => {
-                     console.log(res)
-                    if (res.status == 200) {
-                        flashSuccess(dispatch, 'Invoice created successfully!')
-                        setLoading(false)
-                        window.location.reload()
-                        toggle()
-                    }
-                })
-            .catch((err) => {
-                flashError(dispatch, err.response.data)
-                setLoading(false)
-            });
+          if (res.status == 200) {
+            flashSuccess(dispatch, 'Invoice created successfully!')
+            setLoading(false)
+            // window.location.reload()
+            toggle()
+          }
+        })
+      .catch((err) => {
+          flashError(dispatch, err.response.data)
+          setLoading(false)
+      });
     };
 
 
     return(
         <Form
             onSubmit={onSubmit}
-            // validate={(values) => formValidation.validateForm(values)}
-            initialValues={referral}
+            validate={validate}
+            initialValues={{}}
         >
             {({ handleSubmit, form, submitting, pristine, values }) => (
             <form className="form d-flex flex-column justify-content-evenly" onSubmit={handleSubmit}>
@@ -60,7 +83,7 @@ const CreateInvoiceForm = ({
                         <Field name="program">
                         {({ input, meta }) => (
                             <FormGroup>
-                            <SelectProgram />
+                            <SelectProgram showRefresh={false} selected={pId} onChange={onProgramChange} />
                                 {meta.touched && meta.error && <span className="text-danger">
                                     {/* {meta.error} */}
                                 </span>}

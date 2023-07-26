@@ -8,8 +8,9 @@ import { Modal } from 'reactstrap';
 const CreateInvoiceModal= ({program, isOpen, setOpen, toggle}) => {
 
   let props = {
-    btnLabel: 'Generate Invoice',
+    btnLabel: 'Create Invoice',
     program,
+    toggle
   }
 
   return (
@@ -32,8 +33,6 @@ const CreateInvoiceModal= ({program, isOpen, setOpen, toggle}) => {
         <div className="right">
           <CreateInvoiceForm {...props} />
         </div>
-        
-
     </Modal>
 )}
 

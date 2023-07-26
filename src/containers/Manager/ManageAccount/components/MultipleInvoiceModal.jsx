@@ -10,6 +10,7 @@ const MultipleInvoiceModal= ({program, isOpen, setOpen, toggle}) => {
   let props = {
     btnLabel: 'Create Multipe Invoices',
     program,
+    toggle
   }
 
   return (
