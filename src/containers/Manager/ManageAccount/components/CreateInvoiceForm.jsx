@@ -84,9 +84,6 @@ const CreateInvoiceForm = ({
                         {({ input, meta }) => (
                             <FormGroup>
                             <SelectProgram showRefresh={false} selected={pId} onChange={onProgramChange} />
-                                {meta.touched && meta.error && <span className="text-danger">
-                                    {/* {meta.error} */}
-                                </span>}
                             </FormGroup>
                         )}
                         </Field>

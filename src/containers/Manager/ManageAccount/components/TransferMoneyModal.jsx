@@ -2,7 +2,7 @@ import React from 'react';
 import CloseIcon from 'mdi-react/CloseIcon';
 
 import { Modal } from 'reactstrap';
-import TransferBetweenAndProgram from './TransferMoneyProgramsForm';
+import TransferMoneyForm from './TransferMoneyForm';
 // const AddEventImg = `/img/pages/addEvent.png`;
 
 const TransferMoneyModal= ({program, isOpen, setOpen, toggle}) => {
@@ -10,6 +10,7 @@ const TransferMoneyModal= ({program, isOpen, setOpen, toggle}) => {
   let props = {
     btnLabel: 'Transfer',
     program,
+    toggle
   }
 
   return (
@@ -30,10 +31,8 @@ const TransferMoneyModal= ({program, isOpen, setOpen, toggle}) => {
         </div>
 
         <div className="right">
-          <TransferBetweenAndProgram {...props} />
+          <TransferMoneyForm {...props} />
         </div>
-        
-
     </Modal>
 )}
 

@@ -80,8 +80,6 @@ import ParticipantStatus from "../Manager/Report/components/ParticipantStatus";
 import QuarterlyAward from "../Manager/Report/components/QuarterlyAward";
 import MainWrapper from "./MainWrapper";
 import ManageAccount from "../Manager/ManageAccount/index";
-import TransferBetweenAndProgram from "../Manager/ManageAccount/components/TransferMoneyProgramsForm";
-import MultipleInvoiceModal from "../Manager/ManageAccount/components/MultipleInvoiceModal";
 // import { Train } from "@material-ui/icons";
 
 // const Accounts = () => (
@@ -155,10 +153,7 @@ const RouteIndex = () => (
           <Route path="program-settings" element={<ProgramSettings />} />
           <Route path="manage-and-reward" element={<ManageAndReward />} />
           <Route path="invite-participant" element={<InviteParticipant />} />
-          <Route path="manage-account" element={<ManageAccount/>}>
-            <Route path="transfer-money" element={<TransferBetweenAndProgram/>}/>
-           
-          </Route>
+          <Route path="manage-account" element={<ManageAccount/>} />
           <Route path="referral" element={<Referral />} />
           <Route path="team" element={<Team />} />
           <Route path="my-account" element={<ManagerAccountIndex />} />

@@ -32,14 +32,10 @@ const SelectProgram = ({ auth, program, rootProgram, showRefresh = true, onChang
       onChange(e);
       return;
     }
-    // console.log(e.target.value)
-    // // store.dispatch(setStoreProgram(e.target.value))
     getProgram(auth.organization_id, e.target.value).then((p) => {
       setAuthProgram(p);
-      // console.log(getAuthProgram())
       window.location.reload();
     });
-    // store.dispatch(setStoreProgram(getAuthProgram()))
   };
   if (!auth || !program) return t("loading");
   // console.log(program)

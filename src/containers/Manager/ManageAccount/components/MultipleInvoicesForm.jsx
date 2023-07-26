@@ -20,6 +20,8 @@ const MultipleInvoiceForm = ({
   program,
   btnLabel = "Create Multipe Invoices",
 }) => {
+
+  // console.log(rootProgram)
   
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -119,35 +121,37 @@ const BuildProgramOptions = ({programs, depth = 0}) => {
               <Row>
                 <Col md="4">{p.name}</Col>
                 <Col md="4">
-                <Field name={`amount[${p.id}]`}>
-                {({ input, meta }) => (
-                  <FormGroup>
-                    <Input
-                      placeholder="$"
-                      type="text"
-                      {...input}
-                    />
-                    {meta.touched && meta.error && (
-                      <span className="text-danger">{meta.error}</span>
-                    )}
-                  </FormGroup>
-                )}
-              </Field></Col>
-              <Col md="4">
-                <Field name={`amount_confirmation[${p.id}]`}>
-                {({ input, meta }) => (
-                  <FormGroup>
-                    <Input
-                      placeholder="$"
-                      type="text"
-                      {...input}
-                    />
-                    {meta.touched && meta.error && (
-                      <span className="text-danger">{meta.error}</span>
-                    )}
-                  </FormGroup>
-                )}
-              </Field></Col>
+                  <Field name={`amount[${p.id}]`}>
+                  {({ input, meta }) => (
+                    <FormGroup>
+                      <Input
+                        placeholder="$"
+                        type="text"
+                        {...input}
+                      />
+                      {meta.touched && meta.error && (
+                        <span className="text-danger">{meta.error}</span>
+                      )}
+                    </FormGroup>
+                  )}
+                  </Field>
+                </Col>
+                <Col md="4">
+                  <Field name={`amount_confirmation[${p.id}]`}>
+                  {({ input, meta }) => (
+                    <FormGroup>
+                      <Input
+                        placeholder="$"
+                        type="text"
+                        {...input}
+                      />
+                      {meta.touched && meta.error && (
+                        <span className="text-danger">{meta.error}</span>
+                      )}
+                    </FormGroup>
+                  )}
+                  </Field>
+                </Col>
               </Row>
             </div>)
             if( p?.children && p.children.length > 0)   {
@@ -174,9 +178,6 @@ const validate = (values) => {
       }
     }
   });
-  // errors['amount'][4] = "error"
-  // errors['amount'][3] = "error"
-  // errors['amount'][5] = "error"
   return errors;
 };
 
