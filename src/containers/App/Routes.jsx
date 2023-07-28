@@ -153,7 +153,7 @@ const RouteIndex = () => (
           <Route path="program-settings" element={<ProgramSettings />} />
           <Route path="manage-and-reward" element={<ManageAndReward />} />
           <Route path="invite-participant" element={<InviteParticipant />} />
-          <Route path="manage-account" element={<ManageAccount/>} />
+          <Route path="manage-account" element={<ManageAccount/>}/>
           <Route path="referral" element={<Referral />} />
           <Route path="team" element={<Team />} />
           <Route path="my-account" element={<ManagerAccountIndex />} />
