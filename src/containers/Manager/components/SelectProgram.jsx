@@ -9,7 +9,7 @@ import { getProgramTree } from "@/services/program/getProgramTree";
 import { BuildProgramOptions, cacheProgramTree, getCachedProgramTree } from "@/shared/helpers";
 import { useTranslation } from "react-i18next";
 
-const SelectProgram = ({ auth, program, rootProgram, showRefresh = true, onChange, selected = null }) => {
+const SelectProgram = ({ auth, program, rootProgram, showRefresh = true, hideLabel=false, onChange, selected = null }) => {
   const { t } = useTranslation();
   useEffect(() => {
     const cachedTree = getCachedProgramTree()
@@ -47,7 +47,7 @@ const SelectProgram = ({ auth, program, rootProgram, showRefresh = true, onChang
   }
   return (
     <>
-      <span>For&nbsp;Program:</span>
+      {!hideLabel && <span>For&nbsp;Program:</span>}
       <div className="mb-0">
         <Input
           type="select"

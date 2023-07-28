@@ -20,12 +20,9 @@ const TransferMoneyModal= ({program, isOpen, setOpen, toggle}) => {
           <CloseIcon onClick={toggle} size={30}/>
         </div>
       
-        <div className="left">
+        <div className="left" style={{width:'30%'}}>
           <div className='title mb-5'>
             <h3>Transfer Money</h3>
-            {/*<span>*/}
-            {/*  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.*/}
-            {/*</span>*/}
           </div>
           {/*<img src={AddEventImg}/>*/}
         </div>

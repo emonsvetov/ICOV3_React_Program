@@ -22,3 +22,21 @@ export const postTransferMonies = async (organizationId, programId, data) => {
         throw new Error(`API error:${e?.message}`);
     }
 };
+
+export const downloadTransferTemplate = async(organizationId, programId) => {
+    try {
+        const response = await axios.get(
+            `/organization/${organizationId}/program/${programId}/transferMonies/template`, 
+            {
+                responseType: 'arraybuffer',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/pdf'
+                }
+            }
+        )
+        return response;
+    } catch (e) {
+      throw new Error(`API error:${e?.message}`);
+    }
+  }

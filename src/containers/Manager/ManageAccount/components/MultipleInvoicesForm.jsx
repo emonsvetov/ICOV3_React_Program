@@ -18,7 +18,7 @@ const MultipleInvoiceForm = ({
   toggle,
   auth,
   program,
-  btnLabel = "Create Multipe Invoices",
+  btnLabel = "Create Multiple Invoices",
 }) => {
 
   // console.log(rootProgram)

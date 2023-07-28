@@ -23,14 +23,13 @@ const CreateInvoiceModal= ({program, isOpen, setOpen, toggle}) => {
         <div className="left">
           <div className='title mb-5'>
             <h3>Fund Your Account</h3>
-            {/*<span>*/}
             <p>Please enter the amount you wish to deposit. You will then be presented with an invoice that you can download as a .pdf and print. Once we receive the payment via check or ACH transfer, your account with be updated with the new balance..</p>
-            {/*</span>*/}
           </div>
           {/*<img src={AddEventImg}/>*/}
         </div>
 
         <div className="right">
+          <h5>Request an Invoice & Send Payment</h5>
           <CreateInvoiceForm {...props} />
         </div>
     </Modal>

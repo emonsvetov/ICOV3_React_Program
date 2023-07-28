@@ -42,7 +42,7 @@ const TransferMoniesConfirm = ({programs, amounts, action, isOpen, setOpen, togg
           <Button className='btn btn-lg float-end' close onClick={toggle}/>
         </CardHeader>
         <CardBody className='text-left'>
-          <p>Are you sure you to transfer?</p>
+          <p>Are you sure to transfer?</p>
           <RenderProgramAmounts key={'key-renderprogram-amounts'} />
           <div className='d-flex justify-content-end mt-3'>
             <Button color='primary' type='submit' onClick={action}>Ok</Button>&nbsp;

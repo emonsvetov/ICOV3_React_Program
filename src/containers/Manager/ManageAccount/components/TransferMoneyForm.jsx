@@ -1,7 +1,6 @@
 import { Input, Col, Row, FormGroup} from "reactstrap";
 import { Form, Field } from "react-final-form";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { connect } from "react-redux";
 
 import {
@@ -13,6 +12,7 @@ import TemplateButton from "@/shared/components/TemplateButton";
 import SelectProgram from "../../components/SelectProgram";
 import { getTransferMonies, postTransferMonies } from "@/services/program/transferMonies";
 import TransferMoniesConfirm from './TransferMoniesConfirm';
+import MoneyTransferTemplate from './MoneyTransferTemplate';
 import { isEmpty } from "@/shared/helpers";
 
 const TransferMoneyForm = ({
@@ -22,13 +22,15 @@ const TransferMoneyForm = ({
   btnLabel = "Transfer Money",
 }) => {
 
+  const dispatch = useDispatch();
+
   const toggle = () => {
     setOpen(prev => !prev)
   }
 
   const [isOpen, setOpen] = useState(false);
 
-  const dispatch = useDispatch();
+  
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [amounts, setAmounts] = useState( null );
@@ -39,6 +41,8 @@ const TransferMoneyForm = ({
     console.log("On program change")
     setpId(e.target.value);
   }
+
+  const orgId = data?.program?.organization_id ? data.program.organization_id : (program?.organization_id ? program.organization_id : null);
 
   useEffect(() => {
     if (rootProgram && rootProgram?.id && pId) {
@@ -72,7 +76,6 @@ const TransferMoneyForm = ({
       // console.log(pId);
       // console.log(amountData);
       // console.log(data);
-      const orgId = data?.program?.organization_id ? data.program.organization_id : program.organization_id;
       // console.log(orgId)
       // console.log(pId)
       // return;
@@ -167,6 +170,10 @@ const TransferMoneyForm = ({
   }
   if( !data ) return 'Loading...'
 
+  const mtProps = {
+    pId, orgId
+  }
+
   return (
     <>
       <Form
@@ -181,11 +188,13 @@ const TransferMoneyForm = ({
             onSubmit={handleSubmit}
           >
             <FormGroup>
-              <SelectProgram showRefresh={false} selected={pId} onChange={onProgramChange} />
+              <label className="text-bold">1. Select Program to transfer money from:</label>
+              <SelectProgram hideLabel={true} showRefresh={false} selected={pId} onChange={onProgramChange} />
               <h6 className="my-2">Available Balance: ${parseFloat(data.balance).toFixed(2)}</h6>
             </FormGroup>
             {(parseFloat(data.balance) > 0) && 
             <>
+              <label className="text-bold">2. Enter the amount to transfer to each Program</label>
               <Row>
                 <Col md="6"><span>Program</span></Col>
                 <Col md="6"><span> Amount to transfer</span></Col>
@@ -209,6 +218,10 @@ const TransferMoneyForm = ({
                 <TemplateButton disabled={loading} type="submit" text={btnLabel} />
               </div>
             </>}
+
+            <h5>- OR -</h5>
+
+            <MoneyTransferTemplate {...mtProps} />
           </form>
           
         )}
