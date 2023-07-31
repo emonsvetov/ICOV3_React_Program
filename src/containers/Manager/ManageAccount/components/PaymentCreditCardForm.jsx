@@ -34,7 +34,7 @@ const PaymentCreditCardForm = ({
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [amounts, setAmounts] = useState( null );
-const [Response, setReponse]=useState()
+
   const [pId, setpId] = useState(program.id);
 
   const onProgramChange = (e) => {
@@ -87,7 +87,7 @@ const [Response, setReponse]=useState()
                   // console.log(newData)
                   setData(newData)
                   setAmounts(null)
-                  setReponse(response.success)
+                
                   toggle()
                   parentToggle()
               }
@@ -97,7 +97,7 @@ const [Response, setReponse]=useState()
               console.log(error)
               flashError(dispatch, error)
               setLoading(false)
-              setReponse(error)
+              
           })
       }
   }
