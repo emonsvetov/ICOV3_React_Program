@@ -14,6 +14,7 @@ import { getTransferMonies, postTransferMonies } from "@/services/program/transf
 import { isEmpty } from "@/shared/helpers";
 import PaymentCreditCardStep_1 from "./PaymentCreditCardStep1Form";
 
+
 const PaymentCreditCardForm = ({
   toggle:parentToggle,
   program,
@@ -33,7 +34,7 @@ const PaymentCreditCardForm = ({
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [amounts, setAmounts] = useState( null );
-
+const [Response, setReponse]=useState()
   const [pId, setpId] = useState(program.id);
 
   const onProgramChange = (e) => {
@@ -86,6 +87,7 @@ const PaymentCreditCardForm = ({
                   // console.log(newData)
                   setData(newData)
                   setAmounts(null)
+                  setReponse(response.success)
                   toggle()
                   parentToggle()
               }
@@ -95,6 +97,7 @@ const PaymentCreditCardForm = ({
               console.log(error)
               flashError(dispatch, error)
               setLoading(false)
+              setReponse(error)
           })
       }
   }
@@ -125,8 +128,7 @@ const PaymentCreditCardForm = ({
         }
       }
     }
-    // console.log(total)
-    // console.log(data.balance)
+   
     if( !total )  {
       errors['amount'] = 'Enter number only ' 
     }
@@ -185,6 +187,7 @@ const PaymentCreditCardForm = ({
         )}
       </Form>
       <PaymentCreditCardStep_1  amounts={amounts} action={onClickAddMoney} isOpen={isOpen} setOpen={setOpen} toggle={toggle} />
+ 
     </>
   );
 };

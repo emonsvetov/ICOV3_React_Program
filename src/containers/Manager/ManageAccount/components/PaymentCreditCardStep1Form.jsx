@@ -23,9 +23,6 @@ const PaymentCreditCardStep_1 = ({programs, amounts, action, isOpen, setOpen, to
   const depositPercentage = 0.02;
   const conveniencePercentage = 0.03;
 
- 
-
- 
   const RenderProgramAmounts = () => {
     let html = []
     for (const [key, amount] of Object.entries(amounts)) {
