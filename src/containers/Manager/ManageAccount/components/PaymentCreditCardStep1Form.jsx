@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {
   Modal,
   Button,
@@ -10,18 +10,28 @@ import {
 
 const PaymentCreditCardStep_1 = ({programs, amounts, action, isOpen, setOpen, toggle}) => {
 
-  const getProgramName = (key) => {
-    // const programId = key.replace("amounts_", "")
-    // return programs.map( program => {
-    //   if(program.id == programId) {
-    //     return program.name
-    //   }
-    // })
-  }
+  // const getProgramName = (key) => {
+  //   // const programId = key.replace("amounts_", "")
+  //   // return programs.map( program => {
+  //   //   if(program.id == programId) {
+  //   //     return program.name
+  //   //   }
+  //   // })
+  // }
+  
+ 
+  const depositPercentage = 0.02;
+  const conveniencePercentage = 0.03;
 
+ 
+
+ 
   const RenderProgramAmounts = () => {
     let html = []
     for (const [key, amount] of Object.entries(amounts)) {
+      const depositFeeAmount = amount * depositPercentage;
+      const convenienceFeeAmount = amount * conveniencePercentage;
+      const totalAmount = parseFloat(amount) + depositFeeAmount + convenienceFeeAmount;
       if( amount !== "" ) {
         if( !isNaN(amount) ) {
           html.push(
@@ -42,7 +52,7 @@ const PaymentCreditCardStep_1 = ({programs, amounts, action, isOpen, setOpen, to
       Deposit Fee	
       </th>
       <td>
-      $ 0
+      $ {depositFeeAmount.toFixed(2)}
       </td>
       
     </tr>
@@ -51,7 +61,7 @@ const PaymentCreditCardStep_1 = ({programs, amounts, action, isOpen, setOpen, to
       Convenience Fee	
       </th>
       <td>
-      $ 0
+      $ {convenienceFeeAmount.toFixed(2)}
       </td>
       
     </tr>
@@ -60,7 +70,8 @@ const PaymentCreditCardStep_1 = ({programs, amounts, action, isOpen, setOpen, to
       Total that will be charged to your card
       </th>
       <td>
-      <strong>${parseFloat(amount).toFixed(2)}</strong>
+        
+      <strong>${totalAmount.toFixed(2)}</strong>
       </td>
       
     </tr>

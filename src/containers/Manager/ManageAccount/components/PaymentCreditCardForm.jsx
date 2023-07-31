@@ -14,7 +14,7 @@ import { getTransferMonies, postTransferMonies } from "@/services/program/transf
 import { isEmpty } from "@/shared/helpers";
 import PaymentCreditCardStep_1 from "./PaymentCreditCardStep1Form";
 
-const TransferMoneyForm = ({
+const PaymentCreditCardForm = ({
   toggle:parentToggle,
   program,
   rootProgram,
@@ -58,7 +58,7 @@ const TransferMoneyForm = ({
     }
   }, [rootProgram, pId]);
 
-  const onConfirmTransferMonies = () => {
+  const onClickAddMoney = () => {
       if( isEmpty(amounts) ) {
         console.log("Empty amount");
         return;
@@ -72,13 +72,6 @@ const TransferMoneyForm = ({
               }
           }
       }
-      // console.log(pId);
-      // console.log(amountData);
-      // console.log(data);
-      // console.log(orgId)
-      // console.log(pId)
-      // return;
-      // console.log(Object.keys(data).length)
       if(Object.keys(amountData).length > 0) {
           const formData = {
               "amounts": amountData
@@ -88,7 +81,7 @@ const TransferMoneyForm = ({
               // console.log(response)
               // setData(response);
               if( response.success )  {
-                  flashSuccess(dispatch, "Monies Transfer Completed")
+                  flashSuccess(dispatch, `Money Add to your Program ${amountData}`)
                   const newData = {...data, ...{balance: response.balance}}
                   // console.log(newData)
                   setData(newData)
@@ -134,8 +127,8 @@ const TransferMoneyForm = ({
     }
     // console.log(total)
     // console.log(data.balance)
-    if( total > data.balance)  {
-      errors['amount'] = 'Total exceeds program balance $' + parseFloat(data.balance).toFixed(2)
+    if( !total )  {
+      errors['amount'] = 'Enter number only ' 
     }
     return errors;
   }
@@ -150,7 +143,7 @@ const TransferMoneyForm = ({
       <Form
         onSubmit={onClickTransferMonies}
         validate={validate}
-        initialValues={amounts}
+        // initialValues={amounts}
         keepDirtyOnReinitialize
       >
         {({ handleSubmit, form, submitting, pristine, values }) => (
@@ -191,7 +184,7 @@ const TransferMoneyForm = ({
           
         )}
       </Form>
-      <PaymentCreditCardStep_1  amounts={amounts} action={onConfirmTransferMonies} isOpen={isOpen} setOpen={setOpen} toggle={toggle} />
+      <PaymentCreditCardStep_1  amounts={amounts} action={onClickAddMoney} isOpen={isOpen} setOpen={setOpen} toggle={toggle} />
     </>
   );
 };
@@ -202,4 +195,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(TransferMoneyForm);
+export default connect(mapStateToProps)(PaymentCreditCardForm);
