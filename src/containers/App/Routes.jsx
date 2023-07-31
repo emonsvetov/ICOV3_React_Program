@@ -81,7 +81,7 @@ import QuarterlyAward from "../Manager/Report/components/QuarterlyAward";
 import MainWrapper from "./MainWrapper";
 import ManageAccount from "../Manager/ManageAccount/index";
 import SuccessCreditAmount from "../Manager/ManageAccount/components/SuccessCreditAmount";
-import FailedCreditAmount from "../Manager/ManageAccount/components/FailedCreditAmount";
+import FailedCreditAmount from "../Manager/ManageAccount/components/failedCreditAmount";
 // import { Train } from "@material-ui/icons";
 
 // const Accounts = () => (
