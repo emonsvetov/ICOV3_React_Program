@@ -4,6 +4,7 @@ import CloseIcon from 'mdi-react/CloseIcon';
 import { Modal } from 'reactstrap';
 import PaymentCreditCardForm from './PaymentCreditCardForm';
 
+
 // const AddEventImg = `/img/pages/addEvent.png`;
 
 const PaymentCreditCardModal= ({program, isOpen, setOpen, toggle}) => {
@@ -22,6 +23,7 @@ const PaymentCreditCardModal= ({program, isOpen, setOpen, toggle}) => {
       
         <div className="left">
           <div className='title mb-5'>
+            {/* <Link /> */}
             <h3>Credit Card Payment</h3>
             <span>
             Complete the credit card transaction process by entering the amount of money you wish to add to your account. Your account will be credited for the amount requested as soon as the credit card processor verifies the payment.            </span>

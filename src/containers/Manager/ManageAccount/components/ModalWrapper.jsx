@@ -36,6 +36,7 @@ const MainModalWrapper = ({
       {name === "MultipleInvoices" && <MultipleInvoiceModal {...props} />}
       {name === "TransferMoney" && <TransferMoneyModal {...props} />}
       {name === "Pay" && <PaymentCreditCardModal {...props} />}
+     
     </>
   );
 };
