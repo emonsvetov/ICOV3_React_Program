@@ -19,7 +19,7 @@ const PaymentCreditCardForm = ({
   toggle:parentToggle,
   program,
   rootProgram,
-  btnLabel = "Transfer Money",
+  btnLabel = "Amount Added",
 }) => {
 
   const dispatch = useDispatch();
