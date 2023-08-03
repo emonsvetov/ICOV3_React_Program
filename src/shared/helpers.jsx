@@ -226,5 +226,8 @@ export const cacheProgramTree = (tree) => {
 }
 
 export const getCachedProgramTree = () => {
-  return localStorage.getItem(AUTH_SELECT_PROGRAM_TREE);
+  const cachedTreeStr = localStorage.getItem(AUTH_SELECT_PROGRAM_TREE);
+  if( cachedTreeStr ) {
+    return JSON.parse(cachedTreeStr)
+  }
 }

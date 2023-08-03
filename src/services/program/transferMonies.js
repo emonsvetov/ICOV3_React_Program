@@ -40,3 +40,15 @@ export const downloadTransferTemplate = async(organizationId, programId) => {
       throw new Error(`API error:${e?.message}`);
     }
   }
+
+  export const postMakeCreditCardPayment = async (organizationId, programId, data) => {
+    try {
+        const response = await axios.post(
+          `/organization/${organizationId}/program/${programId}/creditcardDeposit`,
+          data
+        );
+        return response.data;
+    } catch (e) {
+        throw new Error(`API error:${e?.message}`);
+    }
+};
