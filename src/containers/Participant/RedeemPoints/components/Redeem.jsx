@@ -12,10 +12,16 @@ import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
 
 const makeOption = (i, giftcode, factor_valuation) => {
+  let dollarValue = parseFloat(giftcode.redemption_value, 3).toFixed(2);
+  let pointsValue = giftcode.redemption_value * factor_valuation;
+  let label = `$${dollarValue} Gift Code = ${pointsValue}`;
+
+  if(process.env.REACT_APP_ENV != 'production'){
+    label += giftcode.virtual_inventory ? ' virtual' : '';
+  }
+
   return {
-    label: `$${parseFloat(giftcode.redemption_value, 3).toFixed(
-      2
-    )} Gift Code = ${giftcode.redemption_value * factor_valuation}`,
+    label: label,
     value: i++,
   };
 };
