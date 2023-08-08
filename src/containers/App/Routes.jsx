@@ -79,7 +79,7 @@ import ParticipantAccount from "../Manager/Report/components/ParticipantAccount"
 import ParticipantStatus from "../Manager/Report/components/ParticipantStatus";
 import QuarterlyAward from "../Manager/Report/components/QuarterlyAward";
 import MainWrapper from "./MainWrapper";
-import ManageAccount from "../Manager/ManageAccount/index";
+import ManageAccount from "../Manager/ManageAccount";
 import SuccessCreditAmount from "../Manager/ManageAccount/components/SuccessCreditAmount";
 import FailedCreditAmount from "../Manager/ManageAccount/components/failedCreditAmount";
 // import { Train } from "@material-ui/icons";

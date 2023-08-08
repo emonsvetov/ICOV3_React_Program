@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-
+import { useLocation, useNavigate, Outlet } from 'react-router-dom';
 import { Col, Container, Row } from "reactstrap";
 
 import SelectProgram from "../components/SelectProgram";
@@ -68,7 +68,9 @@ const ManageAccount = ({ auth, program, organization }) => {
           )}
         </div>
       </Container>
-
+      <div style={{'padding': '5px 20px'}}>
+        <Outlet />
+      </div>
       <ModalWrapper
         name={modalName}
         isOpen={isOpen}
