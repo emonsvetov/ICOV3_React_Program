@@ -156,8 +156,8 @@ const RouteIndex = () => (
           <Route path="manage-and-reward" element={<ManageAndReward />} />
           <Route path="invite-participant" element={<InviteParticipant />} />
           <Route path="manage-account" element={<ManageAccount/>}>
-            <Route path="success-payment" element={<SuccessCreditAmount/>}/>
-            <Route path="error-payment" element={<FailedCreditAmount/>}/>
+            <Route path="payment-success" element={<SuccessCreditAmount/>}/>
+            <Route path="payment-error" element={<FailedCreditAmount/>}/>
           </Route>
           <Route path="referral" element={<Referral />} />
           <Route path="team" element={<Team />} />

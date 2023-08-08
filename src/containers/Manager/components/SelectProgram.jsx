@@ -9,12 +9,12 @@ import { getProgramTree } from "@/services/program/getProgramTree";
 import { BuildProgramOptions, cacheProgramTree, getCachedProgramTree } from "@/shared/helpers";
 import { useTranslation } from "react-i18next";
 
-const SelectProgram = ({ auth, program, rootProgram, showRefresh = true, hideLabel=false, onChange, selected = null }) => {
+const SelectProgram = ({ auth, program, rootProgram, showRefresh = true, onChange, selected = null, label = 'For Program' }) => {
   const { t } = useTranslation();
   useEffect(() => {
     const cachedTree = getCachedProgramTree()
     if( cachedTree ) {
-      setOptions(JSON.parse(cachedTree));
+      setOptions(cachedTree);
     } else {
       if (rootProgram && rootProgram?.id) {
         getProgramTree(auth.organization_id, rootProgram.id).then((p) => {
@@ -47,15 +47,15 @@ const SelectProgram = ({ auth, program, rootProgram, showRefresh = true, hideLab
   }
   return (
     <>
-      {!hideLabel && <span>For&nbsp;Program:</span>}
-      <div className="mb-0">
-        <Input
-          type="select"
-          value={selected ? selected : program.id}
-          name="program"
-          id="program-select"
-          onChange={onProgramChange}
-        >
+      {label && <span className="form__form-group-label">{label}:</span>}
+      <div className="form__form-group-field">
+          <Input
+            type="select"
+            value={selected ? selected : program.id}
+            name="program"
+            id="program-select"
+            onChange={onProgramChange}
+          >
           <BuildProgramOptions programs={options} />
         </Input>
       </div>

@@ -13,7 +13,7 @@ export const getProgramTree = async(organizationId, programId) => {
 export const getSetProgramTree = async (hydrate = false, organizationId = null, rootProgramId = null) => {
     const cachedTree = getCachedProgramTree()
     if( cachedTree && !hydrate ) {
-        return JSON.parse(cachedTree);
+        return cachedTree;
     } else {
         if( !organizationId  || !rootProgramId ) {
             throw ("organizationId and rootProgramId are required")

@@ -189,7 +189,7 @@ const TransferMoneyForm = ({
           >
             <FormGroup>
               <label className="text-bold">1. Select Program to transfer money from:</label>
-              <SelectProgram hideLabel={true} showRefresh={false} selected={pId} onChange={onProgramChange} />
+              <SelectProgram label={false} showRefresh={false} selected={pId} onChange={onProgramChange} />
               <h6 className="my-2">Available Balance: ${parseFloat(data.balance).toFixed(2)}</h6>
             </FormGroup>
             {(parseFloat(data.balance) > 0) && 
