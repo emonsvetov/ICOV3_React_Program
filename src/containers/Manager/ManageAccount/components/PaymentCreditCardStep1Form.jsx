@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios'
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Modal,
   Button,
@@ -10,93 +9,16 @@ import {
 } from 'reactstrap';
 
 import { getCachedProgramTree } from "@/shared/helpers";
+import { creditcardDepositRequest } from "@/services/program/transferMonies";
+import{flashError, useDispatch} from '@/shared/components/flash'
 
 
-const PaymentCreditCardStep_1 = ({amount, action, isOpen, toggle, pId}) => {
-
+const PaymentCreditCardStep_1 = ({amount, isOpen, toggle, pId, orgId}) => {
+  const dispatch = useDispatch()
+  const formEl = useRef();
+  const [loading, setLoading] = useState(false)
+  const [token, setToken] = useState(null)
   const [program, setProgram] = useState(null)
-
-  const depositPercentage = 0.02;
-  const conveniencePercentage = 0.03;
-
-  const btnAction = async() => {
-    const paymentData = {
-      "getHostedPaymentPageRequest": {
-        "merchantAuthentication": {
-          "name": "5KP3u95bQpv",
-          "transactionKey": "346HZ32z3fP4hTG2"
-        },
-        "transactionRequest": {
-          "transactionType": "authCaptureTransaction",
-          "amount": "20.00",
-          "profile": {
-            "customerProfileId": "123456789"
-          },
-          "customer": {
-            "email": "ellen@mail.com"
-          },
-          "billTo": {
-            "firstName": "Ellen",
-            "lastName": "Johnson",
-            "company": "Souveniropolis",
-            "address": "14 Main Street",
-            "city": "Pecan Springs",
-            "state": "TX",
-            "zip": "44628",
-            "country": "US"
-          }
-        },
-        "hostedPaymentSettings": {
-          "setting": [{
-            "settingName": "hostedPaymentReturnOptions",
-            "settingValue": "{\"showReceipt\": true, \"url\": \"https://mysite.com/receipt\", \"urlText\": \"Continue\", \"cancelUrl\": \"https://mysite.com/cancel\", \"cancelUrlText\": \"Cancel\"}"
-          }, {
-            "settingName": "hostedPaymentButtonOptions",
-            "settingValue": "{\"text\": \"Pay\"}"
-          }, {
-            "settingName": "hostedPaymentStyleOptions",
-            "settingValue": "{\"bgColor\": \"blue\"}"
-          }, {
-            "settingName": "hostedPaymentPaymentOptions",
-            "settingValue": "{\"cardCodeRequired\": false, \"showCreditCard\": true, \"showBankAccount\": true}"
-          }, {
-            "settingName": "hostedPaymentSecurityOptions",
-            "settingValue": "{\"captcha\": false}"
-          }, {
-            "settingName": "hostedPaymentShippingAddressOptions",
-            "settingValue": "{\"show\": false, \"required\": false}"
-          }, {
-            "settingName": "hostedPaymentBillingAddressOptions",
-            "settingValue": "{\"show\": true, \"required\": false}"
-          }, {
-            "settingName": "hostedPaymentCustomerOptions",
-            "settingValue": "{\"showEmail\": false, \"requiredEmail\": false, \"addPaymentProfile\": true}"
-          }, {
-            "settingName": "hostedPaymentOrderOptions",
-            "settingValue": "{\"show\": true, \"merchantName\": \"G and S Questions Inc.\"}"
-          }, {
-            "settingName": "hostedPaymentIFrameCommunicatorUrl",
-            "settingValue": "{\"url\": \"https://mysite.com/special\"}"
-          }]
-        }
-      }
-    }
-
-    try {
-      const response = await axios.post(
-        `https://test.authorize.net/payment/payment`,
-        paymentData, {
-          headers: {
-            "Access-Control-Allow-Origin": "*"
-          }
-        }
-      );
-      console.log(response)
-      // return response.data;
-    } catch (e) {
-        throw new Error(`API error:${e?.message}`);
-    }
-  }
 
   const getProgramFromTree = (pId, pTree) => {
     if( pTree && pTree.length > 0 ) {
@@ -123,8 +45,6 @@ const PaymentCreditCardStep_1 = ({amount, action, isOpen, toggle, pId}) => {
     return v_fee_amount;
   }
 
-
-
   useEffect( () => {
     if( pId ) {
       const pTree = getCachedProgramTree();
@@ -134,13 +54,37 @@ const PaymentCreditCardStep_1 = ({amount, action, isOpen, toggle, pId}) => {
     }
   }, [pId])
 
+  const onClickMakePayment = () => {
+    const formData = {
+        "amount": amount,
+        "payment_kind": "creditcard",
+    }
+    creditcardDepositRequest(orgId, pId, formData)
+    .then( response => {
+        console.log(response)
+        if( response.status === 'ok') {
+          setToken(response.token)
+          setTimeout(()=>formEl.current.submit(), 300)
+          // setLoading(false)
+        } else {
+          flashError(dispatch, response.error)
+          setLoading(false)
+        }
+    })
+    .catch( error => {
+        console.log(error)
+        flashError(dispatch, error)
+        setLoading(false)
+        
+    })
+  }
+
   if( !program || !amount ) return null
 
   const depositFeeAmount = computeFee(amount, 'deposit_fee')
   const convenienceFeeAmount = computeFee(amount, 'convenience_fee')
 
   // console.log(program)
-
   // console.log(depositFeeAmount)
   // console.log(convenienceFeeAmount)
 
@@ -176,9 +120,12 @@ const PaymentCreditCardStep_1 = ({amount, action, isOpen, toggle, pId}) => {
           </tbody>
         </Table>
         <div className='d-flex justify-content-end mt-3'>
-          <Button color='primary' type='submit' onClick={btnAction}>Continue to Make Payment using Authorize.Net</Button>&nbsp;
-          <Button color='danger' type='submit' onClick={toggle}>No</Button>
+          <Button color='primary' disabled={loading} type='submit' onClick={onClickMakePayment}>Continue to Make Payment using Authorize.Net</Button>&nbsp;
+          <Button color='danger' disabled={loading} type='submit' onClick={toggle}>No</Button>
         </div>
+        <form name="form" ref={formEl} id="x1" method="POST" action="https://test.authorize.net/payment/payment" target="_top">
+          <input type="hidden" value={token} name="token" />
+        </form>
         </CardBody>
       </Card>
     </Modal>

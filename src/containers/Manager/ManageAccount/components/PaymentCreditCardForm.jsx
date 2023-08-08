@@ -10,29 +10,20 @@ import {
 } from "@/shared/components/flash";
 import TemplateButton from "@/shared/components/TemplateButton";
 import SelectProgram from "../../components/SelectProgram";
-import { postMakeCreditCardPayment } from "@/services/program/transferMonies";
 import { isEmpty } from "@/shared/helpers";
 import PaymentCreditCardStep_1 from "./PaymentCreditCardStep1Form";
 
 
 const PaymentCreditCardForm = ({
-  toggle:parentToggle,
+  toggle: parentToggle,
   program,
-  rootProgram,
   btnLabel,
 }) => {
-
-  const dispatch = useDispatch();
-
   const toggle = () => {
     setOpen(prev => !prev)
   }
 
   const [isOpen, setOpen] = useState(false);
-
-  
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(null);
   const [amount, setAmount] = useState( null );
 
   const [pId, setpId] = useState(program.id);
@@ -42,36 +33,8 @@ const PaymentCreditCardForm = ({
   }
 
   const orgId = program?.organization_id ? program.organization_id : null;
-
-  const onClickMakePayment = () => {
-    const formData = {
-        "amount": amount,
-        "payment_kind": "creditcard",
-    }
-    postMakeCreditCardPayment(orgId, pId, formData)
-    .then( response => {
-        console.log(response)
-        // setData(response);
-        if( response.success )  {
-            // flashSuccess(dispatch, `Money Add to your Program`)
-            // const newData = {...data, ...{balance: response.balance}}
-            // // console.log(newData)
-            // setData(newData)
-            // setAmount(null)
-            // toggle()
-            // parentToggle()
-        }
-        setLoading(false)
-    })
-    .catch( error => {
-        console.log(error)
-        flashError(dispatch, error)
-        setLoading(false)
-        
-    })
-  }
   const onClickTransferMonies = values => {
-    // console.log(values)
+    console.log(values)
     if( !isEmpty(values) )    {
       setAmount(values.amount)
       toggle()
@@ -89,12 +52,8 @@ const PaymentCreditCardForm = ({
   }
   if( !orgId ) return 'Loading...'
 
-  const mtProps = {
-    pId, orgId
-  }
-
   const step2props = {
-    amount, action: onClickMakePayment, isOpen, setOpen, toggle, pId
+    amount, isOpen, setOpen, toggle, pId, orgId
   }
 
   // console.log(step2props)
@@ -132,7 +91,7 @@ const PaymentCreditCardForm = ({
               )}
             </Field>
             <div className="d-flex justify-content-end">
-              <TemplateButton disabled={loading} type="submit" text={btnLabel} />
+              <TemplateButton type="submit" text={btnLabel} />
             </div>
           </form>
         )}
