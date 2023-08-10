@@ -90,14 +90,16 @@ const ManageAccount = ({ auth, program, organization }) => {
         </div>
       </Container>
 
-      <SuccessCreditAmount message={message} isOpen={isPaymentModelOpen}/>
+      <SuccessCreditAmount
+        message={message}
+        isOpen={isPaymentModelOpen}
+        setPaymentModelOpen={setPaymentModelOpen}
+      />
 
       <div style={{ padding: "5px 20px" }}></div>
       <ModalWrapper
         name={modalName}
-        isOpen={isOpen}
-        setOpen={setOpen}
-        toggle={toggle}
+        isOpen={isPaymentModelOpen}
       />
     </div>
   );

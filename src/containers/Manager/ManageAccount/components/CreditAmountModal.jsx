@@ -1,5 +1,5 @@
-import React from "react";
-import { Modal } from "reactstrap";
+import React, { useState } from "react";
+import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 import CloseIcon from "mdi-react/CloseIcon";
@@ -7,38 +7,29 @@ import CloseIcon from "mdi-react/CloseIcon";
 const SuccessCreditAmount = ({
   template,
   isOpen,
-  setOpen,
-  toggle,
+  setPaymentModelOpen,
   message,
 }) => {
-  // const queryParams = new URLSearchParams(window.location.search);
-  // const status = queryParams.get("ccdepositStatus");
+  const [modal, setModal] = useState(false);
 
   const { t } = useTranslation();
   if (!template) return t("loading");
   const IncentcoLogo = `${process.env.REACT_APP_API_STORAGE_URL}/${template.big_logo}`;
-
+  const color = message.label === "Error" ? "red" : "green";
   return (
     <>
-      <Modal
-        className={`program-settings modal-2col modal-lg`}
-        isOpen={isOpen}
-        toggle={() => setOpen(true)}
-      >
-        <div className="close cursor-pointer">
-          <CloseIcon onClick={toggle} size={30} />
-        </div>
-        <div className="login-form-wrap flex-column align-items-center pt-4">
+      <Modal isOpen={isOpen}>
+        <ModalHeader className="d-flex justify-content-center">
           <img src={IncentcoLogo} className="img__logo_sm" alt="logo" />
-          <div className="card mt-4">
-            <div className="card-header">{message.label}</div>
-            <div className="card-body">
-              <p className="pb-4">{message.message}</p>
-              <div className="d-flex justify-content-between">
-                {/* <TemplateButton link="/login" text="Sign in" /> */}
-              </div>
-            </div>
-          </div>
+        </ModalHeader>
+        <ModalHeader style={{ color }} >
+          {message.label === "Error" ? "Error occurred" : "Success"}
+         
+        </ModalHeader>
+        <ModalBody> {message.message}</ModalBody>
+
+        <div className="close cursor-pointer">
+          <CloseIcon onClick={() => setPaymentModelOpen(false)} size={30} />
         </div>
       </Modal>
     </>
