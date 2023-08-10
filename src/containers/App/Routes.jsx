@@ -80,6 +80,7 @@ import ParticipantStatus from "../Manager/Report/components/ParticipantStatus";
 import QuarterlyAward from "../Manager/Report/components/QuarterlyAward";
 import MainWrapper from "./MainWrapper";
 import ManageAccount from "../Manager/ManageAccount";
+import PageNotFound from "./404Error/PageNotFound";
 // import { Train } from "@material-ui/icons";
 
 // const Accounts = () => (
@@ -195,6 +196,7 @@ const RouteIndex = () => (
           </Route>
         </Route>
       </Route>
+      <Route path="*" element={<PageNotFound/>}/>
     </Routes>
   </MainWrapper>
 );
