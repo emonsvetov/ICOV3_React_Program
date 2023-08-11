@@ -58,14 +58,16 @@ const PaymentCreditCardStep_1 = ({amount, isOpen, toggle, pId, orgId}) => {
     const formData = {
         "amount": amount,
         "payment_kind": "creditcard",
+        "request_type": "init",
     }
     creditcardDepositRequest(orgId, pId, formData)
     .then( response => {
         console.log(response)
         if( response.status === 'ok') {
           setToken(response.token)
-          setTimeout(()=>formEl.current.submit(), 300)
-          // setLoading(false)
+          localStorage.setItem('ccdepositHash', response.hash)
+          setTimeout(()=>formEl.current.submit(), 1000)
+          setLoading(false)
         } else {
           flashError(dispatch, response.error)
           setLoading(false)
@@ -123,7 +125,7 @@ const PaymentCreditCardStep_1 = ({amount, isOpen, toggle, pId, orgId}) => {
           <Button color='primary' disabled={loading} type='submit' onClick={onClickMakePayment}>Continue to Make Payment using Authorize.Net</Button>&nbsp;
           <Button color='danger' disabled={loading} type='submit' onClick={toggle}>No</Button>
         </div>
-        <form name="form" ref={formEl} id="x1" method="POST" action="https://test.authorize.net/payment/payment" target="_top">
+        <form ref={formEl} method="POST" action="https://test.authorize.net/payment/payment" target="_top">
           <input type="hidden" value={token} name="token" />
         </form>
         </CardBody>
