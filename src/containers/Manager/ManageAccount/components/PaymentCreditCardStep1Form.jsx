@@ -9,7 +9,7 @@ import {
 } from 'reactstrap';
 
 import { getCachedProgramTree } from "@/shared/helpers";
-import { creditcardDepositRequest } from "@/services/program/transferMonies";
+import { initCcdeposit } from "@/services/program/transferMonies";
 import{flashError, useDispatch} from '@/shared/components/flash'
 
 
@@ -56,16 +56,17 @@ const PaymentCreditCardStep_1 = ({amount, isOpen, toggle, pId, orgId}) => {
 
   const onClickMakePayment = () => {
     const formData = {
-        "amount": amount,
-        "payment_kind": "creditcard",
-        "request_type": "init",
+        amount
     }
-    creditcardDepositRequest(orgId, pId, formData)
+    initCcdeposit(orgId, pId, formData)
     .then( response => {
-        console.log(response)
+        // console.log(response)
         if( response.status === 'ok') {
           setToken(response.token)
-          localStorage.setItem('ccdepositHash', response.hash)
+          const depositObj = {
+            orgId, pId, hash: response.hash, amount
+          }
+          localStorage.setItem('ccdepositHash', JSON.stringify(depositObj))
           setTimeout(()=>formEl.current.submit(), 1000)
           setLoading(false)
         } else {

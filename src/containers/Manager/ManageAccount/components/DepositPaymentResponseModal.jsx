@@ -3,33 +3,33 @@ import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 import CloseIcon from "mdi-react/CloseIcon";
+import './style.css'
 
-const SuccessCreditAmount = ({
+const DepositPaymentResponseModal = ({
   template,
   isOpen,
-  setPaymentModelOpen,
+  setOpen,
   message,
 }) => {
-  const [modal, setModal] = useState(false);
 
   const { t } = useTranslation();
   if (!template) return t("loading");
   const IncentcoLogo = `${process.env.REACT_APP_API_STORAGE_URL}/${template.big_logo}`;
-  const color = message.label === "Error" ? "red" : "green";
   return (
     <>
-      <Modal isOpen={isOpen}>
+      <Modal isOpen={isOpen} className={`model-authresp ${message.className}`}>
         <ModalHeader className="d-flex justify-content-center">
           <img src={IncentcoLogo} className="img__logo_sm" alt="logo" />
         </ModalHeader>
-        <ModalHeader style={{ color }} >
-          {message.label === "Error" ? "Error occurred" : "Success"}
-         
+        <ModalHeader>
+          {message.label}
         </ModalHeader>
-        <ModalBody> {message.message}</ModalBody>
-
+        <ModalBody> 
+          <div className="content pb-3">{message.message}</div>
+          <p className="text-center mb-0"><a style={{textDecoration:'underline'}} onClick={() => setOpen(false)}>Close</a></p>
+        </ModalBody>
         <div className="close cursor-pointer">
-          <CloseIcon onClick={() => setPaymentModelOpen(false)} size={30} />
+          <CloseIcon onClick={() => setOpen(false)} size={30} />
         </div>
       </Modal>
     </>
@@ -41,4 +41,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(SuccessCreditAmount);
+export default connect(mapStateToProps)(DepositPaymentResponseModal);

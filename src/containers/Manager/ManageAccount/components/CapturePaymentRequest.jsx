@@ -1,37 +1,91 @@
 import React, { useEffect,useState } from "react";
 
-import SuccessCreditAmount from "./CreditAmountModal";
+import {settleCcdeposit} from '@/services/program/transferMonies'
+import DepositPaymentResponseModal from "./DepositPaymentResponseModal";
+
+let STATUSES = {
+  default: { 
+    label:  "Message Box", 
+    message: "You have this message",
+    className: ''
+  },
+  expired: {
+    label: 'Expired',
+    message: "Invalid or expired request.",
+    className: 'authresp-expired'
+  },
+  processed: {
+    label: 'Success',
+    message: "Your payment was successfully processed.",
+    className: 'authresp-processed'
+  },
+  error: {
+    label: 'Error',
+    message: "Your payment was canceled or failed.",
+    className: 'authresp-error'
+  },
+  already_paid: {
+    label: 'Already Paid',
+    message: "This invoice has already been paid.",
+    className: 'authresp-already'
+  }
+}
 
 const CapturePaymentRequest = () => {
-  const [message, setStatusMessage] = useState("");
-  const [isPaymentModelOpen, setPaymentModelOpen] = useState(false);
-  const statusAmount = () => {
-    const queryParams = new URLSearchParams(window.location.search);
-    let status = queryParams.get("ccdepositStatus");
+  const [statusCode, setStatusCode] = useState("default");
+  const [isOpen, setOpen] = useState(false);
 
-    if (status === "1" || status === "5") {
-      let msg = { label: "Default Label", message: "Some message here" };
-      if (status === "1") {
-        msg = {
-          label: "Success",
-          message: "Your payment was successfully processed.",
-        };
-      } else if (status === "5") {
-        msg = { label: "Error", message: "Your payment was failed." };
+  const queryParams = new URLSearchParams(window.location.search);
+  let status = queryParams.get("ccdepositStatus");
+
+  const statusAmount = (status) => {
+    if ( status === 1 || status === 5 ) {
+      if ( status === 1 ) {
+        const ccdepositHash = localStorage.getItem('ccdepositHash')
+        if( !ccdepositHash ) {
+          setStatusCode("expired")
+        } else {
+          try {
+              let dpHash = JSON.parse(ccdepositHash);
+              // console.log(dpHash)
+              const data = {amount: dpHash.amount, hash: dpHash.hash}
+              settleCcdeposit(dpHash.orgId, dpHash.pId, data )
+              .then( resp => {
+                // console.log(resp)
+                if( resp?.txt && resp?.status )  {
+                  // console.log(resp.status)
+                  STATUSES[resp.status]["message"] = resp.txt
+                  // console.log(STATUSES[resp.status]["message"])
+                }
+                if( resp?.status ) {
+                    setStatusCode(resp.status)
+                } else {
+                  setStatusCode('error')
+                }
+                localStorage.removeItem('ccdepositHash');
+              })
+          } catch (e) {
+              console.error(e); // error
+          }
+        }
+      } else if ( status === 5 ) {
+        setStatusCode("error")
       }
-      setStatusMessage(msg);
-      setPaymentModelOpen(true);
+      setOpen(true);
     }
   };
 
   useEffect(() => {
-    statusAmount();
-  }, []);
+    if( status !== "" )  {
+      statusAmount(parseInt(status));
+    }
+  }, [status]);
+
   return (
-    <SuccessCreditAmount
-      message={message}
-      isOpen={isPaymentModelOpen}
-      setPaymentModelOpen={setPaymentModelOpen}
+    <DepositPaymentResponseModal
+      message={STATUSES[statusCode]}
+      isOpen={isOpen}
+      setOpen={setOpen}
     />
   )
 }

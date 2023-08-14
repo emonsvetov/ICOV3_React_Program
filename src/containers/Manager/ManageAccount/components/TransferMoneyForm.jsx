@@ -171,7 +171,7 @@ const TransferMoneyForm = ({
   if( !data ) return 'Loading...'
 
   const mtProps = {
-    pId, orgId
+  pId, orgId, toggle: parentToggle
   }
 
   return (
