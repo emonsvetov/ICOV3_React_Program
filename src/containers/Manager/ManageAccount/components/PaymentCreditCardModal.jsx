@@ -1,16 +1,17 @@
 import React from 'react';
 import CloseIcon from 'mdi-react/CloseIcon';
-import CreateInvoiceForm from './CreateInvoiceForm'
+
 import { Modal } from 'reactstrap';
+import PaymentCreditCardForm from './PaymentCreditCardForm';
+
 
 // const AddEventImg = `/img/pages/addEvent.png`;
 
-const CreateInvoiceModal= ({program, isOpen, setOpen, toggle}) => {
+const PaymentCreditCardModal= ({program, isOpen, setOpen, toggle}) => {
 
   let props = {
-    btnLabel: 'Create Invoice',
+    btnLabel: 'Make Deposit',
     program,
-    toggle
   }
 
   return (
@@ -22,17 +23,20 @@ const CreateInvoiceModal= ({program, isOpen, setOpen, toggle}) => {
       
         <div className="left">
           <div className='title mb-5'>
-            <h3>Fund Your Account</h3>
-            <p>Please enter the amount you wish to deposit. You will then be presented with an invoice that you can download as a .pdf and print. Once we receive the payment via check or ACH transfer, your account with be updated with the new balance..</p>
+            {/* <Link /> */}
+            <h3>Credit Card Payment</h3>
+            <span>
+            Complete the credit card transaction process by entering the amount of money you wish to add to your account. Your account will be credited for the amount requested as soon as the credit card processor verifies the payment.            </span>
           </div>
           {/*<img src={AddEventImg}/>*/}
         </div>
 
         <div className="right">
-          <h5>Request an Invoice & Send Payment</h5>
-          <CreateInvoiceForm {...props} />
+          <PaymentCreditCardForm {...props} />
         </div>
+        
+
     </Modal>
 )}
 
-export default CreateInvoiceModal;
+export default PaymentCreditCardModal;

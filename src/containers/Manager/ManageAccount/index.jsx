@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-
 import { Col, Container, Row } from "reactstrap";
-
 import SelectProgram from "../components/SelectProgram";
 import Invoices from "./components/Invoices";
 import { isEmpty } from "@/shared/helpers";
 import ModalWrapper from "./components/ModalWrapper";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
+import CapturePaymentRequest from "./components/CapturePaymentRequest";
 
 const ManageAccount = ({ auth, program, organization }) => {
   // console.log(auth)
@@ -48,8 +47,12 @@ const ManageAccount = ({ auth, program, organization }) => {
               text="Create an Invoice"
             />
             <TemplateButton
-              onClick={() => toggle("Transfer")}
+              onClick={() => toggle("MultipleInvoices")}
               text="Create Multiple Invoices"
+            />
+            <TemplateButton
+              onClick={() => toggle("TransferMoney")}
+              text="Transfer Money Between Programs"
             />
             <TemplateButton
               onClick={() => toggle("Pay")}
@@ -62,11 +65,14 @@ const ManageAccount = ({ auth, program, organization }) => {
         </div>
       </Container>
 
+      <CapturePaymentRequest />
+
+      <div style={{ padding: "5px 20px" }}></div>
       <ModalWrapper
         name={modalName}
         isOpen={isOpen}
-        setOpen={setOpen}
         toggle={toggle}
+        setOpen={setOpen}
       />
     </div>
   );

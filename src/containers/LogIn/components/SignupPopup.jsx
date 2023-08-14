@@ -3,10 +3,10 @@ import CloseIcon from 'mdi-react/CloseIcon';
 import SignupForm from './SignupForm';
 
 const Signup = ({onCancelHandler}) => {
-  const [value, setValue] = useState(false);
-  const onSubmit = values => {
+  // const [value, setValue] = useState(false);
+  // const onSubmit = values => {
     
-  }
+  // }
 
   return (
     <div className='popup login'>

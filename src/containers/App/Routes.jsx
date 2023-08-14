@@ -1,5 +1,5 @@
-import React, { createContext } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
 import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
 import { ParticipantLayout, ManagerLayout } from "../Layout/index";
@@ -79,7 +79,8 @@ import ParticipantAccount from "../Manager/Report/components/ParticipantAccount"
 import ParticipantStatus from "../Manager/Report/components/ParticipantStatus";
 import QuarterlyAward from "../Manager/Report/components/QuarterlyAward";
 import MainWrapper from "./MainWrapper";
-import ManageAccount from "../Manager/ManageAccount/index";
+import ManageAccount from "../Manager/ManageAccount";
+import PageNotFound from "./404Error/PageNotFound";
 // import { Train } from "@material-ui/icons";
 
 // const Accounts = () => (
@@ -153,10 +154,12 @@ const RouteIndex = () => (
           <Route path="program-settings" element={<ProgramSettings />} />
           <Route path="manage-and-reward" element={<ManageAndReward />} />
           <Route path="invite-participant" element={<InviteParticipant />} />
-          <Route path="manage-account" element={<ManageAccount/>} />
+          <Route path="manage-account" element={<ManageAccount/>}>
+
+          </Route>
           <Route path="referral" element={<Referral />} />
           <Route path="team" element={<Team />} />
-          <Route path="my-account" element={<ManagerAccountIndex />} />
+          <Route path="my-account" element={<ManagerAccountIndex  />} />
           <Route path="team/:teamId" element={<TeamView />} />
           <Route path="report" element={<Report />}>
             <Route path="invoices" element={<Invoices />} />
@@ -193,6 +196,7 @@ const RouteIndex = () => (
           </Route>
         </Route>
       </Route>
+      <Route path="*" element={<PageNotFound/>}/>
     </Routes>
   </MainWrapper>
 );

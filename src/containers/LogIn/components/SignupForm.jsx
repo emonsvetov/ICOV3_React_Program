@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Field } from 'react-final-form';
-import {login} from '../../App/auth';
+
 import {useDispatch, sendFlashMessage} from "@/shared/components/flash"
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage"
-import { ButtonToolbar, Button } from 'reactstrap';
+import {  Button } from 'reactstrap';
 
 const axios = require('axios');
 
