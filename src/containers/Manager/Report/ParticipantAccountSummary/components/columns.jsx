@@ -1,4 +1,4 @@
-import {toCurrency, toPoints} from '@/shared/helpers'
+import { toPoints} from '@/shared/helpers'
 export const TABLE_COLUMNS = [
   {
     Header: "Program Id",

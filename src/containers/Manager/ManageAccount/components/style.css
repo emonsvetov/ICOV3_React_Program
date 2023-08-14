@@ -1,0 +1,6 @@
+.authresp-error .modal-title{color:red;}
+.authresp-expired .modal-title{color:red;}
+.authresp-already .modal-title{color:rgb(102, 0, 255);}
+.authresp-processed .modal-title{color:green;}
+.modal-authresp .p, .modal-authresp .content{color:black}
+.modal-authresp a{color:black;text-decoration: underline !important;}

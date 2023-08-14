@@ -21,7 +21,7 @@ const InviteParticipant = ({auth, organization, rootProgram}) => {
     }
   }, [rootProgram])
 
-  const [value, setValue] = useState(false);
+
   /*const onSubmit = values => {
     
   }*/

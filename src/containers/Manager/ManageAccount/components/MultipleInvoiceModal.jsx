@@ -1,14 +1,14 @@
 import React from 'react';
 import CloseIcon from 'mdi-react/CloseIcon';
-import CreateInvoiceForm from './CreateInvoiceForm'
 import { Modal } from 'reactstrap';
+import MultipleInvoiceForm from './MultipleInvoicesForm';
 
 // const AddEventImg = `/img/pages/addEvent.png`;
 
-const CreateInvoiceModal= ({program, isOpen, setOpen, toggle}) => {
+const MultipleInvoiceModal= ({program, isOpen, setOpen, toggle}) => {
 
   let props = {
-    btnLabel: 'Create Invoice',
+    btnLabel: 'Create Multipe Invoices',
     program,
     toggle
   }
@@ -29,10 +29,10 @@ const CreateInvoiceModal= ({program, isOpen, setOpen, toggle}) => {
         </div>
 
         <div className="right">
-          <h5>Request an Invoice & Send Payment</h5>
-          <CreateInvoiceForm {...props} />
+          <h5>Create Multiple Invoices</h5>
+          <MultipleInvoiceForm {...props} />
         </div>
     </Modal>
 )}
 
-export default CreateInvoiceModal;
+export default MultipleInvoiceModal;

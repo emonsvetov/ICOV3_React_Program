@@ -43,7 +43,7 @@ const BrowseMerchant = ({ organization, program }) => {
               key={index}
               onClick={() => navigate(`/participant/redeem/${item.id}`)}
             >
-              <img src={`${LOGO_PUBLIC_URL}/${item.logo}`} />
+              <img src={`${LOGO_PUBLIC_URL}/${item.logo}`} alt="logo" />
             </Col>
           );
         })}
