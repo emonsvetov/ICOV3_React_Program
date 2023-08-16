@@ -42,6 +42,10 @@ const ParticipantTabnavClassic = ({program, template}) => {
 
   let navigate = useNavigate();
   if( ! program ) return 'loading...'
+
+  const theObj = {__html: template?.participant_homepage_message
+    ? template.participant_homepage_message : t("participant_homepage_message")};
+    
   return (
       <div className="">
         <ul className="horizontal d-flex justify-content-evenly">
@@ -52,9 +56,7 @@ const ParticipantTabnavClassic = ({program, template}) => {
                       <TabnavClassic title={t(item.title)} icon={item.icon}/>
                     </li>
                     :
-                    <h5 style={{color: 'black'}} className="social-wall-item-notification-body padding-10">{template?.participant_homepage_message
-                      ? template.participant_homepage_message.replace(/(<([^>]+)>)/ig, "")
-                      : t("participant_homepage_message")}</h5>
+                    <h5 style={{color: 'black'}} className="social-wall-item-notification-body padding-10" dangerouslySetInnerHTML={theObj}></h5>
             );
           })}
         </ul>
