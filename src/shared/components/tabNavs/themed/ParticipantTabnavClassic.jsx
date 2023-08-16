@@ -53,7 +53,7 @@ const ParticipantTabnavClassic = ({program, template}) => {
                     </li>
                     :
                     <h5 style={{color: 'black'}} className="social-wall-item-notification-body padding-10">{template?.participant_homepage_message
-                      ? template.participant_homepage_message.replace(/<\/?[^>]+(>|$)/g, "")
+                      ? template.participant_homepage_message.replace(/(<([^>]+)>)/ig, "")
                       : t("participant_homepage_message")}</h5>
             );
           })}
