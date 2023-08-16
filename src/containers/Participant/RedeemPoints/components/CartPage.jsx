@@ -84,7 +84,11 @@ const CartPage = ({ cart, program, pointBalance, template }) => {
             </thead>
             <tbody>
               {cartIsEmpty
-                ? t("cart_empty")
+                ?(
+                  <tr>
+                    <td colSpan={6}>{t("cart_empty")}</td>
+                  </tr>
+                ) 
                 : rows.map((row, i) => {
                     prepareRow(row);
                     return (
@@ -118,7 +122,7 @@ const CartPage = ({ cart, program, pointBalance, template }) => {
                   </tr>
                 </React.Fragment>
               ) : (
-                ""
+                null
               )}
             </tbody>
           </Table>
