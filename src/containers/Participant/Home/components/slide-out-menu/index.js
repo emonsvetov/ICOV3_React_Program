@@ -8,6 +8,7 @@ import {MEDIA_TYPES} from "@/containers/LogIn/components/LogInForm";
 
 const LINKS = [
   { to: "/participant/my-points", text: "my_rewards" },
+  { to: "/participant/my-gift-codes", text: "my_gift_codes" },
   // { to: "/participant/peer-to-peer", text: "give_an_award" },
   //   { to: "/participant/referral", text: "submit_a_referral" },
   //{ to: "/participant/suggestion_box", text: "suggestion_box" },
