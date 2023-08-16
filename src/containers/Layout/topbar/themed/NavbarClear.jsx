@@ -13,7 +13,6 @@ import TopbarProfile from "../TopbarProfile";
 const LINKS = [
   { to: "/participant/home", text: "home" },
   { to: "/participant/my-points", text: "my_rewards" },
-  { to: "/participant/my-gift-codes", text: "my_gift_codes" },
   { to: "/participant/my-account", text: "my_account" },
   { to: "/participant/faqs", text: "faqs" },
 ];
