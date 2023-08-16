@@ -5,6 +5,7 @@ import CachedIcon from '@material-ui/icons/Cached';
 
 import { setAuthProgram } from "@/containers/App/auth";
 import { getProgram } from "@/services/program/getProgram";
+import { getProgramBalance } from "@/services/program/getBalance";
 import { getProgramTree } from "@/services/program/getProgramTree";
 import { BuildProgramOptions, cacheProgramTree, getCachedProgramTree } from "@/shared/helpers";
 import { useTranslation } from "react-i18next";
@@ -33,8 +34,12 @@ const SelectProgram = ({ auth, program, rootProgram, showRefresh = true, onChang
       return;
     }
     getProgram(auth.organization_id, e.target.value).then((p) => {
-      setAuthProgram(p);
-      window.location.reload();
+      getProgramBalance(auth.organization_id, p.id)
+      .then( balance => {
+        p.balance = balance;
+        setAuthProgram(p);
+        window.location.reload();
+      })
     });
   };
   if (!auth || !program) return t("loading");
@@ -59,7 +64,7 @@ const SelectProgram = ({ auth, program, rootProgram, showRefresh = true, onChang
           <BuildProgramOptions programs={options} />
         </Input>
       </div>
-     {showRefresh && <span><CachedIcon style={{cursor:"pointer"}} onClick={refreshProgramTree}/></span>}
+     {showRefresh && <span alt="Refresh Program Tree"><CachedIcon style={{cursor:"pointer"}} onClick={refreshProgramTree}/></span>}
     </>
   );
 };

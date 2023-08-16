@@ -13,7 +13,7 @@ import SelectProgram from "../../components/SelectProgram";
 import { getTransferMonies, postTransferMonies } from "@/services/program/transferMonies";
 import TransferMoniesConfirm from './TransferMoniesConfirm';
 import MoneyTransferTemplate from './MoneyTransferTemplate';
-import { isEmpty } from "@/shared/helpers";
+import { isEmpty, toCurrency } from "@/shared/helpers";
 
 const TransferMoneyForm = ({
   toggle:parentToggle,
@@ -190,7 +190,7 @@ const TransferMoneyForm = ({
             <FormGroup>
               <label className="text-bold">1. Select Program to transfer money from:</label>
               <SelectProgram label={false} showRefresh={false} selected={pId} onChange={onProgramChange} />
-              <h6 className="my-2">Available Balance: ${parseFloat(data.balance).toFixed(2)}</h6>
+              <h6 className="my-2">Available Balance: {toCurrency(data.balance)}</h6>
             </FormGroup>
             {(parseFloat(data.balance) > 0) && 
             <>
