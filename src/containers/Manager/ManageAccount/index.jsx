@@ -3,11 +3,17 @@ import { connect } from "react-redux";
 import { Col, Container, Row } from "reactstrap";
 import SelectProgram from "../components/SelectProgram";
 import Invoices from "./components/Invoices";
-import { isEmpty } from "@/shared/helpers";
+import { isEmpty, toCurrency } from "@/shared/helpers";
 import ModalWrapper from "./components/ModalWrapper";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
 import CapturePaymentRequest from "./components/CapturePaymentRequest";
+import { getProgramBalance } from "@/services/program/getBalance";
+import { setAuthProgram } from "@/containers/App/auth";
+
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 const ManageAccount = ({ auth, program, organization }) => {
   // console.log(auth)
@@ -20,13 +26,28 @@ const ManageAccount = ({ auth, program, organization }) => {
     setOpen((prevState) => !prevState);
   };
 
+  React.useEffect( () => {
+    if( program && organization ) {
+      if(typeof program.balance == 'undefined') {
+        getProgramBalance(organization.id, program.id)
+        .then( balance => {
+          program.balance = balance;
+          setAuthProgram(program);
+          window.location.reload();
+        })
+      }
+    }
+  }, [program])
+
   if (!auth || !program || !organization) return t("loading");
+
+  console.log(program)
 
   return (
     <div className="referral">
       <Container>
         <Row className="mt-4">
-          <Col md={10}>
+          <Col md={12}>
             <div className="my-3 d-flex justify-content-between">
               <h3>Manage Account</h3>
               <TemplateButton
@@ -34,14 +55,7 @@ const ManageAccount = ({ auth, program, organization }) => {
                 text="Create Invoice"
               />
             </div>
-            <Col md={4} className="d-flex program-select my-3">
-              <SelectProgram />
-            </Col>
-          </Col>
-        </Row>
-
-        <div className="points-summary-table">
-          <div className="buttonWrapper">
+            <div className="buttonWrapper">
             <TemplateButton
               onClick={() => toggle("CreateInvoice")}
               text="Create an Invoice"
@@ -59,6 +73,14 @@ const ManageAccount = ({ auth, program, organization }) => {
               text="Make Payment using Credit Card"
             />
           </div>
+          </Col>
+        </Row>
+        <p>Funds Available for Reward: <strong>{toCurrency(program.balance)}</strong></p>
+        <div className="d-flex mb-3"><SelectProgram /></div>
+        
+        
+
+        <div className="points-summary-table">
           {auth && program && !isEmpty(organization) && (
             <Invoices program={program} organization={organization} />
           )}
