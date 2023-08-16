@@ -117,8 +117,8 @@ const BuildProgramOptions = ({programs, depth = 0}) => {
     if( programs.length > 0) {
         programs.map( p => {
             // console.log(first)
-            optionsHtml.push(<div>
-              <Row>
+            optionsHtml.push(<div key={p.id}>
+              <Row >
                 <Col md="4">{p.name}</Col>
                 <Col md="4">
                   <Field name={`amount[${p.id}]`}>
