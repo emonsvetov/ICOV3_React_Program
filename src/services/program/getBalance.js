@@ -6,3 +6,5 @@ export const getBalance = async(organizationId, programId) => {
     // console.log(response)
     return response.data
 }
+
+export const getProgramBalance = getBalance;
