@@ -147,21 +147,41 @@ SliderClear.defaultProps = {
     data: []
 }
 
+export const hasSlides = (t, returnCount=false) => {
+    let count = 0 
+    count += (t.slider_01 ? 1 : 0)
+    count += (t.slider_02 ? 1 : 0)
+    count += (t.slider_03 ? 1 : 0)
+    if( returnCount ) return count;
+    return count > 0
+}
+
 export const getSliderImgs = (template) => {
+    // console.log(template)
     let imgs = [];
-    let count = 4;
-    if (template.slider_01 || template.slider_02 || template.slider_03){
-      count = 3;
+    const maxSlides = 4
+    let count = hasSlides(template, true); //get count
+    console.log(count)
+    if( count > 0)  {
+        for (let i = 1; i <= count; i++) {
+            let img_src = template[`slider_0${i}`] ? `${process.env.REACT_APP_API_STORAGE_URL}/`+template[`slider_0${i}`] : null;
+            if( img_src ) {
+                imgs.push({
+                    src: img_src,
+                    altText: `Slide ${i}`,
+                });
+            }
+        }
+    }   else {
+        for (let i = 1; i <= maxSlides; i++) {
+            let img_src = getThemedSliderImage(template, i);
+            imgs.push({
+              src: img_src,
+              altText: `Slide ${i}`,
+            });
+          }
     }
-    for (let i = 1; i <= count; i++) {
-      let img_src = template[`slider_0${i}`]
-          ? `${process.env.REACT_APP_API_STORAGE_URL}/`+template[`slider_0${i}`]
-          : getThemedSliderImage(template, i);
-      imgs.push({
-        src: img_src,
-        altText: `Slide ${i}`,
-      });
-    }
+    
     return imgs;
 }
 
