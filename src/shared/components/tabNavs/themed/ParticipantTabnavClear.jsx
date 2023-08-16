@@ -29,10 +29,11 @@ TabnavClear.propTypes = {
 };
 TabnavClear.defaultProps = {};
 
-export const ParticipantTabnavClear = ({program}) => {
+export const ParticipantTabnavClear = ({program, template}) => {
+    console.log(template)
     const { t } = useTranslation();
     const TAB_ITEMS = [
-      { title: "my_rewards", icon: "MyRewards", to: `/participant/my-points` },
+      // { title: "my_rewards", icon: "MyRewards", to: `/participant/my-points` },
     ];
   
     if(program.uses_peer2peer
@@ -71,7 +72,11 @@ export const ParticipantTabnavClear = ({program}) => {
                         <TabnavClear title={t(item.title)} icon={item.icon}/>
                     </li>
                     :
-                    <h5 style={{color: 'black'}} className="social-wall-item-notification-body padding-10">Rewards can be redeemed with leading national retailers offering millions of products and brands. Redeem your rewards when you earn them or save them up for a 'rainy day'.</h5>
+                    <h5 style={{color: 'black'}} className="social-wall-item-notification-body padding-10">
+                      {template?.participant_homepage_message
+                      ? template.participant_homepage_message.replace(/<\/?[^>]+(>|$)/g, "")
+                      : t("participant_homepage_message")}
+                    </h5>
             );
           })}
         </ul>
@@ -79,5 +84,6 @@ export const ParticipantTabnavClear = ({program}) => {
     );
 };
 export default connect((state) => ({
-  program: state.program
+  program: state.program,
+  template: state.domain?.program?.template,
 }))(ParticipantTabnavClear);
