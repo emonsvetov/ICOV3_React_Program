@@ -72,7 +72,7 @@ export const ParticipantTabnavClear = ({program, template}) => {
                         <TabnavClear title={t(item.title)} icon={item.icon}/>
                     </li>
                     :
-                    <h5 style={{color: 'black'}} className="social-wall-item-notification-body padding-10">
+                    <h5 style={{color: 'black'}} className="social-wall-item-notification-body padding-10">xxxxx
                       {template?.participant_homepage_message
                       ? template.participant_homepage_message
                       : t("participant_homepage_message")}
