@@ -60,6 +60,8 @@ export const ParticipantTabnavClear = ({program, template}) => {
         to: "/participant/my-goals",
       },)
     }
+
+    console.log(TAB_ITEMS)
   
     let navigate = useNavigate();
     return (
@@ -72,9 +74,9 @@ export const ParticipantTabnavClear = ({program, template}) => {
                         <TabnavClear title={t(item.title)} icon={item.icon}/>
                     </li>
                     :
-                    <h5 style={{color: 'black'}} className="social-wall-item-notification-body padding-10">xxxxx
+                    <h5 style={{color: 'black'}} className="social-wall-item-notification-body padding-10">
                       {template?.participant_homepage_message
-                      ? template.participant_homepage_message
+                      ? template.participant_homepage_message.replace(/(<([^>]+)>)/ig, "")
                       : t("participant_homepage_message")}
                     </h5>
             );
