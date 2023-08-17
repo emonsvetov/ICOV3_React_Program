@@ -12,6 +12,7 @@ import Points from "../../Layout/sidebar/Points";
 import { useTranslation } from "react-i18next";
 
 const Home = ({ auth, organization, program, template }) => {
+  console.log(template)
   const { t } = useTranslation();
   // let props = {
   //   organization,
