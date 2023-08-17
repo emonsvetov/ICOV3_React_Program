@@ -60,9 +60,6 @@ export const ParticipantTabnavClear = ({program, template}) => {
         to: "/participant/my-goals",
       },)
     }
-
-    const theObj = {__html: template?.participant_homepage_message
-      ? template.participant_homepage_message : t("participant_homepage_message")};
   
     let navigate = useNavigate();
     return (
@@ -75,7 +72,11 @@ export const ParticipantTabnavClear = ({program, template}) => {
                         <TabnavClear title={t(item.title)} icon={item.icon}/>
                     </li>
                     :
-                    <h5 style={{color: 'black'}} className="social-wall-item-notification-body padding-10" dangerouslySetInnerHTML={theObj}></h5>
+                    <h5 style={{color: 'black'}} className="social-wall-item-notification-body padding-10">
+                      {template?.participant_homepage_message
+                      ? template.participant_homepage_message.replace(/(<([^>]+)>)/ig, "")
+                      : t("participant_homepage_message")}
+                    </h5>
             );
           })}
         </ul>
@@ -84,5 +85,5 @@ export const ParticipantTabnavClear = ({program, template}) => {
 };
 export default connect((state) => ({
   program: state.program,
-  template: state.domain?.program?.template,
+  template: state.template,
 }))(ParticipantTabnavClear);
