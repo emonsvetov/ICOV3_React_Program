@@ -12,7 +12,6 @@ import {
   fetchApiData,
   fetchApiDataExport,
   initialState,
-  
   Sorting
 } from "@/shared/apiTableHelper"
 
