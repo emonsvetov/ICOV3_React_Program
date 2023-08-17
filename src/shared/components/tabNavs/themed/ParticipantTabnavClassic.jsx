@@ -13,7 +13,7 @@ const ParticipantTabnavClassic = ({program, template}) => {
   const { t } = useTranslation();
 
   const TAB_ITEMS = getTabnavItems(program);
-  console.log(TAB_ITEMS)
+
   let navigate = useNavigate();
   if( ! program ) return 'loading...'
   return (
