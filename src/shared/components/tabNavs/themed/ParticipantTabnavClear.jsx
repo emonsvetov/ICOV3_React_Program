@@ -74,7 +74,7 @@ export const ParticipantTabnavClear = ({program, template}) => {
                     :
                     <h5 style={{color: 'black'}} className="social-wall-item-notification-body padding-10">
                       {template?.participant_homepage_message
-                      ? template.participant_homepage_message.replace(/(<([^>]+)>)/ig, "")
+                      ? template.participant_homepage_message
                       : t("participant_homepage_message")}
                     </h5>
             );
