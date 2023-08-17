@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Col, Container, Row } from "reactstrap";
 import SelectProgram from "../components/SelectProgram";
-import Invoices from "./components/Invoices";
+import MoniesAvailablePostings from "./components/MoniesAvailablePostings";
 import { isEmpty, toCurrency } from "@/shared/helpers";
 import ModalWrapper from "./components/ModalWrapper";
 import TemplateButton from "@/shared/components/TemplateButton";
@@ -82,7 +82,7 @@ const ManageAccount = ({ auth, program, organization }) => {
 
         <div className="points-summary-table">
           {auth && program && !isEmpty(organization) && (
-            <Invoices program={program} organization={organization} />
+            <MoniesAvailablePostings program={program} organization={organization} />
           )}
         </div>
       </Container>
