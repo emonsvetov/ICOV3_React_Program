@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
 import Tabnav from "../components/Tabnav"; 
-import { getTabnavItems } from "../components/TabnavItems";
+import { getTabnavItems } from "@/shared/components/tabNavs/components/TabnavItems";
 
 const TabnavClassic = (props)=> {
   return <Tabnav {...props} />

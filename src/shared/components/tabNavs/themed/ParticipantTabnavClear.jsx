@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import "../components/style.scss";
-import { getTabnavItems } from "../components/TabnavItems";
+import { getTabnavItems } from "@/shared/components/tabNavs/components/TabnavItems";
 
 function TabnavClear(props) {
   const { title, icon, isActive } = props;
