@@ -50,22 +50,27 @@ const GiftCardOriginal = (props) => {
           </span>
           { showCode ? <PrinterIcon onClick={handlePrint} className="printIcon" size={20}/> : '' }
         </div>
-        <div className="gift-code">
-          <strong>
-            {t("gift_code")} #:{showCode ? code : 'Your code is on its way. Please wait for it.'}
-          </strong>
-        </div>
-        <div className="d-flex justify-content-between">
-          <span>
-            {t("pin")}:{ showCode ? pin : '' }
-          </span>
-          {
-            showCode ?
-            <a onClick={redemptionEvent} className="redemption_link">
-              {t("redemption_instructions")}
-            </a> : ''
-          }
-        </div>
+        {showCode ? (
+          <div>
+            <div className="gift-code">
+              <strong>
+                {t("gift_code")} #:{code}
+              </strong>
+            </div>
+            <div className="d-flex justify-content-between">
+              <span>
+                {t("pin")}:{ pin }
+              </span>
+              <a onClick={redemptionEvent} className="redemption_link">
+                  {t("redemption_instructions")}
+                </a>
+            </div>
+          </div>
+        ): (
+            <div className="gift-code">
+              <strong>Your redemption is on its way! Your code will be delivered to you momentarily</strong>
+            </div>
+        )}
       </div>
       <div style={{ display: "none" }}><RedemptionToPrint ref={componentRef} merchant={merchant} sku_value={sku_value}
                                                           code={code} pin={pin}/></div>
