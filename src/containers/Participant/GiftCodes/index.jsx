@@ -21,7 +21,6 @@ const MyGiftCodes = ({ template, auth, organization, program }) => {
       setLoading(true);
       getGiftCodes(organization.id, program.id, auth.id)
         .then((data) => {
-          // console.log(data)
           setGiftCodes(data);
         })
         .catch((error) => {
