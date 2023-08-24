@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { UncontrolledCarousel } from "reactstrap";
 import HomeTopbar from "../Layout/topbar/Home";
@@ -10,6 +10,7 @@ import Carousel from "react-multi-carousel";
 import { SliderClear, getSliderImgs, getMerchantLogos } from "../Participant/Home/components/slider";
 import LogInForm from "./components/LogInForm";
 import { useTranslation } from "react-i18next";
+import {useSearchParams} from "react-router-dom";
 
 const responsive = {
   desktop: {
@@ -33,7 +34,8 @@ const LogIn = ({ template }) => {
   const { t } = useTranslation();
   const [showLoginPopup, setShowPopup] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
-
+  const [searchParams] = useSearchParams();
+  const [ssoToken, setSsoToken] = useState(searchParams.get('sso-token') || null);
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
 
@@ -43,6 +45,12 @@ const LogIn = ({ template }) => {
   const signupToggle = () => {
     setShowSignup((prevState) => !prevState);
   };
+
+  useEffect(()=>{
+    if (ssoToken !== null && ssoToken !== undefined){
+      setModal(true);
+    }
+  },[ssoToken])
 
   if (!template) return t("loading");
   // console.log(template, "------------------");
