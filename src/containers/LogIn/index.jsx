@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { UncontrolledCarousel } from "reactstrap";
 import HomeTopbar from "../Layout/topbar/Home";
@@ -51,8 +51,17 @@ const LogIn = ({ template }) => {
         }
     },[ssoToken])
 
+  useEffect(()=>{
+    if (ssoToken !== null && ssoToken !== undefined){
+      setModal(true);
+    }
+  },[ssoToken])
+
   if (!template) return t("loading");
   // console.log(template, "------------------");
+
+  const welcome_message  = {__html: template?.welcome_message
+    ? template.welcome_message : t("welcome_message")}
 
   const CarouselNew = () => {
     return (
@@ -122,13 +131,7 @@ const LogIn = ({ template }) => {
         indicators={false}
         controls={false}
       />
-      <div className="text-center mt-5 mb-5">
-        <strong>
-          {template?.welcome_message
-            ? template.welcome_message.replace(/<\/?[^>]+(>|$)/g, "")
-            : t("welcome_message")}
-        </strong>
-      </div>
+      <div className="text-center mt-5 mb-5" dangerouslySetInnerHTML={welcome_message}></div>
 
       {(template && <SliderClear data={slide_icons} />) ||
         (!template && <CarouselNew />)}

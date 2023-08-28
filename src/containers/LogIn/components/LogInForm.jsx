@@ -28,36 +28,36 @@ const LogInForm = () => {
   const [isParticipant, setIsParticipant] = useState(false);
   const [mediaTypes, setMediaTypes] = useState([]);
 
-    const ssoLogin = async ssoToken => {
-        setStep(1)
-        await axios.post('/sso-login', {
-            sso_token: ssoToken
-        }).then((res) => {
-            if (res.status === 200) {
-                if (!isProgramManager(res.data.user) && !isProgramParticipant(res.data.user)) {
-                    alert("You are logging into Wrong Login Area")
-                    return
-                } else {
-                    setLoading(true)
-                    setStep(1)
-                    setUser(res.data.user)
-                    setOrganization(res.data.user.organization)
-                    setAccessToken(res.data.access_token)
-                    setLoading(false)
+  const ssoLogin = async ssoToken => {
+    setStep(1)
+    await axios.post('/sso-login', {
+      sso_token: ssoToken
+    }).then((res) => {
+      if (res.status === 200) {
+        if (!isProgramManager(res.data.user) && !isProgramParticipant(res.data.user)) {
+          alert("You are logging into Wrong Login Area")
+          return
+        } else {
+          setLoading(true)
+          setStep(1)
+          setUser(res.data.user)
+          setOrganization(res.data.user.organization)
+          setAccessToken(res.data.access_token)
+          setLoading(false)
 
-                }
-            }
-        })
-            .catch(err => {
-                window.location.href = '/login';
-            })
-    };
-
-    useEffect(() => {
-        if (ssoToken !== null && ssoToken !== undefined){
-            ssoLogin(ssoToken)
         }
-    }, [ssoToken])
+      }
+    })
+        .catch(err => {
+          window.location.href = '/login';
+        })
+  };
+
+  useEffect(() => {
+    if (ssoToken !== null && ssoToken !== undefined){
+      ssoLogin(ssoToken)
+    }
+  }, [ssoToken])
 
   useEffect( () => {
     // setUser(getAuthUser())
