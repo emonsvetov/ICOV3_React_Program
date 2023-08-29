@@ -27,16 +27,17 @@ const EventForm = ({
   useEffect( () => {
     if( data?.id )
     {
-      console.log("Setting Event")
       setEvent(data)
     }
-    getEventTypes()
-    .then( evtypes => {
-      console.log(evtypes)
-      setEventTypes(labelizeNamedData(evtypes))
-      setLoading(false)
-    })
-  }, [data])
+    if( program?.id ) {
+      getEventTypes(program.organization_id, program.id)
+      .then( evtypes => {
+        console.log(evtypes)
+        setEventTypes(labelizeNamedData(evtypes))
+        setLoading(false)
+      })
+    }
+  }, [data, program])
 
   const [isIconModalOpen, setIconModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('2');

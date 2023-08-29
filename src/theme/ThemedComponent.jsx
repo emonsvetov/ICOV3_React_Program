@@ -3,11 +3,12 @@ import { connect } from "react-redux";
 const paths = {
   SocialWall: "containers/Participant/Home/socialWall",
   SocialWallItem: "containers/Participant/Home/socialWall",
+  MerchantSlider: "containers/Participant/Home/components/slider",
   Sidebar: "containers/Layout/sidebar",
   Cart: "containers/Participant/components",
   Navbar: "containers/Layout/topbar",
   ParticipantTabnav: "shared/components/tabNavs",
-  ParticipantHome: "containers/Participant/Home/components"
+  RedeemMerchant: "containers/Participant/RedeemPoints",
 };
 const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -15,6 +16,9 @@ const capitalizeFirstLetter = (string) => {
 const ThemedComponent = (props) => {
   const { component, template } = props;
   const tplPostfix = capitalizeFirstLetter(template.name)
+  // if( component === 'MerchantSlider') {
+  //   console.log(`@/${paths[component]}/themed/${component}${tplPostfix}`)
+  // }
   const Component = React.lazy(() =>
     import(`@/${paths[component]}/themed/${component}${tplPostfix}`).catch(
       (e) => ({ default: () => <div>Template [{component}{tplPostfix}] Not found</div> })
