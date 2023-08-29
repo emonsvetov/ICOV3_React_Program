@@ -77,21 +77,24 @@
 .merchant-wrapper{
     margin: 10px;
     box-shadow: 0 3px 3px 2px rgba(0, 0, 0, 0.03);
-    border-radius: 10%;
+    border-radius: 10px;
     padding: 10px;
-    min-height: 65px;
+    height: 75px;
     display: flex;
-    img{
-        max-width: 100px;
-        height: auto;
-        margin: auto;
-        display: block;    
+    align-items: center;
+    justify-content: center;
+    a, div{
+        display: flex;
+        align-items: center;
+        img{
+            max-width: 120px;
+            max-height: 60px; 
+        }
     }
-} 
-
-
-.react-multiple-carousel__arrow {
-    // background: url("/img/arrows.png") -256px 0px no-repeat !important;
+    cursor: pointer;
+    &:hover {
+        background-color:aliceblue;
+    }
 }
 
 .react-multiple-carousel__arrow--left{

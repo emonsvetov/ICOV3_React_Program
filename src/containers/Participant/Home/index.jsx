@@ -1,18 +1,16 @@
 import React, {  useEffect, useState } from "react";
 import { Col, Container, Row } from "reactstrap";
 import SocialWallPanel from "@/containers/Participant/Home/socialWall/SocialWallPanel";
-import { SliderClassic, SliderClear, getMerchantLogos } from "./components/slider";
-import {
-  ParticipantTabNavs
-} from "@/shared/components/tabNavs";
+import { MerchantSlider } from "./components/slider/index";
+import { ParticipantTabNavs} from "@/shared/components/tabNavs";
 import { connect } from "react-redux";
 import { USER_STATUS_PENDING_DEACTIVATION } from "@/services/user/getUser";
 import SlideOutMenu from "./components/slide-out-menu";
 import Points from "../../Layout/sidebar/Points";
 import { useTranslation } from "react-i18next";
+// import { setMerchant } from "@/redux/actions/merchantActions";
 
-const Home = ({ auth, organization, program, template }) => {
-  console.log(template)
+const Home = ({ auth, program, template }) => {
   const { t } = useTranslation();
   // let props = {
   //   organization,
@@ -36,7 +34,6 @@ const Home = ({ auth, organization, program, template }) => {
   }, [auth, program]);
 
   if (!auth || !program || !template) return t("loading");
-  let merchant_logos = getMerchantLogos();
 
   const ParticipantWelcomeMessage = () => {
     const participant_homepage_message  = {__html: template?.participant_homepage_message
@@ -78,7 +75,7 @@ const Home = ({ auth, organization, program, template }) => {
           <h6 className="m-3">
             {t("select_a_merchant_to_redeem_your_points")}
           </h6>
-          <SliderClear data={merchant_logos} />
+          <MerchantSlider />
         </div>
       </>
     );
@@ -110,7 +107,7 @@ const Home = ({ auth, organization, program, template }) => {
                 )}
                 <div className="mt-5">
                   <h3>{t("select_a_merchant_to_redeem_your_points")}</h3>
-                  <SliderClassic data={merchant_logos} />
+                  <MerchantSlider />
                 </div>
               </div>
             </Col>
@@ -132,7 +129,6 @@ const mapStateToProps = (state) => {
   return {
     auth: state.auth,
     program: state.program,
-    organization: state.organization,
     template: state.template,
   };
 };
