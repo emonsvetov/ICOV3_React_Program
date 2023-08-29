@@ -46,6 +46,11 @@ const LogIn = ({ template, program }) => {
   const signupToggle = () => {
     setShowSignup((prevState) => !prevState);
   };
+    useEffect(()=>{
+        if (ssoToken !== null && ssoToken !== undefined){
+            setModal(true);
+        }
+    },[ssoToken])
 
   useEffect(()=>{
     if (ssoToken !== null && ssoToken !== undefined){
@@ -115,7 +120,6 @@ const LogIn = ({ template, program }) => {
   };
 
   let slide_icons = getMerchantLogos();
-  
   return (
     <div>
       <HomeTopbar
@@ -133,7 +137,6 @@ const LogIn = ({ template, program }) => {
       
       {showLoginPopup && <LoginPopup onCancelHandler={popupToggle} />}
       {/* {showSignup && <Signup onCancelHandler={signupToggle} />} */}
-
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>
           {t("sign-in-to-your-rewards-program")}

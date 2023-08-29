@@ -86,6 +86,7 @@ const LogInForm = () => {
         }
         return errors;
       }
+
       const onSubmit = async values => {
         if (values.email){
           setUserEmail(values.email)
@@ -100,7 +101,7 @@ const LogInForm = () => {
           console.log(res.data)
           // console.log(res.status == 200)
           if(res.status === 200)  {
-            // res.data.user.loginAs = 'Participant'  
+            // res.data.user.loginAs = 'Participant'
             if( !isProgramManager(res.data.user) && !isProgramParticipant(res.data.user) )  {
               alert("You are logging into Wrong Login Area")
               return
@@ -187,17 +188,17 @@ const LogInForm = () => {
     )}
     const FormProgram = () => {
       // console.log(user)
-  
+
       if( !user ) return 'loading...'
-  
+
       let loginAs = ''
-  
+
       // console.log(user.programRoles)
       const programOptions = getProgramOptions(user)
-  
+
       const validate = values => {
         let errors = {};
-        if( !program )  
+        if( !program )
         errors.program = "Select a program";
         return errors;
       }
@@ -209,7 +210,7 @@ const LogInForm = () => {
         // return;
         // setLoading(true)
         axios.post(`/organization/${organization.id}/program/${program.value}/login`, data, {
-          headers: {"Authorization" : `Bearer ${accessToken}`} 
+          headers: {"Authorization" : `Bearer ${accessToken}`}
         })
         .then( (res) => {
           console.log(res)
@@ -255,7 +256,7 @@ const LogInForm = () => {
           setLoading(false)
         })
       };
-  
+
       const onSelectProgram = (selectedOption) => {
         // alert(JSON.stringify(selectedOption))
         setIsParticipant(false)
@@ -268,7 +269,7 @@ const LogInForm = () => {
         }
         setProgram( selectedOption )
       };
-  
+
       return (
       <Form
         onSubmit={onSubmit}
@@ -333,7 +334,7 @@ const LogInForm = () => {
       />
     )}
     return (
-      <div className="card w-100">  
+      <div className="card w-100">
         <div className="card-header">Sign In</div>
         <div className="card-body mt-3">
           {step === 0 && <FormLogin onSubmit /> || step === 1 && <FormProgram onSubmit />}
@@ -352,7 +353,7 @@ const LogInForm = () => {
 
   const CardFormForgot = ()  => {
     return (
-      <div className="card w-100">  
+      <div className="card w-100">
         <div className="card-header">Forgot Password?</div>
         <div className="card-body mt-3">
           <FormForgot onSubmit />
