@@ -19,9 +19,9 @@ const MerchantSlider = ( {program} ) => {
     <Themed component={"MerchantSlider"} data={merchants} />
   )
 }
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
   return {
-    program: state.program
+    program: state?.program?.id ? state.program : props.program
   };
 };
 export default connect(mapStateToProps)(MerchantSlider);

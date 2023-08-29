@@ -20,7 +20,6 @@ export const getSliderImgs = (template) => {
     let imgs = [];
     const maxSlides = 4
     let count = hasSlides(template, true); //get count
-    console.log(count)
     if( count > 0)  {
         for (let i = 1; i <= count; i++) {
             let img_src = template[`slider_0${i}`] ? `${process.env.REACT_APP_API_STORAGE_URL}/`+template[`slider_0${i}`] : null;

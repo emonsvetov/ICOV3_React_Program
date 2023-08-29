@@ -8,6 +8,7 @@ import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import "react-multi-carousel/lib/styles.css";
 import Carousel from "react-multi-carousel";
 import { SliderClear, getSliderImgs, getMerchantLogos } from "../Participant/Home/components/slider";
+import MerchantSlider from "../Participant/Home/components/slider/MerchantSlider";
 import LogInForm from "./components/LogInForm";
 import { useTranslation } from "react-i18next";
 import {useSearchParams} from "react-router-dom";
@@ -30,7 +31,7 @@ const responsive = {
   },
 };
 
-const LogIn = ({ template }) => {
+const LogIn = ({ template, program }) => {
   const { t } = useTranslation();
   const [showLoginPopup, setShowPopup] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
@@ -114,6 +115,7 @@ const LogIn = ({ template }) => {
   };
 
   let slide_icons = getMerchantLogos();
+  
   return (
     <div>
       <HomeTopbar
@@ -127,8 +129,8 @@ const LogIn = ({ template }) => {
       />
       <div className="text-center mt-5 mb-5" dangerouslySetInnerHTML={welcome_message}></div>
 
-      {(template && <SliderClear data={slide_icons} />) ||
-        (!template && <CarouselNew />)}
+      <MerchantSlider program={program}  />
+      
       {showLoginPopup && <LoginPopup onCancelHandler={popupToggle} />}
       {/* {showSignup && <Signup onCancelHandler={signupToggle} />} */}
 
@@ -146,7 +148,7 @@ const LogIn = ({ template }) => {
 
 const mapStateToProps = (state) => {
   return {
-    // domain: state.domain,
+    program: state.domain?.program,
     template: state.domain?.program?.template,
   };
 };
