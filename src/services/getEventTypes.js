@@ -1,10 +1,10 @@
 
 import axios from 'axios'
 
-export const getEventTypes = async() => {
+export const getEventTypes = async(orgId, pId) => {
     try {
         const response = await axios.get(
-        `/eventtype`
+        `/organization/${orgId}/program/${pId}/eventtype`
         );
         // console.log(response)
         const results = response.data;
