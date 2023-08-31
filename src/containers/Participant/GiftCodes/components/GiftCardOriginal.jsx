@@ -35,11 +35,11 @@ const GiftCardOriginal = (props) => {
   return (
     <div className="panel gift-card d-flex mb-5 rounded-3">
       <div className="gift-icon-wrapper">
-        <img src={storageUrl + merchant.icon} className="gift-icon" alt="gift-icon"></img>
+        <img src={storageUrl + merchant?.icon} className="gift-icon" alt="gift-icon"></img>
       </div>
       <div className="gift-info d-flex flex-column justify-content-evenly pr-2">
         <div className="d-flex justify-content-between">
-          <h5>{merchant.name}</h5>
+          <h5>{merchant?.name}</h5>
           <span>
             <div>
               {redemption_date && showCode ? t("received")+':'+redemption_date_formated : ''}

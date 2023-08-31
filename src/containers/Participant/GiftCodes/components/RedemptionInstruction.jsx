@@ -22,8 +22,8 @@ const RedemptionInstruction = ({isOpen, setOpen, toggle, merchant, program, orga
           <Button className='btn btn-lg float-end' close onClick={toggle}/>
         </CardHeader>
         <CardBody>
-          <img width="100" src={storageUrl + merchant.icon} className="gift-icon" alt='gift-icon'></img>
-          <div className="right" dangerouslySetInnerHTML={createMarkup(merchant.redemption_instruction)}/>
+          <img width="100" src={storageUrl + merchant?.icon} className="gift-icon" alt='gift-icon'></img>
+          <div className="right" dangerouslySetInnerHTML={createMarkup(merchant?.redemption_instruction)}/>
         </CardBody>
       </Card>
 
