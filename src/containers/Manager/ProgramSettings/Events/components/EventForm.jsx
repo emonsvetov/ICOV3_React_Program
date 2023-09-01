@@ -32,7 +32,7 @@ const EventForm = ({
     if( program?.id ) {
       getEventTypes(program.organization_id, program.id)
       .then( evtypes => {
-        console.log(evtypes)
+        // console.log(evtypes)
         setEventTypes(labelizeNamedData(evtypes))
         setLoading(false)
       })
@@ -64,7 +64,7 @@ const EventForm = ({
       if (res.status == 200) {
         flashSuccess(dispatch, 'Event saved successfully!')
         setLoading(false)
-        window.location.reload()
+        // window.location.reload()
         // setTrigger(Math.floor(Date.now() / 1000))
         toggle()
       }
@@ -109,7 +109,9 @@ const EventForm = ({
       changeValue(state, 'event_icon_id', () => fieldVal.id);
       changeValue(state, fieldName, () => fieldVal);
     } else  {
+      // console.log(fieldVal)
       let newEvent = {...event, ...{'event_icon_id': fieldVal.id, [fieldName]: fieldVal}}
+      // console.log(newEvent)
       setEvent(newEvent)
     }
     
@@ -118,16 +120,14 @@ const EventForm = ({
 
   if( loading ) return "loading..."
 
-  // console.log(event)
-  if (event) {
+  if (event && event?.id) {
     event = patch4Select(event, 'event_type_id', eventTypes)
+    event.icon = event?.icon ? event.icon : event.event_icon
+    if (event?.max_awardable_amount) {
+      event.awarding_points = program.factor_valuation * event.max_awardable_amount
+    }
   }
 
-  // event = patch4Select(event, "type_id", eventTypes)
-
-  if (event?.max_awardable_amount) {
-    event.awarding_points = program.factor_valuation * event.max_awardable_amount
-  }
   return (
     <Form
       keepDirtyOnReinitialize
@@ -345,7 +345,7 @@ const EventForm = ({
                       onSelectIconOK={form.mutators.setEventIcon}
                       activeTab={activeTab}
                       onCancel={() => setIconModalOpen(false)}
-                      icon={values.icon}
+                      icon={values?.icon ? values.icon : values.event_icon}
                     />
                   </div>
                 </Col>

@@ -45,7 +45,7 @@ const IconUpload = ({ setIcons, toggle, onCancel, program }) => {
     .then((res) => {
       if (res.status == 200) { //fetch all on success!
         flashSuccess(dispatch, "Icon uploaded!")
-        fetchEventIcons(program.organization_id)
+        fetchEventIcons(program.organization_id, 'both')
         .then( response => {
             setIcons(response)
         })

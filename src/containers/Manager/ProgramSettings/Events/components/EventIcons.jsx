@@ -2,36 +2,25 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux'
 import {Col, Row, ButtonToolbar, Button} from 'reactstrap';
-import axios from 'axios';
 import TrashIcon from 'mdi-react/TrashOutlineIcon';
-
-import { fetchEventIcons } from '@/services/events/fetchEventIcons';
+import { deleteIcon, fetchEventIcons } from '@/services/events';
 
 const EventIcons = ({ icon, setIcon, onCancel, onSelectIconOK, icons, setIcons, program }) => {
-
   useEffect(() => {
     if (program?.id) {
-      fetchEventIcons(program.organization_id)
+      fetchEventIcons(program, 'both')
         .then(response => {
           setIcons(response)
         })
     }
   }, [program])
 
-  const deleteIcon = async (icon) => {
-    try {
-      return await axios.delete(`/organization/${program.organization_id}/event_icons/${icon.id}`);
-    } catch (e) {
-      throw new Error(`API error:${e?.message}`);
-    }
-  }
-
   const onClickDeleteIcon = (icon) => {
-    deleteIcon(icon)
+    deleteIcon(program, icon)
       .then(response => {
-        console.log(response.status)
+        // console.log(response.status)
         if (response.status === 200) {
-          fetchEventIcons(program.organization_id)
+          fetchEventIcons(program, 'both')
             .then(response => {
               setIcons(response)
             })
@@ -53,7 +42,7 @@ const EventIcons = ({ icon, setIcon, onCancel, onSelectIconOK, icons, setIcons, 
                   <div className='preview'>
                     <i className="fa fa-check"></i>
                     <img src={`${process.env.REACT_APP_API_STORAGE_URL}/${item.path}`} title={item.name} />
-                    <div className="mt-2 delete-icon-icon" onClick={(e) => { if (window.confirm('Are you sure to delete this icon?')) { onClickDeleteIcon(item) } }}><TrashIcon color='#bdbdbd' /></div>
+                    {item.organization_id === program.organization_id && <div className="mt-2 delete-icon-icon" onClick={(e) => { if (window.confirm('Are you sure to delete this icon?')) { onClickDeleteIcon(item) } }}><TrashIcon color='#bdbdbd' /></div>}
                   </div>
                 </li>
               })
