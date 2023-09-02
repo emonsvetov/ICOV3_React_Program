@@ -1,13 +1,22 @@
 import React, {useRef, useState} from "react";
 import PrinterIcon from "mdi-react/PrinterIcon";
 import { useTranslation } from "react-i18next";
-import RedemptionInstructionsModalWrapper from "./RedemptionInstructionsModalWrapper";
-import { RedemptionToPrint } from './RedemptionToPrint';
+import RedemptionInstructionsModalWrapper from "../RedemptionInstructionsModalWrapper";
+import { RedemptionToPrint } from '../RedemptionToPrint';
 import { useReactToPrint } from 'react-to-print';
+import { isValidUrl } from "@/shared/helpers";
 
 const storageUrl = `${process.env.REACT_APP_API_STORAGE_URL}/`
 
-const GiftCard = (props) => {
+const CodeRenderer = ({code}) => {
+  if( isValidUrl(code)) {
+    return <a className="giftcode-url" href={code}>code</a>
+  } else {
+    return <span className="giftcode">{code}</span>
+  }
+}
+
+const GiftCardClassic = (props) => {
   const { t } = useTranslation();
   const {merchant, redemption_date, code, pin, sku_value, virtual_inventory, tango_reference_order_id,
     tango_request_id} = props.data;
@@ -53,7 +62,7 @@ const GiftCard = (props) => {
           <div>
             <div className="gift-code">
               <strong>
-                {t("gift_code")} #:{code}
+                {t("gift_code")} #:<CodeRenderer code={code} />
               </strong>
             </div>
             <div className="d-flex justify-content-between">
@@ -88,4 +97,4 @@ const GiftCard = (props) => {
   );
 };
 
-export default GiftCard;
+export default GiftCardClassic;

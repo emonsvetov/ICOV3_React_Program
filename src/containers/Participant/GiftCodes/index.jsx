@@ -1,17 +1,11 @@
 import React, { useEffect, useState} from "react";
-import { Col, Container, Row } from "reactstrap";
-import { ParticipantTabNavs } from "../../../shared/components/tabNavs";
-import GiftCard from "./components/GiftCard";
-import GiftCardOriginal from "./components/GiftCardOriginal";
 
 import { connect } from "react-redux";
-import Sidebar from "../../Layout/sidebar";
 import { useTranslation } from "react-i18next";
 import {getGiftCodes} from '@/services/user/getGiftCodes'
+import { Themed } from "@/theme";
 
-const IMG_BACK = `${process.env.PUBLIC_URL}/theme/classic/img/pages/my-gift-codes.jpg`;
-
-const MyGiftCodes = ({ template, auth, organization, program }) => {
+const MyGiftCodes = ({ auth, organization, program }) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   let [giftCodes, setGiftCodes] = useState(null);
@@ -22,6 +16,7 @@ const MyGiftCodes = ({ template, auth, organization, program }) => {
       getGiftCodes(organization.id, program.id, auth.id)
         .then((data) => {
           setGiftCodes(data);
+          setLoading(false)
         })
         .catch((error) => {
           console.log(error.response.data);
@@ -29,72 +24,15 @@ const MyGiftCodes = ({ template, auth, organization, program }) => {
     }
   }, [organization, program]);
 
-
-  const MyGiftCodesOrigin = () => {
-    return (
-      <Container fluid>
-        <Row className="mt-4">
-          <div className="space-30"></div>
-          <Col md={3}>
-            <Sidebar />
-          </Col>
-          <Col md={9} className="">
-            <h3 className="pt-1" style={{ fontSize: "16px" }}>
-              {" "}
-              {t("my_gift_codes")}
-            </h3>
-            <div className="dashboard">
-              {giftCodes ? giftCodes.map((item, index) => {
-                return <GiftCardOriginal key={index} data={item} />;
-              }) :
-                <p className="text-center">{t("no_gift_codes")}</p>
-              }
-            </div>
-          </Col>
-        </Row>
-      </Container>
-    );
-  };
-
-  const MyGiftCodesNew = () => {
-    return (
-      <>
-        <div className="mainboard">
-          <img src={IMG_BACK} alt="gift_codes_img" />
-          <div className="title text-dark">{t("my_gift_codes")}</div>
-        </div>
-        <Container>
-          <ParticipantTabNavs />
-        </Container>
-        <Container>
-          <Row>
-            <Col md={9}>
-              <div className="dashboard">
-                {giftCodes ? giftCodes.map((item, index) => {
-                    return <GiftCard key={index} data={item} />;
-                  }) :
-                  <p className="text-center">{t("no_gift_codes")}</p>
-                }
-              </div>
-            </Col>
-            <Col md={3}>
-              <Sidebar />
-            </Col>
-          </Row>
-        </Container>
-      </>
-    );
-  };
-
-  return (
-    (template?.name === "classic" && <MyGiftCodesNew />) ||
-    (template?.name === "clear" && <MyGiftCodesOrigin />)
-  );
+  const props = {
+    giftCodes
+  }
+  if( loading ) return t('loading')
+  return <Themed component="MyGiftCodes" {...props} />
 };
 
 const mapStateToProps = (state) => {
   return {
-    template: state.template,
     auth: state.auth,
     program: state.program,
     organization: state.organization,
