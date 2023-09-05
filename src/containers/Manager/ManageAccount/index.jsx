@@ -50,10 +50,6 @@ const ManageAccount = ({ auth, program, organization }) => {
           <Col md={12}>
             <div className="my-3 d-flex justify-content-between">
               <h3>Manage Account</h3>
-              <TemplateButton
-                onClick={() => toggle("CreateInvoice")}
-                text="Create Invoice"
-              />
             </div>
             <div className="buttonWrapper">
             <TemplateButton
