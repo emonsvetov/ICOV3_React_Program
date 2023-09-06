@@ -40,11 +40,11 @@ export const ParticipantTabnavClear = ({program, template}) => {
       <div className="">
         {
           ( TAB_ITEMS.length < 1 ) &&
-          <h5 style={{color: 'black'}} className="social-wall-item-notification-body padding-10 pt-3">
+          <div style={{color: 'black'}} className="social-wall-item-notification-body padding-10 pt-3">
             {template?.participant_homepage_message
             ? template.participant_homepage_message.replace(/(<([^>]+)>)/ig, "")
             : t("participant_homepage_message")}
-          </h5>
+          </div>
         }
         { 
           TAB_ITEMS.length > 0 &&
