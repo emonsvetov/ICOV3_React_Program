@@ -9,6 +9,7 @@ const paths = {
   Navbar: "containers/Layout/topbar",
   ParticipantTabnav: "shared/components/tabNavs",
   RedeemMerchant: "containers/Participant/RedeemPoints",
+  MyGiftCodes: "containers/Participant/GiftCodes",
 };
 const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -16,9 +17,6 @@ const capitalizeFirstLetter = (string) => {
 const ThemedComponent = (props) => {
   const { component, template } = props;
   const tplPostfix = capitalizeFirstLetter(template.name)
-  // if( component === 'MerchantSlider') {
-  //   console.log(`@/${paths[component]}/themed/${component}${tplPostfix}`)
-  // }
   const Component = React.lazy(() =>
     import(`@/${paths[component]}/themed/${component}${tplPostfix}`).catch(
       (e) => ({ default: () => <div>Template [{component}{tplPostfix}] Not found</div> })
