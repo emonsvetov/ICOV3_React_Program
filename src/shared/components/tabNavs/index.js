@@ -11,25 +11,20 @@ export const ParticipantTabNavs = () => {
 
 let ManagerTabNavsTmp = ({program}) => {
   let MANAGER_ITEMS;
+
+  MANAGER_ITEMS = [
+      { title: "Dashboard", icon: "dashboard", to: "/manager/home" }
+  ];
   if (program.uses_social_wall > 0) {
-    MANAGER_ITEMS = [
-      { title: "Dashboard", icon: "dashboard", to: "/manager/home" },
-      { title: "Social Wall", icon: "spire", to: `/manager/nspire-wall` },
-      {
-        title: "Leaderboard",
-        icon: "leaderboard",
-        to: `/manager/leaderboards`,
-      },
-    ];
-  } else {
-    MANAGER_ITEMS = [
-      { title: "Dashboard", icon: "dashboard", to: "/manager/home" },
-      {
-        title: "Leaderboard",
-        icon: "leaderboard",
-        to: `/manager/leaderboards`,
-      },
-    ];
+    MANAGER_ITEMS .push(
+        { title: "Social Wall", icon: "spire", to: `/manager/nspire-wall` }
+    );
+  }
+
+  if (program.uses_leaderboards > 0) {
+    MANAGER_ITEMS .push(
+      { title: "Leaderboard", icon: "leaderboard", to: `/manager/leaderboards` }
+    );
   }
 
   const [path, setPath] = useState(null);

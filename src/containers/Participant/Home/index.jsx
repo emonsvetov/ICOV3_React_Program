@@ -35,12 +35,6 @@ const Home = ({ auth, program, template }) => {
 
   if (!auth || !program || !template) return t("loading");
 
-  const ParticipantWelcomeMessage = () => {
-    const participant_homepage_message  = {__html: template?.participant_homepage_message
-      ? template.participant_homepage_message : t("participant_homepage_message")}
-    return (<div className="welcome-message welcome-message-participant text-center mt-4 mb-2" dangerouslySetInnerHTML={participant_homepage_message}></div>)
-  }
-
   const HomeClear = () => {
     const IMG_BACK = template.hero_banner
       ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.hero_banner}`
@@ -53,7 +47,6 @@ const Home = ({ auth, program, template }) => {
           </div>
           <SlideOutMenu isFixed={false} />
         </div>
-        <ParticipantWelcomeMessage />
         <Container className={`${template.name} mt-5`} fluid>
           <Row>
             <Col md={3}>
@@ -92,7 +85,6 @@ const Home = ({ auth, program, template }) => {
               <img src={IMG_BACK} alt="home_mg"/>
           </div>
         </div>
-        <ParticipantWelcomeMessage />
         <Container>
           <ParticipantTabNavs program={program} />
         </Container>
