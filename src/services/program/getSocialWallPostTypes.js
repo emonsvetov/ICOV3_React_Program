@@ -6,7 +6,6 @@ export const getSocialWallPostTypeEvent = async (organizationId, programId) => {
         const response = await axios.get(
             `/organization/${organizationId}/program/${programId}/social-wall-post-type/event`
         );
-        if (response.data.length === 0) return {results: [], count: 0}
         const data = response.data;
         // console.log(data)
         return data;
@@ -21,7 +20,6 @@ export const getSocialWallPostTypeMessage = async (organizationId, programId) =>
         const response = await axios.get(
           `/organization/${organizationId}/program/${programId}/social-wall-post-type/message`
         );
-        if (response.data.length === 0) return {results: [], count: 0}
         const data = response.data;
         // console.log(data)
         return data;
@@ -36,7 +34,6 @@ export const getSocialWallPostTypeComment = async (organizationId, programId) =>
         const response = await axios.get(
           `/organization/${organizationId}/program/${programId}/social-wall-post-type/comment`
         );
-        if (response.data.length === 0) return {results: [], count: 0}
         const data = response.data;
         // console.log(data)
         return data;
@@ -44,3 +41,15 @@ export const getSocialWallPostTypeComment = async (organizationId, programId) =>
         throw new Error(`API error:${e?.message}`);
     }
 };
+
+export const getSocialWallPostType = async(organizationId, programId, type) => {
+    try {
+        const response = await axios.get(
+          `/organization/${organizationId}/program/${programId}/social-wall-post-type/${type}`
+        );
+        const data = response.data;
+        return data;
+    } catch (e) {
+        throw new Error(`API error:${e?.message}`);
+    }
+}
