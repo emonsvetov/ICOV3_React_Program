@@ -10,6 +10,7 @@ const REPORT_TYPES = [
   // {name: 'Invoices', link:'/manager/report/invoices'},
   {name: 'Supplier Redemption', link:'/manager/report/supplier-redemption'},
   {name: 'Participant Account Summary', link:'/manager/report/participant-account-summary'},
+  {name: 'Invoices', link:'/manager/report/invoices'},
   // {name: 'Annual Awards Summary', link:'/manager/report/annual-awards-summary'},
   // {name: 'Award Account Summary GL ', link:'/manager/report/award-account-summary-gl'},
   // {name: 'Award Detail', link:'/manager/report/award-detail'},
@@ -31,6 +32,14 @@ const Report = ({auth, program, organization}) => {
   const onChange = (e) => {
     navigate(e.target.value);
   }
+
+  let selectedValue = '';
+  REPORT_TYPES.forEach((item) => {
+      if(location.pathname.indexOf(item.link)!= -1){
+          selectedValue=item.link;
+      }
+  });
+
   const ReportOptions = () =>(
     REPORT_TYPES.map((item, index) =>{
       return <option key={index} value={item.link}>{item.name}</option>
@@ -46,7 +55,7 @@ const Report = ({auth, program, organization}) => {
         <div className="d-flex program-select my-3">
           <span>Select Report:</span>
           <div className='mb-0'>
-            <Input type="select" value={location.pathname} name="report-type" onChange={onChange}>
+            <Input type="select" value={selectedValue} name="report-type" onChange={onChange}>
               <ReportOptions />
             </Input>        
           </div>
