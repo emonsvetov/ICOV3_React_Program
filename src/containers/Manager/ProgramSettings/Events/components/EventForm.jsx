@@ -174,16 +174,6 @@ const EventForm = ({
                   )}
                 </Field>
               </Col>
-              <Col md="6">
-                <Label>Ledger Code</Label>
-                <Field 
-                    name="ledger_code"
-                    className="react-select"
-                    options={ledgerCodes}
-                    component={renderSelectField}
-                    placeholder={'Select Ledger Code'}
-                />
-              </Col>
             </Row>
             <Row>
               <Col md="6">
@@ -254,7 +244,7 @@ const EventForm = ({
               </Col>
             </Row>
             <Row>
-              <Col md="9">
+              <Col md="6">
                 <Label>Event Type</Label>
                 <Field
                   name="event_type_id"
@@ -262,6 +252,16 @@ const EventForm = ({
                   options={eventTypes}
                   placeholder={'Select Event Type'}
                   component={renderSelectField}
+                />
+              </Col>
+              <Col md="6">
+                <Label>Ledger Code</Label>
+                <Field
+                    name="ledger_code"
+                    className="react-select"
+                    options={ledgerCodes}
+                    component={renderSelectField}
+                    placeholder={''}
                 />
               </Col>
               {/* <Col md="6">
