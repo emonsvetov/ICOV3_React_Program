@@ -1,7 +1,9 @@
+//SystemModules
 import React, { useState} from 'react';
+import { connect, useDispatch } from "react-redux";
+import {Form, Field} from 'react-final-form';
 import {
   Modal,
-
   Col,
   Row,
   FormGroup,
@@ -11,38 +13,71 @@ import {
   CardHeader,
   CardBody,
 } from 'reactstrap';
-import {Form, Field} from 'react-final-form';
-import {createSocialWallPost} from '@/redux/actions/socialWallPostActions';
-import {getSocialWallPostTypeComment} from '@/services/program/getSocialWallPostTypes'
-import {useDispatch} from 'react-redux';
+
+//CustomModules
+
+import {createSocialWallPost, setSocialWallPostType} from '@/redux/actions/socialWallPostActions';
+import {getSocialWallPostType} from '@/services/program/getSocialWallPostTypes'
 import {getSocialWallPosts} from '@/services/program/getSocialWallPosts'
 import Editor from '@/shared/components/form/Editor';
 
-const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, program, organization, auth, setSocialWallPosts}) => {
+//DefaultComponent
+
+const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, program, organization, auth, setSocialWallPosts, swpGlobal, postType = 'comment', setPostType}) => {
+
+  // console.log("SocialWallCommentPopup")
+  // console.log(`isOpen: ${isOpen}`)
+  if( swpGlobal && swpGlobal?.newPostType ) {
+    postType = swpGlobal.newPostType
+  }
 
   const dispatch = useDispatch()
   const [value, setValue] = useState('')
   const onSubmit = values => {
 
+    // console.log("SocialWallCommentPopup > onSubmit")
+    // console.log(program.uses_social_wall)
+    // console.log(organization.id)
+
     if (program.uses_social_wall) {
 
-      getSocialWallPostTypeComment(organization.id, program.id)
-        .then(socialWallPostTypeComment => {
+      let socialWallPostData = {
+        'comment': value,
+        'program_id': program.id,
+        'organization_id': organization.id,
+        'event_xml_data_id': null,
+        'awarder_program_id': null,
+        'social_wall_post_id': null,
+        'sender_user_account_holder_id': null,
+        'receiver_user_account_holder_id': null,
+        'social_wall_post_type_id': null,
+      }
 
-          let socialWallPostData = {
-            'social_wall_post_type_id': socialWallPostTypeComment.id,
-            'social_wall_post_id': socialWallPost.id,
-            'event_xml_data_id': null,
-            'program_id': program.id,
-            'organization_id': organization.id,
-            'awarder_program_id': null,
-            'sender_user_account_holder_id': auth.account_holder_id,
-            'receiver_user_account_holder_id': socialWallPost.receiver_user_account_holder_id,
-            'comment': value,
-          }
-          // console.log(socialWallPostData);
+      if( socialWallPost?.id )  {
+        socialWallPostData.social_wall_post_id = socialWallPost.id
+      }
+
+      if( auth?.account_holder_id )  {
+        socialWallPostData.sender_user_account_holder_id = auth.account_holder_id
+      }
+
+      if( socialWallPost?.receiver_user_account_holder_id )  {
+        socialWallPostData.receiver_user_account_holder_id = socialWallPost.receiver_user_account_holder_id
+      }
+
+      if( !socialWallPostData.receiver_user_account_holder_id && auth?.account_holder_id ) {
+        socialWallPostData.receiver_user_account_holder_id = auth.account_holder_id
+      }
+
+      getSocialWallPostType(organization.id, program.id, postType)
+        .then(socialWallPostType => {
+          // console.log(socialWallPostType)
+          // setPostType(null)
+          // return
+          socialWallPostData.social_wall_post_type_id = socialWallPostType.id
           dispatch(createSocialWallPost(organization.id, program.id, socialWallPostData))
             .then((res) => {
+              setPostType(null)
               toggle()
               getSocialWallPosts(organization.id, program.id, 0, 999999)
                 .then(data => {
@@ -98,10 +133,15 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
           </Form>
         </CardBody>
       </Card>
-
-
     </Modal>
   )
 }
-
-export default SocialWallCommentPopup;
+const mapStateToProps = (state) => {
+  return {
+    swpGlobal: state.socialWallPost
+  };
+};
+const mapDispatchToProps = dispatch => ({
+  setPostType: (type) => dispatch(setSocialWallPostType(type)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(SocialWallCommentPopup);

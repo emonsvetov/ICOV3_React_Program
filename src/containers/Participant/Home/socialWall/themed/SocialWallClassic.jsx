@@ -5,12 +5,13 @@ import SocialWallItem from "../SocialWallItem";
 import SocialWallCommentModalWrapper from "../SocialWallCommentModalWrapper";
 import { useTranslation } from "react-i18next";
 
-const SocialWallClassic = ({isManager, socialWallPosts, template, program, popupToggle, confirmRef, setSocialWallPost, setDeleteActivityId, setOpen, socialWallPost, deleteActivity, setSocialWallPosts, isOpen}) => {
+const SocialWallClassic = ({isManager, socialWallPosts, template, program, popupToggle, confirmRef, setSocialWallPost, setDeleteActivityId, setOpen, socialWallPost, deleteActivity, setSocialWallPosts, isOpen, onclickAddPost}) => {
   const { t } = useTranslation();
+
   return (
-    <>
+    <div className="container socialWall__container-classic">
       {isManager && (
-        <TemplateButton className="add-new-post" text={t("add_new_post")} />
+        <TemplateButton className="add-new-post" text={t("add_new_post")} onClick={onclickAddPost} />
       )}
       <div className={`social-wall-panel-${template.name} panel pt-4`} >
         {socialWallPosts.results.map((item, index) => {
@@ -38,7 +39,7 @@ const SocialWallClassic = ({isManager, socialWallPosts, template, program, popup
         setSocialWallPosts={setSocialWallPosts}
       />
       <ConfirmModalWrapper confirmRef={confirmRef} action={deleteActivity} />
-    </>
+    </div>
   );
 };
 export default SocialWallClassic

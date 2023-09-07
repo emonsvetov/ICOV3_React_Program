@@ -24,7 +24,7 @@ import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import axios from "axios";
 import formValidation from "@/validation/giveReward";
 
-import { createSocialWallPost } from "@/redux/actions/socialWallPostActions";
+import { createSocialWallPost, setSocialWallPostType } from "@/redux/actions/socialWallPostActions";
 import { getSocialWallPostTypeEvent } from "@/services/program/getSocialWallPostTypes";
 import TemplateButton from "@/shared/components/TemplateButton";
 import EVENT_TYPES from "@/shared/json/eventTypes.json";

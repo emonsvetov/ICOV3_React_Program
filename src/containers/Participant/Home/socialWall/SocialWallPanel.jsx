@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { getSocialWallPosts } from "@/services/program/getSocialWallPosts";
 import { connect } from "react-redux";
-import { deleteSocialWallPost } from "@/redux/actions/socialWallPostActions";
+import { deleteSocialWallPost, setSocialWallPostType } from "@/redux/actions/socialWallPostActions";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import {Themed} from '@/theme'
 // import {SocialWall} from './themed'
 
-const SocialWallPanel = ({ organization, program, isManager, template }) => {
+const SocialWallPanel = ({ organization, program, isManager, template, setPostType }) => {
   const { t } = useTranslation();
   let [socialWallPosts, setSocialWallPosts] = useState(null);
   let [socialWallPost, setSocialWallPost] = useState(null);
@@ -20,6 +20,11 @@ const SocialWallPanel = ({ organization, program, isManager, template }) => {
   };
   const [isOpen, setOpen] = useState(false);
   const [deleteActivityId, setDeleteActivityId] = useState(false);
+
+  const onclickAddPost = () => {
+    setPostType('message')
+    setOpen(true)
+  }
 
   const deleteActivity = () => {
     dispatch(
@@ -56,7 +61,7 @@ const SocialWallPanel = ({ organization, program, isManager, template }) => {
 
   if (!socialWallPosts) return t("loading");
 
-  const props = {isManager, socialWallPosts, template, program, popupToggle, confirmRef, setSocialWallPost, setDeleteActivityId, setOpen, socialWallPost, deleteActivity, setSocialWallPosts, isOpen}
+  const props = {isManager, socialWallPosts, template, program, popupToggle, confirmRef, setSocialWallPost, setDeleteActivityId, setOpen, socialWallPost, deleteActivity, setSocialWallPosts, isOpen, onclickAddPost}
 
   return <Themed component="SocialWall" {...props}  />
 };
@@ -68,4 +73,7 @@ const mapStateToProps = (state) => {
     template: state.template,
   };
 };
-export default connect(mapStateToProps)(SocialWallPanel);
+const mapDispatchToProps = dispatch => ({
+  setPostType: (type) => dispatch(setSocialWallPostType(type)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(SocialWallPanel);
