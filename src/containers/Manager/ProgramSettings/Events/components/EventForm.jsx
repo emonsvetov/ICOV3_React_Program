@@ -3,9 +3,12 @@ import { Input, Col, Row, FormGroup, Label, Modal, ModalBody } from 'reactstrap'
 import { Form, Field } from 'react-final-form';
 import axios from 'axios';
 
+//CustomModules
+
 import {useDispatch, flashError, flashSuccess} from "@/shared/components/flash"
 import renderSelectField from '@/shared/components/form/Select'
 import {getEventTypes} from '@/services/getEventTypes'
+import {getEventLedgerCodes} from '@/services/events'
 import {labelizeNamedData, patch4Select} from '@/shared/helpers'
 import renderToggleButtonField from "@/shared/components/form/ToggleButton"
 import formValidation from "@/validation/addEvent"
@@ -23,6 +26,14 @@ const EventForm = ({
   const [loading, setLoading] = useState(false);
   const [eventTypes, setEventTypes] = useState([]);
   let [event, setEvent] = useState(null);
+  const [ledgerCodes, setLedgerCodes] = useState([]);
+
+  const getListLedgerCodes = (program) => {
+    getEventLedgerCodes(program.organization_id, program.id)
+    .then(ledgercodes => {
+      setLedgerCodes(labelizeNamedData(ledgercodes, ["id", "ledger_code"]))
+    })
+  }
 
   useEffect( () => {
     if( data?.id )
@@ -36,6 +47,7 @@ const EventForm = ({
         setEventTypes(labelizeNamedData(evtypes))
         setLoading(false)
       })
+      getListLedgerCodes(program)
     }
   }, [data, program])
 
@@ -122,6 +134,7 @@ const EventForm = ({
 
   if (event && event?.id) {
     event = patch4Select(event, 'event_type_id', eventTypes)
+    event = patch4Select(event, 'ledger_code', ledgerCodes)
     event.icon = event?.icon ? event.icon : event.event_icon
     if (event?.max_awardable_amount) {
       event.awarding_points = program.factor_valuation * event.max_awardable_amount
@@ -144,7 +157,7 @@ const EventForm = ({
         return (
           <form className="form d-flex flex-column justify-content-evenly" onSubmit={handleSubmit}>
             <Row>
-              <Col md="12">
+              <Col md="6">
                 <Label>Event Name</Label>
                 <Field name="name">
                   {({ input, meta }) => (
@@ -160,6 +173,16 @@ const EventForm = ({
                     </FormGroup>
                   )}
                 </Field>
+              </Col>
+              <Col md="6">
+                <Label>Ledger Code</Label>
+                <Field 
+                    name="ledger_code"
+                    className="react-select"
+                    options={ledgerCodes}
+                    component={renderSelectField}
+                    placeholder={'Select Ledger Code'}
+                />
               </Col>
             </Row>
             <Row>
