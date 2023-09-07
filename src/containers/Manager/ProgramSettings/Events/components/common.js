@@ -11,6 +11,7 @@ export const makeFormData = (program, values) => {
         award_message_editable,
         event_icon_id,
         event_type_id,
+        ledger_code
         /*//Not used in frontend yet, DONT REMOVE
         // email_template_id,
         // template_name,
@@ -43,5 +44,6 @@ export const makeFormData = (program, values) => {
 
     //static
     eventData.event_type_id = event_type_id.value;
+    eventData.ledger_code = ledger_code.value;
     return eventData
 }
