@@ -2,6 +2,7 @@ import { Input, Col, Row, FormGroup} from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 import React, { useState } from "react";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 // import renderToggleButtonField from "@/shared/components/form/ToggleButton"
 
 import { useDispatch, flashError, flashSuccess } from "@/shared/components/flash"
@@ -17,6 +18,7 @@ const CreateInvoiceForm = ({
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false);
     const [pId, setpId] = useState(program.id);
+    let navigate = useNavigate();
 
     const onProgramChange = (e) => {
       // console.log(e.target.value)
@@ -60,7 +62,7 @@ const CreateInvoiceForm = ({
             flashSuccess(dispatch, 'Invoice created successfully!')
             setLoading(false)
             // window.location.reload()
-            toggle()
+            navigate(`/manager/report/invoices/${res.data.id}`)
           }
         })
       .catch((err) => {
