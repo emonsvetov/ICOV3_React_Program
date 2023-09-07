@@ -1,6 +1,6 @@
 import {handleActions} from 'redux-actions';
 import {
-  SocialWallPostSuccess, createSocialWallPost, deleteSocialWallPost
+  SocialWallPostSuccess, createSocialWallPost, deleteSocialWallPost, setSocialWallPostType
 } from '../actions/socialWallPostActions';
 
 const defaultState = null
@@ -8,13 +8,16 @@ const defaultState = null
 export default handleActions(
   {
     [SocialWallPostSuccess](state, action) {
-      return {...state, ...action.payload}
+      return {...state, ...{msgSuccess: action.payload}}
     },
     [createSocialWallPost](state, action) {
       return {...state, ...action.payload}
     },
     [deleteSocialWallPost](state, action) {
       return {...state, ...action.payload}
+    },
+    [setSocialWallPostType](state, action){
+        return { ...state, ...{newPostType: action.payload} };
     },
   },
   defaultState,
