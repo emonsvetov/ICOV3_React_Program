@@ -20,7 +20,7 @@ const Editor = (props) => {
         }}
         onChange={(event) => {
           const data = event.editor.getData();
-          console.log(data);
+          // console.log(data);
           setValue(data);
         }}
       />

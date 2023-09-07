@@ -1,12 +1,8 @@
-// import {createAction} from 'redux-actions';
+import {createAction} from 'redux-actions';
 import axios from 'axios';
 
-export const SocialWallPostSuccess = (data) => {
-  return {
-    type: 'SET_SOCIAL_WALL_POST',
-    payload: data
-  }
-};
+export const setSocialWallPostType = createAction('SET_SOCIAL_WALL_POST_TYPE');
+export const SocialWallPostSuccess = createAction('SET_SOCIAL_WALL_POST');
 
 export const createSocialWallPost = (organizationId, programId, socialWallPostData) => {
   return (dispatch) => {

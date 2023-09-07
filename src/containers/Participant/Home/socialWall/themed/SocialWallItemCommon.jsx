@@ -1,8 +1,42 @@
 import TemplateButton from "@/shared/components/TemplateButton"
+import {createMarkup} from '@/shared/helpers'
+
 const SocialWallItemCommon = (props) => {
   const {
     program, postAvatar, title, content, TimeAgo, TimeZone, from, created_at, commentEvent, comments, DeleteActivityEvent, createMarkup, isManager, confirmRef, id, storageUrl, defaultAvatar
   } = props
+
+  const CommentsRenderer = ({comments}) => {
+    let html = []
+    comments.map((item, index) => {
+        const commentAvatar = item.avatar ? storageUrl + item.avatar : defaultAvatar;
+        html.push(<div className="social-wall-comment" key={`commentItem-${index}`}>
+          <table width="100%">
+            <tbody>
+            <tr>
+              <td><img className="circular--portrait_comment" src={commentAvatar} alt="avatar" /></td>
+              <td valign="top" width="100%">
+                <span className="social-wall-item-from">{item.fromUser}</span>
+                {
+                  isManager &&
+                  <>&nbsp;<span className='deleteComment link underline' onClick={() => DeleteActivityEvent(confirmRef, item.id)}>Delete</span></>
+                }
+                <div className="right" dangerouslySetInnerHTML={createMarkup(item.comment)}/>
+                <span className="social-wall-time"><TimeAgo date={TimeZone(item.created_at_formated)} /></span>
+
+                {item?.comments && item.comments.length > 0 &&  <div className="socialWall__comment-reply-nested"><CommentsRenderer comments={item.comments} /></div>}
+
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>)
+      }
+    )
+    return html
+  }
+
+
   return (
     <table className="social-wall-post" cellPadding="0" cellSpacing="0" width="100%">
       <tbody>
@@ -33,7 +67,7 @@ const SocialWallItemCommon = (props) => {
               <tbody>
               <tr>
                 <td width="100%" align="left">
-                  {content}
+                  <div dangerouslySetInnerHTML={createMarkup(content)}/>
                 </td>
               </tr>
               </tbody>
@@ -54,27 +88,7 @@ const SocialWallItemCommon = (props) => {
             }
           </div>
           <div className="social-wall-comments-container ">
-            {comments.map((item, index) => {
-              const commentAvatar = item.avatar ? storageUrl + item.avatar : defaultAvatar;
-              return <div className="social-wall-comment" key={`commentItem-${index}`}>
-                <table width="100%">
-                  <tbody>
-                  <tr>
-                    <td><img className="circular--portrait_comment" src={commentAvatar} alt="avatar" /></td>
-                    <td valign="top" width="100%">
-                      <span className="social-wall-item-from">{item.fromUser}</span>
-                      {
-                        isManager &&
-                        <span className='deleteComment' onClick={() => DeleteActivityEvent(confirmRef, item.id)}>Delete</span>
-                      }
-                      <div className="right" dangerouslySetInnerHTML={createMarkup(item.comment)}/>
-                      <span className="social-wall-time"><TimeAgo date={TimeZone(item.created_at_formated)} /></span>
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-            })}
+            <CommentsRenderer comments={comments} />
           </div>
 
           <div className="social-wall-post-comment-container">
@@ -94,4 +108,6 @@ const SocialWallItemCommon = (props) => {
     </table>
   );
 };
+
+
 export default SocialWallItemCommon
