@@ -97,7 +97,7 @@ const GiveRewardPopup = ({
         formData
       )
       .then((res) => {
-        //   console.log(res)
+          console.log(res)
         if (res.status === 200) {
           toggle()
           dispatch(
@@ -106,7 +106,7 @@ const GiveRewardPopup = ({
             )
           );
           setSaving(false)
-          window.location.reload()
+          // window.location.reload()
         }
       })
       .catch((err) => {
