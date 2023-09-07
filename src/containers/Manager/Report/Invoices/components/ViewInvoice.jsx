@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import axios from 'axios';
 
 import { Button, ButtonToolbar, Row, Col  } from 'reactstrap';
 import {getInvoice} from "@/services/program/getInvoice";
@@ -23,6 +24,28 @@ const ViewInvoice = (props) => {
     if(loading) return 'Loading...'
     if(!invoice) return 'Invoice cannot be loaded'
 
+    const onClickDownloadInvoice = () => {
+        // console.log(props)
+        // console.log(invoice)
+        axios.get(`/organization/${invoice.program.organization_id}/program/${invoice.program_id}/invoice/${invoice.id}/download`,
+        {
+            responseType: 'arraybuffer',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/pdf'
+            }
+        })
+        .then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `${invoice.invoice_number}.pdf`); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+        })
+        .catch((error) => console.log(error));
+    }
+
     let dues = getDues(invoice);
     const logoSrc = process.env.REACT_APP_API_STORAGE_URL + "/logo/big_logo.png";
 
@@ -36,6 +59,13 @@ const ViewInvoice = (props) => {
                 </Col>
                 <Col md="9" lg="9" xl="9" className="text-right">
                 <ButtonToolbar className="modal__footer flex justify-content-right w100">
+                    <Button
+                    color="primary"
+                    className="mr-3"
+                    onClick={()=>onClickDownloadInvoice()}
+                    >
+                    Download Invoice
+                    </Button>
                     <Button
                     outline
                     color="primary"
