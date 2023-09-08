@@ -12,10 +12,10 @@ export const TABLE_COLUMNS = [
     Header: "External Id",
     accessor: "external_id",
   },
-  {
-    Header: "Org Id",
-    accessor: "recipient_organization_uid",
-  },
+  // {
+  //   Header: "Org Id",
+  //   accessor: "recipient_organization_uid",
+  // },
   {
     Header: "First Name",
     accessor: "recipient_first_name",
@@ -38,21 +38,21 @@ export const TABLE_COLUMNS = [
     accessor: "points_redeemed",
     Cell: ({ row, value }) => { return toPoints(row.original.factor_valuation * value); },
   },
-  {
-    Header: "Amount Expired",
-    accessor: "points_expired",
-    Cell: ({ row, value }) => { return toPoints(row.original.factor_valuation * value); },
-  },
-  {
-    Header: "Amount Reclaimed",
-    accessor: "points_reclaimed",
-    Cell: ({ row, value }) => { return toPoints(row.original.factor_valuation * value); },
-  },
-  {
-    Header: "Award Credit Reclaimed",
-    accessor: "award_credit_points_reclaimed",
-    Cell: ({ row, value }) => { return toPoints(row.original.factor_valuation * value); },
-  },
+  // {
+  //   Header: "Amount Expired",
+  //   accessor: "points_expired",
+  //   Cell: ({ row, value }) => { return toPoints(row.original.factor_valuation * value); },
+  // },
+  // {
+  //   Header: "Amount Reclaimed",
+  //   accessor: "points_reclaimed",
+  //   Cell: ({ row, value }) => { return toPoints(row.original.factor_valuation * value); },
+  // },
+  // {
+  //   Header: "Award Credit Reclaimed",
+  //   accessor: "award_credit_points_reclaimed",
+  //   Cell: ({ row, value }) => { return toPoints(row.original.factor_valuation * value); },
+  // },
   {
     Header: "Current Balance",
     accessor: "points_balance",
@@ -73,12 +73,12 @@ export const TABLE_COLUMNS = [
     accessor: "peer_balance",
     Cell: ({ row, value }) => { return toPoints(row.original.factor_valuation * value); },
   },
-  {
-    Header: "Anniversary",
-    accessor: "anniversary",
-  },
-  {
-    Header: "Birthday",
-    accessor: "birth",
-  },
+  // {
+  //   Header: "Anniversary",
+  //   accessor: "anniversary",
+  // },
+  // {
+  //   Header: "Birthday",
+  //   accessor: "birth",
+  // },
 ];
