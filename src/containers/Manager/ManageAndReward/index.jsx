@@ -45,7 +45,7 @@ const ManageAndReward = ({auth, program, organization}) => {
             <span>Search Program</span>
           </div>
         </div>
-        <div align="right">Current Balance: {balance}</div>
+        <div align="right">Current Balance: ${balance}</div>
         <ProgramParticipants organization={organization} program={program} />
       </Container>
     </div>
