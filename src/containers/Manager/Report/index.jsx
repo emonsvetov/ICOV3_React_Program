@@ -10,6 +10,7 @@ const REPORT_TYPES = [
   // {name: 'Invoices', link:'/manager/report/invoices'},
   {name: 'Supplier Redemption', link:'/manager/report/supplier-redemption'},
   {name: 'Participant Account Summary', link:'/manager/report/participant-account-summary'},
+  {name: 'Participant Status Summary', link:'/manager/report/participant-status-summary'},
   {name: 'Invoices', link:'/manager/report/invoices'},
   // {name: 'Annual Awards Summary', link:'/manager/report/annual-awards-summary'},
   // {name: 'Award Account Summary GL ', link:'/manager/report/award-account-summary-gl'},
