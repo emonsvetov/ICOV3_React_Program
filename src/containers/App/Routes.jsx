@@ -67,6 +67,7 @@ import Report from "../Manager/Report";
 import Invoices from "../Manager/Report/Invoices/index";
 import SupplierRedemption from "../Manager/Report/SupplierRedemption/index";
 import ParticipantAccountSummary from "../Manager/Report/ParticipantAccountSummary/index";
+import ParticipantStatusSummary from "../Manager/Report/ParticipantStatusSummary/index";
 import ProgramStatus from "../Manager/Report/components/ProgramStatus";
 import AwardDetail from "../Manager/Report/components/AwardDetail";
 import AwardSummary from "../Manager/Report/components/AwardSummary";
@@ -170,6 +171,7 @@ const RouteIndex = () => (
             <Route path="invoices/:invoiceId" element={<Invoices />} />
             <Route path="supplier-redemption" element={<SupplierRedemption />} />
             <Route path="participant-account-summary" element={<ParticipantAccountSummary />} />
+            <Route path="participant-status-summary" element={<ParticipantStatusSummary />} />
             <Route path="program-status" element={<ProgramStatus />} />
             {/* <Route path="annual-awards-summary" element={<AnnualAwardsSummary />} />
             <Route path="award-account-summary-gl" element={<AwardAccountSummaryGl />} /> */}
