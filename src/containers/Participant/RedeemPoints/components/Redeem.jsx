@@ -51,7 +51,7 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
         (payload) => {
           // console.log(payload)
           if ( payload && payload.length > 0 ) {
-            setGiftcodes(payload.data);
+            setGiftcodes(payload);
             setLoadingGiftcodes(false);
           }
         }
@@ -74,7 +74,7 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
         (payload) => {
           // console.log(payload)
           if ( payload && payload.length > 0  ) {
-            setGiftcodes(payload.data);
+            setGiftcodes(payload);
             setLoadingGiftcodes(false);
           }
         }
