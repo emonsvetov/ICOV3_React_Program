@@ -34,7 +34,7 @@ export const logout = (e) => {
     flushUserSession();
     window.location = "/login";
   }
-  e.preventDefault();
+  // e.preventDefault();
 };
 
 export const flushUserSession = () => {
