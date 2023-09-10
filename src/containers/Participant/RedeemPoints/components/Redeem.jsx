@@ -49,7 +49,7 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
       // console.log('Loading merchant')
       getMerchantRedeemable(organization.id, program.id, merchantId).then(
         (payload) => {
-          // console.log(payload)
+          console.log(payload)
           if (payload?.data) {
             setGiftcodes(payload.data);
             setLoadingGiftcodes(false);
