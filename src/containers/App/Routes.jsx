@@ -64,9 +64,10 @@ import Referral from "../Manager/Referral";
 import Team from "../Manager/Team";
 import TeamView from "../Manager/Team/components/TeamView";
 import Report from "../Manager/Report";
-import Invoices from "../Manager/Report/components/Invoices";
+import Invoices from "../Manager/Report/Invoices/index";
 import SupplierRedemption from "../Manager/Report/SupplierRedemption/index";
 import ParticipantAccountSummary from "../Manager/Report/ParticipantAccountSummary/index";
+import ParticipantStatusSummary from "../Manager/Report/ParticipantStatusSummary/index";
 import ProgramStatus from "../Manager/Report/components/ProgramStatus";
 import AwardDetail from "../Manager/Report/components/AwardDetail";
 import AwardSummary from "../Manager/Report/components/AwardSummary";
@@ -167,8 +168,10 @@ const RouteIndex = () => (
           <Route path="team/:teamId" element={<TeamView />} />
           <Route path="report" element={<Report />}>
             <Route path="invoices" element={<Invoices />} />
+            <Route path="invoices/:invoiceId" element={<Invoices />} />
             <Route path="supplier-redemption" element={<SupplierRedemption />} />
             <Route path="participant-account-summary" element={<ParticipantAccountSummary />} />
+            <Route path="participant-status-summary" element={<ParticipantStatusSummary />} />
             <Route path="program-status" element={<ProgramStatus />} />
             {/* <Route path="annual-awards-summary" element={<AnnualAwardsSummary />} />
             <Route path="award-account-summary-gl" element={<AwardAccountSummaryGl />} /> */}

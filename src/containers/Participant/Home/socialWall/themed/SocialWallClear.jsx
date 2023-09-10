@@ -1,16 +1,21 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
+import {connect} from 'react-redux';
+
 import ConfirmModalWrapper from "@/shared/components/modal/confirmModal/ConfirmModalWrapper";
+import SocialWallCommentModalWrapper from "../SocialWallCommentModalWrapper";
 import TemplateButton from "@/shared/components/TemplateButton";
 import SocialWallItem from "../SocialWallItem";
-import SocialWallCommentModalWrapper from "../SocialWallCommentModalWrapper";
-import { useTranslation } from "react-i18next";
 
-const SocialWallClear = ({isManager, socialWallPosts, template, program, popupToggle, confirmRef, setSocialWallPost, setDeleteActivityId, setOpen, socialWallPost, deleteActivity, setSocialWallPosts, isOpen}) => {
+//Default method starts
+
+const SocialWallClear = ({isManager, socialWallPosts, template, program, popupToggle, confirmRef, setSocialWallPost, setDeleteActivityId, setOpen, socialWallPost, deleteActivity, setSocialWallPosts, isOpen, onclickAddPost}) => {
   const { t } = useTranslation();
+  
   return (
-    <>
+    <div className="container socialWall__container-clear">
       {isManager && (
-        <TemplateButton className="add-new-post" text={t("add_new_post")} />
+          <TemplateButton className="add-new-post" text={t("add_new_post")} onClick={onclickAddPost} />
       )}
       <div className={`social-wall-panel-${template.name}`} >
         {socialWallPosts.results.map((item, index) => {
@@ -38,7 +43,11 @@ const SocialWallClear = ({isManager, socialWallPosts, template, program, popupTo
         setSocialWallPosts={setSocialWallPosts}
       />
       <ConfirmModalWrapper confirmRef={confirmRef} action={deleteActivity} />
-    </>
+    </div>
   );
 };
-export default SocialWallClear
+// const mapDispatchToProps = dispatch => ({
+//   // setPostType: (type) => dispatch(setSocialWallPostType(type)),
+// });
+// export default connect(null, mapDispatchToProps)(SocialWallClear);
+export default SocialWallClear;

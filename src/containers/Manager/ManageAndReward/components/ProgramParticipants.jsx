@@ -35,13 +35,13 @@ const QUERY_PAGE_SIZE = 10;
 
 const ACTIONS = [
   { name: "Reward", link: "", icon: <RewardIcon /> },
-  { name: "Add Goal", link: "", icon: <GoalIcon /> },
-  /*{ name: "Email", link: "", icon: <MailIcon /> },*/
+  //{ name: "Add Goal", link: "", icon: <GoalIcon /> }, TODO: add logic to check engagement settings
+  //{ name: "Email", link: "", icon: <MailIcon /> },TODO: add logic to check engagement settings
   { name: "Resend Invite", link: "", icon: <ResendIcon /> },
   { name: "Deactivate", link: "", icon: <DeactivateIcon /> },
   { name: "Activate", link: "", icon: <ActivateIcon /> },
-  //{ name: "Import", link: "", icon: <ImportIcon /> },
-  { name: "Peer Allocation", link: "", icon: <PeerIcon /> },
+  //{ name: "Import", link: "", icon: <ImportIcon /> }, TODO: add logic to check engagement settings
+  //{ name: "Peer Allocation", link: "", icon: <PeerIcon /> }, TODO: add logic to check engagement settings
 ];
 const ENTRIES = [{ value: 10 }, { value: 25 }, { value: 50 }, { value: 100 }];
 
@@ -59,9 +59,9 @@ const BULK_ACTIONS = [
   "Resend Invite",
   "Deactivate",
   "Activate",
-  "Peer Allocation",
+  //"Peer Allocation", TODO: add logic to check engagement settings
   "Reclaim Peer Allocations",
-  "Add Goal"
+  //"Add Goal" TODO: add logic to check engagement settings
 ]
 
 const POINT_COLUMN_HEADERS = [
