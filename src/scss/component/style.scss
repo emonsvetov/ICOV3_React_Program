@@ -1377,3 +1377,40 @@ footer{
 }
 .social-wall-icon{float:right;padding:0 15px;}
 .social-wall-icon img{max-height: 60px;width:auto;}
+// .image_container {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     width: 100px;
+//     height: 100px;
+//     border: 1px solid black;
+//     border-radius: 50%;
+//     overflow: hidden;
+//     padding: 30px;
+// }
+.circled-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 55px;
+    height: 55px;
+    border: 1px solid rgb(206, 206, 206);
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    overflow: hidden;
+    padding: 0px;
+    z-index: 0;       
+    transform: scale(.99);         
+  }
+  .circled-img img {
+    width: 100%;
+    height: auto;
+    -webkit-transition: transform 0.8s;
+    transition: transform 0.8s;
+  }
+  .circled-img img:hover {
+    display: block;
+    z-index: 100;
+    -webkit-transform: scale(1.25);
+    transform: scale(1.25);
+  }
