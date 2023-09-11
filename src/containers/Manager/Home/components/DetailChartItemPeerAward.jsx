@@ -134,24 +134,25 @@ const DetailChartItemPeerAward = ({organization, program}) => {
   if (!data) return t("loading");
 
   return (
-    <div className={`rounded-panel chart-panel index-1`}>
-      <div className='title d-flex justify-content-between'>
-        <h3>Peer Award Detail</h3>
-        <div className='title-right d-flex'>
-          <span className='w-50'>
-            <span onClick={() => {
-              clickUnit('$')
-            }} style={{cursor: 'pointer'}}>$</span>&nbsp;/&nbsp;<span onClick={() => {
-            clickUnit('#')
-          }} style={{cursor: 'pointer'}}>#</span>
-          </span>
-          <Input type="select" className='dropdowntoggle' defaultValue={duration} name="period" onChange={onChange}>
-              <DurationOptions />
-          </Input>    
-        </div>
-      </div>
-      <Line options={options} data={data} />
-    </div>
+      ''
+    // <div className={`rounded-panel chart-panel index-1`}>
+    //   <div className='title d-flex justify-content-between'>
+    //     <h3>Peer Award Detail</h3>
+    //     <div className='title-right d-flex'>
+    //       <span className='w-50'>
+    //         <span onClick={() => {
+    //           clickUnit('$')
+    //         }} style={{cursor: 'pointer'}}>$</span>&nbsp;/&nbsp;<span onClick={() => {
+    //         clickUnit('#')
+    //       }} style={{cursor: 'pointer'}}>#</span>
+    //       </span>
+    //       <Input type="select" className='dropdowntoggle' defaultValue={duration} name="period" onChange={onChange}>
+    //           <DurationOptions />
+    //       </Input>
+    //     </div>
+    //   </div>
+    //   <Line options={options} data={data} />
+    // </div>
 )}
 
 const mapStateToProps = (state) => {
