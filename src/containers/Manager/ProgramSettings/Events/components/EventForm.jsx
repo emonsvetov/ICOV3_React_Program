@@ -260,6 +260,7 @@ const EventForm = ({
                     name="ledger_code"
                     className="react-select"
                     options={ledgerCodes}
+                    isClearable={true}
                     component={renderSelectField}
                     placeholder={''}
                 />
