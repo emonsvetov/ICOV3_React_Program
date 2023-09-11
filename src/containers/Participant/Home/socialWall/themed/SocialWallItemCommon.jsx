@@ -14,7 +14,11 @@ const SocialWallItemCommon = (props) => {
           <table width="100%">
             <tbody>
             <tr>
-              <td><img className="circular--portrait_comment" src={commentAvatar} alt="avatar" /></td>
+              <td>
+                <div className="circled-img">
+                  <img src={ commentAvatar } alt="avatar" />
+                </div>
+                </td>
               <td valign="top" width="100%">
                 <span className="social-wall-item-from">{item.fromUser}</span>
                 {
@@ -52,7 +56,9 @@ const SocialWallItemCommon = (props) => {
               <tbody>
               <tr>
                 <td>
-                  <img className="circular--portrait" src={ postAvatar } alt="avatar" />
+                  <div className="circled-img">
+                    <img src={ postAvatar } alt="avatar" />
+                  </div>
                 </td>
                 <td valign="center">
                   {icon && <div className="social-wall-icon"><img src={`${process.env.REACT_APP_API_STORAGE_URL}/${icon}`} /></div>}
