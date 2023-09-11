@@ -3,7 +3,7 @@ import {createMarkup} from '@/shared/helpers'
 
 const SocialWallItemCommon = (props) => {
   const {
-    program, postAvatar, title, content, TimeAgo, TimeZone, from, created_at, commentEvent, comments, DeleteActivityEvent, createMarkup, isManager, confirmRef, id, storageUrl, defaultAvatar
+    program, postAvatar, title, content, TimeAgo, TimeZone, from, created_at, commentEvent, comments, DeleteActivityEvent, createMarkup, isManager, confirmRef, id, storageUrl, defaultAvatar, icon
   } = props
 
   const CommentsRenderer = ({comments}) => {
@@ -36,7 +36,6 @@ const SocialWallItemCommon = (props) => {
     return html
   }
 
-
   return (
     <table className="social-wall-post" cellPadding="0" cellSpacing="0" width="100%">
       <tbody>
@@ -49,13 +48,14 @@ const SocialWallItemCommon = (props) => {
         <td className="social-wall-post-l"></td>
         <td className="social-wall-post-body">
           <div className="social-wall-item-header">
-            <table>
+            <table className="full-width">
               <tbody>
               <tr>
                 <td>
                   <img className="circular--portrait" src={ postAvatar } alt="avatar" />
                 </td>
                 <td valign="center">
+                  {icon && <div className="social-wall-icon"><img src={`${process.env.REACT_APP_API_STORAGE_URL}/${icon}`} /></div>}
                   {title}
                 </td>
               </tr>
