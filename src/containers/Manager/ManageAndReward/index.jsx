@@ -41,8 +41,8 @@ const ManageAndReward = ({auth, program, organization}) => {
             <SelectProgram />
           </div>
           <div className='d-flex'>
-            <SearchIcon size={36} className='icon'/>
-            <span>Search Program</span>
+            {/*<SearchIcon size={36} className='icon'/>*/}
+            {/*<span>Search Program</span>*/}
           </div>
         </div>
         <div align="right">Current Balance: ${balance}</div>
