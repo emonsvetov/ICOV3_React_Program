@@ -8,7 +8,7 @@ import { useLocation, useNavigate, Outlet } from 'react-router-dom';
 
 const REPORT_TYPES = [
   // {name: 'Invoices', link:'/manager/report/invoices'},
-  {name: 'Supplier Redemption', link:'/manager/report/supplier-redemption'},
+  //{name: 'Supplier Redemption', link:'/manager/report/supplier-redemption'},
   {name: 'Participant Account Summary', link:'/manager/report/participant-account-summary'},
   {name: 'Participant Status Summary', link:'/manager/report/participant-status-summary'},
   {name: 'Invoices', link:'/manager/report/invoices'},
