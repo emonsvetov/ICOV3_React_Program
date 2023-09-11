@@ -8,7 +8,7 @@ import {Themed} from '@/theme'
 
 const SocialWallItem = (props) => {
   // console.log(props)
-  const {id, title, content, from, created_at, comments, avatar} = props.data;
+  const {id, title, content, from, created_at, comments, avatar, icon} = props.data;
   const {template} = props;
   const isManager = props.isManager;
   const confirmRef = props.confirmRef;
@@ -42,7 +42,7 @@ const SocialWallItem = (props) => {
   const postAvatar = avatar ? storageUrl + avatar : defaultAvatar;
 
   const comProps = {
-    program: props.program, postAvatar, title, content, TimeAgo, TimeZone, from, created_at, commentEvent, comments, DeleteActivityEvent, createMarkup, isManager, confirmRef, id, storageUrl, defaultAvatar, template
+    program: props.program, postAvatar, title, content, TimeAgo, TimeZone, from, created_at, commentEvent, comments, DeleteActivityEvent, createMarkup, isManager, confirmRef, id, storageUrl, defaultAvatar, template, icon
   }
 
   return <Themed component="SocialWallItem" {...comProps}  />
