@@ -60,17 +60,17 @@ const ParticipantViewModal = ({ isOpen, setOpen, toggle, participants }) => {
               <ResendIcon />
               Resend Invite
             </span>
-            <Button
-              onClick={() =>
-                onClickAction("Reclaim Peer Allocations", participants)
-              }
-              type="button"
-              aria-label="button collapse"
-              className="template-button border-0 btn btn-secondary me-2"
-            >
-              <PeerIcon />
-              Reclaim Peer Allocations
-            </Button>
+            {/*<Button*/}
+            {/*  onClick={() =>*/}
+            {/*    onClickAction("Reclaim Peer Allocations", participants)*/}
+            {/*  }*/}
+            {/*  type="button"*/}
+            {/*  aria-label="button collapse"*/}
+            {/*  className="template-button border-0 btn btn-secondary me-2"*/}
+            {/*>*/}
+            {/*  <PeerIcon />*/}
+            {/*  Reclaim Peer Allocations*/}
+            {/*</Button>*/}
           </Col>
         </Row>
         <Row>
