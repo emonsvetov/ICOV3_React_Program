@@ -986,7 +986,7 @@ footer{
         list-style-image: url('../../shared/img/circle.svg');
     }
 }
-.w100{width:100%;}
+.w100, .full-width, .full-stretch{width:100%;}
 .form-label{margin-bottom:0}
 .form__form-group-input-wrap{display:flex;}
 .alert-danger{background-color: #FF3930;}
@@ -1375,3 +1375,5 @@ footer{
 .underline{
     text-decoration: underline;
 }
+.social-wall-icon{float:right;padding:0 15px;}
+.social-wall-icon img{max-height: 60px;width:auto;}
