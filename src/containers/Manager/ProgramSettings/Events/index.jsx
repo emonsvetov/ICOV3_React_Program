@@ -41,9 +41,16 @@ const Events = ({ program, organization }) => {
   const [isOpen, setOpen] = useState(false);
   const [modalName, setModalName] = useState(null);
 
-  const toggle = (name = null) => {
+  const toggle = (name = null, reload = false) => {
     if (name) setModalName(name);
     setOpen((prevState) => !prevState);
+    if(reload){
+      setLoading(true);
+      getEvents(organization.id, program.id, {disabled: true}).then((items) => {
+        setEvents(items);
+        setLoading(false);
+      });
+    }
   };
 
   const onClickEditEvent = (eventId) => {
