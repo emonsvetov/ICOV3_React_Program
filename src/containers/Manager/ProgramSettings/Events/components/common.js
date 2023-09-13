@@ -44,6 +44,6 @@ export const makeFormData = (program, values) => {
 
     //static
     eventData.event_type_id = event_type_id.value;
-    eventData.ledger_code = ledger_code.value;
+    eventData.ledger_code = ledger_code?.value;
     return eventData
 }

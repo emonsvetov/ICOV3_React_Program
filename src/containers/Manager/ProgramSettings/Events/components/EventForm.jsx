@@ -25,6 +25,7 @@ const EventForm = ({
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false);
   const [eventTypes, setEventTypes] = useState([]);
+  const [eventTypeId, setEventTypeId] = useState(false);
   let [event, setEvent] = useState(null);
   const [ledgerCodes, setLedgerCodes] = useState([]);
 
@@ -39,6 +40,7 @@ const EventForm = ({
     if( data?.id )
     {
       setEvent(data)
+      setEventTypeId(data.event_type_id);
     }
     if( program?.id ) {
       getEventTypes(program.organization_id, program.id)
@@ -78,7 +80,7 @@ const EventForm = ({
         setLoading(false)
         // window.location.reload()
         // setTrigger(Math.floor(Date.now() / 1000))
-        toggle()
+        toggle(null, true)
       }
     })
     .catch((err) => {
@@ -110,6 +112,10 @@ const EventForm = ({
       const field = state.fields["max_awardable_amount"];
       field.change(  v / program.factor_valuation );
     }
+  }
+
+   const onChangeEventType = (value) => {
+    setEventTypeId(value.value);
   }
 
   const setEventIcon = ([fieldName, fieldVal], state, {changeValue }) => {
@@ -175,63 +181,66 @@ const EventForm = ({
                 </Field>
               </Col>
             </Row>
-            <Row>
-              <Col md="6">
-                <Label>Max Awardable Amount</Label>
-                <Field name="max_awardable_amount">
-                  {({ input, meta }) => (
-                    <FormGroup>
-                      <Input
-                        placeholder="Max Awardable Amount"
-                        type="text"
-                        onKeyUp={form.mutators.onChangeAwardValue}
-                        {...input}
-                      />
-                      {meta.touched && meta.error && <span className="text-danger">
-                        {meta.error}
-                      </span>}
-                    </FormGroup>
-                  )}
-                </Field>
-              </Col>
-              <Col md="6">
-                <Label>Awarding Points</Label>
-                <Field name="awarding_points">
-                  {({ input, meta }) => (
-                    <FormGroup>
-                      <Input
-                        placeholder="Awarding Points"
-                        onKeyUp={form.mutators.onChangeAwardValue}
-                        type="text"
-                        {...input}
-                      />
-                      {meta.touched && meta.error && <span className="text-danger">
-                        {meta.error}
-                      </span>}
-                    </FormGroup>
-                  )}
-                </Field>
-              </Col>
-
-              {/* <Col md="6">
-                    <Field name="ledger_code">
-                    {({ input, meta }) => (
+            {eventTypeId != 5 && (
+              <>
+                <Row>
+                  <Col md="6">
+                    <Label>Max Awardable Amount</Label>
+                    <Field name="max_awardable_amount">
+                      {({ input, meta }) => (
                         <FormGroup>
-                            <Input
-                            placeholder="Ledger Code"
+                          <Input
+                            placeholder="Max Awardable Amount"
+                            type="text"
+                            onKeyUp={form.mutators.onChangeAwardValue}
+                            {...input}
+                          />
+                          {meta.touched && meta.error && <span className="text-danger">
+                            {meta.error}
+                          </span>}
+                        </FormGroup>
+                      )}
+                    </Field>
+                  </Col>
+                  <Col md="6">
+                    <Label>Awarding Points</Label>
+                    <Field name="awarding_points">
+                      {({ input, meta }) => (
+                        <FormGroup>
+                          <Input
+                            placeholder="Awarding Points"
+                            onKeyUp={form.mutators.onChangeAwardValue}
                             type="text"
                             {...input}
-                            />
-                                {meta.touched && meta.error && 
-                                <span className="text-danger">
-                                {meta.error}
-                                </span>
-                                }
+                          />
+                          {meta.touched && meta.error && <span className="text-danger">
+                            {meta.error}
+                          </span>}
                         </FormGroup>
-                    )}
+                      )}
                     </Field>
-                </Col> */}
-            </Row>
+                  </Col>
+
+                  {/* <Col md="6">
+                        <Field name="ledger_code">
+                        {({ input, meta }) => (
+                            <FormGroup>
+                                <Input
+                                placeholder="Ledger Code"
+                                type="text"
+                                {...input}
+                                />
+                                    {meta.touched && meta.error &&
+                                    <span className="text-danger">
+                                    {meta.error}
+                                    </span>
+                                    }
+                            </FormGroup>
+                        )}
+                        </Field>
+                    </Col> */}
+                </Row>
+              </> )}
             <Row>
               <Col md="6">
                 <FormGroup className='d-flex justify-content-between'>
@@ -252,6 +261,10 @@ const EventForm = ({
                   options={eventTypes}
                   placeholder={'Select Event Type'}
                   component={renderSelectField}
+                  parse={value => {
+                      onChangeEventType(value)
+                      return value;
+                  }}
                 />
               </Col>
               <Col md="6">
