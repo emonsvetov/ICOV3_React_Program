@@ -18,6 +18,7 @@ import GoalIcon from "mdi-react/BullseyeArrowIcon";
 import ResendIcon from "mdi-react/AccountPlusIcon";
 import DeactivateIcon from "mdi-react/CancelIcon";
 import ActivateIcon from "mdi-react/RefreshIcon";
+import LockIcon from "mdi-react/LockIcon";
 import PeerIcon from "mdi-react/PostItNoteAddIcon";
 import apiTableService from "@/services/apiTableService";
 import { useTranslation } from "react-i18next";
@@ -40,6 +41,7 @@ const ACTIONS = [
   { name: "Resend Invite", link: "", icon: <ResendIcon /> },
   { name: "Deactivate", link: "", icon: <DeactivateIcon /> },
   { name: "Activate", link: "", icon: <ActivateIcon /> },
+  { name: "Lock", link: "", icon: <LockIcon /> },
   //{ name: "Import", link: "", icon: <ImportIcon /> }, TODO: add logic to check engagement settings
   //{ name: "Peer Allocation", link: "", icon: <PeerIcon /> }, TODO: add logic to check engagement settings
 ];
@@ -59,6 +61,7 @@ const BULK_ACTIONS = [
   "Resend Invite",
   "Deactivate",
   "Activate",
+  "Lock",
   //"Peer Allocation", TODO: add logic to check engagement settings
   "Reclaim Peer Allocations",
   //"Add Goal" TODO: add logic to check engagement settings
@@ -109,6 +112,14 @@ const RenderActions = ({ row, onClickActionCb }) => {
         return false;
       }
       statusLabel = "Activate";
+    }
+    if (item.name === "Lock") {
+      if (currentStatus === "Locked" || currentStatus === "Deactivated") {
+        return false;
+      } else if (currentStatus === null) {
+        return false;
+      }
+      statusLabel = "Lock";
     }
     return (
       <span
