@@ -184,6 +184,10 @@ export const createMarkup = (value) => {
   return {__html: value};
 }
 
+export const isObject = function(a) {
+  return (!!a) && (a.constructor === Object);
+};
+
 export const getFirstDay = () => {
   let date = new Date();
   return new Date(date.getFullYear(), 0, 1)

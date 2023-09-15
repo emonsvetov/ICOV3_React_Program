@@ -311,11 +311,9 @@ const EventForm = ({
                         {...input}
                         placeholder="Event Name"
                       />
-                      {meta.touched && meta.error && (
-                        <span className="form__form-group-error">
-                          {meta.error}
-                        </span>
-                      )}
+                      {meta.touched && meta.error && <span className="text-danger">
+                        {meta.error}
+                      </span>}
                     </>
                   )}
                 </Field>
