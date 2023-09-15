@@ -127,6 +127,7 @@ const GiveRewardPopup = ({
     getEvent(organization.id, program.id, selectedOption.value).then((item) => {
       // console.log(item)
       setEvent(item);
+      console.log(item);
       setLoadingEvent(false);
     });
   };
@@ -163,6 +164,7 @@ const GiveRewardPopup = ({
       ...initialValues,
       ...{
         event_id: event.id,
+        event_type_id: event.event_type_id,
         awarding_points: program.factor_valuation * event.max_awardable_amount,
         message: event.message ? event.message : DEFAULT_MSG_PARTICIPANT,
       },
@@ -244,75 +246,82 @@ const GiveRewardPopup = ({
                         })}
                       </Col>
                     </Row>
-                    <Row>
-                      <Col md="6">
-                        <Label>Maximum cash value per participant</Label>
-                      </Col>
-                      <Col md="6">
-                        <strong>{`$${event?.max_awardable_amount}`}</strong>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md="6">
-                        <Label>Custom cash value per participant</Label>
-                      </Col>
-                      <Col md="6">
-                        <Field name="override_cash_value">
-                          {({ input, meta }) => (
-                            <FormGroup>
-                              <Input
-                                placeholder={`Enter an amount < $${event.max_awardable_amount}`}
-                                type="text"
-                                onKeyUp={form.mutators.onChangeAwardValue}
-                                {...input}
-                              />
-                              {meta.touched && meta.error && (
-                                <span className="text-danger">
-                                  {meta.error}
-                                </span>
-                              )}
-                            </FormGroup>
-                          )}
-                        </Field>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md="4">
-                        <Label>Points per participant</Label>: &nbsp;
-                        <Field name="awarding_points">
-                          {({ input, meta }) => {
-                            // console.log(input)
-                            return (
-                              // <Input
-                              //     readOnly={true}
-                              //     placeholder="Awarding Points"
-                              //     onKeyUp={form.mutators.onChangeAwardValue}
-                              //     type="text"
-                              //     {...input}
-                              // />
-                              <strong>
-                                {input.value > 0
-                                  ? input.value
-                                  : event.max_awardable_amount *
-                                  program.factor_valuation}
-                              </strong>
-                            );
-                          }}
-                        </Field>
-                      </Col>
-                      <Col md="4">
-                        <Label>Total users selected: <strong>{participants.length}</strong></Label>
-                      </Col>
-                      <Col md="4">
-                        <Label>Total award: <strong>
-                          $
-                          {participants.length *
+
+                    {event.event_type_id !== 5 &&
+                      <Row>
+                        <Col md="6">
+                          <Label>Maximum cash value per participant</Label>
+                        </Col>
+                        <Col md="6">
+                          <strong>{`$${event?.max_awardable_amount}`}</strong>
+                        </Col>
+                      </Row>
+                    }
+                    {event.event_type_id!==5 &&
+                      <Row>
+                        <Col md="6">
+                          <Label>Custom cash value per participant</Label>
+                        </Col>
+                        <Col md="6">
+                          <Field name="override_cash_value">
+                            {({input, meta}) => (
+                                <FormGroup>
+                                  <Input
+                                      placeholder={`Enter an amount < $${event.max_awardable_amount}`}
+                                      type="text"
+                                      onKeyUp={form.mutators.onChangeAwardValue}
+                                      {...input}
+                                  />
+                                  {meta.touched && meta.error && (
+                                      <span className="text-danger">
+                                    {meta.error}
+                                  </span>
+                                  )}
+                                </FormGroup>
+                            )}
+                          </Field>
+                        </Col>
+                      </Row>
+                    }
+                    {event.event_type_id!==5 &&
+                      <Row>
+                        <Col md="4">
+                          <Label>Points per participant</Label>: &nbsp;
+                          <Field name="awarding_points">
+                            {({input, meta}) => {
+                              // console.log(input)
+                              return (
+                                  // <Input
+                                  //     readOnly={true}
+                                  //     placeholder="Awarding Points"
+                                  //     onKeyUp={form.mutators.onChangeAwardValue}
+                                  //     type="text"
+                                  //     {...input}
+                                  // />
+                                  <strong>
+                                    {input.value>0
+                                        ? input.value
+                                        : event.max_awardable_amount*
+                                        program.factor_valuation}
+                                  </strong>
+                              );
+                            }}
+                          </Field>
+                        </Col>
+                        <Col md="4">
+                          <Label>Total users selected: <strong>{participants.length}</strong></Label>
+                        </Col>
+                        <Col md="4">
+                          <Label>Total award: <strong>
+                            $
+                            {participants.length*
                             (values?.override_cash_value
-                              ? values.override_cash_value
-                              : event.max_awardable_amount)}
-                        </strong></Label>
-                      </Col>
-                    </Row>
+                                ? values.override_cash_value
+                                : event.max_awardable_amount)}
+                          </strong></Label>
+                        </Col>
+                      </Row>
+                    }
                     <Row>
                       <Col md="12">
                         <Label className="mb-1">Award Notes(optional)</Label>

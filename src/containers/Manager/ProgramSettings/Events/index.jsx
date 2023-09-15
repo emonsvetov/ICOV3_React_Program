@@ -28,7 +28,7 @@ const EVENTS_COLUMNS = [
   },
 ];
 
-const Events = ({ program, organization }) => {
+const Events = ({ program, organization, reload }) => {
 
   const dispatch = useDispatch()
   // console.log(program)
@@ -41,15 +41,19 @@ const Events = ({ program, organization }) => {
   const [isOpen, setOpen] = useState(false);
   const [modalName, setModalName] = useState(null);
 
+  const loadEvents = () => {
+    setLoading(true);
+    getEvents(organization.id, program.id, {disabled: true}).then((items) => {
+      setEvents(items);
+      setLoading(false);
+    });
+  }
+
   const toggle = (name = null, reload = false) => {
     if (name) setModalName(name);
     setOpen((prevState) => !prevState);
     if(reload){
-      setLoading(true);
-      getEvents(organization.id, program.id, {disabled: true}).then((items) => {
-        setEvents(items);
-        setLoading(false);
-      });
+      loadEvents();
     }
   };
 
@@ -119,15 +123,9 @@ const Events = ({ program, organization }) => {
 
   useEffect(() => {
     let mounted = true;
-    setLoading(true);
-    getEvents(organization.id, program.id, {disabled: true}).then((items) => {
-      if (mounted) {
-        setEvents(items);
-        setLoading(false);
-      }
-    });
+    loadEvents();
     return () => (mounted = false);
-  }, [trigger]);
+  }, [trigger, reload]);
 
   const columns = React.useMemo(() => final_columns, []);
   // const data = React.useMemo(() => fetchEvents(organization, program), [])
