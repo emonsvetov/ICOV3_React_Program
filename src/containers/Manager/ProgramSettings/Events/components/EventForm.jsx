@@ -9,7 +9,7 @@ import {useDispatch, flashError, flashSuccess} from "@/shared/components/flash"
 import renderSelectField from '@/shared/components/form/Select'
 import {getEventTypes} from '@/services/getEventTypes'
 import {getEventLedgerCodes} from '@/services/events'
-import {labelizeNamedData, patch4Select} from '@/shared/helpers'
+import {labelizeNamedData, patch4Select, isBadgeAward} from '@/shared/helpers'
 import renderToggleButtonField from "@/shared/components/form/ToggleButton"
 import formValidation from "@/validation/addEvent"
 import TemplateButton from "@/shared/components/TemplateButton"
@@ -27,6 +27,11 @@ const EventForm = ({
   const [eventTypes, setEventTypes] = useState([]);
   let [event, setEvent] = useState(null);
   const [ledgerCodes, setLedgerCodes] = useState([]);
+  const [eventTypeId, setEventTypeId] = useState( null );
+
+  const onChangeEventType = (value) => {
+    setEventTypeId(value.value);
+  }
 
   const getListLedgerCodes = (program) => {
     getEventLedgerCodes(program.organization_id, program.id)
@@ -130,6 +135,11 @@ const EventForm = ({
     setIconModalOpen(false);
   }
 
+  const getActiveEventTypeId = () => {
+    if( eventTypeId ) return eventTypeId
+    if( event && event?.event_type_id) return event.event_type_id
+  }
+
   if( loading ) return "loading..."
 
   if (event && event?.id) {
@@ -140,7 +150,6 @@ const EventForm = ({
       event.awarding_points = program.factor_valuation * event.max_awardable_amount
     }
   }
-
   return (
     <Form
       keepDirtyOnReinitialize
@@ -156,6 +165,31 @@ const EventForm = ({
         // console.log(values.icon)
         return (
           <form className="form d-flex flex-column justify-content-evenly" onSubmit={handleSubmit}>
+            <Row>
+              <Col md="6">
+                <Label>Event Type</Label>
+                <Field
+                  name="event_type_id"
+                  className="react-select"
+                  options={eventTypes}
+                  placeholder={'Select Event Type'}
+                  component={renderSelectField}
+                  parse={value => {
+                    onChangeEventType(value)
+                    return value;
+                  }}
+                />
+              </Col>
+              <Col md="6">
+                <FormGroup className='d-flex justify-content-between'>
+                  <Label>Enable This Event</Label>
+                  <Field
+                    name="enable"
+                    component={renderToggleButtonField}
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
             <Row>
               <Col md="6">
                 <Label>Event Name</Label>
@@ -174,7 +208,18 @@ const EventForm = ({
                   )}
                 </Field>
               </Col>
+              <Col md="6">
+                <Label>Ledger Code</Label>
+                <Field
+                    name="ledger_code"
+                    className="react-select"
+                    options={ledgerCodes}
+                    component={renderSelectField}
+                    placeholder={''}
+                />
+              </Col>
             </Row>
+            {!isBadgeAward( getActiveEventTypeId() ) && (
             <Row>
               <Col md="6">
                 <Label>Max Awardable Amount</Label>
@@ -212,68 +257,7 @@ const EventForm = ({
                   )}
                 </Field>
               </Col>
-
-              {/* <Col md="6">
-                    <Field name="ledger_code">
-                    {({ input, meta }) => (
-                        <FormGroup>
-                            <Input
-                            placeholder="Ledger Code"
-                            type="text"
-                            {...input}
-                            />
-                                {meta.touched && meta.error && 
-                                <span className="text-danger">
-                                {meta.error}
-                                </span>
-                                }
-                        </FormGroup>
-                    )}
-                    </Field>
-                </Col> */}
-            </Row>
-            <Row>
-              <Col md="6">
-                <FormGroup className='d-flex justify-content-between'>
-                  <Label>Enable This Event</Label>
-                  <Field
-                    name="enable"
-                    component={renderToggleButtonField}
-                  />
-                </FormGroup>
-              </Col>
-            </Row>
-            <Row>
-              <Col md="6">
-                <Label>Event Type</Label>
-                <Field
-                  name="event_type_id"
-                  className="react-select"
-                  options={eventTypes}
-                  placeholder={'Select Event Type'}
-                  component={renderSelectField}
-                />
-              </Col>
-              <Col md="6">
-                <Label>Ledger Code</Label>
-                <Field
-                    name="ledger_code"
-                    className="react-select"
-                    options={ledgerCodes}
-                    component={renderSelectField}
-                    placeholder={''}
-                />
-              </Col>
-              {/* <Col md="6">
-                    <Field 
-                        name="email_template_id"
-                        className="react-select"
-                        options={[]}
-                        placeholder={'Select a Template'}
-                        component={renderSelectField}
-                    />
-                </Col> */}
-            </Row>
+            </Row>)}
             <Row className="mb-3">
               <Col md="9">
                 <Label>Icon</Label>
