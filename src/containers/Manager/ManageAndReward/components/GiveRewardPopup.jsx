@@ -245,7 +245,7 @@ const GiveRewardPopup = ({
                         })}
                       </Col>
                     </Row>
-                    {/* {!isBadgeAward( event.event_type_id ) && ( */}
+                    {!isBadgeAward( event.event_type_id ) && (
                     <>
                       <Row>
                         <Col md="6">
@@ -280,30 +280,34 @@ const GiveRewardPopup = ({
                         </Col>
                       </Row>
                     </>
-                    {/* )} */}
+                    )}
                     <Row>
                       <Col md="4">
-                        <Label>Points per participant</Label>: &nbsp;
-                        <Field name="awarding_points">
-                          {({ input, meta }) => {
-                            // console.log(input)
-                            return (
-                              // <Input
-                              //     readOnly={true}
-                              //     placeholder="Awarding Points"
-                              //     onKeyUp={form.mutators.onChangeAwardValue}
-                              //     type="text"
-                              //     {...input}
-                              // />
-                              <strong>
-                                {input.value > 0
-                                  ? input.value
-                                  : event.max_awardable_amount *
-                                  program.factor_valuation}
-                              </strong>
-                            );
-                          }}
-                        </Field>
+                        {!isBadgeAward( event.event_type_id ) && (
+                        <>
+                          <Label>Points per participant</Label>: &nbsp;
+                          <Field name="awarding_points">
+                            {({ input, meta }) => {
+                              // console.log(input)
+                              return (
+                                // <Input
+                                //     readOnly={true}
+                                //     placeholder="Awarding Points"
+                                //     onKeyUp={form.mutators.onChangeAwardValue}
+                                //     type="text"
+                                //     {...input}
+                                // />
+                                <strong>
+                                  {input.value > 0
+                                    ? input.value
+                                    : event.max_awardable_amount *
+                                    program.factor_valuation}
+                                </strong>
+                              );
+                            }}
+                          </Field>
+                        </>
+                        )}
                       </Col>
                       <Col md="4">
                         <Label>Total users selected: <strong>{participants.length}</strong></Label>
