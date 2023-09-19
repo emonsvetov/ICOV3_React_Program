@@ -21,7 +21,9 @@ export const DETAIL_COLUMNS = [
     Header: "Date",
     accessor: "journal_event_timestamp",
     Cell: ({ row, value }) => {
-      return `${new Date(value).toLocaleDateString("en-US", {})}`;
+      let date = new Date(value.replace(' ', 'T')).toLocaleDateString(
+            "en-US", {month:'long', 'year':'numeric', 'day': 'numeric'});
+      return `${date}`;
     },
   },
   {

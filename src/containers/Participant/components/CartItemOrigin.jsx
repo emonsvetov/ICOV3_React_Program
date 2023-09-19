@@ -11,6 +11,7 @@ const CartItemOrigin = ({ index, item, program }) => {
   const redemptionPoints =
     item.redemption_value * program.factor_valuation * item.qty;
   // const merchant_icon_src = `${process.env.REACT_APP_API_STORAGE_URL}/${item.merchant_icon}`;
+ 
   return (
     <Row className="cart-item mb-3">
       <Col md={4} className="flex-column">
@@ -19,16 +20,16 @@ const CartItemOrigin = ({ index, item, program }) => {
         </div>
         <span>{giftCode}</span>
       </Col>
-      <Col md={1}>
+      <Col md={2}>
         <span>{`x ${item.qty}`}</span>
       </Col>
-      <Col md={2}>
+      <Col md={4}>
         <span>
           {redemptionPoints}
           {t("points")}
         </span>
       </Col>
-      <Col md={1}>
+      <Col md={2}>
         <span
           onClick={() => onClickRemoveItem(index, program.factor_valuation)}
           style={{ color: "red", fontSize: 11, fontWeight: 700, cursor: 'pointer' }}

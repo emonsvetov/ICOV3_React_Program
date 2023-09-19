@@ -48,11 +48,15 @@ const ProgramSettings = ({ auth, program, organization }) => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(0);
   const [isOpen, setOpen] = useState(false);
+  const [reloadEvents, setReloadEvents] = useState(false);
   const [modalName, setModalName] = useState(null);
 
-  const toggle = (name = null) => {
+  const toggle = (name = null, reload=false) => {
     if (name) setModalName(name);
     setOpen((prevState) => !prevState);
+    if(reload){
+      setReloadEvents(!reloadEvents);
+    }
   };
 
   const { hash } = useLocation();
@@ -118,7 +122,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
           </div>
           <div className="points-summary-table">
             {activeTab === 0 && (
-              <Events program={program} organization={organization} />
+              <Events program={program} organization={organization} reload={reloadEvents} />
             )}
           </div>
         </div>
