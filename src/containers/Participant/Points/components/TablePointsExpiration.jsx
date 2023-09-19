@@ -13,7 +13,9 @@ const TablePointsExpiration = ({ myPoints, program, template }) => {
       Header: "Expiring On",
       accessor: "expiration",
       Cell: ({ row, value }) => {
-        return `${t("points_expiring")} ${new Date(value).toLocaleDateString("en-US", {month:'long', 'year':'numeric', 'day': 'numeric'})}`;
+        let date = new Date(value.replace(' ', 'T')).toLocaleDateString(
+            "en-US", {month:'long', 'year':'numeric', 'day': 'numeric'});
+        return `${t("points_expiring")} ${date}`;
       },
     },
     {

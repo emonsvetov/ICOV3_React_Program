@@ -53,7 +53,9 @@ const CartClear = ({ cart, pointBalance }) => {
               <Col md="6">
                 <Button
                   className="btn btn-primary w-100 red"
-                  onClick={() => {}}
+                  onClick={() => {
+                    navigate("/participant/cart");
+                  }}
                 >
                   {t("view_cart")}
                 </Button>

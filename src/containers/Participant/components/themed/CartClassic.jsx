@@ -33,7 +33,7 @@ const CartClassic = ({ cart, pointBalance }) => {
   if (!cart || !pointBalance) return t("loading_cart");
 
   const isEmptyCart = isEmpty(cart) || cart.items.length <= 0;
-
+  
   return (
     <div className="cart-classic cart-popover">
       <span className="cursor-pointer" id="PopoverFocus">
@@ -83,7 +83,9 @@ const CartClassic = ({ cart, pointBalance }) => {
                 <Col md="6">
                   <Button
                     className="btn btn-primary w-100 red"
-                    onClick={() => {}}
+                    onClick={() => {
+                      navigate("/participant/cart")
+                    }}
                   >
                     {t("view_cart")}
                   </Button>
