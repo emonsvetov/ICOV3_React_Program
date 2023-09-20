@@ -13,7 +13,7 @@ const REPORT_TYPES = [
   {name: 'Participant Status Summary', link:'/manager/report/participant-status-summary'},
   {name: 'Invoices', link:'/manager/report/invoices'},
   // {name: 'Annual Awards Summary', link:'/manager/report/annual-awards-summary'},
-  // {name: 'Award Account Summary GL ', link:'/manager/report/award-account-summary-gl'},
+  {name: 'Award Account Summary GL ', link:'/manager/report/award-account-summary-gl'},
   // {name: 'Award Detail', link:'/manager/report/award-detail'},
   // {name: 'Award Summary', link:'/manager/report/award-summary'},
   // {name: 'File Import', link:'/manager/report/file-import'},
