@@ -12,13 +12,16 @@ import {
 } from "@/shared/components/flash";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
+import {CheckoutComplete} from "@/containers/Participant/RedeemPoints/components/CheckoutComplete";
 
 const API_STORAGE_URL = `${process.env.REACT_APP_API_STORAGE_URL}`;
 
-const CheckoutPage = ({ cart, program, pointBalance, organization }) => {
+const CheckoutPage = ({ cart, program, pointBalance, organization, template }) => {
   const { t } = useTranslation();
   const flashDispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
+  const [giftCodesRedeemed, setGiftCodesRedeemed] = useState([]);
+  const [checkoutIsComplete, setShowCompleteCheckout] = useState(false);
   const [cartIsEmpty, setCartIsEmpty] = useState(true);
   const [cartObject, setCartObject] = useState({
     items: [],
@@ -64,7 +67,8 @@ const CheckoutPage = ({ cart, program, pointBalance, organization }) => {
         if (res.status === 200) {
           if (res.data?.success) {
             emptyAuthCart();
-            window.location = "/participant/home";
+            setGiftCodesRedeemed(res.data.gift_codes_redeemed_for);
+            setShowCompleteCheckout(true);
           }
         }
       })
@@ -105,79 +109,81 @@ const CheckoutPage = ({ cart, program, pointBalance, organization }) => {
   //   console.log(data)
   return (
     <>
+      {checkoutIsComplete && <CheckoutComplete template={template} giftCodesRedeemed={giftCodesRedeemed}  />}
+      {!checkoutIsComplete &&
       <div className="checkout">
         {/* <Row>
-          <Col md={8}>
-            <h3>Checkout: Confirm Your Order</h3>
-          </Col>
-          <Col md={4} className="d-flex justify-content-end">
-            <span className="cursor-pointer" id="PopoverFocus">
-              <CartIcon className="redtext" />
-              <strong>Cart</strong>
-            </span>
-            <span className="mx-3">{cartObject.total_points} Points</span>
-            <UncontrolledPopover
-              placement="bottom"
-              target="PopoverFocus"
-              trigger="legacy"
-              className="cart"
-            >
-              <PopoverBody>
-                <div className="d-flex justify-content-end">
-                  <CloseIcon className="cursor-pointer" />
-                </div>
-                {cartObject?.items?.map((item, index) => {
-                  return (
-                    <CartItem
-                      key={`checkout-cartitem-${index}`}
-                      index={index}
-                      item={item}
-                    />
-                  );
-                })}
-                <hr />
-                <Row>
-                  <Col md={9} className="d-flex justify-content-center mb-3">
-                    <strong>Total:</strong>
-                  </Col>
-                  <Col md={3}>
-                    <span>{cartObject.total_points} Points</span>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md="6">
-                    <Button
-                      className="btn btn-primary w-100 red"
-                      onClick={() => {}}
-                    >
-                      View Cart
-                    </Button>
-                  </Col>
-                  <Col md="6">
-                    <TemplateButton
-                      type="submit"
-                      onClick={() => {
-                        navigate("/participant/checkout");
-                      }}
-                      text="Checkout"
-                    />
-                  </Col>
-                </Row>
-              </PopoverBody>
-            </UncontrolledPopover>
-          </Col>
-        </Row> */}
+            <Col md={8}>
+              <h3>Checkout: Confirm Your Order</h3>
+            </Col>
+            <Col md={4} className="d-flex justify-content-end">
+              <span className="cursor-pointer" id="PopoverFocus">
+                <CartIcon className="redtext" />
+                <strong>Cart</strong>
+              </span>
+              <span className="mx-3">{cartObject.total_points} Points</span>
+              <UncontrolledPopover
+                placement="bottom"
+                target="PopoverFocus"
+                trigger="legacy"
+                className="cart"
+              >
+                <PopoverBody>
+                  <div className="d-flex justify-content-end">
+                    <CloseIcon className="cursor-pointer" />
+                  </div>
+                  {cartObject?.items?.map((item, index) => {
+                    return (
+                      <CartItem
+                        key={`checkout-cartitem-${index}`}
+                        index={index}
+                        item={item}
+                      />
+                    );
+                  })}
+                  <hr />
+                  <Row>
+                    <Col md={9} className="d-flex justify-content-center mb-3">
+                      <strong>Total:</strong>
+                    </Col>
+                    <Col md={3}>
+                      <span>{cartObject.total_points} Points</span>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md="6">
+                      <Button
+                        className="btn btn-primary w-100 red"
+                        onClick={() => {}}
+                      >
+                        View Cart
+                      </Button>
+                    </Col>
+                    <Col md="6">
+                      <TemplateButton
+                        type="submit"
+                        onClick={() => {
+                          navigate("/participant/checkout");
+                        }}
+                        text="Checkout"
+                      />
+                    </Col>
+                  </Row>
+                </PopoverBody>
+              </UncontrolledPopover>
+            </Col>
+          </Row> */}
         <div>
           <h3>
             {t("checkout")}: {t("confirm_your_order")}
           </h3>
           <span>
-            {t("order_desc_1")}{" "}
+              {t("order_desc_1")}{" "}
             <strong>
-              {cartObject.total_points} {t("points")}
-            </strong>{" "}
+                {cartObject.total_points} {t("points")}
+              </strong>{" "}
             {t("order_desc_2")}
-          </span>
+            </span>
         </div>
         <div className="redtext text-center text-decoration-underline">
           <strong>{t("order_desc_3")}</strong>
@@ -186,29 +192,29 @@ const CheckoutPage = ({ cart, program, pointBalance, organization }) => {
           {t("order_desc_4")}
           <Table striped borderless size="md" {...getTableProps()}>
             <thead>
-              {headerGroups.map((headerGroup) => (
+            {headerGroups.map((headerGroup) => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
                   {headerGroup.headers.map((column) => (
-                    <th {...column.getHeaderProps()}>
-                      {column.render("Header")}
-                    </th>
+                      <th {...column.getHeaderProps()}>
+                        {column.render("Header")}
+                      </th>
                   ))}
                 </tr>
-              ))}
+            ))}
             </thead>
             <tbody>
-              {rows.map((row, i) => {
-                prepareRow(row);
-                return (
+            {rows.map((row, i) => {
+              prepareRow(row);
+              return (
                   <tr {...row.getRowProps()}>
                     {row.cells.map((cell) => {
                       return (
-                        <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                          <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                       );
                     })}
                   </tr>
-                );
-              })}
+              );
+            })}
             </tbody>
           </Table>
         </div>
@@ -226,19 +232,20 @@ const CheckoutPage = ({ cart, program, pointBalance, organization }) => {
             {t("balance_after_purchase")}:
           </Col>
           <Col md={3} className="d-flex justify-content-center">
-            {pointBalance.points - cartObject.total_points} {t("points")}
+            {pointBalance.points-cartObject.total_points} {t("points")}
           </Col>
         </Row>
         <div className="d-flex justify-content-end my-4">
           <TemplateButton
-            type="submit"
-            disabled={isLoading}
-            onClick={confirmOrder}
-            text={t("confirm_my_order")}
+              type="submit"
+              disabled={isLoading}
+              onClick={confirmOrder}
+              text={t("confirm_my_order")}
           />
           {/* <Button disabled={isLoading} className="btn btn-primary red "  onClick={confirmOrder}>Confirm My Order</Button> */}
         </div>
       </div>
+      }
     </>
   );
 };
@@ -248,4 +255,5 @@ export default connect((state) => ({
   program: state.program,
   pointBalance: state.pointBalance,
   organization: state.organization,
+  template: state.template,
 }))(CheckoutPage);
