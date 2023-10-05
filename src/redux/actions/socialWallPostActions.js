@@ -31,3 +31,16 @@ export const deleteSocialWallPost = (organizationId, programId, socialWallPostId
   };
 };
 
+export const likeSocialWallPost = (organizationId, programId, socialWallPostData) => {
+  return (dispatch) => {
+    return axios.post(`/organization/${organizationId}/program/${programId}/social-wall-post/like`, socialWallPostData)
+    .then(response => {
+
+    })
+    .catch(e => {
+      throw new Error(`API error:${e?.message}`);
+    });
+  }
+}
+
+
