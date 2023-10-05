@@ -3,6 +3,7 @@ import { getSocialWallPosts } from "@/services/program/getSocialWallPosts";
 import { connect } from "react-redux";
 import { deleteSocialWallPost, setSocialWallPostType } from "@/redux/actions/socialWallPostActions";
 import { useDispatch } from "react-redux";
+import { likeSocialWallPost } from "@/redux/actions/socialWallPostActions";
 import { useTranslation } from "react-i18next";
 import {Themed} from '@/theme'
 // import {SocialWall} from './themed'
@@ -45,6 +46,25 @@ const SocialWallPanel = ({ organization, program, isManager, template, setPostTy
       });
   };
 
+  const LikeActivityEvent = (id) => {
+    dispatch(
+      likeSocialWallPost(organization.id, program.id, {id:id})
+    )
+      .then((res) => {
+        getSocialWallPosts(organization.id, program.id, 0, 999999)
+          .then((data) => {
+            setSocialWallPosts(data);
+            confirmRef.current.toggle();
+          })
+          .catch((error) => {
+            console.log(error.response.data);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     if (organization && program) {
       setLoading(true);
@@ -61,7 +81,7 @@ const SocialWallPanel = ({ organization, program, isManager, template, setPostTy
 
   if (!socialWallPosts) return t("loading");
 
-  const props = {isManager, socialWallPosts, template, program, popupToggle, confirmRef, setSocialWallPost, setDeleteActivityId, setOpen, socialWallPost, deleteActivity, setSocialWallPosts, isOpen, onclickAddPost}
+  const props = {isManager, socialWallPosts, template, program, popupToggle, confirmRef, setSocialWallPost,LikeActivityEvent, setDeleteActivityId, setOpen, socialWallPost, deleteActivity, setSocialWallPosts, isOpen, onclickAddPost}
 
   return <Themed component="SocialWall" {...props}  />
 };
