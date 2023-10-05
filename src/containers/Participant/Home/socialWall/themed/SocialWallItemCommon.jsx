@@ -6,13 +6,14 @@ const SocialWallItemCommon = (props) => {
   const {
     program, postAvatar, title, content, TimeAgo, TimeZone, from, created_at, LikeActivityEvent, commentEvent,like, auth, like_count, comments, DeleteActivityEvent, createMarkup, isManager, confirmRef, id, storageUrl, defaultAvatar, icon
   } = props
-  const [heartable, setHeartable] = useState(like?.includes(auth?.id.toString()));
+  console.log(like, auth?.id, like?.includes(auth?.id))
+  const [heartable, setHeartable] = useState(like?.includes(auth?.id));
   const CommentsRenderer = ({comments}) => {
     let html = []
-    console.log(comments)
+
     comments.map((item, index) => {
         const commentAvatar = item.avatar ? storageUrl + item.avatar : defaultAvatar;
-        const commentHeartable = item.like?.includes(auth?.id.toString());
+        const commentHeartable = item.like?.includes(auth?.id);
         const commentLikeCount = item.likesCount;
         html.push(<div className="social-wall-comment" key={`commentItem-${index}`}>
           <table width="100%">
