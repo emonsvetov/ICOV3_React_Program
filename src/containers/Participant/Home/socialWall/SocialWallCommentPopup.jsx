@@ -47,6 +47,8 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
         'organization_id': organization.id,
         'event_xml_data_id': null,
         'awarder_program_id': null,
+        'like':null,
+        'likesCount': 0,
         'social_wall_post_id': null,
         'sender_user_account_holder_id': null,
         'receiver_user_account_holder_id': null,
