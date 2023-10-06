@@ -1322,6 +1322,7 @@ footer{
     }
     & > :not(caption) > * > * {
         border: none;
+        background: transparent;
     }
 }
 
