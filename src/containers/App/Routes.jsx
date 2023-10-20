@@ -76,7 +76,7 @@ import DepositBalance from "../Manager/Report/components/DepositBalance";
 import DepositTransfer from "../Manager/Report/components/DepositTransfer";
 import FileImport from "../Manager/Report/components/FileImport";
 import GoalProgressSummary from "../Manager/Report/components/GoalProgressSummary";
-import MerchantRedemption from "../Manager/Report/components/MerchantRedemption";
+import MerchantRedemption from "../Manager/Report/MerchantRedemption";
 import ParticipantAccount from "../Manager/Report/components/ParticipantAccount";
 import ParticipantStatus from "../Manager/Report/components/ParticipantStatus";
 import QuarterlyAward from "../Manager/Report/components/QuarterlyAward";
@@ -179,10 +179,7 @@ const RouteIndex = () => (
             <Route path="award-detail" element={<AwardDetail />} />
             <Route path="award-summary" element={<AwardSummary />} />
             <Route path="file-import" element={<FileImport />} />
-            <Route
-              path="merchant-redemption"
-              element={<MerchantRedemption />}
-            />
+            <Route path="merchant-redemption" element={<MerchantRedemption/>}/>
             <Route
               path="quarterly-awards-summary"
               element={<QuarterlyAward />}
