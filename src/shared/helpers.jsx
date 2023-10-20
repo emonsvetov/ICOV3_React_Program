@@ -203,6 +203,7 @@ export const indexOfAll = (array, searchItem) => {
 }
 
 export const toCurrency = (numberString) => {
+  if(numberString === undefined) return '';
   let locale = 'en-US';
   let options = {style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2};
   let formatter = new Intl.NumberFormat(locale, options);

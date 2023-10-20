@@ -71,7 +71,7 @@ import ParticipantStatusSummary from "../Manager/Report/ParticipantStatusSummary
 import AwardAccountSummaryGL from "../Manager/Report/AwardAccountSummaryGL/index";
 import ProgramStatus from "../Manager/Report/components/ProgramStatus";
 import AwardDetail from "../Manager/Report/AwardDetail/index";
-import AwardSummary from "../Manager/Report/components/AwardSummary";
+import AwardSummary from "../Manager/Report/AwardSummary";
 import DepositBalance from "../Manager/Report/components/DepositBalance";
 import DepositTransfer from "../Manager/Report/components/DepositTransfer";
 import FileImport from "../Manager/Report/components/FileImport";
