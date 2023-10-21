@@ -83,7 +83,7 @@ import QuarterlyAward from "../Manager/Report/components/QuarterlyAward";
 import MainWrapper from "./MainWrapper";
 import ManageAccount from "../Manager/ManageAccount";
 import PageNotFound from "./404Error/PageNotFound";
-import {SsoLogIn} from "@/containers/SsoLogIn";
+import UserNotFound from "@/containers/App/404Error/UserNotFound";
 
 // import { Train } from "@material-ui/icons";
 
@@ -114,7 +114,7 @@ const RouteIndex = () => (
     <Routes>
       <Route path="/" element={<PublicRoute />}>
         <Route path="login" element={<LogIn />} />
-        <Route path="ssologin" element={<SsoLogIn />} />
+        <Route path="/user-not-found" element={<UserNotFound />} />
         <Route path="/forgot" element={<Forgot />} />
         <Route path="/forgot/checkemail" element={<CheckYourEmail />} />
         <Route path="/reset-password" element={<Forgot />} />
