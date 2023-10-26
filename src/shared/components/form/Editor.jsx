@@ -5,9 +5,6 @@ import { getBearer } from '@/containers/App/auth';
 const Editor = (props) => {
   const {setValue, placeholder, organization, program} = props;
   const [content, setContent] = React.useState('');
-  function handleSendToServer(){
-    console.log('clicked')
-  }
   return (
     <div>
       <CKEditor
@@ -26,13 +23,10 @@ const Editor = (props) => {
         onInstanceReady={() => {
           // console.log('Editor is ready!');
         }}
-        onSendToServer={handleSendToServer}
         content={content}
         onChange={(event) => {
           const data = event.editor.getData();
-          console.log(data)
           setContent(data)
-          // console.log(data);
           setValue(data);
         }}
 
