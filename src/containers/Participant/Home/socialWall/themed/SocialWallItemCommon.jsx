@@ -6,7 +6,6 @@ const SocialWallItemCommon = (props) => {
   const {
     program, postAvatar, title, content, TimeAgo, TimeZone, from, created_at, LikeActivityEvent, commentEvent,like, auth, like_count, comments, DeleteActivityEvent, createMarkup, isManager, confirmRef, id, storageUrl, defaultAvatar, icon
   } = props
-  console.log(like, auth?.id, like?.includes(auth?.id))
   const [heartable, setHeartable] = useState(like?.includes(auth?.id));
   const CommentsRenderer = ({comments}) => {
     let html = []
