@@ -12,6 +12,7 @@ const SocialWallPanel = ({ organization, program, isManager, template, setPostTy
   const { t } = useTranslation();
   let [socialWallPosts, setSocialWallPosts] = useState(null);
   let [socialWallPost, setSocialWallPost] = useState(null);
+  let [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true);
   const confirmRef = useRef({});
   const dispatch = useDispatch();
@@ -81,7 +82,7 @@ const SocialWallPanel = ({ organization, program, isManager, template, setPostTy
 
   if (!socialWallPosts) return t("loading");
 
-  const props = {isManager, socialWallPosts, template, program, popupToggle, confirmRef, setSocialWallPost,LikeActivityEvent, setDeleteActivityId, setOpen, socialWallPost, deleteActivity, setSocialWallPosts, isOpen, onclickAddPost}
+  const props = {isManager, socialWallPosts, template, program, popupToggle, confirmRef, setSocialWallPost,LikeActivityEvent, setDeleteActivityId, setOpen, socialWallPost, deleteActivity, setSocialWallPosts, isOpen, onclickAddPost ,users, setUsers}
 
   return <Themed component="SocialWall" {...props}  />
 };
