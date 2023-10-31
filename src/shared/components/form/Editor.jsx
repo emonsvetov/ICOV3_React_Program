@@ -12,9 +12,10 @@ const Editor = (props) => {
         config={{
          
           toolbar: [
-            { name: 'insert', items: ['Image', 'EmojiPanel','SendToServer'] }, // Add 'Image' and 'Emoji' buttons
+            // { name: 'insert', items: ['Image', 'EmojiPanel','SendToServer'] }, // Add 'Image' and 'Emoji' buttons
+            { name: 'insert', items:['EmojiPanel']}
           ],
-          extraPlugins: ['image', 'emoji'],
+          extraPlugins: ['emoji'],
           filebrowserUploadUrl: process.env.REACT_APP_API_BASE_URL+`/api/v1/organization/${organization.id}/program/${program.id}/social-wall-post/uploadImage`,
           fileTools_requestHeaders: {
             "Authorization":getBearer()
