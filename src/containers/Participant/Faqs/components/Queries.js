@@ -80,7 +80,7 @@ const FAQS_ORIGIN = [
   {
     question: "Do my rewards expire?",
     answer:
-      "You can redeem your points on your personal home page. There are 3 easy steps: Select a merchant...Select the amount of points you want to redeem...then select 'Redeem Points'. You will receive a gift code in your email. Write down or copy the code and enter it into the 'enter gift code' in the shopping cart at check out of the merchant you've selected. Please remember that most codes can only be used with on-line shopping.",
+      "Yes. You can redeem your points on your personal home page. There are 3 easy steps: Select a merchant...Select the amount of points you want to redeem...then select 'Redeem Points'. You will receive a gift code in your email. Write down or copy the code and enter it into the 'enter gift code' in the shopping cart at check out of the merchant you've selected. Please remember that most codes can only be used with on-line shopping.",
   },
   {
     question: "Do my points expire?",
