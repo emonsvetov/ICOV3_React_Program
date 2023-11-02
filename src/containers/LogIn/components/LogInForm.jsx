@@ -49,7 +49,7 @@ const LogInForm = () => {
       }
     })
         .catch(err => {
-          window.location.href = '/login';
+          window.location.href = '/user-not-found';
         })
   };
 
