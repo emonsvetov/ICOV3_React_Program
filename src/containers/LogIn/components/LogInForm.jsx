@@ -27,6 +27,7 @@ const LogInForm = () => {
   const [isManager, setIsManager] = useState(false);
   const [isParticipant, setIsParticipant] = useState(false);
   const [mediaTypes, setMediaTypes] = useState([]);
+  const [verificationRequired, setVerificationRequired] = useState(false);
 
   const ssoLogin = async ssoToken => {
     setStep(1)
@@ -69,6 +70,7 @@ const LogInForm = () => {
   }
 
   const CardFormLogin = ()  => {
+    const [verificationRequired, setVerificationRequired] = useState(false);
     const FormLogin = () => {
       const validate = values => {
 
@@ -94,7 +96,7 @@ const LogInForm = () => {
         if (!values.email && userEmail){
           values.email = userEmail;
         }
-        // console.log(values);
+        console.log(values);
         setLoading(true)
         axios.post('/login', values)
         .then( (res) => {
@@ -125,14 +127,32 @@ const LogInForm = () => {
               setLoading(false)
             }
           }
+
         })
         .catch( err => {
-          console.log(err)
-          // console.log(error.response.data)
-          // dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
-          flash422(dispatch, err.response.data)
-          setLoading(false)
+          if (err.response.status === 403) {
+
+            generate2faSecret(values);
+          }
+          else {
+            // console.log(error.response.data)
+            // dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
+            flash422(dispatch, err.response.data)
+            setLoading(false)
+          }
         })
+      };
+
+      const generate2faSecret = async (values) => {
+        try {
+            const response = await axios.post('/generate-2fa-secret', values);
+    
+            if (response.status === 200) {
+              setVerificationRequired(true);
+            }
+          } catch (error) {
+              // Handle error
+          }
       };
 
       return (
@@ -150,24 +170,43 @@ const LogInForm = () => {
         render={({ handleSubmit, form, submitting, pristine, values }) => (
         <form className="form" onSubmit={handleSubmit}>
           {/* <div className="card-header">Log in to continue</div> */}
-          <Field name="email">
-            {({ input, meta }) => (
-             <div className="mb-3">
-                <label htmlFor="loginInputEmail" className="form-label">Email address</label>
-                <input id="loginInputEmail" type="text" {...input} value={userEmail ? userEmail : input.value}  placeholder="Email" className="form-control" />
-                {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
-              </div>
-            )}
-          </Field>
-          <Field name="password">
-            {({ input, meta }) => (
+          {
+            verificationRequired ?
+             <Field name="code">
+             {({ input, meta }) => (
+                 <div className="form__form-group">
+                    <h2>Setup 2FA</h2>
+
+                   <div className="form__form-group-field">
+                     <div className="form__form-group-row">
+                       <input type="code" {...input} placeholder="2FA Code" />
+                       {meta.touched && meta.error && <span className="form__form-group-error">{meta.error}</span>}
+                     </div>
+                 </div>
+               </div>
+             )}
+             </Field> :
+             <>
+              <Field name="email">
+              {({ input, meta }) => (
               <div className="mb-3">
-                <label htmlFor="loginInutPassword" className="form-label">Password</label>
-                <input id="loginInutPassword" type="password" {...input} placeholder="Password" className="form-control"  />
-                {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
-              </div>
-            )}
-          </Field>
+                  <label htmlFor="loginInputEmail" className="form-label">Email address</label>
+                  <input id="loginInputEmail" type="text" {...input} value={userEmail ? userEmail : input.value}  placeholder="Email" className="form-control" />
+                  {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
+                </div>
+              )}
+            </Field>
+            <Field name="password">
+              {({ input, meta }) => (
+                <div className="mb-3">
+                  <label htmlFor="loginInutPassword" className="form-label">Password</label>
+                  <input id="loginInutPassword" type="password" {...input} placeholder="Password" className="form-control"  />
+                  {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
+                </div>
+              )}
+            </Field>
+            </>
+          }
           {/* <div className="form__form-group">
             <div className="form__form-group-field">
               <Field
