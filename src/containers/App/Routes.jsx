@@ -74,7 +74,7 @@ import AwardDetail from "../Manager/Report/AwardDetail/index";
 import AwardSummary from "../Manager/Report/AwardSummary";
 import DepositBalance from "../Manager/Report/components/DepositBalance";
 import DepositTransfer from "../Manager/Report/components/DepositTransfer";
-import FileImport from "../Manager/Report//FileImport/index";
+import FileImport from "../Manager/Report/FileImport/index";
 import GoalProgressSummary from "../Manager/Report/components/GoalProgressSummary";
 import MerchantRedemption from "../Manager/Report/MerchantRedemption";
 import ParticipantAccount from "../Manager/Report/components/ParticipantAccount";
