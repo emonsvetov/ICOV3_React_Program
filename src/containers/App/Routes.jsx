@@ -71,6 +71,7 @@ import ParticipantStatusSummary from "../Manager/Report/ParticipantStatusSummary
 import AwardAccountSummaryGL from "../Manager/Report/AwardAccountSummaryGL/index";
 import ProgramStatus from "../Manager/Report/components/ProgramStatus";
 import AwardDetail from "../Manager/Report/AwardDetail/index";
+import TeamRosterSummary from "../Manager/Report/TeamRosterSummary/index";
 import AwardSummary from "../Manager/Report/AwardSummary";
 import DepositBalance from "../Manager/Report/components/DepositBalance";
 import DepositTransfer from "../Manager/Report/components/DepositTransfer";
@@ -198,6 +199,7 @@ const RouteIndex = () => (
               path="goal-progress-summay"
               element={<GoalProgressSummary />}
             />
+            <Route path="team-roster-summary" element={<TeamRosterSummary />} />
           </Route>
         </Route>
       </Route>

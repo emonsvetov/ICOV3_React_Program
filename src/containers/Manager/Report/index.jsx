@@ -17,7 +17,7 @@ const REPORT_TYPES = [
   {name: 'Award Detail', link:'/manager/report/award-detail'},
   {name: 'Award Summary', link:'/manager/report/award-summary'},
   {name: 'Merchant Redemption', link:'/manager/report/merchant-redemption'},
-  // {name: 'File Import', link:'/manager/report/file-import'},
+  {name: 'Team Roster Summary', link:'/manager/report/team-roster-summary'},
   // {name: 'Quarterly Awards Summary', link:'/manager/report/quarterly-awards-summary'},
   // {name: 'Participant Account Summary', link:'/manager/report/participant-account-summary'},
   // {name: 'Participant Status Summary', link:'/manager/report/participant-status-summary'},
