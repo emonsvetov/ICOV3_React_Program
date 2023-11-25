@@ -23,7 +23,7 @@ const REPORT_TYPES = [
   // {name: 'Participant Status Summary', link:'/manager/report/participant-status-summary'},
   // {name: 'Program Status', link:'/manager/report/program-status'},
   // {name: 'Deposit Balance', link:'/manager/report/deposit-balance'},
-  // {name: 'Deposit Transfers', link:'/manager/report/deposit-transfers'},
+  {name: 'Deposit Transfers', link:'/manager/report/deposit-transfers'},
   // {name: 'Goal Progress Summary', link:'/manager/report/goal-progress-summay'},
 ]
 
