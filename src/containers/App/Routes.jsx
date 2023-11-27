@@ -69,7 +69,7 @@ import SupplierRedemption from "../Manager/Report/SupplierRedemption/index";
 import ParticipantAccountSummary from "../Manager/Report/ParticipantAccountSummary/index";
 import DepositTransfers from "../Manager/Report/DepositTransfers/index";
 import DepositBalance from "../Manager/Report/DepositBalance/index";
-import ParticipantStatusSummary from "../Manager/Report/ParticipantStatusSummary/index";
+// import ParticipantStatusSummary from "../Manager/Report/ParticipantStatusSummary/index";
 import AwardAccountSummaryGL from "../Manager/Report/AwardAccountSummaryGL/index";
 import ProgramStatus from "../Manager/Report/components/ProgramStatus";
 import AwardDetail from "../Manager/Report/AwardDetail/index";
