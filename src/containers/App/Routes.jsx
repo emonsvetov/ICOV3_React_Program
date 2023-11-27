@@ -174,7 +174,7 @@ const RouteIndex = () => (
             <Route path="supplier-redemption" element={<SupplierRedemption />} />
             <Route path="participant-account-summary" element={<ParticipantAccountSummary />} />
             <Route path="deposit-transfers" element={< DepositTransfers/>} />
-            <Route path="participant-status-summary" element={<ParticipantStatusSummary />} />
+            {/*<Route path="participant-status-summary" element={<ParticipantStatusSummary />} />*/}
             <Route path="program-status" element={<ProgramStatus />} />
             {/* <Route path="annual-awards-summary" element={<AnnualAwardsSummary />} />*/}
             <Route path="award-account-summary-gl" element={<AwardAccountSummaryGL />} />
