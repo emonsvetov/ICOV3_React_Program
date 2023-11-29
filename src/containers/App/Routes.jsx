@@ -76,6 +76,7 @@ import AwardDetail from "../Manager/Report/AwardDetail/index";
 import AwardSummary from "../Manager/Report/AwardSummary";
 import DepositTransfer from "../Manager/Report/components/DepositTransfer";
 import FileImport from "../Manager/Report/components/FileImport";
+import Engagement from "../Manager/Report/Engagement/index";
 import GoalProgressSummary from "../Manager/Report/components/GoalProgressSummary";
 import MerchantRedemption from "../Manager/Report/MerchantRedemption";
 import ParticipantAccount from "../Manager/Report/components/ParticipantAccount";
@@ -176,6 +177,7 @@ const RouteIndex = () => (
             <Route path="deposit-transfers" element={< DepositTransfers/>} />
             {/*<Route path="participant-status-summary" element={<ParticipantStatusSummary />} />*/}
             <Route path="program-status" element={<ProgramStatus />} />
+            <Route path="referral-participant" element={<Engagement/>}/>
             {/* <Route path="annual-awards-summary" element={<AnnualAwardsSummary />} />*/}
             <Route path="award-account-summary-gl" element={<AwardAccountSummaryGL />} />
             <Route path="award-detail" element={<AwardDetail />} />
