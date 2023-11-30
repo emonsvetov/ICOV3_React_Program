@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import { Card, CardBody, Col } from 'reactstrap';
-import ProgramStatusTable from './ProgramStatusTable';
+import {Card, CardBody, Col} from 'reactstrap';
+import DepositTransfersTable from './DepositTransfersTable';
 import axios from "axios";
 import {isEmpty} from '@/shared/helpers'
 import {connect} from "react-redux";
 
-const ProgramStatusIndex = ({ organization, program }) => {
+const DepositTransfersIndex = ({ organization, program }) => {
   const [programs, setPrograms] = useState([]);
   const [defaultPrograms, setDefaultPrograms] = useState([]);
 
@@ -18,7 +18,6 @@ const ProgramStatusIndex = ({ organization, program }) => {
         if (response.data.length === 0) return {results: [], count: 0}
 
         const data = response.data;
-        // console.log(data);
         setPrograms(data);
         return data;
       } catch (e) {
@@ -45,7 +44,7 @@ const ProgramStatusIndex = ({ organization, program }) => {
     <Col md={12}>
       <Card>
         <CardBody>
-          <ProgramStatusTable programs={defaultPrograms} />
+          <DepositTransfersTable programs={defaultPrograms} />
         </CardBody>
       </Card>
     </Col>
@@ -58,4 +57,4 @@ const mapStateToProps = (state) => {
     program: state.program,
   };
 };
-export default connect(mapStateToProps)(ProgramStatusIndex);
+export default connect(mapStateToProps)(DepositTransfersIndex);

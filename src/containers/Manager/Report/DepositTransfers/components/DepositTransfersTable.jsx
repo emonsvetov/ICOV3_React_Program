@@ -3,6 +3,7 @@ import {useExpanded,  usePagination, useResizeColumns, useSortBy, useTable} from
 import {QueryClient, QueryClientProvider, useQuery} from 'react-query'
 import ReactTablePagination from '@/shared/components/table/components/ReactTablePagination';
 import {Col, Row} from 'reactstrap';
+import {getFirstDay, dateStrToYmd} from '@/shared/helpers'
 
 import {TABLE_COLUMNS} from "./columns";
 
@@ -18,7 +19,7 @@ import {
 } from "@/shared/apiTableHelper"
 
 import { clone} from 'lodash';
-import ParticipantStatusSummaryFilter from "./ProgramStatusFilter";
+import DepositTransfersFilter from "./DepositTransfersFilter";
 
 const queryClient = new QueryClient()
 
@@ -26,8 +27,9 @@ const DataTable = ({organization, program, programs}) => {
   const [filter, setFilter] = useState({
     programs: programs,
     createdOnly: false,
-    reportKey: 'sku_value',
-    programId: program.id
+    programId: program.id,
+    from: dateStrToYmd(getFirstDay()),
+    to: dateStrToYmd(new Date())
   });
   const [useFilter, setUseFilter] = useState(false);
   const [trigger, setTrigger] = useState(0);
@@ -39,7 +41,7 @@ const DataTable = ({organization, program, programs}) => {
   const [{queryPageIndex, queryPageSize, totalCount, queryPageFilter, queryPageSortBy, queryTrigger}, dispatch] =
     React.useReducer(reducer, initialState);
 
-  const apiUrl = `/organization/${organization.id}/report/program-status?`;
+  const apiUrl = `/organization/${organization.id}/report/deposit-transfers`;
   const {isLoading, error, data, isSuccess} = useQuery(
     ['', apiUrl, queryPageIndex, queryPageSize, queryPageFilter, queryPageSortBy, queryTrigger],
     () => fetchApiData(
@@ -79,7 +81,7 @@ const DataTable = ({organization, program, programs}) => {
         trigger: queryTrigger
       }
     );
-    // console.log(response)
+    console.log(response)
     setExportData(response.results);
     setExportHeaders(response.headers);
     setExportToCsv(true);
@@ -96,7 +98,6 @@ const DataTable = ({organization, program, programs}) => {
     footerGroups,
     rows,
     prepareRow,
-    rowSpanHeaders,
     page,
     pageCount,
     pageOptions,
@@ -109,7 +110,7 @@ const DataTable = ({organization, program, programs}) => {
     state: {pageIndex, pageSize, sortBy}
   } = useTable({
       columns: columns,
-      data: data ? Object.values(data.results.report) : [],
+      data: data ? Object.values(data.results) : [],
       initialState: {
         pageIndex: queryPageIndex,
         pageSize: queryPageSize,
@@ -149,7 +150,7 @@ const DataTable = ({organization, program, programs}) => {
           <div className="action-panel">
             <Row className="mx-0">
               <Col>
-                <ParticipantStatusSummaryFilter
+                <DepositTransfersFilter
                   filter={filter} setFilter={setFilter} useFilter={useFilter} setUseFilter={setUseFilter}
                   exportData={exportData} exportLink={exportLink} exportHeaders={exportHeaders}
                   download={download}/>
@@ -177,45 +178,17 @@ const DataTable = ({organization, program, programs}) => {
               <tbody className="table table--bordered" {...getTableBodyProps()} >
               {page.map(row => {
                 prepareRow(row);
-                const subCount = (row.id.match(/\./g) || []).length
-                const subRows = row.subRows;
-
-                const countSubRows = subRows ? subRows.length : 0;
-                const rowSpan = countSubRows ? countSubRows + 1 : 1;
                 return (
                   <>
                     <tr {...row.getRowProps()} key={row.id}>
                       {
                         row.cells.map(cell => {
-                          // console.log(cell)
-                          const skip = cell.value === 'skip_td';
-                          if (skip) return null;
-                          const paddingLeft = subCount * 20
-                          return <td {...cell.getCellProps()} rowSpan={rowSpan} key={cell.column.id + row.id}>
-                                            <span
-                                              style={cell.column.Header === '#' ? {paddingLeft: `${paddingLeft}px`} : null}>{cell.render('Cell')}</span>
+                          return <td {...cell.getCellProps()} key={cell.column.id + row.id}>
+                            <span> {cell.render('Cell')}</span>
                           </td>
                         })
                       }
                     </tr>
-                    {countSubRows > 0 && subRows.map(subRow => {
-                      // console.log(subRow)
-                      prepareRow(subRow);
-                      return (
-                        <tr {...subRow.getRowProps()} key={subRow.id}>
-                          {
-                            subRow.cells.map(subCell => {
-                              // console.log(subCell)
-                              const skip = subCell.value === 'skip_td';
-                              if (skip) return null;
-                              return <td {...subCell.getCellProps()} key={subCell.column.id + subRow.id}>
-                                <span>{subCell.render('Cell')}</span>
-                              </td>
-                            })
-                          }
-                        </tr>
-                      )
-                    })}
                   </>
                 )
               })}
