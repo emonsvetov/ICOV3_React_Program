@@ -68,19 +68,21 @@ import Invoices from "../Manager/Report/Invoices/index";
 import SupplierRedemption from "../Manager/Report/SupplierRedemption/index";
 import ParticipantAccountSummary from "../Manager/Report/ParticipantAccountSummary/index";
 import DepositTransfers from "../Manager/Report/DepositTransfers/index";
-import ParticipantStatusSummary from "../Manager/Report/ParticipantStatusSummary/index";
+import DepositBalance from "../Manager/Report/DepositBalance/index";
+// import ParticipantStatusSummary from "../Manager/Report/ParticipantStatusSummary/index";
 import AwardAccountSummaryGL from "../Manager/Report/AwardAccountSummaryGL/index";
 import ProgramStatus from "../Manager/Report/components/ProgramStatus";
 import AwardDetail from "../Manager/Report/AwardDetail/index";
 import AwardSummary from "../Manager/Report/AwardSummary";
-import DepositBalance from "../Manager/Report/components/DepositBalance";
 import DepositTransfer from "../Manager/Report/components/DepositTransfer";
-import FileImport from "../Manager/Report/components/FileImport";
+import FileImport from "../Manager/Report/FileImport/index";
+import Engagement from "../Manager/Report/Engagement/index";
 import GoalProgressSummary from "../Manager/Report/components/GoalProgressSummary";
 import MerchantRedemption from "../Manager/Report/MerchantRedemption";
 import ParticipantAccount from "../Manager/Report/components/ParticipantAccount";
 import ParticipantStatus from "../Manager/Report/components/ParticipantStatus";
 import QuarterlyAward from "../Manager/Report/QuarterlyAward/index";
+import AnnualAwardSummary from "../Manager/Report/AnnualAwardSummary";
 import MainWrapper from "./MainWrapper";
 import ManageAccount from "../Manager/ManageAccount";
 import PageNotFound from "./404Error/PageNotFound";
@@ -122,6 +124,10 @@ const RouteIndex = () => (
         <Route path="/forgot/success" element={<ForgotSuccess />} />
         <Route path="/invitation" element={<Invitation />} />
         <Route path="/invitation/success" element={<InvitationSuccess />} />
+        <Route path="faqs" element={<Faqs />} />
+        <Route path="about" element={<About />} />
+        <Route path="privacy" element={<Privacy />} />
+        <Route path="tnc" element={<TnC />} />
       </Route>
       <Route path="/" element={<PrivateRoute />}>
         <Route path="participant" element={<ParticipantLayout />}>
@@ -131,10 +137,6 @@ const RouteIndex = () => (
           <Route path="my-points" element={<PointIndex />} />
           <Route path="my-goals" element={<GoalIndex />} />
           <Route path="my-goals/:userGoalId" element={<GoalView />} />
-          <Route path="faqs" element={<Faqs />} />
-          <Route path="about" element={<About />} />
-          <Route path="privacy" element={<Privacy />} />
-          <Route path="tnc" element={<TnC />} />
           <Route path="select-merchants" element={<SelectMerchants />} />
           <Route path="browse-merchants" element={<BrowseMerchants />} />
           <Route path="select-global-merchant" element={<GlobalMerchants />} />
@@ -174,9 +176,11 @@ const RouteIndex = () => (
             <Route path="supplier-redemption" element={<SupplierRedemption />} />
             <Route path="participant-account-summary" element={<ParticipantAccountSummary />} />
             <Route path="deposit-transfers" element={< DepositTransfers/>} />
-            <Route path="participant-status-summary" element={<ParticipantStatusSummary />} />
+            {/*<Route path="participant-status-summary" element={<ParticipantStatusSummary />} />*/}
             <Route path="program-status" element={<ProgramStatus />} />
-            {/* <Route path="annual-awards-summary" element={<AnnualAwardsSummary />} />*/}
+
+            <Route path="annual-awards-summary" element={<AnnualAwardSummary />} />
+            <Route path="referral-participant" element={<Engagement/>}/>
             <Route path="award-account-summary-gl" element={<AwardAccountSummaryGL />} />
             <Route path="award-detail" element={<AwardDetail />} />
             <Route path="award-summary" element={<AwardSummary />} />

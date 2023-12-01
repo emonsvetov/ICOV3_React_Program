@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import { Card, CardBody, Col } from 'reactstrap';
-import ParticipantStatusSummaryTable from './ParticipantStatusSummaryTable';
+import EngagementTable from './EngagementTable';
 import axios from "axios";
 import {isEmpty} from '@/shared/helpers'
 import {connect} from "react-redux";
 
-const ParticipantStatusSummaryIndex = ({ organization, program }) => {
+const EngagementIndex = ({ organization, program }) => {
   const [programs, setPrograms] = useState([]);
   const [defaultPrograms, setDefaultPrograms] = useState([]);
 
@@ -18,7 +18,7 @@ const ParticipantStatusSummaryIndex = ({ organization, program }) => {
         if (response.data.length === 0) return {results: [], count: 0}
 
         const data = response.data;
-        // console.log(data);
+        console.log(data);
         setPrograms(data);
         return data;
       } catch (e) {
@@ -45,7 +45,7 @@ const ParticipantStatusSummaryIndex = ({ organization, program }) => {
     <Col md={12}>
       <Card>
         <CardBody>
-          <ParticipantStatusSummaryTable programs={defaultPrograms} />
+          <EngagementTable programs={defaultPrograms} />
         </CardBody>
       </Card>
     </Col>
@@ -58,4 +58,4 @@ const mapStateToProps = (state) => {
     program: state.program,
   };
 };
-export default connect(mapStateToProps)(ParticipantStatusSummaryIndex);
+export default connect(mapStateToProps)(EngagementIndex);
