@@ -81,6 +81,7 @@ import GoalProgressSummary from "../Manager/Report/components/GoalProgressSummar
 import MerchantRedemption from "../Manager/Report/MerchantRedemption";
 import ParticipantAccount from "../Manager/Report/components/ParticipantAccount";
 import ParticipantStatus from "../Manager/Report/components/ParticipantStatus";
+import AnnualAwardSummary from "../Manager/Report/AnnualAwardSummary";
 import QuarterlyAward from "../Manager/Report/components/QuarterlyAward";
 import MainWrapper from "./MainWrapper";
 import ManageAccount from "../Manager/ManageAccount";
@@ -177,8 +178,9 @@ const RouteIndex = () => (
             <Route path="deposit-transfers" element={< DepositTransfers/>} />
             {/*<Route path="participant-status-summary" element={<ParticipantStatusSummary />} />*/}
             <Route path="program-status" element={<ProgramStatus />} />
+
+            <Route path="annual-awards-summary" element={<AnnualAwardSummary />} />
             <Route path="referral-participant" element={<Engagement/>}/>
-            {/* <Route path="annual-awards-summary" element={<AnnualAwardsSummary />} />*/}
             <Route path="award-account-summary-gl" element={<AwardAccountSummaryGL />} />
             <Route path="award-detail" element={<AwardDetail />} />
             <Route path="award-summary" element={<AwardSummary />} />
