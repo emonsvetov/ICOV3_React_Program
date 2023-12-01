@@ -7,13 +7,13 @@ import DatePicker from "react-datepicker";
 import {CSVLink} from "react-csv";
 import {getFirstDay} from '@/shared/helpers'
 import {dateStrToYmd} from '@/shared/helpers';
-import {isEqual, clone} from 'lodash';
+import {isEqual, clone, cloneDeep} from 'lodash';
 import {CheckBoxField} from '@/shared/components/form/CheckBox';
 
 const defaultFrom = getFirstDay()
 const defaultTo = new Date()
 
-const SupplierRedemptionFilter = (
+const ParticipantStatusFilter = (
   {
     filter,
     setFilter,
@@ -24,10 +24,10 @@ const SupplierRedemptionFilter = (
     exportHeaders
   }) => {
   const options = {
-    'dateRange': true,
+    'dateRange': false,
     'programs': true,
     'exportToCsv': true,
-    'createdOnly': true,
+    'createdOnly': false,
     'reportKey': true,
     'programId': true,
   }
@@ -37,6 +37,7 @@ const SupplierRedemptionFilter = (
   const [reportKey, setReportKey] = React.useState('sku_value')
   const [selectedPrograms, setSelectedPrograms] = useState(filter.programs ? filter.programs : []);
   const finalFilter = {...filter}
+  let previous = cloneDeep(finalFilter);
 
   const onClickFilter = (reset = false, exportToCsv = 0) => {
     let dataSet = {}
@@ -57,8 +58,8 @@ const SupplierRedemptionFilter = (
       dataSet.programId = filter.programId
     }
 
-
     onClickFilterCallback(dataSet)
+    previous = dataSet;
     if (reset) {
       setFrom(defaultFrom)
       setTo(defaultTo)
@@ -72,7 +73,7 @@ const SupplierRedemptionFilter = (
     let change = false;
 
     if (options.programs) {
-      if (!isEqual(finalFilter.programs, values.programs)) {
+      if (!isEqual(values.programs, previous.programs)) {
         change = true
       }
     }
@@ -249,4 +250,4 @@ const mapStateToProps = (state) => {
     organization: state.organization,
   };
 };
-export default connect(mapStateToProps)(SupplierRedemptionFilter);
+export default connect(mapStateToProps)(ParticipantStatusFilter);

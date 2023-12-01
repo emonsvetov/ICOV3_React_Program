@@ -209,21 +209,6 @@ const DataTable = ({organization, program, programs}) => {
                 const subRows = row.subRows;
                 const countSubRows = subRows ? subRows.length : 0;
                 const rowSpan = countSubRows ? countSubRows + 1 : 1;
-
-                Q1_total_value+=row.values.Q1_value;
-                Q1_total_count+=row.values.Q1_count;
-                
-                Q2_total_value+=row.values.Q2_value;
-                Q2_total_count+=row.values.Q2_count;
-                
-                Q3_total_value+=row.values.Q3_value;
-                Q3_total_count+=row.values.Q3_count;
-                
-                Q4_total_value+=row.values.Q4_value;
-                Q4_total_count+=row.values.Q4_count;
-
-                ytd_total_value += data.results[id].YTD_value;
-                ytd_total_count += data.results[id].YTD_count;
                 
                 return (
                   <>
@@ -279,31 +264,31 @@ const DataTable = ({organization, program, programs}) => {
                   Total
                 </td>
                 <td>
-                  ${parseFloat(Q1_total_value)?.toFixed(2)}
+                  ${parseFloat(data.full.totalValue.Q1_total_value)?.toFixed(2)}
                 </td>
                 <td>
                   {Q1_total_count}
                 </td>
                 <td>
-                  ${parseFloat(Q2_total_value)?.toFixed(2)}
+                  ${parseFloat(data.full.totalValue.Q2_total_value)?.toFixed(2)}
                 </td>
                 <td>
                   {Q2_total_count}
                 </td>
                 <td>
-                  ${parseFloat(Q3_total_value)?.toFixed(2)}
+                  ${parseFloat(data.full.totalValue.Q3_total_value)?.toFixed(2)}
                 </td>
                 <td>
                   {Q3_total_count}
                 </td>
                 <td>
-                  ${parseFloat(Q4_total_value)?.toFixed(2)}
+                  ${parseFloat(data.full.totalValue.Q4_total_value)?.toFixed(2)}
                 </td>
                 <td>
                   {Q4_total_count}
                 </td>
                 <td>
-                  ${parseFloat(ytd_total_value)?.toFixed(2)}
+                  ${parseFloat(data.full.totalValue.ytd_total_value)?.toFixed(2)}
                 </td>
                 <td>
                   {ytd_total_count}
