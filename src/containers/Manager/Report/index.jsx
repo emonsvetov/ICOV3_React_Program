@@ -12,12 +12,17 @@ const REPORT_TYPES = [
   {name: 'Participant Account Summary', link:'/manager/report/participant-account-summary'},
   {name: 'Participant Status Summary', link:'/manager/report/participant-status-summary'},
   {name: 'Invoices', link:'/manager/report/invoices'},
-  // {name: 'Annual Awards Summary', link:'/manager/report/annual-awards-summary'},
+  {name: 'Annual Awards Summary', link:'/manager/report/annual-awards-summary'},
   {name: 'Award Account Summary GL ', link:'/manager/report/award-account-summary-gl'},
   {name: 'Award Detail', link:'/manager/report/award-detail'},
   {name: 'Award Summary', link:'/manager/report/award-summary'},
   {name: 'Merchant Redemption', link:'/manager/report/merchant-redemption'},
+<<<<<<< HEAD
   {name: 'Engagement report', link:"/manager/report/referral-participant"},
+=======
+  {name: 'File Import', link:'/manager/report/file-import'},
+  {name: 'Engagement report', link:"/manager/report/referral-participant"}
+>>>>>>> e804ad5179efd26394d926c7521e5219f6ec80b4
   // {name: 'File Import', link:'/manager/report/file-import'},
   // {name: 'Quarterly Awards Summary', link:'/manager/report/quarterly-awards-summary'},
   // {name: 'Participant Account Summary', link:'/manager/report/participant-account-summary'},
