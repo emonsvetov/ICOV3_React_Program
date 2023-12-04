@@ -67,18 +67,21 @@ import Report from "../Manager/Report";
 import Invoices from "../Manager/Report/Invoices/index";
 import SupplierRedemption from "../Manager/Report/SupplierRedemption/index";
 import ParticipantAccountSummary from "../Manager/Report/ParticipantAccountSummary/index";
-import ParticipantStatusSummary from "../Manager/Report/ParticipantStatusSummary/index";
+import DepositTransfers from "../Manager/Report/DepositTransfers/index";
+import DepositBalance from "../Manager/Report/DepositBalance/index";
+// import ParticipantStatusSummary from "../Manager/Report/ParticipantStatusSummary/index";
 import AwardAccountSummaryGL from "../Manager/Report/AwardAccountSummaryGL/index";
 import ProgramStatus from "../Manager/Report/components/ProgramStatus";
 import AwardDetail from "../Manager/Report/AwardDetail/index";
 import AwardSummary from "../Manager/Report/AwardSummary";
-import DepositBalance from "../Manager/Report/components/DepositBalance";
 import DepositTransfer from "../Manager/Report/components/DepositTransfer";
-import FileImport from "../Manager/Report/components/FileImport";
+import FileImport from "../Manager/Report/FileImport/index";
+import Engagement from "../Manager/Report/Engagement/index";
 import GoalProgressSummary from "../Manager/Report/components/GoalProgressSummary";
 import MerchantRedemption from "../Manager/Report/MerchantRedemption";
 import ParticipantAccount from "../Manager/Report/components/ParticipantAccount";
 import ParticipantStatus from "../Manager/Report/components/ParticipantStatus";
+import AnnualAwardSummary from "../Manager/Report/AnnualAwardSummary";
 import QuarterlyAward from "../Manager/Report/components/QuarterlyAward";
 import MainWrapper from "./MainWrapper";
 import ManageAccount from "../Manager/ManageAccount";
@@ -172,9 +175,12 @@ const RouteIndex = () => (
             <Route path="invoices/:invoiceId" element={<Invoices />} />
             <Route path="supplier-redemption" element={<SupplierRedemption />} />
             <Route path="participant-account-summary" element={<ParticipantAccountSummary />} />
-            <Route path="participant-status-summary" element={<ParticipantStatusSummary />} />
+            <Route path="deposit-transfers" element={< DepositTransfers/>} />
+            {/*<Route path="participant-status-summary" element={<ParticipantStatusSummary />} />*/}
             <Route path="program-status" element={<ProgramStatus />} />
-            {/* <Route path="annual-awards-summary" element={<AnnualAwardsSummary />} />*/}
+
+            <Route path="annual-awards-summary" element={<AnnualAwardSummary />} />
+            <Route path="referral-participant" element={<Engagement/>}/>
             <Route path="award-account-summary-gl" element={<AwardAccountSummaryGL />} />
             <Route path="award-detail" element={<AwardDetail />} />
             <Route path="award-summary" element={<AwardSummary />} />
