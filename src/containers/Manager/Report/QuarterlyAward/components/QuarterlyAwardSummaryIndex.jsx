@@ -1,22 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import { Card, CardBody, Col } from 'reactstrap';
-import ParticipantAccountSummaryTable from './ParticipantAccountSummaryTable';
+import QuarterlyAwardSummaryTable from './QuarterlyAwardSummaryTable';
 import axios from "axios";
 import {isEmpty} from '@/shared/helpers'
 import {connect} from "react-redux";
 
-
-const ParticipantAccountSummaryIndex = ({ organization }) => {
+const QuarterlyAwardSummaryIndex = ({ organization, program }) => {
   const [programs, setPrograms] = useState([]);
   const [defaultPrograms, setDefaultPrograms] = useState([]);
 
+
   const getData = async () => {
-    const programsApiUrl = `/organization/${organization.id}/program?page=0&limit=9999999999&hierarchy=1&all=1`
+    const programsApiUrl = `/organization/${organization.id}/program/${program.id}/descendents?includeSelf=1&flat=1`
     if (isEmpty(programs)) {
       try {
         const response = await axios.get(programsApiUrl);
         if (response.data.length === 0) return {results: [], count: 0}
-        const data = response.data.data;
+
+        const data = response.data;
+        console.log(data);
         setPrograms(data);
         return data;
       } catch (e) {
@@ -24,9 +26,9 @@ const ParticipantAccountSummaryIndex = ({ organization }) => {
       }
     }
   }
- 
+
   useEffect(() => {
-    if ( organization ) {
+    if (organization) {
       getData();
     }
     if (programs) {
@@ -43,7 +45,7 @@ const ParticipantAccountSummaryIndex = ({ organization }) => {
     <Col md={12}>
       <Card>
         <CardBody>
-          <ParticipantAccountSummaryTable programs={defaultPrograms} />
+          <QuarterlyAwardSummaryTable programs={defaultPrograms} />
         </CardBody>
       </Card>
     </Col>
@@ -53,6 +55,7 @@ const ParticipantAccountSummaryIndex = ({ organization }) => {
 const mapStateToProps = (state) => {
   return {
     organization: state.organization,
+    program: state.program,
   };
 };
-export default connect(mapStateToProps)(ParticipantAccountSummaryIndex);
+export default connect(mapStateToProps)(QuarterlyAwardSummaryIndex);
