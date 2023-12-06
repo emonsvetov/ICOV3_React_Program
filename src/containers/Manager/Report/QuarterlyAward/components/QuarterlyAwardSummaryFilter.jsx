@@ -7,13 +7,14 @@ import DatePicker from "react-datepicker";
 import {CSVLink} from "react-csv";
 import {getFirstDay} from '@/shared/helpers'
 import {dateStrToYmd} from '@/shared/helpers';
-import {isEqual, clone, cloneDeep} from 'lodash';
+import {isEqual, clone} from 'lodash';
 import {CheckBoxField} from '@/shared/components/form/CheckBox';
+import Select from "react-select";
 
 const defaultFrom = getFirstDay()
 const defaultTo = new Date()
 
-const ParticipantStatusFilter = (
+const SupplierRedemptionFilter = (
   {
     filter,
     setFilter,
@@ -27,17 +28,29 @@ const ParticipantStatusFilter = (
     'dateRange': false,
     'programs': true,
     'exportToCsv': true,
+    'year': true,
     'createdOnly': false,
-    'reportKey': true,
+    'reportKey': false,
     'programId': true,
   }
+  const defaultYear = new Date().getFullYear();
   const [from, setFrom] = React.useState(defaultFrom)
   const [to, setTo] = React.useState(defaultTo)
   const [createdOnly, setCreatedOnly] = React.useState(false)
+  const [year, setYear] = React.useState({label: defaultYear, value: defaultYear})
   const [reportKey, setReportKey] = React.useState('sku_value')
   const [selectedPrograms, setSelectedPrograms] = useState(filter.programs ? filter.programs : []);
   const finalFilter = {...filter}
-  let previous = cloneDeep(finalFilter);
+  const prepareList = () =>{
+    let y = new Date().getFullYear();
+    let list = [];
+    for (var i = y; i > y -10; i --){
+      list.push({label: i, value: i})
+    }
+    return list;
+  }
+
+  const YEAR_LIST = prepareList();
 
   const onClickFilter = (reset = false, exportToCsv = 0) => {
     let dataSet = {}
@@ -48,24 +61,22 @@ const ParticipantStatusFilter = (
     if (options.programs) {
       dataSet.programs = reset ? [] : clone(selectedPrograms)
     }
-    if (options.createdOnly) {
-      dataSet.createdOnly = reset ? false : createdOnly
-    }
-    if (options.reportKey) {
-      dataSet.reportKey = reset ? 'sku_value' : reportKey
+    if (options.year) {
+      dataSet.year = reset ? {label: defaultYear, value: defaultYear} : year
     }
     if (options.programId) {
       dataSet.programId = filter.programId
     }
 
+
     onClickFilterCallback(dataSet)
-    previous = dataSet;
     if (reset) {
       setFrom(defaultFrom)
       setTo(defaultTo)
       setSelectedPrograms([]);
       setCreatedOnly(false)
       setReportKey('sku_value')
+      setYear({label: defaultYear, value: defaultYear})
     }
   }
 
@@ -73,7 +84,7 @@ const ParticipantStatusFilter = (
     let change = false;
 
     if (options.programs) {
-      if (!isEqual(values.programs, previous.programs)) {
+      if (!isEqual(finalFilter.programs, values.programs)) {
         change = true
       }
     }
@@ -90,6 +101,11 @@ const ParticipantStatusFilter = (
     }
     if (options.reportKey) {
       if (finalFilter.reportKey !== values.reportKey) {
+        change = true
+      }
+    }
+    if (options.year) {
+      if (finalFilter.year.value !== values.year.value) {
         change = true
       }
     }
@@ -121,6 +137,9 @@ const ParticipantStatusFilter = (
     if (options.reportKey) {
       filters.reportKey = values.reportKey
     }
+    if (options.year) {
+      filters.year = values.year.value
+    }
     filters.programId = filter.programId
     filters.programs = filter.programs
 
@@ -143,6 +162,11 @@ const ParticipantStatusFilter = (
     setReportKey(value)
   }
 
+  const onChangeYear = (value) => {
+    setYear(value)
+    console.log(year)
+  }
+
   return (
     <Row className="table-filter-form form">
       <Col md={8} lg={8} sm={8} className="table-filter-form-fields">
@@ -163,37 +187,27 @@ const ParticipantStatusFilter = (
               </div>
             </div>
           }
-          {options.dateRange &&
-            <>
-              <div className="table-filter-form-col table-filter-form-col2 float-filter">
-                <div className="form__form-group">
-                  <span className="form__form-group-label">From</span>
-                  <div className="form__form-group-field">
-                    <div className="form__form-group-row">
-                      <DatePicker
-                        dateFormat="MM/dd/yyyy"
-                        selected={from}
-                        onChange={onStartChange}
-                      />
+          {options.year &&
+              <>
+                <div className="table-filter-form-col table-filter-form-col2 float-filter" style={{marginTop: "-3px"}}>
+                  <div className="form__form-group">
+                    <span className="form__form-group-label">Year</span>
+                    <div className="form__form-group-field">
+                      <div className="form__form-group-row">
+                        <Select
+                            name="year"
+                            value={year}
+                            onChange={onChangeYear}
+                            options={YEAR_LIST}
+                            clearable={false}
+                            className="react-select"
+                            classNamePrefix="react-select"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="table-filter-form-col table-filter-form-col2 float-filter">
-                <div className="form__form-group">
-                  <span className="form__form-group-label">To</span>
-                  <div className="form__form-group-field">
-                    <div className="form__form-group-row">
-                      <DatePicker
-                        dateFormat="MM/dd/yyyy"
-                        selected={to}
-                        onChange={onEndChange}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
+              </>
           }
           <div className="clearfix">&nbsp;</div>
           <div className="clearfix">&nbsp;</div>
@@ -250,4 +264,4 @@ const mapStateToProps = (state) => {
     organization: state.organization,
   };
 };
-export default connect(mapStateToProps)(ParticipantStatusFilter);
+export default connect(mapStateToProps)(SupplierRedemptionFilter);

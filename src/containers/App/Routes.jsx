@@ -81,8 +81,8 @@ import GoalProgressSummary from "../Manager/Report/components/GoalProgressSummar
 import MerchantRedemption from "../Manager/Report/MerchantRedemption";
 import ParticipantAccount from "../Manager/Report/components/ParticipantAccount";
 import ParticipantStatus from "../Manager/Report/components/ParticipantStatus";
+import QuarterlyAward from "../Manager/Report/QuarterlyAward/index";
 import AnnualAwardSummary from "../Manager/Report/AnnualAwardSummary";
-import QuarterlyAward from "../Manager/Report/components/QuarterlyAward";
 import MainWrapper from "./MainWrapper";
 import ManageAccount from "../Manager/ManageAccount";
 import PageNotFound from "./404Error/PageNotFound";
