@@ -1,80 +1,66 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'; 
+import axios from 'axios'; 
 import { connect } from 'react-redux';
-import { 
-  Container, 
-  Input
-} from 'reactstrap';
+import { Container, Input } from 'reactstrap';
 import { useLocation, useNavigate, Outlet } from 'react-router-dom';
 
-const REPORT_TYPES = [
-  // {name: 'Invoices', link:'/manager/report/invoices'},
-  //{name: 'Supplier Redemption', link:'/manager/report/supplier-redemption'},
-  {name: 'Participant Account Summary', link:'/manager/report/participant-account-summary'},
-  {name: 'Participant Status Summary', link:'/manager/report/participant-status-summary'},
-  {name: 'Invoices', link:'/manager/report/invoices'},
-  {name: 'Annual Awards Summary', link:'/manager/report/annual-awards-summary'},
-  {name: 'Award Account Summary GL ', link:'/manager/report/award-account-summary-gl'},
-  {name: 'Award Detail', link:'/manager/report/award-detail'},
-  {name: 'Award Summary', link:'/manager/report/award-summary'},
-  {name: 'Merchant Redemption', link:'/manager/report/merchant-redemption'},
-  {name: 'File Import', link:'/manager/report/file-import'},
-  {name: 'Engagement report', link:"/manager/report/referral-participant"},
-  // {name: 'File Import', link:'/manager/report/file-import'},
-  {name: 'Quarterly Awards Summary', link:'/manager/report/quarterly-awards-summary'},
-  // {name: 'Participant Account Summary', link:'/manager/report/participant-account-summary'},
-  // {name: 'Participant Status Summary', link:'/manager/report/participant-status-summary'},
-  // {name: 'Program Status', link:'/manager/report/program-status'},
-  {name: 'Deposit Balance', link:'/manager/report/deposit-balance'},
-  {name: 'Deposit Transfers', link:'/manager/report/deposit-transfers'},
-  // {name: 'Goal Progress Summary', link:'/manager/report/goal-progress-summay'},
-]
-
-const Report = ({auth, program, organization}) => {
+const Report = ({ auth, program, organization }) => {
+  const [reportTypes, setReportTypes] = useState([]);
   let navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    const fetchReports = async () => {
+      try {
+        const response = await axios.get(`/reports/${program.id}`);
+        console.log('Response data:', response.data);
+        setReportTypes(response.data);
+      } catch (error) {
+        console.error("Error fetching reports:", error);
+        console.log('Error details:', error.response ? error.response.data : error.message);
+      }
+    };
+  
+    if (program.id) {
+      fetchReports();
+    }
+  }, [program.id]);
+
   const onChange = (e) => {
     navigate(e.target.value);
-  }
+  };
 
-  let selectedValue = '';
-  REPORT_TYPES.forEach((item) => {
-      if(location.pathname.indexOf(item.link)!= -1){
-          selectedValue=item.link;
-      }
-  });
-
-  const ReportOptions = () =>(
-    REPORT_TYPES.map((item, index) =>{
-      return <option key={index} value={item.link}>{item.name}</option>
-    })
-  )
+  let selectedValue = reportTypes.find(item => location.pathname.indexOf(item.link) !== -1)?.link || '';
 
   return (
     <div className='report'>
       <Container>
-      <div style={{color:'white'}}>
+        <div style={{color:'white'}}>
           <h3>Reports</h3>
         </div>
         <div className="d-flex program-select my-3">
           <span>Select Report:</span>
           <div className='mb-0'>
             <Input type="select" value={selectedValue} name="report-type" onChange={onChange}>
-              <ReportOptions />
-            </Input>        
+              {reportTypes.map((item, index) => (
+                <option key={index} value={item.link}>{item.name}</option>
+              ))}
+            </Input>
           </div>
-        </div>        
+        </div>
       </Container>
       <div style={{'padding': '5px 20px'}}>
         <Outlet />
       </div>
     </div>
-)}
+  );
+}
 
 const mapStateToProps = (state) => {
   return {
-     auth: state.auth,
-     program: state.program,
-     organization: state.organization,
+    auth: state.auth,
+    program: state.program,
+    organization: state.organization,
   };
 };
 
