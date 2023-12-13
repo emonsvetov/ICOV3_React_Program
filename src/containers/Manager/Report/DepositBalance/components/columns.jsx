@@ -7,7 +7,7 @@ export const TABLE_COLUMNS = [
   {
     Header: "Beginning Balance",
     accessor: "startBalanceTotal",
-    Cell: ({ row, value }) => { return value ? toPoints(value) : '-' },
+    Cell: ({ row, value }) => { return value ? toPoints(value) : 0 },
   },
   {
     Header: "Total Deposits",
@@ -37,6 +37,6 @@ export const TABLE_COLUMNS = [
   {
     Header: "Ending Balance",
     accessor: "endBalanceTotal",
-    Cell: ({ row, value }) => { return value ? toPoints(value) : '-' },
+    Cell: ({ row, value }) => { return value ? toPoints(value) : 0 },
   },
 ];
