@@ -13,7 +13,7 @@ const Report = ({ auth, program, organization }) => {
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        const response = await axios.get(`/reports/${program.id}`);
+        const response = await axios.get(`/reports/program/${program.id}`);
         console.log('Response data:', response.data);
         setReportTypes(response.data);
       } catch (error) {
