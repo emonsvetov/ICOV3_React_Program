@@ -93,7 +93,7 @@ const DataTable = ({organization, program, programs}) => {
       }
     );
     console.log(response)
-    setExportData(response.results);
+    setExportData(response.results.results);
     setExportHeaders(response.headers);
     setExportToCsv(true);
   }
