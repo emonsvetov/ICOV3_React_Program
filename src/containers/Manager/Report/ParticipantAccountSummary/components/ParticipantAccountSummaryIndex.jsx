@@ -16,7 +16,7 @@ const ParticipantAccountSummaryIndex = ({ organization, program }) => {
       try {
         const response = await axios.get(programsApiUrl);
         if (response.data.length === 0) return {results: [], count: 0}
-        const data = response.data.data;
+        const data = response.data;
         setPrograms(data);
         return data;
       } catch (e) {
@@ -26,6 +26,7 @@ const ParticipantAccountSummaryIndex = ({ organization, program }) => {
   }
  
   useEffect(() => {
+
     if ( organization ) {
       getData();
     }

@@ -18,7 +18,6 @@ const QuarterlyAwardSummaryIndex = ({ organization, program }) => {
         if (response.data.length === 0) return {results: [], count: 0}
 
         const data = response.data;
-        console.log(data);
         setPrograms(data);
         return data;
       } catch (e) {
