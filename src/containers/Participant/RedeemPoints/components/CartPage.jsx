@@ -105,7 +105,7 @@ const CartPage = ({ cart, program, pointBalance, template }) => {
                     <td colSpan={4}> {""}</td>
                     <td> {"Total:"}</td>
                     <td>
-                      {cartObject.total_points?.toLocaleString()} {t("points")}
+                      {cartObject.total_points?.toLocaleString()} {t("points")}444444
                     </td>
                   </tr>
                   <tr>
