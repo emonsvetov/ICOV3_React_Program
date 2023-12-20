@@ -1,10 +1,11 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { reducer as reduxFormReducer } from 'redux-form';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { sidebarReducer, themeReducer, rtlReducer, flashReducer, merchantReducer, organizationReducer, userReducer, programReducer, rootProgramReducer, cartReducer, balanceReducer, domainReducer, templateReducer, socialWallPostReducer, participantReducer } from '../../redux/reducers/index';
 
-const reducer = combineReducers({
-  form: reduxFormReducer, // mounted under "form",
+const rootReducer = combineReducers({
+  form: reduxFormReducer,
   theme: themeReducer,
   sidebar: sidebarReducer,
   rtl: rtlReducer,
@@ -22,6 +23,11 @@ const reducer = combineReducers({
   participant: participantReducer,
 });
 
-const store = createStore(reducer, applyMiddleware(thunk));
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(
+    applyMiddleware(thunk)
+  )
+);
 
 export default store;
