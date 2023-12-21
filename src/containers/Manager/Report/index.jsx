@@ -26,13 +26,12 @@ const Report = ({ auth, program, organization }) => {
         setIsLoading(false);
       }
     };
-  
     if (program.id) {
       fetchReports();
     } else {
       navigate('/');
     }
-  }, [program.id, navigate]);
+  }, [program.id]);
 
   const onChange = (e) => {
     navigate(e.target.value);
