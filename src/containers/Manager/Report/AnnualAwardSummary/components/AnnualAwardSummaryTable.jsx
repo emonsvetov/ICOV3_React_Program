@@ -107,7 +107,6 @@ const DataTable = ({organization, program, programs}) => {
       })
       csvData.push(tempProgramObject)
     })
-    console.log(csvData)
     setExportData(csvData);
     setExportHeaders(csvHeader);
     setExportToCsv(true);
