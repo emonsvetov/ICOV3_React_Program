@@ -1,7 +1,6 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { reducer as reduxFormReducer } from 'redux-form';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import { sidebarReducer, themeReducer, rtlReducer, flashReducer, merchantReducer, organizationReducer, userReducer, programReducer, rootProgramReducer, cartReducer, balanceReducer, domainReducer, templateReducer, socialWallPostReducer, participantReducer } from '../../redux/reducers/index';
 
 const rootReducer = combineReducers({
@@ -25,9 +24,7 @@ const rootReducer = combineReducers({
 
 const store = createStore(
   rootReducer,
-  composeWithDevTools(
-    applyMiddleware(thunk)
-  )
+  applyMiddleware(thunk)
 );
 
 export default store;
