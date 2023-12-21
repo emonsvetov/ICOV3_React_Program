@@ -238,6 +238,7 @@ const LogInForm = () => {
                   headers: {"Authorization" : `Bearer ${accessToken}`}
                 })
                     .then(  (res) => {
+                      
                         localStorage.setItem(MEDIA_TYPES, JSON.stringify(res.data));
                         var t = setTimeout(window.location = sendTo, 500)
                     });
