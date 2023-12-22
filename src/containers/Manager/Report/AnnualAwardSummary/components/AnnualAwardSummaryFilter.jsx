@@ -17,6 +17,7 @@ const defaultFrom = getFirstDay()
 const defaultTo = new Date()
 const defaultYear = new Date().getFullYear();
 const defaultMonth = new Date().toLocaleString('default', { month: 'long' });
+const defaultMonthValue = new Date().getMonth();
 const prepareList = () =>{
   let y = new Date().getFullYear();
   let list = [];
@@ -61,7 +62,7 @@ const AwardSummaryFilter = (
   const [from, setFrom] = React.useState(defaultFrom)
   const [to, setTo] = React.useState(defaultTo)
   const [year, setYear] = React.useState({label: defaultYear, value: defaultYear})
-  const [month, setMonth] = React.useState({label: defaultMonth, value: defaultMonth})
+  const [month, setMonth] = React.useState({label: defaultMonth, value: defaultMonthValue})
   const [createdOnly, setCreatedOnly] = React.useState(false)
   const [reportKey, setReportKey] = React.useState('sku_value')
   const [selectedPrograms, setSelectedPrograms] = useState(filter.programs ? filter.programs : []);
@@ -91,7 +92,7 @@ const AwardSummaryFilter = (
     }
 
     if (options.month) {
-      dataSet.month = reset ? {label: defaultMonth, value: defaultMonth} : month
+      dataSet.month = reset ? {label: defaultMonth, value: defaultMonthValue} : month
     }
 
     onClickFilterCallback(dataSet)
@@ -103,6 +104,7 @@ const AwardSummaryFilter = (
       setCreatedOnly(false)
       setReportKey('sku_value')
       setYear({label: defaultYear, value: defaultYear})
+      setMonth({label: defaultMonth, value: defaultMonthValue})
     }
   }
 
@@ -173,7 +175,7 @@ const AwardSummaryFilter = (
     if (options.year) {
       filters.year = values.year.value
     }
-
+    console.log(values.month)
     if (options.month) {
       filters.month = values.month.value
     }
