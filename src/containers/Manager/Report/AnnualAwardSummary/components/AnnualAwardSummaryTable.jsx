@@ -241,8 +241,8 @@ const DataTable = ({organization, program, programs}) => {
                   <td width="20%">Program Budget</td>
                   <td width="20%">  {toCurrency(data.full.event_summary_program_budget.previous_year_month)}</td>
                   <td width="20%">  {toCurrency(data.full.event_summary_program_budget.month)}</td>
-                  <td width="20%">  {toCurrency(data.full.event_summary_program_budget.annual)}</td>
                   <td width="20%">  {toCurrency(data.full.event_summary_program_budget.previous_year_annual)}</td>
+                  <td width="20%">  {toCurrency(data.full.event_summary_program_budget.annual)}</td>
                 </tr>
                 <tr class="odd">
       						<td width="20%">Amount Awarded</td>
