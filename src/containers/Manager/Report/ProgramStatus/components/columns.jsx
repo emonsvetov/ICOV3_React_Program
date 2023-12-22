@@ -21,7 +21,7 @@ export const TABLE_COLUMNS = [
     },
     {
         Header: "Average",
-        accessor: "average",
+        accessor: "transaction_fees",
     },
     {
         Header: "MTD Awards",
@@ -33,7 +33,7 @@ export const TABLE_COLUMNS = [
     },
     {
         Header: "MTD Average",
-        accessor: "mtd_average",
+        accessor: "mtd_transaction_fees",
     },
     {
         Header: "YTD Awards",
@@ -45,6 +45,6 @@ export const TABLE_COLUMNS = [
     },
     {
         Header: "YTD Average",
-        accessor: "ytd_average",
+        accessor: "ytd_transaction_fees",
     },   
 ]
