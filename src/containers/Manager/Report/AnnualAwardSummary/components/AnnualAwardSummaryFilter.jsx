@@ -175,7 +175,6 @@ const AwardSummaryFilter = (
     if (options.year) {
       filters.year = values.year.value
     }
-    console.log(values.month)
     if (options.month) {
       filters.month = values.month.value
     }
