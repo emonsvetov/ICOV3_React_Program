@@ -16,7 +16,7 @@ const PointsClear = ({ pointBalance, template, program }) => {
             </td>
           </tr>
           <tr>
-            <td className="value"> {pointBalance.amount * pointBalance.factor}</td>
+            <td className="value"> {pointBalance.points * pointBalance.factor}</td>
           </tr>
           {
             program.uses_peer2peer > 0 &&

@@ -1,29 +1,35 @@
-
 import React, { useEffect, useState } from 'react'; 
 import axios from 'axios'; 
 import { connect } from 'react-redux';
 import { Container, Input } from 'reactstrap';
-import { useLocation, useNavigate, Outlet } from 'react-router-dom';
+import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 
 const Report = ({ auth, program, organization }) => {
   const [reportTypes, setReportTypes] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   let navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     const fetchReports = async () => {
+      setIsLoading(true);
       try {
         const response = await axios.get(`/reports/${program.id}`);
-        console.log('Response data:', response.data);
         setReportTypes(response.data);
+        if (response.data.length > 0) {
+          navigate(response.data[0].link);
+        }
       } catch (error) {
         console.error("Error fetching reports:", error);
-        console.log('Error details:', error.response ? error.response.data : error.message);
+        navigate('/manager/report'); 
+      } finally {
+        setIsLoading(false);
       }
     };
-  
     if (program.id) {
       fetchReports();
+    } else {
+      navigate('/');
     }
   }, [program.id]);
 
@@ -31,30 +37,40 @@ const Report = ({ auth, program, organization }) => {
     navigate(e.target.value);
   };
 
-  let selectedValue = reportTypes.find(item => location.pathname.indexOf(item.link) !== -1)?.link || '';
+  let selectedValue = reportTypes.find(item => location.pathname.includes(item.link))?.link || '';
 
   return (
     <div className='report'>
       <Container>
-        <div style={{color:'white'}}>
+        <div style={{color: 'white'}}>
           <h3>Reports</h3>
         </div>
-        <div className="d-flex program-select my-3">
-          <span>Select Report:</span>
-          <div className='mb-0'>
-            <Input type="select" value={selectedValue} name="report-type" onChange={onChange}>
-              {reportTypes.map((item, index) => (
-                <option key={index} value={item.link}>{item.name}</option>
-              ))}
-            </Input>
+        {isLoading ? (
+          <div style={{ padding: '20px 0px', color: 'white' }}>
+            <p>Loading reports...</p> 
           </div>
-        </div>
+        ) : reportTypes.length > 0 ? (
+          <div className="d-flex program-select my-3">
+            <span>Select Report:</span>
+            <div className='mb-0'>
+              <Input type="select" value={selectedValue} name="report-type" onChange={onChange}>
+                {reportTypes.map((item, index) => (
+                  <option key={index} value={item.link}>{item.name}</option>
+                ))}
+              </Input>
+            </div>
+          </div>
+        ) : (
+          <div style={{ padding: '20px 0px', color: 'white' }}>
+            <p>No reports available at the moment.</p>
+          </div>
+        )}
       </Container>
       <div style={{'padding': '5px 20px'}}>
         <Outlet />
       </div>
     </div>
-  );
+  )
 }
 
 const mapStateToProps = (state) => {

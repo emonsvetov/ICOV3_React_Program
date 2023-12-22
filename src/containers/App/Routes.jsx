@@ -45,6 +45,7 @@ import Survey from "../Participant/Survey";
 import Calendar from "../Participant/Calendar";
 import Newsletter from "../Participant/Newsletter";
 import Media from "../Participant/Media";
+import Iframe from "../Participant/Iframe";
 import Training from "../Participant/Training";
 import ProgramRules from "../Participant/ProgramRules";
 import Feeling from "../Participant/Feeling";
@@ -153,6 +154,7 @@ const RouteIndex = () => (
           <Route path="program_rules" element={<ProgramRules />} />
           <Route path="newsletter" element={<Newsletter />} />
           <Route path="media/:categoryId" element={<Media />} />
+          <Route path="iframe/:categoryId" element={<Iframe />} />
           <Route path="training" element={<Training />} />
           <Route path="feeling" element={<Feeling />} />
         </Route>

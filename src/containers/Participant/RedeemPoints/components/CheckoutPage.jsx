@@ -5,6 +5,8 @@ import { useTable } from "react-table";
 import { connect } from "react-redux";
 import axios from "axios";
 import { emptyAuthCart } from "@/containers/App/auth";
+import { setPointBalance } from '@/redux/actions/balanceActions';
+import { clearCart } from '@/redux/actions/cartActions';
 import {
   useDispatch,
   sendFlashMessage,
@@ -13,10 +15,11 @@ import {
 import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
 import {CheckoutComplete} from "@/containers/Participant/RedeemPoints/components/CheckoutComplete";
+import { getAuthPoints } from "@/containers/App/auth";
 
 const API_STORAGE_URL = `${process.env.REACT_APP_API_STORAGE_URL}`;
 
-const CheckoutPage = ({ cart, program, pointBalance, organization, template }) => {
+const CheckoutPage = ({ cart, program, pointBalance, organization, template, dispatch }) => {
   const { t } = useTranslation();
   const flashDispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
@@ -63,12 +66,18 @@ const CheckoutPage = ({ cart, program, pointBalance, organization, template }) =
         cartObject
       )
       .then((res) => {
-        console.log(res);
+        console.log('res', res);
         if (res.status === 200) {
           if (res.data?.success) {
             emptyAuthCart();
             setGiftCodesRedeemed(res.data.gift_codes_redeemed_for);
             setShowCompleteCheckout(true);
+
+
+            getAuthPoints().then((updatedBalance) => {
+              dispatch(setPointBalance(updatedBalance));
+            });
+            dispatch(clearCart());
           }
         }
       })
@@ -250,10 +259,19 @@ const CheckoutPage = ({ cart, program, pointBalance, organization, template }) =
   );
 };
 
-export default connect((state) => ({
-  cart: state.cart,
-  program: state.program,
-  pointBalance: state.pointBalance,
-  organization: state.organization,
-  template: state.template,
-}))(CheckoutPage);
+const mapStateToProps = (state) => {
+
+  return {
+    cart: state.cart,
+    program: state.program,
+    pointBalance: state.pointBalance,
+    organization: state.organization,
+    template: state.template,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  dispatch
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutPage);

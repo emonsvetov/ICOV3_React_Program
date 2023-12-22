@@ -91,10 +91,14 @@ useEffect( () => {
           );
         })}
         {mediaTypes.map((item, index) => {
-          const url = "/participant/media/" + item.program_media_type_id;
+          
+          const url = item.is_menu_item ? 
+                "/participant/iframe/" + item.program_media_type_id :
+                "/participant/media/" + item.program_media_type_id;
           return (
+
             <NavItem key={index}>
-              <NavLink to={url} >{t(item.name)}</NavLink>
+                <NavLink to={url} >{t(item.name)}</NavLink>
             </NavItem>
           );
         })}
