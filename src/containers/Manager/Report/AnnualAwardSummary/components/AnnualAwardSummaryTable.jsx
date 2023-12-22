@@ -212,7 +212,7 @@ const DataTable = ({organization, program, programs}) => {
           {
             isSuccess &&
             <>
-               <h4>Program Budget VS Awards    {new Date(0, data.full.filter.month).toLocaleString('default', { month: 'long' })}  {data.full.filter.year}</h4> 
+               <h4>Program Budget VS Awards    {new Date(0, data.full.filter.month -1).toLocaleString('default', { month: 'long' })}  {data.full.filter.year}</h4> 
 
               <table className="table table-striped report-table">
               <thead>
@@ -307,7 +307,7 @@ const DataTable = ({organization, program, programs}) => {
               </tfoot>
               </table>
 
-              <h4 className="mt-5">Reward Events Summary  {new Date(0, data.full.filter.month).toLocaleString('default', { month: 'long' })}  {data.full.filter.year}</h4>
+              <h4 className="mt-5">Reward Events Summary  {new Date(0, data.full.filter.month -1).toLocaleString('default', { month: 'long' })}  {data.full.filter.year}</h4>
               <table className="table table-striped report-table">
                 <thead>
                 <tr>
