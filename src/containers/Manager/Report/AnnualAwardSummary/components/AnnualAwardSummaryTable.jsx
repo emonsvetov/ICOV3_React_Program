@@ -84,9 +84,31 @@ const DataTable = ({organization, program, programs}) => {
         trigger: queryTrigger
       }
     );
-
-    setExportData(response.results);
-    setExportHeaders(response.headers);
+    let csvData = [];
+    let keys1 = ["event_summary_points_awarded", "event_summary_program_budget","event_summary_program_reclaimed","event_summary_transaction_fees"];
+    let keys2 = ["annual", "month", "previous_year_annual","previous_year_month"]
+    let csvHeader = ["category",...keys2]
+    keys1.map((key1, id)=>{
+      let tempObject = {
+        category: key1
+      }
+      keys2.map((key2, id)=>{
+        tempObject[key2] =  response.results[key1][key2]
+      })
+      csvData.push(tempObject)
+      
+    })
+    response.results.event_summary_program_reward.map((program, id)=>{
+      let tempProgramObject = {
+        category: program.event_name
+      }
+      keys2.map((key2, id)=>{
+        tempProgramObject[key2] =  program[key2]
+      })
+      csvData.push(tempProgramObject)
+    })
+    setExportData(csvData);
+    setExportHeaders(csvHeader);
     setExportToCsv(true);
   }
 
@@ -197,12 +219,12 @@ const DataTable = ({organization, program, programs}) => {
                <tr>
                 <th width="20%"></th>
                 <th width="20%">
-                    {new Date(0, data.full.filter.month).toLocaleString('default', { month: 'long' })}
+                    {new Date(0, data.full.filter.month -1).toLocaleString('default', { month: 'long' })}
                     {' '}
                     {data.full.filter.year-1}
                 </th>
                 <th width="20%">
-                    {new Date(0, data.full.filter.month).toLocaleString('default', { month: 'long' })}
+                    {new Date(0, data.full.filter.month -1).toLocaleString('default', { month: 'long' })}
                     {' '}
                     {data.full.filter.year}
                 </th>
@@ -217,10 +239,10 @@ const DataTable = ({organization, program, programs}) => {
               <tbody>
                 <tr class="odd">
                   <td width="20%">Program Budget</td>
-                  <td width="20%">  {toCurrency(data.full.event_summary_program_budget.previous_year_month[0].value)}</td>
-                  <td width="20%">  {toCurrency(data.full.event_summary_program_budget.month[0].value)}</td>
-                  <td width="20%">  {toCurrency(data.full.event_summary_program_budget.previous_year_annual[0].value)}</td>
-                  <td width="20%">  {toCurrency(data.full.event_summary_program_budget.annual[0].value)}</td>
+                  <td width="20%">  {toCurrency(data.full.event_summary_program_budget.previous_year_month)}</td>
+                  <td width="20%">  {toCurrency(data.full.event_summary_program_budget.month)}</td>
+                  <td width="20%">  {toCurrency(data.full.event_summary_program_budget.previous_year_annual)}</td>
+                  <td width="20%">  {toCurrency(data.full.event_summary_program_budget.annual)}</td>
                 </tr>
                 <tr class="odd">
       						<td width="20%">Amount Awarded</td>
@@ -250,17 +272,17 @@ const DataTable = ({organization, program, programs}) => {
                   <td>
                     <h6>
                       {toCurrency(
-                      (parseFloat(data.full.event_summary_program_budget.previous_year_month[0].value) - (parseFloat(data.full.event_summary_points_awarded.previous_year_month) + parseFloat(data.full.event_summary_transaction_fees.previous_year_month)-parseFloat(data.full.event_summary_program_reclaimed.previous_year_month))) < 0 ?
-                      Math.abs(parseFloat(data.full.event_summary_program_budget.previous_year_month[0].value) - (parseFloat(data.full.event_summary_points_awarded.previous_year_month) + parseFloat(data.full.event_summary_transaction_fees.previous_year_month)-parseFloat(data.full.event_summary_program_reclaimed.previous_year_month))) : 
-                      (parseFloat(data.full.event_summary_program_budget.previous_year_month[0].value) - (parseFloat(data.full.event_summary_points_awarded.previous_year_month) + parseFloat(data.full.event_summary_transaction_fees.previous_year_month)-parseFloat(data.full.event_summary_program_reclaimed.previous_year_month))))}
+                      (parseFloat(data.full.event_summary_program_budget.previous_year_month) - (parseFloat(data.full.event_summary_points_awarded.previous_year_month) + parseFloat(data.full.event_summary_transaction_fees.previous_year_month)-parseFloat(data.full.event_summary_program_reclaimed.previous_year_month))) < 0 ?
+                      Math.abs(parseFloat(data.full.event_summary_program_budget.previous_year_month) - (parseFloat(data.full.event_summary_points_awarded.previous_year_month) + parseFloat(data.full.event_summary_transaction_fees.previous_year_month)-parseFloat(data.full.event_summary_program_reclaimed.previous_year_month))) : 
+                      (parseFloat(data.full.event_summary_program_budget.previous_year_month) - (parseFloat(data.full.event_summary_points_awarded.previous_year_month) + parseFloat(data.full.event_summary_transaction_fees.previous_year_month)-parseFloat(data.full.event_summary_program_reclaimed.previous_year_month))))}
                     </h6>
                   </td>
                   <td>
                     <h6>
                       {toCurrency(
-                      (parseFloat(data.full.event_summary_program_budget.month[0].value) - (parseFloat(data.full.event_summary_points_awarded.month) + parseFloat(data.full.event_summary_transaction_fees.month)-parseFloat(data.full.event_summary_program_reclaimed.month))) < 0 ?
-                      Math.abs(parseFloat(data.full.event_summary_program_budget.month[0].value) - (parseFloat(data.full.event_summary_points_awarded.month) + parseFloat(data.full.event_summary_transaction_fees.month)-parseFloat(data.full.event_summary_program_reclaimed.month))) :
-                      (parseFloat(data.full.event_summary_program_budget.month[0].value) - (parseFloat(data.full.event_summary_points_awarded.month) + parseFloat(data.full.event_summary_transaction_fees.month)-parseFloat(data.full.event_summary_program_reclaimed.month))
+                      (parseFloat(data.full.event_summary_program_budget.month) - (parseFloat(data.full.event_summary_points_awarded.month) + parseFloat(data.full.event_summary_transaction_fees.month)-parseFloat(data.full.event_summary_program_reclaimed.month))) < 0 ?
+                      Math.abs(parseFloat(data.full.event_summary_program_budget.month) - (parseFloat(data.full.event_summary_points_awarded.month) + parseFloat(data.full.event_summary_transaction_fees.month)-parseFloat(data.full.event_summary_program_reclaimed.month))) :
+                      (parseFloat(data.full.event_summary_program_budget.month) - (parseFloat(data.full.event_summary_points_awarded.month) + parseFloat(data.full.event_summary_transaction_fees.month)-parseFloat(data.full.event_summary_program_reclaimed.month))
                       ))}
                     </h6>
                   </td>
@@ -268,17 +290,17 @@ const DataTable = ({organization, program, programs}) => {
                     <h6>
                       
                       {toCurrency(
-                        (parseFloat(data.full.event_summary_program_budget.previous_year_annual[0].value) - (parseFloat(data.full.event_summary_points_awarded.previous_year_annual) + parseFloat(data.full.event_summary_transaction_fees.previous_year_annual)-parseFloat(data.full.event_summary_program_reclaimed.previous_year_annual))) < 0 ?
-                        Math.abs((parseFloat(data.full.event_summary_program_budget.previous_year_annual[0].value) - (parseFloat(data.full.event_summary_points_awarded.previous_year_annual) + parseFloat(data.full.event_summary_transaction_fees.previous_year_annual)-parseFloat(data.full.event_summary_program_reclaimed.previous_year_annual)))) :
-                        parseFloat(data.full.event_summary_program_budget.previous_year_annual[0].value) - (parseFloat(data.full.event_summary_points_awarded.previous_year_annual) + parseFloat(data.full.event_summary_transaction_fees.previous_year_annual)-parseFloat(data.full.event_summary_program_reclaimed.previous_year_annual)  ))}
+                        (parseFloat(data.full.event_summary_program_budget.previous_year_annual) - (parseFloat(data.full.event_summary_points_awarded.previous_year_annual) + parseFloat(data.full.event_summary_transaction_fees.previous_year_annual)-parseFloat(data.full.event_summary_program_reclaimed.previous_year_annual))) < 0 ?
+                        Math.abs((parseFloat(data.full.event_summary_program_budget.previous_year_annual) - (parseFloat(data.full.event_summary_points_awarded.previous_year_annual) + parseFloat(data.full.event_summary_transaction_fees.previous_year_annual)-parseFloat(data.full.event_summary_program_reclaimed.previous_year_annual)))) :
+                        parseFloat(data.full.event_summary_program_budget.previous_year_annual) - (parseFloat(data.full.event_summary_points_awarded.previous_year_annual) + parseFloat(data.full.event_summary_transaction_fees.previous_year_annual)-parseFloat(data.full.event_summary_program_reclaimed.previous_year_annual)  ))}
                     </h6>
                   </td>
                   <td>
                     <h6>
                      {toCurrency(
-                      (parseFloat(data.full.event_summary_program_budget.annual[0].value) - (parseFloat(data.full.event_summary_points_awarded.annual) + parseFloat(data.full.event_summary_transaction_fees.annual)-parseFloat(data.full.event_summary_program_reclaimed.annual)  )) < 0 ?
-                      Math.abs(parseFloat(data.full.event_summary_program_budget.annual[0].value) - (parseFloat(data.full.event_summary_points_awarded.annual) + parseFloat(data.full.event_summary_transaction_fees.annual)-parseFloat(data.full.event_summary_program_reclaimed.annual)  )) : 
-                      parseFloat(data.full.event_summary_program_budget.annual[0].value) - (parseFloat(data.full.event_summary_points_awarded.annual) + parseFloat(data.full.event_summary_transaction_fees.annual)-parseFloat(data.full.event_summary_program_reclaimed.annual)  ))}
+                      (parseFloat(data.full.event_summary_program_budget.annual) - (parseFloat(data.full.event_summary_points_awarded.annual) + parseFloat(data.full.event_summary_transaction_fees.annual)-parseFloat(data.full.event_summary_program_reclaimed.annual)  )) < 0 ?
+                      Math.abs(parseFloat(data.full.event_summary_program_budget.annual) - (parseFloat(data.full.event_summary_points_awarded.annual) + parseFloat(data.full.event_summary_transaction_fees.annual)-parseFloat(data.full.event_summary_program_reclaimed.annual)  )) : 
+                      parseFloat(data.full.event_summary_program_budget.annual) - (parseFloat(data.full.event_summary_points_awarded.annual) + parseFloat(data.full.event_summary_transaction_fees.annual)-parseFloat(data.full.event_summary_program_reclaimed.annual)  ))}
                     </h6>
                   </td>
                 </tr>
@@ -386,25 +408,6 @@ const DataTable = ({organization, program, programs}) => {
             </>
           }
 
-          {(rows.length > 0) && (
-            <>
-              <ReactTablePagination
-                page={page}
-                gotoPage={gotoPage}
-                previousPage={previousPage}
-                nextPage={nextPage}
-                canPreviousPage={canPreviousPage}
-                canNextPage={canNextPage}
-                pageOptions={pageOptions}
-                pageSize={pageSize}
-                pageIndex={pageIndex}
-                pageCount={pageCount}
-                setPageSize={setPageSize}
-                manualPageSize={manualPageSize}
-                dataLength={totalCount}
-              />
-            </>
-          )}
         </div>
       </>
     )

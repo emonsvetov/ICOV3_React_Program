@@ -108,7 +108,6 @@ const AwardSummaryFilter = (
 
   const onClickFilterCallback = (values) => {
     let change = false;
-
     if (options.programs) {
       if (!isEqual(values.programs, previous.programs)) {
         change = true
