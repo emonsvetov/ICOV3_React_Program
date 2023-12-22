@@ -219,12 +219,12 @@ const DataTable = ({organization, program, programs}) => {
                <tr>
                 <th width="20%"></th>
                 <th width="20%">
-                    {new Date(0, data.full.filter.month -1).toLocaleString('default', { month: 'long' })}
+                    {new Date(0, data.full.filter.month-1).toLocaleString('default', { month: 'long' })}
                     {' '}
                     {data.full.filter.year-1}
                 </th>
                 <th width="20%">
-                    {new Date(0, data.full.filter.month -1).toLocaleString('default', { month: 'long' })}
+                    {new Date(0, data.full.filter.month-1).toLocaleString('default', { month: 'long' })}
                     {' '}
                     {data.full.filter.year}
                 </th>
