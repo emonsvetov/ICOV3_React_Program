@@ -358,8 +358,7 @@ export const REWARD_HISTORY_COLUMNS = [
       accessor: "icon",
       // align: "center",
       Cell: ({ row, value }) => (
-        `${value} Icon`
-        /*<img src={setIconPath(value)} alt="icons" />*/
+          !value ? '' : <img height={50} src={setIconPath(value)} alt="icons" />
       ),
     }
   ];
