@@ -8,8 +8,6 @@ const Report = ({ auth, program, organization }) => {
   const [reportTypes, setReportTypes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-const Report = ({auth, program, organization}) => {
-
   let navigate = useNavigate();
   const location = useLocation();
 
