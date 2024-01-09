@@ -9,35 +9,11 @@ import {getFirstDay} from '@/shared/helpers'
 import {dateStrToYmd} from '@/shared/helpers';
 import {isEqual, clone, cloneDeep} from 'lodash';
 import {CheckBoxField} from '@/shared/components/form/CheckBox';
-import renderSelectField from '@/shared/components/form/Select'
-import { Form, Field } from 'react-final-form';
-import Select from "react-select";
 
 const defaultFrom = getFirstDay()
 const defaultTo = new Date()
-const defaultYear = new Date().getFullYear();
-const defaultMonth = new Date().toLocaleString('default', { month: 'long' });
-const defaultMonthValue = new Date().getMonth();
-const prepareList = () =>{
-  let y = new Date().getFullYear();
-  let list = [];
-  for (var i = y; i > y -10; i --){
-    list.push({label: i, value: i})
-  }
-  return list;
-}
-const prepareMonthList = () => {
-  let list = [];
-  var monthNames = [ "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December" ];
-  monthNames.map(
-    (month, id) =>{
-      list.push({label: month, value: id});
-    });
-  return list;
-}
 
-const AwardSummaryFilter = (
+const ProgramStatusFilter = (
   {
     filter,
     setFilter,
@@ -47,22 +23,16 @@ const AwardSummaryFilter = (
     exportLink,
     exportHeaders
   }) => {
-  const YEAR_LIST = prepareList();
-  const MONTH_LIST = prepareMonthList();
   const options = {
-    'dateRange': false,
-    'year': true,
-    'month':true,
+    'dateRange': true,
     'programs': true,
     'exportToCsv': true,
     'createdOnly': false,
-    'reportKey': false,
+    'reportKey': true,
     'programId': true,
   }
   const [from, setFrom] = React.useState(defaultFrom)
   const [to, setTo] = React.useState(defaultTo)
-  const [year, setYear] = React.useState({label: defaultYear, value: defaultYear})
-  const [month, setMonth] = React.useState({label: defaultMonth, value: defaultMonthValue})
   const [createdOnly, setCreatedOnly] = React.useState(false)
   const [reportKey, setReportKey] = React.useState('sku_value')
   const [selectedPrograms, setSelectedPrograms] = useState(filter.programs ? filter.programs : []);
@@ -87,13 +57,6 @@ const AwardSummaryFilter = (
     if (options.programId) {
       dataSet.programId = filter.programId
     }
-    if (options.year) {
-      dataSet.year = reset ? {label: defaultYear, value: defaultYear} : year
-    }
-
-    if (options.month) {
-      dataSet.month = reset ? {label: defaultMonth, value: defaultMonthValue} : month
-    }
 
     onClickFilterCallback(dataSet)
     previous = dataSet;
@@ -103,13 +66,12 @@ const AwardSummaryFilter = (
       setSelectedPrograms([]);
       setCreatedOnly(false)
       setReportKey('sku_value')
-      setYear({label: defaultYear, value: defaultYear})
-      setMonth({label: defaultMonth, value: defaultMonthValue})
     }
   }
 
   const onClickFilterCallback = (values) => {
     let change = false;
+
     if (options.programs) {
       if (!isEqual(values.programs, previous.programs)) {
         change = true
@@ -121,26 +83,13 @@ const AwardSummaryFilter = (
         change = true
       }
     }
-
     if (options.createdOnly) {
       if (finalFilter.createdOnly !== values.createdOnly) {
         change = true
       }
     }
-
     if (options.reportKey) {
       if (finalFilter.reportKey !== values.reportKey) {
-        change = true
-      }
-    }
-
-    if (options.year) {
-      if (finalFilter.year !== values.year.value) {
-        change = true
-      }
-    }
-    if (options.month) {
-      if (finalFilter.month !== values.month.value) {
         change = true
       }
     }
@@ -172,14 +121,9 @@ const AwardSummaryFilter = (
     if (options.reportKey) {
       filters.reportKey = values.reportKey
     }
-    if (options.year) {
-      filters.year = values.year.value
-    }
-    if (options.month) {
-      filters.month = values.month.value
-    }
     filters.programId = filter.programId
     filters.programs = filter.programs
+
     setFilter(filters)
     setUseFilter(true)
   }
@@ -198,12 +142,7 @@ const AwardSummaryFilter = (
   const onChangeRadio = (value) => {
     setReportKey(value)
   }
-  const onChangeYear = (value) => {
-    setYear(value)
-  }
-  const onChangeMonth = (value) => {
-    setMonth(value)
-  }
+
   return (
     <Row className="table-filter-form form">
       <Col md={8} lg={8} sm={8} className="table-filter-form-fields">
@@ -223,50 +162,6 @@ const AwardSummaryFilter = (
                 </div>
               </div>
             </div>
-          }
-          {options.year &&
-              <>
-                <div className="table-filter-form-col table-filter-form-col2 float-filter" style={{marginTop: "-3px"}}>
-                  <div className="form__form-group">
-                    <span className="form__form-group-label">Year</span>
-                    <div className="form__form-group-field">
-                      <div className="form__form-group-row">
-                        <Select
-                            name="year"
-                            value={year}
-                            onChange={onChangeYear}
-                            options={YEAR_LIST}
-                            clearable={false}
-                            className="react-select"
-                            classNamePrefix="react-select"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </>
-          }
-          {options.month &&
-              <>
-                <div className="table-filter-form-col table-filter-form-col2 float-filter" style={{marginTop: "-3px"}}>
-                  <div className="form__form-group">
-                    <span className="form__form-group-label">Month</span>
-                    <div className="form__form-group-field">
-                      <div className="form__form-group-row">
-                        <Select
-                            name="month"
-                            value={month}
-                            onChange={onChangeMonth}
-                            options={MONTH_LIST}
-                            clearable={false}
-                            className="react-select"
-                            classNamePrefix="react-select"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </>
           }
           {options.dateRange &&
             <>
@@ -355,4 +250,4 @@ const mapStateToProps = (state) => {
     organization: state.organization,
   };
 };
-export default connect(mapStateToProps)(AwardSummaryFilter);
+export default connect(mapStateToProps)(ProgramStatusFilter);

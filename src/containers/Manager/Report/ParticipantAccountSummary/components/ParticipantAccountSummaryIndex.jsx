@@ -5,7 +5,6 @@ import axios from "axios";
 import {isEmpty} from '@/shared/helpers'
 import {connect} from "react-redux";
 
-
 const ParticipantAccountSummaryIndex = ({ organization , program }) => {
   const [programs, setPrograms] = useState([]);
   const [defaultPrograms, setDefaultPrograms] = useState([]);
@@ -26,6 +25,7 @@ const ParticipantAccountSummaryIndex = ({ organization , program }) => {
   }
  
   useEffect(() => {
+
     if ( organization ) {
       getData();
     }

@@ -45,6 +45,7 @@ import Survey from "../Participant/Survey";
 import Calendar from "../Participant/Calendar";
 import Newsletter from "../Participant/Newsletter";
 import Media from "../Participant/Media";
+import Iframe from "../Participant/Iframe";
 import Training from "../Participant/Training";
 import ProgramRules from "../Participant/ProgramRules";
 import Feeling from "../Participant/Feeling";
@@ -71,7 +72,7 @@ import DepositTransfers from "../Manager/Report/DepositTransfers/index";
 import DepositBalance from "../Manager/Report/DepositBalance/index";
 // import ParticipantStatusSummary from "../Manager/Report/ParticipantStatusSummary/index";
 import AwardAccountSummaryGL from "../Manager/Report/AwardAccountSummaryGL/index";
-import ProgramStatus from "../Manager/Report/components/ProgramStatus";
+import ProgramStatus from "../Manager/Report/ProgramStatus";
 import AwardDetail from "../Manager/Report/AwardDetail/index";
 import AwardSummary from "../Manager/Report/AwardSummary";
 import DepositTransfer from "../Manager/Report/components/DepositTransfer";
@@ -153,6 +154,7 @@ const RouteIndex = () => (
           <Route path="program_rules" element={<ProgramRules />} />
           <Route path="newsletter" element={<Newsletter />} />
           <Route path="media/:categoryId" element={<Media />} />
+          <Route path="iframe/:categoryId" element={<Iframe />} />
           <Route path="training" element={<Training />} />
           <Route path="feeling" element={<Feeling />} />
         </Route>

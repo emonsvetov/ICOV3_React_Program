@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import { Card, CardBody, Col } from 'reactstrap';
-import QuarterlyAwardSummaryTable from './QuarterlyAwardSummaryTable';
+import ProgramStatusTable from './ProgramStatusTable';
 import axios from "axios";
 import {isEmpty} from '@/shared/helpers'
 import {connect} from "react-redux";
 
-const QuarterlyAwardSummaryIndex = ({ organization, program }) => {
+const ProgramStatusIndex = ({ organization, program }) => {
   const [programs, setPrograms] = useState([]);
   const [defaultPrograms, setDefaultPrograms] = useState([]);
 
@@ -18,6 +18,7 @@ const QuarterlyAwardSummaryIndex = ({ organization, program }) => {
         if (response.data.length === 0) return {results: [], count: 0}
 
         const data = response.data;
+
         setPrograms(data);
         return data;
       } catch (e) {
@@ -44,7 +45,7 @@ const QuarterlyAwardSummaryIndex = ({ organization, program }) => {
     <Col md={12}>
       <Card>
         <CardBody>
-          <QuarterlyAwardSummaryTable programs={defaultPrograms} />
+          <ProgramStatusTable programs={defaultPrograms} />
         </CardBody>
       </Card>
     </Col>
@@ -57,4 +58,4 @@ const mapStateToProps = (state) => {
     program: state.program,
   };
 };
-export default connect(mapStateToProps)(QuarterlyAwardSummaryIndex);
+export default connect(mapStateToProps)(ProgramStatusIndex);

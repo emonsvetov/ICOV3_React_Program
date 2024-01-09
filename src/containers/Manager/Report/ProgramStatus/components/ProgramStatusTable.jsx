@@ -3,7 +3,7 @@ import {useExpanded,  usePagination, useResizeColumns, useSortBy, useTable} from
 import {QueryClient, QueryClientProvider, useQuery} from 'react-query'
 import ReactTablePagination from '@/shared/components/table/components/ReactTablePagination';
 import {Col, Row} from 'reactstrap';
-import {getFirstDay, dateStrToYmd} from '@/shared/helpers'
+import {getFirstDay} from '@/shared/helpers'
 
 import {TABLE_COLUMNS} from "./columns";
 
@@ -19,7 +19,7 @@ import {
 } from "@/shared/apiTableHelper"
 
 import { clone} from 'lodash';
-import ParticipantAccountSummaryFilter from "./QuarterlyAwardSummaryFilter";
+import ProgramStatusFilter from "./ProgramStatusFilter";
 
 const queryClient = new QueryClient()
 
@@ -29,9 +29,8 @@ const DataTable = ({organization, program, programs}) => {
     createdOnly: false,
     reportKey: 'sku_value',
     programId: program.id,
-    from: dateStrToYmd(getFirstDay()),
-    to: dateStrToYmd(new Date()),
-    year: new Date().getFullYear()
+    from: getFirstDay(),
+    to: new Date()
   });
   const [useFilter, setUseFilter] = useState(false);
   const [trigger, setTrigger] = useState(0);
@@ -39,20 +38,11 @@ const DataTable = ({organization, program, programs}) => {
   const [exportHeaders, setExportHeaders] = useState([]);
   const [exportToCsv, setExportToCsv] = useState(false);
   const exportLink = React.createRef();
-  let Q1_total_value = 0;
-  let Q1_total_count = 0;
-  let Q2_total_value = 0;
-  let Q2_total_count = 0;
-  let Q3_total_value = 0;
-  let Q3_total_count = 0;
-  let Q4_total_value = 0;
-  let Q4_total_count = 0;
-  let ytd_total_value  = 0;
-  let ytd_total_count  = 0;
+
   const [{queryPageIndex, queryPageSize, totalCount, queryPageFilter, queryPageSortBy, queryTrigger}, dispatch] =
     React.useReducer(reducer, initialState);
 
-  const apiUrl = `/organization/${organization.id}/report/quarterly-award-summary`;
+  const apiUrl = `/organization/${organization.id}/report/program-status`;
   const {isLoading, error, data, isSuccess} = useQuery(
     ['', apiUrl, queryPageIndex, queryPageSize, queryPageFilter, queryPageSortBy, queryTrigger],
     () => fetchApiData(
@@ -83,8 +73,9 @@ const DataTable = ({organization, program, programs}) => {
   const download = async (filterValues) => {
     let tmpFilter = clone(filterValues);
     tmpFilter.exportToCsv = 1;
+    tmpFilter.server = 'program';
 
-  const response = await fetchApiDataExport(
+    const response = await fetchApiDataExport(
       {
         url: apiUrl,
         filter: tmpFilter,
@@ -93,17 +84,15 @@ const DataTable = ({organization, program, programs}) => {
       }
     );
     console.log(response)
-    setExportData(response.results.results);
+    setExportData(response.results.data.report);
     setExportHeaders(response.headers);
     setExportToCsv(true);
   }
 
-  let tableHeaders = [...TABLE_COLUMNS]
-  
-  let columns = useMemo(() => tableHeaders, [])
+  let columns = useMemo(() => TABLE_COLUMNS, [])
 
   const totalPageCount = Math.ceil(totalCount / queryPageSize)
-
+  
   const {
     getTableProps,
     getTableBodyProps,
@@ -124,7 +113,7 @@ const DataTable = ({organization, program, programs}) => {
     state: {pageIndex, pageSize, sortBy}
   } = useTable({
       columns: columns,
-      data: data ? Object.values(data.results) : [],
+      data: data ? Object.values(data.results.report) : [],
       initialState: {
         pageIndex: queryPageIndex,
         pageSize: queryPageSize,
@@ -164,7 +153,7 @@ const DataTable = ({organization, program, programs}) => {
           <div className="action-panel">
             <Row className="mx-0">
               <Col>
-                <ParticipantAccountSummaryFilter
+                <ProgramStatusFilter
                   filter={filter} setFilter={setFilter} useFilter={useFilter} setUseFilter={setUseFilter}
                   exportData={exportData} exportLink={exportLink} exportHeaders={exportHeaders}
                   download={download}/>
@@ -178,38 +167,25 @@ const DataTable = ({organization, program, programs}) => {
             isSuccess &&
             <table {...getTableProps()} className="table table-striped report-table">
               <thead>
-              {headerGroups.map((headerGroup, id) => (
+              {headerGroups.map((headerGroup) => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
                   {headerGroup.headers.map(column => (
                     <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                       {column.render('Header')}
                       {column.isSorted ? <Sorting column={column}/> : ''}
                     </th>
-                    
                   ))}
-                  {id == 0 && <th>
-                      As of {data?.full.filter.year}
-                  </th>}
-                  {id == 1 && 
-                  <>
-                  <th colSpan="1" role="columnheader" title="Toggle SortBy">
-                    Value</th>
-                  <th colSpan="1" role="columnheader" title="Toggle SortBy">
-                  Count</th>
-                  </>
-                    }
                 </tr>
               ))}
-             
               </thead>
               <tbody className="table table--bordered" {...getTableBodyProps()} >
-              {page.map((row,id) => {
+              {page.map(row => {
                 prepareRow(row);
                 const subCount = (row.id.match(/\./g) || []).length
                 const subRows = row.subRows;
+
                 const countSubRows = subRows ? subRows.length : 0;
                 const rowSpan = countSubRows ? countSubRows + 1 : 1;
-                
                 return (
                   <>
                     <tr {...row.getRowProps()} key={row.id}>
@@ -219,23 +195,12 @@ const DataTable = ({organization, program, programs}) => {
                           const skip = cell.value === 'skip_td';
                           if (skip) return null;
                           const paddingLeft = subCount * 20
-                          return(
-                          <> 
-                            <td {...cell.getCellProps()} rowSpan={rowSpan} key={cell.column.id + row.id}>
-                                              <span
-                                                style={cell.column.Header === '#' ? {paddingLeft: `${paddingLeft}px`} : null}>{cell.render('Cell')}</span>
-                            </td>
-                          </>
-                        )})
+                          return <td {...cell.getCellProps()} rowSpan={rowSpan} key={cell.column.id + row.id}>
+                                            <span
+                                              style={cell.column.Header === '#' ? {paddingLeft: `${paddingLeft}px`} : null}>{cell.render('Cell')}</span>
+                          </td>
+                        })
                       }
-                      <td rowSpan={rowSpan}>
-                        <span
-                            style={ {paddingLeft: `${subCount * 20}px`}}>{data?.results[id].YTD_value}</span>
-                      </td>
-                      <td rowSpan={rowSpan}>
-                        <span
-                            style={ {paddingLeft: `${subCount * 20}px`}}>{data?.results[id].YTD_count}</span>
-                      </td>
                     </tr>
                     {countSubRows > 0 && subRows.map(subRow => {
                       // console.log(subRow)
@@ -260,39 +225,13 @@ const DataTable = ({organization, program, programs}) => {
               })}
               </tbody>
               <tfoot>
-                <td>
-                  Total
-                </td>
-                <td>
-                  ${parseFloat(data.full.totalValue.Q1_total_value)?.toFixed(2)}
-                </td>
-                <td>
-                  {Q1_total_count}
-                </td>
-                <td>
-                  ${parseFloat(data.full.totalValue.Q2_total_value)?.toFixed(2)}
-                </td>
-                <td>
-                  {Q2_total_count}
-                </td>
-                <td>
-                  ${parseFloat(data.full.totalValue.Q3_total_value)?.toFixed(2)}
-                </td>
-                <td>
-                  {Q3_total_count}
-                </td>
-                <td>
-                  ${parseFloat(data.full.totalValue.Q4_total_value)?.toFixed(2)}
-                </td>
-                <td>
-                  {Q4_total_count}
-                </td>
-                <td>
-                  ${parseFloat(data.full.totalValue.ytd_total_value)?.toFixed(2)}
-                </td>
-                <td>
-                  {ytd_total_count}
-                </td>
+              {footerGroups.map((footerGroup) => (
+                <tr {...footerGroup.getFooterGroupProps()}>
+                  {footerGroup.headers.map(column => (
+                    <th {...column.getFooterProps()}>{column.render('Footer')}</th>
+                  ))}
+                </tr>
+              ))}
               </tfoot>
             </table>
           }
