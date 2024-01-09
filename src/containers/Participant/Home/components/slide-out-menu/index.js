@@ -25,7 +25,7 @@ const SlideOutMenu = ({ isFixed,  program, organization }) => {
   const [menuItems, setMenuItems] = useState(LINKS);
   const [menuBuilt, setMenuBuilt] = useState(false);
   const [iframeItems, setIframeItems] = useState([]);
-
+  const [mediaItems, setMediaItems] = useState([]);
   const [isMenuOpen, setMenuOpen] = useState(true);
   const { t } = useTranslation();
   const toggleMenu = () => {
@@ -66,18 +66,22 @@ const loadMediTypes = async () => {
           url: row.menu_link,
           id: row.program_media_type_id,
           menu_link:row.menu_link,
-          label:row.name
+          label:row.name,
+          is_menu_item:1
         })
       }
       else {
         options.push({
           value: row.program_media_type_id,
-          label: row.name
+          label: row.name,
+          id:row.program_media_type_id,
+          is_menu_item:0,
         });
        
       }
     })
-    setIframeItems(menuItems);    
+    setIframeItems(menuItems);
+    setMediaItems(options);
   } catch (e) {
     throw new Error(`API error:${e?.message}`);
   }
@@ -118,14 +122,24 @@ const loadMediTypes = async () => {
         }`}
       >
         {menuItems.map((item, index) => {
+          const url = item.is_menu_item ?  "/participant/iframe/" + item.id : "/participant/media/" + item.id;
           return (
             <NavItem key={index}>
-              <NavLink to={item.to}>{t(item.text)}</NavLink>
+              <NavLink to={url}>{t(item.text)}</NavLink>
+            </NavItem>
+          );
+        })}
+        {mediaItems.map((item, index) => {
+          
+          const url = item.is_menu_item ?  "/participant/iframe/" + item.id : "/participant/media/" + item.id;
+          return (
+
+            <NavItem key={index}>
+                <NavLink to={url} >{t(item.label)}</NavLink>
             </NavItem>
           );
         })}
         {iframeItems.map((item, index) => {
-          
           const url = item.is_menu_item ?  "/participant/iframe/" + item.id : "/participant/media/" + item.id;
           return (
 
