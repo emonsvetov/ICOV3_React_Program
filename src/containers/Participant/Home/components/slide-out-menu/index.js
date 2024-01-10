@@ -52,6 +52,12 @@ useEffect( () => {
     loadMediTypes();
 }, [program])
 
+function toTitleCase(str) {
+  return str.toLowerCase().replace(/(?:^|\s)\w/g, function(match) {
+    return match.toUpperCase();
+  })
+}
+
 const loadMediTypes = async () => {
   try {
     const response = await axios.get(`/organization/${organization.id}/program/${program.id}/digital-media-type`);
@@ -66,14 +72,14 @@ const loadMediTypes = async () => {
           url: row.menu_link,
           id: row.program_media_type_id,
           menu_link:row.menu_link,
-          label:row.name,
+          label: toTitleCase(row.name),
           is_menu_item:1
         })
       }
       else {
         options.push({
           value: row.program_media_type_id,
-          label: row.name,
+          label: toTitleCase(row.name),
           id:row.program_media_type_id,
           is_menu_item:0,
         });
