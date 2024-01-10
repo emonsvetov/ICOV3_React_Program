@@ -81,6 +81,7 @@ import Engagement from "../Manager/Report/Engagement/index";
 import GoalProgressSummary from "../Manager/Report/components/GoalProgressSummary";
 import MerchantRedemption from "../Manager/Report/MerchantRedemption";
 import ParticipantAccount from "../Manager/Report/components/ParticipantAccount";
+import ParticipantStatusSummary from "../Manager/Report/ParticipantStatusSummary";
 import ParticipantStatus from "../Manager/Report/components/ParticipantStatus";
 import QuarterlyAward from "../Manager/Report/QuarterlyAward/index";
 import AnnualAwardSummary from "../Manager/Report/AnnualAwardSummary";
@@ -198,7 +199,7 @@ const RouteIndex = () => (
             />
             <Route
               path="participant-status-summary"
-              element={<ParticipantStatus />}
+              element={<ParticipantStatusSummary />}
             />
             <Route path="deposit-balance" element={<DepositBalance />} />
             <Route path="deposit-transfers" element={<DepositTransfer />} />
