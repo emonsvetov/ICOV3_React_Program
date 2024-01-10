@@ -13,7 +13,7 @@ import {CheckBoxField} from '@/shared/components/form/CheckBox';
 const defaultFrom = getFirstDay()
 const defaultTo = new Date()
 
-const ParticipantStatusFilter = (
+const ParticipantStatusSummaryFilter = (
   {
     filter,
     setFilter,
@@ -24,7 +24,7 @@ const ParticipantStatusFilter = (
     exportHeaders
   }) => {
   const options = {
-    'dateRange': true,
+    'dateRange': false,
     'programs': true,
     'exportToCsv': true,
     'createdOnly': false,
@@ -250,4 +250,4 @@ const mapStateToProps = (state) => {
     organization: state.organization,
   };
 };
-export default connect(mapStateToProps)(ParticipantStatusFilter);
+export default connect(mapStateToProps)(ParticipantStatusSummaryFilter);
