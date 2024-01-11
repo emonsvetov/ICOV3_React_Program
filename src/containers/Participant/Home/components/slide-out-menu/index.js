@@ -62,7 +62,7 @@ const loadMediTypes = async () => {
   try {
     const response = await axios.get(`/organization/${organization.id}/program/${program.id}/digital-media-type`);
     if (response.data.length === 0) return {results: [], count: 0}
-    
+
     let options = [];
     let menuItems = [];
     response.data.map(row => {
@@ -128,7 +128,11 @@ const loadMediTypes = async () => {
         }`}
       >
         {menuItems.map((item, index) => {
-          const url = item.is_menu_item ?  "/participant/iframe/" + item.id : "/participant/media/" + item.id;
+            
+          let url = item.is_menu_item ?  "/participant/iframe/" + item.id : "/participant/media/" + item.id;
+          if (item.to.length > 0){
+            url = item.to;
+          }
           return (
             <NavItem key={index}>
               <NavLink to={url}>{t(item.text)}</NavLink>
