@@ -16,18 +16,20 @@ const PointsClear = ({ pointBalance, template, program }) => {
             </td>
           </tr>
           <tr>
-            <td className="value"> {pointBalance.amount * pointBalance.factor}</td>
+            <td className="value"> {pointBalance.points}</td>
           </tr>
           {
             program.uses_peer2peer > 0 &&
-            <tr>
-              <td className="points-title text-uppercase">
-                {t("Peer Points to Award")}:
-              </td>
-            </tr> &&
-            <tr>
-            <td className="value"> {pointBalance.peerBalance * pointBalance.factor}</td>
-            </tr>
+            <>
+              <tr>
+                <td className="points-title text-uppercase">
+                  {t("Peer Points to Award")}:
+                </td>
+              </tr>
+              <tr>
+              <td className="value"> {pointBalance.peerBalance * pointBalance.factor}</td>
+              </tr>
+            </>
           }
         </tbody>
       </table>

@@ -123,7 +123,7 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
                     <Field name="message">
                       {({input, meta}) => (
                         <FormGroup>
-                          <Editor setValue={setValue} placeholder="" users={users} setMentionedUsers={setMentionedUsers}/>
+                          <Editor setValue={setValue} placeholder="" organization={organization} program={program}users={users} setMentionedUsers={setMentionedUsers}/>
                           {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
                         </FormGroup>
                       )}

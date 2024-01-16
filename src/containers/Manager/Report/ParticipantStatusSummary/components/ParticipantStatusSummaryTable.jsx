@@ -3,6 +3,7 @@ import {useExpanded,  usePagination, useResizeColumns, useSortBy, useTable} from
 import {QueryClient, QueryClientProvider, useQuery} from 'react-query'
 import ReactTablePagination from '@/shared/components/table/components/ReactTablePagination';
 import {Col, Row} from 'reactstrap';
+import {getFirstDay, dateStrToYmd} from '@/shared/helpers'
 
 import {TABLE_COLUMNS} from "./columns";
 
@@ -27,7 +28,9 @@ const DataTable = ({organization, program, programs}) => {
     programs: programs,
     createdOnly: false,
     reportKey: 'sku_value',
-    programId: program.id
+    programId: program.id,
+    from: dateStrToYmd(getFirstDay()),
+    to: dateStrToYmd(new Date())
   });
   const [useFilter, setUseFilter] = useState(false);
   const [trigger, setTrigger] = useState(0);
@@ -39,24 +42,24 @@ const DataTable = ({organization, program, programs}) => {
   const [{queryPageIndex, queryPageSize, totalCount, queryPageFilter, queryPageSortBy, queryTrigger}, dispatch] =
     React.useReducer(reducer, initialState);
 
-  const apiUrl = `/organization/${organization.id}/report/participant-status-summary`;
-  const {isLoading, error, data, isSuccess} = useQuery(
-    ['', apiUrl, queryPageIndex, queryPageSize, queryPageFilter, queryPageSortBy, queryTrigger],
-    () => fetchApiData(
-      {
-        url: apiUrl,
-        page: queryPageIndex,
-        size: queryPageSize,
-        filter,
-        sortby: queryPageSortBy,
-        trigger: queryTrigger
-      }
-    ),
-    {
-      keepPreviousData: true,
-      staleTime: Infinity,
-    }
-  );
+    const apiUrl = `/organization/${organization.id}/report/participant-status-summary-manager-side`;
+    const {isLoading, error, data, isSuccess} = useQuery(
+        [['programReportParticipantStatusSummary'], apiUrl, queryPageIndex, queryPageSize, queryPageFilter, queryPageSortBy, queryTrigger],
+        () => fetchApiData(
+            {
+                url: apiUrl,
+                page: queryPageIndex,
+                size: queryPageSize,
+                filter,
+                sortby: queryPageSortBy,
+                trigger: queryTrigger
+            }
+        ),
+        {
+            keepPreviousData: true,
+            staleTime: Infinity,
+        }
+    );
 
   useEffect(() => {
     if (exportToCsv) {
