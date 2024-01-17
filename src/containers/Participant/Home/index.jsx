@@ -18,7 +18,10 @@ const Home = ({ auth, program, template }) => {
   // };
   let [showSocialWall, setShowSocialWall] = useState(null);
 
-  useEffect(() => {
+  const participant_homepage_message  = {__html: template?.participant_homepage_message
+    ? template.participant_homepage_message : t("participant_homepage_message")}
+ 
+    useEffect(() => {
     let result = false;
     if (auth && program) {
       if (
@@ -41,6 +44,7 @@ const Home = ({ auth, program, template }) => {
       : `${process.env.PUBLIC_URL}/theme/clear/img/back.jpg`;
     return (
       <>
+        <div className="text-center mt-5 mb-5" dangerouslySetInnerHTML={participant_homepage_message}></div>
         <div className="mainboard">
           <div className="homeImgWrap">
             <img src={IMG_BACK} alt="home_Img" />
@@ -79,6 +83,7 @@ const Home = ({ auth, program, template }) => {
       : `${process.env.PUBLIC_URL}/theme/classic/img/back.png`;
     return (
       <>
+        <div className="text-center mt-5 mb-5" dangerouslySetInnerHTML={participant_homepage_message}></div>
         <div className={"mainboard d-flex"}>
           <SlideOutMenu isFixed={true} />
           <div className="homeImgWrap">
