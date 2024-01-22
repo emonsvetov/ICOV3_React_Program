@@ -76,7 +76,7 @@ const LogIn = ({ template, program }) => {
               max: 3000,
               min: 1024,
             },
-            items: 2,
+            items: 1,
             partialVisibilityGutter: 100,
           },
           mobile: {
@@ -92,7 +92,7 @@ const LogIn = ({ template, program }) => {
               max: 1024,
               min: 464,
             },
-            items: 2,
+            items: 1,
             partialVisibilityGutter: 30,
           },
         }}
@@ -101,17 +101,17 @@ const LogIn = ({ template, program }) => {
         autoPlay={true}
         autoPlaySpeed={3000}
         keyBoardControl={true}
-        customTransition="all .5"
-        transitionDuration={500}
+        arrows={false}
+        transitionDuration={5000}
         containerClass="carousel-container"
         removeArrowOnDeviceType={["tablet", "mobile"]}
         dotListClass="custom-dot-list-style"
         itemClass="carousel-item-padding-40-px"
       >
-        {slide_icons.map((item, key) => {
+        {getSliderImgs(template).map((item, key) => {
           return (
-            <div key={key} className={`home-merchant-wrapper item-${key % 2}`}>
-              <img alt={`slide-${key}`} src={item} />
+            <div key={key} className="d-flex align-items-center justify-content-center caresoul-item w-100">
+              <img alt={`slide-${key}`} src={item.src} className="w-100"/>
             </div>
           );
         })}
@@ -126,11 +126,8 @@ const LogIn = ({ template, program }) => {
         onClickLogin={template?.name === 'New' ? toggle : popupToggle}
         onClickSignup={signupToggle}
       />
-      <UncontrolledCarousel
-        items={getSliderImgs(template)}
-        indicators={false}
-        controls={false}
-      />
+
+      <CarouselNew/>
       <div className="text-center mt-5 mb-5" dangerouslySetInnerHTML={welcome_message}></div>
 
       <MerchantSlider program={program}  />
