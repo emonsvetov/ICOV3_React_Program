@@ -1,5 +1,5 @@
 //SystemModules
-import React, { useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import { connect, useDispatch } from "react-redux";
 import {Form, Field} from 'react-final-form';
 import {
@@ -16,23 +16,23 @@ import {
 
 //CustomModules
 
-import {createSocialWallPost, setSocialWallPostType} from '@/redux/actions/socialWallPostActions';
+import {createSocialWallPost, setSocialWallPostType, postMentionedUsers} from '@/redux/actions/socialWallPostActions';
 import {getSocialWallPostType} from '@/services/program/getSocialWallPostTypes'
 import {getSocialWallPosts} from '@/services/program/getSocialWallPosts'
 import Editor from '@/shared/components/form/Editor';
 
 //DefaultComponent
 
-const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, program, organization, auth, setSocialWallPosts, swpGlobal, postType = 'comment', setPostType}) => {
+const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, program, organization, auth, setSocialWallPosts, swpGlobal, postType = 'comment', setPostType, users}) => {
 
   // console.log("SocialWallCommentPopup")
   // console.log(`isOpen: ${isOpen}`)
   if( swpGlobal && swpGlobal?.newPostType ) {
     postType = swpGlobal.newPostType
   }
-
   const dispatch = useDispatch()
   const [value, setValue] = useState('')
+  const [mentionedUsers, setMentionedUsers] = useState([]);
   const onSubmit = values => {
 
     // console.log("SocialWallCommentPopup > onSubmit")
@@ -71,32 +71,35 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
         socialWallPostData.receiver_user_account_holder_id = auth.account_holder_id
       }
 
-      getSocialWallPostType(organization.id, program.id, postType)
-        .then(socialWallPostType => {
-          // console.log(socialWallPostType)
-          // setPostType(null)
-          // return
-          socialWallPostData.social_wall_post_type_id = socialWallPostType.id
-          dispatch(createSocialWallPost(organization.id, program.id, socialWallPostData))
-            .then((res) => {
-              setPostType(null)
-              toggle()
-              getSocialWallPosts(organization.id, program.id, 0, 999999)
-                .then(data => {
-                  // console.log(data)
-                  setSocialWallPosts(data);
+      // getSocialWallPostType(organization.id, program.id, postType)
+      //   .then(socialWallPostType => {
+      //     // console.log(socialWallPostType)
+      //     // setPostType(null)
+      //     // return
+      //     socialWallPostData.social_wall_post_type_id = socialWallPostType.id
+      //     dispatch(createSocialWallPost(organization.id, program.id, socialWallPostData))
+      //       .then((res) => {
+             
+                  dispatch(postMentionedUsers(organization.id, program.id, mentionedUsers, value))
+                  .then((res)=>{
+                    setPostType(null)
+                    toggle()
+                    getSocialWallPosts(organization.id, program.id, 0, 999999)
+                      .then(data => {
+                        // console.log(data)
+                        setSocialWallPosts(data);
+                  })
                 })
                 .catch(error => {
                   console.log(error.response.data);
                 })
-            })
-            .catch(err => {
-              console.log(err)
-            })
-        })
+        //     })
+        //     .catch(err => {
+        //       console.log(err)
+        //     })
+        // })
     }
   };
-
   return (
     <Modal className={`modal-2col modal-lg`} isOpen={isOpen} toggle={() => setOpen(true)}>
 
@@ -120,7 +123,7 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
                     <Field name="message">
                       {({input, meta}) => (
                         <FormGroup>
-                          <Editor setValue={setValue} placeholder="" organization={organization} program={program}/>
+                          <Editor setValue={setValue} placeholder="" organization={organization} program={program}users={users} setMentionedUsers={setMentionedUsers}/>
                           {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
                         </FormGroup>
                       )}
