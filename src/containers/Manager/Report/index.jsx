@@ -1,78 +1,84 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'; 
+import axios from 'axios'; 
 import { connect } from 'react-redux';
-import { 
-  Container, 
-  Input
-} from 'reactstrap';
-import { useLocation, useNavigate, Outlet } from 'react-router-dom';
+import { Container, Input } from 'reactstrap';
+import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 
-const REPORT_TYPES = [
-  // {name: 'Invoices', link:'/manager/report/invoices'},
-  //{name: 'Supplier Redemption', link:'/manager/report/supplier-redemption'},
-  {name: 'Participant Account Summary', link:'/manager/report/participant-account-summary'},
-  {name: 'Participant Status Summary', link:'/manager/report/participant-status-summary'},
-  {name: 'Invoices', link:'/manager/report/invoices'},
-  // {name: 'Annual Awards Summary', link:'/manager/report/annual-awards-summary'},
-  {name: 'Award Account Summary GL ', link:'/manager/report/award-account-summary-gl'},
-  // {name: 'Award Detail', link:'/manager/report/award-detail'},
-  // {name: 'Award Summary', link:'/manager/report/award-summary'},
-  // {name: 'File Import', link:'/manager/report/file-import'},
-  // {name: 'Merchant Redemption', link:'/manager/report/merchant-redemption'},
-  // {name: 'Quarterly Awards Summary', link:'/manager/report/quarterly-awards-summary'},
-  // {name: 'Participant Account Summary', link:'/manager/report/participant-account-summary'},
-  // {name: 'Participant Status Summary', link:'/manager/report/participant-status-summary'},
-  // {name: 'Program Status', link:'/manager/report/program-status'},
-  // {name: 'Deposit Balance', link:'/manager/report/deposit-balance'},
-  // {name: 'Deposit Transfers', link:'/manager/report/deposit-transfers'},
-  // {name: 'Goal Progress Summary', link:'/manager/report/goal-progress-summay'},
-]
+const Report = ({ auth, program, organization }) => {
+  const [reportTypes, setReportTypes] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-const Report = ({auth, program, organization}) => {
   let navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    const fetchReports = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(`/reports/${program.id}`);
+        setReportTypes(response.data);
+        if (response.data.length > 0) {
+          navigate(response.data[0].link);
+        }
+      } catch (error) {
+        console.error("Error fetching reports:", error);
+        navigate('/manager/report'); 
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    if (program.id) {
+      fetchReports();
+    } else {
+      navigate('/');
+    }
+  }, [program.id]);
+
   const onChange = (e) => {
     navigate(e.target.value);
-  }
+  };
 
-  let selectedValue = '';
-  REPORT_TYPES.forEach((item) => {
-      if(location.pathname.indexOf(item.link)!= -1){
-          selectedValue=item.link;
-      }
-  });
-
-  const ReportOptions = () =>(
-    REPORT_TYPES.map((item, index) =>{
-      return <option key={index} value={item.link}>{item.name}</option>
-    })
-  )
+  let selectedValue = reportTypes.find(item => location.pathname.includes(item.link))?.link || '';
 
   return (
     <div className='report'>
       <Container>
-      <div style={{color:'white'}}>
+        <div style={{color: 'white'}}>
           <h3>Reports</h3>
         </div>
-        <div className="d-flex program-select my-3">
-          <span>Select Report:</span>
-          <div className='mb-0'>
-            <Input type="select" value={selectedValue} name="report-type" onChange={onChange}>
-              <ReportOptions />
-            </Input>        
+        {isLoading ? (
+          <div style={{ padding: '20px 0px', color: 'white' }}>
+            <p>Loading reports...</p> 
           </div>
-        </div>        
+        ) : reportTypes.length > 0 ? (
+          <div className="d-flex program-select my-3">
+            <span>Select Report:</span>
+            <div className='mb-0'>
+              <Input type="select" value={selectedValue} name="report-type" onChange={onChange}>
+                {reportTypes.map((item, index) => (
+                  <option key={index} value={item.link}>{item.name}</option>
+                ))}
+              </Input>
+            </div>
+          </div>
+        ) : (
+          <div style={{ padding: '20px 0px', color: 'white' }}>
+            <p>No reports available at the moment.</p>
+          </div>
+        )}
       </Container>
       <div style={{'padding': '5px 20px'}}>
         <Outlet />
       </div>
     </div>
-)}
+  )
+}
 
 const mapStateToProps = (state) => {
   return {
-     auth: state.auth,
-     program: state.program,
-     organization: state.organization,
+    auth: state.auth,
+    program: state.program,
+    organization: state.organization,
   };
 };
 

@@ -17,8 +17,10 @@ const makeOption = (i, giftcode, factor_valuation) => {
   let label = `$${dollarValue} Gift Code = ${pointsValue}`;
 
   if(process.env.REACT_APP_ENV != 'production'){
-    label += giftcode.virtual_inventory ? ' virtual' : '';
+    // needs to be fixed
+    //label += giftcode.virtual_inventory ? ' virtual' : '';
   }
+  label += ' points';
 
   return {
     label: label,
@@ -92,7 +94,7 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
     item.merchant_name = merchant.name;
     item.merchant_icon = merchant.icon;
     let redemption_points = item.redemption_value * program.factor_valuation;
-    if (pointBalance.points <= redemption_points) {
+    if ( pointBalance.points < redemption_points ) {
       alert(t("insufficient_balance_redeem"));
       return;
     }

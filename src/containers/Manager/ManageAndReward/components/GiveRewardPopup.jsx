@@ -105,7 +105,9 @@ const GiveRewardPopup = ({
             )
           );
           setSaving(false)
-          window.location.reload()
+          for (const checkbox of document.querySelectorAll('.points-summary-table input[type="checkbox"]')) {
+            checkbox.checked = false;
+          }
         }
       })
       .catch((err) => {

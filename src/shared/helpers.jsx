@@ -203,6 +203,7 @@ export const indexOfAll = (array, searchItem) => {
 }
 
 export const toCurrency = (numberString) => {
+  if(numberString === undefined) return '';
   let locale = 'en-US';
   let options = {style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2};
   let formatter = new Intl.NumberFormat(locale, options);
@@ -211,7 +212,7 @@ export const toCurrency = (numberString) => {
 
 export const toPoints = (numberString) => {
   let locale = 'en-US';
-  let options = {style: 'decimal', minimumFractionDigits: 3, maximumFractionDigits: 3};
+  let options = {style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 3};
   let formatter = new Intl.NumberFormat(locale, options);
   let number = formatter.format(numberString);
   return number.toString().replace(/\./g, ",");
