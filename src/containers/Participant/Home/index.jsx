@@ -38,85 +38,87 @@ const Home = ({ auth, program, template }) => {
 
   if (!auth || !program || !template) return t("loading");
 
-  const HomeClear = () => {
-    const IMG_BACK = template.hero_banner
-      ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.hero_banner}`
-      : `${process.env.PUBLIC_URL}/theme/clear/img/back.jpg`;
-    return (
-      <>
-        <div className="text-center mt-5 mb-5" dangerouslySetInnerHTML={participant_homepage_message}></div>
-        <div className="mainboard">
-          <div className="homeImgWrap">
-            <img src={IMG_BACK} alt="home_Img" />
-          </div>
-          <SlideOutMenu isFixed={false} />
-        </div>
-        <Container className={`${template.name} mt-5`} fluid>
-          <Row>
-            <Col md={3}>
-              <Points />
-            </Col>
-            <Col md={9}>
-              <ParticipantTabNavs program={program} />
-            </Col>
-          </Row>
-        </Container>
-        <Container className="">
-          {showSocialWall && (
-              <>
-                <SocialWallPanel />
-              </>
-          )}
-        </Container>
-        <div className="mt-5">
-          <h6 className="m-3">
-            {t("select_a_merchant_to_redeem_your_points")}
-          </h6>
-          <MerchantSlider />
-        </div>
-      </>
-    );
-  };
-  const HomeClassic = () => {
-    const IMG_BACK = template.hero_banner
-      ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.hero_banner}`
-      : `${process.env.PUBLIC_URL}/theme/classic/img/back.png`;
-    return (
-      <>
-        <div className="text-center mt-5 mb-5" dangerouslySetInnerHTML={participant_homepage_message}></div>
-        <div className={"mainboard d-flex"}>
-          <SlideOutMenu isFixed={true} />
-          <div className="homeImgWrap">
-              <img src={IMG_BACK} alt="home_mg"/>
-          </div>
-        </div>
-        <Container>
-          <ParticipantTabNavs program={program} />
-        </Container>
-        <Container>
-          <Row>
-            <Col md={9}>
-              <div className="dashboard">
-                {showSocialWall && (
-                  <>
-                    <SocialWallPanel />
-                  </>
-                )}
-                <div className="mt-5">
-                  <h3>{t("select_a_merchant_to_redeem_your_points")}</h3>
-                  <MerchantSlider />
+    const HomeClear = () => {
+        const IMG_BACK = template.hero_banner
+            ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.hero_banner}`
+            : `${process.env.PUBLIC_URL}/theme/clear/img/back.jpg`;
+        return (
+            <>
+                <div className="mainboard">
+                    <div className="homeImgWrap">
+                        <img src={IMG_BACK} alt="home_Img" />
+                    </div>
+                    <SlideOutMenu isFixed={false} />
                 </div>
-              </div>
-            </Col>
-            <Col md={3} className="mt-2">
-              <Points />
-            </Col>
-          </Row>
-        </Container>
-      </>
-    );
-  };
-  return (
+                <div className="text-center mt-5 mb-5" dangerouslySetInnerHTML={participant_homepage_message}></div>
+                <Container className={`${template.name} mt-5`} fluid>
+                    <Row>
+                        <Col md={3}>
+                            <Points />
+                        </Col>
+                        <Col md={9}>
+                            <ParticipantTabNavs program={program} />
+                        </Col>
+                    </Row>
+                </Container>
+                <Container className="">
+                    {showSocialWall && (
+                        <>
+                            <SocialWallPanel />
+                        </>
+                    )}
+                </Container>
+                <div className="mt-5">
+                    <h6 className="m-3">
+                        {t("select_a_merchant_to_redeem_your_points")}
+                    </h6>
+                    <MerchantSlider />
+                </div>
+            </>
+        );
+    };
+
+    const HomeClassic = () => {
+        const IMG_BACK = template.hero_banner
+            ? `${process.env.REACT_APP_API_STORAGE_URL}/${template.hero_banner}`
+            : `${process.env.PUBLIC_URL}/theme/classic/img/back.png`;
+        return (
+            <>
+                <div className={"mainboard d-flex"}>
+                    <SlideOutMenu isFixed={true} />
+                    <div className="homeImgWrap">
+                        <img src={IMG_BACK} alt="home_mg"/>
+                    </div>
+                </div>
+                <div className="text-center mt-5 mb-5" dangerouslySetInnerHTML={participant_homepage_message}></div>
+                <Container>
+                    <ParticipantTabNavs program={program} />
+                </Container>
+                <Container>
+                    <Row>
+                        <Col md={9}>
+                            <div className="dashboard">
+                                {showSocialWall && (
+                                    <>
+                                        <SocialWallPanel />
+                                    </>
+                                )}
+                                <div className="mt-5">
+                                    <h3>{t("select_a_merchant_to_redeem_your_points")}</h3>
+                                    <MerchantSlider />
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md={3} className="mt-2">
+                            <Points />
+                        </Col>
+                    </Row>
+                </Container>
+            </>
+        );
+    };
+
+    return (
     (template?.name === "clear" && <HomeClear />) ||
     (template?.name === "classic" && <HomeClassic />)
   );
