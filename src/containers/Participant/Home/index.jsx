@@ -19,7 +19,8 @@ const Home = ({ auth, program, template }) => {
   let [showSocialWall, setShowSocialWall] = useState(null);
   const participant_homepage_message  = {__html: template?.participant_homepage_message
     ? template.participant_homepage_message : t("participant_homepage_message")}
- 
+
+
     useEffect(() => {
     let result = false;
     if (auth && program) {
