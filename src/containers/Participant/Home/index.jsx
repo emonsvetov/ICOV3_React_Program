@@ -17,7 +17,6 @@ const Home = ({ auth, program, template }) => {
   //   program,
   // };
   let [showSocialWall, setShowSocialWall] = useState(null);
-
   const participant_homepage_message  = {__html: template?.participant_homepage_message
     ? template.participant_homepage_message : t("participant_homepage_message")}
  
