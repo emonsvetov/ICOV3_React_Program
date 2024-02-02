@@ -13,7 +13,7 @@ import {CheckBoxField} from '@/shared/components/form/CheckBox';
 const defaultFrom = getFirstDay()
 const defaultTo = new Date()
 
-const SupplierRedemptionFilter = (
+const ParticipantStatusSummaryFilter = (
   {
     filter,
     setFilter,
@@ -41,10 +41,10 @@ const SupplierRedemptionFilter = (
 
   const onClickFilter = (reset = false, exportToCsv = 0) => {
     let dataSet = {}
-    if (options.dateRange) {
+    // if (options.dateRange) {
       dataSet.from = dateStrToYmd(reset ? defaultFrom : from)
       dataSet.to = dateStrToYmd(reset ? defaultTo : to)
-    }
+    // }
     if (options.programs) {
       dataSet.programs = reset ? [] : clone(selectedPrograms)
     }
@@ -111,10 +111,10 @@ const SupplierRedemptionFilter = (
     if (options.awardLevels) {
       filters.awardLevels = values.awardLevels
     }
-    if (options.dateRange) {
+    // if (options.dateRange) {
       filters.from = values.from
       filters.to = values.to
-    }
+    // }
     if (options.createdOnly) {
       filters.createdOnly = values.createdOnly
     }
@@ -250,4 +250,4 @@ const mapStateToProps = (state) => {
     organization: state.organization,
   };
 };
-export default connect(mapStateToProps)(SupplierRedemptionFilter);
+export default connect(mapStateToProps)(ParticipantStatusSummaryFilter);

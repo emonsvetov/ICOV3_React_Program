@@ -1322,6 +1322,7 @@ footer{
     }
     & > :not(caption) > * > * {
         border: none;
+        background: transparent;
     }
 }
 
@@ -1413,4 +1414,7 @@ footer{
     z-index: 100;
     -webkit-transform: scale(1.25);
     transform: scale(1.25);
+  }
+  .caresoul-item {
+    max-height: 500px;
   }

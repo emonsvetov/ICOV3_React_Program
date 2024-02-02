@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ConfirmModalWrapper from "@/shared/components/modal/confirmModal/ConfirmModalWrapper";
 import TemplateButton from "@/shared/components/TemplateButton";
 import SocialWallItem from "./SocialWallItem";
@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 
 const SocialWall = ({isManager, socialWallPosts, template, program, popupToggle, confirmRef, setSocialWallPost, setDeleteActivityId, setOpen, socialWallPost, deleteActivity, setSocialWallPosts, isOpen}) => {
   const { t } = useTranslation();
+  const [users, setUsers] = useState([]);
   return (
     <>
       {isManager && (
@@ -21,6 +22,7 @@ const SocialWall = ({isManager, socialWallPosts, template, program, popupToggle,
                 data={item}
                 popupToggle={popupToggle}
                 confirmRef={confirmRef}
+                setUsers={setUsers}
                 setSocialWallPost={setSocialWallPost}
                 isManager={isManager}
                 setDeleteActivityId={setDeleteActivityId}
@@ -34,6 +36,7 @@ const SocialWall = ({isManager, socialWallPosts, template, program, popupToggle,
         isOpen={isOpen}
         setOpen={setOpen}
         toggle={popupToggle}
+        users={users}
         socialWallPost={socialWallPost}
         setSocialWallPosts={setSocialWallPosts}
       />

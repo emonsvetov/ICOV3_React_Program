@@ -95,8 +95,8 @@ const DataTable = ({organization, program, programs}) => {
   const tableColumns = data && data.results && data.results.length > 0 ? Object.keys(data.results[0]).map((key, id)=>{
     return {
       id: key.toString(),
-      Header: key,
-      accessor: key
+      Header: ({ row, value }) => { return <span dangerouslySetInnerHTML={{__html: key}} /> },
+      accessor: key,
     }
   }) : [];
 
@@ -152,7 +152,7 @@ const DataTable = ({organization, program, programs}) => {
   if (isLoading) {
     return <p>Loading...</p>;
   }
-console.log(filter)
+
   if (error) {
     return <p>Error: {JSON.stringify(error)}</p>;
   }

@@ -12,28 +12,28 @@ const Footer = () => {
         <Row>
           <div className="col-md-6 copyright">
             {t("copyright")} {new Date().getFullYear()}{" "}
-            <span className="text-warning">Incencto</span> LLC.{" "}
+            <span className="text-warning">Incentco</span> LLC.{" "}
             {t("all_rights_reserved")}.
           </div>
           <nav className="col-md-6 teritery-menu">
             <ul className="horizontal">
               <li>
-                <Link to="/participant/about" className="link">
+                <Link to="/about" className="link">
                   {t("about_us")}
                 </Link>
               </li>
               <li>
-                <Link to="/participant/privacy" className="link">
+                <Link to="/privacy" className="link">
                   {t("privacy")}
                 </Link>
               </li>
               <li>
-                <Link to="/participant/tnc" className="link">
+                <Link to="/tnc" className="link">
                   {t("terms_and_conditions")}
                 </Link>
               </li>
               <li>
-                <Link to="/participant/faqs" className="link">
+                <Link to="/faqs" className="link">
                   {t("faqs")}
                 </Link>
               </li>
