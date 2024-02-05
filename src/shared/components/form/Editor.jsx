@@ -1,36 +1,81 @@
 import React from 'react'
 import {CKEditor} from 'ckeditor4-react';
-import { getBearer } from '@/containers/App/auth';
+
+
 
 const Editor = (props) => {
-  const {setValue, placeholder, organization, program} = props;
-  const [content, setContent] = React.useState('');
+  const {setValue, placeholder, setMentionedUsers} = props;
+  let users=[]
+  let mentionedUsers = []
+  if (props.users)
+    {
+      props.users.map((user, idx)=> {
+        const username = user.name.replace(/\s/g, "_");
+        users.push({
+          id:idx,
+          user_id:user.id,
+          fullname: user.name,
+          username: username
+        })
+      })
+  }
+
+  function dataFeed(opts, callback) {
+    var matchProperty = 'username',
+        data = users.filter(function(item) {
+          return item[matchProperty].indexOf(opts.query.toLowerCase()) == 0;
+        });
+  
+    data = data.sort(function(a, b) {
+      return a[matchProperty].localeCompare(b[matchProperty], undefined, {
+        sensitivity: 'accent'
+      });
+    });
+  
+    callback(data);
+  }
   return (
     <div>
       <CKEditor
-        initData={placeholder}
-        config={{
-         
+         config={{
+          extraPlugins: 'mentions,emoji',
           toolbar: [
-            // { name: 'insert', items: ['Image', 'EmojiPanel','SendToServer'] }, // Add 'Image' and 'Emoji' buttons
-            { name: 'insert', items:['EmojiPanel']}
+            ['EmojiPanel']
           ],
-          extraPlugins: ['emoji'],
-          filebrowserUploadUrl: process.env.REACT_APP_API_BASE_URL+`/api/v1/organization/${organization.id}/program/${program.id}/social-wall-post/uploadImage`,
-          fileTools_requestHeaders: {
-            "Authorization":getBearer()
+          mentions: [ {
+            feed: dataFeed,
+            itemTemplate:
+              '<li data-id="{id}">' +
+              '<strong class="username">{username}</strong>' +
+              '<span class="fullname">{fullname}</span>' +
+              '</li>',
+            outputTemplate:
+              '<a href="mailto:{username}@example.com">@{username}</a><span>&nbsp;</span>',
+            minChars: 0
           }
+        ]
         }}
-        onInstanceReady={() => {
-          // console.log('Editor is ready!');
-        }}
-        content={content}
         onChange={(event) => {
           const data = event.editor.getData();
-          setContent(data)
           setValue(data);
+          const mentionRegex = /@([\w]+)/g;
+          let match;
+          while ((match = mentionRegex.exec(data)) !== null) {
+            const mentionedUsername = match[1];
+            const mentionedUser = users.find((user) => user.username === mentionedUsername);
+            if (mentionedUser) {
+              // Handle the selected user here
+              mentionedUsers.push(mentionedUser);
+              console.log(mentionedUser)
+            
+              mentionedUsers = mentionedUsers.filter((value, index, self) => {
+                return self.indexOf(value) === index;
+              });
+              console.log(mentionedUsers)
+              setMentionedUsers(mentionedUsers);
+            }
+          }
         }}
-
       />
     </div>
   )

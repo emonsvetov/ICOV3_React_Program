@@ -17,6 +17,19 @@ export const createSocialWallPost = (organizationId, programId, socialWallPostDa
   };
 };
 
+export const postMentionedUsers = (organizationId, programId, mentionedUser, comment) => {
+  return (dispatch) => {
+    return axios.post(`/organization/${organizationId}/program/${programId}/social-wall-post/mentions`, {mentionedUser:mentionedUser, comment:comment})
+      .then(response => {
+        console.log(response.data);
+        dispatch(SocialWallPostSuccess(response.data))
+      })
+      .catch(e => {
+        throw new Error(`API error:${e?.message}`);
+      });
+  };
+}
+
 export const deleteSocialWallPost = (organizationId, programId, socialWallPostId) => {
   return (dispatch) => {
     return axios.delete(`/organization/${organizationId}/program/${programId}/social-wall-post/${socialWallPostId}`)

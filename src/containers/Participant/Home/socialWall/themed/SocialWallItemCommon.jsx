@@ -1,10 +1,10 @@
 import TemplateButton from "@/shared/components/TemplateButton"
 import {createMarkup} from '@/shared/helpers'
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const SocialWallItemCommon = (props) => {
   const {
-    program, postAvatar, title, content, TimeAgo, TimeZone, from, created_at, LikeActivityEvent, commentEvent,like, auth, like_count, comments, DeleteActivityEvent, createMarkup, isManager, confirmRef, id, storageUrl, defaultAvatar, icon
+    program, postAvatar, title, content, TimeAgo, TimeZone, from, created_at, LikeActivityEvent, commentEvent,like, auth, like_count, comments, DeleteActivityEvent, createMarkup, isManager, confirmRef, id, storageUrl, defaultAvatar, icon, setUsers, to
   } = props
   const [heartable, setHeartable] = useState(like?.includes(auth?.id));
   const CommentsRenderer = ({comments}) => {
@@ -32,7 +32,7 @@ const SocialWallItemCommon = (props) => {
                 <div className="right" dangerouslySetInnerHTML={createMarkup(item.comment)}/>
                 <span className="social-wall-time"><TimeAgo date={TimeZone(item.created_at_formated)} /></span>
 
-                {item?.comments && item.comments.length > 0 &&  <div className="socialWall__comment-reply-nested"><CommentsRenderer comments={item.comments} /></div>}
+                {item?.comments && item.comments.length > 0 &&  <div className="socialWall__comment-reply-nested"><CommentsRenderer comments={item.comments}/></div>}
 
               </td>
             </tr>
@@ -53,6 +53,36 @@ const SocialWallItemCommon = (props) => {
     return html
   }
 
+  const getUsersList = (comments, from, to) => {
+    let users=[];
+    if (from)
+      users.push(from);
+    if (to)
+      users.push(to);
+    comments.map(comment => {
+      users.push({
+        name: comment.fromUser,
+        id: comment.sender_user_account_holder_id,
+      });
+      if (comment.comments.length > 0)
+      comment.map(subComment => {
+        users.push(subComment.fromUser)
+      })
+    })
+    users = users.filter((obj, index, self) => 
+      index === self.findIndex((o) => (
+        o.id === obj.id && o.name === obj.name
+      ))
+    );
+    console.log('users=', users)
+    return users;
+  }
+
+  const commentButtonClicked = () => {
+      const userList =  getUsersList(comments, from, to);
+      setUsers(userList)
+      commentEvent(userList);
+  }
   return (
     <table className="social-wall-post" cellPadding="0" cellSpacing="0" width="100%">
       <tbody>
@@ -93,11 +123,11 @@ const SocialWallItemCommon = (props) => {
             </table>
           </div>
           <div className="social-wall-item-from">
-            {from}<span>&nbsp;</span>
+            {from.name}<span>&nbsp;</span>
             <span className="social-wall-time"><TimeAgo date={TimeZone(created_at)}/></span>
             {program?.uses_social_wall &&
                 <div className='flex-column'>
-                  <TemplateButton text='Comment' className='comment-btn' onClick={commentEvent} />
+                  <TemplateButton text='Comment' className='comment-btn' onClick={commentButtonClicked} />
                   {
                       isManager &&
                       <TemplateButton color='danger' className='delete-activity-btn'
@@ -111,7 +141,7 @@ const SocialWallItemCommon = (props) => {
             <span>{like_count}</span>
           </div>
           <div className="social-wall-comments-container ">
-            <CommentsRenderer comments={comments} />
+            <CommentsRenderer comments={comments}/>
           </div>
 
           <div className="social-wall-post-comment-container">
