@@ -15,6 +15,7 @@ const BrowseMerchant = ({ organization, program }) => {
     }
   }, [organization, program]);
 
+
   let navigate = useNavigate();
   const LOGO_PUBLIC_URL = `${process.env.REACT_APP_API_STORAGE_URL}`;
   return (
