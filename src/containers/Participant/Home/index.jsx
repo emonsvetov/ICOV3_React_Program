@@ -12,10 +12,6 @@ import { useTranslation } from "react-i18next";
 
 const Home = ({ auth, program, template }) => {
     const { t } = useTranslation();
-    // let props = {
-    //   organization,
-    //   program,
-    // };
     let [showSocialWall, setShowSocialWall] = useState(null);
 
     const participant_homepage_message  = {__html: template?.participant_homepage_message
