@@ -38,6 +38,7 @@ const BrowseMerchant = ({ organization, program }) => {
   );
 };
 
+
 const mapStateToProps = (state) => {
   return {
     organization: state.organization,
