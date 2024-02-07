@@ -133,7 +133,9 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
       <Card className="w-100">
         <CardHeader tag="h3">
           Add a comment
+
           <Button className="btn btn-lg float-end" close onClick={toggle} />
+          
         </CardHeader>
         <CardBody>
           <Form
