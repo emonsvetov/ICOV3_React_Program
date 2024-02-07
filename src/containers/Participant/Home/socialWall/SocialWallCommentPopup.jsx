@@ -25,19 +25,15 @@ import { SignalCellularNullSharp } from "@material-ui/icons";
 //DefaultComponent
 
 const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, program, organization, auth, setSocialWallPosts, swpGlobal, postType = 'comment', setPostType, users}) => {
-  // console.log("SocialWallCommentPopup")
-  // console.log(`isOpen: ${isOpen}`)
+
   if( swpGlobal && swpGlobal?.newPostType ) {
     postType = swpGlobal.newPostType
-
+  }
   const dispatch = useDispatch();
   const [value, setValue] = useState("");
   const [mentionsUserIds, setMentionsUserIds]=useState(null)
   const [usersMentionData, setUsersMentionData] = useState([]);
   const onSubmit = (values) => {
-    // console.log("SocialWallCommentPopup > onSubmit")
-    // console.log(program.uses_social_wall)
-    // console.log(organization.id)
 
     if (program.uses_social_wall) {
       let socialWallPostData = {
@@ -54,15 +50,15 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
         social_wall_post_type_id: null,
         mentions_user_ids:mentionsUserIds
       };
-      if (socialWallPost?.id) {
+      if ( socialWallPost?.id ) {
         socialWallPostData.social_wall_post_id = socialWallPost.id;
       }
 
-      if (auth?.account_holder_id) {
+      if ( auth?.account_holder_id ) {
         socialWallPostData.sender_user_account_holder_id = auth.account_holder_id;
       }
 
-      if (socialWallPost?.receiver_user_account_holder_id) {
+      if ( socialWallPost?.receiver_user_account_holder_id ) {
         socialWallPostData.receiver_user_account_holder_id =
           socialWallPost.receiver_user_account_holder_id;
       }
@@ -181,8 +177,8 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
         </CardBody>
       </Card>
     </Modal>
-  );
-};
+  )
+}
 const mapStateToProps = (state) => {
   return {
     swpGlobal: state.socialWallPost,
@@ -194,4 +190,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SocialWallCommentPopup);
+)(SocialWallCommentPopup)
