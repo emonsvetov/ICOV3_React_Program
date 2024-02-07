@@ -134,8 +134,8 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
         <CardHeader tag="h3">
           Add a comment
 
-          <Button className="btn btn-lg float-end" close onClick={toggle} />
-          
+          <Button className="btn btn-lg float-end" close onClick={toggle}/>
+
         </CardHeader>
         <CardBody>
           <Form
@@ -169,9 +169,7 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
                   </Col>
                 </Row>
                 <div className="d-flex justify-content-end">
-                  <Button color="danger" type="submit">
-                    Post
-                  </Button>
+                  <Button color="danger" type="submit">Post</Button>
                 </div>
               </form>
             )}
@@ -183,7 +181,7 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
 }
 const mapStateToProps = (state) => {
   return {
-    swpGlobal: state.socialWallPost,
+    swpGlobal: state.socialWallPost
   }
 }
 const mapDispatchToProps = (dispatch) => ({
