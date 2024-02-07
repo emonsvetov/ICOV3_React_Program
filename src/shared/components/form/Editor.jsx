@@ -67,6 +67,6 @@ const Editor = (props) => {
         "loading"
       )}
     </div>
-  );
-};
-export default Editor;
+  )
+}
+export default Editor
