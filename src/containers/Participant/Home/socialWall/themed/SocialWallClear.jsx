@@ -11,7 +11,6 @@ import SocialWallItem from "../SocialWallItem";
 
 const SocialWallClear = ({isManager, socialWallPosts, LikeActivityEvent, template, program, popupToggle, confirmRef, setSocialWallPost, setDeleteActivityId, setOpen, socialWallPost, deleteActivity, setSocialWallPosts, isOpen, onclickAddPost}) => {
   const { t } = useTranslation();
-  
   return (
     <div className="container socialWall__container-clear">
       {isManager && (

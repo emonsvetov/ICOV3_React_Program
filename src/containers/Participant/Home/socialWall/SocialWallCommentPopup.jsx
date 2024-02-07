@@ -147,7 +147,7 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
                 <Row>
                   <Col md="12">
                     <Field name="message">
-                      {({ input, meta }) => (
+                      {({input, meta}) => (
                         <FormGroup>
                        {/* {usersMentionData.length !== 0 ? ( */}
                             <Editor
@@ -182,12 +182,9 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
 const mapStateToProps = (state) => {
   return {
     swpGlobal: state.socialWallPost
-  }
-}
-const mapDispatchToProps = (dispatch) => ({
+  };
+};
+const mapDispatchToProps = dispatch => ({
   setPostType: (type) => dispatch(setSocialWallPostType(type)),
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SocialWallCommentPopup)
+export default connect(mapStateToProps, mapDispatchToProps)(SocialWallCommentPopup);
