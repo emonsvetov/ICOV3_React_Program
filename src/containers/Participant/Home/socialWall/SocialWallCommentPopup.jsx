@@ -1,7 +1,7 @@
 //SystemModules
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState} from 'react';
 import { connect, useDispatch } from "react-redux";
-import { Form, Field } from "react-final-form";
+import {Form, Field} from 'react-final-form';
 import {
   Modal,
   Col,
@@ -12,39 +12,23 @@ import {
   Card,
   CardHeader,
   CardBody,
-} from "reactstrap";
+} from 'reactstrap';
 
 //CustomModules
 
-import {
-  createSocialWallPost,
-  setSocialWallPostType,
-} from "@/redux/actions/socialWallPostActions";
-import { getSocialWallPostType } from "@/services/program/getSocialWallPostTypes";
-import { getSocialWallPosts } from "@/services/program/getSocialWallPosts";
-import Editor from "@/shared/components/form/Editor";
+import {createSocialWallPost, setSocialWallPostType, postMentionedUsers} from '@/redux/actions/socialWallPostActions';
+import {getSocialWallPostType} from '@/services/program/getSocialWallPostTypes'
+import {getSocialWallPosts} from '@/services/program/getSocialWallPosts'
+import Editor from '@/shared/components/form/Editor';
 import { getUsers } from "@/services/program/getUsers";
 import { SignalCellularNullSharp } from "@material-ui/icons";
 //DefaultComponent
 
-const SocialWallCommentPopup = ({
-  isOpen,
-  setOpen,
-  toggle,
-  socialWallPost,
-  program,
-  organization,
-  auth,
-  setSocialWallPosts,
-  swpGlobal,
-  postType = "comment",
-  setPostType,
-}) => {
+const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, program, organization, auth, setSocialWallPosts, swpGlobal, postType = 'comment', setPostType, users}) => {
   // console.log("SocialWallCommentPopup")
   // console.log(`isOpen: ${isOpen}`)
-  if (swpGlobal && swpGlobal?.newPostType) {
-    postType = swpGlobal.newPostType;
-  }
+  if( swpGlobal && swpGlobal?.newPostType ) {
+    postType = swpGlobal.newPostType
 
   const dispatch = useDispatch();
   const [value, setValue] = useState("");
@@ -75,8 +59,7 @@ const SocialWallCommentPopup = ({
       }
 
       if (auth?.account_holder_id) {
-        socialWallPostData.sender_user_account_holder_id =
-          auth.account_holder_id;
+        socialWallPostData.sender_user_account_holder_id = auth.account_holder_id;
       }
 
       if (socialWallPost?.receiver_user_account_holder_id) {
@@ -157,12 +140,12 @@ const SocialWallCommentPopup = ({
           <Button className="btn btn-lg float-end" close onClick={toggle} />
         </CardHeader>
         <CardBody>
-          <Form onSubmit={onSubmit} initialValues={{}}>
-            {({ handleSubmit, form, submitting, pristine, values }) => (
-              <form
-                className="form flex-column justify-content-evenly"
-                onSubmit={handleSubmit}
-              >
+          <Form
+            onSubmit={onSubmit}
+            initialValues={{}}
+          >
+            {({handleSubmit, form, submitting, pristine, values}) => (
+              <form className="form flex-column justify-content-evenly" onSubmit={handleSubmit}>
                 <Row>
                   <Col md="12">
                     <Field name="message">
@@ -203,8 +186,8 @@ const SocialWallCommentPopup = ({
 const mapStateToProps = (state) => {
   return {
     swpGlobal: state.socialWallPost,
-  };
-};
+  }
+}
 const mapDispatchToProps = (dispatch) => ({
   setPostType: (type) => dispatch(setSocialWallPostType(type)),
 });
