@@ -37,28 +37,22 @@ export const ParticipantTabnavClear = ({program, template}) => {
   
     let navigate = useNavigate();
     return (
-      <div className="">
-        {
-          ( TAB_ITEMS.length < 1 ) &&
-          <div style={{color: 'black'}} className="social-wall-item-notification-body padding-10 pt-3">
-            {template?.participant_homepage_message
-            ? template.participant_homepage_message.replace(/(<([^>]+)>)/ig, "")
-            : t("participant_homepage_message")}
-          </div>
-        }
-        { 
-          TAB_ITEMS.length > 0 &&
-          <ul className="horizontal d-flex justify-content-evenly">
-          {TAB_ITEMS.map((item, key) => {
-            return (
-              <li key={key} onClick={() => navigate(item.to)}>
-                  <TabnavClear title={t(item.title)} icon={item.icon}/>
-              </li> 
-            );
-          })}
-          </ul>
-        }
-      </div>
+        <div className="">
+            {!template?.participant_homepage_message && TAB_ITEMS.length < 1 && (
+                <div style={{color: 'black'}} className="social-wall-item-notification-body padding-10 pt-3">
+                    {t("participant_homepage_message")}
+                </div>
+            )}
+            {TAB_ITEMS.length > 0 && (
+                <ul className="horizontal d-flex justify-content-evenly">
+                    {TAB_ITEMS.map((item, key) => (
+                        <li key={key} onClick={() => navigate(item.to)}>
+                            <TabnavClear title={t(item.title)} icon={item.icon}/>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
     );
 };
 export default connect((state) => ({
