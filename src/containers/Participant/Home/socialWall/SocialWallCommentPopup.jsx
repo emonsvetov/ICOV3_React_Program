@@ -20,95 +20,121 @@ import {createSocialWallPost, setSocialWallPostType, postMentionedUsers} from '@
 import {getSocialWallPostType} from '@/services/program/getSocialWallPostTypes'
 import {getSocialWallPosts} from '@/services/program/getSocialWallPosts'
 import Editor from '@/shared/components/form/Editor';
-
+import { getUsers } from "@/services/program/getUsers";
+import { SignalCellularNullSharp } from "@material-ui/icons";
 //DefaultComponent
 
 const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, program, organization, auth, setSocialWallPosts, swpGlobal, postType = 'comment', setPostType, users}) => {
 
-  // console.log("SocialWallCommentPopup")
-  // console.log(`isOpen: ${isOpen}`)
   if( swpGlobal && swpGlobal?.newPostType ) {
     postType = swpGlobal.newPostType
   }
-  const dispatch = useDispatch()
-  const [value, setValue] = useState('')
-  const [mentionedUsers, setMentionedUsers] = useState([]);
-  const onSubmit = values => {
-
-    // console.log("SocialWallCommentPopup > onSubmit")
-    // console.log(program.uses_social_wall)
-    // console.log(organization.id)
+  const dispatch = useDispatch();
+  const [value, setValue] = useState("");
+  const [mentionsUserIds, setMentionsUserIds]=useState(null)
+  const [usersMentionData, setUsersMentionData] = useState([]);
+  const onSubmit = (values) => {
 
     if (program.uses_social_wall) {
-
       let socialWallPostData = {
-        'comment': value,
-        'program_id': program.id,
-        'organization_id': organization.id,
-        'event_xml_data_id': null,
-        'awarder_program_id': null,
-        'like':null,
-        'likesCount': 0,
-        'social_wall_post_id': null,
-        'sender_user_account_holder_id': null,
-        'receiver_user_account_holder_id': null,
-        'social_wall_post_type_id': null,
+        comment: value,
+        program_id: program.id,
+        organization_id: organization.id,
+        event_xml_data_id: null,
+        awarder_program_id: null,
+        like: null,
+        likesCount: 0,
+        social_wall_post_id: null,
+        sender_user_account_holder_id: null,
+        receiver_user_account_holder_id: null,
+        social_wall_post_type_id: null,
+        mentions_user_ids:mentionsUserIds
+      };
+      if ( socialWallPost?.id ) {
+        socialWallPostData.social_wall_post_id = socialWallPost.id;
       }
 
-      if( socialWallPost?.id )  {
-        socialWallPostData.social_wall_post_id = socialWallPost.id
+      if ( auth?.account_holder_id ) {
+        socialWallPostData.sender_user_account_holder_id = auth.account_holder_id;
       }
 
-      if( auth?.account_holder_id )  {
-        socialWallPostData.sender_user_account_holder_id = auth.account_holder_id
+      if ( socialWallPost?.receiver_user_account_holder_id ) {
+        socialWallPostData.receiver_user_account_holder_id =
+          socialWallPost.receiver_user_account_holder_id;
       }
 
-      if( socialWallPost?.receiver_user_account_holder_id )  {
-        socialWallPostData.receiver_user_account_holder_id = socialWallPost.receiver_user_account_holder_id
+      if (
+        !socialWallPostData.receiver_user_account_holder_id &&
+        auth?.account_holder_id
+      ) {
+        socialWallPostData.receiver_user_account_holder_id =
+          auth.account_holder_id;
       }
 
-      if( !socialWallPostData.receiver_user_account_holder_id && auth?.account_holder_id ) {
-        socialWallPostData.receiver_user_account_holder_id = auth.account_holder_id
-      }
+      getSocialWallPostType(organization.id, program.id, postType).then(
+        (socialWallPostType) => {
+          // console.log(socialWallPostType)
+          // setPostType(null)
+          // return
+          socialWallPostData.social_wall_post_type_id = socialWallPostType.id;
+          dispatch(
+            createSocialWallPost(
+              organization.id,
+              program.id,
+              socialWallPostData,
 
-      // getSocialWallPostType(organization.id, program.id, postType)
-      //   .then(socialWallPostType => {
-      //     // console.log(socialWallPostType)
-      //     // setPostType(null)
-      //     // return
-      //     socialWallPostData.social_wall_post_type_id = socialWallPostType.id
-      //     dispatch(createSocialWallPost(organization.id, program.id, socialWallPostData))
-      //       .then((res) => {
-             
-                  dispatch(postMentionedUsers(organization.id, program.id, mentionedUsers, value))
-                  .then((res)=>{
-                    setPostType(null)
-                    toggle()
-                    getSocialWallPosts(organization.id, program.id, 0, 999999)
-                      .then(data => {
-                        // console.log(data)
-                        setSocialWallPosts(data);
-                  })
+            )
+          )
+            .then((res) => {
+              setPostType(null);
+              toggle();
+              getSocialWallPosts(organization.id, program.id, 0, 999999)
+                .then((data) => {
+                  // console.log(data)
+                  setSocialWallPosts(data);
                 })
-                .catch(error => {
+                .catch((error) => {
                   console.log(error.response.data);
-                })
-        //     })
-        //     .catch(err => {
-        //       console.log(err)
-        //     })
-        // })
+                });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      );
     }
   };
+
+  useEffect(() => {
+    let mentionsData = [];
+    getUsers(organization.id, program.id)
+      .then((users) => {
+        const username = users.results?.map((user) => {
+          const newObject = {
+            id: user.id,
+            name: user.first_name,
+            fullName: user.name,
+          };
+          mentionsData.push(newObject);
+        });
+        setUsersMentionData(mentionsData);
+      })
+      .catch((err) => {
+        console.log("error in fetch  users", err);
+      });
+  },[getUsers]);
+
   return (
-    <Modal className={`modal-2col modal-lg`} isOpen={isOpen} toggle={() => setOpen(true)}>
-
-      <Card className='w-100'>
+    <Modal
+      className={`modal-2col modal-lg`}
+      isOpen={isOpen}
+      toggle={() => setOpen(true)}
+    >
+      <Card className="w-100">
         <CardHeader tag="h3">
-
           Add a comment
 
-          <Button className='btn btn-lg float-end' close onClick={toggle}/>
+          <Button className="btn btn-lg float-end" close onClick={toggle}/>
 
         </CardHeader>
         <CardBody>
@@ -123,15 +149,27 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
                     <Field name="message">
                       {({input, meta}) => (
                         <FormGroup>
-                          <Editor setValue={setValue} placeholder="" organization={organization} program={program}users={users} setMentionedUsers={setMentionedUsers}/>
-                          {meta.touched && meta.error && <FormFeedback> {meta.error}</FormFeedback>}
+                       {/* {usersMentionData.length !== 0 ? ( */}
+                            <Editor
+                              setValue={setValue}
+                              placeholder=""
+                              setMentionsUserIds={setMentionsUserIds}
+                              usersMentionData={usersMentionData}
+                              
+                            />
+                           {/* ) : (
+                            "Loading"
+                          )}  */}
+                          {meta.touched && meta.error && (
+                            <FormFeedback> {meta.error}</FormFeedback>
+                          )}
                         </FormGroup>
                       )}
                     </Field>
                   </Col>
                 </Row>
-                <div className='d-flex justify-content-end'>
-                  <Button color='danger' type='submit'>Post</Button>
+                <div className="d-flex justify-content-end">
+                  <Button color="danger" type="submit">Post</Button>
                 </div>
               </form>
             )}

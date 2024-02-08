@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import {connect} from 'react-redux';
 
@@ -9,7 +9,7 @@ import SocialWallItem from "../SocialWallItem";
 
 //Default method starts
 
-const SocialWallClear = ({isManager, socialWallPosts, LikeActivityEvent, template, program, popupToggle, confirmRef, setSocialWallPost, setDeleteActivityId, setOpen, socialWallPost, deleteActivity, setSocialWallPosts, isOpen, onclickAddPost, setUsers, users}) => {
+const SocialWallClear = ({isManager, socialWallPosts, LikeActivityEvent, template, program, popupToggle, confirmRef, setSocialWallPost, setDeleteActivityId, setOpen, socialWallPost, deleteActivity, setSocialWallPosts, isOpen, onclickAddPost}) => {
   const { t } = useTranslation();
   return (
     <div className="container socialWall__container-clear">
@@ -25,7 +25,6 @@ const SocialWallClear = ({isManager, socialWallPosts, LikeActivityEvent, templat
                 data={item}
                 popupToggle={popupToggle}
                 confirmRef={confirmRef}
-                setUsers={setUsers}
                 LikeActivityEvent = {LikeActivityEvent}
                 setSocialWallPost={setSocialWallPost}
                 isManager={isManager}
@@ -40,7 +39,6 @@ const SocialWallClear = ({isManager, socialWallPosts, LikeActivityEvent, templat
         isOpen={isOpen}
         setOpen={setOpen}
         toggle={popupToggle}
-        users={users}
         socialWallPost={socialWallPost}
         setSocialWallPosts={setSocialWallPosts}
       />

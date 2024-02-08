@@ -14,7 +14,6 @@ const SocialWallCommentModalWrapper = ({
   socialWallPost,
   auth,
   setSocialWallPosts,
-  users
 }) => {
   const { t } = useTranslation();
   const props = {
@@ -27,7 +26,6 @@ const SocialWallCommentModalWrapper = ({
     socialWallPost,
     auth,
     setSocialWallPosts,
-    users
   };
   if (!organization?.id || !program?.id) return t("loading");
   return <>{<SocialWallCommentPopup {...props} />}</>;
