@@ -84,6 +84,7 @@ export const hasRoleInProgram = (roleName, programId, user) => {
             if( p?.children && p.children.length > 0)   {
                 depth++;
                 optionsHtml.push(<BuildProgramOptions key={`program-option-group-${p.id}`} programs={p.children} depth={depth} />)
+                depth--;
             }
         })
     }
