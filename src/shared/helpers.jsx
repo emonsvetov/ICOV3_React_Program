@@ -80,10 +80,12 @@ export const hasRoleInProgram = (roleName, programId, user) => {
     let optionsHtml = []
     if( programs.length > 0) {
         programs.map( p => {
+
             optionsHtml.push(<option key={`program-option-${p.id}`} value={`${p.id}`}>{'-'.repeat(depth)} {p.name}</option>)
             if( p?.children && p.children.length > 0)   {
                 depth++;
                 optionsHtml.push(<BuildProgramOptions key={`program-option-group-${p.id}`} programs={p.children} depth={depth} />)
+                depth--;
             }
         })
     }
