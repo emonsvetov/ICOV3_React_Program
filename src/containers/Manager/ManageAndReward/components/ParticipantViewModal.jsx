@@ -11,7 +11,7 @@ import ParticipantRewardHistory from "./ParticipantRewardHistory";
 import { Modal, Col, Row, Button, Container } from "reactstrap";
 import CloseIcon from "mdi-react/CloseIcon";
 
-const ParticipantViewModal = ({ isOpen, setOpen, toggle, participants }) => {
+const ParticipantViewModal = ({ isOpen, setOpen, toggle, participants, program }) => {
   const [participant, setParticipant] = useState([]);
   const [isActionOpen, setActionOpen] = useState(false);
   const [modalName, setModalName] = useState(null);
@@ -60,17 +60,17 @@ const ParticipantViewModal = ({ isOpen, setOpen, toggle, participants }) => {
               <ResendIcon />
               Resend Invite
             </span>
-            {/*<Button*/}
-            {/*  onClick={() =>*/}
-            {/*    onClickAction("Reclaim Peer Allocations", participants)*/}
-            {/*  }*/}
-            {/*  type="button"*/}
-            {/*  aria-label="button collapse"*/}
-            {/*  className="template-button border-0 btn btn-secondary me-2"*/}
-            {/*>*/}
-            {/*  <PeerIcon />*/}
-            {/*  Reclaim Peer Allocations*/}
-            {/*</Button>*/}
+            {program.uses_peer2peer && <Button
+              onClick={() =>
+                onClickAction("Reclaim Peer Allocations", participants)
+              }
+              type="button"
+              aria-label="button collapse"
+              className="template-button border-0 btn btn-secondary me-2"
+            >
+              <PeerIcon />
+              Reclaim Peer Allocations
+            </Button>}
           </Col>
         </Row>
         <Row>

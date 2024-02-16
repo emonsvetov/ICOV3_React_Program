@@ -43,7 +43,7 @@ const ACTIONS = [
   { name: "Activate", link: "", icon: <ActivateIcon /> },
   { name: "Lock", link: "", icon: <LockIcon /> },
   //{ name: "Import", link: "", icon: <ImportIcon /> }, TODO: add logic to check engagement settings
-  //{ name: "Peer Allocation", link: "", icon: <PeerIcon /> }, TODO: add logic to check engagement settings
+  { name: "Peer Allocation", link: "", icon: <PeerIcon /> }, 
 ];
 const ENTRIES = [{ value: 10 }, { value: 25 }, { value: 50 }, { value: 100 }];
 
@@ -62,7 +62,7 @@ const BULK_ACTIONS = [
   "Deactivate",
   "Activate",
   "Lock",
-  //"Peer Allocation", TODO: add logic to check engagement settings
+  "Peer Allocation",
   "Reclaim Peer Allocations",
   //"Add Goal" TODO: add logic to check engagement settings
 ]
@@ -147,6 +147,18 @@ const ProgramParticipants = ({ program, organization }) => {
   const [filter, setFilter] = useState({ keyword: "", status: "" });
   const [participants, setParticipants] = useState([]);
   const [status, setStatus] = useState([]);
+  const [actionsArray, setActionsArray] = useState(ACTIONS);
+  const [bulkActionsArray, setBulkActionsArray] = useState(BULK_ACTIONS);
+
+  useEffect(() => {
+    if(!program.uses_peer2peer){
+      bulkActionsArray.splice(BULK_ACTIONS.indexOf("Peer Allocation"), 1);
+      let indexToRemove = actionsArray.findIndex(item => item.name == "Peer Allocation");
+      actionsArray.splice(indexToRemove, 1);
+      setActionsArray(actionsArray);
+      setBulkActionsArray(bulkActionsArray);
+    }
+  }, [program]);
 
   const doAction = (action, participants) => {
     if (action === "Email") {
