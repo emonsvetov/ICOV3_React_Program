@@ -23,6 +23,7 @@ import PeerIcon from "mdi-react/PostItNoteAddIcon";
 import apiTableService from "@/services/apiTableService";
 import { useTranslation } from "react-i18next";
 import {inArray} from "@/shared/helpers"
+import useCallbackState from "@/shared/useCallbackState"
 
 const collectEmails = (users) => {
   let emails = [];
@@ -55,6 +56,13 @@ const STATUS = [
   { name: "Pending Activation" },
   { name: "Pending Deactivation" },
 ];
+
+let defaultStatus = []
+STATUS.map((item, index) => {
+  if( item.name !== 'Deactivated' ) {
+    defaultStatus.push( item.name )
+  }
+})
 
 const BULK_ACTIONS = [
   "Reward",
@@ -146,7 +154,7 @@ const ProgramParticipants = ({ program, organization }) => {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState({ keyword: "", status: "" });
   const [participants, setParticipants] = useState([]);
-  const [status, setStatus] = useState([]);
+  const [status, setStatus] = useCallbackState([]);
   const [actionsArray, setActionsArray] = useState(ACTIONS);
   const [bulkActionsArray, setBulkActionsArray] = useState(BULK_ACTIONS);
 
@@ -210,7 +218,12 @@ const ProgramParticipants = ({ program, organization }) => {
 
   const onSelectStatus = (value) => {
     if (status.includes(value)) {
-      setStatus(status.filter((item) => item !== value));
+      setStatus( (prev) =>  prev.filter( (item) => item !== value ), 
+      (newStatus) => {
+        if(newStatus.length <= 0 ) {
+          setStatus(defaultStatus);
+        }
+      });
     } else {
       setStatus([...status, ...[value]]);
     }
@@ -359,6 +372,23 @@ const ProgramParticipants = ({ program, organization }) => {
     );
   };
 
+  useEffect(() => {
+    // console.log(mounted)
+    let mounted = false
+    if ( !mounted ) {
+      setStatus( defaultStatus )
+    }
+    return () => {mounted = true}
+  }, []);
+
+  const markStatusAsChecked = (statusName) => {
+    if( status === null )  {
+      // if( statusName !== 'Deactivated' ) return true;
+    } else {
+      return status.indexOf(statusName) > -1
+    }
+  }
+
   const ActionsDropdown = () => {
     return (
       <UncontrolledDropdown>
@@ -409,7 +439,7 @@ const ProgramParticipants = ({ program, organization }) => {
     return (
       <UncontrolledDropdown>
         <DropdownToggle caret className="dropdowntoggle">
-          Status
+        {t("Filter by Status")}
         </DropdownToggle>
         <DropdownMenu>
           {STATUS.map((item, index) => {
@@ -420,7 +450,7 @@ const ProgramParticipants = ({ program, organization }) => {
                 onClick={() => onSelectStatus(item.name)}
               >
                 <input
-                  checked={status.indexOf(item.name) > -1}
+                  checked={markStatusAsChecked(item.name)}
                   type="checkbox"
                   style={{ marginRight: "10px" }}
                   onChange={() => { }}
