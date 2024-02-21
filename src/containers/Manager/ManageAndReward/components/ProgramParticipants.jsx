@@ -41,7 +41,7 @@ const ACTIONS = [
   //{ name: "Email", link: "", icon: <MailIcon /> },TODO: add logic to check engagement settings
   { name: "Resend Invite", link: "", icon: <ResendIcon /> },
   { name: "Deactivate", link: "", icon: <DeactivateIcon /> },
-  { name: "Activate", link: "", icon: <ActivateIcon /> },
+  // { name: "Activate", link: "", icon: <ActivateIcon /> },
   { name: "Lock", link: "", icon: <LockIcon /> },
   //{ name: "Import", link: "", icon: <ImportIcon /> }, TODO: add logic to check engagement settings
   { name: "Peer Allocation", link: "", icon: <PeerIcon /> }, 
