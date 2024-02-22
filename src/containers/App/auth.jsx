@@ -69,11 +69,17 @@ export const getToken = () => {
 
 export const getAuthProgram = ( hydrate = false ) => {
   let program = JSON.parse(localStorage.getItem(AUTH_PROGRAM_KEY));
+  // console.log("getAuthProgram")
+  // console.log(program)
   if( hydrate ) {
-    getProgram( program.organization_id, program.id )
+    return getProgram( program.organization_id, program.id )
     .then( p => {
+      setAuthProgram(p)
       store.dispatch(setStoreProgram(p));
+      return p
     })
+  } else {
+    store.dispatch(setStoreProgram(program));
   }
   return program
 };

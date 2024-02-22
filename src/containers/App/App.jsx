@@ -61,6 +61,7 @@ axios.interceptors.response.use(
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [user, setUser] = useState(false);
   const [program, setProgram] = useState(false);
 
   useEffect(() => {
@@ -70,9 +71,9 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if( program ) {
-      console.log("program loaded")
-      console.log(program)
+    if( user?.id && program?.id ) {
+      // console.log("program loaded")
+      // console.log(program)
       store.dispatch(setOrganization(getOrganization()));
       store.dispatch(setAuthUser(getAuthUser()));
       // store.dispatch(setStoreProgram(getAuthProgram()));
@@ -82,7 +83,7 @@ const App = () => {
         store.dispatch(setPointBalance(balance));
       });
     }
-  }, [program]);
+  }, [user, program]);
 
   const setAuthOrganization = () => {
     getAuthDomain().then((domain) => {
@@ -107,11 +108,21 @@ const App = () => {
       }
     });
 
-    const authProgram = getAuthProgram( true )
-    if( authProgram ) {
-      setProgram(authProgram)
+    const authUser = getAuthUser()
+
+    console.log(authUser)
+
+    if( authUser ) {
+      getAuthProgram( true )
+      .then( authProgram => {
+        console.log(authProgram)
+        if( authProgram ) {
+          setUser(authUser)
+          setProgram(authProgram)
+        }
+      })
     }
-  }
+  };
 
   const setCustomLink = (href, template) => {
     let head = document.head;

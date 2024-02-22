@@ -105,7 +105,7 @@ const GoalPlans = ({program, organization, status}) => {
     if( loading ) return 'Loading..'
   
     // return ;
-     console.log(goalplan)
+    //  console.log(goalplan)
   
     return (
       <>

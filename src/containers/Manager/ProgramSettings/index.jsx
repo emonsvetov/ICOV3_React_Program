@@ -22,7 +22,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
     { to: "#events", text: "Events" },
   ];
 
-  if(program.uses_goal_tracker > 0) {
+  if(program?.uses_goal_tracker > 0) {
     LINKS.push({
       to: "#expired-goalplans",
       text: "Expired Goal Plans",
@@ -37,7 +37,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
     })
   }
 
-  if(program.uses_leaderboards
+  if(program?.uses_leaderboards
       > 0) {
     LINKS.push({
       to: "#leaderboards",

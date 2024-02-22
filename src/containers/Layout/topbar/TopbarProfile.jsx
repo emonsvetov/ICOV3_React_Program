@@ -22,6 +22,9 @@ const TopbarProfile = ({ isManager, auth, template }) => {
     let path = isManager ? "manager" : "participant";
     navigate(`/` + path + `/my-account`);
   };
+
+  if( ! auth?.id ) return '...'
+
   const Ava = auth.avatar
     ? `${process.env.REACT_APP_API_STORAGE_URL}/` + auth.avatar
     : `${process.env.PUBLIC_URL}/theme/classic/img/avatar/avatar.jpg`;
