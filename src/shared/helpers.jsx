@@ -251,7 +251,6 @@ export const isBadgeAward = ( event_type_id ) => {
   if( isObject(event_type_id) && typeof event_type_id.value !== 'undefined' ) {
       type_to_match = event_type_id.value
   }
-  console.log(type_to_match)
   return type_to_match == 5 //badge
   || type_to_match == 6 //peer to peer badge
   || type_to_match == 10 //miglestone badge

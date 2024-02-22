@@ -58,21 +58,6 @@ export const TABLE_COLUMNS = [
     accessor: "points_balance",
     Cell: ({ row, value }) => { return toPoints(row.original.factor_valuation * value); },
   },
-  {
-    Header: "Peer Points Allocated",
-    accessor: "peer_rewards_earned",
-    Cell: ({ row, value }) => { return toPoints(row.original.factor_valuation * value); },
-  },
-  {
-    Header: "Peer Points Given",
-    accessor: "peer_rewards_given",
-    Cell: ({ row, value }) => { return toPoints(row.original.factor_valuation * value); },
-  },
-  {
-    Header: "Peer Points Balance",
-    accessor: "peer_balance",
-    Cell: ({ row, value }) => { return toPoints(row.original.factor_valuation * value); },
-  },
   // {
   //   Header: "Anniversary",
   //   accessor: "anniversary",
@@ -82,3 +67,19 @@ export const TABLE_COLUMNS = [
   //   accessor: "birth",
   // },
 ];
+
+export const PEER2PEER_COLUMNS =   [{
+  Header: "Peer Points Allocated",
+  accessor: "peer_rewards_earned",
+  Cell: ({ row, value }) => { return toPoints(row.original.factor_valuation * value); },
+},
+{
+  Header: "Peer Points Given",
+  accessor: "peer_rewards_given",
+  Cell: ({ row, value }) => { return toPoints(row.original.factor_valuation * value); },
+},
+{
+  Header: "Peer Points Balance",
+  accessor: "peer_balance",
+  Cell: ({ row, value }) => { return toPoints(row.original.factor_valuation * value); },
+}]
