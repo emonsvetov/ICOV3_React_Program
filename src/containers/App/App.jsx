@@ -110,12 +110,12 @@ const App = () => {
 
     const authUser = getAuthUser()
 
-    console.log(authUser)
+    // console.log(authUser)
 
     if( authUser ) {
       getAuthProgram( true )
       .then( authProgram => {
-        console.log(authProgram)
+        // console.log(authProgram)
         if( authProgram ) {
           setUser(authUser)
           setProgram(authProgram)

@@ -10,6 +10,8 @@ import { useTranslation } from "react-i18next";
 import CapturePaymentRequest from "./components/CapturePaymentRequest";
 import { getProgramBalance } from "@/services/program/getBalance";
 import { setAuthProgram } from "@/containers/App/auth";
+import store from "@/containers/App/store";
+import { setStoreProgram } from "@/redux/actions/programActions";
 
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -32,16 +34,15 @@ const ManageAccount = ({ auth, program, organization }) => {
         getProgramBalance(organization.id, program.id)
         .then( balance => {
           program.balance = balance;
-          setAuthProgram(program);
-          window.location.reload();
+          setAuthProgram(program)
+          store.dispatch(setStoreProgram(program));
+          // window.location.reload();
         })
       }
     }
   }, [program])
 
   if (!auth || !program || !organization) return t("loading");
-
-  console.log(program)
 
   return (
     <div className="referral">
