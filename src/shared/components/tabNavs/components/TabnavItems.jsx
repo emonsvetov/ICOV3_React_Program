@@ -1,6 +1,6 @@
 
 
-export const getTabnavItems = (program) => {
+export const getTabnavItems = (program, leaderboardCount) => {
 
   const TAB_ITEMS = [
     // { title: "my_rewards", icon: "MyRewards", to: `/participant/my-points` },
@@ -17,12 +17,12 @@ export const getTabnavItems = (program) => {
     },)
   }
 
-  if(program.uses_leaderboards > 0){
+  if(program.uses_leaderboards > 0 && leaderboardCount > 0 ){
     TAB_ITEMS.push({
       title: "leaderboards",
       icon: "Leaderboards",
       to: "/participant/leaderboards",
-    },)
+    })
   }
 
   if(program.uses_goal_tracker > 0){

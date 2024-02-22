@@ -30,10 +30,10 @@ TabnavClear.propTypes = {
 };
 TabnavClear.defaultProps = {};
 
-export const ParticipantTabnavClear = ({program, template}) => {
+export const ParticipantTabnavClear = ({program, template, leaderboardCount}) => {
     // console.log(template)
     const { t } = useTranslation();
-    const TAB_ITEMS = getTabnavItems(program)
+    const TAB_ITEMS = getTabnavItems(program, leaderboardCount)
   
     let navigate = useNavigate();
     return (
