@@ -10,6 +10,20 @@ export const ParticipantTabNavs = () => {
 };
 
 let ManagerTabNavsTmp = ({program}) => {
+  
+
+  const [path, setPath] = useState(null);
+  const location = useLocation();
+  useEffect(() => {
+    let path = location?.pathname.substring(
+      location.pathname.lastIndexOf("/") + 1
+    );
+    setPath(path);
+  }, [location]);
+  let navigate = useNavigate();
+
+  if( !program ) return 'loading...'
+
   let MANAGER_ITEMS;
 
   MANAGER_ITEMS = [
@@ -26,18 +40,6 @@ let ManagerTabNavsTmp = ({program}) => {
       { title: "Leaderboard", icon: "leaderboard", to: `/manager/leaderboards` }
     );
   }
-
-  const [path, setPath] = useState(null);
-  const location = useLocation();
-  useEffect(() => {
-    let path = location?.pathname.substring(
-      location.pathname.lastIndexOf("/") + 1
-    );
-    setPath(path);
-  }, [location]);
-  let navigate = useNavigate();
-
-  if( !program ) return 'loading...'
 
   return (
     <div className="tab-navs items-3">

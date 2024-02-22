@@ -5,7 +5,7 @@ import ReactTablePagination from '@/shared/components/table/components/ReactTabl
 import {Col, Row} from 'reactstrap';
 import {getFirstDay, dateStrToYmd} from '@/shared/helpers'
 
-import {TABLE_COLUMNS} from "./columns";
+import {TABLE_COLUMNS, PEER2PEER_COLUMNS} from "./columns";
 
 import {connect} from "react-redux";
 import {
@@ -88,7 +88,16 @@ const DataTable = ({organization, program, programs}) => {
     setExportToCsv(true);
   }
 
-  let columns = useMemo(() => TABLE_COLUMNS, [])
+  let pas_columns = TABLE_COLUMNS
+  // console.log(program)
+  if( program?.uses_peer2peer)  {
+    pas_columns = [
+      ...pas_columns,
+      ...PEER2PEER_COLUMNS,
+    ]
+  }
+
+  let columns = useMemo(() => pas_columns, [])
 
   const totalPageCount = Math.ceil(totalCount / queryPageSize)
 

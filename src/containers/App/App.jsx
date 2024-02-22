@@ -61,12 +61,28 @@ axios.interceptors.response.use(
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [program, setProgram] = useState(false);
 
   useEffect(() => {
       setIsLoading(false);
       setTimeout(() => setIsLoaded(true), 500);
       setAuthOrganization();
   }, []);
+
+  useEffect(() => {
+    if( program ) {
+      console.log("program loaded")
+      console.log(program)
+      store.dispatch(setOrganization(getOrganization()));
+      store.dispatch(setAuthUser(getAuthUser()));
+      // store.dispatch(setStoreProgram(getAuthProgram()));
+      store.dispatch(setRootProgram(getAuthRootProgram()));
+      store.dispatch(setCart(getAuthCart()));
+      getAuthPoints().then((balance) => {
+        store.dispatch(setPointBalance(balance));
+      });
+    }
+  }, [program]);
 
   const setAuthOrganization = () => {
     getAuthDomain().then((domain) => {
@@ -90,15 +106,12 @@ const App = () => {
         store.dispatch(setThemeAction({name: template.name, alias: dirName, dirName, dirUrl}));
       }
     });
-    store.dispatch(setOrganization(getOrganization()));
-    store.dispatch(setAuthUser(getAuthUser()));
-    store.dispatch(setStoreProgram(getAuthProgram()));
-    store.dispatch(setRootProgram(getAuthRootProgram()));
-    store.dispatch(setCart(getAuthCart()));
-    getAuthPoints().then((balance) => {
-      store.dispatch(setPointBalance(balance));
-    });
-  };
+
+    const authProgram = getAuthProgram( true )
+    if( authProgram ) {
+      setProgram(authProgram)
+    }
+  }
 
   const setCustomLink = (href, template) => {
     let head = document.head;

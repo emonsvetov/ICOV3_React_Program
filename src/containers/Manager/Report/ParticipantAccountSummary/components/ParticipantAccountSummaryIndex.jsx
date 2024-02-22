@@ -26,7 +26,7 @@ const ParticipantAccountSummaryIndex = ({ organization , program }) => {
  
   useEffect(() => {
 
-    if ( organization ) {
+    if ( organization && program?.id ) {
       getData();
     }
     if (programs) {
