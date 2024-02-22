@@ -133,10 +133,14 @@ const Leaderboards = ({ program, organization }) => {
     data: leaderboards,
   });
 
-  if (loading) return t("loading");
+  if ( loading ) return t("loading");
 
   // return ;
   // console.log(event)
+
+  if( !leaderboards.length > 0 ) {
+    return <div><p>{t("No Leaderboards Available")}</p></div>
+  }
 
   return (
     <>
