@@ -64,7 +64,7 @@ const TeamForm = ({
                         flashSuccess(dispatch, 'Team saved successfully!')
                         setLoading(false)
                         window.location.reload()
-                        toggle()
+                        // toggle() //undefined?!
                     }
                 })
             .catch((err) => {
