@@ -159,7 +159,8 @@ const InvoicesDataTable = (props) => {
         return <p>Error: {JSON.stringify(error)}</p>;
     }
 
-    return(
+    if(isSuccess)
+        return(
         <>
             <div className='table react-table report-table'>
                 <div className="action-panel">
@@ -232,6 +233,8 @@ const InvoicesDataTable = (props) => {
 };
 
 const TableWrapper = (props) => {
+    const {program, organization} = props;
+    if (!organization || !program) return 'Loading...'
     return (
         <QueryClientProvider client={queryClient}>
           <InvoicesDataTable {...props} />
