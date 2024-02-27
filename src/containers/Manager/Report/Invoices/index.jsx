@@ -62,6 +62,11 @@ const Invoices = (props) => {
         trigger,
         setTrigger
     }
+
+    if (isEmpty(defaultPrograms)) {
+      return <p>Loading...</p>;
+    }
+
     return (
         <Col md={12}>
           <Card>
