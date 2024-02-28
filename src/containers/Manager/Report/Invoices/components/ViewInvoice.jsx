@@ -14,7 +14,7 @@ const ViewInvoice = (props) => {
   
   useEffect(() => {
     if (props?.program?.id && props?.invoice?.id) {
-      console.log("Loading")
+      // console.log("Loading")
       getInvoice(
         props.organization.id,
         props.program.id,
