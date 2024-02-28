@@ -89,6 +89,7 @@ import MainWrapper from "./MainWrapper";
 import ManageAccount from "../Manager/ManageAccount";
 import PageNotFound from "./404Error/PageNotFound";
 import UserNotFound from "@/containers/App/404Error/UserNotFound";
+import ManagerViewInvoice from "../Manager/ManageAccount/components/ViewInvoice";
 
 // import { Train } from "@material-ui/icons";
 
@@ -167,7 +168,7 @@ const RouteIndex = () => (
           <Route path="manage-and-reward" element={<ManageAndReward />} />
           <Route path="invite-participant" element={<InviteParticipant />} />
           <Route path="manage-account" element={<ManageAccount/>}>
-
+          <Route path="invoice/:invoiceId" element={<ManagerViewInvoice/>}/>
           </Route>
           <Route path="referral" element={<Referral />} />
           <Route path="team" element={<Team />} />

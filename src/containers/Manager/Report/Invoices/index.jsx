@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from "react-redux";
-import { Row, Col, Table, Card, CardBody  } from 'reactstrap';
+import { Row, Col, Card, CardBody  } from 'reactstrap';
 import { useParams } from "react-router-dom";
 import InvoicesDataTable from "./components/InvoicesDataTable";
 import ViewInvoice from './components/ViewInvoice';
@@ -32,7 +32,7 @@ const Invoices = (props) => {
             throw new Error(`API error:${e?.message}`);
           }
         }
-      }
+    }
 
       useEffect(() => {
         if (props.organization) {
@@ -70,7 +70,7 @@ const Invoices = (props) => {
                 { step === 1 &&
                 <Row className="justify-content-center">
                     <Col md={8} >
-                        <ViewInvoice invoice={invoice} {...props} />
+                        <ViewInvoice loaded={true} invoice={invoice} {...props} />
                     </Col>
                 </Row>}
             </CardBody>
