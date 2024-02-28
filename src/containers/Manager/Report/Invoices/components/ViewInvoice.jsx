@@ -13,11 +13,7 @@ const ViewInvoice = (props) => {
   const [invoice, setInvoice] = useState(null);
   
   useEffect(() => {
-    if( props?.loaded && props?.invoice )  {
-      console.log("Loaded")
-      setInvoice(props.invoice);
-      setLoading(false);
-    } else if (props?.program?.id && props?.invoice?.id) {
+    if (props?.program?.id && props?.invoice?.id) {
       console.log("Loading")
       getInvoice(
         props.organization.id,

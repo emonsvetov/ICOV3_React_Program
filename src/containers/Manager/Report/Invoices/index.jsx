@@ -45,16 +45,16 @@ const Invoices = (props) => {
       }, [programs, props.organization])
 
     useEffect( () => {
-        if(invoiceId){
-            getInvoice(props.program?.organization_id, props.program?.id, invoiceId)
-            .then( res => {
-                setInvoice(res)
+        if( invoiceId ){
+            // getInvoice(props.program?.organization_id, props.program?.id, invoiceId)
+            // .then( res => {
+                setInvoice({id: invoiceId})
                 setStep(1)
-            })
+            // })
         }
     }, [props]);
 
-    if(invoiceId && !invoice) return 'Loading...'
+    if( invoiceId && !invoice ) return 'Loading...'
 
     props = {
         ...props,
@@ -70,7 +70,7 @@ const Invoices = (props) => {
                 { step === 1 &&
                 <Row className="justify-content-center">
                     <Col md={8} >
-                        <ViewInvoice loaded={true} invoice={invoice} {...props} />
+                        <ViewInvoice invoice={invoice} {...props} />
                     </Col>
                 </Row>}
             </CardBody>
