@@ -94,8 +94,8 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
     item.merchant_name = merchant.name;
     item.merchant_icon = merchant.icon;
     let redemption_points = item.redemption_value * program.factor_valuation;
-    if ( pointBalance.points < redemption_points ) {
-      alert(t("insufficient_balance_redeem"));
+    if ( pointBalance.pointBalance < redemption_points ) {
+      alert(t("insufficient_balance_redeem") + (` Points to redeem: ${redemption_points}. Available Point Balance: ${pointBalance.pointBalance}`) );
       return;
     }
     // console.log(item)
