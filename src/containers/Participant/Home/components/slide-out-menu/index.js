@@ -39,14 +39,14 @@ useEffect( () => {
         if( program.uses_peer2peer )    {
             newItems.push({ to: "/participant/peer-to-peer", text: "give_an_award" })
         }
-        if( program.enable_referrals ){
-            newItems.push({ to: "/participant/referral", text: "submit_a_referral" })
-        }
         if( program.uses_leaderboards ){
           newItems.push({ to: "/participant/leaderboards", text: "leaderboards" })
         }
         if( program.uses_goal_tracker ){
           newItems.push({ to: "/participant/my-goals", text: "my_goals" })
+        }
+        if( program.enable_referrals ){
+          newItems.push({ to: "/participant/referral", text: "submit_a_referral" })
         }
         if( program.enable_how_are_you_feeling ){
             newItems.push({ to: "/participant/feeling", text: "how_are_you_feeling" })
