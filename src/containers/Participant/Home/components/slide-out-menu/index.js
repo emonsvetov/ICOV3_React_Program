@@ -6,10 +6,11 @@ import { initReactI18next, useTranslation } from "react-i18next";
 import {connect} from "react-redux";
 import {MEDIA_TYPES} from "@/containers/LogIn/components/LogInForm";
 import axios from "axios";
+import Points from "@/containers/Layout/sidebar/Points";
 
 const LINKS = [
-  { to: "/participant/my-points", text: "my_rewards" },
-  { to: "/participant/my-gift-codes", text: "my_gift_codes" },
+  // { to: "/participant/my-points", text: "my_rewards" },
+  // { to: "/participant/my-gift-codes", text: "my_gift_codes" },
   // { to: "/participant/peer-to-peer", text: "give_an_award" },
   //   { to: "/participant/referral", text: "submit_a_referral" },
   //{ to: "/participant/suggestion_box", text: "suggestion_box" },
@@ -38,8 +39,14 @@ useEffect( () => {
         if( program.uses_peer2peer )    {
             newItems.push({ to: "/participant/peer-to-peer", text: "give_an_award" })
         }
+        if( program.uses_leaderboards ){
+          newItems.push({ to: "/participant/leaderboards", text: "leaderboards" })
+        }
+        if( program.uses_goal_tracker ){
+          newItems.push({ to: "/participant/my-goals", text: "my_goals" })
+        }
         if( program.enable_referrals ){
-            newItems.push({ to: "/participant/referral", text: "submit_a_referral" })
+          newItems.push({ to: "/participant/referral", text: "submit_a_referral" })
         }
         if( program.enable_how_are_you_feeling ){
             newItems.push({ to: "/participant/feeling", text: "how_are_you_feeling" })
@@ -158,6 +165,7 @@ const loadMediTypes = async () => {
             </NavItem>
           );
         })}
+        <Points />
       </Nav>
     </div>
   );
