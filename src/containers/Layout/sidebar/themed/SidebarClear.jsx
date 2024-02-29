@@ -8,7 +8,7 @@ const Sidebar = () => {
       <SlideOutMenu isFixed={false} />
       <div className="space-30" />
         <div style={{marginTop: '300px'}}></div>
-      <Points />
+      {/* <Points /> */}
       <div className="space-30" />
     </div>
   );
