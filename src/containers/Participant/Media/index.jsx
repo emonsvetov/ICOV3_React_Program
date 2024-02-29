@@ -17,12 +17,7 @@ const Media = ({ template, auth, program, organization }) => {
     const url = axios.defaults.baseURL + `/organization/${organization.id}/program/${program.id}/media/${categoryId}`;
     try {
       const response = await axios.get(url);
-      let media = response?.data;
-      if (media && media.length > 0) {
-        const newest = media.pop();
-        media.unshift(newest);
-      }
-      setMedia(media);
+      setMedia(response.data);
       return response.data;
     } catch (e) {
       throw new Error(`API error:${e?.message}`);

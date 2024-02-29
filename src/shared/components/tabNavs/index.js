@@ -4,12 +4,46 @@ import TabNav from "./components/Tabnav";
 import "./style.scss";
 import { useNavigate, useLocation } from "react-router-dom";
 import {Themed} from '@/theme'
+import {getLeaderboards} from '@/services/program/getLeaderboards'
+
+let ParticipantTabNavsBase = ({program}) => {
+  const [leaderboardCount, setLeaderboardCount] = useState(0);
+  useEffect(() => {
+    if( program?.id ) {
+      getLeaderboards(program.organization_id, program.id, true)
+      .then( count => {
+        setLeaderboardCount(count)
+      })
+    }
+    return () => {
+    }
+  }, []);
+  return <Themed leaderboardCount={leaderboardCount} component={'ParticipantTabnav'} />
+};
+
+ParticipantTabNavsBase =  connect((state) => ({
+  program: state.program
+}))(ParticipantTabNavsBase);
 
 export const ParticipantTabNavs = () => {
-  return <Themed component={'ParticipantTabnav'} />
+  return <ParticipantTabNavsBase />
 };
 
 let ManagerTabNavsTmp = ({program}) => {
+  
+
+  const [path, setPath] = useState(null);
+  const location = useLocation();
+  useEffect(() => {
+    let path = location?.pathname.substring(
+      location.pathname.lastIndexOf("/") + 1
+    );
+    setPath(path);
+  }, [location]);
+  let navigate = useNavigate();
+
+  if( !program ) return 'loading...'
+
   let MANAGER_ITEMS;
 
   MANAGER_ITEMS = [
@@ -26,18 +60,6 @@ let ManagerTabNavsTmp = ({program}) => {
       { title: "Leaderboard", icon: "leaderboard", to: `/manager/leaderboards` }
     );
   }
-
-  const [path, setPath] = useState(null);
-  const location = useLocation();
-  useEffect(() => {
-    let path = location?.pathname.substring(
-      location.pathname.lastIndexOf("/") + 1
-    );
-    setPath(path);
-  }, [location]);
-  let navigate = useNavigate();
-
-  if( !program ) return 'loading...'
 
   return (
     <div className="tab-navs items-3">
@@ -58,8 +80,8 @@ let ManagerTabNavsTmp = ({program}) => {
   );
 };
 ManagerTabNavsTmp =  connect((state) => ({
-    program: state.program
-  }))(ManagerTabNavsTmp);
+  program: state.program
+}))(ManagerTabNavsTmp);
 
 export const ManagerTabNavs = () => {
     return <ManagerTabNavsTmp />

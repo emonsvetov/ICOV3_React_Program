@@ -44,7 +44,7 @@ const ManagerTopbar = ({ template }) => {
           </NavbarBrand>
           <NavbarToggler onClick={toggle} />
           <Collapse navbar>
-            <Nav className="horizontal" navbar>
+            <Nav className="horizontal" navbar style={{ flexWrap: "nowrap" }}>
               {LINKS.map((item, index) => {
                 return (
                   <NavLink key={index} to={item.to} className="link">

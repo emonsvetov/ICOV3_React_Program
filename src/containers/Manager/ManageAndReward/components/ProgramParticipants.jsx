@@ -23,6 +23,7 @@ import PeerIcon from "mdi-react/PostItNoteAddIcon";
 import apiTableService from "@/services/apiTableService";
 import { useTranslation } from "react-i18next";
 import {inArray} from "@/shared/helpers"
+import useCallbackState from "@/shared/useCallbackState"
 
 const collectEmails = (users) => {
   let emails = [];
@@ -40,10 +41,10 @@ const ACTIONS = [
   //{ name: "Email", link: "", icon: <MailIcon /> },TODO: add logic to check engagement settings
   { name: "Resend Invite", link: "", icon: <ResendIcon /> },
   { name: "Deactivate", link: "", icon: <DeactivateIcon /> },
-  { name: "Activate", link: "", icon: <ActivateIcon /> },
+  // { name: "Activate", link: "", icon: <ActivateIcon /> },
   { name: "Lock", link: "", icon: <LockIcon /> },
   //{ name: "Import", link: "", icon: <ImportIcon /> }, TODO: add logic to check engagement settings
-  //{ name: "Peer Allocation", link: "", icon: <PeerIcon /> }, TODO: add logic to check engagement settings
+  { name: "Peer Allocation", link: "", icon: <PeerIcon /> }, 
 ];
 const ENTRIES = [{ value: 10 }, { value: 25 }, { value: 50 }, { value: 100 }];
 
@@ -56,13 +57,20 @@ const STATUS = [
   { name: "Pending Deactivation" },
 ];
 
+let defaultStatus = []
+STATUS.map((item, index) => {
+  if( item.name !== 'Deactivated' ) {
+    defaultStatus.push( item.name )
+  }
+})
+
 const BULK_ACTIONS = [
   "Reward",
   "Resend Invite",
   "Deactivate",
   "Activate",
   "Lock",
-  //"Peer Allocation", TODO: add logic to check engagement settings
+  "Peer Allocation",
   "Reclaim Peer Allocations",
   //"Add Goal" TODO: add logic to check engagement settings
 ]
@@ -146,7 +154,19 @@ const ProgramParticipants = ({ program, organization }) => {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState({ keyword: "", status: "" });
   const [participants, setParticipants] = useState([]);
-  const [status, setStatus] = useState([]);
+  const [status, setStatus] = useCallbackState([]);
+  const [actionsArray, setActionsArray] = useState(ACTIONS);
+  const [bulkActionsArray, setBulkActionsArray] = useState(BULK_ACTIONS);
+
+  useEffect(() => {
+    if(!program.uses_peer2peer){
+      bulkActionsArray.splice(BULK_ACTIONS.indexOf("Peer Allocation"), 1);
+      let indexToRemove = actionsArray.findIndex(item => item.name == "Peer Allocation");
+      actionsArray.splice(indexToRemove, 1);
+      setActionsArray(actionsArray);
+      setBulkActionsArray(bulkActionsArray);
+    }
+  }, [program]);
 
   const doAction = (action, participants) => {
     if (action === "Email") {
@@ -198,7 +218,12 @@ const ProgramParticipants = ({ program, organization }) => {
 
   const onSelectStatus = (value) => {
     if (status.includes(value)) {
-      setStatus(status.filter((item) => item !== value));
+      setStatus( (prev) =>  prev.filter( (item) => item !== value ), 
+      (newStatus) => {
+        if(newStatus.length <= 0 ) {
+          setStatus(defaultStatus);
+        }
+      });
     } else {
       setStatus([...status, ...[value]]);
     }
@@ -347,6 +372,23 @@ const ProgramParticipants = ({ program, organization }) => {
     );
   };
 
+  useEffect(() => {
+    // console.log(mounted)
+    let mounted = false
+    if ( !mounted ) {
+      setStatus( defaultStatus )
+    }
+    return () => {mounted = true}
+  }, []);
+
+  const markStatusAsChecked = (statusName) => {
+    if( status === null )  {
+      // if( statusName !== 'Deactivated' ) return true;
+    } else {
+      return status.indexOf(statusName) > -1
+    }
+  }
+
   const ActionsDropdown = () => {
     return (
       <UncontrolledDropdown>
@@ -397,7 +439,7 @@ const ProgramParticipants = ({ program, organization }) => {
     return (
       <UncontrolledDropdown>
         <DropdownToggle caret className="dropdowntoggle">
-          Status
+        {t("Filter by Status")}
         </DropdownToggle>
         <DropdownMenu>
           {STATUS.map((item, index) => {
@@ -408,7 +450,7 @@ const ProgramParticipants = ({ program, organization }) => {
                 onClick={() => onSelectStatus(item.name)}
               >
                 <input
-                  checked={status.indexOf(item.name) > -1}
+                  checked={markStatusAsChecked(item.name)}
                   type="checkbox"
                   style={{ marginRight: "10px" }}
                   onChange={() => { }}

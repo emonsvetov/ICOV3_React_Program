@@ -10,7 +10,7 @@ import { getProgramTree } from "@/services/program/getProgramTree";
 import { BuildProgramOptions, cacheProgramTree, getCachedProgramTree } from "@/shared/helpers";
 import { useTranslation } from "react-i18next";
 
-const SelectProgram = ({ auth, program, rootProgram, showRefresh = true, onChange, selected = null, label = 'For Program' }) => {
+const SelectProgram = ({ auth, program, rootProgram, showRefresh = true, onChange, selected = null, label = 'Program' }) => {
   const { t } = useTranslation();
   useEffect(() => {
     const cachedTree = getCachedProgramTree()

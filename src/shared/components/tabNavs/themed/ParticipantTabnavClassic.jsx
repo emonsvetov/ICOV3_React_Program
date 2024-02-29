@@ -9,10 +9,10 @@ const TabnavClassic = (props)=> {
   return <Tabnav {...props} />
 }
 
-const ParticipantTabnavClassic = ({program, template}) => {
+const ParticipantTabnavClassic = ({program, template, leaderboardCount}) => {
   const { t } = useTranslation();
 
-  const TAB_ITEMS = getTabnavItems(program);
+  const TAB_ITEMS = getTabnavItems(program, leaderboardCount);
 
   let navigate = useNavigate();
   if( ! program ) return 'loading...'

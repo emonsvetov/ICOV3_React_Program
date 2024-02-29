@@ -38,7 +38,7 @@ const Home = ({ program, organization }) => {
             <ManagerTabNavs />
           </Col>
         </Row>
-        <div align="right">Current Balance: ${balance}</div>
+        <div align="right">Current Balance: ${balance.toFixed(2)}</div>
       </Container>
       <hr></hr>
       <Dashboard />

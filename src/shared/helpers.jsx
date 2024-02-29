@@ -84,6 +84,7 @@ export const hasRoleInProgram = (roleName, programId, user) => {
             if( p?.children && p.children.length > 0)   {
                 depth++;
                 optionsHtml.push(<BuildProgramOptions key={`program-option-group-${p.id}`} programs={p.children} depth={depth} />)
+                depth--;
             }
         })
     }
@@ -250,7 +251,6 @@ export const isBadgeAward = ( event_type_id ) => {
   if( isObject(event_type_id) && typeof event_type_id.value !== 'undefined' ) {
       type_to_match = event_type_id.value
   }
-  console.log(type_to_match)
   return type_to_match == 5 //badge
   || type_to_match == 6 //peer to peer badge
   || type_to_match == 10 //miglestone badge

@@ -1,5 +1,8 @@
 import { getPointBalance } from "@/services/user/getPointBalance";
 import { getDomain } from "@/services/getDomain";
+import { getProgram } from "@/services/program/getProgram";
+import store from "@/containers/App/store";
+import { setStoreProgram } from "@/redux/actions/programActions";
 
 export const AUTH_USER_KEY = "authUser";
 export const AUTH_TOKEN_KEY = "authToken";
@@ -64,8 +67,21 @@ export const getToken = () => {
   return localStorage.getItem(AUTH_TOKEN_KEY);
 };
 
-export const getAuthProgram = () => {
-  return JSON.parse(localStorage.getItem(AUTH_PROGRAM_KEY));
+export const getAuthProgram = ( hydrate = false ) => {
+  let program = JSON.parse(localStorage.getItem(AUTH_PROGRAM_KEY));
+  // console.log("getAuthProgram")
+  // console.log(program)
+  if( hydrate ) {
+    return getProgram( program.organization_id, program.id )
+    .then( p => {
+      setAuthProgram(p)
+      store.dispatch(setStoreProgram(p));
+      return p
+    })
+  } else {
+    store.dispatch(setStoreProgram(program));
+  }
+  return program
 };
 
 export const getTheme = () => {
@@ -112,6 +128,35 @@ export const hydratePointBalance = () => {
 export const setAuthProgram = (program) => {
   return localStorage.setItem(AUTH_PROGRAM_KEY, JSON.stringify(program));
 };
+
+// export const getAuthProgram = async( hydrate = false ) => {
+//   // flushUserSession();
+//   // return;
+//   // localStorage.removeItem(AUTH_PROGRAM_KEY);
+//   const authProgram = localStorage.getItem(AUTH_PROGRAM_KEY)
+//   console.log(authProgram)
+//   console.log(typeof authProgram)
+//   let program;
+//   if( authProgram ) {
+//     program = JSON.parse(authProgram)
+//     console.log("program")
+//     console.log(program)
+//   }
+//   if( !hydrate ) {
+//     return program;
+//   }
+//   if( hydrate && !program?.id )  {
+//     console.log("Invalid request found")
+//   }
+
+//   if( hydrate ) {
+//     program = getProgram(program.organization_id, program.id)
+//     console.log("program in auth.jsx > getAuthProgram")
+//     console.log(program)
+//     setAuthProgram( program )
+//     return program
+//   }
+// }
 
 export const getBearer = () => {
   // console.log(getAuthUser())

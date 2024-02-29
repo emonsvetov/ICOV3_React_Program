@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 const PointsClear = ({ pointBalance, template, program }) => {
   const { t } = useTranslation();
   const locale = new Intl.Locale('en-US');
-  if (!pointBalance) return t("loading");
+  if (!pointBalance || !program) return t("loading");
   return (
     <div className={`points-${template.name} flex-column p-2`}>
       <div className={`points-${template.name}-header bg-blue`}>{t("my_balance")}</div>

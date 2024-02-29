@@ -34,7 +34,8 @@ const SlideOutMenu = ({ isFixed,  program, organization }) => {
   };
 
 useEffect( () => {
-    if( program && !menuBuilt ) {
+    if( program?.id ) {
+      if(!menuBuilt ) {
         let newItems = [];
         if( program.uses_peer2peer )    {
             newItems.push({ to: "/participant/peer-to-peer", text: "give_an_award" })
@@ -57,6 +58,7 @@ useEffect( () => {
         setMenuBuilt(true)
     }
     loadMediTypes();
+  }
 }, [program])
 
 function toTitleCase(str) {

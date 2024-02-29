@@ -22,7 +22,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
     { to: "#events", text: "Events" },
   ];
 
-  if(program.uses_goal_tracker > 0) {
+  if(program?.uses_goal_tracker > 0) {
     LINKS.push({
       to: "#expired-goalplans",
       text: "Expired Goal Plans",
@@ -37,7 +37,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
     })
   }
 
-  if(program.uses_leaderboards
+  if(program?.uses_leaderboards
       > 0) {
     LINKS.push({
       to: "#leaderboards",
@@ -46,7 +46,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
   }
 
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState('#events');
   const [isOpen, setOpen] = useState(false);
   const [reloadEvents, setReloadEvents] = useState(false);
   const [modalName, setModalName] = useState(null);
@@ -65,7 +65,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
     if (hash) {
       for (const i in LINKS) {
         if (LINKS[i]["to"] === hash) {
-          setActiveTab(parseInt(i));
+          setActiveTab(hash);
           break;
         }
       }
@@ -100,8 +100,8 @@ const ProgramSettings = ({ auth, program, organization }) => {
                 <li key={index}>
                   <NavLink
                     href={item.to}
-                    onClick={() => setActiveTab(index)}
-                    className={activeTab == index ? "active" : ""}
+                    onClick={() => setActiveTab(item.to)}
+                    className={activeTab == item.to ? "active" : ""}
                   >
                     {item.text}
                   </NavLink>
@@ -112,7 +112,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
         </nav>
       </div>
       <Container className="settingboard">
-        <div className={activeTab != 0 ? "d-none" : ""} id="events">
+        <div className={activeTab != "#events" ? "d-none" : ""} id="events">
           <div className="my-3 d-flex justify-content-between">
             <h3>Events</h3>
             <TemplateButton
@@ -121,13 +121,11 @@ const ProgramSettings = ({ auth, program, organization }) => {
             />
           </div>
           <div className="points-summary-table">
-            {activeTab === 0 && (
-              <Events program={program} organization={organization} reload={reloadEvents} />
-            )}
+            <Events program={program} organization={organization} reload={reloadEvents} />
           </div>
         </div>
 
-        <div className={activeTab != 1 ? "d-none" : ""} id="expired-goalplans">
+        <div className={activeTab != "#expired-goalplans" ? "d-none" : ""} id="expired-goalplans">
           <div className="my-3 d-flex justify-content-between">
             <h3>Goal Plans</h3>
             <TemplateButton
@@ -136,17 +134,15 @@ const ProgramSettings = ({ auth, program, organization }) => {
             />
           </div>
           <div className="expired-goalplan-table">
-            {activeTab === 1 && (
-              <GoalPlans
-                program={program}
-                organization={organization}
-                status="Expired"
-              />
-            )}
+            <GoalPlans
+              program={program}
+              organization={organization}
+              status="Expired"
+            />
           </div>
         </div>
 
-        <div className={activeTab != 2 ? "d-none" : ""} id="active-goalplans">
+        <div className={activeTab != "#active-goalplans" ? "d-none" : ""} id="active-goalplans">
           <div className="my-3 d-flex justify-content-between">
             <h3>Goal Plans</h3>
             <TemplateButton
@@ -155,17 +151,15 @@ const ProgramSettings = ({ auth, program, organization }) => {
             />
           </div>
           <div className="active-goalplan-table">
-            {activeTab === 2 && (
               <GoalPlans
                 program={program}
                 organization={organization}
                 status="Active"
               />
-            )}
           </div>
         </div>
 
-        <div className={activeTab != 3 ? "d-none" : ""} id="future-goalplans">
+        <div className={activeTab != "#future-goalplans" ? "d-none" : ""} id="future-goalplans">
           <div className="my-3 d-flex justify-content-between">
             <h3>Goal Plans</h3>
             <TemplateButton
@@ -174,17 +168,15 @@ const ProgramSettings = ({ auth, program, organization }) => {
             />
           </div>
           <div className="future-goalplan-table">
-            {activeTab === 3 && (
               <GoalPlans
                 program={program}
                 organization={organization}
                 status="Future"
               />
-            )}
           </div>
         </div>
 
-        <div className={activeTab != 4 ? "d-none" : ""} id="leaderboards">
+        <div className={activeTab != "#leaderboards" ? "d-none" : ""} id="leaderboards">
           <div className="my-3 d-flex justify-content-between">
             <h3>Leaderboards</h3>
             <TemplateButton
@@ -193,9 +185,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
             />
           </div>
           <div className="leaderboard-table">
-            {activeTab === 4 && (
-              <Leaderboards program={program} organization={organization} />
-            )}
+            <Leaderboards program={program} organization={organization} />
           </div>
         </div>
       </Container>
