@@ -51,7 +51,7 @@ const Home = ({ auth, program, template }) => {
                     <SlideOutMenu isFixed={false} />
                 </div>
                 <div className="text-center mt-5 mb-5" dangerouslySetInnerHTML={participant_homepage_message}></div>
-                <Container className={`${template.name} mt-5`} fluid>
+                {/* <Container className={`${template.name} mt-5`} fluid>
                     <Row>
                         <Col md={3}>
                             <Points />
@@ -60,7 +60,7 @@ const Home = ({ auth, program, template }) => {
                             <ParticipantTabNavs program={program} />
                         </Col>
                     </Row>
-                </Container>
+                </Container> */}
                 <Container className="">
                     {showSocialWall && (
                         <>
