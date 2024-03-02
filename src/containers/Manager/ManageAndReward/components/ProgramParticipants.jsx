@@ -19,11 +19,13 @@ import ResendIcon from "mdi-react/AccountPlusIcon";
 import DeactivateIcon from "mdi-react/CancelIcon";
 import ActivateIcon from "mdi-react/RefreshIcon";
 import LockIcon from "mdi-react/LockIcon";
+import ImportIcon from "mdi-react/ImportIcon";
 import PeerIcon from "mdi-react/PostItNoteAddIcon";
 import apiTableService from "@/services/apiTableService";
 import { useTranslation } from "react-i18next";
 import {inArray} from "@/shared/helpers"
 import useCallbackState from "@/shared/useCallbackState"
+import { useNavigate } from "react-router-dom";
 
 const collectEmails = (users) => {
   let emails = [];
@@ -43,7 +45,7 @@ const ACTIONS = [
   { name: "Deactivate", link: "", icon: <DeactivateIcon /> },
   // { name: "Activate", link: "", icon: <ActivateIcon /> },
   { name: "Lock", link: "", icon: <LockIcon /> },
-  //{ name: "Import", link: "", icon: <ImportIcon /> }, TODO: add logic to check engagement settings
+  { name: "Import", link: "", icon: <ImportIcon /> }, //TODO: add logic to check engagement settings
   { name: "Peer Allocation", link: "", icon: <PeerIcon /> }, 
 ];
 const ENTRIES = [{ value: 10 }, { value: 25 }, { value: 50 }, { value: 100 }];
@@ -145,6 +147,7 @@ const RenderActions = ({ row, onClickActionCb }) => {
 
 const ProgramParticipants = ({ program, organization }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [modalName, setModalName] = useState(null);
   const [isOpen, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -205,6 +208,10 @@ const ProgramParticipants = ({ program, organization }) => {
   const onSelectAction = (name) => {
     const rows = selectedFlatRows.map((d) => d.original);
     if (rows.length === 0) {
+      if (name === "Import") {
+        navigate("/manager/csv-import");
+        return;
+      }
       alert("Select participants");
       return;
     }
