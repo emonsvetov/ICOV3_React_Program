@@ -41,16 +41,17 @@ const ImportType = () => {
       return;
     }
     console.log(formData);
-    const file = formData;
+    const file = formData?.csv[0];
     const importType = formData?.import_type;
     try {
-      if (file) {
+      if (file && importType) {
         console.log(file);
+        flashSuccess(dispatch, "Csv Imported successfully!");
       } else {
-        console.error("No file selected.");
+        flashError(dispatch("No Csv file selected."));
       }
     } catch (error) {
-      console.error("Error parsing CSV:", error);
+      flashError(dispatch(error.message));
     }
   };
 
@@ -64,15 +65,20 @@ const ImportType = () => {
               <form onSubmit={handleSubmit}>
                 <Row>
                   <Col>
-                    <div className="my-3 d-flex">
+                    <div className="form__form-group-field">
                       <label className="my-2 mr-3">Import Type: </label>
                       <Field
                         name="import_type"
                         component="select"
-                        className="form__form-group-field"
+                        className="p-1 border-secondary rounded"
                       >
                         {importTypeOptions.map((type) => (
-                          <option value={type.value}>{type.label}</option>
+                          <option
+                            className="p-2 text-center bg-light"
+                            value={type.value}
+                          >
+                            {type.label}
+                          </option>
                         ))}
                       </Field>
                     </div>
@@ -83,6 +89,7 @@ const ImportType = () => {
                     <div className="d-flex">
                       <label className="my-2 mr-3">CSV File: </label>
                       <Field
+                        className="p-1 border-secondary bg-light rounded"
                         name="csv"
                         component="input"
                         type="file"
@@ -90,7 +97,9 @@ const ImportType = () => {
                       />
                     </div>
                     <div>
-                      <Button type="submit">Import</Button>
+                      <Button color="primary" type="submit">
+                        Import
+                      </Button>
                     </div>
                   </Col>
                 </Row>

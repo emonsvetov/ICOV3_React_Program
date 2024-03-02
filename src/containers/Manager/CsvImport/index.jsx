@@ -5,10 +5,7 @@ import ImportType from "./components/ImportType";
 
 import ImportDataTable from "./components/ImportDataTable";
 
-
-
 const CsvImport = () => {
-
   return (
     <div className="referral">
       <Container>
@@ -23,19 +20,19 @@ const CsvImport = () => {
           </Col>
         </Row>
 
-        <Row >
+        <Row>
           <Col md={12}>
-            <h6 className="bg-secondary p-1 text-center ">
+            <h6 className="bg-primary p-2 rounded text-white my-4 text-center ">
               Select Import Type and .csv File
             </h6>
-            <div className="my-3 d-flex ">
+            <div className="my-3 d-flex bg-muted ">
               <ImportType />
             </div>
           </Col>
         </Row>
         <div className="points-summary-table">
-        <ImportDataTable />
-      </div>
+          <ImportDataTable />
+        </div>
       </Container>
     </div>
   );

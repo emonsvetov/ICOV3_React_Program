@@ -5,6 +5,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
+  Button,
 } from "reactstrap";
 import { useTable, usePagination, useRowSelect } from "react-table";
 import ReactTablePagination from "@/shared/components/table/components/ReactTablePagination";
@@ -23,8 +24,8 @@ import ImportIcon from "mdi-react/ImportIcon";
 import PeerIcon from "mdi-react/PostItNoteAddIcon";
 import apiTableService from "@/services/apiTableService";
 import { useTranslation } from "react-i18next";
-import {inArray} from "@/shared/helpers"
-import useCallbackState from "@/shared/useCallbackState"
+import { inArray } from "@/shared/helpers";
+import useCallbackState from "@/shared/useCallbackState";
 import { useNavigate } from "react-router-dom";
 
 const collectEmails = (users) => {
@@ -45,8 +46,8 @@ const ACTIONS = [
   { name: "Deactivate", link: "", icon: <DeactivateIcon /> },
   // { name: "Activate", link: "", icon: <ActivateIcon /> },
   { name: "Lock", link: "", icon: <LockIcon /> },
-  { name: "Import", link: "", icon: <ImportIcon /> }, //TODO: add logic to check engagement settings
-  { name: "Peer Allocation", link: "", icon: <PeerIcon /> }, 
+  // { name: "Import", link: "", icon: <ImportIcon /> }, TODO: add logic to check engagement settings
+  { name: "Peer Allocation", link: "", icon: <PeerIcon /> },
 ];
 const ENTRIES = [{ value: 10 }, { value: 25 }, { value: 50 }, { value: 100 }];
 
@@ -59,12 +60,12 @@ const STATUS = [
   { name: "Pending Deactivation" },
 ];
 
-let defaultStatus = []
+let defaultStatus = [];
 STATUS.map((item, index) => {
-  if( item.name !== 'Deactivated' ) {
-    defaultStatus.push( item.name )
+  if (item.name !== "Deactivated") {
+    defaultStatus.push(item.name);
   }
-})
+});
 
 const BULK_ACTIONS = [
   "Reward",
@@ -75,14 +76,14 @@ const BULK_ACTIONS = [
   "Peer Allocation",
   "Reclaim Peer Allocations",
   //"Add Goal" TODO: add logic to check engagement settings
-]
+];
 
 const POINT_COLUMN_HEADERS = [
   "Peer Balance",
   "Redeemed",
   "Point Balance",
-  "Points Earned"
-]
+  "Points Earned",
+];
 
 const SELECTION_COLUMN = {
   id: "selection",
@@ -96,13 +97,15 @@ const SELECTION_COLUMN = {
       <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
     </div>
   ),
-}
+};
 
 const RenderActions = ({ row, onClickActionCb }) => {
   return ACTIONS.map((item, index) => {
     let statusLabel = item.name;
     //const currentStatus = row.original.status;
-    const currentStatus = row.original.status?.status ? row.original.status.status : null
+    const currentStatus = row.original.status?.status
+      ? row.original.status.status
+      : null;
     // if(item.name === 'Deactivate') {
     //     const currentStatus = row.original.status.status;
     //     statusLabel = currentStatus === 'Deactivated' ? 'Activate' : 'Deactivate'
@@ -136,7 +139,8 @@ const RenderActions = ({ row, onClickActionCb }) => {
         key={index}
         onClick={() => onClickActionCb(item.name, row.original)}
       >
-        <span className={`action-item ${item.name} hover-text`}>{item.icon}
+        <span className={`action-item ${item.name} hover-text`}>
+          {item.icon}
           <div className={`tooltip-text`}>{statusLabel}</div>
         </span>
         <span className={`space-5`}></span>
@@ -162,9 +166,11 @@ const ProgramParticipants = ({ program, organization }) => {
   const [bulkActionsArray, setBulkActionsArray] = useState(BULK_ACTIONS);
 
   useEffect(() => {
-    if(!program.uses_peer2peer){
+    if (!program.uses_peer2peer) {
       bulkActionsArray.splice(BULK_ACTIONS.indexOf("Peer Allocation"), 1);
-      let indexToRemove = actionsArray.findIndex(item => item.name == "Peer Allocation");
+      let indexToRemove = actionsArray.findIndex(
+        (item) => item.name == "Peer Allocation"
+      );
       actionsArray.splice(indexToRemove, 1);
       setActionsArray(actionsArray);
       setBulkActionsArray(bulkActionsArray);
@@ -178,7 +184,7 @@ const ProgramParticipants = ({ program, organization }) => {
         ","
       )}?subject=You have received a message!`;
     }
-    if ( inArray(action, BULK_ACTIONS) ) {
+    if (inArray(action, BULK_ACTIONS)) {
       toggle(action);
     }
   };
@@ -193,48 +199,46 @@ const ProgramParticipants = ({ program, organization }) => {
   const toggle = (name = null) => {
     if (name) setModalName(name);
     setOpen((prevState) => !prevState);
-  }
+  };
 
   const onClickAction = (name, row) => {
-    if (name == 'Name') {
+    if (name == "Name") {
       setParticipants(row);
     } else {
       setParticipants([row]);
     }
     toggle(name);
-  }
+  };
 
   const onSelectAction = (name) => {
     const rows = selectedFlatRows.map((d) => d.original);
     if (rows.length === 0) {
-      if (name === "Import") {
-        navigate("/manager/csv-import");
-        return;
-      }
       alert("Select participants");
       return;
     }
     setAction(name);
     setParticipants(rows);
-  }
-  
+  };
+
   const onSelectEntry = (value) => {
     setQueryPageSize(value);
-  }
+  };
 
   const onSelectStatus = (value) => {
     if (status.includes(value)) {
-      setStatus( (prev) =>  prev.filter( (item) => item !== value ), 
-      (newStatus) => {
-        if(newStatus.length <= 0 ) {
-          setStatus(defaultStatus);
+      setStatus(
+        (prev) => prev.filter((item) => item !== value),
+        (newStatus) => {
+          if (newStatus.length <= 0) {
+            setStatus(defaultStatus);
+          }
         }
-      });
+      );
     } else {
       setStatus([...status, ...[value]]);
     }
     setMounted(true);
-  }
+  };
 
   useEffect(() => {
     // console.log(mounted)
@@ -244,12 +248,10 @@ const ProgramParticipants = ({ program, organization }) => {
     return () => setMounted(true);
   }, [status]);
 
-  const preColumns = React.useMemo(() => [
-    ...[
-      SELECTION_COLUMN,
-      ...USERS_COLUMNS
-    ],
-  ], []);
+  const preColumns = React.useMemo(
+    () => [...[SELECTION_COLUMN, ...USERS_COLUMNS]],
+    []
+  );
 
   let final_columns = [
     ...[
@@ -258,37 +260,45 @@ const ProgramParticipants = ({ program, organization }) => {
         Header: "",
         accessor: "action",
         Footer: "Action",
-        Cell: ({ row }) => <RenderActions row={row} onClickActionCb={onClickAction} />,
-      }
+        Cell: ({ row }) => (
+          <RenderActions row={row} onClickActionCb={onClickAction} />
+        ),
+      },
     ],
   ];
 
   final_columns.forEach((column, i) => {
-    if (column.Header === 'Name') {
+    if (column.Header === "Name") {
       final_columns[i].Cell = ({ row, value }) => {
-        return strShowName(column.Header, row.original)
-      }
+        return strShowName(column.Header, row.original);
+      };
     }
 
-    if ( inArray(column.Header, POINT_COLUMN_HEADERS) ) {
+    if (inArray(column.Header, POINT_COLUMN_HEADERS)) {
       final_columns[i].Cell = ({ row, value }) => {
-        return value * program.factor_valuation
-      }
+        return value * program.factor_valuation;
+      };
     }
-  })
+  });
 
   const columns = React.useMemo(() => final_columns, []);
 
   const totalPageCount = Math.ceil(users?.count / QUERY_PAGE_SIZE);
 
   const strShowName = (name, p) => {
-    return p?.name ? <span onClick={() => onClickAction(name, p)} className={'link'}>{p.name}</span> : ''
-  }
+    return p?.name ? (
+      <span onClick={() => onClickAction(name, p)} className={"link"}>
+        {p.name}
+      </span>
+    ) : (
+      ""
+    );
+  };
 
   const tableInstance = useTable(
     {
       columns,
-      data: useMemo( () => users ? users.results : [], [users]),
+      data: useMemo(() => (users ? users.results : []), [users]),
       initialState: {
         pageIndex: 0,
         pageSize: queryPageSize,
@@ -380,20 +390,22 @@ const ProgramParticipants = ({ program, organization }) => {
 
   useEffect(() => {
     // console.log(mounted)
-    let mounted = false
-    if ( !mounted ) {
-      setStatus( defaultStatus )
+    let mounted = false;
+    if (!mounted) {
+      setStatus(defaultStatus);
     }
-    return () => {mounted = true}
+    return () => {
+      mounted = true;
+    };
   }, []);
 
   const markStatusAsChecked = (statusName) => {
-    if( status === null )  {
+    if (status === null) {
       // if( statusName !== 'Deactivated' ) return true;
     } else {
-      return status.indexOf(statusName) > -1
+      return status.indexOf(statusName) > -1;
     }
-  }
+  };
 
   const ActionsDropdown = () => {
     return (
@@ -445,7 +457,7 @@ const ProgramParticipants = ({ program, organization }) => {
     return (
       <UncontrolledDropdown>
         <DropdownToggle caret className="dropdowntoggle">
-        {t("Filter by Status")}
+          {t("Filter by Status")}
         </DropdownToggle>
         <DropdownMenu>
           {STATUS.map((item, index) => {
@@ -459,7 +471,7 @@ const ProgramParticipants = ({ program, organization }) => {
                   checked={markStatusAsChecked(item.name)}
                   type="checkbox"
                   style={{ marginRight: "10px" }}
-                  onChange={() => { }}
+                  onChange={() => {}}
                 />
                 {item.name}
               </DropdownItem>
@@ -482,10 +494,16 @@ const ProgramParticipants = ({ program, organization }) => {
     <>
       <div className="users">
         <div className="header d-flex  justify-content-between">
-          <div className="d-flex w-25 justify-content-between dropdown-group">
+          <div className="d-flex w-30 justify-content-between dropdown-group">
             <ActionsDropdown />
             <EntriesDropdown />
             <StatusDropdown />
+            <Button
+              color="primary"
+              onClick={() => navigate("/manager/csv-import")}
+            >
+              Import
+            </Button>
           </div>
           <TableFilter filter={filter} setFilter={setFilter} />
         </div>
