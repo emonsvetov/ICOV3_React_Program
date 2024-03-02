@@ -195,7 +195,6 @@ const ProgramParticipants = ({ program, organization }) => {
     setOpen((prevState) => !prevState);
   }
 
-
   const onClickAction = (name, row) => {
     if (name == 'Name') {
       setParticipants(row);
