@@ -12,6 +12,8 @@ import { getProgramBalance } from "@/services/program/getBalance";
 import { setAuthProgram } from "@/containers/App/auth";
 import store from "@/containers/App/store";
 import { setStoreProgram } from "@/redux/actions/programActions";
+import { useParams } from "react-router-dom";
+import ViewInvoice from "./components/ViewInvoice";
 
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -19,6 +21,8 @@ function numberWithCommas(x) {
 
 const ManageAccount = ({ auth, program, organization }) => {
   // console.log(auth)
+  const { invoiceId } = useParams();
+
   const { t } = useTranslation();
   const [isOpen, setOpen] = useState(false);
   const [modalName, setModalName] = useState(null);
@@ -28,19 +32,18 @@ const ManageAccount = ({ auth, program, organization }) => {
     setOpen((prevState) => !prevState);
   };
 
-  React.useEffect( () => {
-    if( program && organization ) {
-      if(typeof program.balance == 'undefined') {
-        getProgramBalance(organization.id, program.id)
-        .then( balance => {
+  React.useEffect(() => {
+    if (program && organization) {
+      if (typeof program.balance == "undefined") {
+        getProgramBalance(organization.id, program.id).then((balance) => {
           program.balance = balance;
-          setAuthProgram(program)
+          setAuthProgram(program);
           store.dispatch(setStoreProgram(program));
           // window.location.reload();
-        })
+        });
       }
     }
-  }, [program])
+  }, [program]);
 
   if (!auth || !program || !organization) return t("loading");
 
@@ -53,33 +56,47 @@ const ManageAccount = ({ auth, program, organization }) => {
               <h3>Manage Account</h3>
             </div>
             <div className="buttonWrapper">
-            <TemplateButton
-              onClick={() => toggle("CreateInvoice")}
-              text="Create an Invoice"
-            />
-            <TemplateButton
-              onClick={() => toggle("MultipleInvoices")}
-              text="Create Multiple Invoices"
-            />
-            <TemplateButton
-              onClick={() => toggle("TransferMoney")}
-              text="Transfer Money Between Programs"
-            />
-            <TemplateButton
-              onClick={() => toggle("Pay")}
-              text="Make Payment using Credit Card"
-            />
-          </div>
+              <TemplateButton
+                onClick={() => toggle("CreateInvoice")}
+                text="Create an Invoice"
+              />
+              <TemplateButton
+                onClick={() => toggle("MultipleInvoices")}
+                text="Create Multiple Invoices"
+              />
+              <TemplateButton
+                onClick={() => toggle("TransferMoney")}
+                text="Transfer Money Between Programs"
+              />
+              <TemplateButton
+                onClick={() => toggle("Pay")}
+                text="Make Payment using Credit Card"
+              />
+            </div>
           </Col>
         </Row>
-        <p>Funds Available for Reward: <strong>{toCurrency(program.balance)}</strong></p>
-        <div className="d-flex mb-3"><SelectProgram /></div>
-        
-        
+        <p>
+          Funds Available for Reward:{" "}
+          <strong>{toCurrency(program.balance)}</strong>
+        </p>
+        <div className="d-flex mb-3">
+          <SelectProgram />
+        </div>
 
         <div className="points-summary-table">
-          {auth && program && !isEmpty(organization) && (
-            <MoniesAvailablePostings program={program} organization={organization} />
+          {invoiceId ? (
+            <ViewInvoice invoice={{
+              id: invoiceId,
+            }} />
+          ) : (
+            auth &&
+            program &&
+            !isEmpty(organization) && (
+              <MoniesAvailablePostings
+                program={program}
+                organization={organization}
+              />
+            )
           )}
         </div>
       </Container>
