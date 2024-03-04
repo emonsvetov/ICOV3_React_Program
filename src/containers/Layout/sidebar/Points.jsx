@@ -17,7 +17,7 @@ const PointsClear = ({ pointBalance, template, program }) => {
             </td>
           </tr>
           <tr>
-            <td className="value"> {(pointBalance.points).toLocaleString(locale)}</td>
+            <td className="value"> {(pointBalance?.pointBalance ?? 0).toLocaleString(locale)}</td>
           </tr>
           {
             program.uses_peer2peer > 0 &&

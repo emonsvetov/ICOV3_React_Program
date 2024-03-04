@@ -241,7 +241,7 @@ const CheckoutPage = ({ cart, program, pointBalance, organization, template, dis
             {t("balance_after_purchase")}:
           </Col>
           <Col md={3} className="d-flex justify-content-center">
-            {pointBalance.points-cartObject.total_points} {t("points")}
+            { pointBalance.pointBalance - cartObject.total_points } {t("points")}
           </Col>
         </Row>
         <div className="d-flex justify-content-end my-4">
