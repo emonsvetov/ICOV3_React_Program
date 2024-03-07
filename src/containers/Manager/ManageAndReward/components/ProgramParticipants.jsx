@@ -197,10 +197,17 @@ const ProgramParticipants = ({ program, organization }) => {
     setAction(name);
     setParticipants(rows);
   }
-  
+
   const onSelectEntry = (value) => {
+    const currentPageIndex = Math.floor(pageIndex * pageSize / value);
     setQueryPageSize(value);
-  }
+
+    if (currentPageIndex >= Math.ceil(users.count / value)) {
+      gotoPage(0);
+    } else {
+      gotoPage(currentPageIndex);
+    }
+  };
 
   const onSelectStatus = (value) => {
     if (status.includes(value)) {
