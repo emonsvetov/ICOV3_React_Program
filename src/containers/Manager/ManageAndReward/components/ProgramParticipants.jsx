@@ -269,7 +269,7 @@ const ProgramParticipants = ({ program, organization }) => {
         pageSize: queryPageSize,
       },
       manualPagination: true, // Tell the usePagination
-      pageCount: users ? totalPageCount : null,
+      pageCount: Math.ceil(users?.count / queryPageSize),
       autoResetSortBy: false,
       autoResetExpanded: false,
       autoResetPage: false,
@@ -461,7 +461,7 @@ const ProgramParticipants = ({ program, organization }) => {
               pageCount={pageCount}
               setPageSize={setPageSize}
               manualPageSize={manualPageSize}
-              dataLength={users.results.length}
+              dataLength={users ? users.count : 0}
             />
           </>
         )}
