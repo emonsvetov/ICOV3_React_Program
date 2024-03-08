@@ -24,6 +24,7 @@ const ReferralForm = ({ organization, program, auth }) => {
   const { t } = useTranslation();
   // const dispatch = useDispatch();
   let [user, setUser] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -37,24 +38,27 @@ const ReferralForm = ({ organization, program, auth }) => {
 
   const validate = (values) => {
     let errors = {};
-    if (!values.first_name) {
-      errors.first_name = t("please_enter_first_name");
+    if (!values.recipient_first_name) {
+      errors.recipient_first_name = t("please_enter_first_name");
     }
-    if (!values.last_name) {
-      errors.last_name = t("please_enter_last_name");
+    if (!values.recipient_last_name) {
+      errors.recipient_last_name = t("please_enter_last_name");
     }
-    if (!values.email) {
-      errors.email = t("email_is_required");
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i.test(values.email)) {
-      errors.email = t("invalid_email_address");
+    if (!values.recipient_email) {
+      errors.recipient_email = t("email_is_required");
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i.test(values.recipient_email)) {
+      errors.recipient_email = t("invalid_email_address");
     }
-    if (values?.password || values?.password_confirmation) {
-      if (values.password !== values.password_confirmation) {
-        errors.password = t("password_and_confirm_password_do_not_match");
-      }
-      if (values.password.trim().length < 3) {
-        errors.password = t("please_enter_strong_password");
-      }
+    if (!values.recipient_area_code) {
+      errors.recipient_area_code = t("field_required");
+    }
+    if (!values.recipient_phone) {
+      errors.recipient_phone = t("field_required");
+    }else if(!/^[0-9-]+$/.test(values.recipient_phone)){
+      errors.recipient_phone = t("invalid_phone_number");
+    }
+    if (!values.message) {
+      errors.message = t("field_required");
     }
     return errors;
   };
@@ -62,45 +66,32 @@ const ReferralForm = ({ organization, program, auth }) => {
   const onSubmit = (values) => {
     values = unpatchMedia(values, MEDIA_FIELDS);
     let formData = mapFormDataUploads(values);
-    formData.append("_method", "PUT");
-
+    // formData.append("_method", "PUT");
+    formData.append("sender_id", user.id);
+    let url = `/organization/${program.organization_id}/program/${program.id}/refer`
+    setLoading(true);
     axios
-      .post(`/organization/${organization.id}/user/${user.id}`, formData, {
-        "Content-Type": "multipart/form-data",
-        "Access-Control-Allow-Origin": "*",
-      })
+      .post(url, formData)
       .then((res) => {
-        let newUser = res.data.user;
-        let currentUser = getAuthUser();
-        currentUser.avatar = newUser.avatar ? newUser.avatar : null;
-        localStorage.setItem(AUTH_USER_KEY, JSON.stringify(currentUser));
         if (res.status === 200) {
-          window.location.reload();
+          setSubmitted(true)
         }
       })
       .catch((error) => {
-        return false;
+        setLoading(false);
       });
   };
 
-  if (!user) return t("loading");
-
-  user = patchMediaURL(user, MEDIA_FIELDS);
-
-  const initialValues = {
-    first_name: user.first_name,
-    last_name: user.last_name,
-    email: user.email,
-  };
-
+  if(submitted){
+    return <div className="mt-5"><h3>Thank You</h3></div>
+  }
   return (
     <div className="submit-referral">
       <h2 className="title">{t("submit_a_referral")}</h2>
-      <div className="hr">{t("submit_info_below")}</div>
+      <div className="mb-5">{t("submit_info_below")}</div>
 
       <Form
         onSubmit={onSubmit}
-        initialValues={initialValues}
         validate={validate}
       >
         {({ handleSubmit, form, submitting, pristine, values }) => (
@@ -110,22 +101,9 @@ const ReferralForm = ({ organization, program, auth }) => {
           >
             <Row>
               <Col md="6">
-                <Field name="company_name">
-                  {({ input, meta }) => (
-                    <FormGroup className="w-75">
-                      <Label className="w-50">{t("company_name")}:</Label>
-                      <Input placeholder="" type="text" {...input} />
-                    </FormGroup>
-                  )}
-                </Field>
-              </Col>
-            </Row>
-
-            <Row>
-              <Col md="6">
                 <Label className="w-50">* {t("name")}:</Label>
                 <div className="d-flex justify-content-between">
-                  <Field name="first_name">
+                  <Field name="recipient_first_name">
                     {({ input, meta }) => (
                       <FormGroup className="">
                         <Input
@@ -140,7 +118,7 @@ const ReferralForm = ({ organization, program, auth }) => {
                     )}
                   </Field>
                   <span>&nbsp; &nbsp; </span>
-                  <Field name="last_name">
+                  <Field name="recipient_last_name">
                     {({ input, meta }) => (
                       <FormGroup className="Last Name">
                         <Input
@@ -160,7 +138,7 @@ const ReferralForm = ({ organization, program, auth }) => {
 
             <Row>
               <Col md="6">
-                <Field name="email">
+                <Field name="recipient_email">
                   {({ input, meta }) => (
                     <FormGroup className="w-75">
                       <Label className="w-50">* {t("email")}:</Label>
@@ -176,9 +154,9 @@ const ReferralForm = ({ organization, program, auth }) => {
 
             <Row>
               <Col md="6">
-                <Label className="w-50">{t("phone_number")}:</Label>
-                <div className="d-flex justify-content-between align-items-center">
-                  <Field name="area_code">
+                <Label className="w-50">* {t("phone_number")}:</Label>
+                <div className="d-flex justify-content-between">
+                  <Field name="recipient_area_code">
                     {({ input, meta }) => (
                       <FormGroup className="">
                         <Input
@@ -186,13 +164,16 @@ const ReferralForm = ({ organization, program, auth }) => {
                           type="text"
                           {...input}
                         />
+                        {meta.touched && meta.error && (
+                          <ErrorMessage msg={meta.error} />
+                        )}
                       </FormGroup>
                     )}
                   </Field>
                   <span className="phone-separate" aria-hidden="true">
                     &nbsp;- &nbsp;
                   </span>
-                  <Field name="number">
+                  <Field name="recipient_phone">
                     {({ input, meta }) => (
                       <FormGroup className="">
                         <Input
@@ -200,6 +181,9 @@ const ReferralForm = ({ organization, program, auth }) => {
                           type="text"
                           {...input}
                         />
+                        {meta.touched && meta.error && (
+                          <ErrorMessage msg={meta.error} />
+                        )}
                       </FormGroup>
                     )}
                   </Field>
@@ -209,15 +193,18 @@ const ReferralForm = ({ organization, program, auth }) => {
 
             <Row>
               <Col md="6">
-                <Field name="comments">
+                <Field name="message">
                   {({ input, meta }) => (
                     <FormGroup className="w-100">
-                      <Label className="w-50">{t("comments")}:</Label>
+                      <Label className="w-50">* {t("comments")}:</Label>
                       <Input
                         placeholder={t("type_here")}
                         type="textarea"
                         {...input}
                       />
+                      {meta.touched && meta.error && (
+                          <ErrorMessage msg={meta.error} />
+                        )}
                     </FormGroup>
                   )}
                 </Field>
