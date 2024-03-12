@@ -181,15 +181,6 @@ const EventForm = ({
                   }}
                 />
               </Col>
-              <Col md="6">
-                <FormGroup className='d-flex justify-content-between'>
-                  <Label>Enable This Event</Label>
-                  <Field
-                    name="enable"
-                    component={renderToggleButtonField}
-                  />
-                </FormGroup>
-              </Col>
             </Row>
             <Row>
               <Col md="6">
@@ -292,27 +283,35 @@ const EventForm = ({
               </Col>
             </Row>
             <Row>
-              <Col md="6">
+              <Col md="8">
+                <FormGroup className='d-flex justify-content-between'>
+                  <Label>Enable This Event</Label>
+                  <Field
+                      name="enable"
+                      component={renderToggleButtonField}
+                  />
+                </FormGroup>
+              </Col>
+              <Col md="8">
                 <FormGroup className='d-flex justify-content-between'>
                   <Label>Post to Social Wall</Label>
                   <Field
-                    name="post_to_social_wall"
-                    component={renderToggleButtonField}
+                      name="post_to_social_wall"
+                      component={renderToggleButtonField}
                   />
                 </FormGroup>
               </Col>
-            </Row>
-            <Row>
-              <Col md="6">
+              <Col md="8">
                 <FormGroup className='d-flex justify-content-between'>
                   <Label>Award Message Editable</Label>
                   <Field
-                    name="award_message_editable"
-                    component={renderToggleButtonField}
+                      name="award_message_editable"
+                      component={renderToggleButtonField}
                   />
                 </FormGroup>
               </Col>
             </Row>
+
             <Row>
               <Col md="12">
                 <Label>Award Message</Label>
