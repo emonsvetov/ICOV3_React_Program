@@ -38,7 +38,7 @@ const ManageAndReward = ({auth, program, organization}) => {
         </div>
         <div className='my-4 d-flex program-select justify-content-between'>
           <div className="d-flex">
-            <SelectProgram />
+            <SelectProgram showRefresh={true}  />
           </div>
           <div className='d-flex'>
             {/*<SearchIcon size={36} className='icon'/>*/}

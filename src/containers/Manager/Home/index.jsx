@@ -32,7 +32,7 @@ const Home = ({ program, organization }) => {
       <Container>
         <Row>
           <Col md={3} className="program-select d-flex">
-            <SelectProgram />
+            <SelectProgram showRefresh={false}  />
           </Col>
           <Col md={6}>
             <ManagerTabNavs />

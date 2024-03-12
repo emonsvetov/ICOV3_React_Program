@@ -72,7 +72,7 @@ const ManageAccount = ({ auth, program, organization }) => {
           </Col>
         </Row>
         <p>Funds Available for Reward: <strong>{toCurrency(program.balance)}</strong></p>
-        <div className="d-flex mb-3"><SelectProgram /></div>
+        <div className="d-flex mb-3"><SelectProgram showRefresh={true}  /></div>
         
         
 
