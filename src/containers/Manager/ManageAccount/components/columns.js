@@ -1,4 +1,5 @@
 import {toCurrency} from '@/shared/helpers'
+
 export const MONIES_AVAILABLE_POSTINGS_COLUMNS = [
     {
         Header: "Transaction Type",
@@ -14,6 +15,12 @@ export const MONIES_AVAILABLE_POSTINGS_COLUMNS = [
     {
         Header: "Date",
         accessor: "created_at",
+        Cell: ({ value }) => {
+            const date = new Date(value);
+            return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+        },
+        sortType: "datetime",
+        sortDescFirst: true,
     },
     {
         Header: "Amount",
