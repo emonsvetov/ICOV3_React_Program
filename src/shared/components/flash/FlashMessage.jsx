@@ -7,11 +7,11 @@ const FlashMessage = () => {
     const dispatch = useDispatch();
     const flashMessage = useSelector(state => state.flashMessage)
 
-    const {message, className, type} = flashMessage;
+    const {message, className, type, timeout} = flashMessage;
 
     useEffect(
         () => {
-          let timer1 = setTimeout(() => dispatch(sendFlashMessage(null, null)), 5000);
+          let timer1 = setTimeout(() => dispatch(sendFlashMessage(null, null)), timeout);
           return () => {
             clearTimeout(timer1);
           };
@@ -36,7 +36,7 @@ const FlashMessage = () => {
     return (
       <div className="w100 flash-message" style={style}>
         <div 
-        className={'flex-column align-items-center col-md-12 alert justify-content-center text-white ' + className} 
+        className={'flex-column align-items-center col-md-12 alert justify-content-center text-center ' + className} 
         role="alert">
           {message}
         </div>

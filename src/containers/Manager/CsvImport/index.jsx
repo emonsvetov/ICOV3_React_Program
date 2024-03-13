@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SelectProgram from "../components/SelectProgram";
 import { Col, Container, Row } from "reactstrap";
-import ImportType from "./components/ImportType";
+import Import from "./components/Import";
 
 import ImportDataTable from "./components/ImportDataTable";
 
@@ -26,7 +26,7 @@ const CsvImport = () => {
               Select Import Type and .csv File
             </h6>
             <div className="my-3 d-flex bg-muted ">
-              <ImportType />
+              <Import />
             </div>
           </Col>
         </Row>

@@ -1,28 +1,46 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useTranslation } from "react-i18next";
 import { Button, Col, Container, Row } from "reactstrap";
 import { TABLE_COLUMNS } from "./column";
 
 import { connect } from "react-redux";
 
-const ImportCsvTable = ({ organization, program, programs }) => {
-  const [isLoading, setIsLoading] = useState(false);
+const ImportCsvTable = ({ organization, program }) => {
+  const { t } = useTranslation();
+  const [isDownloading, setIsDownloading] = useState(false);
 
-  const download = async (filterValues) => {
-    // const response = await "Api"
-    // console.log(response)
+  const downloadTemplate = async () => {
+    setIsDownloading(true);
+    // const response = await axios.get(`organization/${organization.id}/program/${program.id}/import/download-template`);
+    axios.get(`organization/${organization.id}/program/${program.id}/import/download-template`,
+    {
+        responseType: 'arraybuffer',
+        headers: {
+            'Content-Type': 'application/octet-stream',
+            'Accept': 'application/csv'
+        }
+    })
+    .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `demo.csv`); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+        setIsDownloading(false);
+    })
+    .catch((error) => {
+      console.log(error)
+      setIsDownloading(false);
+    });
   };
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
 
   return (
     <>
       <Container>
-        <div className="table react-table report-table">
-          {isLoading && <p>Loading...</p>}
-
-          <table className="table table-striped report-table">
+        <div className="table react-table">
+          <table className="table table-striped">
             <thead>
               <tr>
                 {TABLE_COLUMNS.map((head) => (
@@ -32,14 +50,18 @@ const ImportCsvTable = ({ organization, program, programs }) => {
             </thead>
             <tbody className="table table--bordered"></tbody>
             <tfoot>
-              <Col>
-                <Row>
-                  <label className="p-1 text-center">
-                    Download Import Template
-                  </label>
-                  <Button className="bg-primary text-white">Download</Button>
-                </Row>
-              </Col>
+              <tr>
+                  <td colSpan={TABLE_COLUMNS.length} >
+                    <div style={{float:"right", textAlign:'center'}}>
+                      <label className="p-1 text-center">
+                        Download Import Template
+                      </label>
+                      <br />
+                      <Button className="bg-primary text-white" onClick={()=>downloadTemplate()}>Download</Button>
+                      {isDownloading && <p className="text-center">{t('Downloading.. please wait..')}</p>}
+                    </div>
+                  </td>
+              </tr>
             </tfoot>
           </table>
         </div>
