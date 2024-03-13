@@ -244,7 +244,7 @@ const RewardPeerPopup = ({
                               options={events}
                               clearable={false}
                               className="react-select"
-                              placeholder={"Select an Event"}
+                              placeholder={t("select_an_event")}
                               classNamePrefix="react-select"
                               value={event ? labelizeNamedData([event]) : null}
                             />
