@@ -14,11 +14,11 @@ export const CheckoutComplete = ({ template, giftCodesRedeemed }) => {
     return (
       <Container fluid>
         <h3>
-            {t("checkout")}: Your order is completed!
+            {t("checkout")}: {t("your_order_completed")}
         </h3>
         <div>
-            Your order has been completed successfully. Please print this page for your records.
-            You can view all of the gift codes that you have purchased by clicking on "My Gift Codes" in your navigation bar.
+            {t("order_completed_desc_1")}
+            {t("order_completed_desc_2")}
         </div>
         <Row className="mt-4">
           <div className="space-30"></div>
@@ -40,11 +40,11 @@ export const CheckoutComplete = ({ template, giftCodesRedeemed }) => {
     return (
      <Container fluid>
         <h3>
-            {t("checkout")}: Your order is completed!
+            {t("checkout")}: {t("your_order_completed")}
         </h3>
         <div>
-            Your order has been completed successfully. Please print this page for your records.
-            You can view all of the gift codes that you have purchased by clicking on "My Gift Codes" in your navigation bar.
+            {t("order_completed_desc_1")}
+            {t("order_completed_desc_2")}
         </div>
         <Row className="mt-4">
           <div className="space-30"></div>

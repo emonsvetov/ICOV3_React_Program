@@ -13,7 +13,7 @@ const PointsClear = ({ pointBalance, template, program }) => {
         <tbody>
           <tr>
             <td className="points-title text-uppercase">
-              {t("Points to Redeem")}:
+              {t("points_to_redeem")}:
             </td>
           </tr>
           <tr>
@@ -24,7 +24,7 @@ const PointsClear = ({ pointBalance, template, program }) => {
             <>
               <tr>
                 <td className="points-title text-uppercase">
-                  {t("Peer Points to Award")}:
+                  {t("peer_points_to_award")}:
                 </td>
               </tr>
               <tr>

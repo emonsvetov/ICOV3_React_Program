@@ -262,7 +262,7 @@ const RewardPeerPopup = ({
                       <>
                         <Row>
                           <Col md="6">
-                            <Label>Points</Label>
+                            <Label>{t('points')}</Label>
                           </Col>
                           <Col md="6">
                             <Field name="awarding_points">
