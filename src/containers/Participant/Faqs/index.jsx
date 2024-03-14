@@ -30,7 +30,7 @@ const Faqs = ({ template }) => {
   const OriginalFaqs = () => {
     return (
       <>
-        <Container fluid className="dashboard" style={{padding: "0px 200px 0px 200px"}}>
+        <Container fluid className="mt-5" style={{padding: "0px 200px 0px 200px"}}>
           <h2 className="my-3">{t("faqs")}</h2>
           {t("congratulations_faq")}
           <h6>{t("enjoy")}!</h6>

@@ -4,7 +4,21 @@ import { Link } from "react-router-dom";
 import {  Container, Row } from "reactstrap";
 import { useTranslation } from "react-i18next";
 
-const Footer = () => {
+const PARTICIPANT_FOOTER_LINKS = [
+  { to: "/participant/about", text: "about_us" },
+  { to: "/participant/privacy", text: "privacy" },
+  { to: "/participant/tnc", text: "terms_and_conditions" },
+  { to: "/participant/faqs", text: "faqs" }
+];
+
+const MANAGER_FOOTER_LINKS = [
+  { to: "/manager/about", text: "about_us" },
+  { to: "/manager/privacy", text: "privacy" },
+  { to: "/manager/tnc", text: "terms_and_conditions" },
+  { to: "/manager/faqs", text: "faqs" }
+];
+
+const Footer = ({links}) => {
   const { t } = useTranslation();
   return (
     <footer>
@@ -17,26 +31,13 @@ const Footer = () => {
           </div>
           <nav className="col-md-6 teritery-menu">
             <ul className="horizontal">
-              <li>
-                <Link to="/about" className="link">
-                  {t("about_us")}
-                </Link>
-              </li>
-              <li>
-                <Link to="/privacy" className="link">
-                  {t("privacy")}
-                </Link>
-              </li>
-              <li>
-                <Link to="/tnc" className="link">
-                  {t("terms_and_conditions")}
-                </Link>
-              </li>
-              <li>
-                <Link to="/faqs" className="link">
-                  {t("faqs")}
-                </Link>
-              </li>
+              {links.map((item, index) =>
+                <li key={index}>
+                  <Link to={item.to} className="link">
+                    {t(item.text)}
+                  </Link>
+                </li>
+              )}
               <li><a href={"https://incentco.zendesk.com/hc/en-us/requests/new"} className="link">{t("support_request")}</a>
               </li>
             </ul>
@@ -47,4 +48,11 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export const ParticipantFooter = () =>{
+  return <Footer links = {PARTICIPANT_FOOTER_LINKS} />
+};
+
+export const ManagerFooter = () =>{
+  return <Footer links = {MANAGER_FOOTER_LINKS} />
+  
+};
