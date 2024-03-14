@@ -311,7 +311,6 @@ const EventForm = ({
                 </FormGroup>
               </Col>
             </Row>
-
             <Row>
               <Col md="12">
                 <Label>Award Message</Label>
