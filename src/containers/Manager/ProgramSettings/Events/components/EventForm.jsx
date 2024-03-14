@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Input, Col, Row, FormGroup, Label, Modal, ModalBody } from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 import axios from 'axios';
-
-//CustomModules
-
 import {useDispatch, flashError, flashSuccess} from "@/shared/components/flash"
 import renderSelectField from '@/shared/components/form/Select'
 import {getEventTypes} from '@/services/getEventTypes'
@@ -363,5 +360,4 @@ const EventForm = ({
     </Form>
   )
 }
-
 export default EventForm;
