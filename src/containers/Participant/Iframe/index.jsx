@@ -11,11 +11,13 @@ const Iframe = ({ template, auth, program, organization }) => {
 
   let params = useParams();
   const getData = async ({categoryId}) => {
-    const url = axios.defaults.baseURL + `/organization/${organization?.id}/program/${program?.id}/digital-media-type/${categoryId}`;
+    const url = axios.defaults.baseURL + `/organization/${organization?.id}/program/${program?.id}/digital-media-type`;
     try {
       const response = await axios.get(url);
       if(response.data.length){
-        setIframe(response.data[0]);
+        let result = response.data.filter((item) => item.program_media_type_id == categoryId );
+        if(result)
+          setIframe(result[0]);
       }
     } catch (e) {
       throw new Error(`API error:${e?.message}`);
