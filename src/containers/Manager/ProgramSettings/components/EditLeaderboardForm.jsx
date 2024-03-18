@@ -31,6 +31,31 @@ const LeaderboardForm = ({ id, organization, program, rtl, theme, toggle }) => {
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(true);
 
+  const setLeaderboardTypeNames = (items) => {
+    let newData = [];
+    let str = '';
+
+    items.forEach((element) => {
+      switch (element.name) {
+        case 'Event Volume':
+          str = `# of Awards Received`;
+          break;
+
+        case 'Event Summary':
+          str = `Total Points Awarded`;
+          break;
+
+        default:
+          str = 'Goal Progress';
+          break;
+      }
+      newData.push({label: String(str), value: String(element.id)})
+      console.log(element, 'element');
+    });
+
+    return newData;
+  }
+
   const onSubmit = (values) => {
     let formData = {};
 
@@ -93,7 +118,8 @@ const LeaderboardForm = ({ id, organization, program, rtl, theme, toggle }) => {
           getLeaderboardTypes(organization.id, program.id)
             .then((items) => {
               if (mounted) {
-                setLeaderboardTypes(labelizeNamedData(items));
+                // setLeaderboardTypeNames(items);
+                setLeaderboardTypes(setLeaderboardTypeNames(items));
                 setLoading(false);
               }
             })
