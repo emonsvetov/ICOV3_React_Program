@@ -4,10 +4,10 @@ import CloseIcon from 'mdi-react/CloseIcon';
 import EditLeaderboardForm from './EditLeaderboardForm'
 import { Modal, Card, CardBody, CardHeader } from 'reactstrap';
 
-const EditLeaderboardModal = ({id, program, organization, isOpen, setOpen, toggle, rtl, theme}) => {
+const EditLeaderboardModal = ({program, organization, leaderboard, isOpen, setOpen, toggle, rtl, theme}) => {
 
   let props = {
-    id,
+    data: leaderboard,
     program,
     organization,
     rtl,

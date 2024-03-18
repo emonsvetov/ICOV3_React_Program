@@ -23,7 +23,7 @@ import renderSelectField from "@/shared/components/form/Select";
 import LeaderboardEventsTable from "./LeaderboardEventsTable";
 import { useTranslation } from "react-i18next";
 
-const LeaderboardForm = ({ id, organization, program, rtl, theme, toggle }) => {
+const LeaderboardForm = ({ organization, program, data, rtl, theme, toggle }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [leaderboardTypes, setLeaderboardTypes] = useState([]);
@@ -59,7 +59,6 @@ const LeaderboardForm = ({ id, organization, program, rtl, theme, toggle }) => {
         if (res.status == 200) {
           // alert(window.location.href);
           // window.location.reload()
-          toggle();
           dispatch(
             sendFlashMessage(
               "Leaderboard updated successfully!",
@@ -68,6 +67,7 @@ const LeaderboardForm = ({ id, organization, program, rtl, theme, toggle }) => {
             )
           );
           setLoading(false);
+          toggle(null, true)
         }
       })
       .catch((err) => {
@@ -82,31 +82,21 @@ const LeaderboardForm = ({ id, organization, program, rtl, theme, toggle }) => {
         setLoading(false);
       });
   };
-  useEffect(() => {
-    if (organization && program && id) {
-      let mounted = true;
-      setLoading(true);
-      getLeaderboard(organization.id, program.id, id)
-        .then((data) => {
-          console.log(data);
-          setLeaderboard(data);
-          getLeaderboardTypes(organization.id, program.id)
-            .then((items) => {
-              if (mounted) {
-                setLeaderboardTypes(labelizeNamedData(items));
-                setLoading(false);
-              }
-            })
-            .catch((error) => {
-              console.log(error.response.data);
-            });
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
-      return () => (mounted = false);
+  
+  useEffect( () => {
+    if( data?.id )
+    {
+      setLeaderboard(data)
     }
-  }, [organization, program, id]);
+    if( program?.id ) {
+      getLeaderboardTypes(organization.id, program.id)
+      .then( types => {
+        setLeaderboardTypes(labelizeNamedData(types))
+        setLoading(false)
+      })
+    }
+  }, [data, program])
+
 
   if (!leaderboard) return t("loading");
 

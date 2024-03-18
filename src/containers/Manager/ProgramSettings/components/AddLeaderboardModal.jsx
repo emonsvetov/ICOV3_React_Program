@@ -4,11 +4,13 @@ import AddLeaderboardForm from './AddLeaderboardForm'
 
 import { Modal, Card, CardBody, CardHeader } from 'reactstrap';
 
-const AddLeaderboardModal = ({program, organization, isOpen, setOpen, toggle}) => {
+const AddLeaderboardModal = ({program, organization, isOpen, setOpen, setLeaderboard, toggle}) => {
 
   let props = {
     program,
-    organization
+    organization,
+    setLeaderboard,
+    toggle
   }
 
   return (
