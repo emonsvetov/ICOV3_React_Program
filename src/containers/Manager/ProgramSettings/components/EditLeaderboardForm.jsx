@@ -50,7 +50,6 @@ const LeaderboardForm = ({ id, organization, program, rtl, theme, toggle }) => {
           break;
       }
       newData.push({label: String(str), value: String(element.id)})
-      console.log(element, 'element');
     });
 
     return newData;
