@@ -19,6 +19,7 @@ import ResendIcon from "mdi-react/AccountPlusIcon";
 import DeactivateIcon from "mdi-react/CancelIcon";
 import ActivateIcon from "mdi-react/RefreshIcon";
 import LockIcon from "mdi-react/LockIcon";
+import UnlockIcon from "mdi-react/LockOpenIcon";
 import PeerIcon from "mdi-react/PostItNoteAddIcon";
 import apiTableService from "@/services/apiTableService";
 import { useTranslation } from "react-i18next";
@@ -42,6 +43,7 @@ const ACTIONS = [
   { name: "Deactivate", link: "", icon: <DeactivateIcon /> },
   { name: "Activate", link: "", icon: <ActivateIcon /> },
   { name: "Lock", link: "", icon: <LockIcon /> },
+  { name: "Unlock", link: "", icon: <UnlockIcon /> },
   //{ name: "Import", link: "", icon: <ImportIcon /> }, TODO: add logic to check engagement settings
   { name: "Peer Allocation", link: "", icon: <PeerIcon /> }, 
 ];
@@ -120,6 +122,9 @@ const RenderActions = ({ row, onClickActionCb }) => {
         return false;
       }
       statusLabel = "Lock";
+    }
+    if (item.name === "Unlock" && currentStatus !== "Locked") {
+      return null;
     }
     return (
       <span
