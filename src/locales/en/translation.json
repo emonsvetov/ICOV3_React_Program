@@ -174,5 +174,8 @@
   "full_name": "Full name",
   "customer_feedback_survey": "Customer Feedback Survey",
   "let_us_know_experience": "Please let us know about your experience with our product and service.",
-  "no_gift_codes": "You do not have any Gift Codes at this time."
+  "no_gift_codes": "You do not have any Gift Codes at this time.",
+  "thank_you": "Thank you!",
+  "submission_received": "Your submission has been received!",
+  "please_wait": "Please wait..."
 }
