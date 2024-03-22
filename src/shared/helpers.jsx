@@ -45,6 +45,14 @@ export const patch4Select = (data, field, list, cb) => {
         }
     }
 }
+export const unpatchSelect = (values, fields, renameFields = null) => {
+  let clean = {}
+  fields.map( (field, i) => {
+      const fieldName = renameFields && renameFields[i] !== undefined && renameFields[i] ? renameFields[i] : field
+      clean[fieldName] = values?.[field]?.value
+  })
+  return {...values, ...clean}
+}
 export const getLabelByCode = (value, list) => {
     return list.find( item => String(item.value) === String(value) )?.label
 }
