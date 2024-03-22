@@ -167,6 +167,7 @@ const InviteParticipant = ({ auth, organization, rootProgram }) => {
                 </Field>
               </Col>
             </Row>
+            {awardLevelOptions.length > 1 && (
             <Row>
               <Col md="12">
                 <Field name="award_level">
@@ -191,6 +192,7 @@ const InviteParticipant = ({ auth, organization, rootProgram }) => {
                 </Field>
               </Col>
             </Row>
+            )}
             <div className="d-flex justify-content-center">
               <TemplateButton
                 type="submit"
