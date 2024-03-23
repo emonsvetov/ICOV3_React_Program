@@ -20,6 +20,9 @@ const ChangeStatusModal = ({isOpen, setOpen, toggle, participants, program, orga
   if(name == "Lock") {
     statusLabel = 'Locked'; status= 'Locked';
   }
+  if(name == "Unlock") {
+    statusLabel = 'Active'; status= 'Active';
+  }
 
   const onSubmit = values => {
     // console.log(JSON.stringify( values ))
