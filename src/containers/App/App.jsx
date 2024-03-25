@@ -26,6 +26,10 @@ import { FlashMessage } from "@/shared/components/flash";
 import { setDomain } from "@/redux/actions/domainActions";
 import { setTemplate } from "@/redux/actions/templateActions"; //from API
 import { setThemeAction } from "@/redux/actions/themeActions"; //Local Theme
+import useIdleTimeout from "@/shared/useIdleTimeout";
+import { Modal, ModalBody, ModalHeader } from "reactstrap";
+import TemplateButton from "@/shared/components/TemplateButton";
+import CloseIcon from "mdi-react/CloseIcon";
 
 // require('dotenv').config()
 axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL + "/api/v1";
@@ -63,6 +67,24 @@ const App = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [user, setUser] = useState(false);
   const [program, setProgram] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const timeout = 30 * 60 * 1_000; // 30m
+  const promptBeforeIdle = 30 * 1_000 // prompt before 30s
+
+  const onActive = () => {
+    setOpen(false)
+  }
+
+  const onPrompt = () => {
+    setOpen(true)
+  }
+
+  const handleStillHere = () =>{
+    idleTimer.activate()
+  }
+
+  const {idleTimer} = useIdleTimeout({ onActive, onPrompt, timeout, promptBeforeIdle })
 
   useEffect(() => {
       setIsLoading(false);
@@ -113,6 +135,7 @@ const App = () => {
     // console.log(authUser)
 
     if( authUser ) {
+      idleTimer.start();
       getAuthProgram( true )
       .then( authProgram => {
         // console.log(authProgram)
@@ -159,6 +182,37 @@ const App = () => {
     }
   };
 
+  const IdleModal = ({open, setOpen, handleStillHere}) =>{
+    const [remaining, setRemaining] = useState(false);
+
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setRemaining(Math.ceil(idleTimer.getRemainingTime() / 1000))
+      }, 1000)
+  
+      return () => {
+        clearInterval(interval)
+      }
+    })
+    
+    return(
+      <Modal isOpen={open} toggle={() => setOpen(true)}>
+      <div className="close cursor-pointer">
+        <CloseIcon onClick={handleStillHere} size={30} />
+      </div>
+      <ModalHeader>
+        Are you still here?
+      </ModalHeader>
+      <ModalBody>
+        <p>Logging out in {remaining} seconds</p>
+        <div className="d-flex justify-content-end">
+          <TemplateButton type="button" onClick={handleStillHere} text='Im still here' />
+        </div>
+      </ModalBody>
+    </Modal> 
+    );
+  }
+
   return (
     <Router>
       <Fragment>
@@ -173,6 +227,7 @@ const App = () => {
             )} */}
         <Routes />
         <FlashMessage />
+        <IdleModal open={open} setOpen={setOpen} handleStillHere={handleStillHere} />
       </Fragment>
     </Router>
   );
