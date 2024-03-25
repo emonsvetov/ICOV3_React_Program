@@ -334,6 +334,32 @@ const EventForm = ({
                 </Field>
               </Col>
             </Row>
+              <Row>
+                  <Col md="12">
+                      <h5>Event Awards Levels </h5>
+                      <table className="table">
+                          <thead>
+                          <tr>
+                              <th>ID</th>
+                              <th>Name</th>
+                              <th>Award Level ID</th>
+                              <th>Amount</th>
+
+                          </tr>
+                          </thead>
+                          <tbody>
+                          {event?.eventAwardsLevel.map((award, index) => (
+                              <tr key={index}>
+                                  <td>{award.id}</td>
+                                  <td>{award.name}</td>
+                                  <td>{award.award_level_id}</td>
+                                  <td>{award.amount}</td>
+                              </tr>
+                          ))}
+                          </tbody>
+                      </table>
+                  </Col>
+              </Row>
             <div className='d-flex justify-content-end'>
               <TemplateButton disabled={loading} type='submit' text={"Save"} />
             </div>
