@@ -7,7 +7,7 @@ const MerchantSliderClear = ( {data} ) => {
           <Carousel
               additionalTransfrom={0}
               arrows={true}
-              autoPlaySpeed={3000}
+              autoPlaySpeed={1800}
               centerMode={false}
               className=""
               containerClass=""
