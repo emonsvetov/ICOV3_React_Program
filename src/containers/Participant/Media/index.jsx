@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import { PDF } from "@/containers/Participant/Training/components/PDF";
-import { Col, Row } from "reactstrap";
+import { Col, Container, Row } from "reactstrap";
 import Sidebar from "@/containers/Layout/sidebar";
 import { useTranslation } from "react-i18next";
 import axios from 'axios'
@@ -29,34 +29,36 @@ const Media = ({ template, auth, program, organization }) => {
   }, [params]);
 
   return (
-    <Row className="mt-4">
-      <Col md={4}>
-        <Sidebar />
-      </Col>
+    <Container fluid>
+      <Row className="mt-4">
+        <Col md={4}>
+          <Sidebar />
+        </Col>
 
-      <Col md={8}>
-        <div className="pdf-link">
-          <h2 className="text-uppercase text-center mb-5"></h2>
-          <div className="d-flex flex-row mb-3 flex-wrap mt-4" >
-            {media.map((file, index) => {
-                const img = process.env.REACT_APP_API_STORAGE_URL + '/' + file.icon_path;
-                const link = process.env.REACT_APP_API_STORAGE_URL + '/' + file.path;;
-                const title = file.name;
-                const hrefStyle = {};
-                const iconStyle = {height: '150px'};
-                const contStyle = {margin: '15px'};
+        <Col md={8}>
+          <div className="pdf-link">
+            <h2 className="text-uppercase text-center mb-5"></h2>
+            <div className="d-flex flex-row mb-3 flex-wrap mt-4" >
+              {media.map((file, index) => {
+                  const img = process.env.REACT_APP_API_STORAGE_URL + '/' + file.icon_path;
+                  const link = process.env.REACT_APP_API_STORAGE_URL + '/' + file.path;;
+                  const title = file.name;
+                  const hrefStyle = {};
+                  const iconStyle = {height: '150px'};
+                  const contStyle = {margin: '15px'};
 
-                const props = {img, link, title, contStyle, hrefStyle, iconStyle};
-                return (
-                    <div className="p-1">
-                        <PDF props={props} />
-                    </div>
-                );
-            })}
+                  const props = {img, link, title, contStyle, hrefStyle, iconStyle};
+                  return (
+                      <div className="p-1">
+                          <PDF props={props} />
+                      </div>
+                  );
+              })}
+            </div>
           </div>
-        </div>
-      </Col>
-    </Row>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
