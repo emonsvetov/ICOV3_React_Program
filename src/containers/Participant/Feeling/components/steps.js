@@ -5,13 +5,10 @@ import RightIcon from "mdi-react/ArrowRightIcon";
 import LeftIcon from "mdi-react/ArrowLeftIcon";
 
 import { motion, useAnimationControls } from "framer-motion";
-import Editor from "@/shared/components/form/Editor";
 import { useTranslation } from "react-i18next";
+import { CKEditor } from "ckeditor4-react";
 
-const IMG_ANGRY = `${process.env.PUBLIC_URL}/theme/clear/img/feeling/angry.png`;
-const IMG_HAPPY = `${process.env.PUBLIC_URL}/theme/clear/img/feeling/happy.png`;
-const IMG_OK = `${process.env.PUBLIC_URL}/theme/clear/img/feeling/ok.png`;
-const IMG_SAD = `${process.env.PUBLIC_URL}/theme/clear/img/feeling/sad.png`;
+const IMG_EMOTION_DIR = `${process.env.PUBLIC_URL}/theme/clear/img/feeling/`;
 
 const LightIcon = () => {
   return (
@@ -53,7 +50,7 @@ const DarkIcon = () => {
   );
 };
 
-export const FourthStep = ({ swiper, setData, data }) => {
+export const FourthStep = ({ swiper, setData, data, errors, setErrors, onSubmit, loading }) => {
   const { t } = useTranslation();
   const [isFull, setIsFull] = useState(false);
   const [isDark, setIsDark] = useState(false);
@@ -70,12 +67,45 @@ export const FourthStep = ({ swiper, setData, data }) => {
   }, [isFull]);
 
   useEffect(() => {
-    setData({ ...data, msg: value });
+    setData({ ...data, comment: value });
   }, [value]);
 
-  const handleSubmit = () => {
-    console.log("data : last step", data);
-  };
+  const validate = () =>{
+    let validated = true;
+    let errors={};
+    if ( data.email == "" ||
+    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i.test(data.email)) {
+      errors.email = true;
+      validated = false;
+    }
+    else{
+      errors.email = null;
+    }
+
+    if ( data.first_name == "" || data.last_name == "") {
+      errors.name = true;
+      validated = false;
+    }
+    else{
+      errors.name = null;
+    }
+
+    if ( data.feeling == "") {
+      errors.how_feeling_today = true;
+      validated = false;
+    }
+    else{
+      errors.how_feeling_today = null;
+    }
+    setErrors(errors);
+    return validated; 
+  }
+
+  const handleSubmit = () =>{
+    if(validate()){
+      onSubmit()
+    }
+  }
 
   return (
     <div className="d-flex justify-content-center align-items-center h-100 ">
@@ -131,7 +161,23 @@ export const FourthStep = ({ swiper, setData, data }) => {
           </h3>
           <Row>
             <Col>
-              <Editor setValue={setValue} placeholder="" />
+              <CKEditor 
+                config={{
+                  toolbar: [
+                    ["EmojiPanel"],
+                    [ 'Source' ],
+                    [ 'Styles', 'Format', 'Font', 'FontSize' ],
+                    [ 'Bold', 'Italic' ],
+                    [ 'Undo', 'Redo' ],
+                  ],
+                  extraPlugins: "emoji",
+                  // toolbarLocation: 'bottom',
+                }}
+                onChange={(event) => {
+                  const content = event.editor.getData();
+                  setValue(content);
+                }}
+               />
             </Col>
           </Row>
         </div>
@@ -146,24 +192,29 @@ export const FourthStep = ({ swiper, setData, data }) => {
               style={{
                 width: "100%",
                 textAlign: "right",
-                borderRadius: "0 0 10px 10px",
+                borderRadius: "0 0 0 10px",
+                position:'relative',
+                margin:'inherit'
               }}
-              color="primary rounded-0  w-full text-left py-3 px-3 d-flex justify-content-start align-items-center gap-2"
+              color="rounded-0  w-full text-left py-3 px-3 d-flex justify-content-start align-items-center gap-2"
             >
               <LeftIcon />
               <span className="text-uppercase">{t("previous")}</span>
             </Button>
             <Button
               className="btn-blue"
+              disabled={loading}
               style={{
                 width: "100%",
                 textAlign: "right",
-                borderRadius: "0 0 10px 10px",
+                borderRadius: "0 0 10px 0",
+                position:'relative',
+                margin:'inherit'
               }}
-              onClick={() => handleSubmit()}
-              color="primary rounded-0  w-full text-left py-3 px-3 d-flex justify-content-end align-items-center gap-2"
+              onClick={handleSubmit}
+              color="rounded-0  w-full text-left py-3 px-3 d-flex justify-content-end align-items-center gap-2"
             >
-              <span className="text-uppercase">{t("submit")}</span>
+              <span className="text-uppercase">{ !loading ? t("submit") : t("please_wait")}</span>
             </Button>
           </div>
         )}
@@ -172,22 +223,39 @@ export const FourthStep = ({ swiper, setData, data }) => {
   );
 };
 
-export const ThirdStep = ({ swiper, setData, data }) => {
+export const ThirdStep = ({ swiper, setData, errors, setErrors, data }) => {
   const controls = useAnimationControls();
   const { t } = useTranslation();
 
+  const validate = () =>{
+    if ( data.email == "" ||
+    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i.test(data.email)) {
+      setErrors({
+        ...errors,
+        email: true
+      })
+      return false;
+    }
+    else{
+      setErrors({
+        ...errors,
+        email: null
+      })
+      return true;
+    }
+  }
+
   const handleNext = () => {
-    if (
-      data.email == "" ||
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i.test(data.email)
-    ) {
-      controls.start({ x: [-10, 8, 0, 6, -4, 0, 2, -1, 0] });
-    } else {
+    if(validate()){
       swiper.slideTo(3);
+    }
+    else{
+      controls.start({ x: [-10, 8, 0, 6, -4, 0, 2, -1, 0] });
     }
   };
 
   const handlePrev = () => {
+    validate()
     swiper.slideTo(1);
   };
 
@@ -203,8 +271,8 @@ export const ThirdStep = ({ swiper, setData, data }) => {
             borderRadius: "10px 10px 0 0",
           }}
         >
-          <h3 style={{ textAlign: "left" }} className="text-lg-left mb-4">
-            {t("email")}
+          <h3 style={{ textAlign: "left" }} className={errors.email?"text-danger" : ''}>
+            {t("email")} *
           </h3>
           <Row>
             <Col>
@@ -242,9 +310,11 @@ export const ThirdStep = ({ swiper, setData, data }) => {
             style={{
               width: "100%",
               textAlign: "right",
-              borderRadius: "0 0 10px 10px",
+              borderRadius: "0 0 0 10px",
+              position:'relative',
+              margin:'inherit'
             }}
-            color="primary rounded-0  w-full text-left py-3 px-3 d-flex justify-content-start align-items-center gap-2"
+            color="rounded-0  w-full text-left py-3 px-3 d-flex justify-content-start align-items-center gap-2"
           >
             <LeftIcon />
             <span className="text-uppercase">{t("previous")}</span>
@@ -255,9 +325,11 @@ export const ThirdStep = ({ swiper, setData, data }) => {
             style={{
               width: "100%",
               textAlign: "right",
-              borderRadius: "0 0 10px 10px",
+              borderRadius: "0 0 10px 0",
+              position:'relative',
+              margin:'inherit'
             }}
-            color="primary rounded-0  w-full text-left py-3 px-3 d-flex justify-content-end align-items-center gap-2"
+            color="rounded-0  w-full text-left py-3 px-3 d-flex justify-content-end align-items-center gap-2"
           >
             <span className="text-uppercase">{t("next")}</span>
             <RightIcon />
@@ -268,18 +340,42 @@ export const ThirdStep = ({ swiper, setData, data }) => {
   );
 };
 
-export const SecondStep = ({ swiper, setData, data }) => {
+export const SecondStep = ({ swiper, setData, errors, setErrors, data }) => {
   const controls = useAnimationControls();
   const { t } = useTranslation();
+
+  const validate = () =>{
+    if ( data.first_name == "" || data.last_name == "") {
+      setErrors({
+        ...errors,
+        name: true
+      })
+      return false;
+    }
+    else{
+      setErrors({
+        ...errors,
+        name: null
+      })
+      return true;
+    }
+  }
+
   const handleNext = () => {
-    if (data.firstName == "" && data.lastName == "") {
-      controls.start({ x: [-10, 8, 0, 6, -4, 0, 2, -1, 0] });
-    } else {
+    if(validate()){
       swiper.slideTo(2);
+    }
+    else{
+      controls.start({ x: [-10, 8, 0, 6, -4, 0, 2, -1, 0] });
     }
   };
 
+  const handleChange = (e) => {
+      setData({ ...data, [e.target.name]: e.target.value })
+  };
+
   const handlePrev = () => {
+    validate()
     swiper.slideTo(0);
   };
 
@@ -295,8 +391,8 @@ export const SecondStep = ({ swiper, setData, data }) => {
             borderRadius: "10px 10px 0 0",
           }}
         >
-          <h3 style={{ textAlign: "left" }} className="text-lg-left mb-4">
-            {t("name")}
+          <h3 style={{ textAlign: "left" }} className={errors.name?"text-danger" : ''}>
+            {t("name")} *
           </h3>
           <Row>
             <Col md={6}>
@@ -307,19 +403,17 @@ export const SecondStep = ({ swiper, setData, data }) => {
                 <Input
                   className="second__input"
                   style={{ height: 50 }}
-                  id="fname"
-                  name="fname"
-                  value={data.firstName}
+                  id="first_name"
+                  name="first_name"
+                  value={data.first_name}
                   type="text"
-                  onChange={(e) =>
-                    setData({ ...data, firstName: e.target.value })
-                  }
+                  onChange = {handleChange}
                 />
                 <Label
                   className={`${
-                    data.firstName === "" ? null : "label"
+                    data.first_name === "" ? null : "label"
                   } second__label`}
-                  for="fname"
+                  for="first_name"
                 >
                   {t("first_name")}
                 </Label>
@@ -335,19 +429,17 @@ export const SecondStep = ({ swiper, setData, data }) => {
                   style={{
                     height: 50,
                   }}
-                  id="lname"
-                  name="lname"
-                  value={data.lastName === "" ? null : data.lastName}
+                  id="last_name"
+                  name="last_name"
+                  value={data.last_name === "" ? null : data.last_name}
                   type="text"
-                  onChange={(e) =>
-                    setData({ ...data, lastName: e.target.value })
-                  }
+                  onChange = {handleChange}
                 />
                 <Label
                   className={`${
-                    data.lastName === "" ? null : "label"
+                    data.last_name === "" ? null : "label"
                   } second__label`}
-                  for="lname"
+                  for="last_name"
                 >
                   {t("last_name")}
                 </Label>
@@ -365,9 +457,11 @@ export const SecondStep = ({ swiper, setData, data }) => {
             style={{
               width: "100%",
               textAlign: "right",
-              borderRadius: "0 0 10px 10px",
+              borderRadius: "0 0 0 10px",
+              position:'relative',
+              margin:'inherit'
             }}
-            color="primary rounded-0  w-full text-left py-3 px-3 d-flex justify-content-start align-items-center gap-2"
+            color="rounded-0  w-full text-left py-3 px-3 d-flex justify-content-start align-items-center gap-2"
           >
             <LeftIcon />
             <span className="text-uppercase">{t("previous")}</span>
@@ -378,9 +472,11 @@ export const SecondStep = ({ swiper, setData, data }) => {
             style={{
               width: "100%",
               textAlign: "right",
-              borderRadius: "0 0 10px 10px",
+              borderRadius: "0 0 10px 0",
+              position:'relative',
+              margin:'inherit'
             }}
-            color="primary rounded-0  w-full text-left py-3 px-3 d-flex justify-content-end align-items-center gap-2"
+            color="rounded-0  w-full text-left py-3 px-3 d-flex justify-content-end align-items-center gap-2"
           >
             <span className="text-uppercase">{t("next")}</span>
             <RightIcon />
@@ -391,129 +487,100 @@ export const SecondStep = ({ swiper, setData, data }) => {
   );
 };
 
-export const FirstStep = ({ swiper, setData, data }) => {
+export const FirstStep = ({ swiper, setData, errors, setErrors, data }) => {
   // const [isFull, setIsFull] = useState(false);
   // const handleSize = () => {
   //   setIsFull(!isFull);
   // };
   const controls = useAnimationControls();
   const { t } = useTranslation();
+  
+  const validate = () =>{
+    if ( data.feeling == "") {
+      setErrors({
+        ...errors,
+        how_feeling_today: true
+      })
+      return false;
+    }
+    else{
+      setErrors({
+        ...errors,
+        how_feeling_today: null
+      })
+      return true;
+    }
+  }
   const handleNext = () => {
-    if (data.feeling == "") {
-      controls.start({ x: [-10, 8, 0, 6, -4, 0, 2, -1, 0] });
-    } else {
+    if(validate()){
       swiper.slideTo(1);
     }
+    else{
+      controls.start({ x: [-10, 8, 0, 6, -4, 0, 2, -1, 0] });
+    }
   };
+
+  const handleSetEmotion = (emotion) => {    
+    setData({
+      ...data,
+      feeling: emotion
+    })
+    setErrors({
+      ...errors,
+      how_feeling_today: null
+    })
+    swiper.slideTo(1);
+  };
+
+  const EmotionPanel = ({emotion}) =>{
+    return (
+      <Col onClick={() =>handleSetEmotion(emotion)}
+        className="d-flex flex-column align-items-center gap-2 justify-content-center border-secondary border rounded p-4 position-relative cursor-pointer ">
+        <div className="bg-transparent ">
+            <Input
+              name="feeling"
+              className="position-absolute cursor-pointer "
+              style={{ top: 12, left: 12 }}
+              value={emotion}
+              checked={data.feeling == emotion}
+              type="radio"
+            />
+            <img src={`${IMG_EMOTION_DIR}${emotion}.png`} alt={emotion} className="mx-auto" />
+            <span className="" style={{ fontSize: 20, fontWeight: "bold" }}>
+              {t(emotion)}
+            </span>
+        </div>
+      </Col>
+    )
+  }
 
   return (
     <div className="d-flex justify-content-center align-items-center h-100 ">
       <motion.div
         animate={controls}
         transition={{ ease: "easeInOut", type: "spring" }}
-        className="d-flex flex-column"
+        className="d-flex flex-column bg-white shadow position-relative"
+        style={{
+          width: 940,
+          height: "auto",
+          padding: 40,
+          borderRadius: "10px 10px 0 0",
+        }}
       >
-        <motion.div
-          className="bg-white shadow position-relative"
-          style={{
-            width: 940,
-            height: "auto",
-
-            padding: 40,
-            borderRadius: "10px 10px 0 0",
-          }}
-        >
-          {/* <Button
-            color="secondary"
-            style={{ borderRadius: "100%", top: 30, right: 30 }}
-            onClick={handleSize}
-            className="position-absolute  btn-block"
-          >
-            <MaximizeIcon />
-          </Button> */}
-          <h4 style={{ textAlign: "left" }} className="">
-            {t("how_feeling_today")}*
-          </h4>
-          <Row className="feeling-wrapper mt-4 gap-4">
-            <Col className="d-flex flex-column align-items-center gap-2 justify-content-center border-secondary border rounded p-4 position-relative ">
-              <Input
-                type="radio"
-                className="position-absolute cursor-pointer "
-                style={{ top: 12, left: 12 }}
-                onChange={(e) =>
-                  setData({
-                    ...data,
-                    feeling: e.target.checked ? "happy" : "",
-                  })
-                }
-                name="feeling"
-              />
-              <img src={IMG_HAPPY} alt="happy" className="mx-auto w-50" />
-              <span className="" style={{ fontSize: 20, fontWeight: "bold" }}>
-                {t("happy")}
-              </span>
-            </Col>
-            <Col className="d-flex flex-column align-items-center gap-2 justify-content-center border-secondary border rounded p-4 position-relative ">
-              <Input
-                type="radio"
-                className="position-absolute cursor-pointer "
-                name="feeling"
-                onChange={(e) =>
-                  setData({
-                    ...data,
-                    feeling: e.target.checked ? "ok" : "",
-                  })
-                }
-                style={{ top: 12, left: 12 }}
-              />
-              <img src={IMG_OK} alt="ok" className="mx-auto w-50" />
-              <span className="" style={{ fontSize: 20, fontWeight: "bold" }}>
-                {t("ok")}{" "}
-              </span>
-            </Col>
-            <Col className="d-flex flex-column align-items-center gap-2 justify-content-center border-secondary border rounded p-4 position-relative ">
-              <Input
-                type="radio"
-                className="position-absolute cursor-pointer "
-                name="feeling"
-                style={{ top: 12, left: 12 }}
-                onChange={(e) =>
-                  setData({
-                    ...data,
-                    feeling: e.target.checked ? "sad" : "",
-                  })
-                }
-              />
-              <img src={IMG_SAD} alt="sad" className="mx-auto w-50" />
-              <span className="" style={{ fontSize: 20, fontWeight: "bold" }}>
-                {t("sad")}
-              </span>
-            </Col>
-            <Col className="d-flex flex-column align-items-center gap-2 justify-content-center border-secondary border rounded p-4 position-relative ">
-              <Input
-                type="radio"
-                className="position-absolute cursor-pointer "
-                style={{ top: 12, left: 12 }}
-                onChange={(e) =>
-                  setData({
-                    ...data,
-                    feeling: e.target.checked ? "angry" : "",
-                  })
-                }
-                name="feeling"
-              />
-              <img src={IMG_ANGRY} alt="angry" className="mx-auto w-50" />
-              <span className="" style={{ fontSize: 20, fontWeight: "bold" }}>
-                {t("angry")}
-              </span>
-            </Col>
-          </Row>
-        </motion.div>
-
+        <h3 style={{ textAlign: "left" }} className={errors.how_feeling_today ? "text-danger" : ""}>
+          {t("how_feeling_today")} *
+        </h3>
+        <Row className="feeling-wrapper mt-4 gap-4">
+          <EmotionPanel emotion="happy" />
+          <EmotionPanel emotion="ok" />
+          <EmotionPanel emotion="sad" />
+          <EmotionPanel emotion="angry" />
+        </Row>
         <div
           className="bg-blue"
           style={{
             borderRadius: "0 0 10px 10px ",
+            marginTop: 40
           }}
         >
           <Button
@@ -526,7 +593,7 @@ export const FirstStep = ({ swiper, setData, data }) => {
             }}
             color="btn-block w-full text-left py-3 px-3 d-flex justify-content-end align-items-center gap-2"
           >
-            <span>{t("next")}</span>
+            <span className="text-uppercase">{t("next")}</span>
             <RightIcon />
           </Button>
         </div>
