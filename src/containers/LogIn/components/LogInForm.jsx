@@ -27,6 +27,7 @@ const LogInForm = () => {
   const [isManager, setIsManager] = useState(false);
   const [isParticipant, setIsParticipant] = useState(false);
   const [mediaTypes, setMediaTypes] = useState([]);
+  const [programOptions, setProgramOptions] = useState([]);
 
   const ssoLogin = async ssoToken => {
     setStep(1)
@@ -53,6 +54,35 @@ const LogInForm = () => {
         })
   };
 
+  const handleCheckRole = ( programId ) => {
+    setIsParticipant(false)
+    setIsManager(false)
+    if(hasRoleInProgram('Participant', programId, user)) {
+      setIsParticipant(true)
+    }
+    if(hasRoleInProgram('Manager', programId, user)) {
+      setIsManager(true)
+    }
+  };
+
+  const handleCountRole = ( ) => {
+    let count = 0;
+    let programId = null;
+    let role = '';
+    programOptions.forEach((option, index) =>{
+      programId = option.value;
+      if(hasRoleInProgram('Participant', programId, user)) {
+        role = 'participant';
+        count ++;
+      }
+      if(hasRoleInProgram('Manager', programId, user)) {
+        role = 'manager';
+        count ++;
+      }  
+    })
+    return [count, programId, role];
+  };
+
   useEffect(() => {
     if (ssoToken !== null && ssoToken !== undefined){
       ssoLogin(ssoToken)
@@ -63,9 +93,90 @@ const LogInForm = () => {
     // setUser(getAuthUser())
   }, [])
 
+  useEffect( () => {
+    if(user){
+      let options = getProgramOptions(user);
+      if(options.length > 0){
+        setProgramOptions(options)
+      }
+    }
+  }, [user])
+
+  useEffect( () => {
+    if(programOptions.length){
+      let option = programOptions[0];
+      setProgram(option);
+      let [roleCount, currentId, currentRole] = handleCountRole();
+      
+      if(roleCount == 1){
+        handleProgramLogin(currentId, currentRole)
+      }
+      else{
+        handleCheckRole(option.value);
+        setStep(1)
+      }
+    }
+  }, [programOptions])
+
   const onClickForgotLink = (e) => {
     e.preventDefault();
     setStep(3);
+  }
+
+  const handleProgramLogin = async( programId, loginAs ) =>{
+    // let loginAs = '';
+    let data = {
+      role: loginAs
+    }
+    // console.log(data);
+    // return;
+    // setLoading(true)
+    axios.post(`/organization/${organization.id}/program/${programId}/login`, data, {
+      headers: {"Authorization" : `Bearer ${accessToken}`}
+    })
+    .then( (res) => {
+      console.log(res)
+      // console.log(res.status == 200)
+      if(res.status === 200)  {
+        if( res.data?.program && res.data?.role)  {
+          // user.programId = res.data.programId
+          user.loginAs = res.data.role
+          // console.log(user.loginAs)
+          login({
+            user,
+            access_token: accessToken,
+            program: res.data.program,
+            rootProgram: res.data.program,
+            organization: organization
+          })
+          let sendTo = '/'
+          if( user.loginAs.name === 'Manager')  {
+            sendTo = '/manager/home'
+            var t = setTimeout(window.location = sendTo, 500);
+
+          } else  if( user.loginAs.name === 'Participant')  {
+            sendTo = '/participant/home'
+            axios.get(`/organization/${organization.id}/program/${programId}/digital-media-type`, {
+              headers: {"Authorization" : `Bearer ${accessToken}`}
+            })
+                .then(  (res) => {
+                    localStorage.setItem(MEDIA_TYPES, JSON.stringify(res.data));
+                    var t = setTimeout(window.location = sendTo, 500)
+                });
+          }
+        } else  {
+          alert("Invalid Program")
+        }
+        setLoading(false)
+      }
+    })
+    .catch( err => {
+      // console.log(err.responseText)
+      console.log(err.response.data)
+      // dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
+      flash422(dispatch, err.response.data)
+      setLoading(false)
+    })
   }
 
   const CardFormLogin = ()  => {
@@ -117,10 +228,9 @@ const LogInForm = () => {
               //   // alert('Is Participant');
               //   setIsParticipant(true)
               // }
-              setStep(1)
-              setUser(res.data.user)
+              setAccessToken(res.data.access_token) 
               setOrganization(res.data.user.organization)
-              setAccessToken(res.data.access_token)
+              setUser(res.data.user)
               // var t = setTimeout(window.location = '/participant/home', 500)
               setLoading(false)
             }
@@ -194,7 +304,7 @@ const LogInForm = () => {
       let loginAs = ''
 
       // console.log(user.programRoles)
-      const programOptions = getProgramOptions(user)
+      // const programOptions = getProgramOptions(user)
 
       const validate = values => {
         let errors = {};
@@ -202,71 +312,15 @@ const LogInForm = () => {
         errors.program = "Select a program";
         return errors;
       }
+      
       const onSubmit = async values => {
-        let data = {
-          role: loginAs
-        }
-        // console.log(data);
-        // return;
-        // setLoading(true)
-        axios.post(`/organization/${organization.id}/program/${program.value}/login`, data, {
-          headers: {"Authorization" : `Bearer ${accessToken}`}
-        })
-        .then( (res) => {
-          console.log(res)
-          // console.log(res.status == 200)
-          if(res.status === 200)  {
-            if( res.data?.program && res.data?.role)  {
-              // user.programId = res.data.programId
-              user.loginAs = res.data.role
-              // console.log(user.loginAs)
-              login({
-                user,
-                access_token: accessToken,
-                program: res.data.program,
-                rootProgram: res.data.program,
-                organization: organization
-              })
-              let sendTo = '/'
-              if( user.loginAs.name === 'Manager')  {
-                sendTo = '/manager/home'
-                var t = setTimeout(window.location = sendTo, 500);
-
-              } else  if( user.loginAs.name === 'Participant')  {
-                sendTo = '/participant/home'
-                axios.get(`/organization/${organization.id}/program/${program.value}/digital-media-type`, {
-                  headers: {"Authorization" : `Bearer ${accessToken}`}
-                })
-                    .then(  (res) => {
-                        localStorage.setItem(MEDIA_TYPES, JSON.stringify(res.data));
-                        var t = setTimeout(window.location = sendTo, 500)
-                    });
-              }
-            } else  {
-              alert("Invalid Program")
-            }
-            setLoading(false)
-          }
-        })
-        .catch( err => {
-          // console.log(err.responseText)
-          console.log(err.response.data)
-          // dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
-          flash422(dispatch, err.response.data)
-          setLoading(false)
-        })
+        let programId = values.program?.value;
+        handleProgramLogin(programId, loginAs);
       };
 
       const onSelectProgram = (selectedOption) => {
         // alert(JSON.stringify(selectedOption))
-        setIsParticipant(false)
-        setIsManager(false)
-        if(hasRoleInProgram('Participant', selectedOption.value, user)) {
-          setIsParticipant(true)
-        }
-        if(hasRoleInProgram('Manager', selectedOption.value, user)) {
-          setIsManager(true)
-        }
+        handleCheckRole(selectedOption.value);
         setProgram( selectedOption )
       };
 
