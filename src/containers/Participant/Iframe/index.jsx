@@ -33,11 +33,11 @@ const Iframe = ({ template, auth, program, organization }) => {
   return (
     <Container fluid>
       <Row className="mt-4">
-        <Col md={2}>
+        <Col lg={3} md={5}>
           <Sidebar />
         </Col>
 
-        <Col md={10}>
+        <Col lg={9} md={7}>
           <div className="pdf-link">
             <h2 className="text-uppercase text-center mb-5"></h2>
             <div className="d-flex flex-row mb-3 flex-wrap mt-4 align-items-center" >
