@@ -37,7 +37,7 @@ const Iframe = ({ template, auth, program, organization }) => {
           <Sidebar />
         </Col>
 
-        <Col md={8}>
+        <Col md={10}>
           <div className="pdf-link">
             <h2 className="text-uppercase text-center mb-5"></h2>
             <div className="d-flex flex-row mb-3 flex-wrap mt-4 align-items-center" >
