@@ -17,10 +17,10 @@ const BrowseMerchants = ({ template }) => {
       <Container fluid>
         <Row className="mt-4">
           <div className="space-30"></div>
-          <Col md={4}>
+          <Col md={3}>
             <Sidebar />
           </Col>
-          <Col md={8} className="">
+          <Col md={9} className="">
             <p className="fw-bold pb-3">{t("browse_merchant_desc")}</p>
             <OurMerchants />
           </Col>
