@@ -348,8 +348,8 @@ export const ThirdStep = ({ swiper, setData, data }) => {
   const { t } = useTranslation();
   const controls = useAnimationControls();
   const options = [
-    { value: 1, label: "Yes" },
-    { value: 0, label: "No" },
+    { value: 1, label: t("yes") },
+    { value: 0, label: t("no") },
   ];
   const StatusOptions = () =>
     options.map((item, index) => {

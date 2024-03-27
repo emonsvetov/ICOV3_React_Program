@@ -3,17 +3,17 @@ import PointsSummaryTable from "./PointsSummaryTable";
 import { useTranslation } from "react-i18next";
 import {connect} from "react-redux";
 
-const SUMMARY_LABELS = [
-  { index: "balance", text: "Your Points Balance", value: 0 },
-  { index: "redeemed", text: "Points Redeemed", value: 0 },
-  { index: "expired", text: "Points Expired", value: 0 },
-];
-
 const PointsSummary = ({ program, pointBalance, myPoints }) => {
 
   // console.log(pointBalance)
 
   const { t } = useTranslation();
+
+  const SUMMARY_LABELS = [
+    { index: "balance", text: t("your_points_balance"), value: 0 },
+    { index: "redeemed", text: t("points_redeemed"), value: 0 },
+    { index: "expired", text: t("points_expired"), value: 0 },
+  ];
 
   const factor_valuation = program.factor_valuation
   let points_summary = myPoints.points_summary
@@ -22,7 +22,7 @@ const PointsSummary = ({ program, pointBalance, myPoints }) => {
   points_summary = [
     ...points_summary, 
     {
-      'name': 'Points Reclaimed',
+      'name': t('points_reclaimed'),
       'points': parseInt(myPoints.points_reclaimed * factor_valuation)
     }
   ]

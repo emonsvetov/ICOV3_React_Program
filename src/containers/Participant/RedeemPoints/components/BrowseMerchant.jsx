@@ -3,6 +3,7 @@ import { Col, Row } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { getMerchants } from "@/services/program/getMerchants";
+import {useTranslation} from "react-i18next";
 
 // const getMerchants = () =>{
 //     let array = [];
@@ -17,6 +18,7 @@ import { getMerchants } from "@/services/program/getMerchants";
 
 const BrowseMerchant = ({ organization, program }) => {
   const [merchants, setMerchants] = useState([]);
+  const {t} = useTranslation();
 
   useEffect(() => {
     if (organization && program) {
@@ -33,7 +35,7 @@ const BrowseMerchant = ({ organization, program }) => {
   //   console.log(LOGO_PUBLIC_URL)
   return (
     <div className="browse-merchants">
-      <h5>Our Merchants</h5>
+      <h5>{t('our_merchants')}</h5>
       <Row className="merchants-thumbnail">
         {merchants.map((item, index) => {
           return (

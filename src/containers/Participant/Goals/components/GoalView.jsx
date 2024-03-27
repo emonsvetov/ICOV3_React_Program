@@ -95,19 +95,19 @@ const GoalView = ({ template, organization, program }) => {
                           let value = '';
                           if (userGoal.id) {
                             switch (item.Header) {
-                              case 'Name':
+                              case 'name':
                                 value = userGoal.plan_name
                                 break;
-                              case 'Date Begin':
+                              case 'date_begin':
                                 value = new Date(userGoal.date_begin).toLocaleDateString("en-US", {})
                                 break;
-                              case 'Date End':
+                              case 'date_end':
                                 value = new Date(userGoal.date_end).toLocaleDateString("en-US", {})
                                 break;
-                              case 'Target':
+                              case 'target':
                                 value = Number(userGoal.target_value).toFixed(2)
                                 break;
-                              case 'Progress':
+                              case 'progress':
                                 value = `${Number(userGoal.calc_progress_percentage).toFixed(2)}%`
                                 break;
                               default:
@@ -116,7 +116,7 @@ const GoalView = ({ template, organization, program }) => {
                           }
                           return (
                             <tr key={index}>
-                              <td className="title-col">{item.Header}</td>
+                              <td className="title-col">{t(item.Header)}</td>
                               <td className="value">
                                 {value}
                               </td>
@@ -131,7 +131,7 @@ const GoalView = ({ template, organization, program }) => {
                       <tr>
                         {summary_columns.map((item, index) => (
                           <th key={index} className="title-col">
-                            {item.Header}
+                            {t(item.Header)}
                           </th>
                         ))}
                       </tr>

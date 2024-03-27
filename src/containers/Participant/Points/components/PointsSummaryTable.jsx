@@ -3,6 +3,7 @@ import { Table } from "reactstrap";
 import { connect } from "react-redux";
 import { useTable } from "react-table";
 import { SUMMARY_COLUMNS } from "./columns";
+import { useTranslation } from "react-i18next";
 
 const PointsSummaryTable = ({ table_data }) => {
   const columns = React.useMemo(() => SUMMARY_COLUMNS, []);
@@ -11,6 +12,7 @@ const PointsSummaryTable = ({ table_data }) => {
     columns,
     data,
   });
+  const { t } = useTranslation();
 
   return (
     <>
@@ -20,7 +22,7 @@ const PointsSummaryTable = ({ table_data }) => {
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th {...column.getHeaderProps()}>
-                  {column.render("Header")}
+                  {t( column.Header)}
                 </th>
               ))}
             </tr>

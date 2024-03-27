@@ -22,10 +22,11 @@ import {getSocialWallPosts} from '@/services/program/getSocialWallPosts'
 import Editor from '@/shared/components/form/Editor';
 import { getUsers } from "@/services/program/getUsers";
 import { SignalCellularNullSharp } from "@material-ui/icons";
+import { useTranslation } from "react-i18next";
 //DefaultComponent
 
 const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, program, organization, auth, setSocialWallPosts, swpGlobal, postType = 'comment', setPostType, users}) => {
-
+  const { t } = useTranslation();
   if( swpGlobal && swpGlobal?.newPostType ) {
     postType = swpGlobal.newPostType
   }
@@ -132,7 +133,7 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
     >
       <Card className="w-100">
         <CardHeader tag="h3">
-          Add a comment
+          {t('add_a_comment')}
 
           <Button className="btn btn-lg float-end" close onClick={toggle}/>
 
@@ -169,7 +170,7 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
                   </Col>
                 </Row>
                 <div className="d-flex justify-content-end">
-                  <Button color="danger" type="submit">Post</Button>
+                  <Button color="danger" type="submit">{t('post')}</Button>
                 </div>
               </form>
             )}

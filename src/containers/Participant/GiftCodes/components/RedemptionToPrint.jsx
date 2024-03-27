@@ -1,9 +1,12 @@
 import React from "react";
 import {createMarkup} from "@/shared/helpers";
+import { useTranslation } from "react-i18next";
 
 const storageUrl = `${process.env.REACT_APP_API_STORAGE_URL}/`
 
 export const RedemptionToPrint = React.forwardRef((props, ref) => {
+  const { t } = useTranslation();
+  
   return (
     <div ref={ref}>
       <div style={{padding: '15px'}}>
@@ -14,15 +17,15 @@ export const RedemptionToPrint = React.forwardRef((props, ref) => {
             </td>
             <td>
               <div><h5>{props.merchant?.name}</h5></div>
-              <div><h5>${parseFloat(props.sku_value).toFixed(2)}  Gift Code</h5></div>
+              <div><h5>${parseFloat(props.sku_value).toFixed(2)} {t('gift_code')}</h5></div>
               <div>&nbsp;</div>
-              <div>Redeem your gift code by visiting the following URL:</div>
+              <div>{t('redeem_code_by_visiting')}:</div>
               <a style={{color: 'blue'}} href={props.merchant?.website} >{props.merchant?.website}</a>
               <div>&nbsp;</div>
-              <div><b>Gift Code: </b>{props.code}</div>
-              <div><b>PIN: </b>{props.pin}</div>
+              <div><b>{t('gift_code')}: </b>{props.code}</div>
+              <div><b>{t('pin')}: </b>{props.pin}</div>
               <div>&nbsp;</div>
-              <div>Redemption Instructions</div>
+              <div>{t('redemption_instructions')}</div>
               <div className="right" dangerouslySetInnerHTML={createMarkup(props.merchant?.redemption_instruction)}/>
             </td>
           </tr>

@@ -1,6 +1,6 @@
 export const CART_COLUMNS = [
   {
-    Header: "Merchant",
+    Header: "merchant",
     accessor: "logo",
     Cell: ({ row, value }) => {
       return <img src={value} alt="logo" />;
@@ -11,61 +11,25 @@ export const CART_COLUMNS = [
     accessor: "name",
   },
   {
-    Header: "Gift Code Value",
+    Header: "gift_code_value",
     accessor: "giftCode",
   },
   {
-    Header: "Quantity",
+    Header: "quantity",
     accessor: "quantity",
   },
   {
-    Header: "Unit Price",
+    Header: "unit_price",
     accessor: "price",
     Cell: ({ row, value }) => {
-      return `${value} Points`;
+      return `${value}`;
     },
   },
   {
-    Header: "Total",
+    Header: "total",
     accessor: "total",
     Cell: ({ row, value }) => {
-      return `${value.toLocaleString()} Points`;
-    },
-  },
-];
-
-export const CHECKOUT_COLUMNS = [
-  {
-    Header: "Merchant",
-    accessor: "logo",
-    Cell: ({ row, value }) => {
-      return <img src={value} alt="logo" />;
-    },
-  },
-  {
-    Header: "",
-    accessor: "name",
-  },
-  {
-    Header: "Gift Code Value",
-    accessor: "giftCode",
-  },
-  {
-    Header: "Quantity",
-    accessor: "quantity",
-  },
-  {
-    Header: "Unit Price",
-    accessor: "price",
-    Cell: ({ row, value }) => {
-      return `${value} Points`;
-    },
-  },
-  {
-    Header: "Total",
-    accessor: "total",
-    Cell: ({ row, value }) => {
-      return `${value.toLocaleString()} Points`;
+      return `${value.toLocaleString()}`;
     },
   },
 ];

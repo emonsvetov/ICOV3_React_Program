@@ -19,6 +19,8 @@ const CartPage = ({ cart, program, pointBalance, template }) => {
     total_points: 0,
     total_dollar: 0,
   });
+
+
   const makeColumnData = (cart) => {
     // console.log(cart)
     if (!cart?.items) return [];
@@ -29,7 +31,7 @@ const CartPage = ({ cart, program, pointBalance, template }) => {
       obj.name = item.merchant_name;
       obj.giftCode = `$${parseFloat(item.redemption_value, 3).toFixed(
         2
-      )} Gift Code = ${item.redemption_value * program.factor_valuation}`;
+      )} ${t('gift_code')} = ${item.redemption_value * program.factor_valuation}`;
       obj.quantity = item.qty;
       obj.price = item.redemption_value * program.factor_valuation;
       obj.total = item.redemption_value * program.factor_valuation * item.qty;
@@ -76,7 +78,7 @@ const CartPage = ({ cart, program, pointBalance, template }) => {
                 <tr {...headerGroup.getHeaderGroupProps()}>
                   {headerGroup.headers.map((column) => (
                     <th {...column.getHeaderProps()}>
-                      {column.render("Header")}
+                      { t(column.Header) }
                     </th>
                   ))}
                 </tr>
@@ -103,14 +105,14 @@ const CartPage = ({ cart, program, pointBalance, template }) => {
                 <React.Fragment>
                   <tr>
                     <td colSpan={4}> {""}</td>
-                    <td> {"Total:"}</td>
+                    <td> {t("total")} :</td>
                     <td>
                       {cartObject.total_points?.toLocaleString()} {t("points")}
                     </td>
                   </tr>
                   <tr>
                     <td colSpan={4}> {""}</td>
-                    <td> {"Balance After Purchase:	:"}</td>
+                    <td> {t("balance_after_purchase")}::</td>
                     <td>
                       {pointBalance.points - cartObject.total_points}{" "}
                       {t("points")}
