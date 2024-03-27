@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from "react-redux";
-import { Row, Col, Table, Card, CardBody  } from 'reactstrap';
+import { Row, Col, Card, CardBody  } from 'reactstrap';
 import { useParams } from "react-router-dom";
 import InvoicesDataTable from "./components/InvoicesDataTable";
 import ViewInvoice from './components/ViewInvoice';
@@ -32,7 +32,7 @@ const Invoices = (props) => {
             throw new Error(`API error:${e?.message}`);
           }
         }
-      }
+    }
 
       useEffect(() => {
         if (props.organization) {
@@ -45,16 +45,16 @@ const Invoices = (props) => {
       }, [programs, props.organization])
 
     useEffect( () => {
-        if(invoiceId){
-            getInvoice(props.program?.organization_id, props.program?.id, invoiceId)
-            .then( res => {
-                setInvoice(res)
+        if( invoiceId ){
+            // getInvoice(props.program?.organization_id, props.program?.id, invoiceId)
+            // .then( res => {
+                setInvoice({id: invoiceId})
                 setStep(1)
-            })
+            // })
         }
     }, [props]);
 
-    if(invoiceId && !invoice) return 'Loading...'
+    if( invoiceId && !invoice ) return 'Loading...'
 
     props = {
         ...props,

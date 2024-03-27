@@ -1,7 +1,7 @@
 import React from "react";
 import ParticipantTopbar from "./topbar/Participant";
 import ManagerTopbar from "./topbar/Manager";
-import Footer from "./footer";
+import { ManagerFooter, ParticipantFooter } from "./footer";
 import { Outlet } from "react-router-dom";
 
 export const ParticipantLayout = () => (
@@ -10,7 +10,7 @@ export const ParticipantLayout = () => (
       <ParticipantTopbar />
       <Outlet />
     </main>
-    <Footer />
+    <ParticipantFooter />
   </>
 );
 
@@ -20,6 +20,6 @@ export const ManagerLayout = () => (
       <ManagerTopbar />
       <Outlet />
     </main>
-    <Footer />
+    <ManagerFooter />
   </>
 );

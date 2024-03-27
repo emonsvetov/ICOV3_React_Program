@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { isAuthenticated, getAuthUser } from "./auth";
-import Footer from "../Layout/footer";
+import { ParticipantFooter } from "../Layout/footer";
 
 export const PublicRoute = () => {
   // console.log('PublicRoute')
@@ -31,7 +31,7 @@ export const PublicRoute = () => {
       <main className="home">
         <Outlet />
       </main>
-      <Footer />
+      <ParticipantFooter />
     </>
   );
 };
