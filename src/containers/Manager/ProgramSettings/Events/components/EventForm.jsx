@@ -282,7 +282,6 @@ const EventForm = ({
                 </Field>
               </Col>
             </Row>
-          { program.uses_social_wall > 0 &&
             <Row>
               <Col md="8">
                 <FormGroup className='d-flex justify-content-between'>
@@ -293,6 +292,9 @@ const EventForm = ({
                   />
                 </FormGroup>
               </Col>
+              </Row>
+          { program.uses_social_wall > 0 &&
+              <Row>
               <Col md="8">
                 <FormGroup className='d-flex justify-content-between'>
                   <Label>Post to Social Wall</Label>
