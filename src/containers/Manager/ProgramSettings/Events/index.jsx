@@ -59,7 +59,6 @@ const Events = ({ program, organization, reload }) => {
 
   const onClickEditEvent = (eventId) => {
     getEvent(program.organization_id, program.id, eventId).then((item) => {
-      // console.log(item)
       setEvent(item);
       toggle("EditEvent");
       setLoading(false);
