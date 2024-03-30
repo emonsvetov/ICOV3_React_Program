@@ -8,7 +8,7 @@ import { Table } from "reactstrap";
 import { AWARD_HISTORY_DATA, AWARD_HISTORY_COLUMNS } from "./Mockdata";
 import { useTranslation } from "react-i18next";
 
-const AwardHistoryTable = ({ participant }) => {
+const AwardHistoryTable = ({ participant, events }) => {
   const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
@@ -49,7 +49,7 @@ const AwardHistoryTable = ({ participant }) => {
   // console.log(data)
   const { getTableProps, headerGroups, rows, prepareRow } = useTable({
     columns,
-    data: AWARD_HISTORY_DATA,
+    data: events,
   });
 
   if (loading) return t("loading");
