@@ -11,8 +11,7 @@ import CloseIcon from 'mdi-react/CloseIcon';
 
 import AwardHistoryTable from './AwardHistoryTable';
 
-const AwardHistoryPopup = ({participant, isOpen, setOpen, toggle}) => {
-
+const AwardHistoryPopup = ({participant, events, isOpen, setOpen, toggle}) => {
   return (
     <Modal className={`program-settings modal-2col modal-xl`} isOpen={isOpen} toggle={() => setOpen(true)}>
       
@@ -22,7 +21,7 @@ const AwardHistoryPopup = ({participant, isOpen, setOpen, toggle}) => {
           <Card className='w-100'>
             <CardHeader tag="h3">Award History</CardHeader>
             <CardBody>
-              <AwardHistoryTable participant={participant} />
+              <AwardHistoryTable participant={participant} events={events} />
             </CardBody>
         </Card>
     </Modal>
