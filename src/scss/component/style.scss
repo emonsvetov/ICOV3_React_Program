@@ -379,6 +379,18 @@ ul.horizontal {
             display: flex;
             position: absolute;
             top: 10%;
+            @media (min-width:769px) and (max-width:1024px) {
+                width: 40%;
+            }
+            @media (max-width:768px) {
+                width: 50%;
+            }
+            @media (max-width:500px) {
+                width: 70%;
+            }
+            @media (max-width:300px) {
+                width: 80%;
+            }
             .card{
                 background-color: white;
                 border-radius: 10px;
@@ -390,6 +402,18 @@ ul.horizontal {
             right: 35%;
             color: white;
             cursor: pointer;
+            @media (min-width:769px) and (max-width:1024px) {
+                right: 27%;
+            }
+            @media (max-width:768px) {
+                right: 19%;
+            }
+            @media (max-width:500px) {
+                right: 8%;
+            }
+            @media (max-width:300px) {
+                right: 2%;
+            }
         }
     }
     .home-merchant-wrapper{
@@ -1482,3 +1506,42 @@ footer{
   .caresoul-item {
     max-height: 500px;
   }
+
+main.participant{
+    .navbar-profilewrap{
+        @media (max-width:600px) {
+            padding-right: 20px;
+        }
+    }
+    #cart_menu{
+        // @media (max-width:600px) {
+        //     top:10px;
+        //     right:2px;
+        //     margin-right: 0px;
+        //     .s_text, .s_grand_total{
+        //         display:none;
+        //     }
+        //     .s_icon{
+        //         margin-top: 7px;
+        //     }
+        // }
+        @media (min-width:401px) and (max-width:537px) {
+            margin-right: 10px;
+        }
+        @media (max-width:400px) {
+            top:130px;
+            margin-right: 10px;
+        }
+    }
+    .topbar .navbar-top_row .navbar-toggler {
+        @media (max-width:768px) {
+            max-height: 32px;
+        }
+    }
+    .navbar-toggler-icon{
+        @media (max-width:768px) {
+            width: 1em;
+            height: 1em;
+        }
+    }
+}

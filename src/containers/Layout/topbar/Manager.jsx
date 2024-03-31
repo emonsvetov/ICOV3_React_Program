@@ -31,6 +31,7 @@ const ManagerTopbar = ({ template }) => {
     setOpen((prev) => !prev);
   }
   const onClickNavLink = () => {
+    alert("HERE")
     if( isOpen ) {
       setOpen(false)
     }
@@ -40,17 +41,11 @@ const ManagerTopbar = ({ template }) => {
   // if (!template) return t("loading");
   const Brand = `${process.env.REACT_APP_API_STORAGE_URL}/${template.small_logo}`;
 
-  const localStyles = {
-    // navbarTopRow: {
-    //   display:'flex'
-    // }
-  }
-
   return (
     <div className="topbar">
       <Container fluid className="topbar__wrapper">
         <Navbar color="" expand="md" fixed="" light>
-          <div style={localStyles.navbarTopRow} className="navbar-top_row">
+          <div className="navbar-top_row">
             <div className="navbar-brand-logowrap">
               <NavbarBrand href="/">
                 <img src={Brand} alt="brand-logo" />

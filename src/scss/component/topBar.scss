@@ -237,6 +237,18 @@ $gray-color: #c0c0c0;
             }
         }
     }
+    .language-bar{
+        @media (max-width:1024px) {
+            font-size: 0.70rem;
+        }
+        @media (max-width: 401px) {
+            font-size: 1rem;
+        }
+        .lang-select-class{
+            height: 20px;
+            min-height: 20px;
+        }
+    }
 }
 
 // .topbar__logo {

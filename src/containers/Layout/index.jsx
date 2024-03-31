@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 
 export const ParticipantLayout = () => (
   <>
-    <main>
+    <main className="participant">
       <ParticipantTopbar />
       <Outlet />
     </main>
