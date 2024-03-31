@@ -31,7 +31,6 @@ const ManagerTopbar = ({ template }) => {
     setOpen((prev) => !prev);
   }
   const onClickNavLink = () => {
-    alert("HERE")
     if( isOpen ) {
       setOpen(false)
     }
