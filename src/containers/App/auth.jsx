@@ -31,9 +31,9 @@ export const login = (data) => {
   localStorage.setItem(AUTH_ROOT_PROGRAM_KEY, JSON.stringify(data.program));
 };
 
-export const logout = (e) => {
+export const logout = (isIdle = false) => {
   // alert("Hello")
-  if (window.confirm("Are you sure to log out?")) {
+  if (isIdle || window.confirm("Are you sure to log out?")) {
     flushUserSession();
     window.location = "/login";
   }

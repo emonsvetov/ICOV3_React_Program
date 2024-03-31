@@ -93,6 +93,7 @@ const InviteParticipant = ({ auth, organization, rootProgram }) => {
             className="form d-flex flex-column justify-content-evenly"
             onSubmit={handleSubmit}
           >
+            {programOptions.length > 0 && (
             <Row>
               <Col md="12">
                 <Field
@@ -129,6 +130,7 @@ const InviteParticipant = ({ auth, organization, rootProgram }) => {
                 </Field>
               </Col>
             </Row>
+            )}
             <Row>
               <Col md="12">
                 <Field name="first_name">
@@ -193,6 +195,7 @@ const InviteParticipant = ({ auth, organization, rootProgram }) => {
                 </Field>
               </Col>
             </Row>
+            {awardLevelOptions.length > 1 && (
             <Row>
               <Col md="12">
                 <Field name="award_level">
@@ -217,6 +220,7 @@ const InviteParticipant = ({ auth, organization, rootProgram }) => {
                 </Field>
               </Col>
             </Row>
+            )}
             {unitNumberOptions && unitNumberOptions.length >0 && (
               <Row>
                 <Col md="12">

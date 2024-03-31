@@ -78,6 +78,22 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
     useState([]);
   const [goalMetProgramCallbacks, setGoalMetProgramCallbacks] = useState([]);
 
+  const EventList = events.map((event) =>
+      <Row>
+        <Col md="12">
+          <FormGroup className="d-flex justify-content-between">
+            <Label className="form-label">
+              {event.label}
+            </Label>
+            <Field
+              name={"event" + event.value}
+              component={renderToggleButtonField}
+            />
+          </FormGroup>
+        </Col>
+      </Row>
+  );
+
   useEffect(() => {
     getGoalPlanTypes().then((gptypes) => {
       setGoalPlanTypes(labelizeNamedData(gptypes));
@@ -192,7 +208,6 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
     goalPlanData["organization_id"] = program.organization_id;
     goalPlanData["program_id"] = program.id;
     console.log("submit");
-    // console.log(values); return;
     let {
       name,
       goal_measurement_label,
@@ -282,6 +297,15 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
     goalPlanData.exceeded_callback_id = exceeded_callback_id
       ? exceeded_callback_id.value
       : null;
+
+    let assignedEvents = []
+    events.map(event => {
+      if (!!values["event" + event.value]) {
+        assignedEvents.push(event.value);
+      }
+    });
+    goalPlanData.events = assignedEvents;
+
     //goalPlanData.created_by = 1;
     console.log(goalPlanData)
     setSaving(true);
@@ -995,6 +1019,15 @@ const GoalPlanForm = ({ program, goalplan, setOpen }) => {
                   </FormGroup>
                 </Col>
               </Row>
+
+              {/*Event Count Goal*/}
+              {goalplan?.goal_plan_type_id?.value == 4 && (
+                <p>
+                  <strong>Assigned Events</strong>
+                  {EventList}
+                </p>
+              )}
+
               <div className="d-flex justify-content-end">
                 <Button color="danger" type="submit" disabled={saving}>
                   Save Goal Plan

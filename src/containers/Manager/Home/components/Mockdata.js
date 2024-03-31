@@ -192,10 +192,12 @@ export const AWARD_HISTORY_COLUMNS = [
     {
         Header: "Value",
         accessor: "value",
+        Cell: ({ row, value }) => { return `${parseFloat(value).toFixed(0)}`},
     },
     {
         Header: "Dollar Value",
         accessor: "dollar_value",
+        Cell: ({ row, value }) => { return `$${parseFloat(value).toFixed(2)}`},
     },
 ]
 
