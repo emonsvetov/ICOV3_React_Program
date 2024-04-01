@@ -102,14 +102,7 @@ const SELECTION_COLUMN = {
 const RenderActions = ({ row, onClickActionCb }) => {
   return ACTIONS.map((item, index) => {
     let statusLabel = item.name;
-    //const currentStatus = row.original.status;
-    const currentStatus = row.original.status?.status
-      ? row.original.status.status
-      : null;
-    // if(item.name === 'Deactivate') {
-    //     const currentStatus = row.original.status.status;
-    //     statusLabel = currentStatus === 'Deactivated' ? 'Activate' : 'Deactivate'
-    // }
+    const currentStatus = row.original.status?.status ? row.original.status.status : null
     if (item.name === "Deactivate") {
       if (currentStatus === "Deactivated") {
         return false;
@@ -192,7 +185,6 @@ const ProgramParticipants = ({ program, organization }) => {
   useEffect(() => {
     if (action && participants) {
       doAction(action, participants);
-      // toggle(action)
     }
   }, [action, participants]);
 
@@ -218,10 +210,17 @@ const ProgramParticipants = ({ program, organization }) => {
     }
     setAction(name);
     setParticipants(rows);
-  };
+  }
 
   const onSelectEntry = (value) => {
+    const currentPageIndex = Math.floor(pageIndex * pageSize / value);
     setQueryPageSize(value);
+
+    if (currentPageIndex >= Math.ceil(users.count / value)) {
+      gotoPage(0);
+    } else {
+      gotoPage(currentPageIndex);
+    }
   };
 
   const onSelectStatus = (value) => {
@@ -303,8 +302,8 @@ const ProgramParticipants = ({ program, organization }) => {
         pageIndex: 0,
         pageSize: queryPageSize,
       },
-      manualPagination: false, // Tell the usePagination
-      pageCount: users ? totalPageCount : null,
+      manualPagination: true, // Tell the usePagination
+      pageCount: Math.ceil(users?.count / queryPageSize),
       autoResetSortBy: false,
       autoResetExpanded: false,
       autoResetPage: false,
@@ -476,10 +475,6 @@ const ProgramParticipants = ({ program, organization }) => {
                 {item.name}
               </DropdownItem>
             );
-            // }
-            // else{
-            //     return <DropdownItem  key={`status-dropdown-item-${index}`} onClick={() => onSelectStatus(item.name)}><input type="checkbox" style={{marginRight: '10px'}} />{item.name}</DropdownItem>
-            // }
           })}
         </DropdownMenu>
       </UncontrolledDropdown>
@@ -525,7 +520,7 @@ const ProgramParticipants = ({ program, organization }) => {
               pageCount={pageCount}
               setPageSize={setPageSize}
               manualPageSize={manualPageSize}
-              dataLength={users.results.length}
+              dataLength={users ? users.count : 0}
             />
           </>
         )}

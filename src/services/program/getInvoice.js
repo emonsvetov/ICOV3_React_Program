@@ -4,7 +4,7 @@ export const getInvoice = async (organizationId, programId, invoiceId) => {
         const response = await axios.get(
           `/organization/${organizationId}/program/${programId}/invoice/${invoiceId}`
         );
-        console.log(response)
+        // console.log(response)
         return response.data;
     } catch (e) {
         throw new Error(`API error:${e?.message}`);

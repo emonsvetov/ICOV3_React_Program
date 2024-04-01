@@ -15,6 +15,8 @@ import formValidation from "@/validation/addEvent"
 import TemplateButton from "@/shared/components/TemplateButton"
 import Tabs from "./Tabs"
 import { makeFormData } from './common'
+import AwardLevelModal from './AwardLevelModal';
+import {getEvent} from "@/services/program/getEvent";
 
 const EventForm = ({
   data,
@@ -28,6 +30,9 @@ const EventForm = ({
   let [event, setEvent] = useState(null);
   const [ledgerCodes, setLedgerCodes] = useState([]);
   const [eventTypeId, setEventTypeId] = useState( null );
+  const [programAwardLevels, setProgramAwardLevels] = useState( [] );
+    const [awardModalOpen, setAwardModalOpen] = useState(false);
+    const [programAwardLevel, sePprogramAwardLevel] = useState({});
 
   const onChangeEventType = (value) => {
     setEventTypeId(value.value);
@@ -40,11 +45,29 @@ const EventForm = ({
     })
   }
 
+    const getProgramAwardLevels = async () => {
+        const response = await axios.get(
+            `/organization/${data.organization_id}/program/${program.id}/program-award-levels`,
+        );
+        setProgramAwardLevels(response.data);
+    };
+
+    const createItems = async (fValue) => {
+        const response = await axios.post(
+            `/organization/${data.organization_id}/program/${program.id}/create-award-level`, fValue);
+        if (response.data.success){
+            // getDataItems();
+            // setAction('index');
+            // setAwardLevelName('');
+        }
+    };
+
   useEffect( () => {
     if( data?.id )
     {
       setEvent(data)
       setEventTypeId(data.event_type_id);
+        getProgramAwardLevels();
     }
     if( program?.id ) {
       getEventTypes(program.organization_id, program.id)
@@ -106,12 +129,12 @@ const EventForm = ({
   const onChangeAwardValue = ([field], state, { setIn, changeValue }) => {
     const v = field.target.value
     if( isNaN( v ) ) return;
-    if(field.target.name === 'max_awardable_amount')  
+    if(field.target.name === 'max_awardable_amount')
     {
       const field = state.fields["awarding_points"];
       field.change( program.factor_valuation *  v);
     }
-    else if(field.target.name === 'awarding_points')  
+    else if(field.target.name === 'awarding_points')
     {
       const field = state.fields["max_awardable_amount"];
       field.change(  v / program.factor_valuation );
@@ -119,20 +142,16 @@ const EventForm = ({
   }
 
   const setEventIcon = ([fieldName, fieldVal], state, {changeValue }) => {
-    // console.log(fieldName)
-    // console.log(fieldVal)
-    if(!event?.id) //If this is new!
+    if(!event?.id)
     {
       // // The fields changed in fields in above resets after closing the modal. I think this is related to Two modal opened, one after another or something??
       changeValue(state, 'event_icon_id', () => fieldVal.id);
       changeValue(state, fieldName, () => fieldVal);
     } else  {
-      // console.log(fieldVal)
       let newEvent = {...event, ...{'event_icon_id': fieldVal.id, [fieldName]: fieldVal}}
-      // console.log(newEvent)
       setEvent(newEvent)
     }
-    
+
     setIconModalOpen(false);
   }
 
@@ -151,6 +170,30 @@ const EventForm = ({
       event.awarding_points = program.factor_valuation * event.max_awardable_amount
     }
   }
+    const handleDeleteAwardLevel = (award) => {
+        axios.delete(`/organization/${program.organization_id}/program/${program.id}/event-award-level/${award.id}`, {data:award})
+            .then((res) => {
+                onClickEditEvent(event.id)
+            }).catch((err) => {
+        });
+    };
+
+    const handleAddAwardLevel = (award) => {
+        sePprogramAwardLevel(award);
+        setAwardModalOpen(true);
+    };
+    const handleAssignAwardLevel = () => {
+        getProgramAwardLevels();
+        onClickEditEvent(event.id)
+        setAwardModalOpen(false);
+    };
+
+    const onClickEditEvent = (eventId) => {
+        getEvent(program.organization_id, program.id, eventId).then((item) => {
+            setEvent(item);
+        });
+    };
+
   return (
     <Form
       keepDirtyOnReinitialize
@@ -180,15 +223,6 @@ const EventForm = ({
                     return value;
                   }}
                 />
-              </Col>
-              <Col md="6">
-                <FormGroup className='d-flex justify-content-between'>
-                  <Label>Enable This Event</Label>
-                  <Field
-                    name="enable"
-                    component={renderToggleButtonField}
-                  />
-                </FormGroup>
               </Col>
             </Row>
             <Row>
@@ -292,7 +326,19 @@ const EventForm = ({
               </Col>
             </Row>
             <Row>
-              <Col md="6">
+              <Col md="8">
+                <FormGroup className='d-flex justify-content-between'>
+                  <Label>Enable This Event</Label>
+                  <Field
+                      name="enable"
+                      component={renderToggleButtonField}
+                  />
+                </FormGroup>
+              </Col>
+              </Row>
+          { program.uses_social_wall > 0 &&
+              <Row>
+              <Col md="8">
                 <FormGroup className='d-flex justify-content-between'>
                   <Label>Post to Social Wall</Label>
                   <Field
@@ -302,8 +348,9 @@ const EventForm = ({
                 </FormGroup>
               </Col>
             </Row>
+          }
             <Row>
-              <Col md="6">
+              <Col md="8">
                 <FormGroup className='d-flex justify-content-between'>
                   <Label>Award Message Editable</Label>
                   <Field
@@ -332,6 +379,62 @@ const EventForm = ({
                 </Field>
               </Col>
             </Row>
+
+              <Row>
+                  <Col md="12">
+                      <h5>Event Awards Levels </h5>
+                      <table className="table">
+                          <thead>
+                          <tr>
+                              <th>Name</th>
+                              <th>Award Level ID</th>
+                              <th>Amount</th>
+                              <th></th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          {event?.eventAwardsLevel.map((award, index) => (
+                              <tr key={index}>
+                                  <td>{award.name}</td>
+                                  <td>{award.award_level_id}</td>
+                                  <td>{award.amount}</td>
+                                  <td>
+                                      <button type={'button'} style={{margin: 0}}
+                                              onClick={() => handleDeleteAwardLevel(award)}>Delete
+                                      </button>
+                                  </td>
+                              </tr>
+                          ))}
+                          </tbody>
+                      </table>
+                  </Col>
+              </Row>
+              <AwardLevelModal
+                  isOpen={awardModalOpen}
+                  toggle={() => setAwardModalOpen(false)}
+                  awardLevel={programAwardLevel}
+                  eventId={event?.id}
+                  handleAssign={handleAssignAwardLevel}
+                  organizationId = {data.organization_id}
+                  programId = {program.id}
+              />
+              <Row>
+                  <Col md="12">
+                      <h5>Awards Levels </h5>
+                      <table className="table">
+                          <tbody>
+                          {programAwardLevels.map((award, index) => (
+                              <tr key={index}>
+                                  <td>{award.name}</td>
+                                  <td style={{textAlign:'right'}}>
+                                      <button type={'button'} style={{margin:0}} onClick={() => handleAddAwardLevel(award)} >Assign</button>
+                                  </td>
+                              </tr>
+                          ))}
+                          </tbody>
+                      </table>
+                  </Col>
+              </Row>
             <div className='d-flex justify-content-end'>
               <TemplateButton disabled={loading} type='submit' text={"Save"} />
             </div>

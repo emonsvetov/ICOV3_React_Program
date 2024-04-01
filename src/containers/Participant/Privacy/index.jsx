@@ -1,13 +1,13 @@
 import React from "react";
-import { Col, Row } from "reactstrap";
+import { Col, Container, Row } from "reactstrap";
 import { useTranslation } from "react-i18next";
 
-const Calendar = () => {
+const Privacy = () => {
     const { t } = useTranslation();
     return (
-        <>
-            <Row className="mt-12">
-                <Col md={12} style={{padding: "0px 200px 50px 200px"}}>
+        <Container fluid className="mt-5" style={{padding: "0px 200px 50px 200px"}}>
+            <Row >
+                <Col md={12}>
                     <h2 className="mb-12">{t("privacy")}</h2>
                     <div id="terms-conditions-container">
                         <h4>Incentco LLC</h4>
@@ -153,8 +153,8 @@ const Calendar = () => {
                     </div>
                 </Col>
             </Row>
-        </>
+        </Container>
     );
 };
 
-export default Calendar;
+export default Privacy;

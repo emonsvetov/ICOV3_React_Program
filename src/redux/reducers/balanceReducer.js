@@ -1,12 +1,13 @@
 import { handleActions } from 'redux-actions';
 import { setPointBalance } from '../actions/balanceActions';
-
-const defaultState = {
-    points: 0,
-    amount: 0,
-    factor: 1,
-    peerBalance: 0
-};
+// const defaultState = {
+//     points: null,
+//     amount: null,
+//     factor: null,
+//     peerBalance: null,
+//     pointBalance:null
+// }
+const defaultState = null
 
 export default handleActions(
     {

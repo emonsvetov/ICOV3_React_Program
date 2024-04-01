@@ -1,17 +1,17 @@
 import React from "react";
-import {Col, Row} from "reactstrap";
+import {Col, Container, Row} from "reactstrap";
 import {useTranslation} from "react-i18next";
 
-const Calendar = () => {
+const About = () => {
     const {t} = useTranslation();
     return (
-        <>
-            <Row className="mt-12">
-                <Col md={12} style={{padding: "0px 200px 50px 200px"}}>
-                        <table align={"center"} style={{width: "80%"}} id="about-us-table" cellSpacing="0">
+        <Container fluid className="mt-5" style={{padding: "0px 200px 50px 200px"}}>
+            <Row >
+                <Col md={12} >
+                        <table align={"center"} style={{width: "100%"}} id="about-us-table" cellSpacing="0">
                             <thead>
                             <tr>
-                                <th><h2 className="mb-5">{t("about")}</h2></th>
+                                <th><h2 className="mb-5">{t("about_us")}</h2></th>
                             </tr>
                             <tr>
                                 <th style={{width: "50%", backgroundColor: "#0066cc", color: "white"}}> Quick Facts</th>
@@ -68,8 +68,8 @@ const Calendar = () => {
                     <div style={{marginBottom: "50px"}}></div>
                 </Col>
             </Row>
-        </>
+        </Container>
     );
 }
 
-export default Calendar;
+export default About;

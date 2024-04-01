@@ -50,7 +50,7 @@ const Home = ({ auth, program, template }) => {
                     </div>
                     <SlideOutMenu isFixed={false} />
                 </div>
-                <div className="text-center mt-5 mb-5" dangerouslySetInnerHTML={participant_homepage_message}></div>
+                <div className="text-center mt-5 mb-5" style={{paddingLeft:'30px', paddingRight:'30px'}} dangerouslySetInnerHTML={participant_homepage_message}></div>
                 {/* <Container className={`${template.name} mt-5`} fluid>
                     <Row>
                         <Col md={3}>
@@ -70,7 +70,7 @@ const Home = ({ auth, program, template }) => {
                 </Container>
                 <div className="mt-5">
                     <h6 className="m-3">
-                        {t("select_a_merchant_to_redeem_your_points")}
+                        {/* {t("select_a_merchant_to_redeem_your_points")} */}
                     </h6>
                     <MerchantSlider />
                 </div>

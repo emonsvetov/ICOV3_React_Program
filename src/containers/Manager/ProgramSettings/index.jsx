@@ -79,7 +79,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
       <Container>
         <Row className="mt-4">
           <Col md={10}>
-            <h3>Program Settings</h3>
+            <h3>Rewards Events</h3>
             <span>
               Customize your settings for your own unique program. You can
               create and/or select reward events and insert the default reward
@@ -87,7 +87,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
               reward message for each event.
             </span>
             <Col md={4} className="d-flex program-select my-3">
-              <SelectProgram />
+              <SelectProgram showRefresh={true}/>
             </Col>
           </Col>
         </Row>
