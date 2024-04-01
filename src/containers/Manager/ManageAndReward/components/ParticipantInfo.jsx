@@ -102,6 +102,7 @@ const ParticipantInfo = ({ participant, auth, program }) => {
                             <option key={index} value={option.id} selected={participant.award_level === option.name}>{option.name}</option>
                         ))}
                     </select>
+                    <button style={{marginLeft:10}}>Save</button>
                 </Col>
             </Row>
         </>
