@@ -106,12 +106,12 @@ const EventForm = ({
   const onChangeAwardValue = ([field], state, { setIn, changeValue }) => {
     const v = field.target.value
     if( isNaN( v ) ) return;
-    if(field.target.name === 'max_awardable_amount')  
+    if(field.target.name === 'max_awardable_amount')
     {
       const field = state.fields["awarding_points"];
       field.change( program.factor_valuation *  v);
     }
-    else if(field.target.name === 'awarding_points')  
+    else if(field.target.name === 'awarding_points')
     {
       const field = state.fields["max_awardable_amount"];
       field.change(  v / program.factor_valuation );
@@ -132,7 +132,7 @@ const EventForm = ({
       // console.log(newEvent)
       setEvent(newEvent)
     }
-    
+
     setIconModalOpen(false);
   }
 
@@ -180,15 +180,6 @@ const EventForm = ({
                     return value;
                   }}
                 />
-              </Col>
-              <Col md="6">
-                <FormGroup className='d-flex justify-content-between'>
-                  <Label>Enable This Event</Label>
-                  <Field
-                    name="enable"
-                    component={renderToggleButtonField}
-                  />
-                </FormGroup>
               </Col>
             </Row>
             <Row>
@@ -291,8 +282,18 @@ const EventForm = ({
                 </Field>
               </Col>
             </Row>
+          { program.uses_social_wall > 0 &&
             <Row>
-              <Col md="6">
+              <Col md="8">
+                <FormGroup className='d-flex justify-content-between'>
+                  <Label>Enable This Event</Label>
+                  <Field
+                      name="enable"
+                      component={renderToggleButtonField}
+                  />
+                </FormGroup>
+              </Col>
+              <Col md="8">
                 <FormGroup className='d-flex justify-content-between'>
                   <Label>Post to Social Wall</Label>
                   <Field
@@ -302,8 +303,9 @@ const EventForm = ({
                 </FormGroup>
               </Col>
             </Row>
+          }
             <Row>
-              <Col md="6">
+              <Col md="8">
                 <FormGroup className='d-flex justify-content-between'>
                   <Label>Award Message Editable</Label>
                   <Field
@@ -332,6 +334,32 @@ const EventForm = ({
                 </Field>
               </Col>
             </Row>
+              <Row>
+                  <Col md="12">
+                      <h5>Event Awards Levels </h5>
+                      <table className="table">
+                          <thead>
+                          <tr>
+                              <th>ID</th>
+                              <th>Name</th>
+                              <th>Award Level ID</th>
+                              <th>Amount</th>
+
+                          </tr>
+                          </thead>
+                          <tbody>
+                          {event?.eventAwardsLevel.map((award, index) => (
+                              <tr key={index}>
+                                  <td>{award.id}</td>
+                                  <td>{award.name}</td>
+                                  <td>{award.award_level_id}</td>
+                                  <td>{award.amount}</td>
+                              </tr>
+                          ))}
+                          </tbody>
+                      </table>
+                  </Col>
+              </Row>
             <div className='d-flex justify-content-end'>
               <TemplateButton disabled={loading} type='submit' text={"Save"} />
             </div>

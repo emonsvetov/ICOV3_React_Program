@@ -89,6 +89,7 @@ import MainWrapper from "./MainWrapper";
 import ManageAccount from "../Manager/ManageAccount";
 import PageNotFound from "./404Error/PageNotFound";
 import UserNotFound from "@/containers/App/404Error/UserNotFound";
+import ManagerViewInvoice from "../Manager/ManageAccount/components/ViewInvoice";
 
 // import { Train } from "@material-ui/icons";
 
@@ -126,10 +127,6 @@ const RouteIndex = () => (
         <Route path="/forgot/success" element={<ForgotSuccess />} />
         <Route path="/invitation" element={<Invitation />} />
         <Route path="/invitation/success" element={<InvitationSuccess />} />
-        <Route path="faqs" element={<Faqs />} />
-        <Route path="about" element={<About />} />
-        <Route path="privacy" element={<Privacy />} />
-        <Route path="tnc" element={<TnC />} />
       </Route>
       <Route path="/" element={<PrivateRoute />}>
         <Route path="participant" element={<ParticipantLayout />}>
@@ -158,6 +155,10 @@ const RouteIndex = () => (
           <Route path="iframe/:categoryId" element={<Iframe />} />
           <Route path="training" element={<Training />} />
           <Route path="feeling" element={<Feeling />} />
+          <Route path="faqs" element={<Faqs />} />
+          <Route path="about" element={<About />} />
+          <Route path="privacy" element={<Privacy />} />
+          <Route path="tnc" element={<TnC />} />
         </Route>
         <Route path="manager" element={<ManagerLayout />}>
           <Route path="home" element={<ManagerHome />} />
@@ -167,7 +168,7 @@ const RouteIndex = () => (
           <Route path="manage-and-reward" element={<ManageAndReward />} />
           <Route path="invite-participant" element={<InviteParticipant />} />
           <Route path="manage-account" element={<ManageAccount/>}>
-
+          <Route path="invoice/:invoiceId" element={<ManagerViewInvoice/>}/>
           </Route>
           <Route path="referral" element={<Referral />} />
           <Route path="team" element={<Team />} />
@@ -208,6 +209,10 @@ const RouteIndex = () => (
               element={<GoalProgressSummary />}
             />
           </Route>
+          <Route path="faqs" element={<Faqs />} />
+          <Route path="about" element={<About />} />
+          <Route path="privacy" element={<Privacy />} />
+          <Route path="tnc" element={<TnC />} />
         </Route>
       </Route>
       <Route path="*" element={<PageNotFound/>}/>

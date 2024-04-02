@@ -69,7 +69,7 @@ function toTitleCase(str) {
 
 const loadMediTypes = async () => {
   try {
-    const response = await axios.get(`/organization/${organization.id}/program/${program.id}/digital-media-type`);
+    const response = await axios.get(`/organization/${program.organization_id}/program/${program.id}/digital-media-type`);
     if (response.data.length === 0) return {results: [], count: 0}
 
     let options = [];
@@ -104,7 +104,6 @@ const loadMediTypes = async () => {
 
 
 
-  //const mediaTypes = JSON.parse(localStorage.getItem(MEDIA_TYPES)) || [];
 
   return (
     <div>

@@ -1,5 +1,5 @@
 export const getDues = (invoice) => {
-    console.log(invoice);
+    // console.log(invoice);
 
     if(invoice.invoice_type.name==='On-Demand' || invoice.invoice_type.name==='Credit Card Deposit')
     {

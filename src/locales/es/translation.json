@@ -42,6 +42,8 @@
   "save_my_account_information": "Guardar la información de mi cuenta",
   "please_enter_first_name": "Por favor, introduzca el nombre",
   "please_enter_last_name": "Por favor ingrese apellido",
+  "field_required": "Este campo es obligatorio",
+  "invalid_phone_number":"Número de teléfono inválido",
   "email_is_required": "correo electronico es requerido",
   "invalid_email_address": "Dirección de correo electrónico no válida",
   "password_and_confirm_password_do_not_match": "Contraseña y confirmar contraseña no coinciden",
