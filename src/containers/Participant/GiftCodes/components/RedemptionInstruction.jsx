@@ -8,17 +8,19 @@ import {
   CardBody,
 } from 'reactstrap';
 import { createMarkup } from "@/shared/helpers";
+import { useTranslation } from "react-i18next";
 
 const storageUrl = `${process.env.REACT_APP_API_STORAGE_URL}/`
 
 const RedemptionInstruction = ({isOpen, setOpen, toggle, merchant, program, organization, auth, setSocialWallPosts}) => {
+  const { t } = useTranslation();
 
   return (
     <Modal className={`modal-2col modal-lg redemption_instruction_modal`} isOpen={isOpen} toggle={() => setOpen(true)}>
 
       <Card className='w-100'>
         <CardHeader tag="h3">
-          Redemption Instructions
+          {t('redemption_instructions')}
           <Button className='btn btn-lg float-end' close onClick={toggle}/>
         </CardHeader>
         <CardBody>

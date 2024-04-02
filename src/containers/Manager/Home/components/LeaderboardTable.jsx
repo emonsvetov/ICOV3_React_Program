@@ -50,7 +50,7 @@ const LeaderboardTable = ({ id, leaderboard, organization }) => {
     ...LEADERBOARD_COLUMNS,
     ...[
       {
-        Header: leaderboard.leaderboard_type.name === 'Goal Progress' ? t("Progress") : t("awards"),
+        Header: leaderboard.leaderboard_type.name === 'Goal Progress' ? "progress" : "awards",
         accessor: "total",
       },
     ],
@@ -89,7 +89,7 @@ const LeaderboardTable = ({ id, leaderboard, organization }) => {
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+                <th {...column.getHeaderProps()}>{t(column.Header)}</th>
               ))}
             </tr>
           ))}

@@ -18,7 +18,7 @@ const PointsDetail = ({program, organization, auth}) => {
   ];
 
   detail_columns.forEach( (column, i) => {
-    if( column.Header === 'Points')
+    if( column.Header === 'points')
     {
       detail_columns[i].Cell =  ({ row, value }) => {
         // alert(value * factor_valuation);
@@ -69,7 +69,7 @@ const PointsDetail = ({program, organization, auth}) => {
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th {...column.getHeaderProps()}>
-                  {column.render("Header")}
+                  {t(column.Header)}
                 </th>
               ))}
             </tr>

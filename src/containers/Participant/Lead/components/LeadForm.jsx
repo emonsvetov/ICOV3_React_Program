@@ -99,7 +99,7 @@ const LeadForm = () => {
                       {({ input, meta }) => (
                         <FormGroup>
                           <Input
-                            placeholder="Area Code"
+                            placeholder= {t("area_code")}
                             type="text"
                             {...input}
                           />
