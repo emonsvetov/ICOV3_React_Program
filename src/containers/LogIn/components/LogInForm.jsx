@@ -4,7 +4,7 @@ import {login} from '../../App/auth';
 import {isProgramManager, isProgramParticipant, hasRoleInProgram} from "@/shared/helpers"
 import {useDispatch, flash422} from "@/shared/components/flash"
 import Select from 'react-select'
-import { ButtonToolbar, Input, Label } from 'reactstrap';
+import { ButtonToolbar, Input } from 'reactstrap';
 import TemplateButton from "@/shared/components/TemplateButton"
 import {useSearchParams} from "react-router-dom";
 
