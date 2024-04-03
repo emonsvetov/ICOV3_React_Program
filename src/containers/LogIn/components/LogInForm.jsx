@@ -4,7 +4,7 @@ import {login} from '../../App/auth';
 import {isProgramManager, isProgramParticipant, hasRoleInProgram} from "@/shared/helpers"
 import {useDispatch, flash422} from "@/shared/components/flash"
 import Select from 'react-select'
-import { ButtonToolbar } from 'reactstrap';
+import { ButtonToolbar, Input, Label } from 'reactstrap';
 import TemplateButton from "@/shared/components/TemplateButton"
 import {useSearchParams} from "react-router-dom";
 
@@ -335,6 +335,7 @@ const LogInForm = () => {
         }
         render={({ handleSubmit, form, submitting, pristine, values }) => (
         <form className="form" onSubmit={handleSubmit}>
+          {programOptions.length > 1 ?
           <Field name={'program'}
               parse={
                   (value) => {
@@ -362,7 +363,20 @@ const LogInForm = () => {
                   </div>
               </div>
           )}
-          </Field>
+          </Field> :
+          <div className="form__form-group">
+              <span className="form__form-group-label">Your Reward Program:</span>
+              <div className="form__form-group-field">
+                  <div className="form__form-group-row">
+                      <Input
+                          readOnly={true}
+                          value={program?.label}
+                      />
+                  </div>
+              </div>
+          </div>
+          }
+          
           <ButtonToolbar className="mt-3 d-flex justify-content-between w100">
             {isParticipant &&
               <TemplateButton
