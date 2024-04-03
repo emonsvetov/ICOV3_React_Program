@@ -158,7 +158,7 @@ const ProgramUsers = ({ program, organization, auth, template }) => {
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   <th {...column.getHeaderProps()}>
-                    {column.render("Header")}
+                    {column.id == "selection" ? column.render("Header"): t(column.Header)}
                   </th>
                 ))}
               </tr>

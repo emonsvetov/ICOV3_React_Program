@@ -27,9 +27,14 @@ const LINKS = [
 const ManagerTopbar = ({ template }) => {
   // console.log(template)
   const [isOpen, setOpen] = useState(false);
-  const toggle = () => {
+  const toggleNavbar = () => {
     setOpen((prev) => !prev);
-  };
+  }
+  const onClickNavLink = () => {
+    if( isOpen ) {
+      setOpen(false)
+    }
+  }
 
   if (!template) return "loading";
   // if (!template) return t("loading");
@@ -39,24 +44,27 @@ const ManagerTopbar = ({ template }) => {
     <div className="topbar">
       <Container fluid className="topbar__wrapper">
         <Navbar color="" expand="md" fixed="" light>
-          <NavbarBrand href="/">
-            <img src={Brand} alt="brand-logo" />
-          </NavbarBrand>
-          <NavbarToggler onClick={toggle} />
-          <Collapse navbar>
-            <Nav className="horizontal" navbar style={{ flexWrap: "nowrap" }}>
-              {LINKS.map((item, index) => {
-                return (
-                  <NavLink key={index} to={item.to} className="link">
-                    {item.text}
-                  </NavLink>
-                );
-              })}
-            </Nav>
-          </Collapse>
-
-          <div className="topbar__right">
-            <TopbarProfile isManager={true} />
+          <div className="navbar-top_row">
+            <div className="navbar-brand-logowrap">
+              <NavbarBrand href="/">
+                <img src={Brand} alt="brand-logo" />
+              </NavbarBrand>
+            </div>
+            <div className="topbar__right navbar-profilewrap">
+              <Collapse isOpen={isOpen} navbar>
+                <Nav className="horizontal" navbar style={{ flexWrap: "nowrap" }}>
+                  {LINKS.map((item, index) => {
+                    return (
+                      <NavLink key={index} onClick={onClickNavLink} to={item.to} className="link">
+                        {item.text}
+                      </NavLink>
+                    );
+                  })}
+                </Nav>
+              </Collapse>
+              <TopbarProfile isManager={true} />
+              <NavbarToggler onClick={toggleNavbar} />
+            </div>
           </div>
         </Navbar>
       </Container>
