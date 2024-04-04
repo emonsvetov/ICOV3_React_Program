@@ -128,6 +128,10 @@ const RouteIndex = () => (
         <Route path="/forgot/success" element={<ForgotSuccess />} />
         <Route path="/invitation" element={<Invitation />} />
         <Route path="/invitation/success" element={<InvitationSuccess />} />
+        <Route path="faqs" element={<Faqs />} />
+        <Route path="about" element={<About />} />
+        <Route path="privacy" element={<Privacy />} />
+        <Route path="tnc" element={<TnC />} />
       </Route>
       <Route path="/" element={<PrivateRoute />}>
         <Route path="participant" element={<ParticipantLayout />}>
