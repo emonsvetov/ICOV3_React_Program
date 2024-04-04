@@ -209,5 +209,6 @@
   "date": "Date",
   "our_merchants": "Our Merchants",
   "add_a_comment": "Add a comment",
-  "post": "Post"
+  "post": "Post",
+  "insufficient_balance_peer_reward": "You do not have sufficient peer balance to reward."
 }

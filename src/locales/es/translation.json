@@ -209,5 +209,6 @@
   "date": "Fecha",
   "our_merchants": "Nuestros comerciantes",
   "add_a_comment": "Añadir un comentario",
-  "post": "Exponer"
+  "post": "Exponer",
+  "insufficient_balance_peer_reward": "No tiene suficiente equilibrio entre compañeros para recompensar."
 }

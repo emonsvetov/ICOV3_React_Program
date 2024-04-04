@@ -13,7 +13,7 @@ import TemplateButton from "@/shared/components/TemplateButton";
 
 const QUERY_PAGE_SIZE = 20;
 
-const ProgramUsers = ({ program, organization, auth, template }) => {
+const ProgramUsers = ({ program, organization, auth, template, pointBalance }) => {
   
   const { t } = useTranslation();
   const [modalName, setModalName] = useState(null);
@@ -36,6 +36,10 @@ const ProgramUsers = ({ program, organization, auth, template }) => {
     const rows = selectedFlatRows.map((d) => d.original);
     if (rows.length === 0) {
       alert(t("select_participants"));
+      return;
+    }
+    if(pointBalance.peerBalance == 0){
+      alert(t("insufficient_balance_peer_reward"));
       return;
     }
     setParticipants(rows);

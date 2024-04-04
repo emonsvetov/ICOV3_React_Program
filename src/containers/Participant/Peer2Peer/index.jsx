@@ -7,7 +7,7 @@ import { isEmpty } from "@/shared/helpers";
 import Sidebar from "@/containers/Layout/sidebar";
 import { useTranslation } from "react-i18next";
 
-const Peer2Peer = ({ auth, program, organization, template }) => {
+const Peer2Peer = ({ auth, program, organization, template, pointBalance }) => {
   
   const { t } = useTranslation();
 
@@ -24,7 +24,7 @@ const Peer2Peer = ({ auth, program, organization, template }) => {
             <div>{t("reward_desc")}</div>
           </div>
           {auth && program && !isEmpty(organization) && (
-            <Users organization={organization} program={program} />
+            <Users organization={organization} program={program} pointBalance={pointBalance} />
           )}
         </Col>
       </Row>
@@ -42,7 +42,7 @@ const Peer2Peer = ({ auth, program, organization, template }) => {
                 <div>{t("reward_desc")}</div>
               </div>
               {auth && program && !isEmpty(organization) && (
-                <Users organization={organization} program={program} />
+                <Users organization={organization} program={program} pointBalance={pointBalance}/>
               )}
             </Col>
             <Col md={3}>
@@ -66,6 +66,7 @@ const mapStateToProps = (state) => {
     program: state.program,
     organization: state.organization,
     template: state.template,
+    pointBalance: state.pointBalance,
   };
 };
 
