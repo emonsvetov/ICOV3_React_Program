@@ -31,6 +31,7 @@ const InviteParticipant = ({ auth, organization, rootProgram }) => {
   };
 
   const awardLevelOptions = [{ label: "Default", value: "default" }];
+  const hasNonDefaultOptions = awardLevelOptions.some(option => option.value !== 'default');
 
   const onSubmit = (values) => {
     setLoading(true);
@@ -167,7 +168,7 @@ const InviteParticipant = ({ auth, organization, rootProgram }) => {
                 </Field>
               </Col>
             </Row>
-            {awardLevelOptions.length > 1 && (
+            {hasNonDefaultOptions &&  (
             <Row>
               <Col md="12">
                 <Field name="award_level">
