@@ -9,6 +9,10 @@ import {
 } from "@/shared/components/flash";
 import axios from "axios";
 import { connect } from "react-redux";
+import getCsvImportTypeOptions from '@/services/getCsvImportTypeOptions'
+
+import {labelizeNamedData} from "@/shared/helpers";
+
 import FormStep1 from "./FormStep1";
 import FormStep2 from "./FormStep2";
 
@@ -75,12 +79,25 @@ const Import = ({ organization, program }) => {
   const [loading, setLoading] = useState(false);
   const [importType, setImportType] = useState("Users"); //extend it later
   const [csvImportType, setCsvImportType] = useState("award_users"); //extend it later
+  const [csvImportTypeOptions, setCsvImportTypeOptions] = useState([]); //extend it later
   const [importHeaders, setImportHeaders] = useState(null);
   const [csvFile, setCsvFile] = useState(null);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState(null);
   const [saveSettings, setSaveSettings] = useState(false);
+
+  useEffect( () => {
+    if( organization?.id )  
+    {
+      if( step == 0 ) {
+        getCsvImportTypeOptions(organization.id, importType)
+        .then( res => {
+          setCsvImportTypeOptions( labelizeNamedData(res, ['type', 'name']))
+        })
+      }
+    }
+  }, [organization, step])
 
   const dispatch = useDispatch();
 
@@ -104,9 +121,16 @@ const Import = ({ organization, program }) => {
     setCsvFile(file);
   };
 
+  // const csvImportTypeOptions = [
+  //   { label: "Award Participants", value: "award_users" },
+  // ];
+
   const validate = (values) => {
     let errors = {};
     if (step === 1) {
+      if (!importType) {
+        errors.import_type = "Please select import type";
+      }
       if (!csvFile) {
         errors.import_file = "Csv file is required";
       }
@@ -324,6 +348,25 @@ const Import = ({ organization, program }) => {
               <form onSubmit={handleSubmit}>
                 <Row>
                   <Col>
+                    <div className="form__form-group-field">
+                      <label className="my-2 mr-3">Csv Import Type: </label>
+                      <Field
+                        name="csv_import_type"
+                        component="select"
+                        className="p-1 border-secondary rounded"
+                      >
+                        <option>--select--</option>
+                        {csvImportTypeOptions.map((type) => (
+                          <option
+                            className="p-2 text-center bg-light"
+                            value={type.value}
+                            key={`importType-${type.value}`}
+                          >
+                            {type.label}
+                          </option>
+                        ))}
+                      </Field>
+                    </div>
                     {step === 1 && (
                       <FormStep1
                         {...{
