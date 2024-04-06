@@ -19,7 +19,7 @@ const RedemptionInstruction = ({isOpen, setOpen, toggle, merchant, program, orga
     <Modal className={`modal-2col modal-lg redemption_instruction_modal`} isOpen={isOpen} toggle={() => setOpen(true)}>
 
       <Card className='w-100'>
-        <CardHeader tag="h3">
+        <CardHeader tag="h3" className='d-flex justify-content-between'>
           {t('redemption_instructions')}
           <Button className='btn btn-lg float-end' close onClick={toggle}/>
         </CardHeader>
