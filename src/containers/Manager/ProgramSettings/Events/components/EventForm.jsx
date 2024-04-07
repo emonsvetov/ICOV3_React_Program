@@ -415,7 +415,7 @@ const EventForm = ({
                   awardLevel={programAwardLevel}
                   eventId={event?.id}
                   handleAssign={handleAssignAwardLevel}
-                  organizationId = {data.organization_id}
+                  organizationId = {data?.organization_id}
                   programId = {program.id}
               />
               <Row>
