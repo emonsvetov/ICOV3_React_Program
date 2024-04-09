@@ -24,12 +24,31 @@ const LanguageBar = () => {
     setLanguage(option);
   }, []);
 
+  const styles = {
+    control: (base) => ({
+      ...base,
+      minHeight: 24,
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      paddingTop: 0,
+      paddingBottom: 0,
+    }),
+    clearIndicator: (base) => ({
+      ...base,
+      paddingTop: 0,
+      paddingBottom: 0,
+    }),
+  };
+
   return (
     <div style={{zIndex: 2}}>
       <Select
         options={languageOptions}
         value={language}
         onChange={onSelectLanguage}
+        className={"lang-select-class"}
+        styles={styles}
       />
     </div>
   );

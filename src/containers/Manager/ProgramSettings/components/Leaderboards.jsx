@@ -19,12 +19,36 @@ const COLUMNS = [
     accessor: "name",
   },
   {
-    Header: "",
+    Header: "Type",
     accessor: "leaderboard_type.name",
+    Cell: ({ row, value }) => { return <span>{setLeaderboardTypeNames(value)}</span>},
   },
 ];
 
-const Leaderboards = ({ program, organization, leaderboard, setLeaderboard, reload}) => {
+const setLeaderboardTypeNames = (element) => {
+  let str = '';
+
+  console.log(element, 'element');
+
+    switch (element) {
+      case 'Event Volume':
+        str = `# of Awards Received`;
+        break;
+
+      case 'Event Summary':
+        str = `Total Points Awarded`;
+        break;
+
+      default:
+        str = 'Goal Progress';
+        break;
+    }
+
+  return str;
+}
+
+const Leaderboards = ({ program, organization, leaderboard, setLeaderboard, reload }) => {
+
   const dispatch = useDispatch();
   const { t } = useTranslation();
   // console.log(program)

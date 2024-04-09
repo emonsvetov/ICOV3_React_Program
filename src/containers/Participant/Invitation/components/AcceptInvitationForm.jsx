@@ -54,7 +54,7 @@ const AcceptInvitationForm = ({ onSubmit, errors, loading }) => {
                       id="loginInputEmail"
                       type="text"
                       {...input}
-                      placeholder="Email"
+                      placeholder= {t("email")}
                       className="form-control"
                     />
                     {meta.touched && meta.error && (
@@ -73,7 +73,7 @@ const AcceptInvitationForm = ({ onSubmit, errors, loading }) => {
                       id="loginInputPassword"
                       type="password"
                       {...input}
-                      placeholder="Password"
+                      placeholder= {t("password")}
                       className="form-control"
                     />
                     {meta.touched && meta.error && (
@@ -95,7 +95,7 @@ const AcceptInvitationForm = ({ onSubmit, errors, loading }) => {
                       id="loginInputPasswordConfirm"
                       type="password"
                       {...input}
-                      placeholder="Confirm Password"
+                      placeholder= {t("confirm_password")}
                       className="form-control"
                     />
                     {meta.touched && meta.error && (

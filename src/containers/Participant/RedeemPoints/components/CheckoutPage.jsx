@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col, Table, Row } from "reactstrap";
-import { CHECKOUT_COLUMNS } from "./columns";
+import { CART_COLUMNS } from "./columns";
 import { useTable } from "react-table";
 import { connect } from "react-redux";
 import axios from "axios";
@@ -105,7 +105,7 @@ const CheckoutPage = ({ cart, program, pointBalance, organization, template, dis
     setCartObject(cartdata);
   };
 
-  const columns = React.useMemo(() => CHECKOUT_COLUMNS, []);
+  const columns = React.useMemo(() => CART_COLUMNS, []);
   const data = makeColumnData(cartObject);
   // console.log(data)
   const { getTableProps, headerGroups, rows, prepareRow } = useTable({
@@ -114,7 +114,7 @@ const CheckoutPage = ({ cart, program, pointBalance, organization, template, dis
   });
 
 
-  if (cartIsEmpty) return t("cart_empty");
+  if (cartIsEmpty && !checkoutIsComplete) return t("cart_empty");
   //   console.log(data)
   return (
     <>
@@ -205,7 +205,7 @@ const CheckoutPage = ({ cart, program, pointBalance, organization, template, dis
                 <tr {...headerGroup.getHeaderGroupProps()}>
                   {headerGroup.headers.map((column) => (
                       <th {...column.getHeaderProps()}>
-                        {column.render("Header")}
+                        { t(column.Header) }
                       </th>
                   ))}
                 </tr>
@@ -248,6 +248,7 @@ const CheckoutPage = ({ cart, program, pointBalance, organization, template, dis
           <TemplateButton
               type="submit"
               disabled={isLoading}
+              spinner={isLoading}
               onClick={confirmOrder}
               text={t("confirm_my_order")}
           />

@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const PointsClear = ({ pointBalance, template, program }) => {
   const { t } = useTranslation();
@@ -8,12 +9,14 @@ const PointsClear = ({ pointBalance, template, program }) => {
   if (!pointBalance || !program) return t("loading");
   return (
     <div className={`points-${template.name} flex-column p-2`}>
-      <div className={`points-${template.name}-header bg-blue`}>{t("my_balance")}</div>
+      <div className={`points-${template.name}-header bg-blue`}>
+        <Link to="/participant/my-points" className="link text-white">{t("my_balance")}</Link>
+      </div>
       <table className={`points-${template.name}-table`} width="100%">
         <tbody>
           <tr>
             <td className="points-title text-uppercase">
-              {t("Points to Redeem")}:
+              {t("points_to_redeem")}:
             </td>
           </tr>
           <tr>
@@ -24,7 +27,7 @@ const PointsClear = ({ pointBalance, template, program }) => {
             <>
               <tr>
                 <td className="points-title text-uppercase">
-                  {t("Peer Points to Award")}:
+                  {t("peer_points_to_award")}:
                 </td>
               </tr>
               <tr>
@@ -34,6 +37,9 @@ const PointsClear = ({ pointBalance, template, program }) => {
           }
         </tbody>
       </table>
+      <div className={`points-${template.name}-header bg-blue mt-3`}>
+        <Link to="/participant/browse-merchants" className="link text-white">{t("redeem_my_points")}</Link>
+      </div>
     </div>
   );
 };

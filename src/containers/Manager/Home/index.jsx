@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from "react";
-import { Col, Container, Row } from "reactstrap";
+import { Container } from "reactstrap";
 
-import { ManagerTabNavs } from "../../../shared/components/tabNavs";
-import SelectProgram from "../components/SelectProgram";
+import ManagerTabSection from "../components/ManagerTabSection";
 
 import Dashboard from "./View/Dashboard";
 import Leaderboard from "./View/Leaderboards";
@@ -30,14 +29,7 @@ const Home = ({ program, organization }) => {
   return (
     <>
       <Container>
-        <Row>
-          <Col md={3} className="program-select d-flex">
-            <SelectProgram showRefresh={false}  />
-          </Col>
-          <Col md={6}>
-            <ManagerTabNavs />
-          </Col>
-        </Row>
+        <ManagerTabSection />
         <div align="right">Current Balance: ${balance.toFixed(2)}</div>
       </Container>
       <hr></hr>
@@ -62,14 +54,7 @@ export const NSpireWall = () => {
       {program.uses_social_wall > 0 && (
         <>
           <Container>
-            <Row>
-              <Col md={3} className="program-select d-flex">
-                <SelectProgram />
-              </Col>
-              <Col md={6}>
-                <ManagerTabNavs />
-              </Col>
-            </Row>
+            <ManagerTabSection />
           </Container>
           <hr></hr>
           <SocialWallPanel isManager={true} />
@@ -83,14 +68,7 @@ export const Leaderboards = () => {
   return (
     <>
       <Container>
-        <Row>
-          <Col md={3} className="program-select d-flex">
-            <SelectProgram />
-          </Col>
-          <Col md={6}>
-            <ManagerTabNavs />
-          </Col>
-        </Row>
+        <ManagerTabSection />
       </Container>
       <Leaderboard />
     </>

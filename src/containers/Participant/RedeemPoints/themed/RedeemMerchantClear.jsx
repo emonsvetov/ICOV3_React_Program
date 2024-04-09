@@ -21,7 +21,7 @@ const RedeemMerchantClear = () => {
       </Row>
       <div className="mt-5">
         <h6 className="m-3">
-          {t("select_a_merchant_to_redeem_your_points")}
+          {/* {t("select_a_merchant_to_redeem_your_points")} */}
         </h6>
         <MerchantSlider />
       </div>

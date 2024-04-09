@@ -7,8 +7,9 @@ import { Table } from "reactstrap";
 import {  LEADERBOARD_COLUMNS } from "./Mockdata";
 import AwardHistoryPopup from "./AwardHistoryPopup";
 import { useTranslation } from "react-i18next";
+import axios from 'axios';
 
-const LeaderboardTable = ({ id, leaderboard }) => {
+const LeaderboardTable = ({ id, leaderboard, organization }) => {
   const { t } = useTranslation();
   // console.log(program)
   // console.log(organization)
@@ -16,6 +17,7 @@ const LeaderboardTable = ({ id, leaderboard }) => {
   const [participant, setParticipant] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isOpen, setOpen] = useState(false);
+  const [events, setEvents] = useState(false);
 
   const toggle = () => {
     setOpen((prevState) => !prevState);
@@ -31,8 +33,16 @@ const LeaderboardTable = ({ id, leaderboard }) => {
   //   })
   // }
 
-  const handleClickRow = (row) => {
-    setParticipant(row.original);
+  const handleClickRow = async (row, leaderboard) => {
+
+    let userId = row.original.user_id;
+    let leaderboardId = leaderboard.id;
+    let programId = leaderboard.program_id;
+    let organizationId = leaderboard.organization_id;
+
+    const response = await axios.get(`/organization/${organizationId}/program/${programId}/user/${userId}/leaderboard/${leaderboardId}/event-leaders-awards`)
+    setEvents(response.data)
+    // setParticipant(row.original);
     toggle();
   };
 
@@ -40,7 +50,7 @@ const LeaderboardTable = ({ id, leaderboard }) => {
     ...LEADERBOARD_COLUMNS,
     ...[
       {
-        Header: leaderboard.leaderboard_type.name === 'Goal Progress' ? t("Progress") : t("awards"),
+        Header: leaderboard.leaderboard_type.name === 'Goal Progress' ? "progress" : "awards",
         accessor: "total",
       },
     ],
@@ -79,7 +89,7 @@ const LeaderboardTable = ({ id, leaderboard }) => {
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+                <th {...column.getHeaderProps()}>{t(column.Header)}</th>
               ))}
             </tr>
           ))}
@@ -88,7 +98,7 @@ const LeaderboardTable = ({ id, leaderboard }) => {
           {rows.map((row, i) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()} onClick={() => handleClickRow(row)}>
+              <tr {...row.getRowProps()} onClick={() => handleClickRow(row, leaderboard)}>
                 {row.cells.map((cell) => {
                   return (
                     <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
@@ -104,6 +114,7 @@ const LeaderboardTable = ({ id, leaderboard }) => {
         setOpen={setOpen}
         toggle={toggle}
         participant={participant}
+        events={events}
       />
     </>
   );

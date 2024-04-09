@@ -7,7 +7,7 @@ const CartItemOrigin = ({ index, item, program }) => {
   const { t } = useTranslation();
   const giftCode = `$${parseFloat(item.redemption_value, 3).toFixed(
     2
-  )} Gift Code`;
+  )} ${t('gift_code')}`;
   const redemptionPoints =
     item.redemption_value * program.factor_valuation * item.qty;
   // const merchant_icon_src = `${process.env.REACT_APP_API_STORAGE_URL}/${item.merchant_icon}`;
@@ -25,8 +25,7 @@ const CartItemOrigin = ({ index, item, program }) => {
       </Col>
       <Col md={4}>
         <span>
-          {redemptionPoints}
-          {t("points")}
+          {redemptionPoints} {`${t("points")}`}
         </span>
       </Col>
       <Col md={2}>
