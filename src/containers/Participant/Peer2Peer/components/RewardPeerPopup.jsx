@@ -50,7 +50,7 @@ const RewardPeerPopup = ({
   const p2pBadge = EVENT_TYPES.find(
     (type) => type.name === "peer2peer badge"
   )?.value;
-  const [sliderValue, setSliderValue] = useState(program.factor_valuation);
+  const [sliderValue, setSliderValue] = useState(0);
 
   const sliderHandler = (event, newValue) => {
     if (typeof newValue === "number") {
@@ -134,7 +134,7 @@ const RewardPeerPopup = ({
   const onChangeEvent = (selectedOption) => {
     getEvent(organization.id, program.id, selectedOption.value).then((item) => {
       setEvent(item);
-      setSliderValue(1);
+      // setSliderValue(1);
     });
   };
 
@@ -160,7 +160,7 @@ const RewardPeerPopup = ({
   let eventIconSrc = `${process.env.PUBLIC_URL}/img/award-event-icon.png`
 
   const peerBalance = pointBalance?.peerBalance ? pointBalance.peerBalance : 0;
-  let max_awardable_points = peerBalance * program.factor_valuation;
+  let max_awardable_points = (peerBalance * program.factor_valuation / participants.length) | 0;
 
   if (event) {
     // console.log(p2p);
@@ -172,7 +172,7 @@ const RewardPeerPopup = ({
     }
 
     const max_awardable_amount = event.max_awardable_amount ? event.max_awardable_amount : 0;
-    if( max_awardable_amount < peerBalance ) {
+    if( max_awardable_amount * participants.length < peerBalance ) {
       max_awardable_points = max_awardable_amount * program.factor_valuation;
     }
     
