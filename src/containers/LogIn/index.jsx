@@ -98,7 +98,7 @@ const LogIn = ({ template, program }) => {
         }}
         ssr={true} // means to render carousel on server-side.
         infinite={true}
-        autoPlay={true}
+        autoPlay={getSliderImgs(template).length > 1}
         autoPlaySpeed={3000}
         keyBoardControl={true}
         arrows={false}

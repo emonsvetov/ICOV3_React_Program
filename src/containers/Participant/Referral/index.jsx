@@ -9,7 +9,7 @@ const SubmitReferral = ({ template }) => {
   // console.log(auth)
 
   return (
-    <div className="submit-referral">
+    <div className="submit-referral container-fluid">
       <Row className="mt-4">
         <Col md={4}>
           <Sidebar />

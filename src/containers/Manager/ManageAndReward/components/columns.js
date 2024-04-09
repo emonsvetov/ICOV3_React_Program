@@ -184,6 +184,12 @@ export const USERS_COLUMNS = [
     //     Header: "Points Earned",
     //     accessor: "totalPointsRewarded",
     // },
+
+    {
+        Header: "Award Level",
+        accessor: "award_level",
+    },
+
     {
         Header: "Point Balance",
         accessor: "pointBalance",

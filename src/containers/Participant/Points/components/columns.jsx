@@ -1,10 +1,10 @@
 export const SUMMARY_COLUMNS = [
   {
-    Header: "Event",
+    Header: "event",
     accessor: "name",
   },
   {
-    Header: "Points",
+    Header: "points",
     accessor: "points",
     Cell: ({ row, value }) => {
       return parseInt(value);
@@ -14,11 +14,11 @@ export const SUMMARY_COLUMNS = [
 
 export const DETAIL_COLUMNS = [
   {
-    Header: "Event",
+    Header: "event",
     accessor: "name",
   },
   {
-    Header: "Date",
+    Header: "date",
     accessor: "journal_event_timestamp",
     Cell: ({ row, value }) => {
       let date = new Date(value.replace(' ', 'T')).toLocaleDateString(
@@ -27,7 +27,7 @@ export const DETAIL_COLUMNS = [
     },
   },
   {
-    Header: "Points",
+    Header: "points",
     accessor: "amount",
   },
 ];

@@ -30,7 +30,7 @@ export const FullName = ({ nextStep, handleChange, values }) => {
     <div className="survey text-center">
       <FormGroup>
         <Input
-          placeholder="Full Name"
+          placeholder={t("full_name")}
           onChange={(e) => handleChange(e.target.value, "name")}
           defaultValue={values?.name}
           type="text"
@@ -51,7 +51,7 @@ export const Email = ({ prevStep, nextStep, handleChange, values }) => {
     <div className="survey text-center">
       <FormGroup>
         <Input
-          placeholder="Email Address"
+          placeholder={t("email_address")}
           onChange={(e) => handleChange(e.target.value, "email")}
           defaultValue={values?.email}
           type="text"
@@ -265,7 +265,7 @@ export const Suggestion = ({ prevStep, nextStep, handleChange, values }) => {
         </legend>
         <FormGroup>
           <Input
-            placeholder="Your suggestion"
+            placeholder={t("your_suggestion")}
             onChange={(e) => handleChange(e.target.value, "suggestion")}
             defaultValue={values?.suggestion}
             type="textarea"
