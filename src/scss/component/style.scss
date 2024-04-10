@@ -638,7 +638,7 @@ ul.horizontal {
 }
 .rounded-panel{
     border-radius: 0.5rem;
-    margin-top: 10px;
+    // margin-top: 10px;
     box-shadow: 0 2px 15px 10px rgba(0, 0, 0, 0.05);
 }
 .managerboard{
@@ -684,6 +684,7 @@ ul.horizontal {
 
 .top-panel{
     height: 100%;
+    overflow-y: overlay;
     .title{
         padding: 10px 30px 5px 30px;
         color: white;
@@ -729,9 +730,12 @@ ul.horizontal {
             margin: auto 20px;
         }
     }
-    canvas{
-        width: 100% !important;
-        height: 200px !important;
+    .h-50{
+        // width: 100% !important;
+        height: 250px !important;
+    }
+    .h-100{
+        height: 350px !important;
     }
 }
 .modal{
