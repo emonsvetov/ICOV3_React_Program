@@ -32,8 +32,8 @@ const ProgramSettings = ({ auth, program, organization }) => {
       text: "Active Goal Plans",
     })
     LINKS.push({
-      to: "#future-goalplans",
-      text: "Future Goal Plans",
+      to: "#create-goalplan",
+      text: "Create Goal Plan",
     })
   }
 
@@ -159,7 +159,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
           </div>
         </div>
 
-        <div className={activeTab != "#future-goalplans" ? "d-none" : ""} id="future-goalplans">
+        <div className={activeTab != "#create-goalplan" ? "d-none" : ""} id="create-goalplan">
           <div className="my-3 d-flex justify-content-between">
             <h3>Goal Plans</h3>
             <TemplateButton
@@ -167,7 +167,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
               text="Add New Goal Plan"
             />
           </div>
-          <div className="future-goalplan-table">
+          <div className="create-goalplan-table">
               <GoalPlans
                 program={program}
                 organization={organization}
