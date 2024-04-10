@@ -48,22 +48,40 @@ const Dashboard = ({organization, program}) => {
           <TodayItem data={dashboard.participantToday} index="2"/>
         </Col>
       </Row>
-      <Row className='mt-5'>
-        <Col md={4}>
-          <TopPanelMerchant />
-        </Col>
-        <Col md={8}>
-          <DetailChartItemAward />
-        </Col>
-      </Row>
-      <Row className='mt-4'>
-        <Col md={4}>
-          <TopPanelAward />
-        </Col>
-        <Col md={8}>
-          <DetailChartItemPeerAward />
-        </Col>
-      </Row>
+      {program.uses_peer2peer > 0 ?
+      <>
+        <Row className='mt-5'>
+          <Col md={4}>
+            <TopPanelMerchant />
+          </Col>
+          <Col md={8}>
+            <DetailChartItemAward />
+          </Col>
+        </Row>
+        <Row className='mt-4 pb-3'>
+          <Col md={4}>
+            <TopPanelAward />
+          </Col>
+          <Col md={8}>
+            <DetailChartItemPeerAward />
+          </Col>
+        </Row>
+      </> :
+      <>
+        <Row className='mt-5 pb-3'>
+          <Col md={4}>
+            <div className='d-flex flex-column h-100 gap-3'>
+              <TopPanelMerchant />
+              <TopPanelAward />
+            </div>
+          </Col>
+          <Col md={8}>
+            <DetailChartItemAward />
+          </Col>
+        </Row>
+      </>
+      }
+      
     </Container>
 
   )
