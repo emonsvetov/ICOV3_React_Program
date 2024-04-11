@@ -38,7 +38,7 @@ const MainModalWrapper = ({
     <>
       {name === "Reward" && <GiveRewardPopup {...props} />}
       {name === "Resend Invite" && <ResendInviteModal {...props} />}
-      {(name === "Deactivate" || name === "Activate" || name === "Lock") && (
+      {(name === "Deactivate" || name === "Activate" || name === "Lock" || name === "Unlock") && (
         <ChangeStatusModal {...props} />
       )}
       {name === "Peer Allocation" && <PeerAllocationPopup {...props} />}

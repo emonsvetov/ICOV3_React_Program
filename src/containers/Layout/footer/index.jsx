@@ -18,6 +18,13 @@ const MANAGER_FOOTER_LINKS = [
   { to: "/manager/faqs", text: "faqs" }
 ];
 
+const PUBLIC_FOOTER_LINKS = [
+  { to: "/about", text: "about_us" },
+  { to: "/privacy", text: "privacy" },
+  { to: "/tnc", text: "terms_and_conditions" },
+  { to: "/faqs", text: "faqs" }
+];
+
 const Footer = ({links}) => {
   const { t } = useTranslation();
   return (
@@ -26,7 +33,7 @@ const Footer = ({links}) => {
         <Row>
           <div className="col-md-6 copyright">
             {t("copyright")} {new Date().getFullYear()}{" "}
-            <span className="text-warning">Incentco</span> LLC.{" "}
+            <span className="text-warning text-uppercase">Incentco</span> LLC.{" "}
             {t("all_rights_reserved")}.
           </div>
           <nav className="col-md-6 teritery-menu">
@@ -54,5 +61,8 @@ export const ParticipantFooter = () =>{
 
 export const ManagerFooter = () =>{
   return <Footer links = {MANAGER_FOOTER_LINKS} />
-  
+};
+
+export const PublicFooter = () =>{
+  return <Footer links = {PUBLIC_FOOTER_LINKS} />
 };

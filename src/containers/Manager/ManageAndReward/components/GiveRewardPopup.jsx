@@ -123,15 +123,13 @@ const GiveRewardPopup = ({
       });
   };
 
-  const onChangeEvent = (selectedOption) => {
-    setLoadingEvent(true);
-    getEvent(organization.id, program.id, selectedOption.value).then((item) => {
-      // console.log(item)
-      setEvent(item);
-      console.log(item);
-      setLoadingEvent(false);
-    });
-  };
+    const onChangeEvent = (selectedOption, participants) => {
+        setLoadingEvent(true);
+        getEvent(organization.id, program.id, selectedOption.value).then((item) => {
+            setEvent(item);
+            setLoadingEvent(false);
+        });
+    };
 
   useEffect(() => {
     if (!organization?.id || !program?.id) return;
@@ -214,7 +212,7 @@ const GiveRewardPopup = ({
                       {({ input, meta }) => (
                         <FormGroup>
                           <Select
-                            onChange={onChangeEvent}
+                              onChange={(selectedOption) => onChangeEvent(selectedOption, participants)}
                             options={events}
                             clearable={false}
                             className="react-select"

@@ -22,14 +22,20 @@ import renderToggleButtonField from "@/shared/components/form/ToggleButton";
 import renderSelectField from "@/shared/components/form/Select";
 import LeaderboardEventsTable from "./LeaderboardEventsTable";
 import { useTranslation } from "react-i18next";
+import LeaderboardGoalPlansTable from "@/containers/Manager/ProgramSettings/components/LeaderboardGoalPlansTable";
 
-const LeaderboardForm = ({ id, organization, program, rtl, theme, toggle }) => {
+const   LeaderboardForm = ({ id, organization, program, rtl, theme, toggle }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [leaderboardTypes, setLeaderboardTypes] = useState([]);
   let [leaderboard, setLeaderboard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(true);
+  const [oneLeaderBoard, setOneLeaderBoard] = useState(false);
+
+  const onChangeOneLeaderboard = () => {
+    setOneLeaderBoard( !oneLeaderBoard )
+  }
 
   const setLeaderboardTypeNames = (items) => {
     let newData = [];
@@ -60,7 +66,7 @@ const LeaderboardForm = ({ id, organization, program, rtl, theme, toggle }) => {
 
     formData["leaderboard_type_id"] = values.leaderboard_type_id.value;
     formData["name"] = values.name;
-    formData["one_leaderboard"] = values?.one_leaderboard ? true : false;
+    formData["one_leaderboard"] = oneLeaderBoard;
     formData["visible"] = values?.visible ? true : false;
     formData["enable"] = values?.enable ? true : false;
 
@@ -114,6 +120,7 @@ const LeaderboardForm = ({ id, organization, program, rtl, theme, toggle }) => {
         .then((data) => {
           console.log(data);
           setLeaderboard(data);
+          setOneLeaderBoard(data.one_leaderboard);
           getLeaderboardTypes(organization.id, program.id)
             .then((items) => {
               if (mounted) {
@@ -218,43 +225,94 @@ const LeaderboardForm = ({ id, organization, program, rtl, theme, toggle }) => {
                   <FormGroup className="d-flex justify-content-between">
                     <Field
                       name="one_leaderboard"
+                      type="checkbox"
+                      value={oneLeaderBoard}
                       component={renderToggleButtonField}
+                      parse={ value => {
+                        onChangeOneLeaderboard();
+                        return value
+                      }}
                     />
                   </FormGroup>
                 </Col>
               </Row>
             </CardBody>
           </Card>
-          <Card className="w-100">
-            <CardHeader tag="h5" className="text-center">
-              Assigned Events
-            </CardHeader>
-            <CardBody>
-              <LeaderboardEventsTable
-                leaderboard={leaderboard}
-                organization={organization}
-                program={program}
-                assigned={true}
-                refresh={refresh}
-                setRefresh={setRefresh}
-              />
-            </CardBody>
-          </Card>
-          <Card className="w-100">
-            <CardHeader tag="h5" className="text-center">
-              Unassigned Events
-            </CardHeader>
-            <CardBody>
-              <LeaderboardEventsTable
-                leaderboard={leaderboard}
-                organization={organization}
-                program={program}
-                assigned={false}
-                refresh={refresh}
-                setRefresh={setRefresh}
-              />
-            </CardBody>
-          </Card>
+
+          {oneLeaderBoard == true && (
+            <div>Note: If the leaderboard is mentioned as one leaderboard, It will get details of all the awards. None of the associated event will be considered.</div>
+          )}
+
+          {/*goal progress*/}
+          {leaderboard?.leaderboard_type_id?.value !== '3' && (
+            <div className={!oneLeaderBoard ? "" : "none"}>
+              <Card className="w-100">
+                <CardHeader tag="h5" className="text-center">
+                  Assigned Events
+                </CardHeader>
+                <CardBody>
+                  <LeaderboardEventsTable
+                    leaderboard={leaderboard}
+                    organization={organization}
+                    program={program}
+                    assigned={true}
+                    refresh={refresh}
+                    setRefresh={setRefresh}
+                  />
+                </CardBody>
+              </Card>
+              <Card className="w-100">
+                <CardHeader tag="h5" className="text-center">
+                  Unassigned Events
+                </CardHeader>
+                <CardBody>
+                  <LeaderboardEventsTable
+                    leaderboard={leaderboard}
+                    organization={organization}
+                    program={program}
+                    assigned={false}
+                    refresh={refresh}
+                    setRefresh={setRefresh}
+                  />
+                </CardBody>
+              </Card>
+            </div>
+          )}
+
+          {leaderboard?.leaderboard_type_id?.value === '3' && (
+            <div className={!oneLeaderBoard ? "" : "none"}>
+              <Card className="w-100">
+                <CardHeader tag="h5" className="text-center">
+                  Assigned Goal Plans
+                </CardHeader>
+                <CardBody>
+                  <LeaderboardGoalPlansTable
+                    leaderboard={leaderboard}
+                    organization={organization}
+                    program={program}
+                    assigned={true}
+                    refresh={refresh}
+                    setRefresh={setRefresh}
+                  />
+                </CardBody>
+              </Card>
+              <Card className="w-100">
+                <CardHeader tag="h5" className="text-center">
+                  Unassigned Goal Plans
+                </CardHeader>
+                <CardBody>
+                  <LeaderboardGoalPlansTable
+                    leaderboard={leaderboard}
+                    organization={organization}
+                    program={program}
+                    assigned={false}
+                    refresh={refresh}
+                    setRefresh={setRefresh}
+                  />
+                </CardBody>
+              </Card>
+            </div>
+          )}
 
           <div className="d-flex justify-content-end mt-4">
             <Button disabled={loading} color="danger" type="submit">

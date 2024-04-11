@@ -11,23 +11,6 @@ import { getAuthCart, updateAuthCart } from "@/containers/App/auth";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { useTranslation } from "react-i18next";
 
-const makeOption = (i, giftcode, factor_valuation) => {
-  let dollarValue = parseFloat(giftcode.sku_value, 3).toFixed(2);
-  let pointsValue = giftcode.redemption_value * factor_valuation;
-  let label = `$${dollarValue} Gift Code = ${pointsValue}`;
-
-  if(process.env.REACT_APP_ENV != 'production'){
-    // needs to be fixed
-    //label += giftcode.virtual_inventory ? ' virtual' : '';
-  }
-  label += ' points';
-
-  return {
-    label: label,
-    value: i++,
-  };
-};
-
 const Redeem = ({ organization, program, cart, pointBalance }) => {
   const { t } = useTranslation();
   let { merchantId } = useParams();
@@ -36,6 +19,24 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
   const [loadingGiftcodes, setLoadingGiftcodes] = useState(true);
   const [selectedGiftcode, setSelectedGiftcode] = useState(null);
   const [addedToCart, setAddedToCart] = useState(false);
+
+  const makeOption = (i, giftcode, factor_valuation) => {
+  
+    let dollarValue = parseFloat(giftcode.sku_value, 3).toFixed(2);
+    let pointsValue = giftcode.redemption_value * factor_valuation;
+    let label = `$${dollarValue} ${t("gift_code")} = ${pointsValue}`;
+  
+    if(process.env.REACT_APP_ENV != 'production'){
+      // needs to be fixed
+      //label += giftcode.virtual_inventory ? ' virtual' : '';
+    }
+    label += ` ${t('points')}`;
+  
+    return {
+      label: label,
+      value: i++,
+    };
+  };
 
   useEffect(() => {
     if (organization && program && merchantId) {
@@ -95,7 +96,7 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
     item.merchant_icon = merchant.icon;
     let redemption_points = item.redemption_value * program.factor_valuation;
     if ( pointBalance.pointBalance < redemption_points ) {
-      alert(t("insufficient_balance_redeem") + (` Points to redeem: ${redemption_points}. Available Point Balance: ${pointBalance.pointBalance}`) );
+      alert(t("insufficient_balance_redeem") + (` ${t("points_to_redeem")}: ${redemption_points}. ${t('available_point_balance')}: ${pointBalance.pointBalance}`) );
       return;
     }
     // console.log(item)
@@ -208,7 +209,7 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
           </Col>
         </Row>
         <Row className="redemption-instructions mt-5">
-          <h3>{t("redeem_instructions")}</h3>
+          <h3>{t("redemption_instructions")}</h3>
           <div className="redtext my-3">{t("redeem_merchants_desc")}</div>
           <div dangerouslySetInnerHTML={{__html: merchant.redemption_instruction}}></div>
         </Row>

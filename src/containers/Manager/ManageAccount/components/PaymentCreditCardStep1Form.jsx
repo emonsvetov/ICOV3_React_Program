@@ -98,7 +98,7 @@ const PaymentCreditCardStep_1 = ({amount, isOpen, toggle, pId, orgId}) => {
       <Card className='w-100'>
         <CardHeader tag="h3">
         Credit Card Deposit
-          <Button className='btn btn-lg float-end' close onClick={toggle}/>
+          <Button className='btn btn-lg float-end' style={{ float: "right" }} close onClick={toggle}/>
         </CardHeader>
         <CardBody className='text-left'>
           <p>Fund your account with a Credit Card using secure payment through Authorize.net</p>

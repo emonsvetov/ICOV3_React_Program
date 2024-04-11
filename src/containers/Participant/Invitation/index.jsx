@@ -47,11 +47,11 @@ const Invitation = ({ template }) => {
                 rootProgram: program,
                 organization
               })
-              flashSuccess(dispatch, 'Invitation accepted. Redirecting to Dashboard...')
+              flashSuccess(dispatch, `${t("invitation_accepted")} ${t('redirecting_to_dashboard')}`)
               setTimeout( () => window.location="/participant/home?message=Invitation accepted. Please start awarding", 2000);
           } else {
             setTimeout( () => window.location="/invitation/success?message=Invitation accepted. Please Login.", 2000);
-            flashSuccess(dispatch, 'Invitation accepted. Please Login.')
+            flashSuccess(dispatch, `${t("invitation_accepted")} ${t('please_login')}`)
           }
         } else {
           flashError(dispatch, res.response.error)

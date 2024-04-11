@@ -76,7 +76,7 @@ const GiftCardClassic = (props) => {
           </div>
         ): (
             <div className="gift-code">
-              <strong>Your redemption is on its way! Your code will be delivered to you momentarily</strong>
+              <strong>{t("redemption_is_on_its_way")}</strong>
             </div>
         )}
 
