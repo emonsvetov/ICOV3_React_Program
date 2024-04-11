@@ -64,6 +64,7 @@ const BULK_ACTIONS = [
   "Deactivate",
   "Activate",
   "Lock",
+    "Unlock",
   "Peer Allocation",
   "Reclaim Peer Allocations",
   //"Add Goal" TODO: add logic to check engagement settings
@@ -92,40 +93,37 @@ const SELECTION_COLUMN = {
 
 const RenderActions = ({ row, onClickActionCb }) => {
   return ACTIONS.map((item, index) => {
-    let statusLabel = item.name;
-    //const currentStatus = row.original.status;
-    const currentStatus = row.original.status?.status ? row.original.status.status : null
-    // if(item.name === 'Deactivate') {
-    //     const currentStatus = row.original.status.status;
-    //     statusLabel = currentStatus === 'Deactivated' ? 'Activate' : 'Deactivate'
-    // }
-    if (item.name === "Deactivate") {
-      if (currentStatus === "Deactivated") {
-        return false;
-      } else if (currentStatus === null) {
-        return false;
+      let statusLabel = item.name;
+      const currentStatus = row.original.status?.status ? row.original.status.status : null
+      if (item.name === "Deactivate") {
+          if (currentStatus === "Deactivated") {
+              return false;
+          } else if (currentStatus === null) {
+              return false;
+          }
+          statusLabel = "Deactivate";
       }
-      statusLabel = "Deactivate";
-    }
-    if (item.name === "Activate") {
-      if (currentStatus === "Active") {
-        return false;
-      } else if (currentStatus === null) {
-        return false;
+      if (item.name === "Activate") {
+          if (currentStatus === "Active") {
+              return false;
+          } else if (currentStatus === null) {
+              return false;
+          }
+          statusLabel = "Activate";
       }
-      statusLabel = "Activate";
-    }
-    if (item.name === "Lock") {
-      if (currentStatus === "Locked" || currentStatus === "Deactivated") {
-        return false;
-      } else if (currentStatus === null) {
-        return false;
+      if (item.name === "Lock") {
+          if (currentStatus === "Locked" || currentStatus === "Deactivated") {
+              return false;
+          }
+          statusLabel = "Lock";
       }
-      statusLabel = "Lock";
-    }
-    if (item.name === "Unlock" && currentStatus !== "Locked") {
-      return null;
-    }
+
+      if (item.name === "Unlock") {
+          if (currentStatus !== "Locked") {
+              return false;
+          }
+          statusLabel = "Unlock";
+      }
     return (
       <span
         key={index}
