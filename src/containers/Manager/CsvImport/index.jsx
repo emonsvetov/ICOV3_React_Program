@@ -3,8 +3,6 @@ import SelectProgram from "../components/SelectProgram";
 import { Col, Container, Row } from "reactstrap";
 import Import from "./components/Import";
 
-import ImportDataTable from "./components/ImportDataTable";
-
 const CsvImport = () => {
   return (
     <div className="referral">
@@ -30,9 +28,6 @@ const CsvImport = () => {
             </div>
           </Col>
         </Row>
-        <div className="points-summary-table">
-          <ImportDataTable />
-        </div>
       </Container>
     </div>
   );

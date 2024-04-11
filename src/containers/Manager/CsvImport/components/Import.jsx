@@ -9,12 +9,14 @@ import {
 } from "@/shared/components/flash";
 import axios from "axios";
 import { connect } from "react-redux";
+import Select from 'react-select';
 import getCsvImportTypeOptions from '@/services/getCsvImportTypeOptions'
 
 import {labelizeNamedData} from "@/shared/helpers";
 
 import FormStep1 from "./FormStep1";
 import FormStep2 from "./FormStep2";
+import ImportDataTable from "./ImportDataTable";
 
 const isValidResponse = (data) => {
   if (!data.hasOwnProperty("CSVheaders")) return false;
@@ -77,6 +79,7 @@ let config = {
 
 const Import = ({ organization, program }) => {
   const [loading, setLoading] = useState(false);
+  const [typeOptionsLoading, setTypeOptionsLoading] = useState(true);
   const [importType, setImportType] = useState("Users"); //extend it later
   const [csvImportType, setCsvImportType] = useState("award_users"); //extend it later
   const [csvImportTypeOptions, setCsvImportTypeOptions] = useState([]); //extend it later
@@ -93,7 +96,14 @@ const Import = ({ organization, program }) => {
       if( step == 0 ) {
         getCsvImportTypeOptions(organization.id, importType)
         .then( res => {
-          setCsvImportTypeOptions( labelizeNamedData(res, ['type', 'name']))
+          let tmpCsvImportTypeOptions = labelizeNamedData(res, ['type', 'name'])
+          tmpCsvImportTypeOptions = tmpCsvImportTypeOptions.map(obj => {
+            if( obj.value === 'award_users' || obj.value === 'add_and_award_users') return obj;
+            obj.disabled = true
+            return obj
+          })
+          setCsvImportTypeOptions( tmpCsvImportTypeOptions )
+          setTypeOptionsLoading(false)
         })
       }
     }
@@ -330,6 +340,13 @@ const Import = ({ organization, program }) => {
     return () => {};
   }, [processing]);
 
+  const onChangeCsvImportType = (selectedOption) => {
+    if (selectedOption) {
+      // setImportType(selectedOption.value)
+      setStep(1)
+    }
+  }
+
   // console.log(step)
 
   return (
@@ -348,37 +365,53 @@ const Import = ({ organization, program }) => {
               <form onSubmit={handleSubmit}>
                 <Row>
                   <Col>
-                    <div className="form__form-group-field">
-                      <label className="my-2 mr-3">Csv Import Type: </label>
-                      <Field
-                        name="csv_import_type"
-                        component="select"
-                        className="p-1 border-secondary rounded"
+                    <div className="form__form-group-field mb-3" style={{maxWidth:400}}>
+                      <Field name={'csv_import_type'}
+                        parse={
+                          (value) => {
+                            onChangeCsvImportType(value)
+                            return value
+                          }
+                        }
                       >
-                        <option>--select--</option>
-                        {csvImportTypeOptions.map((type) => (
-                          <option
-                            className="p-2 text-center bg-light"
-                            value={type.value}
-                            key={`importType-${type.value}`}
-                          >
-                            {type.label}
-                          </option>
-                        ))}
+                        {({ input, meta }) => (
+                          <div className="form__form-group">
+                            <h4 className='mb-4'>{"Csv Import Type"}</h4>
+                            <div className="form__form-group-field">
+                              <div className="form__form-group-row">
+                                <Select
+                                  options={csvImportTypeOptions}
+                                  isClearable={false}
+                                  className="react-select"
+                                  classNamePrefix="react-select"
+                                  isLoading={typeOptionsLoading}
+                                  isOptionDisabled={(option) => option.disabled}
+                                  {...input}
+                                />
+                                {meta.touched && meta.error && <span className="form__form-group-error">{meta.error}</span>}
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </Field>
                     </div>
                     {step === 1 && (
-                      <FormStep1
-                        {...{
-                          config,
-                          setStep,
-                          csvFile,
-                          onSelectCsvFile,
-                          onclickBack,
-                          onclickNext,
-                          importHeaders,
-                        }}
-                      />
+                      <>
+                        <FormStep1
+                          {...{
+                            config,
+                            setStep,
+                            csvFile,
+                            onSelectCsvFile,
+                            onclickBack,
+                            onclickNext,
+                            importHeaders,
+                          }}
+                        />
+                        <div className="points-summary-table">
+                          <ImportDataTable />
+                        </div>
+                      </>
                     )}
                     {step === 2 && (
                       <FormStep2
