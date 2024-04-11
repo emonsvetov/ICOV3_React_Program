@@ -239,7 +239,6 @@ const ProgramParticipants = ({ program, organization }) => {
   }
 
   useEffect(() => {
-    // console.log(mounted)
     if (status && mounted) {
       setFilter({ keyword: filter.keyword, status: status });
     }
