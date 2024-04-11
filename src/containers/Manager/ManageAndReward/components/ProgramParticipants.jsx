@@ -19,7 +19,6 @@ import ResendIcon from "mdi-react/AccountPlusIcon";
 import DeactivateIcon from "mdi-react/CancelIcon";
 import ActivateIcon from "mdi-react/RefreshIcon";
 import LockIcon from "mdi-react/LockIcon";
-import UnlockIcon from "mdi-react/LockOpenIcon";
 import PeerIcon from "mdi-react/PostItNoteAddIcon";
 import apiTableService from "@/services/apiTableService";
 import { useTranslation } from "react-i18next";
@@ -44,9 +43,8 @@ const ACTIONS = [
   { name: "Deactivate", link: "", icon: <DeactivateIcon /> },
   // { name: "Activate", link: "", icon: <ActivateIcon /> },
   { name: "Lock", link: "", icon: <LockIcon /> },
-  { name: "Unlock", link: "", icon: <UnlockIcon /> },
   //{ name: "Import", link: "", icon: <ImportIcon /> }, TODO: add logic to check engagement settings
-  { name: "Peer Allocation", link: "", icon: <PeerIcon /> }, 
+  { name: "Peer Allocation", link: "", icon: <PeerIcon /> },
 ];
 const ENTRIES = [{ value: 10 }, { value: 25 }, { value: 50 }, { value: 100 }];
 
@@ -71,7 +69,7 @@ const BULK_ACTIONS = [
   "Resend Invite",
   "Deactivate",
   "Activate",
-  "Lock", "Unlock",
+  "Lock","Unlock",
   "Peer Allocation",
   "Reclaim Peer Allocations",
   //"Add Goal" TODO: add logic to check engagement settings
@@ -118,12 +116,14 @@ const RenderActions = ({ row, onClickActionCb }) => {
       }
       statusLabel = "Activate";
     }
-      if (item.name === "Lock") {
-          if (currentStatus === "Locked" || currentStatus === "Deactivated") {
-              return false;
-          }
-          statusLabel = "Lock";
+    if (item.name === "Lock") {
+      if (currentStatus === "Locked" || currentStatus === "Deactivated") {
+        return false;
+      } else if (currentStatus === null) {
+        return false;
       }
+      statusLabel = "Lock";
+    }
 
       if (item.name === "Unlock") {
           if (currentStatus !== "Locked") {
@@ -239,6 +239,7 @@ const ProgramParticipants = ({ program, organization }) => {
   }
 
   useEffect(() => {
+    // console.log(mounted)
     if (status && mounted) {
       setFilter({ keyword: filter.keyword, status: status });
     }
