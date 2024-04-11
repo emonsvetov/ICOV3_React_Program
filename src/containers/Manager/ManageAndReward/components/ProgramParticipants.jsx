@@ -19,11 +19,11 @@ import ResendIcon from "mdi-react/AccountPlusIcon";
 import DeactivateIcon from "mdi-react/CancelIcon";
 import ActivateIcon from "mdi-react/RefreshIcon";
 import LockIcon from "mdi-react/LockIcon";
+import UnlockIcon from "mdi-react/LockOpenIcon";
 import PeerIcon from "mdi-react/PostItNoteAddIcon";
 import apiTableService from "@/services/apiTableService";
 import { useTranslation } from "react-i18next";
 import {inArray} from "@/shared/helpers"
-import useCallbackState from "@/shared/useCallbackState"
 
 const collectEmails = (users) => {
   let emails = [];
@@ -41,8 +41,9 @@ const ACTIONS = [
   //{ name: "Email", link: "", icon: <MailIcon /> },TODO: add logic to check engagement settings
   { name: "Resend Invite", link: "", icon: <ResendIcon /> },
   { name: "Deactivate", link: "", icon: <DeactivateIcon /> },
-  // { name: "Activate", link: "", icon: <ActivateIcon /> },
+  { name: "Activate", link: "", icon: <ActivateIcon /> },
   { name: "Lock", link: "", icon: <LockIcon /> },
+  { name: "Unlock", link: "", icon: <UnlockIcon /> },
   //{ name: "Import", link: "", icon: <ImportIcon /> }, TODO: add logic to check engagement settings
   { name: "Peer Allocation", link: "", icon: <PeerIcon /> }, 
 ];
@@ -57,19 +58,13 @@ const STATUS = [
   { name: "Pending Deactivation" },
 ];
 
-let defaultStatus = []
-STATUS.map((item, index) => {
-  if( item.name !== 'Deactivated' ) {
-    defaultStatus.push( item.name )
-  }
-})
-
 const BULK_ACTIONS = [
   "Reward",
   "Resend Invite",
   "Deactivate",
   "Activate",
   "Lock",
+    "Unlock",
   "Peer Allocation",
   "Reclaim Peer Allocations",
   //"Add Goal" TODO: add logic to check engagement settings
@@ -98,32 +93,37 @@ const SELECTION_COLUMN = {
 
 const RenderActions = ({ row, onClickActionCb }) => {
   return ACTIONS.map((item, index) => {
-    let statusLabel = item.name;
-    const currentStatus = row.original.status?.status ? row.original.status.status : null
-    if (item.name === "Deactivate") {
-      if (currentStatus === "Deactivated") {
-        return false;
-      } else if (currentStatus === null) {
-        return false;
+      let statusLabel = item.name;
+      const currentStatus = row.original.status?.status ? row.original.status.status : null
+      if (item.name === "Deactivate") {
+          if (currentStatus === "Deactivated") {
+              return false;
+          } else if (currentStatus === null) {
+              return false;
+          }
+          statusLabel = "Deactivate";
       }
-      statusLabel = "Deactivate";
-    }
-    if (item.name === "Activate") {
-      if (currentStatus === "Active") {
-        return false;
-      } else if (currentStatus === null) {
-        return false;
+      if (item.name === "Activate") {
+          if (currentStatus === "Active") {
+              return false;
+          } else if (currentStatus === null) {
+              return false;
+          }
+          statusLabel = "Activate";
       }
-      statusLabel = "Activate";
-    }
-    if (item.name === "Lock") {
-      if (currentStatus === "Locked" || currentStatus === "Deactivated") {
-        return false;
-      } else if (currentStatus === null) {
-        return false;
+      if (item.name === "Lock") {
+          if (currentStatus === "Locked" || currentStatus === "Deactivated") {
+              return false;
+          }
+          statusLabel = "Lock";
       }
-      statusLabel = "Lock";
-    }
+
+      if (item.name === "Unlock") {
+          if (currentStatus !== "Locked") {
+              return false;
+          }
+          statusLabel = "Unlock";
+      }
     return (
       <span
         key={index}
@@ -149,7 +149,7 @@ const ProgramParticipants = ({ program, organization }) => {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState({ keyword: "", status: "" });
   const [participants, setParticipants] = useState([]);
-  const [status, setStatus] = useCallbackState([]);
+  const [status, setStatus] = useState([]);
   const [actionsArray, setActionsArray] = useState(ACTIONS);
   const [bulkActionsArray, setBulkActionsArray] = useState(BULK_ACTIONS);
 
@@ -178,6 +178,7 @@ const ProgramParticipants = ({ program, organization }) => {
   useEffect(() => {
     if (action && participants) {
       doAction(action, participants);
+      // toggle(action)
     }
   }, [action, participants]);
 
@@ -205,26 +206,14 @@ const ProgramParticipants = ({ program, organization }) => {
     setAction(name);
     setParticipants(rows);
   }
-
+  
   const onSelectEntry = (value) => {
-    const currentPageIndex = Math.floor(pageIndex * pageSize / value);
     setQueryPageSize(value);
-
-    if (currentPageIndex >= Math.ceil(users.count / value)) {
-      gotoPage(0);
-    } else {
-      gotoPage(currentPageIndex);
-    }
-  };
+  }
 
   const onSelectStatus = (value) => {
     if (status.includes(value)) {
-      setStatus( (prev) =>  prev.filter( (item) => item !== value ), 
-      (newStatus) => {
-        if(newStatus.length <= 0 ) {
-          setStatus(defaultStatus);
-        }
-      });
+      setStatus(status.filter((item) => item !== value));
     } else {
       setStatus([...status, ...[value]]);
     }
@@ -288,8 +277,8 @@ const ProgramParticipants = ({ program, organization }) => {
         pageIndex: 0,
         pageSize: queryPageSize,
       },
-      manualPagination: true, // Tell the usePagination
-      pageCount: Math.ceil(users?.count / queryPageSize),
+      manualPagination: false, // Tell the usePagination
+      pageCount: users ? totalPageCount : null,
       autoResetSortBy: false,
       autoResetExpanded: false,
       autoResetPage: false,
@@ -373,23 +362,6 @@ const ProgramParticipants = ({ program, organization }) => {
     );
   };
 
-  useEffect(() => {
-    // console.log(mounted)
-    let mounted = false
-    if ( !mounted ) {
-      setStatus( defaultStatus )
-    }
-    return () => {mounted = true}
-  }, []);
-
-  const markStatusAsChecked = (statusName) => {
-    if( status === null )  {
-      // if( statusName !== 'Deactivated' ) return true;
-    } else {
-      return status.indexOf(statusName) > -1
-    }
-  }
-
   const ActionsDropdown = () => {
     return (
       <UncontrolledDropdown>
@@ -440,7 +412,7 @@ const ProgramParticipants = ({ program, organization }) => {
     return (
       <UncontrolledDropdown>
         <DropdownToggle caret className="dropdowntoggle">
-        {t("Filter by Status")}
+          Status
         </DropdownToggle>
         <DropdownMenu>
           {STATUS.map((item, index) => {
@@ -451,7 +423,7 @@ const ProgramParticipants = ({ program, organization }) => {
                 onClick={() => onSelectStatus(item.name)}
               >
                 <input
-                  checked={markStatusAsChecked(item.name)}
+                  checked={status.indexOf(item.name) > -1}
                   type="checkbox"
                   style={{ marginRight: "10px" }}
                   onChange={() => { }}
@@ -459,6 +431,10 @@ const ProgramParticipants = ({ program, organization }) => {
                 {item.name}
               </DropdownItem>
             );
+            // }
+            // else{
+            //     return <DropdownItem  key={`status-dropdown-item-${index}`} onClick={() => onSelectStatus(item.name)}><input type="checkbox" style={{marginRight: '10px'}} />{item.name}</DropdownItem>
+            // }
           })}
         </DropdownMenu>
       </UncontrolledDropdown>
@@ -498,7 +474,7 @@ const ProgramParticipants = ({ program, organization }) => {
               pageCount={pageCount}
               setPageSize={setPageSize}
               manualPageSize={manualPageSize}
-              dataLength={users ? users.count : 0}
+              dataLength={users.results.length}
             />
           </>
         )}
