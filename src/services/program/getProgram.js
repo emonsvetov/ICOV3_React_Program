@@ -2,10 +2,10 @@
 import axios from 'axios'
 
 export const getProgram = async(organizationId, programId, only=true) => {
-    let url = `/organization/${organizationId}/program/${programId}`
+    let url = `/organization/${organizationId}/program/${programId}?withTemplate=true`
     if( only )
     {
-        url += `?only=1`
+        url += `&only=1`
     }
     const response = await axios.get(url)
     // console.log(response)

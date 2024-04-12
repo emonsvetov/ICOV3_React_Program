@@ -14,7 +14,7 @@ import {
   getAuthRootProgram,
   getAuthPoints,
   getAuthCart,
-  getAuthDomain,
+  getAuthDomain
 } from "./auth";
 import { setOrganization } from "@/redux/actions/organizationActions";
 import { setAuthUser } from "@/redux/actions/userActions";
@@ -92,6 +92,29 @@ const App = () => {
       setAuthOrganization();
   }, []);
 
+  const setAppTemplate = (domain, program = null) => {
+    let template = domain.program?.template ?? null
+    if( program && program?.template) {
+      template = program.template
+    }
+    if ( template ) {
+      template.name = template.name.toLowerCase();
+      store.dispatch(setTemplate(template));
+      setCustomLink(template.font_family, template);
+      setThemeCss(template);
+      const dirName = template?.name ? template.name : "default";
+      const dirUrl = `${process.env.PUBLIC_URL}/theme/${dirName}`;
+      store.dispatch(
+        setThemeAction({ name: template.name, alias: dirName, dirName, dirUrl })
+      );
+    }
+  }
+
+  const setAppDomain = (domain, program = null) => {
+    store.dispatch(setDomain(domain));
+    setAppTemplate(domain, program)
+  }
+
   useEffect(() => {
     if( user?.id && program?.id ) {
       // console.log("program loaded")
@@ -104,41 +127,26 @@ const App = () => {
       getAuthPoints().then((balance) => {
         store.dispatch(setPointBalance(balance));
       });
+      getAuthDomain().then((domain) => {
+        if( domain.program.id !== program.id ) {
+          domain.program = program
+          setAppDomain(domain, program)
+        }
+      })
     }
   }, [user, program]);
 
   const setAuthOrganization = () => {
-    getAuthDomain().then((domain) => {
-      // console.log(domain)
-      // console.log(domain.program.template)
-      store.dispatch(setDomain(domain));
-      if( domain.program?.template )
-      {
-        const template = domain.program.template
-        template.name = template.name.toLowerCase()
-        store.dispatch(
-          setTemplate(template)
-        );
-        setCustomLink(template.font_family, template);
-        setThemeCss(template);
-        // console.log(getTheme())
-        // console.log(template)
-        // const dirName = template.name === 'clear' ? 'original': 'new'
-        const dirName = template?.name ? template.name : 'default'
-        const dirUrl = `${process.env.PUBLIC_URL}/theme/${dirName}`
-        store.dispatch(setThemeAction({name: template.name, alias: dirName, dirName, dirUrl}));
-      }
-    });
+    getAuthDomain(true).then((domain) => {
+      setAppDomain(domain)
+    })
 
     const authUser = getAuthUser()
-
-    // console.log(authUser)
 
     if( authUser ) {
       idleTimer.start();
       getAuthProgram( true )
       .then( authProgram => {
-        // console.log(authProgram)
         if( authProgram ) {
           setUser(authUser)
           setProgram(authProgram)
