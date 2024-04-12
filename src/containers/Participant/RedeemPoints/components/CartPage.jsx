@@ -114,7 +114,7 @@ const CartPage = ({ cart, program, pointBalance, template }) => {
                     <td colSpan={4}> {""}</td>
                     <td> {t("balance_after_purchase")}::</td>
                     <td>
-                      {pointBalance.points - cartObject.total_points}{" "}
+                      {pointBalance.pointBalance - cartObject.total_points}{" "}
                       {t("points")}
                     </td>
                   </tr>
