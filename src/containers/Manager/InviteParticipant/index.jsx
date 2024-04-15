@@ -40,7 +40,7 @@ const InviteParticipant = ({ auth, organization, rootProgram }) => {
   const hasNonDefaultOptions = awardLevelOptions.some(option => option.value !== 'default');
 
   useEffect(() => {
-    let currentProgramId = program?.value ?? rootProgram?.id
+    let currentProgramId = program?.value ?? null
     if( currentProgramId ) {
       getUnitNumbers(organization.id, currentProgramId, "assignable=1")
       .then( res => {
