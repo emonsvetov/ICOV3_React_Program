@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useTable } from "react-table";
+import { useTable, usePagination } from "react-table";
 import { REWARD_HISTORY_COLUMNS } from "./columns";
 import { Table} from "reactstrap";
 import { connect } from "react-redux";
 import { getUserEventHistory } from "@/services/program/getUserEvents";
 import { useTranslation } from "react-i18next";
+import ReactTablePagination from "@/shared/components/table/components/ReactTablePagination";
+
+const PAGE_SIZE =10;
 
 const ParticipantRewardHistory = ({ participant, auth, program, organization }) => {
     const { t } = useTranslation();
     const [data, setData] = useState([]);
+    const [count, setCount] = useState(0);
     let reward_history_columns = [
         ...REWARD_HISTORY_COLUMNS
         // Add any new columns here
@@ -24,24 +28,58 @@ const ParticipantRewardHistory = ({ participant, auth, program, organization }) 
         }
     })
     const columns = React.useMemo(() => reward_history_columns, []);
+
+    const tableInstance = useTable({
+        columns,
+        data: React.useMemo( () => data ? data : [], [data]),
+        initialState: {
+            pageIndex: 0,
+            pageSize: 10,
+        },
+        manualPagination: true,
+        pageCount: Math.ceil(count / PAGE_SIZE),
+        autoResetSortBy: false,
+        autoResetExpanded: false,
+        autoResetPage: false,
+    }, usePagination);
+
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        prepareRow,
+        page,
+        pageCount,
+        pageOptions,
+        gotoPage,
+        previousPage,
+        canPreviousPage,
+        nextPage,
+        canNextPage,
+        setPageSize,
+        selectedFlatRows,
+        state: { pageIndex, pageSize },
+      } = tableInstance;
+
     useEffect(() => {
         (async () => {
             if (organization?.id && program?.id && participant?.id) {
-                getUserEventHistory(organization.id, program.id, participant.id, 0, 10)
+                getUserEventHistory(organization.id, program.id, participant.id, pageIndex, 10)
                     .then(data => {
                         data.results.map(row => row.amount)
                         setData(data.results);
+                        setCount(data.count);
                     })
                     .catch(error => {
-                        console.log(error.response.data);
+                        console.log(error.response);
                     })
             }
         })();
-    }, []);
-    const { getTableProps, headerGroups, rows, prepareRow } = useTable({
-        columns,
-        data,
-    });
+    }, [pageIndex]);
+
+   
+
     if (!data) return t("loading");
 
     return (
@@ -49,8 +87,8 @@ const ParticipantRewardHistory = ({ participant, auth, program, organization }) 
             <Table striped bordered hover size="md" {...getTableProps()}>
                 <thead>
                     <tr>
-                        <td colSpan={4} className="title">
-                            Reward History
+                        <td colSpan={12} className="title">
+                            <strong>Reward History</strong>
                         </td>
                     </tr>
                 </thead>
@@ -78,6 +116,27 @@ const ParticipantRewardHistory = ({ participant, auth, program, organization }) 
                     })}
                 </tbody>
             </Table>
+            <div className="my-3 status">
+                {rows.length > 0 && (
+                <>
+                    <ReactTablePagination
+                        page={page}
+                        gotoPage={gotoPage}
+                        previousPage={previousPage}
+                        nextPage={nextPage}
+                        canPreviousPage={canPreviousPage}
+                        canNextPage={canNextPage}
+                        pageOptions={pageOptions}
+                        pageSize={pageSize}
+                        pageIndex={pageIndex}
+                        pageCount={pageCount}
+                        setPageSize={setPageSize}
+                        manualPageSize={[]}
+                        dataLength={count}
+                    />
+                </>
+                )}
+            </div>
         </>
     );
 };
