@@ -20,6 +20,7 @@ const MainModalWrapper = ({
   toggle,
   participants,
   auth,
+  template,
 }) => {
   const { t } = useTranslation();
   const props = {
@@ -32,6 +33,7 @@ const MainModalWrapper = ({
     participants,
     auth,
     name,
+    template
   };
   if (!organization?.id || !program?.id) return t("loading");
   return (
@@ -53,6 +55,7 @@ const mapStateToProps = (state) => {
     auth: state.auth,
     program: state.program,
     organization: state.organization,
+    template: state.template,
   };
 };
 export default connect(mapStateToProps)(MainModalWrapper);

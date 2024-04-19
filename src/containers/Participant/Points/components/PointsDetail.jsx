@@ -32,7 +32,7 @@ const PointsDetail = ({program, organization, auth}) => {
 
   useEffect(() => {
     if (organization?.id && program?.id && auth?.id) {
-      getUserEventHistory(organization.id, program.id, auth.id, 0, 10)
+      getUserEventHistory(organization.id, program.id, auth.id, 0, 99999999)
       .then(data => {
         data.results.map( row => row.amount)
         setData(data.results);
