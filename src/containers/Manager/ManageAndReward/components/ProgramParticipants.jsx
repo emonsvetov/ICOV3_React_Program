@@ -71,7 +71,7 @@ const BULK_ACTIONS = [
   "Resend Invite",
   "Deactivate",
   "Activate",
-  "Lock",
+  "Lock","Unlock",
   "Peer Allocation",
   "Reclaim Peer Allocations",
   //"Add Goal" TODO: add logic to check engagement settings
@@ -126,9 +126,12 @@ const RenderActions = ({ row, onClickActionCb }) => {
       }
       statusLabel = "Lock";
     }
-    if (item.name === "Unlock" && currentStatus !== "Locked") {
-      return null;
-    }
+      if (item.name === "Unlock") {
+          if (currentStatus !== "Locked") {
+              return false;
+          }
+          statusLabel = "Unlock";
+      }
     return (
       <span
         key={index}
