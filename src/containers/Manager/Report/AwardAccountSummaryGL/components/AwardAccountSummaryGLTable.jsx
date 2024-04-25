@@ -258,7 +258,7 @@ const DataTable = ({organization, program, programs}) => {
                           const skip = cell.value === 'skip_td';
                           if (skip) return null;
                           const paddingLeft = subCount * 20
-                          return <td {...cell.getCellProps()} rowSpan={rowSpan} key={cell.column.id + row.id}>
+                          return <td {...cell.getCellProps()} rowSpan={rowSpan} key={cell.column.id + row.id} style={cell.row.values.Event == 'Total' ? {fontWeight: 'bold'} : null}>
                                             <span
                                               style={cell.column.Header === '#' ? {paddingLeft: `${paddingLeft}px`} : null}>{cell.render('Cell')}</span>
                           </td>
