@@ -591,11 +591,14 @@ ul.horizontal {
         max-width: 98%;
     }
     .manager-tabnavs-wrap{
+        display: flex;
+        justify-content: center;
         .tab-navs{
             @media (min-width: 768px) {
                 max-width: fit-content;
             }
             li{
+                margin-right: 10px;
                 .tab-nav{
                     .icon{
                         svg{
@@ -606,6 +609,7 @@ ul.horizontal {
                         }
                     }
                     strong{
+                        text-wrap: nowrap;
                         @media (max-width: 401px) {
                             font-size: 0.80rem;
                         }
