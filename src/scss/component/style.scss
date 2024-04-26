@@ -1419,6 +1419,9 @@ footer{
         border: none;
         background: transparent;
     }
+    .table-striped > tbody > tr:nth-child(2n + 1) > td span{
+        background-color: transparent;
+     }
 }
 
 .pointer {

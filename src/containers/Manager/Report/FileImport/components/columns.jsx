@@ -1,4 +1,4 @@
-import { toPoints} from '@/shared/helpers'
+import {format} from "date-fns";
 
 const RenderActions = ({row}) => {
   return (
@@ -12,6 +12,7 @@ export const TABLE_COLUMNS = [
     {
       Header: "Import Date",
       accessor: "created_at",
+      Cell: ({ row, value }) => { return format(new Date(value), "MM/dd/yyyy")}
     },
     {
       Header: "File Name",
