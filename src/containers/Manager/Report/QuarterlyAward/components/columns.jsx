@@ -1,44 +1,51 @@
 import { toPoints} from '@/shared/helpers'
 const Q1_columns = [
   {
-      Header: 'Value',
-      accessor: 'Q1_value',
-    },
-    {
-      Header: 'Count',
-      accessor: 'Q1_count',
-    }
+    Header: 'Value',
+    accessor: 'Q1_value',
+    Cell: ({ row, value }) => { return `${parseFloat(value).toFixed(2)}`},
+  },
+  {
+    Header: 'Count',
+    accessor: 'Q1_count',
+  }
 ]
+
 const Q2_columns = [
-    {
-        Header: 'Value',
-        accessor: 'Q2_value',
-      },
-      {
-        Header: 'Count',
-        accessor: 'Q2_count',
-      }
-  ]
-    const Q3_columns = [
-    {
-        Header: 'Value',
-        accessor: 'Q3_value',
-        },
-        {
-        Header: 'Count',
-        accessor: 'Q3_count',
-        }
-    ]
-    const Q4_columns = [
-    {
-        Header: 'Value',
-        accessor: 'Q4_value',
-        },
-        {
-        Header: 'Count',
-        accessor: 'Q4_count',
-        }
-    ]
+  {
+    Header: 'Value',
+    accessor: 'Q2_value',
+    Cell: ({ row, value }) => { return `${parseFloat(value).toFixed(2)}`},
+  },
+  {
+    Header: 'Count',
+    accessor: 'Q2_count',
+  }
+]
+
+const Q3_columns = [
+  {
+    Header: 'Value',
+    accessor: 'Q3_value',
+    Cell: ({ row, value }) => { return `${parseFloat(value).toFixed(2)}`},
+  },
+  {
+    Header: 'Count',
+    accessor: 'Q3_count',
+  }
+]
+
+const Q4_columns = [
+  {
+    Header: 'Value',
+    accessor: 'Q4_value',
+    Cell: ({ row, value }) => { return `${parseFloat(value).toFixed(2)}`},
+  },
+  {
+    Header: 'Count',
+    accessor: 'Q4_count',
+  }
+]
 
 export const TABLE_COLUMNS = [
   {
