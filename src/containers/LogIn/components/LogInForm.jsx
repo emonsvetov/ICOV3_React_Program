@@ -25,6 +25,8 @@ const LogInForm = () => {
   let [accessToken, setAccessToken] = useState(null);
   let [program, setProgram] = useState(null);
   const [isManager, setIsManager] = useState(false);
+  const [isLimitedManager, setIsLimitedManager] = useState(false);
+  const [isReadOnlyManager, setIsReadOnlyManager] = useState(false);
   const [isParticipant, setIsParticipant] = useState(false);
   const [mediaTypes, setMediaTypes] = useState([]);
   const [programOptions, setProgramOptions] = useState([]);
@@ -63,6 +65,12 @@ const LogInForm = () => {
     if(hasRoleInProgram('Manager', programId, user)) {
       setIsManager(true)
     }
+    if(hasRoleInProgram('Limited Manager', programId, user)) {
+      setIsLimitedManager(true)
+    }
+    if(hasRoleInProgram('Read Only Manager', programId, user)) {
+      setIsReadOnlyManager(true)
+    }
   };
 
   const handleCountRole = ( ) => {
@@ -78,7 +86,15 @@ const LogInForm = () => {
       if(hasRoleInProgram('Manager', programId, user)) {
         role = 'manager';
         count ++;
-      }  
+      }
+      if(hasRoleInProgram('Limited Manager', programId, user)) {
+        role = 'limited_manager';
+        count ++;
+      }
+      if(hasRoleInProgram('Read Only Manager', programId, user)) {
+        role = 'read_only_manager';
+        count ++;
+      }
     })
     return [count, programId, role];
   };
@@ -150,7 +166,7 @@ const LogInForm = () => {
             organization: organization
           })
           let sendTo = '/'
-          if( user.loginAs.name === 'Manager')  {
+          if( user.loginAs.name.includes('Manager'))  {
             sendTo = '/manager/home'
             var t = setTimeout(window.location = sendTo, 500);
 
@@ -296,6 +312,7 @@ const LogInForm = () => {
         )}
       />
     )}
+
     const FormProgram = () => {
       // console.log(user)
 
@@ -396,11 +413,30 @@ const LogInForm = () => {
                 text="Log In as a Manager"
               />
             }
+            {!isManager && isLimitedManager &&
+              <TemplateButton
+                type="submit"
+                disabled={loading}
+                className=""
+                onClick={()=>{loginAs='limited_manager'}}
+                text="Log In as a Manager"
+              />
+            }
+            {!isManager && !isLimitedManager && isReadOnlyManager &&
+              <TemplateButton
+                type="submit"
+                disabled={loading}
+                className=""
+                onClick={()=>{loginAs='read_only_manager'}}
+                text="Log In as a Manager"
+              />
+            }
           </ButtonToolbar>
           </form>
         )}
       />
     )}
+
     return (
       <div className="card w-100">
         <div className="card-header">Sign In</div>
