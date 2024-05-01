@@ -15,7 +15,8 @@ const TableFilter = ({ config, filter, setFilter}) => {
     const defaultFilters = {
         keyword: '',
         from: defaultFrom,
-        to: defaultTo
+        to: defaultTo,
+        status:[]
     }
 
     const finalFilter = {...defaultFilters, ...filter}
@@ -23,7 +24,8 @@ const TableFilter = ({ config, filter, setFilter}) => {
     const defaultConfig = {
         label:'term',
         keyword:true,
-        dateRange: false
+        dateRange: false,
+        status:false
     }
 
     const options = {...defaultConfig, ...config}
@@ -33,6 +35,7 @@ const TableFilter = ({ config, filter, setFilter}) => {
     const [keyword, setKeyword] = React.useState(finalFilter.keyword)
     const [from, setFrom] = React.useState( finalFilter.from )
     const [to, setTo] = React.useState( finalFilter.to )
+    const [status, setStatus] = React.useState( finalFilter.status )
 
     // if( options.dateRange ) {
     //     // setFrom(finalFilter.from)
@@ -56,6 +59,9 @@ const TableFilter = ({ config, filter, setFilter}) => {
         if( options.dateRange ) {
             dataSet.from = dateStrToYmd(reset ? defaultFrom : from)
             dataSet.to = dateStrToYmd(reset ? defaultTo : to)
+        }
+        if( options.status ) {
+            dataSet.status = [...status]
         }
         onClickFilterCallback( dataSet )
         if( reset ) {
@@ -82,6 +88,10 @@ const TableFilter = ({ config, filter, setFilter}) => {
             }
         }
 
+        if(options.status) {
+            
+        }
+
         if( !change )    {
             alert('No change in filters')
             return
@@ -93,11 +103,14 @@ const TableFilter = ({ config, filter, setFilter}) => {
             filters.from = values.from
             filters.to = values.to
         }
+        if( options.status ) {
+            filters.status = [...values.status]
+        }
         // alert(JSON.stringify(filters))
         setFilter( filters )
     }
     return (
-            <div className='wrapper'>
+            <div className='wrapper' style={{marginBottom: 20}}>
                 {options.keyword && 
                     <>
                         <input value={keyword}
@@ -110,7 +123,7 @@ const TableFilter = ({ config, filter, setFilter}) => {
                         type="text"
                         placeholder={`Search`}
                         className='input'></input>
-                        <SearchIcon className='icon' onClick={()=>onClickFilter()} size={36} />
+                        <SearchIcon className='icon cursor-pointer' onClick={()=>onClickFilter()} size={36} />
                     </>
                 }
                 {options.dateRange &&  ''}
