@@ -2,16 +2,30 @@ import React, {useEffect, useState} from "react";
 import { Col, Row } from "reactstrap";
 import { connect } from "react-redux";
 import axios from "axios";
+import Select from "react-select";
 
 const ParticipantInfo = ({ participant, auth, program }) => {
-    const [awardLevels, setAwardLevels] = useState([])
+    // const [awardLevels, setAwardLevels] = useState([])
+    const [awardLevelOptions, setAwardLevelOptions] = useState([])
+    const [awardLevel, setAwardLevel] = useState({})
+    
     const fullName = `${participant.first_name} ${participant.last_name}`
 
     const getDataItems = async () => {
         const response = await axios.get(
             `/organization/${program.organization_id}/program/${program.id}/program-award-levels`,
         );
-        setAwardLevels(response.data);
+        // setAwardLevels(response.data);
+        let options = []
+        if(response.data?.length){
+            response.data.forEach(item => {
+                options.push({label: item.name, value: item.id})
+                if(item.name == participant.award_level){
+                    setAwardLevel({label: item.name, value: item.id})
+                }
+            });
+            setAwardLevelOptions(options)
+        }
     };
 
     useEffect(() => {
@@ -20,11 +34,16 @@ const ParticipantInfo = ({ participant, auth, program }) => {
 
     const handleChange = (event) => {
         axios.put(`/organization/${program.organization_id}/program/${program.id}/user/${participant.id}`, {
-                award_level: event.target.value,
+                award_level: event.value,
                 first_name: participant.first_name,
                 last_name: participant.last_name,
                 email: participant.email,
-            }).then( (res) => {})
+            }).then( (res) => {
+                awardLevelOptions.forEach(item => {
+                    if(item.value == res.data?.user?.award_level){
+                        setAwardLevel(item)
+                    }
+            });})
     };
 
     return (
@@ -96,13 +115,22 @@ const ParticipantInfo = ({ participant, auth, program }) => {
                     Award Level:
                 </Col>
                 <Col md="6" lg="6" xl="6" sm="12">
-                    <select onChange={handleChange}>
-                        <option disabled selected value=""></option>
+                    <Select
+                        options={awardLevelOptions}
+                        clearable={false}
+                        className="react-select"
+                        placeholder={" --- "}
+                        classNamePrefix="react-select"
+                        value={awardLevel}
+                        onChange={handleChange}
+                        />
+                    {/* <select onChange={handleChange}>
+                        <option disabled selected value="">Select a level</option>
                         {awardLevels.map((option, index) => (
                             <option key={index} value={option.id} selected={participant.award_level === option.name}>{option.name}</option>
                         ))}
-                    </select>
-                    <button style={{marginLeft:10}}>Save</button>
+                    </select> */}
+                    {/* <button style={{marginLeft:10}}>Save</button> */}
                 </Col>
             </Row>
         </>
