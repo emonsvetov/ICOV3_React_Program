@@ -150,7 +150,7 @@ const DetailChartItemAward = ({organization, program}) => {
           </Input>    
         </div>
       </div>
-      <Line options={options} data={data} />
+      <Line className={program.uses_peer2peer > 0 ? 'h-50': 'h-100'} options={options} data={data} />
     </div>
 )}
 

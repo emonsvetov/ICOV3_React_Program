@@ -135,7 +135,7 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
         <CardHeader tag="h3">
           {t('add_a_comment')}
 
-          <Button className="btn btn-lg float-end" close onClick={toggle}/>
+          <Button className="btn btn-lg float-end" style={{ float: "right" }} close onClick={toggle}/>
 
         </CardHeader>
         <CardBody>

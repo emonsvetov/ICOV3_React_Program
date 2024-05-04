@@ -114,7 +114,7 @@ const CheckoutPage = ({ cart, program, pointBalance, organization, template, dis
   });
 
 
-  if (cartIsEmpty) return t("cart_empty");
+  if (cartIsEmpty && !checkoutIsComplete) return t("cart_empty");
   //   console.log(data)
   return (
     <>
@@ -248,6 +248,7 @@ const CheckoutPage = ({ cart, program, pointBalance, organization, template, dis
           <TemplateButton
               type="submit"
               disabled={isLoading}
+              spinner={isLoading}
               onClick={confirmOrder}
               text={t("confirm_my_order")}
           />

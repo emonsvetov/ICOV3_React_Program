@@ -43,8 +43,8 @@ const ReferralForm = ({
                     if (res.status == 200) {
                         flashSuccess(dispatch, 'Referral saved successfully!')
                         setLoading(false)
-                        window.location.reload()
                         toggle()
+                        window.location.reload()
                     }
                 })
             .catch((err) => {

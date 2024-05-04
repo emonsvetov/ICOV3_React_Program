@@ -33,7 +33,7 @@ const Footer = ({links}) => {
         <Row>
           <div className="col-md-6 copyright">
             {t("copyright")} {new Date().getFullYear()}{" "}
-            <span className="text-warning">Incentco</span> LLC.{" "}
+            <span className="text-warning text-uppercase">Incentco</span> LLC.{" "}
             {t("all_rights_reserved")}.
           </div>
           <nav className="col-md-6 teritery-menu">

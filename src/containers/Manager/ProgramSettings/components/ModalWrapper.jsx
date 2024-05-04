@@ -6,6 +6,7 @@ import AddEventPopup from "../Events/AddEventModal";
 import EditEventModal from "../Events/EditEventModal";
 import AddLeaderboardModal from "./AddLeaderboardModal";
 import { useTranslation } from "react-i18next";
+import EditLeaderboardModal from "./EditLeaderboardModal";
 
 const ModalWrapper = ({
   organization,
@@ -18,6 +19,8 @@ const ModalWrapper = ({
   setEvent,
   goalplan,
   setGoalPlan,
+  leaderboard,
+  setLeaderboard,
   setTrigger
 }) => {
   const { t } = useTranslation();
@@ -31,9 +34,10 @@ const ModalWrapper = ({
     setEvent,
     goalplan,
     setGoalPlan,
+    leaderboard,
+    setLeaderboard,
     setTrigger
   };
-  // console.log(leaderboard, '-----------')
   if (!organization?.id || !program?.id) return t("loading");
 
   return (
@@ -43,6 +47,7 @@ const ModalWrapper = ({
       {name === "AddGoalPlan" && <AddGoalPlanModal {...props} />}
       {name === "EditGoalPlan" && <EditGoalPlanModal {...props} />}
       {name === "AddLeaderboard" && <AddLeaderboardModal {...props} />}
+      {name === "EditLeaderboard" && <EditLeaderboardModal {...props} />}
     </>
   );
 };

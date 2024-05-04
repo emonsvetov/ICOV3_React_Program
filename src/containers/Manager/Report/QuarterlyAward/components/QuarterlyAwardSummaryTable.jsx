@@ -259,7 +259,7 @@ const DataTable = ({organization, program, programs}) => {
                 )
               })}
               </tbody>
-              <tfoot>
+              <tfoot style={{fontWeight:'bold'}}>
                 <td>
                   Total
                 </td>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Col, Container, Row, NavLink } from "reactstrap";
-import { useLocation } from "react-router-dom";
+import { useLocation  } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import SelectProgram from '../components/SelectProgram'
@@ -32,8 +32,8 @@ const ProgramSettings = ({ auth, program, organization }) => {
       text: "Active Goal Plans",
     })
     LINKS.push({
-      to: "#future-goalplans",
-      text: "Future Goal Plans",
+      to: "#create-goalplan",
+      text: "Create Goal Plan",
     })
   }
 
@@ -49,13 +49,16 @@ const ProgramSettings = ({ auth, program, organization }) => {
   const [activeTab, setActiveTab] = useState('#events');
   const [isOpen, setOpen] = useState(false);
   const [reloadEvents, setReloadEvents] = useState(false);
+  const [reloadLeaderboards, setReloadLeaderboards] = useState(false);
   const [modalName, setModalName] = useState(null);
-
+  const [leaderboard, setLeaderboard] = useState({});
+  
   const toggle = (name = null, reload=false) => {
     if (name) setModalName(name);
     setOpen((prevState) => !prevState);
     if(reload){
       setReloadEvents(!reloadEvents);
+      setReloadLeaderboards(!reloadLeaderboards);
     }
   };
 
@@ -70,7 +73,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
         }
       }
     }
-  }, [hash]);
+  }, [LINKS]);
 
   if (!auth || !program || !organization) return t("loading");
 
@@ -159,7 +162,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
           </div>
         </div>
 
-        <div className={activeTab != "#future-goalplans" ? "d-none" : ""} id="future-goalplans">
+        <div className={activeTab != "#create-goalplan" ? "d-none" : ""} id="create-goalplan">
           <div className="my-3 d-flex justify-content-between">
             <h3>Goal Plans</h3>
             <TemplateButton
@@ -167,7 +170,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
               text="Add New Goal Plan"
             />
           </div>
-          <div className="future-goalplan-table">
+          <div className="create-goalplan-table">
               <GoalPlans
                 program={program}
                 organization={organization}
@@ -185,7 +188,7 @@ const ProgramSettings = ({ auth, program, organization }) => {
             />
           </div>
           <div className="leaderboard-table">
-            <Leaderboards program={program} organization={organization} />
+            <Leaderboards program={program} organization={organization} leaderboard={leaderboard} setLeaderboard={setLeaderboard} reload={reloadLeaderboards} />
           </div>
         </div>
       </Container>
@@ -195,6 +198,8 @@ const ProgramSettings = ({ auth, program, organization }) => {
         isOpen={isOpen}
         setOpen={setOpen}
         toggle={toggle}
+        leaderboard = {leaderboard}
+        setLeaderboard = {setLeaderboard}
       />
     </div>
   );

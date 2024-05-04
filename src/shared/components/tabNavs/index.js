@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {connect} from 'react-redux';
 import TabNav from "./components/Tabnav";
-import "./style.scss";
 import { useNavigate, useLocation } from "react-router-dom";
 import {Themed} from '@/theme'
 import {getLeaderboards} from '@/services/program/getLeaderboards'

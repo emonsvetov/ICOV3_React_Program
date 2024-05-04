@@ -7,9 +7,10 @@ import TrashIcon from "mdi-react/TrashCanIcon";
 import { Link } from "react-router-dom";
 import { useDispatch, sendFlashMessage } from "@/shared/components/flash";
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
-import EditLeaderboardModal from "./EditLeaderboardModal";
 import { useTranslation } from "react-i18next";
 import { Table } from "reactstrap";
+import { getLeaderboard } from "@/services/program/getLeaderboard";
+import ModalWrapper from "./ModalWrapper";
 
 
 const COLUMNS = [
@@ -46,25 +47,43 @@ const setLeaderboardTypeNames = (element) => {
   return str;
 }
 
-const Leaderboards = ({ program, organization }) => {
+const Leaderboards = ({ program, organization, leaderboard, setLeaderboard, reload }) => {
+
   const dispatch = useDispatch();
   const { t } = useTranslation();
   // console.log(program)
   // console.log(organization)
-
+  const [trigger, setTrigger] = useState(0);
   const [leaderboards, setLeaderboards] = useState([]);
-  const [leaderboardId, setLeaderboardId] = useState(null);
+
   const [loading, setLoading] = useState(true);
   const [isOpen, setOpen] = useState(false);
+  const [modalName, setModalName] = useState(null);
 
-  const toggle = () => {
-    setOpen((prevState) => !prevState);
-  };
 
   const onClickEditLeaderboard = (id) => {
-    setLeaderboardId(id);
-    toggle();
+    getLeaderboard(organization.id, program.id, id).then((item)=>{
+      setLeaderboard(item);
+      toggle("EditLeaderboard");
+    })
   };
+
+  const loadLeaderboards = () => {
+    setLoading(true);
+    getLeaderboards(organization.id, program.id).then((items) => {
+      setLeaderboards(items);
+      setLoading(false);
+    });
+  }
+
+  const toggle = (name = null, reload = false) => {
+    if (name) setModalName(name);
+    setOpen((prevState) => !prevState);
+    if(reload){
+      loadLeaderboards();
+    }
+  };
+
   const onDeleteLeaderboard = (leaderboardId) => {
     setLoading(true);
     axios
@@ -82,7 +101,7 @@ const Leaderboards = ({ program, organization }) => {
             )
           );
           setLoading(false);
-          var t = setTimeout(window.location.reload(), 3000);
+          setTrigger(Math.floor(Date.now() / 1000))
         }
       })
       .catch((err) => {
@@ -137,15 +156,9 @@ const Leaderboards = ({ program, organization }) => {
     ],
   ];
 
-  useEffect(() => {
-    if (organization && program) {
-      setLoading(true);
-      getLeaderboards(organization.id, program.id).then((items) => {
-        setLeaderboards(items);
-        setLoading(false);
-      });
-    }
-  }, [organization, program]);
+  useEffect(() => {    
+    loadLeaderboards();
+  }, [trigger, reload]);
 
   const columns = React.useMemo(() => final_columns, []);
   // const data = React.useMemo(() => fetchEvents(organization, program), [])
@@ -192,13 +205,14 @@ const Leaderboards = ({ program, organization }) => {
           })}
         </tbody>
       </Table>
-      <EditLeaderboardModal
-        program={program}
-        organization={organization}
-        id={leaderboardId}
-        isOpen={isOpen}
-        setOpen={setOpen}
-        toggle={toggle}
+      <ModalWrapper
+        name={modalName} 
+        isOpen={isOpen} 
+        setOpen={setOpen} 
+        toggle={toggle} 
+        leaderboard={leaderboard} 
+        setLeaderboard={setLeaderboard}
+        setTrigger={setTrigger}
       />
     </>
   );

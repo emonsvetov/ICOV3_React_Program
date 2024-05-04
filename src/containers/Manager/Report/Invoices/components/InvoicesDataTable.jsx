@@ -1,6 +1,6 @@
 import React, {useMemo, useState, useEffect} from 'react';
 import {connect} from "react-redux";
-
+import {format} from "date-fns";
 import { useTable, usePagination, useRowSelect, useSortBy } from "react-table";
 import { Row, Col, Table, Card, CardBody  } from 'reactstrap';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
@@ -22,11 +22,13 @@ const InvoicesDataTable = (props) => {
         },
         {
             Header: "Start Date",
-            accessor: "date_begin"
+            accessor: "date_begin",
+            Cell: ({ row, value }) => { return format(new Date(value), "MM/dd/yyyy")}
         },
         {
             Header: "End Date",
-            accessor: "date_end"
+            accessor: "date_end",
+            Cell: ({ row, value }) => { return format(new Date(value), "MM/dd/yyyy")}
         }
     ]
 

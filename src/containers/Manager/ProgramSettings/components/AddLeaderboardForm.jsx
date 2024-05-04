@@ -11,7 +11,9 @@ import TemplateButton from "@/shared/components/TemplateButton"
 
 const AddLeaderboardForm = ({
     organization,
-    program
+    program,
+    toggle,
+    setLeaderboard,
     }) => {
     const dispatch = useDispatch()
 
@@ -34,14 +36,17 @@ const AddLeaderboardForm = ({
             //   console.log(res)
             if (res.status == 200) {
                 // alert(window.location.href);
-                window.location.reload()
+                // window.location.reload()
                 dispatch(sendFlashMessage('Leaderboard added successfully!', 'alert-success', 'top'))
+                toggle(null, true);
+                setLeaderboard(res.data?.leaderboard)
+                toggle("EditLeaderboard");
                 setLoading(false)
             }
           })
           .catch((err) => {
             //console.log(error.response.data);
-            dispatch(sendFlashMessage(<ApiErrorMessage errors={err.response.data} />, 'alert-danger', 'top'))
+            dispatch(sendFlashMessage(<ApiErrorMessage errors={err.message} />, 'alert-danger', 'top'))
             setLoading(false)
           });
     };

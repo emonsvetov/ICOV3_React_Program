@@ -23,7 +23,7 @@ const ConfirmPopup = ({message, action, isOpen, setOpen, toggle}) => {
       <Card className='w-100'>
         <CardHeader tag="h3">
           Confirm
-          <Button className='btn btn-lg float-end' close onClick={toggle}/>
+          <Button className='btn btn-lg float-end' style={{ float: "right" }} close onClick={toggle}/>
         </CardHeader>
         <CardBody>
           <div dangerouslySetInnerHTML={createMarkup(message)}/>

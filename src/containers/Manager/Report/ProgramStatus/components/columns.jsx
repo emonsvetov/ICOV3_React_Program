@@ -18,10 +18,12 @@ export const TABLE_COLUMNS = [
     {
         Header: "Value",
         accessor: "awards_value",
+        Cell: ({ row, value }) => { return `${parseFloat(value).toFixed(2)}`},
     },
     {
         Header: "Average",
         accessor: "transaction_fees",
+        Cell: ({ row, value }) => { return `${parseFloat(value).toFixed(2)}`},
     },
     {
         Header: "MTD Awards",
@@ -30,10 +32,12 @@ export const TABLE_COLUMNS = [
     {
         Header: "MTD Value",
         accessor: "mtd_awards_value",
+        Cell: ({ row, value }) => { return `${parseFloat(value).toFixed(2)}`},
     },
     {
         Header: "MTD Average",
         accessor: "mtd_transaction_fees",
+        Cell: ({ row, value }) => { return `${parseFloat(value).toFixed(2)}`},
     },
     {
         Header: "YTD Awards",
@@ -42,9 +46,11 @@ export const TABLE_COLUMNS = [
     {
         Header: "YTD Value",
         accessor: "ytd_awards_value",
+        Cell: ({ row, value }) => { return `${parseFloat(value).toFixed(2)}`},
     },
     {
         Header: "YTD Average",
         accessor: "ytd_transaction_fees",
+        Cell: ({ row, value }) => { return `${parseFloat(value).toFixed(2)}`},
     },   
 ]
