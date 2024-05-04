@@ -1,9 +1,9 @@
 
 import axios from 'axios'
 
-const getCsvImportSettings = async (organizationId, type) => {
+const getCsvImportSettings = async (organizationId, programId, csvImportTypeId) => {
     try {
-        const url = `/organization/${organizationId}/csv-import-setting/${type}`;
+        const url = `/organization/${organizationId}/program/${programId}/csv-import-setting/${csvImportTypeId}`;
         const response = await axios.get(url);
         return response.data;
     } catch (e) {

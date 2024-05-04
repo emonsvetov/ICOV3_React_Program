@@ -9,7 +9,7 @@ import SetupFields from "./SetupFields";
 import getCsvImportSettings from '@/services/getCsvImportSettings';
 import {connect} from "react-redux";
 
-const FormStep2 = ({ config, csvFile, setCsvFile, onclickBack, importHeaders, isValidResponse, setSaveSettings, saveSettings, handleSubmit, organization }) => {
+const FormStep2 = ({ config, csvFile, setCsvFile, onclickBack, importHeaders, isValidResponse, setSaveSettings, saveSettings, handleSubmit, organization, csvImportType, program, processing }) => {
     const [checked, setChecked] = useState(false);
     const [savedSettings, setSavedSettings] = useState([]);
     const [typeChanged, setTypeChanged] = useState(false);
@@ -36,6 +36,17 @@ const FormStep2 = ({ config, csvFile, setCsvFile, onclickBack, importHeaders, is
         // console.log(newOptions)
         return newOptions;
     }
+
+    useEffect(() => {
+      console.log("csvImportType")
+      if (organization?.id && program?.id && csvImportType?.id) {
+          getCsvImportSettings(organization.id, program.id, csvImportType.id)
+          .then(data => {
+              console.log(data)
+              setSavedSettings(data);
+          })
+      }
+    }, [organization, program, csvImportType]);
 
     useEffect(() => {
         if(saveSettings){
@@ -125,16 +136,16 @@ const FormStep2 = ({ config, csvFile, setCsvFile, onclickBack, importHeaders, is
                 />
                 <div className="form__form-group-field flex-column">
                     <div className="form__form-group-row flex-row pt-3">
-                        <Button className="btn btn-outline-primary btn-sm" color="#ffffff" disabled={1 == 2} onClick={onclickBack} style={{}}>Back</Button>
+                        <Button className="btn btn-outline-primary btn-sm" color="#ffffff" disabled={processing} onClick={onclickBack} style={{}}>Back</Button>
                         <Button onClick={(e) => {
                             e.preventDefault();
                             setSaveSettings(true);
-                        }} className="btn btn-primary btn-sm" color="#ffffff" type="submit" style={{}}>Save Settings</Button>
+                        }} className="btn btn-primary btn-sm" color="#ffffff" type="submit" style={{}} disabled={processing}>Save Settings</Button>
                         <Button onClick={(e) => {
                             // e.preventDefault();
                             setSaveSettings(false);
                             // setCustomSubmit(true);
-                        }} className="btn btn-primary btn-sm" color="#ffffff" disabled={1 == 2} type="submit" style={{}}>Import</Button>
+                        }} className="btn btn-primary btn-sm" color="#ffffff" disabled={processing} type="submit" style={{}}>Import</Button>
                     </div>
                 </div>
             </div>

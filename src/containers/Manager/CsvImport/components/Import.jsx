@@ -11,6 +11,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import Select from 'react-select';
 import getCsvImportTypeOptions from '@/services/getCsvImportTypeOptions'
+import getCsvImportTypeFields from '@/services/getCsvImportTypeFields'
 
 import {labelizeNamedData} from "@/shared/helpers";
 
@@ -81,9 +82,13 @@ const Import = ({ organization, program }) => {
   const [loading, setLoading] = useState(false);
   const [typeOptionsLoading, setTypeOptionsLoading] = useState(true);
   const [importType, setImportType] = useState("Users"); //extend it later
-  const [csvImportType, setCsvImportType] = useState("award_users"); //extend it later
+  const [csvImportType, setCsvImportType] = useState(null); //extend it later
+  const [csvImportTypeType, setCsvImportTypeType] = useState("award_users"); //extend it later
+  const [csvImportTypes, setCsvImportTypes] = useState("award_users"); //extend it later
   const [csvImportTypeOptions, setCsvImportTypeOptions] = useState([]); //extend it later
   const [importHeaders, setImportHeaders] = useState(null);
+  const [selectedImportTypeOption, setSelectedImportTypeOption] = useState(null);
+  const [csvImportTypeFields, setCsvImportTypeFields] = useState(null);
   const [csvFile, setCsvFile] = useState(null);
   const [step, setStep] = useState(0);
   const [error, setError] = useState(null);
@@ -94,20 +99,36 @@ const Import = ({ organization, program }) => {
     if( organization?.id )  
     {
       if( step == 0 ) {
-        getCsvImportTypeOptions(organization.id, importType)
+        getCsvImportTypeOptions(organization.id, program.id, importType)
         .then( res => {
+          setCsvImportTypes(res) //set raw
           let tmpCsvImportTypeOptions = labelizeNamedData(res, ['type', 'name'])
-          tmpCsvImportTypeOptions = tmpCsvImportTypeOptions.map(obj => {
-            if( obj.value === 'award_users' || obj.value === 'add_and_award_users') return obj;
-            obj.disabled = true
-            return obj
-          })
+          // tmpCsvImportTypeOptions = tmpCsvImportTypeOptions.map(obj => {
+          //   if( obj.value === 'award_users' || obj.value === 'add_and_award_users') return obj;
+          //   obj.disabled = true
+          //   return obj
+          // })
           setCsvImportTypeOptions( tmpCsvImportTypeOptions )
           setTypeOptionsLoading(false)
         })
       }
     }
   }, [organization, step])
+
+  useEffect(() => {
+    // console.log(selectedImportTypeOption)
+    if( selectedImportTypeOption?.value ) {
+      const _csvImportType = csvImportTypes.find( t => t.type === selectedImportTypeOption.value)
+      if( _csvImportType?.id ) {
+        setCsvImportType(_csvImportType)
+        getCsvImportTypeFields(organization.id, _csvImportType.id)
+        .then( res => {
+          // console.log(res)
+          setCsvImportTypeFields(res.fields)
+        })
+      }
+    }
+  }, [selectedImportTypeOption]);
 
   const dispatch = useDispatch();
 
@@ -158,13 +179,13 @@ const Import = ({ organization, program }) => {
   const onSubmitStep1 = (values) => {
     let data = new FormData();
     // const prefix = importType.toLowerCase().substring(0, importType.length - 1)
-    let prefix = csvImportType
+    let prefix = csvImportTypeType
       .toLowerCase()
-      .substring(0, csvImportType.length - 1)
+      .substring(0, csvImportTypeType.length - 1)
       .replace("_", "");
     // console.log(prefix)
     data.append("upload-file", csvFile);
-    const url = `/organization/${organization.id}/program/${program.id}/${prefix}importheaders`;
+    const url = `/organization/${organization.id}/program/${program.id}/importtype/${csvImportType.id}/importheaders`;
     // console.log(url)
     axios
       .post(url, data, {
@@ -177,7 +198,7 @@ const Import = ({ organization, program }) => {
           flashError(dispatch, "Cannot read or invalid CSV file");
           return;
         }
-        console.log(res.data);
+        // console.log(res.data);
         setImportHeaders(res.data);
         setStep(2);
       })
@@ -189,13 +210,14 @@ const Import = ({ organization, program }) => {
   };
 
   const onSubmitStep2 = (values) => {
+    // console.log(csvImportType)
     const isSaveSettings = !!values.isSaveSettings;
     let isAutoImport = false;
 
-    console.log(values);
-    console.log(importHeaders);
-    console.log(values.hasOwnProperty("fieldsToMap"));
-    console.log(csvFile instanceof File);
+    // console.log(values);
+    // console.log(importHeaders);
+    // console.log(values.hasOwnProperty("fieldsToMap"));
+    // console.log(csvFile instanceof File);
     if (
       !values ||
       !importHeaders ||
@@ -207,6 +229,8 @@ const Import = ({ organization, program }) => {
       return;
     }
     // console.log(values)
+
+    setProcessing(true)
 
     const formFields = values.fieldsToMap;
 
@@ -261,26 +285,25 @@ const Import = ({ organization, program }) => {
     // console.log(newFormFields)
     let data = new FormData();
     // const prefix = importType.toLowerCase().substring(0, importType.length - 1)
-    let prefix = csvImportType
+    let prefix = csvImportTypeType
       .toLowerCase()
-      .substring(0, csvImportType.length - 1)
+      .substring(0, csvImportTypeType.length - 1)
       .replace("_", "");
     data.append("upload-file", csvFile);
     data.append("fieldsToMap", JSON.stringify(newFormFields));
     if (Object.keys(setupsFields).length > 0) {
       data.append("setups", JSON.stringify(setupsFields));
     }
-    let url = `/organization/${organization.id}/program/${program.id}/${prefix}import`;
+    let url = `/organization/${organization.id}/program/${program.id}/importtype/${csvImportType.id}/import`;
     if (isSaveSettings) {
-      url = `/organization/${organization.id}/program/${program.id}/csv-import-setting`;
+      url = `/organization/${organization.id}/program/${program.id}/csv-import-setting/${csvImportType.id}`;
     } else if (type && type === "Add and Award Participants") {
       isAutoImport = true;
-      url = `/organization/${organization.id}/program/${program.id}/user-auto-import`;
+      url = `/organization/${organization.id}/program/${program.id}/importtype/${csvImportType.id}/auto-import`;
     }
 
-    // console.log(url)
-    // console.log(JSON.stringify(data))
-    // return;
+    console.log(url)
+    console.log(JSON.stringify(data))
     axios
       .post(url, data, {
         headers: {
@@ -300,6 +323,7 @@ const Import = ({ organization, program }) => {
           if (res.data?.success) {
             flashSuccess(dispatch, "Settings successfully saved");
             setSaveSettings(false);
+            setProcessing(false)
           }
         } else if (isAutoImport) {
           console.log(res.data);
@@ -308,6 +332,7 @@ const Import = ({ organization, program }) => {
               dispatch,
               "Import request added to queue. You will be notified when it is processed."
             );
+            setProcessing(false)
             // reset();
           }
         }
@@ -321,6 +346,7 @@ const Import = ({ organization, program }) => {
           dispatch,
           "There were errors. Scroll down the page to view."
         );
+        setProcessing(false)
       });
     // return newFormFields;
   };
@@ -347,7 +373,14 @@ const Import = ({ organization, program }) => {
     }
   }
 
+  const onSelectImportTypeOption = (selectedOption, input) => {
+      setSelectedImportTypeOption(selectedOption)
+      input.onChange(selectedOption);
+      console.log(selectedOption)
+  }
+
   // console.log(step)
+  // console.log(csvImportType)
 
   return (
     <>
@@ -359,6 +392,7 @@ const Import = ({ organization, program }) => {
             initialValues={{
               import_type: importType,
               import_file: csvFile,
+              csv_import_type: selectedImportTypeOption ?? null
             }}
           >
             {({ handleSubmit, form, submitting, pristine, values }) => (
@@ -387,6 +421,7 @@ const Import = ({ organization, program }) => {
                                   isLoading={typeOptionsLoading}
                                   isOptionDisabled={(option) => option.disabled}
                                   {...input}
+                                  onChange={(selectedOption) => onSelectImportTypeOption(selectedOption, input)}
                                 />
                                 {meta.touched && meta.error && <span className="form__form-group-error">{meta.error}</span>}
                               </div>
@@ -406,11 +441,14 @@ const Import = ({ organization, program }) => {
                             onclickBack,
                             onclickNext,
                             importHeaders,
+                            processing
                           }}
                         />
-                        <div className="points-summary-table">
-                          <ImportDataTable />
-                        </div>
+                        {csvImportTypeFields &&
+                          <div className="points-summary-table">
+                            <ImportDataTable TABLE_COLUMNS={csvImportTypeFields} csvImportType={csvImportType} />
+                          </div>
+                        }
                       </>
                     )}
                     {step === 2 && (
@@ -425,6 +463,9 @@ const Import = ({ organization, program }) => {
                           setSaveSettings,
                           saveSettings,
                           handleSubmit,
+                          csvImportType,
+                          program,
+                          processing
                         }}
                       />
                     )}

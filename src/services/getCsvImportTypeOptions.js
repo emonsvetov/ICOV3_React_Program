@@ -1,9 +1,9 @@
 
 import axios from 'axios'
 
-const getCsvImportTypeOptions = async (organizationId, context = '') => {
+const getCsvImportTypeOptions = async (organizationId, programId, context = '') => {
     try {
-        let url = `/organization/${organizationId}/importtype`;
+        let url = `/organization/${organizationId}/program/${programId}/importtype`;
         if( context ) {
           url += `?context=${context}`
         }

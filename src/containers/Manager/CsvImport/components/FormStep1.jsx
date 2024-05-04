@@ -4,7 +4,7 @@ import {Row, Col, ButtonToolbar, Button} from 'reactstrap';
 import {Field} from 'react-final-form';
 import MuiButton from '@material-ui/core/Button';
 
-const FormStep1 = ({config, setStep, csvFile, onSelectCsvFile, onclickBack, onclickNext, importHeaders}) => {
+const FormStep1 = ({config, setStep, csvFile, onSelectCsvFile, onclickBack, onclickNext, importHeaders, processing}) => {
   return (
     <div>
       <Field name={config.importFile.name}>
@@ -46,10 +46,10 @@ const FormStep1 = ({config, setStep, csvFile, onSelectCsvFile, onclickBack, oncl
         )}
       </Field>
       <div className="form__form-group-row flex-row pt-3">
-        <Button className="btn btn-outline-primary btn-sm" color="#ffffff" disabled={1 == 2} onClick={onclickBack} style={{}}>Back</Button>
-        <Button className="btn btn-primary btn-sm" color="#ffffff" disabled={!(csvFile instanceof File)} type="submit">Upload</Button>
+        <Button className="btn btn-outline-primary btn-sm" color="#ffffff" disabled={processing} onClick={onclickBack} style={{}}>Back</Button>
+        <Button className="btn btn-primary btn-sm" color="#ffffff" disabled={!(csvFile instanceof File) || processing} type="submit">Upload</Button>
         {(csvFile instanceof File) &&  importHeaders && 
-        <Button className="btn btn-primary btn-sm" color="#ffffff" onClick={onclickNext} style={{}}>Next</Button>}
+        <Button className="btn btn-primary btn-sm" color="#ffffff" onClick={onclickNext} style={{}} disabled={processing}>Next</Button>}
       </div>
     </div>
   )
