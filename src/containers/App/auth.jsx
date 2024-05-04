@@ -29,7 +29,7 @@ export const login = (data) => {
   );
   localStorage.setItem(AUTH_PROGRAM_KEY, JSON.stringify(data.program));
   localStorage.setItem(AUTH_ROOT_PROGRAM_KEY, JSON.stringify(data.program));
-};
+}
 
 export const logout = (isIdle = false) => {
   // alert("Hello")
@@ -179,7 +179,7 @@ export const setAuthDomain = (domain) => {
   localStorage.setItem(AUTH_DOMAIN_KEY, JSON.stringify(domain));
 };
 
-export const getAuthDomain = async (hydrate = true) => {
+export const getAuthDomain = async (hydrate = false) => {
   // localStorage.removeItem(AUTH_DOMAIN_KEY);
   const storageDomain = localStorage.getItem(AUTH_DOMAIN_KEY);
   if (hydrate || !storageDomain) return hydrateDomain();

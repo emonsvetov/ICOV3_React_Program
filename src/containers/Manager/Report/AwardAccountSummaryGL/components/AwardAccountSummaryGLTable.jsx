@@ -42,6 +42,7 @@ const DataTable = ({organization, program, programs}) => {
   const [exportHeaders, setExportHeaders] = useState([]);
   const [exportToCsv, setExportToCsv] = useState(false);
   const exportLink = React.createRef();
+  const updatedData = {};
 
   const [{queryPageIndex, queryPageSize, totalCount, queryPageFilter, queryPageSortBy, queryTrigger}, dispatch] =
     React.useReducer(reducer, initialState);
@@ -92,13 +93,40 @@ const DataTable = ({organization, program, programs}) => {
     setExportToCsv(true);
   }
 
-  const tableColumns = data && data.results && data.results.length > 0 ? Object.keys(data.results[0]).map((key, id)=>{
+  data && data.results && data.results.forEach(item => {
+    Object.keys(item).forEach(key => {
+        if (key !== "Property") {
+            if (!updatedData[key]) {
+                updatedData[key] = {};
+            }
+            updatedData[key]['Event'] = key.split('<br>')[0];
+            updatedData[key]['GL_code'] = key.split('<br>')[1];
+            updatedData[key][item["Property"]] = item[key];
+        }
+    });
+  });
+
+  const totalData = updatedData['Total'];
+
+  const finalData = Object.fromEntries(
+    Object.entries(updatedData).filter(([key]) => key !== "Total")
+  );
+  finalData.Total = totalData;
+
+  // Extract all unique property names (keys) from the updatedData object
+  const allKeys = Object.values(updatedData).reduce((keys, propertyData) => {
+    return [...keys, ...Object.keys(propertyData)];
+  }, []);
+
+  const uniqueKeys = [...new Set(allKeys)];
+
+  const tableColumns = uniqueKeys.map((key, id)=>{
     return {
       id: key.toString(),
       Header: ({ row, value }) => { return <span dangerouslySetInnerHTML={{__html: key}} /> },
       accessor: key,
     }
-  }) : [];
+  });
 
   let columns = useMemo(() => tableColumns, [data])
 
@@ -124,7 +152,8 @@ const DataTable = ({organization, program, programs}) => {
     state: {pageIndex, pageSize, sortBy}
   } = useTable({
       columns: columns, //columns,
-      data: data ? Object.values(data.results) : [],
+      // data: data ? Object.values(data.results) : [],
+      data: finalData ? Object.values(finalData) : [],
       initialState: {
         pageIndex: queryPageIndex,
         pageSize: queryPageSize,
@@ -230,7 +259,7 @@ const DataTable = ({organization, program, programs}) => {
                           const skip = cell.value === 'skip_td';
                           if (skip) return null;
                           const paddingLeft = subCount * 20
-                          return <td {...cell.getCellProps()} rowSpan={rowSpan} key={cell.column.id + row.id}>
+                          return <td {...cell.getCellProps()} rowSpan={rowSpan} key={cell.column.id + row.id} style={cell.row.values.Event == 'Total' ? {fontWeight: 'bold'} : null}>
                                             <span
                                               style={cell.column.Header === '#' ? {paddingLeft: `${paddingLeft}px`} : null}>{cell.render('Cell')}</span>
                           </td>

@@ -10,6 +10,7 @@ const AddReferralModal= ({program, isOpen, setOpen, toggle}) => {
   let props = {
     btnLabel: 'Add New Referral',
     program,
+    toggle
   }
 
   return (

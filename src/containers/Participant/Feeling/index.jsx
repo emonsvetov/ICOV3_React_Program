@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactTooltip from "react-tooltip";
-import { Col, Row } from "reactstrap";
+import { Col, Container, Form, Row } from "reactstrap";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Sidebar from "../../Layout/sidebar";
 import {
@@ -11,18 +11,32 @@ import {
 } from "./components/steps";
 import "swiper/css";
 import { useTranslation } from "react-i18next";
+import {useDispatch, flashError, flashSuccess} from "@/shared/components/flash"
+import { connect } from "react-redux";
+import axios from "axios";
+import { isEmpty } from "@/shared/helpers";
 
-const Feeling = () => {
+const Feeling = ({ auth, program, organization }) => {
   const { t } = useTranslation();
   const [swiper, setSwiper] = useState();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [data, setData] = useState({
     feeling: "",
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     email: "",
-    msg: "",
+    comment: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({
+    how_feeling_today: "",
+    first_name: "",
+    name: "",
+    email: "",
+  });
+  const [submitted, setSubmitted] = useState(false);
+  const dispatch = useDispatch()
+  const steps = [ 'how_feeling_today', 'name', 'email', 'let_us_know' ];
 
   useEffect(() => {
     console.log(data);
@@ -33,14 +47,51 @@ const Feeling = () => {
       setCurrentIndex(e.activeIndex);
     });
   }, [swiper]);
+
+  const handleSwitchSlide = (index) =>{
+    setErrors(errors)
+    swiper.slideTo(index);
+  }
+
+  const handleSubmit = () => {
+    let url = `/organization/${program.organization_id}/program/${program.id}/feeling-survey`
+    let method = 'post'
+    setLoading(true)
+
+    console.log("data : last step", data);
+    if( isEmpty(errors)){
+      return
+    }
+    axios({ url, method, data })
+    .then((res) => {
+      //   console.log(res)
+      if (res.status == 200) {
+        flashSuccess(dispatch, t('submission_received'))
+        setLoading(false)
+        setSubmitted(true)
+      }
+    })
+    .catch((err) => {
+      //console.log(error.response.data);
+      flashError(dispatch, err.response.data)
+      setLoading(false)
+    });
+  };
+
   return (
-    <>
+    <Container fluid>
       <Row className="mt-4">
         <Col md={3}>
           <Sidebar />
         </Col>
 
         <Col md={9}>
+          {submitted && 
+          <div className="text-center mt-5">
+            <h2>{t('thank_you')}</h2>
+            {t('submission_received')}
+          </div>}
+          {!submitted && 
           <div className="feeling">
             <div className="d-flex justify-content-center align-items-center h-100 ">
               <Swiper
@@ -63,16 +114,16 @@ const Feeling = () => {
                 // onNex
               >
                 <SwiperSlide className="	">
-                  <FirstStep data={data} setData={setData} swiper={swiper} />
+                  <FirstStep data={data} setData={setData} errors={errors} setErrors={setErrors} swiper={swiper} />
                 </SwiperSlide>
                 <SwiperSlide className="	">
-                  <SecondStep data={data} setData={setData} swiper={swiper} />
+                  <SecondStep data={data} setData={setData} errors={errors} setErrors={setErrors} swiper={swiper} />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <ThirdStep data={data} setData={setData} swiper={swiper} />
+                  <ThirdStep data={data} setData={setData} errors={errors} setErrors={setErrors} swiper={swiper} />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <FourthStep data={data} setData={setData} swiper={swiper} />
+                  <FourthStep data={data} setData={setData} onSubmit={handleSubmit} errors={errors} setErrors={setErrors} swiper={swiper} loading={loading} />
                 </SwiperSlide>
               </Swiper>
             </div>
@@ -96,61 +147,37 @@ const Feeling = () => {
                 className="d-flex gap-4 align-items-center justify-content-between w-full position-absolute "
               >
                 <ReactTooltip place="top" type="dark" effect="float" />
-                <div
-                  data-tip={`1. ${t("how_feeling_today")}`}
-                  onClick={() => swiper.slideTo(0)}
-                  style={{
-                    height: 20,
-                    width: 20,
-                    border: "1px solid white",
-                  }}
-                  className={`${
-                    currentIndex == 0 ? "bg-primary scale-150" : "bg-success"
-                  }   rounded-circle  cursor-pointer`}
-                />
-                <div
-                  data-tip={`2. ${t("name")}`}
-                  onClick={() => swiper.slideTo(1)}
-                  style={{
-                    height: 20,
-                    width: 20,
-                    border: "1px solid white",
-                  }}
-                  className={`${
-                    currentIndex == 1 ? "bg-primary scale-150" : "bg-success"
-                  }   rounded-circle  cursor-pointer`}
-                />
-                <div
-                  data-tip={`3. ${t("email")}`}
-                  onClick={() => swiper.slideTo(2)}
-                  style={{
-                    height: 20,
-                    width: 20,
-                    border: "1px solid white",
-                  }}
-                  className={`${
-                    currentIndex == 2 ? "bg-primary scale-150" : "bg-success"
-                  }   rounded-circle  cursor-pointer`}
-                />
-                <div
-                  data-tip={`4. ${t("let_us_know")}`}
-                  onClick={() => swiper.slideTo(3)}
-                  style={{
-                    height: 20,
-                    width: 20,
-                    border: "1px solid white",
-                  }}
-                  className={`${
-                    currentIndex == 3 ? "bg-primary scale-150" : "bg-success"
-                  }   rounded-circle  cursor-pointer`}
-                />
+                {steps.map((item, index)=>
+                  <div
+                    data-tip={`${index + 1}. ${t(item)}`}
+                    onClick={ () => handleSwitchSlide(index)}
+                    style={{
+                      height: 20,
+                      width: 20,
+                      border: "1px solid white",
+                    }}
+                    className={`${
+                      currentIndex == index ? "bg-primary scale-150" : errors[item] ? "bg-danger" : "bg-success"
+                    }   rounded-circle  cursor-pointer`}
+                  />          
+                )}
+                
               </div>
             </div>
           </div>
+          }
         </Col>
       </Row>
-    </>
+    </Container>
   );
 };
 
-export default Feeling;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+    program: state.program,
+    organization: state.organization,
+  };
+};
+
+export default connect(mapStateToProps)(Feeling);

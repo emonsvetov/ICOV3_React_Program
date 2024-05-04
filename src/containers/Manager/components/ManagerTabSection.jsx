@@ -10,8 +10,10 @@ const ManagerTabSection = () => {
       <Col md={4} lg={4} sm={4} xs={12} className="program-select d-flex">
         <SelectProgram showRefresh={false}  />
       </Col>
-      <Col md={8} lg={8} sm={8} xs={12} className="manager-tabnavs-wrap" >
+      <Col md={4} lg={4} sm={4} xs={12} className="manager-tabnavs-wrap" >
         <ManagerTabNavs />
+      </Col>
+      <Col md={4} lg={4} sm={4} xs={12} >
       </Col>
     </Row>
   )

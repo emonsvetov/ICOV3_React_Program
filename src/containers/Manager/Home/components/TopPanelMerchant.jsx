@@ -18,7 +18,7 @@ const DurationOptions = () => (
 const TopPanelMerchant = ({organization, program}) => {
   const {t} = useTranslation();
   const [data, setData] = useState([]);
-  const [duration, setDuration] = useState('day');
+  const [duration, setDuration] = useState('month');
   const [unit, setUnit] = useState('$');
   const onChange = (e) => {
     setDuration(e.target.value)
@@ -61,7 +61,7 @@ const TopPanelMerchant = ({organization, program}) => {
 
         </div>
       </div>
-      <div className='px-4'>
+      <div className='px-4 pt-2'>
         {
           data.map((item, index) => {
             return <div key={index} className="d-flex justify-content-between striped-line">

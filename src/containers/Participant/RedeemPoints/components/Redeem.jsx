@@ -110,7 +110,7 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
     let redemption_points =
       itemcart.redemption_value * program.factor_valuation;
     if (datacart) {
-      if (datacart.total_points + redemption_points > pointBalance.points) {
+      if (datacart.total_points + redemption_points > pointBalance.pointBalance) {
         alert(t("insufficient_balance"));
         return;
       }

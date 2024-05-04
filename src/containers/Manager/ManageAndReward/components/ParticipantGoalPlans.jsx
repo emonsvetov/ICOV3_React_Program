@@ -65,8 +65,8 @@ const ParticipantGoalPlans = ({ participant, program, organization }) => {
 
         <thead>
           <tr>
-            <td colSpan={4} className="title">
-              User Goals
+            <td colSpan={12} className="title">
+              <strong>User Goals</strong>
             </td>
           </tr>
           {headerGroups.map(headerGroup => (
