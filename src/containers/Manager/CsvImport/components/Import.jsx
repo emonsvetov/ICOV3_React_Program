@@ -81,7 +81,7 @@ let config = {
 const Import = ({ organization, program }) => {
   const [loading, setLoading] = useState(false);
   const [typeOptionsLoading, setTypeOptionsLoading] = useState(true);
-  const [importType, setImportType] = useState("Users"); //extend it later
+  const [importType, setImportType] = useState(null); //extend it later
   const [csvImportType, setCsvImportType] = useState(null); //extend it later
   const [csvImportTypeType, setCsvImportTypeType] = useState("award_users"); //extend it later
   const [csvImportTypes, setCsvImportTypes] = useState("award_users"); //extend it later
