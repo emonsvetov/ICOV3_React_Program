@@ -27,7 +27,7 @@ const AddTeamModal = ({ program, isOpen, setOpen, toggle }) => {
         <div className='title mb-5'>
           <h3>Add New Teammate</h3>
           <span>
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
+            {/* Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna. */}
           </span>
         </div>
         <Img src='img/pages/addTeammate.png' alt="teamate-image"/>

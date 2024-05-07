@@ -99,7 +99,8 @@ const DataTable = ({organization, program, programs}) => {
             if (!updatedData[key]) {
                 updatedData[key] = {};
             }
-            updatedData[key]['Event'] = key;
+            updatedData[key]['Event'] = key.split('<br>')[0];
+            updatedData[key]['GL_code'] = key.split('<br>')[1];
             updatedData[key][item["Property"]] = item[key];
         }
     });

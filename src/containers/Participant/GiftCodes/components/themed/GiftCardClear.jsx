@@ -52,7 +52,7 @@ const GiftCardClear = (props) => {
               {redemption_date && showCode ? t("received")+':'+redemption_date_formated : ''}
             </div>
             <div>
-              { showCode ? parseFloat(sku_value).toFixed(2) : <div>&nbsp;</div> }
+              { showCode ? `$${parseFloat(sku_value).toFixed(2)}` : <div>&nbsp;</div> }
             </div>
           </span>
           { showCode ? <PrinterIcon onClick={handlePrint} className="printIcon" size={20}/> : '' }
