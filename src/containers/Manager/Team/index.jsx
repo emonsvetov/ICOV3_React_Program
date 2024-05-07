@@ -36,7 +36,7 @@ const Team = ({ auth, program, organization }) => {
               />
             </div>
             <Col md={4} className="d-flex program-select my-3">
-              <SelectProgram showRefresh={true}  />
+              <SelectProgram showRefresh={false}  />
             </Col>
           </Col>
         </Row>

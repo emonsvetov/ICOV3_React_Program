@@ -6,6 +6,7 @@ import {
   DropdownMenu,
   DropdownItem,
   Button,
+  Dropdown,
 } from "reactstrap";
 import { useTable, usePagination, useRowSelect } from "react-table";
 import ReactTablePagination from "@/shared/components/table/components/ReactTablePagination";
@@ -160,11 +161,37 @@ const ProgramParticipants = ({ program, organization }) => {
   const [action, setAction] = useState("");
   const [queryPageSize, setQueryPageSize] = useState(QUERY_PAGE_SIZE);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState({ keyword: "", status: "" });
+  const [filter, setFilter] = useState({ keyword: "", status: [] });
   const [participants, setParticipants] = useState([]);
-  const [status, setStatus] = useCallbackState([]);
+  const [statuses, setStatuses] = useCallbackState([]);
   const [actionsArray, setActionsArray] = useState(ACTIONS);
   const [bulkActionsArray, setBulkActionsArray] = useState(BULK_ACTIONS);
+  const [isOpenToggle, setIsOpenToggle] = useState(false);
+
+  const toggleStatus = () =>{
+    setStatuses(() => filter.status, setIsOpenToggle(!isOpenToggle));
+  } 
+
+  const handleApply = (event) =>{
+    // event.stopPropagation()
+    setIsOpenToggle(!isOpenToggle);
+    setFilter({ keyword: filter.keyword, status: statuses });
+  }
+
+  const handleClickStatus = (item) =>{
+    // event.stopPropagation()
+    if (statuses.includes(item.name)) {
+      setStatuses( (prev) =>  prev.filter( (value) => value !== item.name ),
+      (newStatus) =>{
+        if(newStatus.length <= 0){
+          setStatuses(defaultStatus)
+        }
+      }
+    );
+    } else {
+      setStatuses([...statuses, ...[item.name]]);
+    }
+  }
 
   useEffect(() => {
     if (!program.uses_peer2peer) {
@@ -231,34 +258,12 @@ const ProgramParticipants = ({ program, organization }) => {
     }
   };
 
-  const onSelectStatus = (value) => {
-    if (status.includes(value)) {
-      setStatus(
-        (prev) => prev.filter((item) => item !== value),
-        (newStatus) => {
-          if (newStatus.length <= 0) {
-            setStatus(defaultStatus);
-          }
-        }
-      );
-    } else {
-      setStatus([...status, ...[value]]);
-    }
-    setMounted(true);
-  };
-
-  useEffect(() => {
-    // console.log(mounted)
-    if (status && mounted) {
-      setFilter({ keyword: filter.keyword, status: status });
-    }
-    return () => setMounted(true);
-  }, [status]);
-
-  const preColumns = React.useMemo(
-    () => [...[SELECTION_COLUMN, ...USERS_COLUMNS]],
-    []
-  );
+  const preColumns = React.useMemo(() => [
+    ...[
+      SELECTION_COLUMN,
+      ...USERS_COLUMNS
+    ],
+  ], []);
 
   let final_columns = [
     ...[
@@ -397,9 +402,10 @@ const ProgramParticipants = ({ program, organization }) => {
 
   useEffect(() => {
     // console.log(mounted)
-    let mounted = false;
-    if (!mounted) {
-      setStatus(defaultStatus);
+    let mounted = false
+    if ( !mounted ) {
+      setStatuses( defaultStatus );
+      setFilter({ keyword: filter.keyword, status: defaultStatus });
     }
     return () => {
       mounted = true;
@@ -407,10 +413,10 @@ const ProgramParticipants = ({ program, organization }) => {
   }, []);
 
   const markStatusAsChecked = (statusName) => {
-    if (status === null) {
+    if( statuses === null )  {
       // if( statusName !== 'Deactivated' ) return true;
     } else {
-      return status.indexOf(statusName) > -1;
+      return statuses.indexOf(statusName) > -1
     }
   };
 
@@ -458,11 +464,11 @@ const ProgramParticipants = ({ program, organization }) => {
       </UncontrolledDropdown>
     );
   };
-
+  
   const StatusDropdown = () => {
     // console.log(status)
     return (
-      <UncontrolledDropdown>
+      <Dropdown isOpen={isOpenToggle} toggle={toggleStatus} >
         <DropdownToggle caret className="dropdowntoggle">
           {t("Filter by Status")}
         </DropdownToggle>
@@ -470,22 +476,30 @@ const ProgramParticipants = ({ program, organization }) => {
           {STATUS.map((item, index) => {
             // if(status.includes(item.name)){
             return (
-              <DropdownItem
-                key={`status-dropdown-item-${index}`}
-                onClick={() => onSelectStatus(item.name)}
-              >
+              <div key={`status-dropdown-item-${index}`}
+                className="dropdown-item cursor-pointer" onClick={() =>handleClickStatus(item)}>
                 <input
+                  // checked={statuses.includes(item.name)}
                   checked={markStatusAsChecked(item.name)}
+                  className="cursor-pointer"
+                  id={`status-checkbox-${index}`}
                   type="checkbox"
                   style={{ marginRight: "10px" }}
-                  onChange={() => {}}
+                  value={item.name}
+                  onChange={() => { }}
                 />
-                {item.name}
-              </DropdownItem>
+                <label className="w-100 cursor-pointer" htmlFor={`status-checkbox-${index}`}>
+                  {item.name}
+                </label>
+              </div>
             );
           })}
+          <DropdownItem divider />
+          <div className="dropdown-item cursor-pointer pl-3" onClick={handleApply}>
+            <strong>Apply</strong>
+          </div>
         </DropdownMenu>
-      </UncontrolledDropdown>
+      </Dropdown>
     );
   };
 
@@ -508,7 +522,7 @@ const ProgramParticipants = ({ program, organization }) => {
               Import
             </Button>
           </div>
-          <TableFilter filter={filter} setFilter={setFilter} />
+          <TableFilter filter={filter} setFilter={setFilter} config={{status: true}}/>
         </div>
         <UserTable />
       </div>
