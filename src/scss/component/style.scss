@@ -895,7 +895,7 @@ ul.horizontal {
         background-color: white;
         .header{
             border-radius: 10px 10px 0 0;
-            padding: 15px 25px 15px 25px;   
+            padding: 20px 25px 0px 25px;   
             background-color: #052654;
         }
         .dropdowntoggle{
@@ -1519,6 +1519,7 @@ footer{
   .caresoul-item {
     max-height: 500px;
   }
+  .manager-csv-import .form-step2 h5{font-size: 1rem;}
 
 main.participant{
     .navbar-profilewrap{

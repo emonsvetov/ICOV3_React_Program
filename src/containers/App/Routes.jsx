@@ -91,6 +91,7 @@ import MainWrapper from "./MainWrapper";
 import ManageAccount from "../Manager/ManageAccount";
 import PageNotFound from "./404Error/PageNotFound";
 import UserNotFound from "@/containers/App/404Error/UserNotFound";
+import CsvImport from "../Manager/CsvImport";
 import ManagerViewInvoice from "../Manager/ManageAccount/components/ViewInvoice";
 
 // import { Train } from "@material-ui/icons";
@@ -180,6 +181,7 @@ const RouteIndex = () => (
             <Route path="" element={<BudgetView />} />
             <Route path="manage-setup/:id" element={<ManageBudget />} />
           </Route>
+          <Route path="csv-import" element={<CsvImport/>}/>
           <Route path="referral" element={<Referral />} />
           <Route path="team" element={<Team />} />
           <Route path="my-account" element={<ManagerAccountIndex  />} />

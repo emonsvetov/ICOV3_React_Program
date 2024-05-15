@@ -30,7 +30,7 @@ const CreateInvoiceModal = ({ program, isOpen, setOpen, toggle }) => {
             Please enter the amount you wish to deposit. You will then be
             presented with an invoice that you can download as a .pdf and print.
             Once we receive the payment via check or ACH transfer, your account
-            with be updated with the new balance..
+            will be updated with the new balance.
           </p>
         </div>
         {/*<img src={AddEventImg}/>*/}

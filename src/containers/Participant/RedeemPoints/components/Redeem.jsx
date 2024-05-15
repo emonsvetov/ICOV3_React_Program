@@ -176,9 +176,10 @@ const Redeem = ({ organization, program, cart, pointBalance }) => {
           <Col md={10}>
             <h4>{merchant.name}</h4>
             <div className="desc" dangerouslySetInnerHTML={{__html: merchant.description}}></div>
-            <div className="mt-3">
-              <a href={`${merchant.website}`}></a>
+            <div className="mt-3 underline">
+              <a href={`${merchant.website}`}>
               {t("visit_merchant_website")}
+              </a>
             </div>
             <div className="my-3 w-50">
               {loadingGiftcodes && t("loading")}
