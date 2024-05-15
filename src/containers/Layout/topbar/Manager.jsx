@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import TopbarProfile from "./TopbarProfile";
@@ -24,18 +24,28 @@ const LINKS = [
   { to: "/manager/team", text: "Team" },
 ];
 
-const ManagerTopbar = ({ template }) => {
+const ManagerTopbar = ({ template, program }) => {
   // console.log(template)
   const [isOpen, setOpen] = useState(false);
+  const [linkBuilt,setLinkBuilt] = useState(false);
   const toggleNavbar = () => {
     setOpen((prev) => !prev);
   }
+  
+  useEffect(() => {
+    if (program?.use_budget_cascading > 0) {
+      if (!linkBuilt) {
+        LINKS.push({ to: "/manager/budget", text: "budget" });
+      }
+      setLinkBuilt(true);
+    }
+  }, [program]);
+ 
   const onClickNavLink = () => {
     if( isOpen ) {
       setOpen(false)
     }
   }
-
   if (!template) return "loading";
   // if (!template) return t("loading");
   const Brand = `${process.env.REACT_APP_API_STORAGE_URL}/${template.small_logo}`;
@@ -74,6 +84,7 @@ const ManagerTopbar = ({ template }) => {
 const mapStateToProps = (state) => {
   return {
     template: state.template,
+    program:state.program
   };
 };
 

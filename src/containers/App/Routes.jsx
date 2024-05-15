@@ -50,7 +50,9 @@ import Training from "../Participant/Training";
 import ProgramRules from "../Participant/ProgramRules";
 import Feeling from "../Participant/Feeling";
 import LeaderboardPage from "../Participant/leaderboards/index";
-
+import Budget from "../Manager/Budget"
+import BudgetView from "../Manager/Budget/components/Budget"
+import ManageBudget from "../Manager/Budget/components/ManageBudget";
 //manager
 
 import {
@@ -173,6 +175,10 @@ const RouteIndex = () => (
           <Route path="invite-participant" element={<InviteParticipant />} />
           <Route path="manage-account" element={<ManageAccount/>}>
           <Route path="invoice/:invoiceId" element={<ManagerViewInvoice/>}/>
+          </Route>
+          <Route path="budget" element={<Budget />}>
+            <Route path="" element={<BudgetView />} />
+            <Route path="manage-setup/:id" element={<ManageBudget />} />
           </Route>
           <Route path="referral" element={<Referral />} />
           <Route path="team" element={<Team />} />
