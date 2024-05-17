@@ -51,8 +51,8 @@ import ProgramRules from "../Participant/ProgramRules";
 import Feeling from "../Participant/Feeling";
 import LeaderboardPage from "../Participant/leaderboards/index";
 import Budget from "../Manager/Budget"
-import BudgetView from "../Manager/Budget/components/Budget"
-import ManageBudget from "../Manager/Budget/components/ManageBudget";
+import BudgetView from "../Manager/Budget/view/Budget"
+import ManageBudget from "../Manager/Budget/manageBudget/ManageBudget";
 //manager
 
 import {
@@ -178,7 +178,7 @@ const RouteIndex = () => (
           <Route path="invoice/:invoiceId" element={<ManagerViewInvoice/>}/>
           </Route>
           <Route path="budget" element={<Budget />}>
-            <Route path="" element={<BudgetView />} />
+            <Route path="view" element={<BudgetView />} />
             <Route path="manage-setup/:id" element={<ManageBudget />} />
           </Route>
           <Route path="csv-import" element={<CsvImport/>}/>

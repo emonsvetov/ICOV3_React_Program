@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import AddBudgetSetup from "./AddBudgetSetup";
-import BudgetSetupInformationModal from "./EditBudgetSetup";
+import BudgetSetupInfoModal from "../view/BudgetSetupInfo";
 import { useTranslation } from "react-i18next";
 
 const MainModalWrapper = ({
@@ -12,6 +12,7 @@ const MainModalWrapper = ({
   isOpen,
   setOpen,
   setModalName,
+  assignedPermissions,
   toggle,
   id,
 }) => {
@@ -22,6 +23,7 @@ const MainModalWrapper = ({
     toggle,
     organization,
     program,
+    assignedPermissions,
     setModalName,
     rootProgram,
   };
@@ -31,7 +33,7 @@ const MainModalWrapper = ({
     <>
       {name === "AddBudgetSetup" && <AddBudgetSetup {...props} />}
       {name === "BudgetSetupInformation" && (
-        <BudgetSetupInformationModal {...props} id={id} />
+        <BudgetSetupInfoModal {...props} id={id} />
       )}
     </>
   );
@@ -40,7 +42,6 @@ const mapStateToProps = (state) => {
   return {
     program: state.program,
     organization: state.organization,
-    rootProgram: state.rootProgram,
   };
 };
 export default connect(mapStateToProps)(MainModalWrapper);

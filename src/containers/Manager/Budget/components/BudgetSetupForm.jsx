@@ -16,10 +16,12 @@ const BudgetSetupForm = ({
   setBudgetStartDate,
   budgetEndDate,
   setBudgetEndDate,
+  endDateHide,
+  setEndDateHide,
+  dateFormat,
+  setDateformat,
 }) => {
-  const [loading, setLoading] = useState(false);
-  const [formatDate, setDateFormat] = useState("yyyy");
-  const [endDateVisible, setEndDateVisible] = useState(false);
+  console.log(dateFormat);
 
   const currentYear = new Date();
   const maxDate = new Date("2024-12-31");
@@ -33,13 +35,13 @@ const BudgetSetupForm = ({
     // setBudgetStartDate(new Date());
     // setBudgetEndDate(new Date());
     if (Btype.label === "Monthly") {
-      setDateFormat("MMMM/yyyy");
+      setDateformat("MMMM/yyyy");
     } else if (Btype.label === "Monthly Rollover") {
-      setDateFormat("MMMM/yyyy");
+      setDateformat("MMMM/yyyy");
     } else if (Btype.label === "Specific Period") {
-      setDateFormat("yyyy-MM-dd");
+      setDateformat("yyyy-MM-dd");
     } else if (Btype.label === "Yearly") {
-      setDateFormat("yyyy");
+      setDateformat("yyyy");
     }
   }
 
@@ -51,11 +53,11 @@ const BudgetSetupForm = ({
         type.label === "Monthly Rollover" ||
         type.label === "Specific Period"
       ) {
-        setEndDateVisible(true);
+        setEndDateHide(false);
       } else {
         let currentDate = new Date();
         setBudgetStartDate(new Date(currentDate.getFullYear(), 1));
-        setEndDateVisible(false);
+        setEndDateHide(true);
       }
     }
   }
@@ -65,9 +67,7 @@ const BudgetSetupForm = ({
       setBudgetStartDate(date);
     } else if (date && budgetType.label === "Yearly") {
       setBudgetStartDate(date);
-      setBudgetEndDate(
-        new Date(date.getFullYear(), 11, 31).toISOString().slice(0, 10)
-      );
+      setBudgetEndDate(new Date(date.getFullYear(), 11, 31));
     } else {
       setBudgetStartDate(date);
     }
@@ -131,7 +131,7 @@ const BudgetSetupForm = ({
                   <Label>*Budget Start Date : </Label>
                   <DatePicker
                     style={{ color: "blue" }}
-                    dateFormat={formatDate}
+                    dateFormat={dateFormat}
                     selected={budgetStartDate}
                     onChange={onStartChange}
                     minDate={currentYear}
@@ -149,7 +149,7 @@ const BudgetSetupForm = ({
           </Field>
         </Col>
       </Row>
-      {endDateVisible && (
+      {!endDateHide && (
         <Row>
           <Col md="12">
             <Field name="budget_end_date">
@@ -161,7 +161,7 @@ const BudgetSetupForm = ({
                       placeholderText="select End date"
                       selected={budgetEndDate}
                       onChange={onEndDateChange}
-                      dateFormat={formatDate}
+                      dateFormat={dateFormat}
                       showMonthYearPicker={
                         budgetType.label === "Monthly" ||
                         budgetType.label === "Monthly Rollover"
@@ -180,7 +180,8 @@ const BudgetSetupForm = ({
       )}
 
       <div className="d-flex justify-content-end">
-        <TemplateButton disabled={loading} type="submit" text={btnLabel} />
+      {/* disabled={loading} */}
+        <TemplateButton  type="submit" text={btnLabel} />
       </div>
     </>
   );

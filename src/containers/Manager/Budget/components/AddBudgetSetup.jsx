@@ -18,6 +18,8 @@ const AddBudgetSetupModal = ({ program, isOpen, setOpen, toggle }) => {
   const [budgetType, setBudgetType] = useState("select");
   const [budgetStartDate, setBudgetStartDate] = useState(new Date());
   const [budgetEndDate, setBudgetEndDate] = useState(new Date());
+  const [endDateHide, setEndDateHide] = useState(false);
+  let [dateFormat, setDateformat] = useState("MMMM/yyyy");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -30,6 +32,10 @@ const AddBudgetSetupModal = ({ program, isOpen, setOpen, toggle }) => {
     setBudgetStartDate,
     budgetEndDate,
     setBudgetEndDate,
+    endDateHide,
+    setEndDateHide,
+    dateFormat,
+    setDateformat,
   };
 
   useEffect(() => {
@@ -39,8 +45,6 @@ const AddBudgetSetupModal = ({ program, isOpen, setOpen, toggle }) => {
       });
     }
   }, [program]);
-
-  
 
   const invalidAmount = (v) => {
     return (
@@ -69,7 +73,7 @@ const AddBudgetSetupModal = ({ program, isOpen, setOpen, toggle }) => {
       return;
     } else {
       values.budget_start_date = getDateFormat(budgetStartDate);
-      values.budget_end_date = getDateFormat(budgetEndDate);
+      values.budget_end_date = budgetEndDate.toISOString().slice(0, 10);
       console.log("edit", values);
       axios
         .post(
@@ -77,9 +81,10 @@ const AddBudgetSetupModal = ({ program, isOpen, setOpen, toggle }) => {
           values
         )
         .then((res) => {
+          console.log("res", res);
           if (res.status == 200) {
             flashSuccess(dispatch, "Budget created successfully!");
-            setOpen((prevState) => !prevState);
+            window.location.reload();
           }
         })
         .catch((error) => {

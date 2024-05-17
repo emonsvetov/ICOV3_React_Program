@@ -13,18 +13,21 @@ import {
   flashSuccess,
 } from "@/shared/components/flash";
 import { labelizeNamedData } from "@/shared/helpers";
-import BudgetSetupForm from "./BudgetSetupForm";
-import { getBudgetType, getBudgetProgram, getDateFormat } from "@/services/program/budget";
+import BudgetSetupForm from "../components/BudgetSetupForm";
+import {
+  getBudgetType,
+  getBudgetProgram,
+  getDateFormat,
+  hasUserPermissions,
+} from "@/services/program/budget";
 
-//const AddEventImg = `/img/pages/addEvent.png`;
-
-
-const EditBudgetSetupModal = ({
+const BudgetSetupInfoModal = ({
   program,
   isOpen,
   setOpen,
   toggle,
   organization,
+  assignedPermissions,
   id,
 }) => {
   const [budgetProgram, setBudgetProgram] = useState(null);
@@ -32,8 +35,10 @@ const EditBudgetSetupModal = ({
   const [budgetType, setBudgetType] = useState([]);
   const [budgetStartDate, setBudgetStartDate] = useState(new Date());
   const [budgetEndDate, setBudgetEndDate] = useState(new Date());
+  const [endDateHide, setEndDateHide] = useState(false);
   const [disable, setDisable] = useState(true);
   const [loading, setLoading] = useState(true);
+  let [dateFormat, setDateformat] = useState("MMMM/yyyy");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -46,7 +51,11 @@ const EditBudgetSetupModal = ({
     setBudgetStartDate,
     budgetEndDate,
     setBudgetEndDate,
+    endDateHide,
+    setEndDateHide,
     disable,
+    dateFormat,
+    setDateformat,
   };
 
   useEffect(() => {
@@ -59,6 +68,10 @@ const EditBudgetSetupModal = ({
         setLoading(false);
         if (res.budget_types.title === "Yearly") {
           setDisable(false);
+          setEndDateHide(true);
+          setDateformat("yyyy");
+        } else {
+          setDateformat("MMMM/yyyy");
         }
       });
       getBudgetType(program.organization_id, program.id).then((res) => {
@@ -66,6 +79,22 @@ const EditBudgetSetupModal = ({
       });
     }
   }, [organization, program, id]);
+
+  const closeBudget = (bId) => {
+    try {
+      axios
+        .post(
+          `/organization/${organization.id}/program/${program.id}/budgetprogram/${bId}/close`
+        )
+        .then((res) => {
+          if (res.status === 200) {
+            window.location.reload();
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const onSubmit = (values) => {
     values.budget_type_id = budgetType.value;
@@ -81,7 +110,7 @@ const EditBudgetSetupModal = ({
       .then((res) => {
         if (res.status == 200) {
           flashSuccess(dispatch, "Budget edited successfully!");
-          setOpen((prevState) => !prevState);
+          window.location.reload();
         }
       });
   };
@@ -105,44 +134,65 @@ const EditBudgetSetupModal = ({
           <h3>Budget Setup Information</h3>
         </div>
       </div>
-      {!loading ? (
-        <div className="right  m-3">
-          <Form
-            onSubmit={onSubmit}
-            // validate={validate}
-            initialValues={initialValues}
-          >
-            {({ handleSubmit, form, submitting, pristine, values }) => {
-              return (
-                <form className="form" onSubmit={handleSubmit}>
-                  <BudgetSetupForm
-                    {...props}
-                    program={program}
-                    budgetTypeOptions={budgetTypeOptions}
-                    form={form}
-                    submitting={submitting}
-                    pristine={pristine}
-                    values={values}
-                  />
-                </form>
-              );
-            }}
-          </Form>
-          <div className="d-flex">
-            <Button
-              className="ms-2"
-              onClick={() => navigate(`manage-setup/${id}`)}
+      {hasUserPermissions(assignedPermissions, ["Budget Setup Edit"]) ? (
+        !loading ? (
+          <div className="right  m-3">
+            <Form
+              onSubmit={onSubmit}
+              // validate={validate}
+              initialValues={initialValues}
             >
-              Manage Budget for Programs
-            </Button>
-            <Button className="ms-2">Close this Budget</Button>
+              {({ handleSubmit, form, submitting, pristine, values }) => {
+                return (
+                  <form className="form" onSubmit={handleSubmit}>
+                    <BudgetSetupForm
+                      {...props}
+                      program={program}
+                      budgetTypeOptions={budgetTypeOptions}
+                      form={form}
+                      submitting={submitting}
+                      pristine={pristine}
+                      values={values}
+                    />
+                  </form>
+                );
+              }}
+            </Form>
+            <div className="d-flex">
+              {hasUserPermissions(assignedPermissions, ["Manage Budget"]) && (
+                <Button
+                  className="ms-2"
+                  onClick={() => navigate(`/manager/budget/manage-setup/${id}`)}
+                >
+                  Manage Budget for Programs
+                </Button>
+              )}
+              {hasUserPermissions(assignedPermissions, ["Budget Close"]) && (
+                <Button
+                  className="ms-2"
+                  onClick={(e) => {
+                    if (window.confirm("Are you sure to close this Budget?")) {
+                      closeBudget(id);
+                    }
+                  }}
+                >
+                  Close this Budget
+                </Button>
+              )}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div style={{ padding: "20px 0px" }}>
+            <p>Loading...</p>
+          </div>
+        )
       ) : (
-        <p>Loading...</p>
+        <div style={{ padding: "20px 0px" }}>
+          <p>Manager has not permission</p>
+        </div>
       )}
     </Modal>
   );
 };
 
-export default EditBudgetSetupModal;
+export default BudgetSetupInfoModal;

@@ -32,7 +32,7 @@ const ManageBudgetTable = ({ programs }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {programs.map((program) => (
+                  {programs?.map((program) => (
                     <tr key={program.id}>
                       <td>{program.name}</td>
                       <td>

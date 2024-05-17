@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row } from "reactstrap";
 import { connect } from "react-redux";
-import BudgetTemplate from "./BudgetTemplate";
+import BudgetTemplate from "../media/BudgetTemplate";
 import { getProgramTree } from "@/services/program/getProgramTree";
 import ManageBudgetTable from "./ManageBudgetTable";
 

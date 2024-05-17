@@ -27,25 +27,22 @@ const LINKS = [
 const ManagerTopbar = ({ template, program }) => {
   // console.log(template)
   const [isOpen, setOpen] = useState(false);
-  const [linkBuilt,setLinkBuilt] = useState(false);
   const toggleNavbar = () => {
     setOpen((prev) => !prev);
-  }
-  
+  };
+  let linkBuilt = LINKS.some((link) => link.to === "/manager/budget/view");
+
   useEffect(() => {
-    if (program?.use_budget_cascading > 0) {
-      if (!linkBuilt) {
-        LINKS.push({ to: "/manager/budget", text: "budget" });
-      }
-      setLinkBuilt(true);
+    if (program?.use_budget_cascading > 0 && !linkBuilt) {
+      LINKS.push({ to: "/manager/budget/view", text: "budget" });
     }
   }, [program]);
- 
+
   const onClickNavLink = () => {
-    if( isOpen ) {
-      setOpen(false)
+    if (isOpen) {
+      setOpen(false);
     }
-  }
+  };
   if (!template) return "loading";
   // if (!template) return t("loading");
   const Brand = `${process.env.REACT_APP_API_STORAGE_URL}/${template.small_logo}`;
@@ -62,10 +59,19 @@ const ManagerTopbar = ({ template, program }) => {
             </div>
             <div className="topbar__right navbar-profilewrap">
               <Collapse isOpen={isOpen} navbar>
-                <Nav className="horizontal" navbar style={{ flexWrap: "nowrap" }}>
+                <Nav
+                  className="horizontal"
+                  navbar
+                  style={{ flexWrap: "nowrap" }}
+                >
                   {LINKS.map((item, index) => {
                     return (
-                      <NavLink key={index} onClick={onClickNavLink} to={item.to} className="link">
+                      <NavLink
+                        key={index}
+                        onClick={onClickNavLink}
+                        to={item.to}
+                        className="link"
+                      >
                         {item.text}
                       </NavLink>
                     );
@@ -84,7 +90,7 @@ const ManagerTopbar = ({ template, program }) => {
 const mapStateToProps = (state) => {
   return {
     template: state.template,
-    program:state.program
+    program: state.program,
   };
 };
 

@@ -8,7 +8,6 @@ const Index = ({ auth, program, organization }) => {
   const { t } = useTranslation();
 
   if (!auth || !program || !organization) return t("loading");
-
   return (
     <div className="bg-primary">
       <Container>
