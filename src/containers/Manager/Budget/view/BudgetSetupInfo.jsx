@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Input, FormGroup, Button, Col, Row, Label } from "reactstrap";
+import { Button } from "reactstrap";
 import { Form, Field } from "react-final-form";
 import { useNavigate } from "react-router-dom";
-import DatePicker from "react-datepicker";
 import CloseIcon from "mdi-react/CloseIcon";
 import { Modal } from "reactstrap";
-import TemplateButton from "@/shared/components/TemplateButton";
 import axios from "axios";
 import {
   useDispatch,
@@ -37,6 +35,7 @@ const BudgetSetupInfoModal = ({
   const [budgetEndDate, setBudgetEndDate] = useState(new Date());
   const [endDateHide, setEndDateHide] = useState(false);
   const [disable, setDisable] = useState(true);
+  const [budgetStatus,setBudgetStatus] = useState(true)
   const [loading, setLoading] = useState(true);
   let [dateFormat, setDateformat] = useState("MMMM/yyyy");
   const dispatch = useDispatch();
@@ -56,18 +55,23 @@ const BudgetSetupInfoModal = ({
     disable,
     dateFormat,
     setDateformat,
+    budgetStatus
   };
 
   useEffect(() => {
     if (organization && program && id) {
-      getBudgetProgram(organization, program, id).then((res) => {
+      getBudgetProgram(organization?.id, program?.id, id).then((res) => {
         setBudgetProgram(res);
+        console.log(res);
         setBudgetType(labelizeNamedData([res.budget_types], ["id", "title"]));
         setBudgetStartDate(new Date(res.budget_start_date));
         setBudgetEndDate(new Date(res.budget_start_date));
         setLoading(false);
+        if (res.status == 0) {
+          setBudgetStatus(false)
+        }
         if (res.budget_types.title === "Yearly") {
-          setDisable(false);
+          setDisable(false)
           setEndDateHide(true);
           setDateformat("yyyy");
         } else {
@@ -80,11 +84,11 @@ const BudgetSetupInfoModal = ({
     }
   }, [organization, program, id]);
 
-  const closeBudget = (bId) => {
+  const closeBudget = (budgetId) => {
     try {
       axios
         .post(
-          `/organization/${organization.id}/program/${program.id}/budgetprogram/${bId}/close`
+          `/organization/${organization.id}/program/${program.id}/budgetprogram/${budgetId}/close`
         )
         .then((res) => {
           if (res.status === 200) {
@@ -92,7 +96,7 @@ const BudgetSetupInfoModal = ({
           }
         });
     } catch (error) {
-      console.log(error);
+      flashError(dispatch, error.message);
     }
   };
 
@@ -100,7 +104,6 @@ const BudgetSetupInfoModal = ({
     values.budget_type_id = budgetType.value;
     values.budget_start_date = getDateFormat(budgetStartDate);
     values.budget_end_date = getDateFormat(budgetEndDate);
-
     console.log("values", values);
     axios
       .put(
@@ -119,7 +122,7 @@ const BudgetSetupInfoModal = ({
     budget_amount: budgetProgram?.budget_amount,
     budget_start_date: budgetEndDate.budget_start_date,
   };
-
+console.log(disable);
   return (
     <Modal
       className={`program-settings modal-2col modal-lg`}
@@ -169,6 +172,7 @@ const BudgetSetupInfoModal = ({
               )}
               {hasUserPermissions(assignedPermissions, ["Budget Close"]) && (
                 <Button
+                  color="danger"
                   className="ms-2"
                   onClick={(e) => {
                     if (window.confirm("Are you sure to close this Budget?")) {

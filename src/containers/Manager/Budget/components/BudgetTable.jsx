@@ -73,8 +73,7 @@ const BudgetTable = ({
   const { getTableProps, headerGroups, rows, prepareRow } = useTable({
     columns,
     data: budgetProgramLists,
-    useSortBy,
-  });
+  }, useSortBy,);
 
   return (
     <>
@@ -90,10 +89,17 @@ const BudgetTable = ({
                 <tr {...headerGroup.getHeaderGroupProps()}>
                   {headerGroup.headers.map((column) => (
                     <th
-                      {...column.getHeaderProps()}
+                      {...column.getHeaderProps(column.getSortByToggleProps())}
                       style={tableStyled.headerBottom}
                     >
                       {column.render("Header")}
+                      <span>
+                        {column.isSorted
+                          ? column.isSortedDesc
+                            ? ' 🔽'
+                            : ' 🔼'
+                          : ''}
+                      </span>
                     </th>
                   ))}
                 </tr>

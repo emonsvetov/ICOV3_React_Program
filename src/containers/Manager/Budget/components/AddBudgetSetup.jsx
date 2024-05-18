@@ -3,7 +3,6 @@ import CloseIcon from "mdi-react/CloseIcon";
 import { Form } from "react-final-form";
 import BudgetSetupForm from "./BudgetSetupForm";
 import { Modal } from "reactstrap";
-import { useNavigate } from "react-router-dom";
 import { getBudgetType, getDateFormat } from "@/services/program/budget";
 import { labelizeNamedData } from "@/shared/helpers";
 import axios from "axios";
@@ -21,7 +20,6 @@ const AddBudgetSetupModal = ({ program, isOpen, setOpen, toggle }) => {
   const [endDateHide, setEndDateHide] = useState(false);
   let [dateFormat, setDateformat] = useState("MMMM/yyyy");
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   let props = {
     btnLabel: "Save Budget Setup",
@@ -53,6 +51,7 @@ const AddBudgetSetupModal = ({ program, isOpen, setOpen, toggle }) => {
   };
 
   const validate = (values) => {
+    console.log("value", values);
     let errors = {};
     if (values["budget_type"] == "") {
       errors["budget_type"] = "select budget type";
@@ -60,6 +59,8 @@ const AddBudgetSetupModal = ({ program, isOpen, setOpen, toggle }) => {
       errors["budget_amount"] = "enter amount";
     } else if (values["budget_start_date"]) {
       errors["budget_start_date"] = "Budget StartDate is not correct";
+    } else if (values["budget_start_date"] >= values["budget_end_date"]) {
+      errors["budget_start_date"] = "Start date cannot be greater than end date.";
     } else if (values["budget_end_date"]) {
       errors["budget_end_date"] = "Date is not correct";
     }
@@ -68,31 +69,31 @@ const AddBudgetSetupModal = ({ program, isOpen, setOpen, toggle }) => {
 
   const onSubmit = (values) => {
     values.budget_type_id = budgetType.value;
-    if (budgetStartDate && budgetEndDate && budgetStartDate >= budgetEndDate) {
-      alert("Start date cannot be greater than end date.");
-      return;
-    } else {
-      values.budget_start_date = getDateFormat(budgetStartDate);
-      values.budget_end_date = budgetEndDate.toISOString().slice(0, 10);
-      console.log("edit", values);
-      axios
-        .post(
-          `organization/${program.organization_id}/program/${program.id}/budgetprogram`,
-          values
-        )
-        .then((res) => {
-          console.log("res", res);
-          if (res.status == 200) {
-            flashSuccess(dispatch, "Budget created successfully!");
-            window.location.reload();
-          }
-        })
-        .catch((error) => {
-          if (error) {
-            flashError(dispatch, error.response.data);
-          }
-        });
-    }
+    // if (budgetStartDate && budgetEndDate ) {
+    //   alert("Start date cannot be greater than end date.");
+    //   return;
+    // }
+
+    values.budget_start_date = getDateFormat(budgetStartDate);
+    values.budget_end_date = budgetEndDate.toISOString().slice(0, 10);
+    validate(values)
+    axios
+      .post(
+        `organization/${program.organization_id}/program/${program.id}/budgetprogram`,
+        values
+      )
+      .then((res) => {
+        if (res.status == 200) {
+          flashSuccess(dispatch, "Budget created successfully!");
+          window.location.reload();
+        }
+      })
+      .catch((error) => {
+        if (error) {
+          flashError(dispatch, error.response.data);
+        }
+      });
+
   };
   return (
     <Modal
@@ -114,7 +115,6 @@ const AddBudgetSetupModal = ({ program, isOpen, setOpen, toggle }) => {
         <Form
           onSubmit={onSubmit}
           validate={validate}
-          // mutators={{}}
         >
           {({ handleSubmit, form, submitting, pristine, values }) => {
             return (

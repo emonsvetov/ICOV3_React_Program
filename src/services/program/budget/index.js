@@ -7,20 +7,20 @@ export const getBudgetType = async (organizationId, programId) => {
   return response.data;
 };
 
-export async function getBudgetProgram(organization, program, id) {
+export async function getBudgetProgram(organizationId, programId, budgetId) {
   try {
     const response = await axios.get(
-      `/organization/${organization.id}/program/${program.id}/budgetprogram/${id}`
+      `/organization/${organizationId}/program/${programId}/budgetprogram/${budgetId}`
     );
     return response.data;
   } catch (error) {
     throw new Error(`API error:${error?.message}`);
   }
 }
-export async function getBudgetProgramLists(oId, pId) {
+export async function getBudgetProgramLists(organizationId, programId) {
   try {
     const response = await axios.get(
-      `/organization/${oId}/program/${pId}/budgetprogram`
+      `/organization/${organizationId}/program/${programId}/budgetprogram`
     );
     return response.data;
   } catch (error) {
@@ -28,10 +28,10 @@ export async function getBudgetProgramLists(oId, pId) {
   }
 }
 
-export async function readAssignedPositionPermissions(oId, pId, positionId) {
+export async function readAssignedPositionPermissions(organizationId, programId, positionId) {
   try {
     const response = await axios.get(
-      `/organization/${oId}/program/${pId}/positionlevel/${positionId}/permissions`
+      `/organization/${organizationId}/program/${programId}/positionlevel/${positionId}/permissions`
     );
     return response.data?.map((permission) => permission.name);
   } catch (error) {

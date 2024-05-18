@@ -1,10 +1,8 @@
-import { Input, Col, Row, FormGroup, Label } from "reactstrap";
+import React, { useEffect } from "react";
+import { Input, Col, Row, FormGroup, Label, Button } from "reactstrap";
 import { Field } from "react-final-form";
-import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import Select from "react-select";
-import renderToggleButtonField from "@/shared/components/form/ToggleButton";
-import TemplateButton from "@/shared/components/TemplateButton";
 
 const BudgetSetupForm = ({
   budgetTypeOptions,
@@ -20,9 +18,8 @@ const BudgetSetupForm = ({
   setEndDateHide,
   dateFormat,
   setDateformat,
+  budgetStatus=true
 }) => {
-  console.log(dateFormat);
-
   const currentYear = new Date();
   const maxDate = new Date("2024-12-31");
   maxDate.setFullYear(maxDate.getFullYear() + 1);
@@ -81,95 +78,71 @@ const BudgetSetupForm = ({
     }
   };
 
-  return (
-    <>
-      <Row>
-        <Col md="12">
-          <Field name="budget_type">
-            {({ input, meta }) => (
-              <FormGroup>
-                <Label>*Budget Type</Label>
-                <Select
-                  options={budgetTypeOptions}
-                  clearable={true}
-                  value={budgetType}
-                  className="react-select"
-                  classNamePrefix="react-select"
-                  onChange={(option) => onChangeBudgetType(option)}
-                  defaultValue="select"
-                  isDisabled={disable}
-                />
-                {meta.touched && meta.error && (
-                  <span className="form-error">{meta.error}</span>
-                )}
-              </FormGroup>
-            )}
-          </Field>
-        </Col>
-      </Row>
-      <Row>
-        <Col md="12">
-          <Field name="budget_amount">
-            {({ input, meta }) => (
-              <FormGroup>
-                <Label>*Budget Amount</Label>
-                <Input placeholder="$ Amount" type="text" {...input} />
-                {meta.touched && meta.error && (
-                  <span className="text-danger">{meta.error}</span>
-                )}
-              </FormGroup>
-            )}
-          </Field>
-        </Col>
-      </Row>
-      <Row className={budgetType.label === "select" ? "d-none" : ""}>
-        <Col md="12">
-          <Field name="budget_start_date">
-            {({ input, meta }) => (
-              <FormGroup>
-                <div className="d-flex gap-1">
-                  <Label>*Budget Start Date : </Label>
-                  <DatePicker
-                    style={{ color: "blue" }}
-                    dateFormat={dateFormat}
-                    selected={budgetStartDate}
-                    onChange={onStartChange}
-                    minDate={currentYear}
-                    showMonthYearPicker={
-                      budgetType.label === "Monthly" ||
-                      budgetType.label === "Monthly Rollover"
-                    }
-                    showYearPicker={budgetType.label === "Yearly"}
-                    maxDate={maxDate}
-                    disabled={disable}
-                  />
-                </div>
-              </FormGroup>
-            )}
-          </Field>
-        </Col>
-      </Row>
-      {!endDateHide && (
+  if (budgetTypeOptions) {
+    return (
+      <>
+        {!budgetStatus && <div style={{ padding: "20px 0px",color:"#F6514C" }}>
+          <p>Budget has Closed</p>
+        </div>}
         <Row>
           <Col md="12">
-            <Field name="budget_end_date">
+            <Field name="budget_type">
+              {({ input, meta }) => (
+                <FormGroup>
+                  <Label>*Budget Type</Label>
+                  <Select
+                    options={budgetTypeOptions}
+                    clearable={true}
+                    value={budgetType}
+                    className="react-select"
+                    classNamePrefix="react-select"
+                    onChange={(option) => onChangeBudgetType(option)}
+                    defaultValue="select"
+                    isDisabled={disable || !budgetStatus}
+                  />
+                  {meta.touched && meta.error && (
+                    <span className="form-error">{meta.error}</span>
+                  )}
+                </FormGroup>
+              )}
+            </Field>
+          </Col>
+        </Row>
+        <Row>
+          <Col md="12">
+            <Field name="budget_amount">
+              {({ input, meta }) => (
+                <FormGroup>
+                  <Label>*Budget Amount</Label>
+                  <Input placeholder="$ Amount" type="text" {...input} disabled={!budgetStatus} />
+                  {meta.touched && meta.error && (
+                    <span className="text-danger">{meta.error}</span>
+                  )}
+                </FormGroup>
+              )}
+            </Field>
+          </Col>
+        </Row>
+        <Row className={budgetType.label === "select" ? "d-none" : ""}>
+          <Col md="12">
+            <Field name="budget_start_date">
               {({ input, meta }) => (
                 <FormGroup>
                   <div className="d-flex gap-1">
-                    <Label>*Budget Amount : </Label>
+                    <Label>*Budget Start Date : </Label>
                     <DatePicker
-                      placeholderText="select End date"
-                      selected={budgetEndDate}
-                      onChange={onEndDateChange}
+                      style={{ color: "blue" }}
                       dateFormat={dateFormat}
+                      selected={budgetStartDate}
+                      onChange={onStartChange}
+                      minDate={currentYear}
                       showMonthYearPicker={
                         budgetType.label === "Monthly" ||
                         budgetType.label === "Monthly Rollover"
                       }
-                      showYearPicker={budgetType === "Yearly"}
-                      minDate={currentYear}
+                      showYearPicker={budgetType.label === "Yearly"}
                       maxDate={maxDate}
-                      disabled={disable}
+                      disabled={disable || !budgetStatus}
                     />
                   </div>
                 </FormGroup>
@@ -177,14 +150,43 @@ const BudgetSetupForm = ({
             </Field>
           </Col>
         </Row>
-      )}
+        {!endDateHide && (
+          <Row>
+            <Col md="12">
+              <Field name="budget_end_date">
+                {({ input, meta }) => (
+                  <FormGroup>
+                    <div className="d-flex gap-1">
+                      <Label>*Budget End Date : </Label>
+                      <DatePicker
+                        placeholderText="select End date"
+                        selected={budgetEndDate}
+                        onChange={onEndDateChange}
+                        dateFormat={dateFormat}
+                        showMonthYearPicker={
+                          budgetType.label === "Monthly" ||
+                          budgetType.label === "Monthly Rollover"
+                        }
+                        showYearPicker={budgetType === "Yearly"}
+                        minDate={currentYear}
+                        maxDate={maxDate}
+                        disabled={disable || !budgetStatus}
+                      />
+                    </div>
+                  </FormGroup>
+                )}
+              </Field>
+            </Col>
+          </Row>
+        )}
 
-      <div className="d-flex justify-content-end">
-      {/* disabled={loading} */}
-        <TemplateButton  type="submit" text={btnLabel} />
-      </div>
-    </>
-  );
+        <div className="d-flex justify-content-end">
+          {/* disabled={loading} */}
+          <Button color="primary" type="submit" disabled={!budgetStatus}>{btnLabel}</Button>
+        </div>
+      </>
+    );
+  }
 };
 
 export default BudgetSetupForm;
