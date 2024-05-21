@@ -91,6 +91,7 @@ import PageNotFound from "./404Error/PageNotFound";
 import UserNotFound from "@/containers/App/404Error/UserNotFound";
 import CsvImport from "../Manager/CsvImport";
 import ManagerViewInvoice from "../Manager/ManageAccount/components/ViewInvoice";
+import ReferralTools from "../Manager/ReferralTools";
 
 // import { Train } from "@material-ui/icons";
 
@@ -215,6 +216,7 @@ const RouteIndex = () => (
               element={<GoalProgressSummary />}
             />
           </Route>
+          <Route path="referral_tools" element={<ReferralTools />} />
           <Route path="faqs" element={<Faqs />} />
           <Route path="about" element={<About />} />
           <Route path="privacy" element={<Privacy />} />
