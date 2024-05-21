@@ -23,7 +23,7 @@ const BrowseMerchant = ({ organization, program }) => {
   useEffect(() => {
     if (organization && program) {
       getMerchants(organization.id, program.id).then((payload) => {
-        setMerchants(payload);
+        setMerchants(payload?.merchants ? payload.merchants : payload);
       });
     }
   }, [organization, program]);
