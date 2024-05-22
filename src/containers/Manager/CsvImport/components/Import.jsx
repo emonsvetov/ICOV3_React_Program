@@ -368,7 +368,7 @@ const Import = ({ organization, program }) => {
 
   const onChangeCsvImportType = (selectedOption) => {
     if (selectedOption) {
-      // setImportType(selectedOption.value)
+      setImportType(selectedOption.value)
       setStep(1)
     }
   }

@@ -10,7 +10,7 @@ const MerchantSlider = ( {program} ) => {
     if ( program?.id ) {
       getMerchants(program.organization_id, program.id)
       .then( res => {
-        setMerchants(res)
+        setMerchants(res?.merchants ? res.merchants : res)
       })
     }
   }, [program]);
