@@ -130,6 +130,7 @@ const BudgetSetupInfoModal = ({
     }
     values.budget_start_date = getDateFormat(budgetStartDate);
     values.budget_end_date = getDateFormat(budgetEndDate);
+    values.remaining_amount	 = values.amount
     console.log(values);
     axios
       .put(
