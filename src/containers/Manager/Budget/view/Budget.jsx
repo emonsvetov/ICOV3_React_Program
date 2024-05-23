@@ -76,8 +76,11 @@ const Budget = ({ program, organization, auth }) => {
             </div>
           </div>
         ) : (
-          "No Permissions to read Budget"
+          <div style={{ padding: "20px 0px", color: "white" }}>
+            <p>No permissions to read Budget...</p>
+          </div>
         )}
+        <ModalWrapper {...props} toggle={toggle} />
       </>
     );
   }
