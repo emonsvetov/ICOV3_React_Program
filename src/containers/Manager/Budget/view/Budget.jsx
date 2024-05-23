@@ -40,8 +40,7 @@ const Budget = ({ program, organization, auth }) => {
     setOpen((prevState) => !prevState);
   };
   if (isLoading) return "Loading..."
-
-  if (auth?.positionLevel && assignedPermissions) {
+  if (auth?.positionLevel && assignedPermissions != null) {
     return (
       <>
         {
