@@ -131,17 +131,17 @@ const BudgetSetupInfoModal = ({
     values.budget_start_date = getDateFormat(budgetStartDate);
     values.budget_end_date = getDateFormat(budgetEndDate);
     console.log(values);
-    // axios
-    //   .put(
-    //     `/organization/${organization.id}/program/${program.id}/budgetprogram/${id}`,
-    //     values
-    //   )
-    //   .then((res) => {
-    //     if (res.status == 200) {
-    //       flashSuccess(dispatch, "Budget edited successfully!");
-    //       window.location.reload();
-    //     }
-    //   });
+    axios
+      .put(
+        `/organization/${organization.id}/program/${program.id}/budgetprogram/${id}`,
+        values
+      )
+      .then((res) => {
+        if (res.status == 200) {
+          flashSuccess(dispatch, "Budget edited successfully!");
+          window.location.reload();
+        }
+      });
   };
 
   let initialValues = {
