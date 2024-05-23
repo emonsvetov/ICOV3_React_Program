@@ -68,7 +68,7 @@ const AddBudgetSetupModal = ({ program, isOpen, setOpen, toggle }) => {
   };
 
   const onSubmit = (values) => {
-    values.budget_type_id = budgetType.value;
+    values.budget_type_id = budgetType[0].value;
     // if (budgetStartDate && budgetEndDate ) {
     //   alert("Start date cannot be greater than end date.");
     //   return;
