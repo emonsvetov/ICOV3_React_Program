@@ -40,38 +40,40 @@ const Budget = ({ program, organization, auth }) => {
     setOpen((prevState) => !prevState);
   };
   if (isLoading) return "Loading..."
-  if (auth?.positionLevel && assignedPermissions != null) {
+  if (auth?.positionLevel && assignedPermissions) {
     return (
       <>
-        {
-          hasUserPermissions(assignedPermissions, ["Budget Read"]) && <div className="bg-white m-2 p-3 rounded">
-            <Row className="mt-4">
-              <Col md={10}>
-                <div className="my-3 d-flex justify-content-between">
-                  <h3>Budgets list</h3>
-                  {hasUserPermissions(assignedPermissions, ["Budget Setup Create"]) && (
-                    <Button
-                      onClick={() => toggle("AddBudgetSetup")}
-                      className="btn btn-primary"
-                      color="ffff"
-                    >
-                      Create New Setup
-                    </Button>
-                  )}
-                </div>
-              </Col>
-            </Row>
-            <div className="points-summary-table">
-              <BudgetTable
-                program={program}
-                organization={organization}
-                assignedPermissions={assignedPermissions}
-                {...props}
-                toggle={toggle}
-              />
-            </div>
-            <ModalWrapper {...props} toggle={toggle} />
+      {
+        <Row className="mt-4">
+        <Col md={10}>
+          <div className="my-3 d-flex justify-content-between">
+            <h3>Budgets list</h3>
+            {hasUserPermissions(assignedPermissions, ["Budget Setup Create"]) && (
+              <Button
+                onClick={() => toggle("AddBudgetSetup")}
+                className="btn btn-primary"
+                color="ffff"
+              >
+                Create New Setup
+              </Button>
+            )}
           </div>
+        </Col>
+      </Row>
+      }
+        {
+          hasUserPermissions(assignedPermissions, ["Budget Read"]) ? <div className="bg-white m-2 p-3 rounded">
+          <div className="points-summary-table">
+            <BudgetTable
+              program={program}
+              organization={organization}
+              assignedPermissions={assignedPermissions}
+              {...props}
+              toggle={toggle}
+            />
+          </div>
+          <ModalWrapper {...props} toggle={toggle} />
+        </div>:"No Permissions to read Budget"
         }
       </>
     );
