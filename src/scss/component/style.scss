@@ -1553,6 +1553,16 @@ main.participant{
 *{
     list-style: none;
 }
+.referral-list li {
+    cursor: pointer;
+    margin-bottom: 16px;
+    padding: 10px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 30px;
+    background: #F0EEEE;
+    padding-right: 24px;
+}
 .referrals-info-col-left {
     padding-top: 32px;
 }
@@ -1613,7 +1623,8 @@ main.participant{
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background-color: #38a1fa;
+    background: #ffc14b;
+    // background-color: #38a1fa;
     color: #fff;
     font-size: 22px;
     font-weight: bold;
@@ -1626,11 +1637,16 @@ main.participant{
     overflow: visible;
 }
 
-.referral-list-li .number-circle {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
+.referral-list-li{
+    position: relative;
+
+    .number-circle {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+} 
+    
 
 
 .referral-inner-li {
@@ -1703,17 +1719,17 @@ main.participant{
 
 .referral-copy{
     top: 50%;
-    font-family: 'Roboto';
+    // font-family: 'Roboto';
     font-weight: 600;
     font-size: 22px;
     line-height: 22px;
     letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: #FFFFFF;
+    // text-transform: uppercase;
+    // color: #FFFFFF;
     display: inline-block;
     padding: 25px 42px 23px 42px;
     cursor: pointer;
-    background: #ffc14b;
+    // background: #ffc14b;
     /*box-shadow: 0px 20px 45px 10px rgba(0, 0, 0, 0.15);*/
     border-radius: 20px;
     position: absolute;
@@ -1935,4 +1951,81 @@ main.participant{
     .referral-column + .referral-column{
         margin-top: 0px;
     }
+}
+
+// ref-participants
+
+.ref-participants {
+    padding-top: 78px;
+}
+.rlp-referral-block-body {
+    height: calc(100vh - 253px);
+    min-height: 710px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+.rlp-referral-block-left, .rlp-referral-block-right {
+    width: 50%;
+}
+.ref-participants {
+    padding-top: 78px;
+}
+.rlp-referral-block-left .rlp-options .rlp-option:first-child {
+    gap: 15px;
+    align-items: center;
+}
+
+.rlp-option {
+    margin-bottom: 28px;
+    position: relative;
+    padding-left: 93px;
+    min-height: 100px;
+}
+.rlp-option-title {
+    font-family: 'Roboto';
+    font-size: 25px;
+}
+.custom-referral-select {
+    width: 200px;
+    position: relative;
+}
+.rlp-referral-block-left .rlp-options .rlp-option::after {
+    margin-top: 13px;
+}
+.rlp-option::after {
+    content: '';
+    background: url(../../../public/theme/clear/img/pages/rlp_options.png) right top no-repeat;
+    position: absolute;
+    left: 0px;
+    top: 3px;
+    display: block;
+    width: 74px;
+    height: 74px;
+}
+.rlp-option-body {
+    font-family: 'Roboto';
+    font-size: 18px;
+    font-weight: normal;
+    max-width: 414px;
+    line-height: 27px;
+}
+.rlp-notification-icon, .rlp-notification-body {
+    display: inline-block;
+    vertical-align: middle;
+}
+.rlp-notification-icon::after {
+    content: url(../../../public/theme/clear/img/pages/notification.png);
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.rlp-notification-body {
+    font-family: 'Roboto';
+    font-size: 18px;
+    font-weight: normal;
+    max-width: 350px;
+    line-height: 27px;
+    font-weight: 500;
+    font-style: italic;
 }

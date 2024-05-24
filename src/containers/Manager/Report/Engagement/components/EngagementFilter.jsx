@@ -13,7 +13,7 @@ import {CheckBoxField} from '@/shared/components/form/CheckBox';
 const defaultFrom = getFirstDay()
 const defaultTo = new Date()
 
-const SupplierRedemptionFilter = (
+const EngagementFilter = (
   {
     filter,
     setFilter,
@@ -27,9 +27,9 @@ const SupplierRedemptionFilter = (
     'dateRange': true,
     'programs': true,
     'exportToCsv': true,
-    'createdOnly': true,
-    'reportKey': true,
-    'programId': true,
+    'createdOnly': false,
+    'reportKey': false,
+    'programId': false,
   }
   const [from, setFrom] = React.useState(defaultFrom)
   const [to, setTo] = React.useState(defaultTo)
@@ -249,4 +249,4 @@ const mapStateToProps = (state) => {
     organization: state.organization,
   };
 };
-export default connect(mapStateToProps)(SupplierRedemptionFilter);
+export default connect(mapStateToProps)(EngagementFilter);
