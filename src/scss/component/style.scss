@@ -1597,11 +1597,11 @@ main.participant{
     position: relative;
     .number-circle {
         position: absolute;
-        top: 0;
-        left: 0;
+        top: 5;
+        left: 5;
         display: inline-block;
-        width: 70px;
-        height: 70px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
         background: #ffc14b;
         // background-color: #38a1fa;
@@ -1609,7 +1609,7 @@ main.participant{
         font-size: 22px;
         font-weight: bold;
         margin-right: 10px;
-        line-height: 70px;
+        line-height: 50px;
         text-align: center;
     }
 }
@@ -1634,7 +1634,7 @@ main.participant{
     position: absolute;
     right:0;
     top: 40%;
-    #social_share img{
+    .social_share img{
         width: 48px;
         height: 48px;
         border-radius: 6px;
@@ -1683,7 +1683,6 @@ main.participant{
 }
 
 .referral-copy{
-    top: 50%;
     // font-family: 'Roboto';
     font-weight: 600;
     font-size: 22px;
@@ -1692,15 +1691,15 @@ main.participant{
     // text-transform: uppercase;
     // color: #FFFFFF;
     display: inline-block;
-    padding: 25px 42px 23px 42px;
+    padding: 20px 30px 20px 30px;
     cursor: pointer;
     // background: #ffc14b;
     /*box-shadow: 0px 20px 45px 10px rgba(0, 0, 0, 0.15);*/
     border-radius: 20px;
     position: absolute;
-    right: 0;
-    top: 50%;
-    margin-top: -22px;
+    right: 15px;
+    bottom: 0;
+    // margin-top: -22px;
 }
 
 .referral-label{
@@ -1827,10 +1826,6 @@ main.participant{
         width: 50px;
         height: 50px;
         line-height: 50px;
-    }
-    .referral-social-share #social_share img{
-        width: 32px;
-        height: 32px;
     }
 }
 

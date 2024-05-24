@@ -7,7 +7,7 @@ import DatePicker from "react-datepicker";
 import {CSVLink} from "react-csv";
 import {getFirstDay} from '@/shared/helpers'
 import {dateStrToYmd} from '@/shared/helpers';
-import {isEqual, clone} from 'lodash';
+import {isEqual, clone, cloneDeep} from 'lodash';
 import {CheckBoxField} from '@/shared/components/form/CheckBox';
 
 const defaultFrom = getFirstDay()
@@ -37,6 +37,7 @@ const EngagementFilter = (
   const [reportKey, setReportKey] = React.useState('sku_value')
   const [selectedPrograms, setSelectedPrograms] = useState(filter.programs ? filter.programs : []);
   const finalFilter = {...filter}
+  let previous = cloneDeep(finalFilter);
 
   const onClickFilter = (reset = false, exportToCsv = 0) => {
     let dataSet = {}
@@ -59,6 +60,7 @@ const EngagementFilter = (
 
 
     onClickFilterCallback(dataSet)
+    previous = dataSet;
     if (reset) {
       setFrom(defaultFrom)
       setTo(defaultTo)
@@ -72,7 +74,7 @@ const EngagementFilter = (
     let change = false;
 
     if (options.programs) {
-      if (!isEqual(finalFilter.programs, values.programs)) {
+      if (!isEqual(values.programs, previous.programs)) {
         change = true
       }
     }

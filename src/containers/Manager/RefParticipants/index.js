@@ -61,7 +61,7 @@ const RefParticipants = ({ auth, program, organization }) => {
       })
       .catch((error) => {
         //console.log(error.response.data);
-        flash422(dispatch, error.response.data);
+        flash422(dispatch, error?.response?.data || error.message);
         setLoading(false);
       });
   };
@@ -104,12 +104,12 @@ const RefParticipants = ({ auth, program, organization }) => {
   return (
     <div className="ref-participants">
       <Container>
-        <div class="rlp-referral-block-body">
-          <div class="rlp-referral-block-left">
-            <div class="rlp-options">
+        <div className="rlp-referral-block-body">
+          <div className="rlp-referral-block-left">
+            <div className="rlp-options">
               <div>
-                <div class="rlp-option rlp-option-1 d-flex align-center">
-                  <div class="rlp-option-title">Submit a: </div>
+                <div className="rlp-option rlp-option-1 d-flex align-center">
+                  <div className="rlp-option-title">Submit a: </div>
                   <Select
                     options={formOptions}
                     clearable={false}
@@ -122,41 +122,41 @@ const RefParticipants = ({ auth, program, organization }) => {
                     value={selected}
                     onChange={(selectedOption) => onSelectChange(selectedOption)}
                   />
-                  {/* <div class="custom-referral-select">
+                  {/* <div className="custom-referral-select">
                     <input type="text" id="select_option_value" value="0" />
-                      <div class="select">
+                      <div className="select">
                         Select One
                       </div>
-                      <div class="select-option bg-white">
-                        <div class="text-primary option-item bg-white" data-value="1">Referral</div>
-                        <div class="text-primary option-item bg-white" data-value="2">Request Information</div>
-                        <div class="text-primary option-item bg-white" data-value="3">Feedback / Review</div>
+                      <div className="select-option bg-white">
+                        <div className="text-primary option-item bg-white" data-value="1">Referral</div>
+                        <div className="text-primary option-item bg-white" data-value="2">Request Information</div>
+                        <div className="text-primary option-item bg-white" data-value="3">Feedback / Review</div>
                       </div>
                   </div> */}
                 </div>
-                <div class="rlp-option rlp-option-2">
-                  <div class="rlp-option-title">Get Rewarded</div>
-                  <div class="rlp-option-body">Get reward points to be redeemed at the nation's leading retailers OR special discount offerings from the business owner</div>
+                <div className="rlp-option rlp-option-2">
+                  <div className="rlp-option-title">Get Rewarded</div>
+                  <div className="rlp-option-body">Get reward points to be redeemed at the nation's leading retailers OR special discount offerings from the business owner</div>
                 </div>
-                <div class="rlp-notification">
-                  <span class="rlp-notification-icon"></span>
-                  <div class="rlp-notification-body">You will receive an email with a link to redeem your points and other offers!</div>
+                <div className="rlp-notification">
+                  <span className="rlp-notification-icon"></span>
+                  <div className="rlp-notification-body">You will receive an email with a link to redeem your points and other offers!</div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="rlp-referral-block-right">
-            <div class="rlp-referral-form">
-              <div class="flex align-center justify-center h-full">
+          <div className="rlp-referral-block-right">
+            <div className="rlp-referral-form">
+              <div className="flex align-center justify-center h-full">
                 <div>
-                  {/* <div class="simply-spinner"></div>
-                  <div class="formMessageWrap">
-                    <div class="display-success">
+                  {/* <div className="simply-spinner"></div>
+                  <div className="formMessageWrap">
+                    <div className="display-success">
                       <img src="/assets/img/correct.png?v=1561436554" alt="correct" />
                       Thank you, we received your referral!
                     </div>
                   </div> */}
-                  {!selected && <div class="logo">
+                  {!selected && <div className="logo">
                     <Img src={FEBubbleGlowImg} alt="glow logo" />
                   </div>}
                   {selected && <div className="ref-participants-form">
