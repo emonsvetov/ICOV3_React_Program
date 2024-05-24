@@ -7,28 +7,32 @@ import { Img } from '@/theme'
 import { useParams } from "react-router-dom";
 import { flash422, flashSuccess } from "@/shared/components/flash";
 import { Form, Field } from "react-final-form";
+import { getUser } from "@/services/program/getUser";
 import axios from "axios";
 
 const RefParticipants = ({ auth, program, organization }) => {
   // console.log(auth)
   let params = useParams();
 
-  const ReferralWidgetImg = `img/pages/Referrals_Image.png`;
+  const FEBubbleGlowImg = `img/pages/FE_bubble_glow.png`;
   const formOptions = [
-    { value: '1', label: 'Referral' },
-    { value: '2', label: 'Request Information' },
-    { value: '3', label: 'Feedback / Review' },
+    { value: 'category_referral', label: 'Referral' },
+    { value: 'category_lead', label: 'Request Information' },
+    { value: 'category_feedback', label: 'Feedback / Review' },
   ];
 
   const [selected, setSelected] = useState(null)
   const [loading, setLoading] = useState(false);
+  let [user, setUser] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (program && organization) {
-
+    if (auth && organization && program) { //params?
+      getUser(organization.id, program.id, auth.id).then((payload) => {
+        setUser(payload);
+      });
     }
-  }, [program, organization, params]);
+  }, [organization, program, auth, params]);
 
   const onSelectChange = (selectedOption) => {
     setSelected(selectedOption)
@@ -36,18 +40,21 @@ const RefParticipants = ({ auth, program, organization }) => {
 
   const onSubmit = (values) => {
     setLoading(true);
+    let url = `/organization/${program.organization_id}/program/${program.id}/refer`
+    delete values.category_referral;
+    delete values.category_lead;
+    delete values.category_feedback;
+    values[selected.value] = 1;
+    values.sender_id = user.id;
     axios
-      .post(
-        `/organization/${organization.id}/program/${values.program.value}/invite`,
-        values
-      )
+      .post( url,values )
       .then((res) => {
         // console.log(res)
         if (res.status == 200) {
           // window.location.reload();
           flashSuccess(
             dispatch,
-            "The participant has been invited to your program!"
+            "Thank you, we received your referral!"
           );
           setLoading(false);
         }
@@ -72,17 +79,22 @@ const RefParticipants = ({ auth, program, organization }) => {
     if (!values.last_name) {
       errors.last_name = "Last name is required";
     }
+    if (!values.message) {
+      errors.message = "Message is required";
+    }
     //referral
-    if (!values.ref_email) {
-      errors.ref_email = "Email is required";
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i.test(values.email)) {
-      errors.ref_email = "Invalid email address";
-    }
-    if (!values.ref_first_name) {
-      errors.ref_first_name = "First name is required";
-    }
-    if (!values.ref_last_name) {
-      errors.ref_last_name = "Last name is required";
+    if(selected.value == 'category_referral'){
+      if (!values.recipient_email) {
+        errors.recipient_email = "Email is required";
+      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i.test(values.email)) {
+        errors.recipient_email = "Invalid email address";
+      }
+      if (!values.recipient_first_name) {
+        errors.recipient_first_name = "First name is required";
+      }
+      if (!values.recipient_last_name) {
+        errors.recipient_last_name = "Last name is required";
+      }
     }
     return errors;
   };
@@ -92,7 +104,6 @@ const RefParticipants = ({ auth, program, organization }) => {
   return (
     <div className="ref-participants">
       <Container>
-        {/* <Img src={ReferralWidgetImg} className="iframe" style={{ marginRight: '10%', width: '175px', height: '95px' }} /> */}
         <div class="rlp-referral-block-body">
           <div class="rlp-referral-block-left">
             <div class="rlp-options">
@@ -146,7 +157,7 @@ const RefParticipants = ({ auth, program, organization }) => {
                     </div>
                   </div> */}
                   {!selected && <div class="logo">
-                    <img src="https://fasteezy.com/assets/theme/fasteezy/img/FE_bubble_glow.png" alt="glow logo" />
+                    <Img src={FEBubbleGlowImg} alt="glow logo" />
                   </div>}
                   {selected && <div className="ref-participants-form">
                     <h2 className="title mb-3">{selected.label}</h2>
@@ -211,11 +222,11 @@ const RefParticipants = ({ auth, program, organization }) => {
                                 </Col>
                               </Row>
                             </Col>
-                            {selected.value == 1 && <Col md="6">
+                            {selected.value == 'category_referral' && <Col md="6">
                               <Label className="mb-1">Referral Information</Label>
                               <Row>
                                 <Col md="12">
-                                  <Field name="ref_first_name">
+                                  <Field name="recipient_first_name">
                                     {({ input, meta }) => (
                                       <FormGroup>
                                         <Input
@@ -233,7 +244,7 @@ const RefParticipants = ({ auth, program, organization }) => {
                               </Row>
                               <Row>
                                 <Col md="12">
-                                  <Field name="ref_last_name">
+                                  <Field name="recipient_last_name">
                                     {({ input, meta }) => (
                                       <FormGroup>
                                         <Input placeholder="Last Name *" type="text" {...input} />
@@ -247,7 +258,7 @@ const RefParticipants = ({ auth, program, organization }) => {
                               </Row>
                               <Row>
                                 <Col md="12">
-                                  <Field name="ref_email">
+                                  <Field name="recipient_email">
                                     {({ input, meta }) => (
                                       <FormGroup>
                                         <Input
@@ -268,8 +279,8 @@ const RefParticipants = ({ auth, program, organization }) => {
 
                           <Row>
                             <Col md="12">
-                              <Label className="mb-1">Comments</Label>
-                              <Field name="comments">
+                              <Label className="mb-1">Message</Label>
+                              <Field name="message">
                                 {({ input, meta }) => (
                                   <FormGroup>
                                     <Input
@@ -304,49 +315,6 @@ const RefParticipants = ({ auth, program, organization }) => {
                     </Form>
                   </div>
                   }
-                  {/* <h2 class="text-white w-full" id="section_title"></h2>
-                  <form action="https://fasteezy.com/ref-participants/program/785093" method="post" accept-charset="utf-8" autocomplete="off" id="referralForm">
-                    <div style="display:none">
-                      <input type="hidden" name="form_token" value="e2ea924082d2a0d80fb75cde25d03349" />
-                    </div>
-                    <div class="form-1">
-                      <div class="row">
-                        <div class="simply-column">
-                          <h2 class="referral-participant-title">Your Information</h2>
-                          <input type="text" name="form_selector" class="text" id="form_selector" value="0" style="display: none;" />
-                          <label class="required">First Name</label>
-                          <input type="text" name="first_name" class="text" placeholder="" value="" />
-                          <span class="error-red-bold"></span>
-                          <label class="required">Last Name</label>
-                          <input type="text" name="last_name" class="text" placeholder="" value="" />
-                          <span class="error-red-bold"></span>
-                          <label class="required">Email</label>
-                          <input type="text" name="email" class="text" placeholder="" value="" />
-                          <span class="error-red-bold"></span>
-                        </div>
-                        <div class="simply-column" id="referral_information">
-                          <h2 class="referral-participant-title">Referral Information</h2>
-                          <label class="required">First Name</label>
-                          <input type="text" name="first_name_referral" class="text" placeholder="" value="" />
-                          <span class="error-red-bold"></span>
-                          <label class="required">Last Name</label>
-                          <input type="text" name="last_name_referral" class="text" placeholder="" value="" />
-                          <span class="error-red-bold"></span>
-                          <label class="required">Email</label>
-                          <input type="text" name="email_referral" class="text" placeholder="" value="" />
-                          <span class="error-red-bold"></span>
-                        </div>
-                      </div>
-                      <label>Comments</label>
-                      <textarea rows="6" cols="50" name="message"></textarea>
-                      <div class="simply-signing">
-                        <sup>*</sup>By signing up you agree to the Program terms of Service and our Privacy Policy
-                      </div>
-                      <div class="simply-submit clearfix center">
-                        <input id="submit" type="submit" class="btn btn-success" style="cursor: pointer;" value="Submit" />
-                      </div>
-                    </div>
-                  </form> */}
                 </div>
               </div>
             </div>

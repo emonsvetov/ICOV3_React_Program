@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
 import { Col, Container, Row } from "reactstrap";
@@ -13,11 +13,15 @@ const YoutubeIcon = `img/pages/youtube_icon.png`;
 const FacebookIcon = `img/pages/facebook_icon.png`;
 const LinkedinIcon = `img/pages/linkedin_icon.png`;
 const TwitterIcon = `img/pages/twitter_icon.png`;
+const QRImg = `img/pages/qr.png`;
 
-const ReferralTools = ({ auth, program, organization }) => {
-  // console.log(auth)
+const ReferralTools = ({ auth, program, organization, domain }) => {
+  console.log(domain)
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [videoId, setVideoId] = useState('');
+  const [isCopied, setIsCopied] = useState(false);
+  const [widgetLink, setWidgetLink] = useState("");
+  const [widgetImgLink, setWidgetImgLink] = useState("");
 
   const handleVideoClick = (id) => {
     setVideoId(id);
@@ -28,12 +32,55 @@ const ReferralTools = ({ auth, program, organization }) => {
     setIsVideoModalOpen(false);
   };
 
+  useEffect(() => {
+    if (program && domain) {
+      setWidgetLink(`https://${domain?.domain?.name}/manager/ref-participants/program/${program.id}`)
+      setWidgetImgLink(`https://${domain?.domain?.name}/theme/clear/img/pages/FE_Widget.png`)
+    }
+  }, [domain, program]);
+
+  const handleCopy = async (textToCopy) => {
+
+    const el = document.createElement('textarea');
+    el.value = textToCopy;
+    el.setAttribute('readonly', '');
+    el.style.position = 'absolute';
+    el.style.left = '-9999px';
+    document.body.appendChild(el);
+    const selected =
+      document.getSelection().rangeCount > 0
+        ? document.getSelection().getRangeAt(0)
+        : false;
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    if (selected) {
+      document.getSelection().removeAllRanges();
+      document.getSelection().addRange(selected);
+    }
+
+    // const URL = QRImg
+    // try {
+    //     const copiedImage = await fetch(URL)
+    //     const blobData = await copiedImage.blob()
+    //     const clipboardItemInput = new ClipboardItem({'image/png' : blobData})
+    //     navigator.clipboard.write([clipboardItemInput])
+    // } catch(e) {
+    //     console.log(e)
+    // }
+
+    setIsCopied(true);
+
+    setTimeout(() => setIsCopied(false), 2000);
+  };
+
+
   if (!auth || !program || !organization) return "loading";
 
   return (
     <div className="referral_tools">
       <Container>
-        <div className="mt-4 d-flex justify-content-between" style={{marginLeft: '8%'}}>
+        <div className="mt-4 d-flex justify-content-between" style={{ marginLeft: '8%' }}>
           <div class="referrals-info-col-left scale-down-target-70">
             <div class="referrals-info-1">Referral Widget</div>
             <div class="referrals-info-2">
@@ -61,7 +108,6 @@ const ReferralTools = ({ auth, program, organization }) => {
                 </div>
                 <div className="referral-column referral-button-column d-flex align-items-center">
                   <TemplateButton className="referral-copy" onClick={() => { }} text="CREATE" />
-                  {/* <a className="referral-copy" id="create-email" href="#" style={{verticalAlign: "middle"}}>Create</a> */}
                 </div>
                 <div className="referral-column">
                   <div className="youtube-icon d-flex align-items-center justify-content-center" onClick={() => handleVideoClick('UvsNkg0JwAc?rel=0')} tooltip="Click here to for a tutorial">
@@ -83,7 +129,6 @@ const ReferralTools = ({ auth, program, organization }) => {
                 <div class="referral-column">
                   <div class="referral-resource" style={{ textAlign: 'center' }}>
                     <Img src={FEWidgetImg} className="iframe" style={{ marginRight: '10%', width: '175px', height: '95px' }} />
-                    {/* <img class="iframe" src="/assets/theme/fasteezy/img/new/FE_Widget_175x80.png" style={{ marginRight: '10%', width: '175px', height: '95px' }} onclick="copyRewardImage(this.getAttribute('data-url'))" data-url="https://fasteezy.com/assets/theme/fasteezy/img/new/FE_Widget_175x80.png" /> */}
                   </div>
                   <div class="referral-resource" style={{ textAlign: 'center' }}></div>
                 </div>
@@ -91,13 +136,13 @@ const ReferralTools = ({ auth, program, organization }) => {
                   <div class="referral-social-share-container">
                     <div class="referral-social-share">
                       <div id="social_share">
-                        <a class="fb" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ffasteezy.com%2Fref-participants%2Fprogram%2F785093" target="_blank">
+                        <a class="fb" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(widgetLink)}`} target="_blank">
                           <Img src={FacebookIcon} className="iframe" alt="facebook icon" />
                         </a>
-                        <a class="li" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Ffasteezy.com%2Fref-participants%2Fprogram%2F785093" target="_blank" onclick="window.open(this.href, 'LinkedIn', 'width=550,height=400'); return false;">
+                        <a class="li" href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(widgetLink)}`} target="_blank">
                           <Img src={LinkedinIcon} className="iframe" alt="linkedin icon" />
                         </a>
-                        <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ffasteezy.com%2Fref-participants%2Fprogram%2F785093" target="_blank">
+                        <a class="twitter" href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(widgetLink)}`} target="_blank">
                           <Img src={TwitterIcon} className="iframe" alt="twitter icon" />
                         </a>
                       </div>
@@ -123,14 +168,13 @@ const ReferralTools = ({ auth, program, organization }) => {
                 </div>
                 <div class="referral-column">
                   <div class="referral-resource-icon">
-                    <img id="qrimg" src="https://fasteezy.com/assets/theme/fasteezy/img/qr/785093.png" />
+                    <Img id="qrimg" src={QRImg} />
                   </div>
                   <div class="referral-resource" style={{ textAlign: 'center' }}></div>
                   <div class="referral-resource" style={{ textAlign: 'center' }}></div>
                 </div>
                 <div class="referral-column referral-button-column flex align-center">
-                  <TemplateButton className="referral-copy" onClick={() => { }} text="COPY" />
-                  {/* <a class="referral-copy" id="qr-copy" href="#" style={{verticalAlign: "middle"}}>COPY</a> */}
+                  <TemplateButton className="referral-copy" onClick={() => handleCopy()} text="COPY" />
                 </div>
                 <div class="referral-column">
                   <div class="youtube-icon flex align-center justify-center " onClick={() => handleVideoClick('MhkddCXTORc?rel=0')} tooltip="Click here to for a tutorial">
@@ -151,15 +195,17 @@ const ReferralTools = ({ auth, program, organization }) => {
                 </div>
                 <div class="referral-column">
                   <div class="referral-resource-icon ">
-                    {/* <img id="widgetimg" src="https://fasteezy.com/assets/theme/fasteezy/img/new/FE_Widget_175x80.png" alt="fasteezy.com" /> */}
                     <Img src={FEWidgetImg} className="iframe" style={{ marginRight: '10%', width: '175px', height: '95px' }} />
                   </div>
                   <div class="referral-resource" style={{ textAlign: 'center' }}></div>
                   <div class="referral-resource" style={{ textAlign: 'center' }}></div>
                 </div>
                 <div class="referral-column referral-button-column flex align-center">
-                  {/* <a class="referral-copy" id="copy" href="#" style={{verticalAlign: "middle"}}>COPY</a> */}
-                  <TemplateButton className="referral-copy" onClick={() => { }} text="COPY" />
+                  <TemplateButton className="referral-copy"
+                    onClick={() => handleCopy(`<a href="${widgetLink}">
+                      <img id="widgetimg" src="${widgetImgLink}" alt="incentco"></a>`)}
+                    text="COPY"
+                  />
                 </div>
                 <div class="referral-column">
                   <div class="youtube-icon flex align-center justify-center" onClick={() => handleVideoClick('rG9Bz-f_2IE?rel=0')} tooltip="Click here to for a tutorial">
@@ -179,12 +225,11 @@ const ReferralTools = ({ auth, program, organization }) => {
                   <div class="referral-text">Copy your referral widget link to place in marketing campaigns:</div>
                 </div>
                 <div class="referral-column">
-                  <div class="referral-resource" style={{ textAlign: 'center' }}>https://fasteezy.com/ref-participants/program/785093</div>
+                  <div class="referral-resource" style={{ textAlign: 'center' }}>{`https://${domain?.domain?.name}/manager/ref-participants/program/${program.id}`}</div>
                   <div class="referral-resource" style={{ textAlign: 'center' }}></div>
                 </div>
                 <div class="referral-column referral-button-column flex align-center">
-                  {/* <a class="referral-copy" id="copy-form-link" href="#" style={{verticalAlign: "middle"}}>COPY</a> */}
-                  <TemplateButton className="referral-copy" onClick={() => { }} text="COPY" />
+                  <TemplateButton className="referral-copy" onClick={() => handleCopy(`https://${domain?.domain?.name}/manager/ref-participants/program/${program.id}`)} text="COPY" />
                 </div>
                 <div class="referral-column">
                   <div class="youtube-icon flex align-center justify-center" onClick={() => handleVideoClick('yIV3phEObxA?rel=0')} tooltip="Click here to for a tutorial">
@@ -197,7 +242,6 @@ const ReferralTools = ({ auth, program, organization }) => {
         </ul>
       </Container>
       <VideoModal isOpen={isVideoModalOpen} onClose={handleModalClose} videoId={videoId} />
-
     </div>
   );
 };
@@ -207,6 +251,7 @@ const mapStateToProps = (state) => {
     auth: state.auth,
     program: state.program,
     organization: state.organization,
+    domain: state.domain
   };
 };
 

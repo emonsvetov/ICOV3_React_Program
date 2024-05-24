@@ -1,6 +1,6 @@
 import CloseIcon from 'mdi-react/CloseIcon';
 import React from 'react';
-import { Button, Modal, ModalBody } from 'reactstrap';
+import { Modal, ModalBody } from 'reactstrap';
 
 const VideoModal = ({ isOpen, onClose, videoId }) => {
   return (
