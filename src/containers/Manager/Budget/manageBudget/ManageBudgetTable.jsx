@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Input, FormGroup, Button } from "reactstrap";
+import { Col, Row, Input, FormGroup, Button, Label } from "reactstrap";
 import { Form, Field } from "react-final-form";
-import { LensTwoTone } from "@material-ui/icons";
+import { checkMonth } from "@/services/program/budget";
+import axios from "axios";
 
 const ManageBudgetTable = ({
+  organization,
+  program,
   programs,
   budgetProgram,
   id,
@@ -14,42 +17,33 @@ const ManageBudgetTable = ({
   handleBlur,
   handleFocus,
 }) => {
+  const [isBudgetMonthly, setIsBudgetMonthhly] = useState(false);
 
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
-  function checkMonth(start, end) {
-    let actualMonth = months.slice(
-      new Date(start).getMonth(),
-      new Date(end).getMonth() + 1
-    );
-    setMonth(actualMonth);
-  }
   useEffect(() => {
-    if (budgetProgram) {
-      checkMonth(
-        budgetProgram?.budget_start_date,
-        budgetProgram?.budget_end_date
+    if (budgetProgram && budgetProgram?.budget_types?.name === "monthly") {
+      setIsBudgetMonthhly(true);
+      setMonth(
+        checkMonth(
+          budgetProgram?.budget_start_date,
+          budgetProgram?.budget_end_date
+        )
       );
     }
   }, [budgetProgram]);
-  
+
   const onSubmit = (values) => {
-    values.budgetType = id
-    values.ManageData = formData;
+    values.budget_type = budgetProgram?.budget_types?.name;
+    values.budget_amount = formData;
     console.log("values", values);
+    let url = `/organization/${organization?.id}/program/${program?.id}/budgetprogram/${id}/assign`;
+    axios
+      .post(url, values)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <>
@@ -61,39 +55,67 @@ const ManageBudgetTable = ({
                 <thead>
                   <tr>
                     <th>Program</th>
-                    {month.map((m) => (
-                      <th key={m}>{m}</th>
-                    ))}
+                    {isBudgetMonthly ? (
+                      month.map((m) => <th key={m}>{m}</th>)
+                    ) : (
+                      <th>Budget Amount</th>
+                    )}
                   </tr>
                 </thead>
                 <tbody>
                   {programs?.map((program) => (
                     <tr key={program.id}>
                       <td>{program.name}</td>
-                      {month.map((m) => (
-                        <td key={m}>
-                          <Field name="amount">
-                            {({ input, meta }) => (
-                              <FormGroup>
-                                <Input
-                                  style={{ width: "150px" }}
-                                  type="text"
-                                  placeholder="$ amount"
-                                  onChange={(event) =>
-                                    handleAmountChange(
-                                      program.id,
-                                      event.target.value,
-                                      m
-                                    )
-                                  }
-                                  onBlur={() => handleBlur(program.id, m)}
-                                  onFocus={() => handleFocus(program.id, m)}
-                                />
-                              </FormGroup>
-                            )}
-                          </Field>
-                        </td>
-                      ))}
+                      {isBudgetMonthly ? (
+                        month.map((m) => (
+                          <td key={m}>
+                            <Field name="amount">
+                              {({ input, meta }) => (
+                                <FormGroup>
+                                  <Input
+                                    style={{ width: "150px" }}
+                                    type="text"
+                                    placeholder="$ amount"
+                                    onChange={(event) =>
+                                      handleAmountChange(
+                                        program.id,
+                                        event.target.value,
+                                        m
+                                      )
+                                    }
+                                    onBlur={(e) =>
+                                      handleBlur(program.id, m, e.target.value)
+                                    }
+                                    onFocus={(e) =>
+                                      handleFocus(program.id, m, e.target.value)
+                                    }
+                                  />
+                                </FormGroup>
+                              )}
+                            </Field>
+                          </td>
+                        ))
+                      ) : (
+                        <Field name="amount">
+                          {({ input, meta }) => (
+                            <FormGroup>
+                              <Input
+                                style={{ width: "150px" }}
+                                type="text"
+                                placeholder="$ amount"
+                                onChange={(event) =>
+                                  handleAmountChange(
+                                    program.id,
+                                    event.target.value
+                                  )
+                                }
+                                onBlur={() => handleBlur(program.id)}
+                                onFocus={() => handleFocus(program.id)}
+                              />
+                            </FormGroup>
+                          )}
+                        </Field>
+                      )}
                     </tr>
                   ))}
                 </tbody>

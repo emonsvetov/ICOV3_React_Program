@@ -6,15 +6,18 @@ import { getProgramTree } from "@/services/program/getProgramTree";
 import ManageBudgetTable from "./ManageBudgetTable";
 import { useParams } from "react-router-dom";
 import { getBudgetProgram } from "@/services/program/budget";
+import { months } from "@/services/program/budget";
+import { flashError, useDispatch } from "@/shared/components/flash";
+import SelectProgram from "../../components/SelectProgram";
 
-const ManageBudget = ({ organization, rootProgram }) => {
+const ManageBudget = ({ organization, program, rootProgram }) => {
+  const [budgetProgram, setBudgetProgram] = useState({});
   const [programs, setPrograms] = useState([]);
   const [remainingAmount, setRemainingAmount] = useState("");
   const [month, setMonth] = useState([]);
   const [formData, setFormData] = useState({});
   const [previousValues, setPreviousValues] = useState({});
-  const [budgetProgram, setBudgetProgram] = useState({});
-
+  const dispatch = useDispatch();
   const { id } = useParams();
 
   useEffect(() => {
@@ -34,88 +37,137 @@ const ManageBudget = ({ organization, rootProgram }) => {
     }
   }, [organization, rootProgram, id]);
 
-  const handleAmountChange = (programId, value, month) => {
-    const numericValue = value || 0;
-    setFormData((prevState) => {
-      const updatedProgramData = {
-        ...prevState[programId],
-        [month]: numericValue,
-      };
+  const handleAmountChange = (
+    programId,
+    value,
+    month,
+    prevAmount = 0,
+    year = new Date().getFullYear()
+  ) => {
+    const amount = value || 0;
+    if (budgetProgram?.budget_types?.name === "monthly") {
+      setFormData((prevData) => {
+        console.log(prevData);
+        const programIndex = prevData?.program === programId;
+        if (programIndex > -1) {
+          const updatedBudgets = prevData["budgets"]?.map((b) =>
+            b.year === year && b.month === month ? { ...b, amount: value } : b
+          );
 
-      const newFormData = {
-        ...prevState,
-        [programId]: updatedProgramData,
-      };
+          if (
+            !updatedBudgets?.some((b) => b.year === year && b.month === month)
+          ) {
+            updatedBudgets?.push({ year, month, amount: value });
+          }
 
-      return newFormData;
-    });
+          const updatedProgram = {
+            ...prevData[programId],
+            budgets: updatedBudgets,
+          };
+          return prevData?.budgets?.map((item, idx) =>
+            idx === programId ? updatedProgram : item
+          );
+        } else {
+          return {
+            ...prevData,
+            program: programId,
+            budgets: [{ year, month, amount: value }],
+          };
+        }
+      });
+    } else {
+      setFormData((prevState) => {
+        let month =
+          months[new Date(budgetProgram.budget_start_date).getMonth()];
+        let year = new Date(budgetProgram.budget_start_date).getFullYear();
+        const updatedProgramData = {
+          ...prevState[programId],
+          budgets: {
+            ["budgets_cascading_id"]: null,
+            ["year"]: year,
+            ["month"]: month,
+            ["amount"]: amount,
+          },
+        };
+        const newFormData = {
+          ...prevState,
+          [programId]: updatedProgramData,
+        };
+
+        return newFormData;
+      });
+    }
   };
 
-  const handleFocus = (programId, m) => {
+  const handleFocus = (programId, m, amount) => {
     setPreviousValues((prevState) => ({
       ...prevState,
-      [`${programId}-${m}`]: formData[programId]?.[m] || 0,
+      [`${programId}-${m}`]: amount,
     }));
   };
 
-  const updateRemainingAmount = (bId, m) => {
-    const prevValue = previousValues[`${bId}-${m}`] || 0;
-    const currentValue = formData[bId]?.[m] || 0;
+  function onBlurUpdateRemainingAmount(
+    programId,
+    month,
+    newValue,
+    year = new Date().getFullYear()
+  ) {
+    const prevValue = previousValues[`${programId}-${month}`] || 0;
+    const currentValue = newValue || 0;
     const valueDifference = currentValue - prevValue;
-
     setRemainingAmount((prevAmount) => prevAmount - valueDifference);
     setPreviousValues((prevState) => {
-      const { [`${bId}-${m}`]: removed, ...rest } = prevState;
+      const { [`${programId}-${month}`]: removed, ...rest } = prevState;
       return rest;
     });
-  };
+  }
 
   if (rootProgram && id && budgetProgram) {
     return (
       <div className="m-1 bg-light p-3 rounded">
-        {/* <span onClick={()=>setName("EditSetup")}>Back</span> */}
         <div>
           <h4>Manage Budget</h4>
         </div>
-        <table className="w-100 table table-striped report-table">
-          <tr>
-            <th>Total Budget:</th>
-            <th>
+        <div className="d-flex program-select my-3 p-2 rounded">
+          <SelectProgram showRefresh={false} />
+        </div>
+        <div className=" p-2" style={{ borderStyle: "groove" }}>
+          <Row>
+            <Col>Total Budget:</Col>
+            <Col>
               <span>{budgetProgram?.budget_amount}</span>
-            </th>
-          </tr>
-          <tr>
-            <th>Available To Allocate: </th>
-            <th>
-              <span
-                className={remainingAmount < 0 ? "text-danger" : "text-black"}
-              >
-                {remainingAmount}
-              </span>
-            </th>
-          </tr>
-          <tr>
-            <th>Budget Type:</th>
-            <th>
+            </Col>
+          </Row>
+          <Row>
+            <Col>Available To Allocate: </Col>
+            <Col className={remainingAmount < 0 ? "text-danger" : "text-black"}>
+              <span>{remainingAmount}</span>
+            </Col>
+          </Row>
+          <Row>
+            <Col>Budget Type:</Col>
+            <Col>
               <span>{budgetProgram?.budget_types?.title}</span>
-            </th>
-          </tr>
-          <tr>
-            <th>Start Date:</th>
-            <th>
+            </Col>
+          </Row>
+          <Row>
+            <Col>Start Date:</Col>
+            <Col>
               <span>{budgetProgram?.budget_start_date}</span>
-            </th>
-          </tr>
-          <tr>
-            <th>End Date:</th>
-            <th>
+            </Col>
+          </Row>
+          <Row>
+            <Col>End Date:</Col>
+            <Col>
               <span>{budgetProgram?.budget_end_date}</span>
-            </th>
-          </tr>
-        </table>
+            </Col>
+          </Row>
+        </div>
         <div className="mt-5">
           {programs?.flatMap((program, index) => (
             <ManageBudgetTable
+              organization={organization}
+              program={program}
               programs={[program, ...program.children]}
               key={index}
               id={id}
@@ -124,7 +176,7 @@ const ManageBudget = ({ organization, rootProgram }) => {
               setMonth={setMonth}
               formData={formData}
               handleAmountChange={handleAmountChange}
-              handleBlur={updateRemainingAmount}
+              handleBlur={onBlurUpdateRemainingAmount}
               handleFocus={handleFocus}
             />
           ))}
@@ -138,6 +190,7 @@ const ManageBudget = ({ organization, rootProgram }) => {
 };
 const mapStateToProps = (state) => {
   return {
+    program: state.program,
     rootProgram: state.rootProgram,
     organization: state.organization,
   };

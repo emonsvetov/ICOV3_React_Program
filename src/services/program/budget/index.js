@@ -28,15 +28,15 @@ export async function getBudgetProgramLists(organizationId, programId) {
   }
 }
 
-export async function readAssignedPositionPermissions(organizationId, programId, positionId) {
-  try {
-    const response = await axios.get(
-      `/organization/${organizationId}/program/${programId}/positionlevel/${positionId}/permissions`
-    );
-    return response.data?.map((permission) => permission.name);
-  } catch (error) {
-    throw new Error(`API error:${error?.message}`);
-  }
+export async function readAssignedPositionPermissions(
+  organizationId,
+  programId,
+  positionId
+) {
+  const response = await axios.get(
+    `/organization/${organizationId}/program/${programId}/positionlevel/${positionId}/permissions`
+  );
+  return response?.data?.map((permission) => permission.name);
 }
 export function hasUserPermissions(userPermissions, requiredPermissions) {
   if (Array.isArray(userPermissions)) {
@@ -66,4 +66,26 @@ export function showFormatDate({ row, value }) {
     return value;
   }
   // return value
+}
+
+export const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+export function checkMonth(start, end) {
+  let actualMonth = months.slice(
+    new Date(start).getMonth(),
+    new Date(end).getMonth() + 1
+  );
+  return actualMonth;
 }
