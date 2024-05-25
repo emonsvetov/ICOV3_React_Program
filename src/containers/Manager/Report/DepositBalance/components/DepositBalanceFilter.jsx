@@ -7,7 +7,7 @@ import DatePicker from "react-datepicker";
 import {CSVLink} from "react-csv";
 import {getFirstDay} from '@/shared/helpers'
 import {dateStrToYmd} from '@/shared/helpers';
-import {isEqual, clone} from 'lodash';
+import {isEqual, clone, cloneDeep} from 'lodash';
 
 const defaultFrom = getFirstDay()
 const defaultTo = new Date()
@@ -32,6 +32,7 @@ const SupplierRedemptionFilter = (
   const [to, setTo] = React.useState(defaultTo)
   const [selectedPrograms, setSelectedPrograms] = useState(filter.programs ? filter.programs : []);
   const finalFilter = {...filter}
+  let previous = cloneDeep(finalFilter);
 
   const onClickFilter = (reset = false, exportToCsv = 0) => {
     let dataSet = {}
@@ -47,6 +48,7 @@ const SupplierRedemptionFilter = (
     }
 
     onClickFilterCallback(dataSet)
+    previous = dataSet;
     if (reset) {
       setFrom(defaultFrom)
       setTo(defaultTo)
@@ -58,7 +60,7 @@ const SupplierRedemptionFilter = (
     let change = false;
 
     if (options.programs) {
-      if (!isEqual(finalFilter.programs, values.programs)) {
+      if (!isEqual(values.programs, previous.programs)) {
         change = true
       }
     }
