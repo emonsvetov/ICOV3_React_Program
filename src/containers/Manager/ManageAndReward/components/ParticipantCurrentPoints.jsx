@@ -18,11 +18,11 @@ const ParticipantCurrentPoints = ({participant,auth, program}) => {
                     {/*<td><strong>{currentPoints?.current_points_balance}</strong></td>*/}
 
                 </tr>
-                <tr>
-                    <td><strong>Current Peer Points Balance:</strong></td>
-                    <td><strong>{participant?.peerBalance ? participant?.peerBalance * program.factor_valuation : 0}</strong></td>
-                    {/*<td><strong>{currentPoints?.current_peers_balance}</strong></td>*/}
-                </tr>
+                {/*<tr>*/}
+                {/*    <td><strong>Current Peer Points Balance:</strong></td>*/}
+                {/*    <td><strong>{participant?.peerBalance ? participant?.peerBalance * program.factor_valuation : 0}</strong></td>*/}
+                {/*    /!*<td><strong>{currentPoints?.current_peers_balance}</strong></td>*!/*/}
+                {/*</tr>*/}
 
             </tbody>
         </Table>
