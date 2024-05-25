@@ -35,7 +35,7 @@ const BudgetSetupInfoModal = ({
   const [budgetEndDate, setBudgetEndDate] = useState(new Date());
   const [endDateHide, setEndDateHide] = useState(false);
   const [disable, setDisable] = useState(true);
-  const [budgetStatus,setBudgetStatus] = useState(true)
+  const [budgetStatus, setBudgetStatus] = useState(true);
   const [loading, setLoading] = useState(true);
   let [dateFormat, setDateformat] = useState("MMMM/yyyy");
   const dispatch = useDispatch();
@@ -55,23 +55,22 @@ const BudgetSetupInfoModal = ({
     disable,
     dateFormat,
     setDateformat,
-    budgetStatus
+    budgetStatus,
   };
 
   useEffect(() => {
-    if (organization && program && id) {
+    if (organization?.id && program?.id && id) {
       getBudgetProgram(organization?.id, program?.id, id).then((res) => {
         setBudgetProgram(res);
-        console.log(res);
         setBudgetType(labelizeNamedData([res.budget_types], ["id", "title"]));
         setBudgetStartDate(new Date(res.budget_start_date));
         setBudgetEndDate(new Date(res.budget_start_date));
         setLoading(false);
         if (res.status == 0) {
-          setBudgetStatus(false)
+          setBudgetStatus(false);
         }
         if (res.budget_types.title === "Yearly") {
-          setDisable(false)
+          setDisable(false);
           setEndDateHide(true);
           setDateformat("yyyy");
         } else {
@@ -100,11 +99,39 @@ const BudgetSetupInfoModal = ({
     }
   };
 
+  const invalidAmount = (v) => {
+    return (
+      typeof v == "undefined" || isNaN(parseFloat(v)) || parseFloat(v) <= 0
+    );
+  };
+
+  const validate = (values) => {
+    let errors = {};
+    if (values["budget_type"] == "") {
+      errors["budget_type"] = "select budget type";
+    } else if (invalidAmount(values["budget_amount"])) {
+      errors["budget_amount"] = "enter amount";
+    } else if (values["budget_start_date"]) {
+      errors["budget_start_date"] = "Budget StartDate is not correct";
+    } else if (values["budget_start_date"] >= values["budget_end_date"]) {
+      errors["budget_start_date"] =
+        "Start date cannot be greater than end date.";
+    } else if (values["budget_end_date"]) {
+      errors["budget_end_date"] = "Date is not correct";
+    }
+    return errors;
+  };
+
   const onSubmit = (values) => {
-    values.budget_type_id = budgetType.value;
+    if (Array.isArray(budgetType)) {
+      values.budget_type_id = budgetType[0].value;
+    } else {
+      values.budget_type_id = budgetType.value;
+    }
     values.budget_start_date = getDateFormat(budgetStartDate);
     values.budget_end_date = getDateFormat(budgetEndDate);
-    console.log("values", values);
+    values.remaining_amount	 = values.amount
+    console.log(values);
     axios
       .put(
         `/organization/${organization.id}/program/${program.id}/budgetprogram/${id}`,
@@ -122,7 +149,6 @@ const BudgetSetupInfoModal = ({
     budget_amount: budgetProgram?.budget_amount,
     budget_start_date: budgetEndDate.budget_start_date,
   };
-console.log(disable);
   return (
     <Modal
       className={`program-settings modal-2col modal-lg`}
@@ -142,7 +168,7 @@ console.log(disable);
           <div className="right  m-3">
             <Form
               onSubmit={onSubmit}
-              // validate={validate}
+              validate={validate}
               initialValues={initialValues}
             >
               {({ handleSubmit, form, submitting, pristine, values }) => {
@@ -162,27 +188,33 @@ console.log(disable);
               }}
             </Form>
             <div className="d-flex">
-              {hasUserPermissions(assignedPermissions, ["Manage Budget"]) && (
-                <Button
-                  className="ms-2"
-                  onClick={() => navigate(`/manager/budget/manage-setup/${id}`)}
-                >
-                  Manage Budget for Programs
-                </Button>
-              )}
-              {hasUserPermissions(assignedPermissions, ["Budget Close"]) && (
-                <Button
-                  color="danger"
-                  className="ms-2"
-                  onClick={(e) => {
-                    if (window.confirm("Are you sure to close this Budget?")) {
-                      closeBudget(id);
+              {hasUserPermissions(assignedPermissions, ["Manage Budget"]) &&
+                budgetStatus && (
+                  <Button
+                    className="ms-2"
+                    onClick={() =>
+                      navigate(`/manager/budget/manage-setup/${id}`)
                     }
-                  }}
-                >
-                  Close this Budget
-                </Button>
-              )}
+                  >
+                    Manage Budget for Programs
+                  </Button>
+                )}
+              {hasUserPermissions(assignedPermissions, ["Budget Close"]) &&
+                budgetStatus && (
+                  <Button
+                    color="danger"
+                    className="ms-2"
+                    onClick={(e) => {
+                      if (
+                        window.confirm("Are you sure to close this Budget?")
+                      ) {
+                        closeBudget(id);
+                      }
+                    }}
+                  >
+                    Close this Budget
+                  </Button>
+                )}
             </div>
           </div>
         ) : (

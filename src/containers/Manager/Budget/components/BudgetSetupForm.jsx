@@ -18,7 +18,7 @@ const BudgetSetupForm = ({
   setEndDateHide,
   dateFormat,
   setDateformat,
-  budgetStatus=true
+  budgetStatus = true,
 }) => {
   const currentYear = new Date();
   const maxDate = new Date("2024-12-31");
@@ -81,9 +81,11 @@ const BudgetSetupForm = ({
   if (budgetTypeOptions) {
     return (
       <>
-        {!budgetStatus && <div style={{ padding: "20px 0px",color:"#F6514C" }}>
-          <p>Budget has Closed</p>
-        </div>}
+        {!budgetStatus && (
+          <div style={{ padding: "20px 0px", color: "#F6514C" }}>
+            <p>THE BUDGET SETUP HAS BEEN CLOSED</p>
+          </div>
+        )}
         <Row>
           <Col md="12">
             <Field name="budget_type">
@@ -114,7 +116,12 @@ const BudgetSetupForm = ({
               {({ input, meta }) => (
                 <FormGroup>
                   <Label>*Budget Amount</Label>
-                  <Input placeholder="$ Amount" type="text" {...input} disabled={!budgetStatus} />
+                  <Input
+                    placeholder="$ Amount"
+                    type="text"
+                    {...input}
+                    disabled={!budgetStatus}
+                  />
                   {meta.touched && meta.error && (
                     <span className="text-danger">{meta.error}</span>
                   )}
@@ -180,10 +187,14 @@ const BudgetSetupForm = ({
           </Row>
         )}
 
-        <div className="d-flex justify-content-end">
-          {/* disabled={loading} */}
-          <Button color="primary" type="submit" disabled={!budgetStatus}>{btnLabel}</Button>
-        </div>
+        {budgetStatus && (
+          <div className="d-flex justify-content-end">
+            {/* disabled={loading} */}
+            <Button color="primary" type="submit" disabled={!budgetStatus}>
+              {btnLabel}
+            </Button>
+          </div>
+        )}
       </>
     );
   }

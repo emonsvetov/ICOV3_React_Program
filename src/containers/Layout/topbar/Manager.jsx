@@ -34,7 +34,7 @@ const ManagerTopbar = ({ template, program }) => {
 
   useEffect(() => {
     if (program?.use_budget_cascading > 0 && !linkBuilt) {
-      LINKS.push({ to: "/manager/budget/view", text: "budget" });
+      LINKS.push({ to: "/manager/budget/view", text: "Budget" });
     }
   }, [program]);
 

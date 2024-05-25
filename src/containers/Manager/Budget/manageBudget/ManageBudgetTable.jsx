@@ -1,21 +1,49 @@
-import React, { useState } from "react";
-import { Col, Row, Input, FormGroup, Button } from "reactstrap";
+import React, { useEffect, useState } from "react";
+import { Col, Row, Input, FormGroup, Button, Label } from "reactstrap";
 import { Form, Field } from "react-final-form";
+import { checkMonth } from "@/services/program/budget";
+import axios from "axios";
 
-const ManageBudgetTable = ({ programs }) => {
-  const [month, setMonth] = useState(1);
-  const [amount, setAmount] = useState({});
+const ManageBudgetTable = ({
+  organization,
+  program,
+  programs,
+  budgetProgram,
+  id,
+  handleAmountChange,
+  formData,
+  month,
+  setMonth,
+  handleBlur,
+  handleFocus,
+}) => {
+  const [isBudgetMonthly, setIsBudgetMonthhly] = useState(false);
 
-  const handleAmountChange = (id, value) => {
-    setAmount((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
-  };
+  useEffect(() => {
+    if (budgetProgram && budgetProgram?.budget_types?.name === "monthly") {
+      setIsBudgetMonthhly(true);
+      setMonth(
+        checkMonth(
+          budgetProgram?.budget_start_date,
+          budgetProgram?.budget_end_date
+        )
+      );
+    }
+  }, [budgetProgram]);
 
   const onSubmit = (values) => {
-    values.amount = amount;
-    console.log("amount", values);
+    values.budget_type = budgetProgram?.budget_types?.name;
+    values.budget_amount = formData;
+    console.log("values", values);
+    let url = `/organization/${organization?.id}/program/${program?.id}/budgetprogram/${id}/assign`;
+    axios
+      .post(url, values)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <>
@@ -27,19 +55,52 @@ const ManageBudgetTable = ({ programs }) => {
                 <thead>
                   <tr>
                     <th>Program</th>
-                    <th>july</th>
-                    <th>august</th>
+                    {isBudgetMonthly ? (
+                      month.map((m) => <th key={m}>{m}</th>)
+                    ) : (
+                      <th>Budget Amount</th>
+                    )}
                   </tr>
                 </thead>
                 <tbody>
                   {programs?.map((program) => (
                     <tr key={program.id}>
                       <td>{program.name}</td>
-                      <td>
+                      {isBudgetMonthly ? (
+                        month.map((m) => (
+                          <td key={m}>
+                            <Field name="amount">
+                              {({ input, meta }) => (
+                                <FormGroup>
+                                  <Input
+                                    style={{ width: "150px" }}
+                                    type="text"
+                                    placeholder="$ amount"
+                                    onChange={(event) =>
+                                      handleAmountChange(
+                                        program.id,
+                                        event.target.value,
+                                        m
+                                      )
+                                    }
+                                    onBlur={(e) =>
+                                      handleBlur(program.id, m, e.target.value)
+                                    }
+                                    onFocus={(e) =>
+                                      handleFocus(program.id, m, e.target.value)
+                                    }
+                                  />
+                                </FormGroup>
+                              )}
+                            </Field>
+                          </td>
+                        ))
+                      ) : (
                         <Field name="amount">
                           {({ input, meta }) => (
                             <FormGroup>
                               <Input
+                                style={{ width: "150px" }}
                                 type="text"
                                 placeholder="$ amount"
                                 onChange={(event) =>
@@ -48,11 +109,13 @@ const ManageBudgetTable = ({ programs }) => {
                                     event.target.value
                                   )
                                 }
+                                onBlur={() => handleBlur(program.id)}
+                                onFocus={() => handleFocus(program.id)}
                               />
                             </FormGroup>
                           )}
                         </Field>
-                      </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>
