@@ -152,7 +152,7 @@ const ManageBudget = ({ organization, program, rootProgram }) => {
             />
           ))}
           <div>
-            <BudgetTemplate />
+            <BudgetTemplate program={program} organization={organization} budgetProgram={budgetProgram} />
           </div>
         </div>
       </div>
