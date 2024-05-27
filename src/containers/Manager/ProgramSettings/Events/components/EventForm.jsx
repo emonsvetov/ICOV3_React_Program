@@ -85,7 +85,7 @@ const EventForm = ({
 
   const onSubmit = (values) => {
     let data = makeFormData(program, values)
-    let url = `/organization/${program.organization_id}/program/${values.program_id}/event`
+    let url = `/organization/${program.organization_id}/program/${values.program_id ? values.program_id : program.id}/event`
     let method = 'post'
 
     if(event?.id) //Is Edit
