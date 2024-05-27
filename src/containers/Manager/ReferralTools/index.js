@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 
 import { Col, Container, Row } from "reactstrap";
@@ -9,11 +9,7 @@ import VideoModal from "./components/VideoModal";
 
 const ReferralWidgetImg = `img/pages/Referrals_Image.png`;
 const FEWidgetImg = `img/pages/FE_Widget.png`;
-const YoutubeIcon = `img/pages/youtube_icon.png`;
-const FacebookIcon = `img/pages/facebook_icon.png`;
-const LinkedinIcon = `img/pages/linkedin_icon.png`;
-const TwitterIcon = `img/pages/twitter_icon.png`;
-const QRImg = `img/pages/qr.png`;
+const QRImg= `${process.env.PUBLIC_URL}/theme/clear/img/pages/qr.png`;
 
 const ReferralTools = ({ auth, program, organization, domain }) => {
   console.log(domain)
@@ -22,6 +18,8 @@ const ReferralTools = ({ auth, program, organization, domain }) => {
   const [isCopied, setIsCopied] = useState(false);
   const [widgetLink, setWidgetLink] = useState("");
   const [widgetImgLink, setWidgetImgLink] = useState("");
+  const imgRef1 = useRef(null);
+  const imgRef2 = useRef(null);
 
   const handleVideoClick = (id) => {
     setVideoId(id);
@@ -39,8 +37,40 @@ const ReferralTools = ({ auth, program, organization, domain }) => {
     }
   }, [domain, program]);
 
-  const handleCopy = async (textToCopy) => {
+  const handleImageCopy = async(ref) =>{
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = ref.current.width;
+      canvas.height = ref.current.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(ref.current, 0, 0);
+      const blob = await new Promise((resolve) => {
+        canvas.toBlob(resolve, 'image/png');
+      });
+      // Check if the Clipboard API is available
+      if (navigator.clipboard && navigator.clipboard.write) {
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            'image/png': blob,
+          }),
+        ]);
+        window.alert("Image copied to clipboard")
+      } else {
+        // Fallback to the old document.execCommand('copy') method
+        const textArea = document.createElement('textarea');
+        textArea.value = canvas.toDataURL('image/png');
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        window.alert("Image copied to clipboard (fallback method)!")
+      }
+    } catch (err) {
+      console.error('Failed to copy image to clipboard:', err);
+    }
+  }
 
+  const handleCopy = async (textToCopy) => {
     const el = document.createElement('textarea');
     el.value = textToCopy;
     el.setAttribute('readonly', '');
@@ -58,22 +88,10 @@ const ReferralTools = ({ auth, program, organization, domain }) => {
       document.getSelection().removeAllRanges();
       document.getSelection().addRange(selected);
     }
-
-    // const URL = QRImg
-    // try {
-    //     const copiedImage = await fetch(URL)
-    //     const blobData = await copiedImage.blob()
-    //     const clipboardItemInput = new ClipboardItem({'image/png' : blobData})
-    //     navigator.clipboard.write([clipboardItemInput])
-    // } catch(e) {
-    //     console.log(e)
-    // }
-
     setIsCopied(true);
-
     setTimeout(() => setIsCopied(false), 2000);
+    window.alert("Copied to clipboard")
   };
-
 
   if (!auth || !program || !organization) return "loading";
 
@@ -100,9 +118,18 @@ const ReferralTools = ({ auth, program, organization, domain }) => {
                   <div className="referral-label">Create an email with your referral widget link</div>
                   <div className="referral-text">Click "create" to generate an email <br />with your unique referral link ready to use.<br />Click the widget icon to copy, allowing<br />you to paste it in your communications:</div>
                 </div>
-                <div className="referral-column">
-                  <div className="referral-resource" style={{ textAlign: 'center' }}>
-                    <Img src={FEWidgetImg} className="iframe" style={{ marginRight: '10%', width: '175px', height: '95px' }} />
+                <div className="referral-column" style={{cursor: 'pointer'}}>
+                  <img
+                      src={`${process.env.PUBLIC_URL}/theme/clear/img/pages/FE_Widget.png`}
+                      className="widgetimg" style={{ display: 'none'}} 
+                      ref={imgRef1}
+                    />
+                  <div className="referral-resource" style={{ textAlign: 'center' }} onClick={() => handleImageCopy(imgRef1)}>
+                    <img
+                      src={`${process.env.PUBLIC_URL}/theme/clear/img/pages/FE_Widget.png`}
+                      className="widgetimg" style={{ marginRight: '10%', width: '175px', height: '95px' }} 
+                      // ref={imgRef1}
+                    />
                   </div>
                   <div className="referral-resource" style={{ textAlign: 'center' }}></div>
                 </div>
@@ -168,13 +195,17 @@ const ReferralTools = ({ auth, program, organization, domain }) => {
                 </div>
                 <div className="referral-column">
                   <div className="referral-resource-icon">
-                    <Img id="qrimg" src={QRImg} />
+                    <img
+                      src={QRImg}
+                      className="qrimg"
+                      ref={imgRef2}
+                    />
                   </div>
                   <div className="referral-resource" style={{ textAlign: 'center' }}></div>
                   <div className="referral-resource" style={{ textAlign: 'center' }}></div>
                 </div>
                 <div className="referral-column referral-button-column flex align-center">
-                  <TemplateButton className="referral-copy" onClick={() => handleCopy()} text="COPY" />
+                  <TemplateButton className="referral-copy" onClick={() => handleImageCopy(imgRef2)} text="COPY" />
                 </div>
                 <div className="referral-column">
                   <div className="youtube-icon flex align-center justify-center " onClick={() => handleVideoClick('MhkddCXTORc?rel=0')} tooltip="Click here to for a tutorial">

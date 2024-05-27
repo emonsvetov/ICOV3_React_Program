@@ -279,7 +279,7 @@ const RefParticipants = ({ auth, program, organization }) => {
 
                           <Row>
                             <Col md="12">
-                              <Label className="mb-1">Message</Label>
+                              <Label className="mb-1">Message *</Label>
                               <Field name="message">
                                 {({ input, meta }) => (
                                   <FormGroup>

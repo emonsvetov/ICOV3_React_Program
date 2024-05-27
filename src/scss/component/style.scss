@@ -1554,7 +1554,7 @@ main.participant{
     list-style: none;
 }
 .referral-list li {
-    cursor: pointer;
+    // cursor: pointer;
     margin-bottom: 16px;
     padding: 10px;
     font-weight: 400;
@@ -1586,7 +1586,7 @@ main.participant{
     font-size: 44px;
 }
 .referrals-info-2 {
-    font-weight: 500;
+    // font-weight: 500;
     max-width: 500px;
     line-height: 28px;
     font-size: 18px;
@@ -1621,6 +1621,9 @@ main.participant{
 
 .referral-column {
     margin-left: 5%;
+    .youtube-icon{
+        cursor: pointer;
+    }
 }
 
 .referral-button-column {
@@ -1678,7 +1681,7 @@ main.participant{
         margin-left: 10px;
         color: #38a1fa;
         font-size: 17px;
-        font-family: 'Montserrat', 'Open Sans', sans-serif;
+        // font-family: 'Montserrat', 'Open Sans', sans-serif;
     }
 }
 
@@ -1894,7 +1897,7 @@ main.participant{
     min-height: 100px;
 }
 .rlp-option-title {
-    font-family: 'Roboto';
+    // font-family: 'Roboto';
     font-size: 25px;
 }
 .custom-referral-select {
@@ -1915,7 +1918,7 @@ main.participant{
     height: 74px;
 }
 .rlp-option-body {
-    font-family: 'Roboto';
+    // font-family: 'Roboto';
     font-size: 18px;
     font-weight: normal;
     max-width: 414px;
@@ -1932,7 +1935,7 @@ main.participant{
 }
 
 .rlp-notification-body {
-    font-family: 'Roboto';
+    // font-family: 'Roboto';
     font-size: 18px;
     font-weight: normal;
     max-width: 350px;
