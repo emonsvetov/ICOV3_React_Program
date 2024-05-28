@@ -34,17 +34,19 @@ const ManageBudgetTable = ({
   function unpatchBudgetCascadingData(data) {
     if (isBudgetMonthly) {
       const groupedData = data.reduce((acc, current) => {
-        const { programId, month, amount } = current;
-        const programIndex = acc.findIndex((item) => item.program === programId);
+        const { program_id, month, amount } = current;
+        const programIndex = acc.findIndex(
+          (item) => item.program_id === program_id
+        );
         const budgetEntry = {
           budgets_cascading_id: null,
-          year: "2024",
+          year: new Date().getFullYear(),
           month,
           amount,
         };
         if (programIndex === -1) {
           acc.push({
-            "program":programId,
+            program_id: program_id,
             budgets: [budgetEntry],
           });
         } else {
@@ -52,23 +54,30 @@ const ManageBudgetTable = ({
         }
         return acc;
       }, []);
-     return groupedData
+      return groupedData;
+    } else {
+      return data
     }
   }
 
   const onSubmit = (values) => {
     values.budget_type = budgetProgram?.budget_types?.id;
-    values.budget_amount = unpatchBudgetCascadingData(formData);
-    console.log("values", values);
-    let url = `/organization/${organization?.id}/program/${program?.id}/budgetprogram/${id}/assign`;
-    axios
-      .post(url, values)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (isBudgetMonthly) {
+      values.budget_amount = unpatchBudgetCascadingData(formData);
+    } else {
+      values.budget_amount = unpatchBudgetCascadingData(formData);
+      console.log("values", values);
+    }
+    
+    // let url = `/organization/${organization?.id}/program/${program?.id}/budgetprogram/${id}/assign`;
+    // axios
+    //   .post(url, values)
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
   return (
     <>
@@ -100,7 +109,7 @@ const ManageBudgetTable = ({
                                   <Input
                                     style={{ width: "150px" }}
                                     type="text"
-                                    placeholder="$ amount"
+                                    placeholder="$ amount 0"
                                     onChange={(event) =>
                                       handleAmountChange(
                                         program.id,
@@ -127,15 +136,27 @@ const ManageBudgetTable = ({
                               <Input
                                 style={{ width: "150px" }}
                                 type="text"
-                                placeholder="$ amount"
+                                placeholder="$ amount 0"
                                 onChange={(event) =>
                                   handleAmountChange(
                                     program.id,
                                     event.target.value
                                   )
                                 }
-                                onBlur={() => handleBlur(program.id)}
-                                onFocus={() => handleFocus(program.id)}
+                                onBlur={(e) =>
+                                  handleBlur(
+                                    program.id,
+                                    isBudgetMonthly,
+                                    e.target.value
+                                  )
+                                }
+                                onFocus={(e) =>
+                                  handleFocus(
+                                    program.id,
+                                    isBudgetMonthly,
+                                    e.target.value
+                                  )
+                                }
                               />
                             </FormGroup>
                           )}

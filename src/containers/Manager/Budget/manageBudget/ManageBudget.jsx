@@ -5,13 +5,18 @@ import BudgetTemplate from "../media/BudgetTemplate";
 import { getProgramTree } from "@/services/program/getProgramTree";
 import ManageBudgetTable from "./ManageBudgetTable";
 import { useParams } from "react-router-dom";
-import { getBudgetProgram } from "@/services/program/budget";
+import {
+  getBudgetProgram,
+  getBudgetCascading,
+} from "@/services/program/budget";
 import { months } from "@/services/program/budget";
 import { flashError, useDispatch } from "@/shared/components/flash";
 import SelectProgram from "../../components/SelectProgram";
+import axios from "axios";
 
 const ManageBudget = ({ organization, program, rootProgram }) => {
   const [budgetProgram, setBudgetProgram] = useState({});
+  const [budgetCascadingProgram, setBudgetCascadingProgram] = useState(null);
   const [programs, setPrograms] = useState([]);
   const [remainingAmount, setRemainingAmount] = useState("");
   const [month, setMonth] = useState([]);
@@ -37,6 +42,14 @@ const ManageBudget = ({ organization, program, rootProgram }) => {
     }
   }, [organization, rootProgram, id]);
 
+  useEffect(() => {
+    if (organization?.id && rootProgram?.id && id) {
+      getBudgetCascading(organization?.id, rootProgram?.id, id)
+        .then((res) => setBudgetCascadingProgram(res))
+        .catch((err) => console.log(err));
+    }
+  }, [organization, rootProgram, id]);
+
   const handleAmountChange = (
     programId,
     value,
@@ -44,53 +57,95 @@ const ManageBudget = ({ organization, program, rootProgram }) => {
     prevAmount = 0,
     year = new Date().getFullYear()
   ) => {
-    const amount = value || 0;
-    setFormData((prevAmounts) => {
-      let newAmounts = [...prevAmounts]
-      const index = newAmounts.findIndex(
-        (item) => item.programId === programId && item.month === month
-      );
-      let data = {
-        ...prevAmounts,
-        [programId]: {
-          ...prevAmounts[programId],
-          ["month"]: month,
-          ["amount"]: value,
-        },
-      }
-      if (index === -1) {
-        newAmounts.push({ programId, month, amount: value });
-      } else {
-        newAmounts[index].amount = value;
-      }
+    //const amount = value || 0;
+    if (budgetProgram?.budget_types?.name === "monthly") {
+      setFormData((prevAmounts) => {
+        let newAmounts = [...prevAmounts];
+        const index = newAmounts.findIndex(
+          (item) => item.program_id === programId && item.month === month
+        );
+        if (index === -1) {
+          if (value === "") {
+            // If the input value is empty, remove the value from the array
+            newAmounts.splice(index, 1);
+          } else {
+            newAmounts.push({ program_id: programId, month, amount: value });
+          }
+        } else {
+          if (value === "") {
+            // If the input value is empty, remove the value from the array
+            newAmounts.splice(index, 1);
+          } else {
+            newAmounts[index].amount = value;
+          }
+        }
+        return newAmounts;
+      });
+    } else {
+      setFormData((prevAmounts) => {
+        let newAmounts = [...prevAmounts];
+        const index = newAmounts.findIndex(
+          (item) => item.program_id === programId && item.month === month
+        );
 
-     // newAmounts.push(data)
-      return newAmounts
-    });
-
+        if (index === -1) {
+          if (value === "") {
+            // If the input value is empty, remove the value from the array
+            newAmounts.splice(index, 1);
+          } else {
+            newAmounts.push({
+              program_id: programId,
+              start_date: budgetProgram.budget_start_date,
+              end_date: budgetProgram.budget_end_date,
+              amount: value,
+            });
+          }
+        } else {
+          if (value === "") {
+            // If the input value is empty, remove the value from the array
+            newAmounts.splice(index, 1);
+          } else {
+            newAmounts[index].amount = value;
+          }
+        }
+        return newAmounts;
+      });
+    }
   };
 
   const handleFocus = (programId, m, amount) => {
-    setPreviousValues((prevState) => ({
-      ...prevState,
-      [`${programId}-${m}`]: amount,
-    }));
+    if (budgetProgram?.budget_types?.name === "monthly") {
+      setPreviousValues((prevState) => ({
+        ...prevState,
+        [`${programId}-${m}`]: amount,
+      }));
+    } else {
+      setPreviousValues((prevState) => ({
+        ...prevState,
+        [`${programId}`]: amount,
+      }));
+    }
   };
 
-  function onBlurUpdateRemainingAmount(
-    programId,
-    month,
-    newValue,
-    year = new Date().getFullYear()
-  ) {
-    const prevValue = previousValues[`${programId}-${month}`] || 0;
+  function onBlurUpdateRemainingAmount(programId, month, newValue) {
     const currentValue = newValue || 0;
-    const valueDifference = currentValue - prevValue;
-    setRemainingAmount((prevAmount) => prevAmount - valueDifference);
-    setPreviousValues((prevState) => {
-      const { [`${programId}-${month}`]: removed, ...rest } = prevState;
-      return rest;
-    });
+    if (budgetProgram?.budget_types?.name === "monthly") {
+      const prevValue = previousValues[`${programId}-${month}`] || 0;
+      const valueDifference = currentValue - prevValue;
+      setRemainingAmount((prevAmount) => prevAmount - valueDifference);
+      setPreviousValues((prevState) => {
+        const { [`${programId}-${month}`]: removed, ...rest } = prevState;
+        return rest;
+      });
+    } else {
+      const prevValue = previousValues[`${programId}`] || 0;
+      const valueDifference = currentValue - prevValue;
+      setRemainingAmount((prevAmount) => prevAmount - valueDifference);
+      setPreviousValues((prevState) => {
+        const { [`${programId}`]: removed, ...rest } = prevState;
+        return rest;
+      });
+    }
   }
 
   if (rootProgram && id && budgetProgram) {
@@ -152,7 +207,11 @@ const ManageBudget = ({ organization, program, rootProgram }) => {
             />
           ))}
           <div>
-            <BudgetTemplate program={program} organization={organization} budgetProgram={budgetProgram} />
+            <BudgetTemplate
+              program={program}
+              organization={organization}
+              budgetProgram={budgetProgram}
+            />
           </div>
         </div>
       </div>

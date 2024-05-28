@@ -90,17 +90,27 @@ export function checkMonth(start, end) {
   return actualMonth;
 }
 
-
-export const downloadAssignBudgetTemplate = async(organizationId, programId,budegtProgramId) => {
+export const downloadAssignBudgetTemplate = async (
+  organizationId,
+  programId,
+  budegtProgramId
+) => {
   const response = await axios.get(
-      `/organization/${organizationId}/program/${programId}/budgetprogram/${budegtProgramId}/template`, 
-      {
-          responseType: 'arraybuffer',
-          headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/pdf'
-          }
-      }
-  )
+    `/organization/${organizationId}/program/${programId}/budgetprogram/${budegtProgramId}/template`,
+    {
+      responseType: "arraybuffer",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/pdf",
+      },
+    }
+  );
   return response;
-}
+};
+
+export const getBudgetCascading = async (oId, pId, bId) => {
+  const response = await axios.get(
+    `/organization/${oId}/program/${pId}/budgetprogram/${bId}/budgetcascading`
+  );
+  return response;
+};

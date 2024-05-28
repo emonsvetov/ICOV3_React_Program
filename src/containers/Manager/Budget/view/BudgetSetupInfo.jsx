@@ -30,6 +30,7 @@ const BudgetSetupInfoModal = ({
 }) => {
   const [budgetProgram, setBudgetProgram] = useState(null);
   const [budgetTypeOptions, setBudgetTypeOptions] = useState([]);
+  const [budgetAmount, setBudgetAmount] = useState("");
   const [budgetType, setBudgetType] = useState([]);
   const [budgetStartDate, setBudgetStartDate] = useState(new Date());
   const [budgetEndDate, setBudgetEndDate] = useState(new Date());
@@ -128,9 +129,26 @@ const BudgetSetupInfoModal = ({
     } else {
       values.budget_type_id = budgetType.value;
     }
+    let actualBudget = budgetProgram?.budget_amount;
     values.budget_start_date = getDateFormat(budgetStartDate);
     values.budget_end_date = getDateFormat(budgetEndDate);
-    values.remaining_amount	 = values.amount
+    let newBudget = Math.abs(values.budget_amount - actualBudget);
+
+    if (newBudget > 0 && budgetProgram?.budget_amount < values.budget_amount) {
+      values.remaining_amount = budgetProgram?.remaining_amount + newBudget;
+    } else if (
+      values.budget_amount > budgetProgram?.budget_amount ||
+      values.budget_amount < budgetProgram?.budget_amount
+    ) {
+      let newRemainingamount = budgetProgram?.remaining_amount - newBudget;
+      if (newRemainingamount < 0) {
+        alert("Remaining amount can not be negative")
+        return;
+      } else {
+        values.remaining_amount = newRemainingamount;
+      }
+    }
+
     console.log(values);
     axios
       .put(
