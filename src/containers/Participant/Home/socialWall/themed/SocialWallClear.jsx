@@ -9,7 +9,7 @@ import SocialWallItem from "../SocialWallItem";
 
 //Default method starts
 
-const SocialWallClear = ({isManager, socialWallPosts, LikeActivityEvent, template, program, popupToggle, confirmRef, setSocialWallPost, setDeleteActivityId, setOpen, socialWallPost, deleteActivity, setSocialWallPosts, isOpen, onclickAddPost}) => {
+const SocialWallClear = ({isManager, socialWallPosts, LikeActivityEvent, template, program, popupToggle, confirmRef, setSocialWallPost, setOpen, socialWallPost, deleteActivity, setSocialWallPosts, isOpen, onclickAddPost}) => {
   const { t } = useTranslation();
   return (
     <div className="container socialWall__container-clear">
@@ -28,7 +28,6 @@ const SocialWallClear = ({isManager, socialWallPosts, LikeActivityEvent, templat
                 LikeActivityEvent = {LikeActivityEvent}
                 setSocialWallPost={setSocialWallPost}
                 isManager={isManager}
-                setDeleteActivityId={setDeleteActivityId}
               />
               <div>&nbsp;</div>
             </div>

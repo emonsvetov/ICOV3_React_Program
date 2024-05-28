@@ -5,7 +5,7 @@ import SocialWallItem from "./SocialWallItem";
 import SocialWallCommentModalWrapper from "./SocialWallCommentModalWrapper";
 import { useTranslation } from "react-i18next";
 
-const SocialWall = ({isManager, socialWallPosts, template, program, popupToggle, confirmRef, setSocialWallPost, setDeleteActivityId, setOpen, socialWallPost, deleteActivity, setSocialWallPosts, isOpen}) => {
+const SocialWall = ({isManager, socialWallPosts, template, program, popupToggle, confirmRef, setSocialWallPost, setOpen, socialWallPost, deleteActivity, setSocialWallPosts, isOpen}) => {
   const { t } = useTranslation();
   return (
     <>
@@ -23,7 +23,6 @@ const SocialWall = ({isManager, socialWallPosts, template, program, popupToggle,
                 confirmRef={confirmRef}
                 setSocialWallPost={setSocialWallPost}
                 isManager={isManager}
-                setDeleteActivityId={setDeleteActivityId}
               />
               <div>&nbsp;</div>
             </div>

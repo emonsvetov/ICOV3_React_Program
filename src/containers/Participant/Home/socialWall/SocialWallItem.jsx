@@ -14,7 +14,6 @@ const SocialWallItem = (props) => {
   const like = props.data.like ? props.data.like : '[]';
 
   const confirmRef = props.confirmRef;
-  const setDeleteActivityId = props.setDeleteActivityId;
   const LikeActivityEvent = props.LikeActivityEvent;
 
   const defaultAvatar = `${process.env.PUBLIC_URL}/theme/classic/img/avatar/avatar.jpg`
@@ -31,8 +30,7 @@ const SocialWallItem = (props) => {
   const DeleteActivityEvent = (confirmRef, id) => {
     // console.log(id)
     // console.log(confirmRef)
-    setDeleteActivityId(id)
-    confirmRef.current.toggle()
+    confirmRef.current.toggle(id)
   }
 
 

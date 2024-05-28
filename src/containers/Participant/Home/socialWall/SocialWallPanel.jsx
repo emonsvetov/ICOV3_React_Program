@@ -6,6 +6,11 @@ import { useDispatch } from "react-redux";
 import { likeSocialWallPost } from "@/redux/actions/socialWallPostActions";
 import { useTranslation } from "react-i18next";
 import {Themed} from '@/theme'
+import {
+  useDispatch as useFlashDispatch,
+  flashError,
+  flashSuccess,
+} from "@/shared/components/flash";
 // import {SocialWall} from './themed'
 
 const SocialWallPanel = ({ organization, program, isManager, template, setPostType }) => {
@@ -15,34 +20,40 @@ const SocialWallPanel = ({ organization, program, isManager, template, setPostTy
   const [loading, setLoading] = useState(true);
   const confirmRef = useRef({});
   const dispatch = useDispatch();
+  const flashDispatch = useFlashDispatch();
 
   const popupToggle = () => {
     setOpen((prevState) => !prevState);
   };
   const [isOpen, setOpen] = useState(false);
-  const [deleteActivityId, setDeleteActivityId] = useState(false);
 
   const onclickAddPost = () => {
     setPostType('message')
     setOpen(true)
   }
 
-  const deleteActivity = () => {
+  const deleteActivity = (id) => {
     dispatch(
-      deleteSocialWallPost(organization.id, program.id, deleteActivityId)
+      deleteSocialWallPost(organization.id, program.id, id)
     )
       .then((res) => {
         getSocialWallPosts(organization.id, program.id, 0, 999999)
           .then((data) => {
             setSocialWallPosts(data);
             confirmRef.current.toggle();
+            flashSuccess(
+              flashDispatch,
+              "Deleted successfully."
+            );
           })
           .catch((error) => {
             console.log(error.response.data);
+            flashError(flashDispatch, error.response.data);
           });
       })
       .catch((err) => {
         console.log(err);
+        flashError(flashDispatch, err);
       });
   };
 
@@ -81,7 +92,7 @@ const SocialWallPanel = ({ organization, program, isManager, template, setPostTy
 
   if (!socialWallPosts) return t("loading");
 
-  const props = {isManager, socialWallPosts, template, program, popupToggle, confirmRef, setSocialWallPost,LikeActivityEvent, setDeleteActivityId, setOpen, socialWallPost, deleteActivity, setSocialWallPosts, isOpen, onclickAddPost}
+  const props = {isManager, socialWallPosts, template, program, popupToggle, confirmRef, setSocialWallPost,LikeActivityEvent, setOpen, socialWallPost, deleteActivity, setSocialWallPosts, isOpen, onclickAddPost}
 
   return <Themed component="SocialWall" {...props}  />
 };

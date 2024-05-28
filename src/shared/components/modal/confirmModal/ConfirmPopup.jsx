@@ -7,7 +7,7 @@ import {
   CardBody,
 } from 'reactstrap';
 
-const ConfirmPopup = ({message, action, isOpen, setOpen, toggle}) => {
+const ConfirmPopup = ({message, action, isOpen, setOpen, toggle, id}) => {
   const createMarkup = (value) => {
     return {__html: value};
   }
@@ -29,7 +29,7 @@ const ConfirmPopup = ({message, action, isOpen, setOpen, toggle}) => {
           <div dangerouslySetInnerHTML={createMarkup(message)}/>
           <p>&nbsp;</p>
           <div className='d-flex justify-content-end'>
-            <Button color='danger' type='submit' onClick={action}>Ok</Button>&nbsp;
+            <Button color='danger' type='submit' onClick={() => action(id)}>Ok</Button>&nbsp;
             <Button color='danger' type='submit' onClick={toggle}>No</Button>
           </div>
         </CardBody>
