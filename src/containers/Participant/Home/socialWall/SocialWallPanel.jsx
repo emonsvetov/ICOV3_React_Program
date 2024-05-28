@@ -65,7 +65,6 @@ const SocialWallPanel = ({ organization, program, isManager, template, setPostTy
         getSocialWallPosts(organization.id, program.id, 0, 999999)
           .then((data) => {
             setSocialWallPosts(data);
-            confirmRef.current.toggle();
           })
           .catch((error) => {
             console.log(error.response.data);

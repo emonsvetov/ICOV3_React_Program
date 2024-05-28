@@ -30,7 +30,7 @@ const ConfirmPopup = ({message, action, isOpen, setOpen, toggle, id}) => {
           <p>&nbsp;</p>
           <div className='d-flex justify-content-end'>
             <Button color='danger' type='submit' onClick={() => action(id)}>Ok</Button>&nbsp;
-            <Button color='danger' type='submit' onClick={toggle}>No</Button>
+            <Button color='danger' type='submit' onClick={() =>toggle()}>No</Button>
           </div>
         </CardBody>
       </Card>
