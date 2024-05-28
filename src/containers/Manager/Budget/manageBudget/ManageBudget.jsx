@@ -15,7 +15,7 @@ const ManageBudget = ({ organization, program, rootProgram }) => {
   const [programs, setPrograms] = useState([]);
   const [remainingAmount, setRemainingAmount] = useState("");
   const [month, setMonth] = useState([]);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState([]);
   const [previousValues, setPreviousValues] = useState({});
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -45,58 +45,29 @@ const ManageBudget = ({ organization, program, rootProgram }) => {
     year = new Date().getFullYear()
   ) => {
     const amount = value || 0;
-    if (budgetProgram?.budget_types?.name === "monthly") {
-      setFormData((prevData) => {
-        console.log(prevData);
-        const programIndex = prevData?.program === programId;
-        if (programIndex > -1) {
-          const updatedBudgets = prevData["budgets"]?.map((b) =>
-            b.year === year && b.month === month ? { ...b, amount: value } : b
-          );
+    setFormData((prevAmounts) => {
+      let newAmounts = [...prevAmounts]
+      const index = newAmounts.findIndex(
+        (item) => item.programId === programId && item.month === month
+      );
+      let data = {
+        ...prevAmounts,
+        [programId]: {
+          ...prevAmounts[programId],
+          ["month"]: month,
+          ["amount"]: value,
+        },
+      }
+      if (index === -1) {
+        newAmounts.push({ programId, month, amount: value });
+      } else {
+        newAmounts[index].amount = value;
+      }
 
-          if (
-            !updatedBudgets?.some((b) => b.year === year && b.month === month)
-          ) {
-            updatedBudgets?.push({ year, month, amount: value });
-          }
+     // newAmounts.push(data)
+      return newAmounts
+    });
 
-          const updatedProgram = {
-            ...prevData[programId],
-            budgets: updatedBudgets,
-          };
-          return prevData?.budgets?.map((item, idx) =>
-            idx === programId ? updatedProgram : item
-          );
-        } else {
-          return {
-            ...prevData,
-            program: programId,
-            budgets: [{ year, month, amount: value }],
-          };
-        }
-      });
-    } else {
-      setFormData((prevState) => {
-        let month =
-          months[new Date(budgetProgram.budget_start_date).getMonth()];
-        let year = new Date(budgetProgram.budget_start_date).getFullYear();
-        const updatedProgramData = {
-          ...prevState[programId],
-          budgets: {
-            ["budgets_cascading_id"]: null,
-            ["year"]: year,
-            ["month"]: month,
-            ["amount"]: amount,
-          },
-        };
-        const newFormData = {
-          ...prevState,
-          [programId]: updatedProgramData,
-        };
-
-        return newFormData;
-      });
-    }
   };
 
   const handleFocus = (programId, m, amount) => {
@@ -181,7 +152,7 @@ const ManageBudget = ({ organization, program, rootProgram }) => {
             />
           ))}
           <div>
-            <BudgetTemplate />
+            <BudgetTemplate program={program} organization={organization} budgetProgram={budgetProgram} />
           </div>
         </div>
       </div>

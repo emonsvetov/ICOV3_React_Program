@@ -31,9 +31,34 @@ const ManageBudgetTable = ({
     }
   }, [budgetProgram]);
 
+  function unpatchBudgetCascadingData(data) {
+    if (isBudgetMonthly) {
+      const groupedData = data.reduce((acc, current) => {
+        const { programId, month, amount } = current;
+        const programIndex = acc.findIndex((item) => item.program === programId);
+        const budgetEntry = {
+          budgets_cascading_id: null,
+          year: "2024",
+          month,
+          amount,
+        };
+        if (programIndex === -1) {
+          acc.push({
+            "program":programId,
+            budgets: [budgetEntry],
+          });
+        } else {
+          acc[programIndex].budgets.push(budgetEntry);
+        }
+        return acc;
+      }, []);
+     return groupedData
+    }
+  }
+
   const onSubmit = (values) => {
-    values.budget_type = budgetProgram?.budget_types?.name;
-    values.budget_amount = formData;
+    values.budget_type = budgetProgram?.budget_types?.id;
+    values.budget_amount = unpatchBudgetCascadingData(formData);
     console.log("values", values);
     let url = `/organization/${organization?.id}/program/${program?.id}/budgetprogram/${id}/assign`;
     axios
@@ -69,7 +94,7 @@ const ManageBudgetTable = ({
                       {isBudgetMonthly ? (
                         month.map((m) => (
                           <td key={m}>
-                            <Field name="amount">
+                            <Field name={`${program.id}_${month}`}>
                               {({ input, meta }) => (
                                 <FormGroup>
                                   <Input
