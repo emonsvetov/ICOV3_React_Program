@@ -22,6 +22,7 @@ const LINKS = [
   { to: "/manager/referral", text: "Referral Administrator" },
   { to: "/manager/manage-account", text: "Manage Account" },
   { to: "/manager/team", text: "Team" },
+  { to: "/manager/referral_tools", text: "Referral Widget" },
 ];
 
 const ManagerTopbar = ({ template }) => {
