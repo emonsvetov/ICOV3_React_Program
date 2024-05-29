@@ -105,16 +105,13 @@ const InvoiceFilter = (
     if (options.programs) {
       filters.programs = values.programs
     }
-    if (options.programs) {
-      filters.programs = values.programs
-    }
     if (options.awardLevels) {
       filters.awardLevels = values.awardLevels
     }
-    // if (options.dateRange) {
+    if (options.dateRange) {
       filters.from = values.from
       filters.to = values.to
-    // }
+    }
     if (options.createdOnly) {
       filters.createdOnly = values.createdOnly
     }
