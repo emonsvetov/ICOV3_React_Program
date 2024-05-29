@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import { Outlet } from "react-router-dom";
 import { Container } from "reactstrap";
 import { useTranslation } from "react-i18next";
+import Budget from "./view/Budget";
 import SelectProgram from "../components/SelectProgram";
 
 const Index = ({ auth, program, organization }) => {
@@ -23,7 +23,7 @@ const Index = ({ auth, program, organization }) => {
     <div className="bg-primary">
       <Container>
         <div style={{ padding: "5px 20px" }} className="m-2">
-          <Outlet />
+          <Budget />
         </div>
       </Container>
     </div>

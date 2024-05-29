@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getBudgetType = async (organizationId, programId) => {
+export const getBudgetTypes = async (organizationId, programId) => {
   const response = await axios.get(
     `/organization/${organizationId}/program/${programId}/budgettypes`
   );
@@ -108,7 +108,7 @@ export const downloadAssignBudgetTemplate = async (
   return response;
 };
 
-export const getBudgetCascading = async (oId, pId, bId) => {
+export const getBudgetCascadings = async (oId, pId, bId) => {
   const response = await axios.get(
     `/organization/${oId}/program/${pId}/budgetprogram/${bId}/budgetcascading`
   );

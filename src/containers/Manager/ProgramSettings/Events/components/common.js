@@ -11,7 +11,8 @@ export const makeFormData = (program, values) => {
         award_message_editable,
         event_icon_id,
         event_type_id,
-        ledger_code
+        ledger_code,
+        include_in_budget
         /*//Not used in frontend yet, DONT REMOVE
         // email_template_id,
         // template_name,
@@ -40,7 +41,7 @@ export const makeFormData = (program, values) => {
 
     eventData.message = message;
     eventData.event_icon_id = event_icon_id;
-    eventData.include_in_budget = 1;
+    eventData.include_in_budget = include_in_budget;
 
     //static
     eventData.event_type_id = event_type_id.value;

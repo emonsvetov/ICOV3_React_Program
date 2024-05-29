@@ -3,7 +3,7 @@ import CloseIcon from "mdi-react/CloseIcon";
 import { Form } from "react-final-form";
 import BudgetSetupForm from "./BudgetSetupForm";
 import { Modal } from "reactstrap";
-import { getBudgetType, getDateFormat } from "@/services/program/budget";
+import { getBudgetTypes, getDateFormat } from "@/services/program/budget";
 import { labelizeNamedData } from "@/shared/helpers";
 import axios from "axios";
 import {
@@ -38,7 +38,7 @@ const AddBudgetSetupModal = ({ program, isOpen, setOpen, toggle }) => {
 
   useEffect(() => {
     if (program.id && program.organization_id) {
-      getBudgetType(program.organization_id, program.id).then((res) => {
+      getBudgetTypes(program.organization_id, program.id).then((res) => {
         setBudgetTypeOptions(labelizeNamedData(res, ["id", "title"]));
       });
     }
@@ -56,11 +56,12 @@ const AddBudgetSetupModal = ({ program, isOpen, setOpen, toggle }) => {
     if (values["budget_type"] == "") {
       errors["budget_type"] = "select budget type";
     } else if (invalidAmount(values["budget_amount"])) {
-      errors["budget_amount"] = "enter amount";
+      errors["budget_amount"] = "enter a valid amount";
     } else if (values["budget_start_date"]) {
       errors["budget_start_date"] = "Budget StartDate is not correct";
     } else if (values["budget_start_date"] >= values["budget_end_date"]) {
-      errors["budget_start_date"] = "Start date cannot be greater than end date.";
+      errors["budget_start_date"] =
+        "Start date cannot be greater than end date.";
     } else if (values["budget_end_date"]) {
       errors["budget_end_date"] = "Date is not correct";
     }
@@ -76,7 +77,6 @@ const AddBudgetSetupModal = ({ program, isOpen, setOpen, toggle }) => {
 
     values.budget_start_date = getDateFormat(budgetStartDate);
     values.budget_end_date = budgetEndDate.toISOString().slice(0, 10);
-    validate(values)
     axios
       .post(
         `organization/${program.organization_id}/program/${program.id}/budgetprogram`,
@@ -93,7 +93,6 @@ const AddBudgetSetupModal = ({ program, isOpen, setOpen, toggle }) => {
           flashError(dispatch, error.response.data);
         }
       });
-
   };
   return (
     <Modal
@@ -112,10 +111,7 @@ const AddBudgetSetupModal = ({ program, isOpen, setOpen, toggle }) => {
       </div>
 
       <div className="right">
-        <Form
-          onSubmit={onSubmit}
-          validate={validate}
-        >
+        <Form onSubmit={onSubmit} validate={validate}>
           {({ handleSubmit, form, submitting, pristine, values }) => {
             return (
               <form className="form" onSubmit={handleSubmit}>

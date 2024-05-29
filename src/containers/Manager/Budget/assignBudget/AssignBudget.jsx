@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row } from "reactstrap";
+import { Col, Row, Container } from "reactstrap";
 import { connect } from "react-redux";
-import BudgetTemplate from "../media/BudgetTemplate";
+import BudgetTemplate from "../budgetTemplate/BudgetTemplate";
 import { getProgramTree } from "@/services/program/getProgramTree";
-import ManageBudgetTable from "./ManageBudgetTable";
+import AssignBudgetForm from "./AssignBudgetForm";
 import { useParams } from "react-router-dom";
 import {
   getBudgetProgram,
-  getBudgetCascading,
+  getBudgetCascadings,
 } from "@/services/program/budget";
 import { months } from "@/services/program/budget";
 import { flashError, useDispatch } from "@/shared/components/flash";
 import SelectProgram from "../../components/SelectProgram";
 import axios from "axios";
 
-const ManageBudget = ({ organization, program, rootProgram }) => {
+const AssignBudget = ({ organization, program, rootProgram }) => {
   const [budgetProgram, setBudgetProgram] = useState({});
   const [budgetCascadingProgram, setBudgetCascadingProgram] = useState(null);
   const [programs, setPrograms] = useState([]);
@@ -23,7 +23,7 @@ const ManageBudget = ({ organization, program, rootProgram }) => {
   const [formData, setFormData] = useState([]);
   const [previousValues, setPreviousValues] = useState({});
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { budgetId } = useParams();
 
   useEffect(() => {
     if (organization && rootProgram) {
@@ -34,21 +34,23 @@ const ManageBudget = ({ organization, program, rootProgram }) => {
   }, [organization, rootProgram]);
 
   useEffect(() => {
-    if (organization?.id && rootProgram?.id && id) {
-      getBudgetProgram(organization.id, rootProgram.id, id).then((res) => {
-        setBudgetProgram(res);
-        setRemainingAmount(res.budget_amount);
-      });
+    if (organization?.id && rootProgram?.id && budgetId) {
+      getBudgetProgram(organization.id, rootProgram.id, budgetId).then(
+        (res) => {
+          setBudgetProgram(res);
+          setRemainingAmount(res.remaining_amount);
+        }
+      );
     }
-  }, [organization, rootProgram, id]);
+  }, [organization, rootProgram, budgetId]);
 
   useEffect(() => {
-    if (organization?.id && rootProgram?.id && id) {
-      getBudgetCascading(organization?.id, rootProgram?.id, id)
+    if (organization?.id && rootProgram?.id && budgetId) {
+      getBudgetCascadings(organization?.id, rootProgram?.id, budgetId)
         .then((res) => setBudgetCascadingProgram(res))
         .catch((err) => console.log(err));
     }
-  }, [organization, rootProgram, id]);
+  }, [organization, rootProgram, budgetId]);
 
   const handleAmountChange = (
     programId,
@@ -90,19 +92,18 @@ const ManageBudget = ({ organization, program, rootProgram }) => {
 
         if (index === -1) {
           if (value === "") {
-            // If the input value is empty, remove the value from the array
             newAmounts.splice(index, 1);
           } else {
             newAmounts.push({
+              budgets_cascading_id: null,
               program_id: programId,
-              start_date: budgetProgram.budget_start_date,
-              end_date: budgetProgram.budget_end_date,
+              budget_start_date: budgetProgram.budget_start_date,
+              budget_end_date: budgetProgram.budget_end_date,
               amount: value,
             });
           }
         } else {
           if (value === "") {
-            // If the input value is empty, remove the value from the array
             newAmounts.splice(index, 1);
           } else {
             newAmounts[index].amount = value;
@@ -148,72 +149,76 @@ const ManageBudget = ({ organization, program, rootProgram }) => {
     }
   }
 
-  if (rootProgram && id && budgetProgram) {
+  if (rootProgram && budgetId && budgetProgram) {
     return (
       <div className="m-1 bg-light p-3 rounded">
-        <div>
-          <h4>Manage Budget</h4>
-        </div>
-        <div className="d-flex program-select my-3 p-2 rounded">
-          <SelectProgram showRefresh={false} />
-        </div>
-        <div className=" p-2" style={{ borderStyle: "groove" }}>
-          <Row>
-            <Col>Total Budget:</Col>
-            <Col>
-              <span>{budgetProgram?.budget_amount}</span>
-            </Col>
-          </Row>
-          <Row>
-            <Col>Available To Allocate: </Col>
-            <Col className={remainingAmount < 0 ? "text-danger" : "text-black"}>
-              <span>{remainingAmount}</span>
-            </Col>
-          </Row>
-          <Row>
-            <Col>Budget Type:</Col>
-            <Col>
-              <span>{budgetProgram?.budget_types?.title}</span>
-            </Col>
-          </Row>
-          <Row>
-            <Col>Start Date:</Col>
-            <Col>
-              <span>{budgetProgram?.budget_start_date}</span>
-            </Col>
-          </Row>
-          <Row>
-            <Col>End Date:</Col>
-            <Col>
-              <span>{budgetProgram?.budget_end_date}</span>
-            </Col>
-          </Row>
-        </div>
-        <div className="mt-5">
-          {programs?.flatMap((program, index) => (
-            <ManageBudgetTable
-              organization={organization}
-              program={program}
-              programs={[program, ...program.children]}
-              key={index}
-              id={id}
-              budgetProgram={budgetProgram}
-              month={month}
-              setMonth={setMonth}
-              formData={formData}
-              handleAmountChange={handleAmountChange}
-              handleBlur={onBlurUpdateRemainingAmount}
-              handleFocus={handleFocus}
-            />
-          ))}
+        <Container>
           <div>
-            <BudgetTemplate
-              program={program}
-              organization={organization}
-              budgetProgram={budgetProgram}
-            />
+            <h4>Manage Budget</h4>
           </div>
-        </div>
+          <div className="d-flex program-select my-3 p-2 rounded">
+            <SelectProgram showRefresh={false} />
+          </div>
+          <div className=" p-2" style={{ borderStyle: "groove" }}>
+            <Row>
+              <Col>Total Budget:</Col>
+              <Col>
+                <span>{budgetProgram?.budget_amount}</span>
+              </Col>
+            </Row>
+            <Row>
+              <Col>Available To Allocate: </Col>
+              <Col
+                className={remainingAmount < 0 ? "text-danger" : "text-black"}
+              >
+                <span>{remainingAmount}</span>
+              </Col>
+            </Row>
+            <Row>
+              <Col>Budget Type:</Col>
+              <Col>
+                <span>{budgetProgram?.budget_types?.title}</span>
+              </Col>
+            </Row>
+            <Row>
+              <Col>Start Date:</Col>
+              <Col>
+                <span>{budgetProgram?.budget_start_date}</span>
+              </Col>
+            </Row>
+            <Row>
+              <Col>End Date:</Col>
+              <Col>
+                <span>{budgetProgram?.budget_end_date}</span>
+              </Col>
+            </Row>
+          </div>
+          <div className="mt-5">
+            {programs?.flatMap((program, index) => (
+              <AssignBudgetForm
+                organization={organization}
+                program={program}
+                programs={[program, ...program.children]}
+                key={index}
+                budgetId={budgetId}
+                budgetProgram={budgetProgram}
+                month={month}
+                setMonth={setMonth}
+                formData={formData}
+                handleAmountChange={handleAmountChange}
+                handleBlur={onBlurUpdateRemainingAmount}
+                handleFocus={handleFocus}
+              />
+            ))}
+            <div>
+              <BudgetTemplate
+                program={program}
+                organization={organization}
+                budgetProgram={budgetProgram}
+              />
+            </div>
+          </div>
+        </Container>
       </div>
     );
   }
@@ -226,4 +231,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(ManageBudget);
+export default connect(mapStateToProps)(AssignBudget);

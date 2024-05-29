@@ -3,13 +3,18 @@ import { Col, Row, Input, FormGroup, Button, Label } from "reactstrap";
 import { Form, Field } from "react-final-form";
 import { checkMonth } from "@/services/program/budget";
 import axios from "axios";
+import {
+  flashError,
+  flashSuccess,
+  useDispatch,
+} from "@/shared/components/flash";
 
-const ManageBudgetTable = ({
+const AssignBudgetForm = ({
   organization,
   program,
   programs,
   budgetProgram,
-  id,
+  budgetId,
   handleAmountChange,
   formData,
   month,
@@ -18,7 +23,7 @@ const ManageBudgetTable = ({
   handleFocus,
 }) => {
   const [isBudgetMonthly, setIsBudgetMonthhly] = useState(false);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     if (budgetProgram && budgetProgram?.budget_types?.name === "monthly") {
       setIsBudgetMonthhly(true);
@@ -56,11 +61,12 @@ const ManageBudgetTable = ({
       }, []);
       return groupedData;
     } else {
-      return data
+      return data;
     }
   }
 
   const onSubmit = (values) => {
+    values.budget_id = budgetId;
     values.budget_type = budgetProgram?.budget_types?.id;
     if (isBudgetMonthly) {
       values.budget_amount = unpatchBudgetCascadingData(formData);
@@ -68,16 +74,20 @@ const ManageBudgetTable = ({
       values.budget_amount = unpatchBudgetCascadingData(formData);
       console.log("values", values);
     }
-    
-    // let url = `/organization/${organization?.id}/program/${program?.id}/budgetprogram/${id}/assign`;
-    // axios
-    //   .post(url, values)
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+
+    let url = `/organization/${organization?.id}/program/${program?.id}/budgetprogram/${budgetId}/assign`;
+    axios
+      .post(url, values)
+      .then((res) => {
+        if (res.status === 200) {
+          flashSuccess(dispatch, "Budget assigned successfully");
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          flashError(dispatch, err.message);
+        }
+      });
   };
   return (
     <>
@@ -182,4 +192,4 @@ const ManageBudgetTable = ({
   );
 };
 
-export default ManageBudgetTable;
+export default AssignBudgetForm;

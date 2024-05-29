@@ -8,14 +8,13 @@ import {
   readAssignedPositionPermissions,
   hasUserPermissions,
 } from "@/services/program/budget";
-import { useDispatch, flashError } from "@/shared/components/flash";
 
 const Budget = ({ program, organization, auth }) => {
   const [isOpen, setOpen] = React.useState(false);
   const [modalName, setModalName] = React.useState(null);
   const [assignedPermissions, setAssignedPermissions] = React.useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const dispatch = useDispatch();
+
   let props = {
     isOpen,
     setOpen,

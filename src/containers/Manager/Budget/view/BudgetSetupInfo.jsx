@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "reactstrap";
-import { Form, Field } from "react-final-form";
+import { Form } from "react-final-form";
 import { useNavigate } from "react-router-dom";
 import CloseIcon from "mdi-react/CloseIcon";
 import { Modal } from "reactstrap";
@@ -13,7 +13,7 @@ import {
 import { labelizeNamedData } from "@/shared/helpers";
 import BudgetSetupForm from "../components/BudgetSetupForm";
 import {
-  getBudgetType,
+  getBudgetTypes,
   getBudgetProgram,
   getDateFormat,
   hasUserPermissions,
@@ -30,7 +30,6 @@ const BudgetSetupInfoModal = ({
 }) => {
   const [budgetProgram, setBudgetProgram] = useState(null);
   const [budgetTypeOptions, setBudgetTypeOptions] = useState([]);
-  const [budgetAmount, setBudgetAmount] = useState("");
   const [budgetType, setBudgetType] = useState([]);
   const [budgetStartDate, setBudgetStartDate] = useState(new Date());
   const [budgetEndDate, setBudgetEndDate] = useState(new Date());
@@ -70,7 +69,7 @@ const BudgetSetupInfoModal = ({
         if (res.status == 0) {
           setBudgetStatus(false);
         }
-        if (res.budget_types.title === "Yearly") {
+        if (res.budget_types.name === "yearly") {
           setDisable(false);
           setEndDateHide(true);
           setDateformat("yyyy");
@@ -78,7 +77,7 @@ const BudgetSetupInfoModal = ({
           setDateformat("MMMM/yyyy");
         }
       });
-      getBudgetType(program.organization_id, program.id).then((res) => {
+      getBudgetTypes(program.organization_id, program.id).then((res) => {
         setBudgetTypeOptions(labelizeNamedData(res, ["id", "title"]));
       });
     }
@@ -142,14 +141,12 @@ const BudgetSetupInfoModal = ({
     ) {
       let newRemainingamount = budgetProgram?.remaining_amount - newBudget;
       if (newRemainingamount < 0) {
-        alert("Remaining amount can not be negative")
+        alert("Remaining amount can not be negative");
         return;
       } else {
         values.remaining_amount = newRemainingamount;
       }
     }
-
-    console.log(values);
     axios
       .put(
         `/organization/${organization.id}/program/${program.id}/budgetprogram/${id}`,

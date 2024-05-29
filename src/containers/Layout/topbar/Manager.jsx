@@ -30,11 +30,11 @@ const ManagerTopbar = ({ template, program }) => {
   const toggleNavbar = () => {
     setOpen((prev) => !prev);
   };
-  let linkBuilt = LINKS.some((link) => link.to === "/manager/budget/view");
+  let linkBuilt = LINKS.some((link) => link.to === "/manager/budget");
 
   useEffect(() => {
     if (program?.use_budget_cascading > 0 && !linkBuilt) {
-      LINKS.push({ to: "/manager/budget/view", text: "Budget" });
+      LINKS.push({ to: "/manager/budget", text: "Budget" });
     }
   }, [program]);
 
