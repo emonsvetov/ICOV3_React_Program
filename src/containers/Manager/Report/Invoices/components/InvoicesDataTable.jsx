@@ -1,12 +1,12 @@
 import React, {useMemo, useState, useEffect} from 'react';
 import {connect} from "react-redux";
 import {format} from "date-fns";
-import { useTable, usePagination, useRowSelect, useSortBy } from "react-table";
+import { useTable, usePagination, useRowSelect, useSortBy, useExpanded, useResizeColumns } from "react-table";
 import { Row, Col, Table, Card, CardBody  } from 'reactstrap';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
-import {reducer, fetchApiData, initialState, Sorting, fetchApiDataExport} from "@/shared/apiTableHelper"
+import {reducer, fetchApiData, initialState, Sorting, fetchApiDataExport, useEffectToDispatch} from "@/shared/apiTableHelper"
 import ReactTablePagination from "@/shared/components/table/components/ReactTablePagination";
-import ReportTableFilter from "@/shared/components/table/components/ReportTableFilter";
+// import ReportTableFilter from "@/shared/components/table/components/ReportTableFilter";
 import InvoiceFilter from './InvoiceFilter';
 import { dateStrToYmd, getFirstDay } from '@/shared/helpers';
 import { clone} from 'lodash';
@@ -91,18 +91,19 @@ const InvoicesDataTable = (props) => {
 
     let columns = useMemo( () => invoices_columns, [])
 
-    const [{ queryPageIndex, queryPageSize, totalCount, queryPageSortBy, queryTrigger }, dispatch] =
+    const [{queryPageIndex, queryPageSize, totalCount, queryPageFilter, queryPageSortBy, queryTrigger}, dispatch] =
     React.useReducer(reducer, initialState);
 
     const apiUrl = `/organization/${props.program?.organization_id}/program/${props.program?.id}/invoice`
 
     const { isLoading, error, data, isSuccess } = useQuery(
-        ['invoices', apiUrl, queryPageIndex, queryPageSize, queryPageSortBy, queryTrigger],
+        ['invoices', apiUrl, queryPageIndex, queryPageSize, queryPageFilter, queryPageSortBy, queryTrigger],
         () => fetchApiData(
             {
                 url: apiUrl,
                 page: queryPageIndex,
                 size: queryPageSize,
+                filter,
                 sortby: queryPageSortBy,
                 trigger: queryTrigger
             }),
@@ -112,14 +113,16 @@ const InvoicesDataTable = (props) => {
         }
     );
 
-    const totalPageCount = Math.ceil(totalCount / queryPageSize)
+    const totalPageCount = Math.ceil(data?.count / queryPageSize)
 
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
+        footerGroups,
         rows,
         prepareRow,
+        rowSpanHeaders,
         page,
         pageCount,
         pageOptions,
@@ -129,30 +132,34 @@ const InvoicesDataTable = (props) => {
         nextPage,
         canNextPage,
         setPageSize,
-        state: { pageIndex, pageSize, sortBy, pageFilter }
-    } = useTable({
-        columns,
-        data: data ? data.results : [],
-        initialState: {
+        state: {pageIndex, pageSize, sortBy}
+      } = useTable({
+          columns: columns,
+          data: data ? Object.values(data.results) : [],
+          initialState: {
             pageIndex: queryPageIndex,
             pageSize: queryPageSize,
-            sortBy: queryPageSortBy
+            sortBy: queryPageSortBy,
+          },
+          manualPagination: true, // Tell the usePagination
+          pageCount: data ? totalPageCount : null,
+          autoResetSortBy: false,
+          autoResetExpanded: false,
+          autoResetPage: false,
+          disableResizing: true,
+          autoResetHiddenColumns: false,
+          striped: true
         },
-        manualPagination: true, // Tell the usePagination
-        pageCount: data ? totalPageCount : null,
-        autoResetSortBy: false,
-        autoResetExpanded: false,
-        autoResetPage: false,
-    },
-    useSortBy,
-    usePagination,
-    useRowSelect
-    );
+        useSortBy,
+        useExpanded,
+        usePagination,
+        useResizeColumns,
+        // useFlexLayout,
+      );
 
     const manualPageSize = []
     // const { pageIndex, pageSize } = state;
-
-    //useEffectToDispatch( dispatch, {pageIndex, pageSize, gotoPage, sortBy, data, trigger: props.trigger} );
+    useEffectToDispatch( dispatch, {pageIndex, pageSize, gotoPage, sortBy, filter, data, useFilter, trigger} );
     if (isLoading) {
         return <p>Loading...</p>;
     }
@@ -226,7 +233,7 @@ const InvoicesDataTable = (props) => {
                         pageCount={pageCount}
                         setPageSize={setPageSize}
                         manualPageSize={manualPageSize}
-                        dataLength={rows.length}
+                        dataLength={data?.count}
                         />
                
             )}

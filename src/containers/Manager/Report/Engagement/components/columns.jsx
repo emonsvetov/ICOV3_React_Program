@@ -9,11 +9,19 @@ export const TABLE_COLUMNS = [
     accessor: "program",
   },
   {
-    Header: "referrer",
+    Header: "Referrer",
     accessor: "referrer",
   },
   {
     Header: "Referrer Email",
     accessor: "referrer_email",
+  },
+  {
+    Header: "Message",
+    accessor: "message",
+  },
+  {
+    Header: "Category",
+    accessor: "category",
   },
 ];

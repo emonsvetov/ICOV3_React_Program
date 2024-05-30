@@ -93,6 +93,8 @@ import PageNotFound from "./404Error/PageNotFound";
 import UserNotFound from "@/containers/App/404Error/UserNotFound";
 import CsvImport from "../Manager/CsvImport";
 import ManagerViewInvoice from "../Manager/ManageAccount/components/ViewInvoice";
+import ReferralTools from "../Manager/ReferralTools";
+import RefParticipants from "../Manager/RefParticipants";
 
 // import { Train } from "@material-ui/icons";
 
@@ -195,7 +197,7 @@ const RouteIndex = () => (
             <Route path="program-status" element={<ProgramStatus />} />
 
             <Route path="annual-awards-summary" element={<AnnualAwardSummary />} />
-            {/* <Route path="referral-participant" element={<Engagement/>}/> */}
+            <Route path="referral-participant" element={<Engagement/>}/>
             <Route path="award-account-summary-gl" element={<AwardAccountSummaryGL />} />
             <Route path="award-detail" element={<AwardDetail />} />
             <Route path="award-summary" element={<AwardSummary />} />
@@ -220,6 +222,8 @@ const RouteIndex = () => (
               element={<GoalProgressSummary />}
             />
           </Route>
+          <Route path="referral_tools" element={<ReferralTools />} />
+          <Route path="ref-participants/program/:programId" element={<RefParticipants />} />
           <Route path="faqs" element={<Faqs />} />
           <Route path="about" element={<About />} />
           <Route path="privacy" element={<Privacy />} />

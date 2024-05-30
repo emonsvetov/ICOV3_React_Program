@@ -47,71 +47,33 @@ export const CheckboxHierarchy = ({name, fields, setFields, options, isRoot, isC
 
   const toggleAll = (event, options) => {
     let tmpFields = fields;
-    let subOptions = [];
-    for (let option of options) {
-      if (option.children && option.children.length) {
-        subOptions = findChildrenOptionId(option.children, subOptions);
-      }
-
-      if (event.target.checked) {
-        if(tmpFields.indexOf(option[attr]) === -1){
-          tmpFields.push(option[attr]);
-        }
-        subOptions.map(item => {
-          if(tmpFields.indexOf(item) === -1) {
-            tmpFields.push(item);
-          }
-        });
-      } else {
-        const index = tmpFields.indexOf(option[attr])
-        if (tmpFields && index !== -1) {
-          tmpFields.splice(index, 1);
-        }
-        subOptions.map(item => {
-          let indexAll = indexOfAll(tmpFields, item);
-          if (indexAll.length > 0) {
-            indexAll.slice().reverse()
-              .forEach(function (subItem) {
-                tmpFields.splice(subItem, 1);
-              });
-          }
-        });
-      }
-      setFields(tmpFields);
-    }
+    options.forEach((option) => toggleOption(tmpFields, option, event.target.checked));
+    setFields(tmpFields);
   }
+
+  const toggleOption = (tmpFields, opt, checked) => {
+    const optionIndex = tmpFields.indexOf(opt[attr]);
+
+    if (checked) {
+      if (optionIndex === -1) {
+        tmpFields.push(opt[attr]);
+      }
+      if (opt.children && opt.children.length) {
+        opt.children.forEach((child) => toggleOption(tmpFields, child, checked));
+      }
+    } else {
+      if (optionIndex !== -1) {
+        tmpFields.splice(optionIndex, 1);
+      }
+      if (opt.children && opt.children.length) {
+        opt.children.forEach((child) => toggleOption(tmpFields, child, checked));
+      }
+    }
+  };
 
   const toggle = (event, option) => {
     let tmpFields = fields;
-    let subOptions = [];
-    if (option.children && option.children.length) {
-      subOptions = findChildrenOptionId(option.children, subOptions);
-    }
-
-    if (event.target.checked) {
-      if(tmpFields.indexOf(option[attr]) === -1) {
-        tmpFields.push(option[attr]);
-      }
-      subOptions.map(item => {
-        if(tmpFields.indexOf(item) === -1) {
-          tmpFields.push(item);
-        }
-      });
-    } else {
-      const index = tmpFields.indexOf(option[attr])
-      if (tmpFields && index !== -1) {
-        tmpFields.splice(index, 1);
-      }
-      subOptions.map(item => {
-        let indexAll = indexOfAll(tmpFields, item);
-        if (indexAll.length > 0) {
-          indexAll.slice().reverse()
-            .forEach(function (subItem) {
-              tmpFields.splice(subItem, 1);
-            });
-        }
-      });
-    }
+    toggleOption(tmpFields,option, event.target.checked);
     setFields(tmpFields);
   };
 

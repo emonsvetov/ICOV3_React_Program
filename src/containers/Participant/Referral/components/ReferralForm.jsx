@@ -68,6 +68,7 @@ const ReferralForm = ({ organization, program, auth }) => {
     let formData = mapFormDataUploads(values);
     // formData.append("_method", "PUT");
     formData.append("sender_id", user.id);
+    formData.append("category_referral", 1);
     let url = `/organization/${program.organization_id}/program/${program.id}/refer`
     setLoading(true);
     axios

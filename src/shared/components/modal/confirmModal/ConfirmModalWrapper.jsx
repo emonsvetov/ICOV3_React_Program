@@ -3,13 +3,17 @@ import ConfirmPopup from './ConfirmPopup';
 
 const ConfirmModalWrapper = ({confirmRef, message, action}) => {
   const [isOpen, setOpen] = useState(false);
-  const toggle = () => {
+  const [id, setId] = useState(null);
+  const toggle = (id) => {
+    if(id){
+      setId(id)
+    }
     setOpen(prev => !prev)
   }
   confirmRef.current.toggle = toggle
 
   const props = {
-    message, action, isOpen, setOpen, toggle
+    message, action, isOpen, setOpen, toggle, id
   }
   return (
     <>
