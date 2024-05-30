@@ -1870,21 +1870,55 @@ main.participant{
 // ref-participants
 
 .ref-participants {
-    padding-top: 78px;
+    
+    .ref-participants-body{
+        padding-top: 60px;
+        // background-color: rgb(56, 161, 250);
+    }
 }
 .rlp-referral-block-body {
-    height: calc(100vh - 253px);
-    min-height: 710px;
+    // height: calc(100vh - 350px);
+    // min-height: 710px;
     display: flex;
     justify-content: space-between;
     position: relative;
+    gap: 50px;
+    @media (max-width: $xs) {
+        flex-direction: column;
+        gap: 30px;
+        .rlp-option {
+            margin-bottom: 10px;
+        }
+        .rlp-option-title {
+            font-size: 20px;
+        }
+        .rlp-option-body,.rlp-notification-body  {
+            font-size: 15px;
+        }
+        .ref-participants-form button{
+            width: 100%;
+        }
+    }
+    @media (min-width: $sm-from) and (max-width: $sm-to) {
+        flex-direction: column;
+        gap: 100px;
+        .rlp-option {
+            margin-bottom: 20px;
+        }
+        .ref-participants-form button{
+            width: 100%;
+        }
+    }
+    @media (min-width: $md-from) and (max-width: $md-to) {
+        
+    }
+    @media (min-width: $lg) {
+        
+    }
 }
-.rlp-referral-block-left, .rlp-referral-block-right {
-    width: 50%;
-}
-.ref-participants {
-    padding-top: 78px;
-}
+// .rlp-referral-block-left, .rlp-referral-block-right {
+//     width: 50%;
+// }
 .rlp-referral-block-left .rlp-options .rlp-option:first-child {
     gap: 15px;
     align-items: center;
@@ -1920,9 +1954,12 @@ main.participant{
 .rlp-option-body {
     // font-family: 'Roboto';
     font-size: 18px;
-    font-weight: normal;
     max-width: 414px;
     line-height: 27px;
+}
+.rlp-notification{
+    display: flex;
+    align-items: center;
 }
 .rlp-notification-icon, .rlp-notification-body {
     display: inline-block;
@@ -1937,9 +1974,11 @@ main.participant{
 .rlp-notification-body {
     // font-family: 'Roboto';
     font-size: 18px;
-    font-weight: normal;
     max-width: 350px;
     line-height: 27px;
     font-weight: 500;
     font-style: italic;
+}
+.ref-participants-form button{
+    width: 25%;
 }
