@@ -17,6 +17,14 @@ export const TABLE_COLUMNS = [
     accessor: "referrer_email",
   },
   {
+    Header: "Referree",
+    accessor: "referree",
+  },
+  {
+    Header: "Referree Email",
+    accessor: "referree_email",
+  },
+  {
     Header: "Message",
     accessor: "message",
   },
