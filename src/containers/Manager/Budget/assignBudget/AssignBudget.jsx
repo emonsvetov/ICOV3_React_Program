@@ -20,6 +20,7 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
   const [programs, setPrograms] = useState([]);
   const [remainingAmount, setRemainingAmount] = useState("");
   const [month, setMonth] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState([]);
   const [previousValues, setPreviousValues] = useState({});
   const dispatch = useDispatch();
@@ -35,10 +36,12 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
 
   useEffect(() => {
     if (organization?.id && rootProgram?.id && budgetId) {
+      setLoading(true);
       getBudgetProgram(organization.id, rootProgram.id, budgetId).then(
         (res) => {
           setBudgetProgram(res);
           setRemainingAmount(res.remaining_amount);
+          setLoading(false);
         }
       );
     }
@@ -47,18 +50,12 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
   useEffect(() => {
     if (organization?.id && rootProgram?.id && budgetId) {
       getBudgetCascadings(organization?.id, rootProgram?.id, budgetId)
-        .then((res) => setBudgetCascadingProgram(res))
+        .then((res) => setBudgetCascadingProgram(res.data))
         .catch((err) => console.log(err));
     }
   }, [organization, rootProgram, budgetId]);
 
-  const handleAmountChange = (
-    programId,
-    value,
-    month,
-    prevAmount = 0,
-    year = new Date().getFullYear()
-  ) => {
+  const handleAmountChange = (programId, value, month, budget_cascading_id) => {
     //const amount = value || 0;
     if (budgetProgram?.budget_types?.name === "monthly") {
       setFormData((prevAmounts) => {
@@ -71,7 +68,12 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
             // If the input value is empty, remove the value from the array
             newAmounts.splice(index, 1);
           } else {
-            newAmounts.push({ program_id: programId, month, amount: value });
+            newAmounts.push({
+              program_id: programId,
+              month,
+              amount: value,
+              budget_cascading_id: budget_cascading_id || null,
+            });
           }
         } else {
           if (value === "") {
@@ -95,7 +97,7 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
             newAmounts.splice(index, 1);
           } else {
             newAmounts.push({
-              budgets_cascading_id: null,
+              budgets_cascading_id: budget_cascading_id || null,
               program_id: programId,
               budget_start_date: budgetProgram.budget_start_date,
               budget_end_date: budgetProgram.budget_end_date,
@@ -148,8 +150,8 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
       });
     }
   }
-
-  if (rootProgram && budgetId && budgetProgram) {
+  if (loading) return "Loading...";
+  if (budgetId && budgetProgram) {
     return (
       <div className="m-1 bg-light p-3 rounded">
         <Container>
@@ -205,6 +207,7 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
                 month={month}
                 setMonth={setMonth}
                 formData={formData}
+                budgetCascadingProgram={budgetCascadingProgram}
                 handleAmountChange={handleAmountChange}
                 handleBlur={onBlurUpdateRemainingAmount}
                 handleFocus={handleFocus}

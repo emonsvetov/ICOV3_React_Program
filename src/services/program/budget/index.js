@@ -82,7 +82,7 @@ export const months = [
   "November",
   "December",
 ];
-export function checkMonth(start, end) {
+export function findAssignedMonth(start, end) {
   let actualMonth = months.slice(
     new Date(start).getMonth(),
     new Date(end).getMonth() + 1
