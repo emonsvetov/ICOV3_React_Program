@@ -1563,18 +1563,23 @@ main.participant{
     background: #F0EEEE;
     padding-right: 24px;
 }
+.referrals-info{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 8%;
+}
 .referrals-info-col-left {
     padding-top: 32px;
 }
 .referrals-info-col-right {
-    padding-right: 70px;
+    // padding-right: 70px;
     img {
         position: relative;
         top: -25px;
         height: 300px;
         right: 55px;
-        width: 90%;
-        height: 90%;
+        // width: 90%;
+        // height: 90%;
     }
 }
 .scale-down-target-70 {
@@ -1582,8 +1587,8 @@ main.participant{
     transition: transform 0.5s ease-in-out;
 }
 .referrals-info-1 {
-    font-weight: 800;
-    font-size: 44px;
+    font-weight: bold;
+    font-size: 36px;
 }
 .referrals-info-2 {
     // font-weight: 500;
@@ -1592,7 +1597,9 @@ main.participant{
     font-size: 18px;
     padding-top: 9px;
 }
-
+.referral-list{
+    margin: 0 100px 0 100px;
+}
 .referral-list-li{
     position: relative;
     .number-circle {
@@ -1620,7 +1627,7 @@ main.participant{
 }
 
 .referral-column {
-    margin-left: 5%;
+    margin-left: 70px;
     .youtube-icon{
         cursor: pointer;
     }
@@ -1694,7 +1701,7 @@ main.participant{
     // text-transform: uppercase;
     // color: #FFFFFF;
     display: inline-block;
-    padding: 20px 30px 20px 30px;
+    padding: 18px 25px 18px 25px;
     cursor: pointer;
     // background: #ffc14b;
     /*box-shadow: 0px 20px 45px 10px rgba(0, 0, 0, 0.15);*/
@@ -1707,20 +1714,19 @@ main.participant{
 
 .referral-label{
     max-width: 425px;
-    padding-top: 30px;
-    font-weight: 600;
+    padding-top: 20px;
+    font-weight: bold;
     font-size: 25px;
-    line-height: 34px;
     color: #000;
     display: block;
     margin-bottom: 0px;
 }
 
 .referral-text {
-    padding-top: 0px;
-    font-size: 19px;
+    padding-top: 10px;
+    // font-size: 19px;
     max-width: 455px;
-    line-height: 25px;
+    // line-height: 25px;
     padding-bottom: 14px;
     padding-right: 3em;
 }
@@ -1755,7 +1761,7 @@ main.participant{
   visibility: visible;
 }
 
-@media screen and (max-width: 1440px) {
+@media(max-width: $md-to) {
 
     .referral-inner-li{
         display: grid;
@@ -1832,7 +1838,53 @@ main.participant{
     }
 }
 
-@media screen and (max-width: 600px) {
+@media(max-width: $sm-to) {
+    .referral-list{
+        margin-top: 30px;
+    }
+    .referrals-info{
+        display: flex;
+        justify-content: center;
+        margin-left: auto;
+        .referrals-info-col-right{
+            display: none;
+        }
+    }
+    .referrals-info-1 {
+        font-size: 28px;
+    }
+    .referrals-info-2 {
+        // font-weight: 500;
+        max-width: 500px;
+        line-height: 28px;
+        font-size: medium;
+        padding-top: 9px;
+    }
+    .referral-label{
+        font-size:large;
+    }
+    .referral-list li {
+        // cursor: pointer;
+        margin-bottom: 16px;
+        padding: 10px;
+        font-size: 16px;
+        line-height: 25px;
+    }
+    .referral-column {
+        margin-left: 25px;
+    }
+    .referral-copy{
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 18px;
+        letter-spacing: 1.5px;
+        padding: 10px 15px 10px 15px;
+    }
+}
+@media(max-width: $xs) {
+    .referral-list{
+        margin: 20px 0 0 0 ;
+    }
     .referral-inner-li {
         margin-left: 0px;
     }
@@ -1845,14 +1897,10 @@ main.participant{
     .referral-column > .youtube-icon {
         top: 0%;
     }
-    
+
     .referral-inner-li .referral-column:nth-child(3) {
-        grid-row: 3;    
+        min-width: unset;
     }
-    
-    .referral-inner-li .referral-column:nth-child(2), .referral-inner-li .referral-column:nth-child(3) {
-        grid-column: 1/6;
-    } 
     
     .referral-social-share-container {
         position: unset;
