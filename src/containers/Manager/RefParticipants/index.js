@@ -13,7 +13,8 @@ import { MerchantSlider } from "@/containers/Participant/Home/components/slider"
 const RefParticipants = ({ template, program}) => {
   // console.log(auth)
   let params = useParams();
-
+  const {programId} = params;
+  
   const formOptions = [
     { value: 'category_referral', label: 'Referral' },
     { value: 'category_lead', label: 'Request Information' },
@@ -30,7 +31,7 @@ const RefParticipants = ({ template, program}) => {
 
   const onSubmit = (values) => {
     setLoading(true);
-    let url = `/organization/${program.organization_id}/program/${program.id}/refer-participants`
+    let url = `/organization/${program.organization_id}/program/${programId}/refer-participants`
     delete values.category_referral;
     delete values.category_lead;
     delete values.category_feedback;
