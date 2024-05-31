@@ -32,7 +32,7 @@ const ReferralTools = ({ auth, program, organization, domain }) => {
 
   useEffect(() => {
     if (program && domain) {
-      setWidgetLink(`https://${domain?.domain?.name}/manager/ref-participants/program/${program.id}`)
+      setWidgetLink(`https://${domain?.domain?.name}/ref-participants/program/${program.id}`)
       setWidgetImgLink(`https://${domain?.domain?.name}/theme/clear/img/pages/FE_Widget.png`)
     }
   }, [domain, program]);
@@ -256,11 +256,11 @@ const ReferralTools = ({ auth, program, organization, domain }) => {
                   <div className="referral-text">Copy your referral widget link to place in marketing campaigns:</div>
                 </div>
                 <div className="referral-column">
-                  <div className="referral-resource" style={{ textAlign: 'center' }}>{`https://${domain?.domain?.name}/manager/ref-participants/program/${program.id}`}</div>
+                  <div className="referral-resource" style={{ textAlign: 'center' }}>{`https://${domain?.domain?.name}/ref-participants/program/${program.id}`}</div>
                   <div className="referral-resource" style={{ textAlign: 'center' }}></div>
                 </div>
                 <div className="referral-column referral-button-column flex align-center">
-                  <TemplateButton className="referral-copy" onClick={() => handleCopy(`https://${domain?.domain?.name}/manager/ref-participants/program/${program.id}`)} text="COPY" />
+                  <TemplateButton className="referral-copy" onClick={() => handleCopy(`https://${domain?.domain?.name}/ref-participants/program/${program.id}`)} text="COPY" />
                 </div>
                 <div className="referral-column">
                   <div className="youtube-icon flex align-center justify-center" onClick={() => handleVideoClick('yIV3phEObxA?rel=0')} tooltip="Click here to for a tutorial">

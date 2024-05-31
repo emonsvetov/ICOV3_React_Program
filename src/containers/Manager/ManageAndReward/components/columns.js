@@ -198,10 +198,10 @@ export const USERS_COLUMNS = [
         Header: "Redeemed",
         accessor: "redeemedBalance",
     },
-    {
-        Header: "Peer Balance",
-        accessor: "peerBalance",
-    },
+    // {
+    //     Header: "Peer Balance",
+    //     accessor: "peerBalance",
+    // },
 ]
 
 export const USERS_DATA =[
