@@ -30,6 +30,7 @@ const LogInForm = () => {
   const [isParticipant, setIsParticipant] = useState(false);
   const [mediaTypes, setMediaTypes] = useState([]);
   const [programOptions, setProgramOptions] = useState([]);
+  const [programRoles, setProgramRoles] = useState([]);
 
   const ssoLogin = async ssoToken => {
     setStep(1)
@@ -112,6 +113,7 @@ const LogInForm = () => {
   useEffect( () => {
     if(user){
       let options = getProgramOptions(user);
+      setProgramRoles(user.programRoles)
       if(options.length > 0){
         setProgramOptions(options)
       }
@@ -123,6 +125,9 @@ const LogInForm = () => {
       let option = programOptions[0];
       setProgram(option);
       let [roleCount, currentId, currentRole] = handleCountRole();
+
+      console.log("programRoles")
+      console.log(programRoles)
       
       if(roleCount == 1){
         handleProgramLogin(currentId, currentRole)
@@ -144,10 +149,16 @@ const LogInForm = () => {
     let data = {
       role: loginAs
     }
-    // console.log(data);
+    if(typeof (programRoles[programId]) === 'undefined' ) {
+      throw new Error('Program role not found');
+    }
+    const organization = programRoles[programId]['organization']
+    setOrganization(organization)
+    const organizationId = organization['id']
+    // console.log(organization)
     // return;
     // setLoading(true)
-    axios.post(`/organization/${organization.id}/program/${programId}/login`, data, {
+    axios.post(`/organization/${organizationId}/program/${programId}/login`, data, {
       headers: {"Authorization" : `Bearer ${accessToken}`}
     })
     .then( (res) => {
@@ -247,6 +258,7 @@ const LogInForm = () => {
               setAccessToken(res.data.access_token) 
               setOrganization(res.data.user.organization)
               setUser(res.data.user)
+              setProgramRoles(res.data.user.programRoles)
               // var t = setTimeout(window.location = '/participant/home', 500)
               setLoading(false)
             }
@@ -332,6 +344,7 @@ const LogInForm = () => {
       
       const onSubmit = async values => {
         let programId = values.program?.value;
+        // console.log(values.program)
         handleProgramLogin(programId, loginAs);
       };
 

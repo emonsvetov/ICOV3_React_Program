@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 const TopbarProfile = ({ isManager, auth, template }) => {
+  // logout();
   const { t } = useTranslation();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const handleToggleCollapse = () => {
