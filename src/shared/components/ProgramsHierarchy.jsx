@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CheckboxHierarchy from '@/shared/components/form/CheckboxHierarchy'
 import axios from 'axios'
 import {connect} from "react-redux";
@@ -36,14 +36,20 @@ const ProgramsHierarchy = ({defaultPrograms, organization, program, selectedProg
   };
 
   const queryPageFilter = '';
-  const {isLoading, error, data, isSuccess} = useQuery(
-    ['programs', queryPageFilter],
-    () => fetchProgramData(queryPageFilter),
-    {
-      keepPreviousData: true,
-      staleTime: Infinity,
+  // const {isLoading, error, data, isSuccess} = useQuery(
+  //   ['programs', queryPageFilter],
+  //   () => fetchProgramData(queryPageFilter),
+  //   {
+  //     keepPreviousData: true,
+  //     staleTime: Infinity,
+  //   }
+  // );
+
+  useEffect(() => {
+    if(organization && program){
+      fetchProgramData(queryPageFilter);
     }
-  );
+  }, [organization, program, queryPageFilter]);
 
   if (programs) {
     return (
