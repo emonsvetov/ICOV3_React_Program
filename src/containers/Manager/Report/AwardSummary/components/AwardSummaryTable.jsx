@@ -26,11 +26,11 @@ const queryClient = new QueryClient()
 const DataTable = ({organization, program, programs}) => {
   const [filter, setFilter] = useState({
     programs: programs,
-    createdOnly: false,
+    // createdOnly: false,
     programId: program.id,
-    from: getFirstDay(),
-    to: new Date(),
-    year: new Date().getFullYear(),
+    // from: getFirstDay(),
+    // to: new Date(),
+    year: new Date().getFullYear()
   });
   const [useFilter, setUseFilter] = useState(false);
   const [trigger, setTrigger] = useState(0);
