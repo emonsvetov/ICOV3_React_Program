@@ -19,22 +19,18 @@ import {
 
 import { clone} from 'lodash';
 import AwardAccountSummaryGLFilter from "./AwardAccountSummaryGLFilter";
+import { dateStrToYmd, getFirstDay } from "@/shared/helpers";
 
 const queryClient = new QueryClient()
-
-const getFirstDay = () =>{
-  let date = new Date();
-  return new Date(date.getFullYear(), date.getMonth(), 1)
-}
 
 const DataTable = ({organization, program, programs}) => {
   const [filter, setFilter] = useState({
     programs: programs,
-    createdOnly: false,
+    // createdOnly: false,
     reportKey: 'sku_value',
     programId: program.id,
-    from: getFirstDay(),
-    to: new Date()
+    from: dateStrToYmd(getFirstDay()),
+    to: dateStrToYmd(new Date())
   });
   const [useFilter, setUseFilter] = useState(false);
   const [trigger, setTrigger] = useState(0);
