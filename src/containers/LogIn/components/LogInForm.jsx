@@ -125,9 +125,6 @@ const LogInForm = () => {
       let option = programOptions[0];
       setProgram(option);
       let [roleCount, currentId, currentRole] = handleCountRole();
-
-      console.log("programRoles")
-      console.log(programRoles)
       
       if(roleCount == 1){
         handleProgramLogin(currentId, currentRole)
@@ -344,7 +341,6 @@ const LogInForm = () => {
       
       const onSubmit = async values => {
         let programId = values.program?.value;
-        // console.log(values.program)
         handleProgramLogin(programId, loginAs);
       };
 
