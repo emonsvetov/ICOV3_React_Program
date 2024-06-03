@@ -114,3 +114,74 @@ export const getBudgetCascadings = async (oId, pId, bId) => {
   );
   return response;
 };
+
+export function patchBudgetCascadingData(
+  programs,
+  budgetCascadingProgram,
+  isBudgetMonthly
+) {
+  if (programs && budgetCascadingProgram) {
+    return programs?.map((program) => {
+      let budgetCascadingData = budgetCascadingProgram?.find(
+        (budgetCascading) => budgetCascading.program_id == program.id
+      );
+      if (isBudgetMonthly) {
+        if (budgetCascadingData) {
+          let month = findAssignedMonth(
+            budgetCascadingData?.budget_start_date,
+            budgetCascadingData?.budget_end_date
+          );
+          return {
+            ...program,
+            budget_cascading_id: budgetCascadingData.id,
+            amount: budgetCascadingData.budget_amount,
+            month: month,
+          };
+        }
+        return program;
+      } else {
+        if (budgetCascadingData) {
+          return {
+            ...program,
+            budget_cascading_id: budgetCascadingData.id,
+            amount: budgetCascadingData.budget_amount,
+            budget_start_date: budgetCascadingData?.budget_start_date,
+            budget_end_date: budgetCascadingData?.budget_end_date,
+          };
+        }
+        return program;
+      }
+    });
+  }
+}
+
+export function unpatchBudgetCascadingData(data, isBudgetMonthly = false) {
+  if (isBudgetMonthly) {
+    const groupedData = data.reduce((acc, current) => {
+      const { program_id, month, amount, budget_cascading_id } = current;
+      const programIndex = acc.findIndex(
+        (item) => item.program_id === program_id
+      );
+      let year = new Date().getFullYear();
+      let m = new Date(`${month}-${year}`).getMonth() + 1;
+      const budgetEntry = {
+        budgets_cascading_id: budget_cascading_id || null,
+        year: year,
+        month: m,
+        amount,
+      };
+      if (programIndex === -1) {
+        acc.push({
+          program_id: program_id,
+          budgets: [budgetEntry],
+        });
+      } else {
+        acc[programIndex].budgets.push(budgetEntry);
+      }
+      return acc;
+    }, []);
+    return groupedData;
+  } else {
+    return data;
+  }
+}

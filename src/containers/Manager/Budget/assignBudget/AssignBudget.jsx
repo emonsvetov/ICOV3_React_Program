@@ -9,23 +9,22 @@ import {
   getBudgetProgram,
   getBudgetCascadings,
 } from "@/services/program/budget";
-import { months } from "@/services/program/budget";
-import { flashError, useDispatch } from "@/shared/components/flash";
 import SelectProgram from "../../components/SelectProgram";
-import axios from "axios";
+import { flashError, useDispatch } from "@/shared/components/flash";
 
 const AssignBudget = ({ organization, program, rootProgram }) => {
   const [budgetProgram, setBudgetProgram] = useState({});
-  const [budgetCascadingProgram, setBudgetCascadingProgram] = useState(null);
+  const [budgetCascadingPrograms, setBudgetCascadingProgram] = useState(null);
   const [programs, setPrograms] = useState([]);
+  const [budgetProgramTemplate, setBudgetProgramTemplate] = useState([]);
   const [remainingAmount, setRemainingAmount] = useState("");
   const [month, setMonth] = useState([]);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState([]);
+  const [isBudgetMonthly, setIsBudgetMonthly] = useState(false);
   const [previousValues, setPreviousValues] = useState({});
-  const dispatch = useDispatch();
   const { budgetId } = useParams();
-
+  const dispatch = useDispatch();
   useEffect(() => {
     if (organization && rootProgram) {
       getProgramTree(organization.id, rootProgram.id).then((p) => {
@@ -41,6 +40,18 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
         (res) => {
           setBudgetProgram(res);
           setRemainingAmount(res.remaining_amount);
+          setBudgetProgramTemplate([
+            {
+              budget_amount: res.budget_amount,
+              remaining_amount: res.remaining_amount,
+              budget_types: res.budget_types.name,
+              budget_start_date: res.budget_start_date,
+              budget_end_date: res.budget_end_date,
+            },
+          ]);
+          if (res?.budget_types.name == "monthly") {
+            setIsBudgetMonthly(true);
+          }
           setLoading(false);
         }
       );
@@ -89,7 +100,7 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
       setFormData((prevAmounts) => {
         let newAmounts = [...prevAmounts];
         const index = newAmounts.findIndex(
-          (item) => item.program_id === programId && item.month === month
+          (item) => item.program_id === programId
         );
 
         if (index === -1) {
@@ -116,11 +127,11 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
     }
   };
 
-  const handleFocus = (programId, m, amount) => {
+  const handleFocus = (programId, month, amount) => {
     if (budgetProgram?.budget_types?.name === "monthly") {
       setPreviousValues((prevState) => ({
         ...prevState,
-        [`${programId}-${m}`]: amount,
+        [`${programId}-${month}`]: amount,
       }));
     } else {
       setPreviousValues((prevState) => ({
@@ -130,6 +141,14 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
     }
   };
 
+  useEffect(() => {
+    if (remainingAmount < 0) {
+      flashError(
+        dispatch,
+        "remaining amount cannot be less than as given available amount"
+      );
+    }
+  }, [remainingAmount]);
   function onBlurUpdateRemainingAmount(programId, month, newValue) {
     const currentValue = newValue || 0;
     if (budgetProgram?.budget_types?.name === "monthly") {
@@ -207,17 +226,21 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
                 month={month}
                 setMonth={setMonth}
                 formData={formData}
-                budgetCascadingProgram={budgetCascadingProgram}
+                budgetCascadingPrograms={budgetCascadingPrograms}
                 handleAmountChange={handleAmountChange}
                 handleBlur={onBlurUpdateRemainingAmount}
                 handleFocus={handleFocus}
+                remainingAmount={remainingAmount}
               />
             ))}
             <div>
               <BudgetTemplate
                 program={program}
                 organization={organization}
-                budgetProgram={budgetProgram}
+                programs={programs}
+                budgetProgramTemplate={budgetProgramTemplate}
+                budgetCascadingPrograms={budgetCascadingPrograms}
+                isBudgetMonthly={isBudgetMonthly}
               />
             </div>
           </div>

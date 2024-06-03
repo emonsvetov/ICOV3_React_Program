@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row } from "reactstrap";
 import UploadBudgetTemplate from "./UploadBudgetTemplate";
 import TemplateButton from "@/shared/components/TemplateButton";
-import { downloadAssignBudgetTemplate as assigntemplatedownload } from "@/services/program/budget";
 
-const BudgetTemplate = ({ organization, program, budgetProgram }) => {
+const BudgetTemplate = ({
+  organization,
+  program,
+  programs,
+  budgetProgramTemplate,
+  budgetCascadingPrograms,
+  isBudgetMonthly,
+}) => {
+  const [getCsvData, setCsvData] = useState(null);
 
+  useEffect(() => {
+    if (programs && budgetCascadingPrograms) {
+      //set template data here
+    }
+  }, [programs, budgetCascadingPrograms]);
 
   const downloadAssignBudgetTemplate = () => {
     // assigntemplatedownload(organization.id, program.id, budgetProgram.id)
@@ -18,8 +30,9 @@ const BudgetTemplate = ({ organization, program, budgetProgram }) => {
     //     document.body.appendChild(link);
     //     link.click();
     //   })
-
-  }
+    // console.log(getCsvData)
+    //downloadCSV(getCsvData, "data.csv");
+  };
 
   return (
     <div>
