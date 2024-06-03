@@ -195,7 +195,7 @@ const ProgramParticipants = ({ program, organization }) => {
   }
 
   useEffect(() => {
-    // if (!program.uses_peer2peer) {
+    if (!program.uses_peer2peer) {
       bulkActionsArray.splice(BULK_ACTIONS.indexOf("Peer Allocation"), 1);
       let indexToRemove = actionsArray.findIndex(
         (item) => item.name == "Peer Allocation"
@@ -203,7 +203,7 @@ const ProgramParticipants = ({ program, organization }) => {
       actionsArray.splice(indexToRemove, 1);
       setActionsArray(actionsArray);
       setBulkActionsArray(bulkActionsArray);
-    // }
+    }
   }, [program]);
 
   const doAction = (action, participants) => {
@@ -315,6 +315,7 @@ const ProgramParticipants = ({ program, organization }) => {
       initialState: {
         pageIndex: 0,
         pageSize: queryPageSize,
+        hiddenColumns: !program.uses_peer2peer ? ["peerBalance"] : []
       },
       manualPagination: true, // Tell the usePagination
       pageCount: Math.ceil(users?.count / queryPageSize),

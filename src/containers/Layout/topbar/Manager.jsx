@@ -21,13 +21,13 @@ const LINKS = [
   { to: "/manager/invite-participant", text: "Invite New Participant" },
   { to: "/manager/referral", text: "Referral Administrator" },
   { to: "/manager/manage-account", text: "Manage Account" },
-  { to: "/manager/team", text: "Team" },
-  { to: "/manager/referral_tools", text: "Referral Widget" },
+  { to: "/manager/team", text: "Team" }
 ];
 
 const ManagerTopbar = ({ template, program }) => {
   // console.log(template)
   const [isOpen, setOpen] = useState(false);
+  const [menuItems, setMenuItems] = useState(LINKS);
   const toggleNavbar = () => {
     setOpen((prev) => !prev);
   };
@@ -44,6 +44,16 @@ const ManagerTopbar = ({ template, program }) => {
       setOpen(false);
     }
   };
+  useEffect( () => {
+    if( program?.id ) {
+        let newItems = [...LINKS];
+        if( program.enable_referrals )(
+          newItems.push({ to: "/manager/referral_tools", text: "Referral Widget" })
+        )
+        setMenuItems(newItems)
+    }
+}, [program])
+
   if (!template) return "loading";
   // if (!template) return t("loading");
   const Brand = `${process.env.REACT_APP_API_STORAGE_URL}/${template.small_logo}`;
@@ -66,6 +76,8 @@ const ManagerTopbar = ({ template, program }) => {
                   style={{ flexWrap: "nowrap" }}
                 >
                   {LINKS.map((item, index) => {
+                <Nav className="horizontal" navbar style={{ flexWrap: "nowrap" }}>
+                  {menuItems.map((item, index) => {
                     return (
                       <NavLink
                         key={index}

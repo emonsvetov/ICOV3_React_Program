@@ -96,20 +96,20 @@ const ReferralTools = ({ auth, program, organization, domain }) => {
   if (!auth || !program || !organization) return "loading";
 
   return (
-    <div className="referral_tools">
+    <div className="referral_tools mb-5">
       <Container>
-        <div className="mt-4 d-flex justify-content-between" style={{ marginLeft: '8%' }}>
-          <div className="referrals-info-col-left scale-down-target-70">
+        <div className="referrals-info mt-4">
+          <div className="referrals-info-col-left">
             <div className="referrals-info-1">Referral Widget</div>
             <div className="referrals-info-2">
               Getting referrals, new leads, and positive feedback has never been easier. The 5 tools below can be quickly and easily added to your website, emails, social media feeds, print, and more to request referrals, encourage feedback, and attract new leads.
             </div>
           </div>
-          <div className="referrals-info-col-right scale-down-target-70">
+          <div className="referrals-info-col-right">
             <Img src={ReferralWidgetImg} className="referral_widget" />
           </div>
         </div>
-        <ul className="referral-list scale-down-target-70">
+        <ul className="referral-list">
           <li className="referral-list-li li-1">
             <div className="number-circle">1</div>
             <div className="referral-list-item">
