@@ -255,8 +255,8 @@ const LogInForm = () => {
               //   // alert('Is Participant');
               //   setIsParticipant(true)
               // }
-              setAccessToken(res.data.access_token) 
-              setOrganization(res.data.user.organization)
+              setAccessToken(res.data.access_token)
+              // setOrganization(res.data.user.organization)
               setUser(res.data.user)
               setProgramRoles(res.data.user.programRoles)
               // var t = setTimeout(window.location = '/participant/home', 500)
