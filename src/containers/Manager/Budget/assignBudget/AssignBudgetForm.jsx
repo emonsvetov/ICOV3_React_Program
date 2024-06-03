@@ -63,6 +63,7 @@ const AssignBudgetForm = ({
     let data = {};
     data.budget_id = budgetId;
     data.budget_type = budgetProgram?.budget_types?.id;
+    data.remaining_amount = remainingAmount;
     if (remainingAmount < 0) {
       alert("remaining amount cannot be less than as given available amount");
       return;
@@ -75,6 +76,7 @@ const AssignBudgetForm = ({
     } else {
       data.budget_amount = unpatchBudgetCascadingData(formData);
     }
+    console.log(data);
     let url = `/organization/${organization?.id}/program/${program?.id}/budgetprogram/${budgetId}/assign`;
     axios
       .post(url, data)

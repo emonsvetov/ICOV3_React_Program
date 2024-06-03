@@ -65,7 +65,7 @@ const BudgetSetupInfoModal = ({
         setBudgetProgram(res);
         setBudgetType(labelizeNamedData([res.budget_types], ["id", "title"]));
         setBudgetStartDate(new Date(res.budget_start_date));
-        setBudgetEndDate(new Date(res.budget_start_date));
+        setBudgetEndDate(new Date(res.budget_end_date));
         setLoading(false);
         if (res.status == 0) {
           setBudgetStatus(false);
