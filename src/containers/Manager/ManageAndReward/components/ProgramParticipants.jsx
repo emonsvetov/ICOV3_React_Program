@@ -29,6 +29,7 @@ import { useTranslation } from "react-i18next";
 import { inArray } from "@/shared/helpers";
 import useCallbackState from "@/shared/useCallbackState";
 import { useNavigate } from "react-router-dom";
+import getCsvImportTypeOptions from '@/services/getCsvImportTypeOptions'
 
 const collectEmails = (users) => {
   let emails = [];
@@ -168,10 +169,23 @@ const ProgramParticipants = ({ program, organization }) => {
   const [actionsArray, setActionsArray] = useState(ACTIONS);
   const [bulkActionsArray, setBulkActionsArray] = useState(BULK_ACTIONS);
   const [isOpenToggle, setIsOpenToggle] = useState(false);
+  const [importtypeExists, setImporttypeExists] = useState(false);
 
   const toggleStatus = () =>{
     setStatuses(() => filter.status, setIsOpenToggle(!isOpenToggle));
-  } 
+  }
+
+  useEffect( () => {
+    if( program?.id ) {
+      console.log("Fetch IMport")
+      getCsvImportTypeOptions(program.organization_id, program.id, {checkOnly:1})
+      .then( res => {
+        if(res?.exists && res.exists) {
+          setImporttypeExists(true)
+        }
+      })
+    }
+  },[program])
 
   const handleApply = (event) =>{
     // event.stopPropagation()
@@ -524,12 +538,12 @@ const ProgramParticipants = ({ program, organization }) => {
             <ActionsDropdown />
             <EntriesDropdown />
             <StatusDropdown />
-            <Button
+            {importtypeExists && <Button
               color="primary"
               onClick={() => navigate("/manager/csv-import")}
             >
               Import
-            </Button>
+            </Button>}
           </div>
           <TableFilter filter={filter} setFilter={setFilter} config={{status: true}}/>
         </div>
