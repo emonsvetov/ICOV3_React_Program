@@ -45,15 +45,37 @@ export function hasUserPermissions(userPermissions, requiredPermissions) {
     );
   }
 }
-export function getDateFormat(value) {
+export function getDateFormat(value, budgetTypes) {
   const dateObject = new Date(value);
-  const month = (dateObject.getMonth() + 1).toString().padStart(2, "0");
-  const day = (dateObject.getMonth() + 1).toString().padStart(2, "0");
+  const month = String(dateObject.getMonth() + 1)
+    .toString()
+    .padStart(2, "0");
   const year = dateObject.getFullYear();
-  // let date = new Date(value).toISOString().slice(0,10)
-  return `${year}-${month}-${day}`;
+  const day = String(value.getDate()).padStart(2, "0");
+  if (
+    budgetTypes.label == "Monthly" ||
+    budgetTypes.label === "Monthly Rollover"
+  ) {
+    return `${year}-${month}-01`;
+  } else {
+    return `${year}-${month}-${day}`;
+  }
 }
 
+export const getEndOfMonth = (inputDate, budgetTypes) => {
+  if (
+    budgetTypes.label === "Monthly" ||
+    budgetTypes.label === "Monthly Rollover"
+  ) {
+    const date = new Date(inputDate);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const endOfMonthDate = new Date(year, month, 1);
+    return endOfMonthDate.toISOString().split("T")[0];
+  } else {
+    return inputDate.toISOString().slice(0, 10);
+  }
+};
 export function showFormatDate({ row, value }) {
   if (
     row.original.budget_types.name == "monthly" ||

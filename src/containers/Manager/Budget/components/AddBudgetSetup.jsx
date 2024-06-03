@@ -3,7 +3,11 @@ import CloseIcon from "mdi-react/CloseIcon";
 import { Form } from "react-final-form";
 import BudgetSetupForm from "./BudgetSetupForm";
 import { Modal } from "reactstrap";
-import { getBudgetTypes, getDateFormat } from "@/services/program/budget";
+import {
+  getBudgetTypes,
+  getDateFormat,
+  getEndOfMonth,
+} from "@/services/program/budget";
 import { labelizeNamedData } from "@/shared/helpers";
 import axios from "axios";
 import {
@@ -70,13 +74,15 @@ const AddBudgetSetupModal = ({ program, isOpen, setOpen, toggle }) => {
 
   const onSubmit = (values) => {
     values.budget_type_id = budgetType.value;
-    // if (budgetStartDate && budgetEndDate ) {
-    //   alert("Start date cannot be greater than end date.");
-    //   return;
-    // }
-
-    values.budget_start_date = getDateFormat(budgetStartDate);
-    values.budget_end_date = budgetEndDate.toISOString().slice(0, 10);
+    values.budget_start_date = getDateFormat(budgetStartDate, budgetType);
+    values.budget_end_date = getEndOfMonth(budgetEndDate, budgetType);
+    if (
+      new Date(budgetStartDate) > new Date(budgetEndDate) ||
+      new Date(budgetStartDate).getTime() == new Date(budgetEndDate).getTime()
+    ) {
+      alert("Start date cannot be greater than or Equal to End date.");
+      return;
+    }
     axios
       .post(
         `organization/${program.organization_id}/program/${program.id}/budgetprogram`,
