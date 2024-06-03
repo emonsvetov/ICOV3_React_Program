@@ -46,62 +46,70 @@ const Budget = ({ program, organization, auth }) => {
     if (name) setModalName(name);
     setOpen((prevState) => !prevState);
   };
+
   if (isLoading) return "Loading...";
-  if (auth?.positionLevel && assignedPermissions) {
-    return (
-      <>
-        {
-          <>
-            <Row className="mt-4">
-              <Col md={10}>
-                <div
-                  className="my-3 d-flex justify-content-between"
-                  style={{ color: "white" }}
-                >
-                  <h3>Budgets list</h3>
-                  {hasUserPermissions(assignedPermissions, [
-                    "Budget Setup Create",
-                  ]) && (
-                    <Button
-                      onClick={() => toggle("AddBudgetSetup")}
-                      className="btn btn-primary"
-                      color="ffff"
-                    >
-                      Create New Setup
-                    </Button>
-                  )}
-                </div>
-              </Col>
-            </Row>
-            <div
-              className="d-flex program-select my-3 p-2 rounded text-white"
-              style={{ backgroundColor: "#3386F9" }}
-            >
-              <SelectProgram showRefresh={false} />
+
+  return (
+    <>
+      {assignedPermissions.length > 0 ? (
+        <>
+          {
+            <>
+              <Row className="mt-4">
+                <Col md={10}>
+                  <div
+                    className="my-3 d-flex justify-content-between"
+                    style={{ color: "white" }}
+                  >
+                    <h3>Budgets list</h3>
+                    {hasUserPermissions(assignedPermissions, [
+                      "Budget Setup Create",
+                    ]) && (
+                      <Button
+                        onClick={() => toggle("AddBudgetSetup")}
+                        className="btn btn-primary"
+                        color="ffff"
+                      >
+                        Create New Setup
+                      </Button>
+                    )}
+                  </div>
+                </Col>
+              </Row>
+              <div
+                className="d-flex program-select my-3 p-2 rounded text-white"
+                style={{ backgroundColor: "#3386F9" }}
+              >
+                <SelectProgram showRefresh={false} />
+              </div>
+            </>
+          }
+          {hasUserPermissions(assignedPermissions, ["Budget Read"]) ? (
+            <div className="bg-white m-2 p-3 rounded">
+              <div className="points-summary-table">
+                <BudgetTable
+                  program={program}
+                  organization={organization}
+                  assignedPermissions={assignedPermissions}
+                  {...props}
+                  toggle={toggle}
+                />
+              </div>
             </div>
-          </>
-        }
-        {hasUserPermissions(assignedPermissions, ["Budget Read"]) ? (
-          <div className="bg-white m-2 p-3 rounded">
-            <div className="points-summary-table">
-              <BudgetTable
-                program={program}
-                organization={organization}
-                assignedPermissions={assignedPermissions}
-                {...props}
-                toggle={toggle}
-              />
+          ) : (
+            <div style={{ padding: "20px 0px", color: "white" }}>
+              <p>No permissions to read Budget...</p>
             </div>
-          </div>
-        ) : (
-          <div style={{ padding: "20px 0px", color: "white" }}>
-            <p>No permissions to read Budget...</p>
-          </div>
-        )}
-        <ModalWrapper {...props} toggle={toggle} />
-      </>
-    );
-  }
+          )}
+          <ModalWrapper {...props} toggle={toggle} />
+        </>
+      ) : (
+        <div style={{ padding: "20px 0px", color: "white" }}>
+          <p>Manager has no permissions for Budget...</p>
+        </div>
+      )}
+    </>
+  );
 };
 
 const mapStateToProps = (state) => {

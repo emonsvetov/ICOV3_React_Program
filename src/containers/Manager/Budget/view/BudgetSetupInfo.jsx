@@ -17,6 +17,7 @@ import {
   getBudgetProgram,
   getDateFormat,
   hasUserPermissions,
+  getEndOfMonth,
 } from "@/services/program/budget";
 
 const BudgetSetupInfoModal = ({
@@ -129,8 +130,8 @@ const BudgetSetupInfoModal = ({
       values.budget_type_id = budgetType.value;
     }
     let actualBudget = budgetProgram?.budget_amount;
-    values.budget_start_date = getDateFormat(budgetStartDate);
-    values.budget_end_date = getDateFormat(budgetEndDate);
+    values.budget_start_date = getDateFormat(budgetStartDate, budgetType);
+    values.budget_end_date = getEndOfMonth(budgetEndDate, budgetType);
     let newBudget = Math.abs(values.budget_amount - actualBudget);
 
     if (newBudget > 0 && budgetProgram?.budget_amount < values.budget_amount) {
