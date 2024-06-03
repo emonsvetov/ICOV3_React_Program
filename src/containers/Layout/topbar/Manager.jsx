@@ -31,10 +31,10 @@ const ManagerTopbar = ({ template, program }) => {
   const toggleNavbar = () => {
     setOpen((prev) => !prev);
   };
-  let linkBuilt = LINKS.some((link) => link.to === "/manager/budget");
 
   useEffect(() => {
-    if (program?.use_budget_cascading > 0 && !linkBuilt) {
+    let linkBuilt = LINKS.some((link) => link.to == "/manager/budget");
+    if (program?.use_budget_cascading && !linkBuilt) {
       LINKS.push({ to: "/manager/budget", text: "Budget" });
     }
   }, [program]);
@@ -57,7 +57,6 @@ const ManagerTopbar = ({ template, program }) => {
   if (!template) return "loading";
   // if (!template) return t("loading");
   const Brand = `${process.env.REACT_APP_API_STORAGE_URL}/${template.small_logo}`;
-
   return (
     <div className="topbar">
       <Container fluid className="topbar__wrapper">
@@ -70,21 +69,10 @@ const ManagerTopbar = ({ template, program }) => {
             </div>
             <div className="topbar__right navbar-profilewrap">
               <Collapse isOpen={isOpen} navbar>
-                <Nav
-                  className="horizontal"
-                  navbar
-                  style={{ flexWrap: "nowrap" }}
-                >
-                  {LINKS.map((item, index) => {
                 <Nav className="horizontal" navbar style={{ flexWrap: "nowrap" }}>
-                  {menuItems.map((item, index) => {
+                  {menuItems?.map((item, index) => {
                     return (
-                      <NavLink
-                        key={index}
-                        onClick={onClickNavLink}
-                        to={item.to}
-                        className="link"
-                      >
+                      <NavLink key={index} onClick={onClickNavLink} to={item.to} className="link">
                         {item.text}
                       </NavLink>
                     );
