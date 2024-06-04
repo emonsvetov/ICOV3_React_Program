@@ -137,43 +137,37 @@ export const getBudgetCascadings = async (oId, pId, bId) => {
   return response;
 };
 
+function getMonthsWithAmount(start_date, end_date, amount) {
+  let actualMonth = months.slice(
+    new Date(start_date).getMonth(),
+    new Date(end_date).getMonth() + 1
+  );
+  return {...actualMonth, amount };
+}
+
 export function patchBudgetCascadingData(
-  programs,
   budgetCascadingProgram,
   isBudgetMonthly
 ) {
-  if (programs && budgetCascadingProgram) {
-    return programs?.map((program) => {
-      let budgetCascadingData = budgetCascadingProgram?.find(
-        (budgetCascading) => budgetCascading.program_id == program.id
-      );
-      if (isBudgetMonthly) {
-        if (budgetCascadingData) {
-          let month = findAssignedMonth(
-            budgetCascadingData?.budget_start_date,
-            budgetCascadingData?.budget_end_date
-          );
+  if (budgetCascadingProgram) {
+    let result = [];
+    budgetCascadingProgram?.map((budgetCascading) => {
+      let data = {
+        ...budgetCascading,
+        budget_data: budgetCascading?.budgets_cascading?.map((budget) => {
           return {
-            ...program,
-            budget_cascading_id: budgetCascadingData.id,
-            amount: budgetCascadingData.budget_amount,
-            month: month,
+            budgets_cascading_id: budget.id,
+            months: getMonthsWithAmount(
+              budget?.budget_start_date,
+              budget?.budget_end_date,
+              budget?.budget_amount
+            ),
           };
-        }
-        return program;
-      } else {
-        if (budgetCascadingData) {
-          return {
-            ...program,
-            budget_cascading_id: budgetCascadingData.id,
-            amount: budgetCascadingData.budget_amount,
-            budget_start_date: budgetCascadingData?.budget_start_date,
-            budget_end_date: budgetCascadingData?.budget_end_date,
-          };
-        }
-        return program;
-      }
+        }),
+      };
+      result.push(data);
     });
+    return result;
   }
 }
 

@@ -46,19 +46,17 @@ const AssignBudgetForm = ({
   }, [budgetProgram]);
 
   useEffect(() => {
-    if (programs && budgetCascadingPrograms) {
+    if (budgetCascadingPrograms) {
       setLoading(true);
       setAssignBudgetProgram(
         patchBudgetCascadingData(
-          programs,
           budgetCascadingPrograms,
           isBudgetMonthly,
-          budgetProgram
         )
       );
       setLoading(false);
     }
-  }, [programs, budgetCascadingPrograms]);
+  }, [budgetCascadingPrograms]);
 
   const onSubmit = (values) => {
     let data = {};
@@ -78,29 +76,30 @@ const AssignBudgetForm = ({
       data.budget_amount = unpatchBudgetCascadingData(formData);
     }
     console.log(data);
-    // let url = `/organization/${organization?.id}/program/${program?.id}/budgetprogram/${budgetId}/assign`;
-    // axios
-    //   .post(url, data)
-    //   .then((res) => {
-    //     if (res.status === 200) {
-    //       flashSuccess(dispatch, "Budget assigned successfully");
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     if (err) {
-    //       flashError(dispatch, err);
-    //     }
-    //   });
+    let url = `/organization/${organization?.id}/program/${program?.id}/budgetprogram/${budgetId}/assign`;
+    axios
+      .post(url, data)
+      .then((res) => {
+        if (res.status === 200) {
+          flashSuccess(dispatch, "Budget assigned successfully");
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          flashError(dispatch, err);
+        }
+      });
   };
 
   const flattenInitialValues = (initialValues) => {
     const flattened = {};
     if (isBudgetMonthly) {
-      initialValues?.forEach((program) => {
-        program?.month?.forEach((m) => {
-          flattened[`${program.id}-${m}`] = program.amount;
+      initialValues?.forEach((program) => {  
+        program?.budget_data?.forEach((m,index) => {
+          flattened[`${program.id}-${m.months[index]}`] = m.months?.amount;
         });
       });
+      console.log(flattened);
       return flattened;
     } else {
       initialValues?.map((program) => {

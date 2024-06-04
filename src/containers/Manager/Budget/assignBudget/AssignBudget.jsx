@@ -61,7 +61,9 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
   useEffect(() => {
     if (organization?.id && rootProgram?.id && budgetId) {
       getBudgetCascadings(organization?.id, rootProgram?.id, budgetId)
-        .then((res) => setBudgetCascadingProgram(res.data))
+        .then((res) => {
+          res?.data?.flatMap((program) => setBudgetCascadingProgram([program,...program.children]));
+        })
         .catch((err) => console.log(err));
     }
   }, [organization, rootProgram, budgetId]);
