@@ -115,7 +115,7 @@ const MerchantRedemptionFilter = (
       }
     }
     if (options.year) {
-      if (finalFilter.year.value !== values.year.value) {
+      if (finalFilter.year.value? finalFilter.year.value !== values.year.value : finalFilter.year !== values.year.value) {
         change = true
       }
     }
