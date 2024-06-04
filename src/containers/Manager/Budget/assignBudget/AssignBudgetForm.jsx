@@ -52,7 +52,8 @@ const AssignBudgetForm = ({
         patchBudgetCascadingData(
           programs,
           budgetCascadingPrograms,
-          isBudgetMonthly
+          isBudgetMonthly,
+          budgetProgram
         )
       );
       setLoading(false);
@@ -77,19 +78,19 @@ const AssignBudgetForm = ({
       data.budget_amount = unpatchBudgetCascadingData(formData);
     }
     console.log(data);
-    let url = `/organization/${organization?.id}/program/${program?.id}/budgetprogram/${budgetId}/assign`;
-    axios
-      .post(url, data)
-      .then((res) => {
-        if (res.status === 200) {
-          flashSuccess(dispatch, "Budget assigned successfully");
-        }
-      })
-      .catch((err) => {
-        if (err) {
-          flashError(dispatch, err);
-        }
-      });
+    // let url = `/organization/${organization?.id}/program/${program?.id}/budgetprogram/${budgetId}/assign`;
+    // axios
+    //   .post(url, data)
+    //   .then((res) => {
+    //     if (res.status === 200) {
+    //       flashSuccess(dispatch, "Budget assigned successfully");
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     if (err) {
+    //       flashError(dispatch, err);
+    //     }
+    //   });
   };
 
   const flattenInitialValues = (initialValues) => {
@@ -110,10 +111,11 @@ const AssignBudgetForm = ({
   };
 
   const initialValues = flattenInitialValues(assignBudgetPrograms);
+
   if (loading) return <div>Loading...</div>;
-  if (programs && assignBudgetPrograms) {
-    return (
-      <>
+  return (
+    <>
+      {programs && assignBudgetPrograms ? (
         <Form onSubmit={onSubmit} initialValues={initialValues}>
           {({ handleSubmit, form, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit}>
@@ -232,9 +234,11 @@ const AssignBudgetForm = ({
             </form>
           )}
         </Form>
-      </>
-    );
-  }
+      ) : (
+        <p>Loading..</p>
+      )}
+    </>
+  );
 };
 
 export default AssignBudgetForm;
