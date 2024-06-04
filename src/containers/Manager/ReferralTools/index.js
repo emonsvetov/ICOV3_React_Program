@@ -37,6 +37,18 @@ const ReferralTools = ({ auth, program, organization, domain }) => {
     }
   }, [domain, program]);
 
+  const handleCreate = () => {
+    const subject = encodeURIComponent(' Referrals are Appreciated and Rewarded!');
+    const body = encodeURIComponent(`Hi {First Name} {Last Name},`) + '%0D%0A%0D%0A' +
+    encodeURIComponent(`Click on the link below to earn valuable rewards for submitting referrals, giving feedback, or requesting information!`) + '%0D%0A' +
+    encodeURIComponent(`Regards,`) + '%0D%0A' +
+    encodeURIComponent(`{Your Name}`) + '%0D%0A%0D%0A' +
+    encodeURIComponent(`${widgetLink}`);
+    
+    const mailtoLink = `mailto:?subject=${subject}&body=${body}`;
+    window.open(mailtoLink, '_blank');
+  };
+
   const handleImageCopy = async(ref) =>{
     try {
       const canvas = document.createElement('canvas');
@@ -134,7 +146,7 @@ const ReferralTools = ({ auth, program, organization, domain }) => {
                   <div className="referral-resource" style={{ textAlign: 'center' }}></div>
                 </div>
                 <div className="referral-column referral-button-column d-flex align-items-center">
-                  <TemplateButton className="referral-copy" onClick={() => { }} text="CREATE" />
+                  <TemplateButton className="referral-copy" onClick={handleCreate} text="CREATE" />
                 </div>
                 <div className="referral-column">
                   <div className="youtube-icon d-flex align-items-center justify-content-center" onClick={() => handleVideoClick('UvsNkg0JwAc?rel=0')} tooltip="Click here to for a tutorial">
