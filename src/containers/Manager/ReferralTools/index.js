@@ -222,7 +222,7 @@ const ReferralTools = ({ auth, program, organization, domain }) => {
                 </div>
                 <div className="referral-column">
                   <div className="referral-resource-icon">
-                    <QRCode value="https://www.example.com" ref={qrCodeRef} size={128} style={{ margin: '10px' }} />
+                    <QRCode value={`https://${domain?.domain?.name}/ref-participants/program/${program.id}`} ref={qrCodeRef} size={128} style={{ margin: '10px' }} />
                   </div>
                   <div className="referral-resource" style={{ textAlign: 'center' }}></div>
                   <div className="referral-resource" style={{ textAlign: 'center' }}></div>
