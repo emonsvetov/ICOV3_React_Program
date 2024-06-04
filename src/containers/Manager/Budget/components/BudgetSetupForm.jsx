@@ -29,8 +29,6 @@ const BudgetSetupForm = ({
   }, [budgetType]);
 
   function handleDateFormat(Btype) {
-    // setBudgetStartDate(new Date());
-    // setBudgetEndDate(new Date());
     if (Btype.label === "Monthly") {
       setDateformat("MMMM/yyyy");
     } else if (Btype.label === "Monthly Rollover") {
@@ -64,7 +62,8 @@ const BudgetSetupForm = ({
       setBudgetStartDate(date);
     } else if (date && budgetType.label === "Yearly") {
       setBudgetStartDate(date);
-      setBudgetEndDate(new Date(date.getFullYear(), 11, 31));
+      let year = date.getFullYear();
+      setBudgetEndDate(new Date(year, 11, 31));
     } else {
       setBudgetStartDate(date);
     }
@@ -138,7 +137,6 @@ const BudgetSetupForm = ({
                   <div className="d-flex gap-1">
                     <Label>*Budget Start Date : </Label>
                     <DatePicker
-                      style={{ color: "blue" }}
                       dateFormat={dateFormat}
                       selected={budgetStartDate}
                       onChange={onStartChange}

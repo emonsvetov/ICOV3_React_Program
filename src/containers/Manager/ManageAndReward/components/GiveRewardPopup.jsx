@@ -35,6 +35,7 @@ const DEFAULT_MSG_PARTICIPANT =
 //   'Bobrowski Robert'
 // ]
 const GiveRewardPopup = ({
+  setRefreshUsers,
   isOpen,
   setOpen,
   toggle,
@@ -108,6 +109,7 @@ const GiveRewardPopup = ({
           for (const checkbox of document.querySelectorAll('.points-summary-table input[type="checkbox"]')) {
             checkbox.checked = false;
           }
+          setRefreshUsers(true);
         }
       })
       .catch((err) => {

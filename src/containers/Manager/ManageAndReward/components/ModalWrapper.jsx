@@ -15,6 +15,7 @@ const MainModalWrapper = ({
   organization,
   program,
   name,
+  setRefreshUsers,
   isOpen,
   setOpen,
   toggle,
@@ -24,6 +25,7 @@ const MainModalWrapper = ({
 }) => {
   const { t } = useTranslation();
   const props = {
+    setRefreshUsers,
     isOpen,
     setOpen,
     toggle,

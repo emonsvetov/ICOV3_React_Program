@@ -21,20 +21,21 @@ const LINKS = [
   { to: "/manager/invite-participant", text: "Invite New Participant" },
   { to: "/manager/referral", text: "Referral Administrator" },
   { to: "/manager/manage-account", text: "Manage Account" },
-  { to: "/manager/team", text: "Team" },
+  { to: "/manager/team", text: "Team" }
 ];
 
 const ManagerTopbar = ({ template, program }) => {
   // console.log(template)
   const [isOpen, setOpen] = useState(false);
+  const [menuItems, setMenuItems] = useState(LINKS);
   const toggleNavbar = () => {
     setOpen((prev) => !prev);
   };
-  let linkBuilt = LINKS.some((link) => link.to === "/manager/budget/view");
 
   useEffect(() => {
-    if (program?.use_budget_cascading > 0 && !linkBuilt) {
-      LINKS.push({ to: "/manager/budget/view", text: "Budget" });
+    let linkBuilt = LINKS.some((link) => link.to == "/manager/budget");
+    if (program?.use_budget_cascading && !linkBuilt) {
+      LINKS.push({ to: "/manager/budget", text: "Budget" });
     }
   }, [program]);
 
@@ -43,10 +44,19 @@ const ManagerTopbar = ({ template, program }) => {
       setOpen(false);
     }
   };
+  useEffect( () => {
+    if( program?.id ) {
+        let newItems = [...LINKS];
+        if( program.enable_referrals )(
+          newItems.push({ to: "/manager/referral_tools", text: "Referral Widget" })
+        )
+        setMenuItems(newItems)
+    }
+}, [program])
+
   if (!template) return "loading";
   // if (!template) return t("loading");
   const Brand = `${process.env.REACT_APP_API_STORAGE_URL}/${template.small_logo}`;
-
   return (
     <div className="topbar">
       <Container fluid className="topbar__wrapper">
@@ -59,19 +69,10 @@ const ManagerTopbar = ({ template, program }) => {
             </div>
             <div className="topbar__right navbar-profilewrap">
               <Collapse isOpen={isOpen} navbar>
-                <Nav
-                  className="horizontal"
-                  navbar
-                  style={{ flexWrap: "nowrap" }}
-                >
-                  {LINKS.map((item, index) => {
+                <Nav className="horizontal" navbar style={{ flexWrap: "nowrap" }}>
+                  {menuItems?.map((item, index) => {
                     return (
-                      <NavLink
-                        key={index}
-                        onClick={onClickNavLink}
-                        to={item.to}
-                        className="link"
-                      >
+                      <NavLink key={index} onClick={onClickNavLink} to={item.to} className="link">
                         {item.text}
                       </NavLink>
                     );

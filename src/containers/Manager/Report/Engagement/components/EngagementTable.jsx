@@ -27,7 +27,6 @@ const DataTable = ({organization, program, programs}) => {
   const [filter, setFilter] = useState({
     programs: programs,
     createdOnly: false,
-    reportKey: 'sku_value',
     programId: program.id,
     from: dateStrToYmd(getFirstDay()),
     to: dateStrToYmd(new Date())
@@ -112,7 +111,7 @@ const DataTable = ({organization, program, programs}) => {
     state: {pageIndex, pageSize, sortBy}
   } = useTable({
       columns: columns,
-      data: data ? Object.values(data.results.data) : [],
+      data: data ? Object.values(data.results) : [],
       initialState: {
         pageIndex: queryPageIndex,
         pageSize: queryPageSize,

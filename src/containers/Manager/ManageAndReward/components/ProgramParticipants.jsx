@@ -157,6 +157,7 @@ const ProgramParticipants = ({ program, organization }) => {
   const [modalName, setModalName] = useState(null);
   const [isOpen, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [refreshUsers, setRefreshUsers] = useState(false);
   const [users, setUsers] = useState(null);
   const [action, setAction] = useState("");
   const [queryPageSize, setQueryPageSize] = useState(QUERY_PAGE_SIZE);
@@ -314,6 +315,7 @@ const ProgramParticipants = ({ program, organization }) => {
       initialState: {
         pageIndex: 0,
         pageSize: queryPageSize,
+        hiddenColumns: !program.uses_peer2peer ? ["peerBalance"] : []
       },
       manualPagination: true, // Tell the usePagination
       pageCount: Math.ceil(users?.count / queryPageSize),
@@ -363,6 +365,13 @@ const ProgramParticipants = ({ program, organization }) => {
       });
     return () => (mounted = false);
   }, [getUsers, setLoading, setUsers, pageIndex, queryPageSize, filter]);
+
+  useEffect(() => {
+    if ( refreshUsers ) {
+      setRefreshUsers(false);
+      setFilter({ keyword: filter.keyword, status: defaultStatus });
+    }
+  }, [refreshUsers]);
 
   const manualPageSize = [];
 
@@ -549,6 +558,7 @@ const ProgramParticipants = ({ program, organization }) => {
       </div>
       <ModalWrapper
         name={modalName}
+        setRefreshUsers={setRefreshUsers}
         isOpen={isOpen}
         setOpen={setOpen}
         toggle={toggle}

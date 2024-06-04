@@ -43,6 +43,7 @@ const MyPoints = ({ dispatch, auth, program, template, myPoints, pointBalance })
   }, [auth, program])
 
   if( !myPoints ) return 'loading...'
+  if( !pointBalance ) return 'loading...'
 
   // console.log(myPoints)
 

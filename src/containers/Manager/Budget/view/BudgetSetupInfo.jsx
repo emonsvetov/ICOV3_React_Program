@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "reactstrap";
-import { Form, Field } from "react-final-form";
+import { Form } from "react-final-form";
 import { useNavigate } from "react-router-dom";
 import CloseIcon from "mdi-react/CloseIcon";
 import { Modal } from "reactstrap";
@@ -13,10 +13,11 @@ import {
 import { labelizeNamedData } from "@/shared/helpers";
 import BudgetSetupForm from "../components/BudgetSetupForm";
 import {
-  getBudgetType,
+  getBudgetTypes,
   getBudgetProgram,
   getDateFormat,
   hasUserPermissions,
+  getEndOfMonth,
 } from "@/services/program/budget";
 
 const BudgetSetupInfoModal = ({
@@ -64,12 +65,12 @@ const BudgetSetupInfoModal = ({
         setBudgetProgram(res);
         setBudgetType(labelizeNamedData([res.budget_types], ["id", "title"]));
         setBudgetStartDate(new Date(res.budget_start_date));
-        setBudgetEndDate(new Date(res.budget_start_date));
+        setBudgetEndDate(new Date(res.budget_end_date));
         setLoading(false);
         if (res.status == 0) {
           setBudgetStatus(false);
         }
-        if (res.budget_types.title === "Yearly") {
+        if (res.budget_types.name === "yearly") {
           setDisable(false);
           setEndDateHide(true);
           setDateformat("yyyy");
@@ -77,7 +78,7 @@ const BudgetSetupInfoModal = ({
           setDateformat("MMMM/yyyy");
         }
       });
-      getBudgetType(program.organization_id, program.id).then((res) => {
+      getBudgetTypes(program.organization_id, program.id).then((res) => {
         setBudgetTypeOptions(labelizeNamedData(res, ["id", "title"]));
       });
     }
@@ -128,10 +129,25 @@ const BudgetSetupInfoModal = ({
     } else {
       values.budget_type_id = budgetType.value;
     }
-    values.budget_start_date = getDateFormat(budgetStartDate);
-    values.budget_end_date = getDateFormat(budgetEndDate);
-    values.remaining_amount	 = values.amount
-    console.log(values);
+    let actualBudget = budgetProgram?.budget_amount;
+    values.budget_start_date = getDateFormat(budgetStartDate, budgetType);
+    values.budget_end_date = getEndOfMonth(budgetEndDate, budgetType);
+    let newBudget = Math.abs(values.budget_amount - actualBudget);
+
+    if (newBudget > 0 && budgetProgram?.budget_amount < values.budget_amount) {
+      values.remaining_amount = budgetProgram?.remaining_amount + newBudget;
+    } else if (
+      values.budget_amount > budgetProgram?.budget_amount ||
+      values.budget_amount < budgetProgram?.budget_amount
+    ) {
+      let newRemainingamount = budgetProgram?.remaining_amount - newBudget;
+      if (newRemainingamount < 0) {
+        alert("Remaining amount can not be negative");
+        return;
+      } else {
+        values.remaining_amount = newRemainingamount;
+      }
+    }
     axios
       .put(
         `/organization/${organization.id}/program/${program.id}/budgetprogram/${id}`,

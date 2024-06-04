@@ -51,8 +51,8 @@ import ProgramRules from "../Participant/ProgramRules";
 import Feeling from "../Participant/Feeling";
 import LeaderboardPage from "../Participant/leaderboards/index";
 import Budget from "../Manager/Budget"
-import BudgetView from "../Manager/Budget/view/Budget"
-import ManageBudget from "../Manager/Budget/manageBudget/ManageBudget";
+import BudgetPrograms from "../Manager/Budget/view/Budget"
+import ManageBudget from "../Manager/Budget/assignBudget/AssignBudget";
 //manager
 
 import {
@@ -93,6 +93,8 @@ import PageNotFound from "./404Error/PageNotFound";
 import UserNotFound from "@/containers/App/404Error/UserNotFound";
 import CsvImport from "../Manager/CsvImport";
 import ManagerViewInvoice from "../Manager/ManageAccount/components/ViewInvoice";
+import ReferralTools from "../Manager/ReferralTools";
+import RefParticipants from "../Manager/RefParticipants";
 
 // import { Train } from "@material-ui/icons";
 
@@ -134,6 +136,7 @@ const RouteIndex = () => (
         <Route path="about" element={<About />} />
         <Route path="privacy" element={<Privacy />} />
         <Route path="tnc" element={<TnC />} />
+        <Route path="ref-participants/program/:programId" element={<RefParticipants />} />
       </Route>
       <Route path="/" element={<PrivateRoute />}>
         <Route path="participant" element={<ParticipantLayout />}>
@@ -177,10 +180,9 @@ const RouteIndex = () => (
           <Route path="manage-account" element={<ManageAccount/>}>
           <Route path="invoice/:invoiceId" element={<ManagerViewInvoice/>}/>
           </Route>
-          <Route path="budget" element={<Budget />}>
-            <Route path="view" element={<BudgetView />} />
-            <Route path="manage-setup/:id" element={<ManageBudget />} />
-          </Route>
+          {/* <Route path="/" element={<BudgetPrograms />} /> */}
+          <Route path="budget" element={<Budget />}/>
+          <Route path="budget/manage-setup/:budgetId" element={<ManageBudget />} />
           <Route path="csv-import" element={<CsvImport/>}/>
           <Route path="referral" element={<Referral />} />
           <Route path="team" element={<Team />} />
@@ -196,7 +198,7 @@ const RouteIndex = () => (
             <Route path="program-status" element={<ProgramStatus />} />
 
             <Route path="annual-awards-summary" element={<AnnualAwardSummary />} />
-            {/* <Route path="referral-participant" element={<Engagement/>}/> */}
+            <Route path="referral-participant" element={<Engagement/>}/>
             <Route path="award-account-summary-gl" element={<AwardAccountSummaryGL />} />
             <Route path="award-detail" element={<AwardDetail />} />
             <Route path="award-summary" element={<AwardSummary />} />
@@ -221,6 +223,7 @@ const RouteIndex = () => (
               element={<GoalProgressSummary />}
             />
           </Route>
+          <Route path="referral_tools" element={<ReferralTools />} />
           <Route path="faqs" element={<Faqs />} />
           <Route path="about" element={<About />} />
           <Route path="privacy" element={<Privacy />} />

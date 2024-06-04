@@ -1,10 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row } from "reactstrap";
 import UploadBudgetTemplate from "./UploadBudgetTemplate";
 import TemplateButton from "@/shared/components/TemplateButton";
 
-const BudgetTemplate = () => {
-  const downloadBudgetTemplate = () => {};
+const BudgetTemplate = ({
+  organization,
+  program,
+  programs,
+  budgetProgramTemplate,
+  budgetCascadingPrograms,
+  isBudgetMonthly,
+}) => {
+  const [getCsvData, setCsvData] = useState(null);
+
+  useEffect(() => {
+    if (programs && budgetCascadingPrograms) {
+      //set template data here
+    }
+  }, [programs, budgetCascadingPrograms]);
+
+  const downloadAssignBudgetTemplate = () => {
+    // assigntemplatedownload(organization.id, program.id, budgetProgram.id)
+    //   .then((response) => {
+    //     console.log(response);
+    //     const url = window.URL.createObjectURL(new Blob([response.data]));
+    //     const link = document.createElement('a');
+    //     link.href = url;
+    //     link.setAttribute('download', `assign-budget-${program.id}.csv`); //or any other extension
+    //     document.body.appendChild(link);
+    //     link.click();
+    //   })
+    // console.log(getCsvData)
+    //downloadCSV(getCsvData, "data.csv");
+  };
 
   return (
     <div>
@@ -28,7 +56,7 @@ const BudgetTemplate = () => {
                 disabled={false}
                 type="button"
                 text={"Download"}
-                onClick={downloadBudgetTemplate}
+                onClick={() => downloadAssignBudgetTemplate()}
               />
             </Col>
           </Row>
