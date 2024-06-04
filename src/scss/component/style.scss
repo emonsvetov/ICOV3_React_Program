@@ -1630,6 +1630,7 @@ main.participant{
     margin-left: 70px;
     .youtube-icon{
         cursor: pointer;
+        display: none;
     }
 }
 
@@ -1642,7 +1643,7 @@ main.participant{
 .referral-social-share-container {
     margin-left: auto;
     position: absolute;
-    right:0;
+    right:15px;
     top: 40%;
     .social_share img{
         width: 48px;
@@ -1654,7 +1655,7 @@ main.participant{
 .referral-resource-icon {
     position: fixed;
     position: absolute;
-    right: 25%;
+    right: 10px;
     top: 50%;
     transform: translateY(-50%);
 }
