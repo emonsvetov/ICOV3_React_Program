@@ -6,10 +6,10 @@ import { Col, Container, Row } from "reactstrap";
 import TemplateButton from "@/shared/components/TemplateButton";
 import { Img } from '@/theme'
 import VideoModal from "./components/VideoModal";
+import QRCode from "react-qr-code";
 
 const ReferralWidgetImg = `img/pages/Referrals_Image.png`;
 const FEWidgetImg = `img/pages/FE_Widget.png`;
-const QRImg= `${process.env.PUBLIC_URL}/theme/clear/img/pages/qr.png`;
 
 const ReferralTools = ({ auth, program, organization, domain }) => {
   console.log(domain)
@@ -20,6 +20,7 @@ const ReferralTools = ({ auth, program, organization, domain }) => {
   const [widgetImgLink, setWidgetImgLink] = useState("");
   const imgRef1 = useRef(null);
   const imgRef2 = useRef(null);
+  const qrCodeRef = useRef(null);
 
   const handleVideoClick = (id) => {
     setVideoId(id);
@@ -36,6 +37,33 @@ const ReferralTools = ({ auth, program, organization, domain }) => {
       setWidgetImgLink(`https://${domain?.domain?.name}/theme/clear/img/pages/FE_Widget.png`)
     }
   }, [domain, program]);
+
+  const handleCreate = () => {
+    const subject = encodeURIComponent(' Referrals are Appreciated and Rewarded!');
+    const body = encodeURIComponent(`Hi {First Name} {Last Name},`) + '%0D%0A%0D%0A' +
+    encodeURIComponent(`Click on the link below to earn valuable rewards for submitting referrals, giving feedback, or requesting information!`) + '%0D%0A' +
+    encodeURIComponent(`Regards,`) + '%0D%0A' +
+    encodeURIComponent(`{Your Name}`) + '%0D%0A%0D%0A' +
+    encodeURIComponent(`${widgetLink}`);
+    
+    const mailtoLink = `mailto:?subject=${subject}&body=${body}`;
+    window.open(mailtoLink, '_blank');
+  };
+
+  const handleQRCopy = async() =>{
+    const canvas = qrCodeRef.current.querySelector('canvas');
+    const pngUrl = canvas
+      .toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+
+      const textArea = document.createElement('textarea');
+      textArea.value = pngUrl;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      window.alert("Image copied to clipboard (fallback method)!")
+  }
 
   const handleImageCopy = async(ref) =>{
     try {
@@ -119,25 +147,24 @@ const ReferralTools = ({ auth, program, organization, domain }) => {
                   <div className="referral-text">Click "create" to generate an email <br />with your unique referral link ready to use.<br />Click the widget icon to copy, allowing<br />you to paste it in your communications:</div>
                 </div>
                 <div className="referral-column" style={{cursor: 'pointer'}}>
-                  <img
+                  {/* <img
                       src={`${process.env.PUBLIC_URL}/theme/clear/img/pages/FE_Widget.png`}
                       className="widgetimg" style={{ display: 'none'}} 
                       ref={imgRef1}
-                    />
+                    /> */}
                   <div className="referral-resource" style={{ textAlign: 'center' }} onClick={() => handleImageCopy(imgRef1)}>
-                    <img
+                    {/* <img
                       src={`${process.env.PUBLIC_URL}/theme/clear/img/pages/FE_Widget.png`}
                       className="widgetimg" style={{ marginRight: '10%', width: '175px', height: '95px' }} 
-                      // ref={imgRef1}
-                    />
+                    /> */}
                   </div>
                   <div className="referral-resource" style={{ textAlign: 'center' }}></div>
                 </div>
                 <div className="referral-column referral-button-column d-flex align-items-center">
-                  <TemplateButton className="referral-copy" onClick={() => { }} text="CREATE" />
+                  <TemplateButton className="referral-copy" onClick={handleCreate} text="CREATE" />
                 </div>
                 <div className="referral-column">
-                  <div className="youtube-icon d-flex align-items-center justify-content-center" onClick={() => handleVideoClick('UvsNkg0JwAc?rel=0')} tooltip="Click here to for a tutorial">
+                  <div className="youtube-icon align-items-center justify-content-center" onClick={() => handleVideoClick('UvsNkg0JwAc?rel=0')} tooltip="Click here to for a tutorial">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" style={{ fill: '#FF6461' }}><path d="M31.331,8.248c-.368-1.386-1.452-2.477-2.829-2.848-2.496-.673-12.502-.673-12.502-.673,0,0-10.007,0-12.502,.673-1.377,.37-2.461,1.462-2.829,2.848-.669,2.512-.669,7.752-.669,7.752,0,0,0,5.241,.669,7.752,.368,1.386,1.452,2.477,2.829,2.847,2.496,.673,12.502,.673,12.502,.673,0,0,10.007,0,12.502-.673,1.377-.37,2.461-1.462,2.829-2.847,.669-2.512,.669-7.752,.669-7.752,0,0,0-5.24-.669-7.752ZM12.727,20.758V11.242l8.364,4.758-8.364,4.758Z"></path></svg>
                   </div>
                 </div>
@@ -155,7 +182,7 @@ const ReferralTools = ({ auth, program, organization, domain }) => {
                 </div>
                 <div className="referral-column">
                   <div className="referral-resource" style={{ textAlign: 'center' }}>
-                    <Img src={FEWidgetImg} className="iframe" style={{ marginRight: '10%', width: '175px', height: '95px' }} />
+                    {/* <Img src={FEWidgetImg} className="iframe" style={{ marginRight: '10%', width: '175px', height: '95px' }} /> */}
                   </div>
                   <div className="referral-resource" style={{ textAlign: 'center' }}></div>
                 </div>
@@ -195,17 +222,13 @@ const ReferralTools = ({ auth, program, organization, domain }) => {
                 </div>
                 <div className="referral-column">
                   <div className="referral-resource-icon">
-                    <img
-                      src={QRImg}
-                      className="qrimg"
-                      ref={imgRef2}
-                    />
+                    <QRCode value={`https://${domain?.domain?.name}/ref-participants/program/${program.id}`} ref={qrCodeRef} size={128} style={{ margin: '10px' }} />
                   </div>
                   <div className="referral-resource" style={{ textAlign: 'center' }}></div>
                   <div className="referral-resource" style={{ textAlign: 'center' }}></div>
                 </div>
                 <div className="referral-column referral-button-column flex align-center">
-                  <TemplateButton className="referral-copy" onClick={() => handleImageCopy(imgRef2)} text="COPY" />
+                  {/* <TemplateButton className="referral-copy" onClick={handleQRCopy} text="COPY" /> */}
                 </div>
                 <div className="referral-column">
                   <div className="youtube-icon flex align-center justify-center " onClick={() => handleVideoClick('MhkddCXTORc?rel=0')} tooltip="Click here to for a tutorial">
@@ -226,7 +249,7 @@ const ReferralTools = ({ auth, program, organization, domain }) => {
                 </div>
                 <div className="referral-column">
                   <div className="referral-resource-icon ">
-                    <Img src={FEWidgetImg} className="iframe" style={{ marginRight: '10%', width: '175px', height: '95px' }} />
+                    {/* <Img src={FEWidgetImg} className="iframe" style={{ marginRight: '10%', width: '175px', height: '95px' }} /> */}
                   </div>
                   <div className="referral-resource" style={{ textAlign: 'center' }}></div>
                   <div className="referral-resource" style={{ textAlign: 'center' }}></div>
