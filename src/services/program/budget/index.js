@@ -142,30 +142,38 @@ function getMonthsWithAmount(start_date, end_date, amount) {
     new Date(start_date).getMonth(),
     new Date(end_date).getMonth() + 1
   );
-  return {...actualMonth, amount };
+  return { ...actualMonth, amount };
 }
 
+const getMonthName = (dateStr) => {
+  const date = new Date(dateStr);
+  return date.toLocaleString("default", { month: "long" });
+};
+
 export function patchBudgetCascadingData(
+  programs,
   budgetCascadingProgram,
   isBudgetMonthly
 ) {
   if (budgetCascadingProgram) {
-    let result = [];
-    budgetCascadingProgram?.map((budgetCascading) => {
-      let data = {
-        ...budgetCascading,
-        budget_data: budgetCascading?.budgets_cascading?.map((budget) => {
-          return {
-            budgets_cascading_id: budget.id,
-            months: getMonthsWithAmount(
-              budget?.budget_start_date,
-              budget?.budget_end_date,
-              budget?.budget_amount
-            ),
+    let result = programs?.map((prog) => {
+      const budgetData = budgetCascadingProgram
+        .filter((budget) => budget.program_id === prog.id)
+        .reduce((acc, budget) => {
+          const month = getMonthName(budget.budget_start_date);
+          acc[month] = {
+            id: budget.id,
+            amount: budget.budget_amount,
           };
-        }),
-      };
-      result.push(data);
+          return acc;
+        }, {});
+      if (Object.keys(budgetData).length > 0) {
+        return {
+          ...prog,
+          budget_data: budgetData,
+        };
+      }
+      return prog;
     });
     return result;
   }

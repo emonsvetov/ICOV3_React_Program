@@ -62,7 +62,7 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
     if (organization?.id && rootProgram?.id && budgetId) {
       getBudgetCascadings(organization?.id, rootProgram?.id, budgetId)
         .then((res) => {
-          res?.data?.flatMap((program) => setBudgetCascadingProgram([program,...program.children]));
+          setBudgetCascadingProgram(res.data);
         })
         .catch((err) => console.log(err));
     }
