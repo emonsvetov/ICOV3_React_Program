@@ -3,7 +3,7 @@ import {useExpanded,  usePagination, useResizeColumns, useSortBy, useTable} from
 import {QueryClient, QueryClientProvider, useQuery} from 'react-query'
 import ReactTablePagination from '@/shared/components/table/components/ReactTablePagination';
 import {Col, Row} from 'reactstrap';
-import {getFirstDay} from '@/shared/helpers'
+import {dateStrToYmd, getFirstDay} from '@/shared/helpers'
 
 import {TABLE_COLUMNS} from "./columns";
 
@@ -26,11 +26,11 @@ const queryClient = new QueryClient()
 const DataTable = ({organization, program, programs}) => {
   const [filter, setFilter] = useState({
     programs: programs,
-    createdOnly: false,
-    reportKey: 'sku_value',
+    // createdOnly: false,
     programId: program.id,
-    from: getFirstDay(),
-    to: new Date()
+    reportKey: 'sku_value',
+    from: dateStrToYmd(getFirstDay()),
+    to: dateStrToYmd(new Date())
   });
   const [useFilter, setUseFilter] = useState(false);
   const [trigger, setTrigger] = useState(0);

@@ -89,7 +89,10 @@ import MainWrapper from "./MainWrapper";
 import ManageAccount from "../Manager/ManageAccount";
 import PageNotFound from "./404Error/PageNotFound";
 import UserNotFound from "@/containers/App/404Error/UserNotFound";
+import CsvImport from "../Manager/CsvImport";
 import ManagerViewInvoice from "../Manager/ManageAccount/components/ViewInvoice";
+import ReferralTools from "../Manager/ReferralTools";
+import RefParticipants from "../Manager/RefParticipants";
 
 // import { Train } from "@material-ui/icons";
 
@@ -174,6 +177,7 @@ const RouteIndex = () => (
           <Route path="manage-account" element={<ManageAccount/>}>
           <Route path="invoice/:invoiceId" element={<ManagerViewInvoice/>}/>
           </Route>
+          <Route path="csv-import" element={<CsvImport/>}/>
           <Route path="referral" element={<Referral />} />
           <Route path="team" element={<Team />} />
           <Route path="my-account" element={<ManagerAccountIndex  />} />
@@ -188,7 +192,7 @@ const RouteIndex = () => (
             <Route path="program-status" element={<ProgramStatus />} />
 
             <Route path="annual-awards-summary" element={<AnnualAwardSummary />} />
-            {/* <Route path="referral-participant" element={<Engagement/>}/> */}
+            <Route path="referral-participant" element={<Engagement/>}/>
             <Route path="award-account-summary-gl" element={<AwardAccountSummaryGL />} />
             <Route path="award-detail" element={<AwardDetail />} />
             <Route path="award-summary" element={<AwardSummary />} />
@@ -213,12 +217,14 @@ const RouteIndex = () => (
               element={<GoalProgressSummary />}
             />
           </Route>
+          <Route path="referral_tools" element={<ReferralTools />} />
           <Route path="faqs" element={<Faqs />} />
           <Route path="about" element={<About />} />
           <Route path="privacy" element={<Privacy />} />
           <Route path="tnc" element={<TnC />} />
         </Route>
       </Route>
+      <Route path="/ref-participants/program/:programId" element={<RefParticipants />} />
       <Route path="*" element={<PageNotFound/>}/>
     </Routes>
   </MainWrapper>

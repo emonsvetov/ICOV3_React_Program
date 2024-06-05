@@ -10,7 +10,7 @@ const storageUrl = `${process.env.REACT_APP_API_STORAGE_URL}/`
 
 const CodeRenderer = ({code}) => {
   if( isValidUrl(code)) {
-    return <a className="giftcode-url" href={code}>code</a>
+    return <a className="giftcode-url" href={code}>Click here to view the code</a>
   } else {
     return <span className="giftcode">{code}</span>
   }
