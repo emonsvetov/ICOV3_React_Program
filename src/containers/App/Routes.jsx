@@ -134,7 +134,6 @@ const RouteIndex = () => (
         <Route path="about" element={<About />} />
         <Route path="privacy" element={<Privacy />} />
         <Route path="tnc" element={<TnC />} />
-        <Route path="ref-participants/program/:programId" element={<RefParticipants />} />
       </Route>
       <Route path="/" element={<PrivateRoute />}>
         <Route path="participant" element={<ParticipantLayout />}>
@@ -225,6 +224,7 @@ const RouteIndex = () => (
           <Route path="tnc" element={<TnC />} />
         </Route>
       </Route>
+      <Route path="/ref-participants/program/:programId" element={<RefParticipants />} />
       <Route path="*" element={<PageNotFound/>}/>
     </Routes>
   </MainWrapper>
