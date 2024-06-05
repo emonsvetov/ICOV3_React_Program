@@ -1597,6 +1597,27 @@ main.participant{
     font-size: 18px;
     padding-top: 9px;
 }
+
+.card-shadow {
+    box-shadow: 0 4px 24px #3333331a;
+    border-radius: 1rem;
+}
+
+.share-widgets .singleWidget {
+    min-height: 13.363rem;
+    transition: .3s all linear;
+    cursor: pointer;
+}
+
+.share-widgets svg {
+    width: 4rem;
+}
+
+.share-widgets .singleWidget.active, .share-widgets .singleWidget:hover {
+    border: 1px solid #333333;
+    // color: #38a1fa;
+}
+
 .referral-list{
     margin: 0 100px 0 100px;
 }
@@ -1974,14 +1995,18 @@ main.participant{
 }
 
 .rlp-option {
-    margin-bottom: 28px;
+    margin-bottom: 20px;
     position: relative;
-    padding-left: 93px;
+    // padding-left: 93px;
     min-height: 100px;
 }
 .rlp-option-title {
     // font-family: 'Roboto';
     font-size: 25px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    
 }
 .custom-referral-select {
     width: 200px;
@@ -1990,23 +2015,16 @@ main.participant{
 .rlp-referral-block-left .rlp-options .rlp-option::after {
     margin-top: 13px;
 }
-.rlp-option::after {
-    content: '';
-    background: url(../../../public/theme/clear/img/pages/rlp_options.png) right top no-repeat;
-    position: absolute;
-    left: 0px;
-    top: 3px;
-    display: block;
-    width: 74px;
-    height: 74px;
-}
+
 .rlp-option-body {
     // font-family: 'Roboto';
     font-size: 18px;
     max-width: 414px;
     line-height: 27px;
+    margin-left: 100px;
 }
 .rlp-notification{
+    margin-top: 30px;
     display: flex;
     align-items: center;
 }
@@ -2014,14 +2032,10 @@ main.participant{
     display: inline-block;
     vertical-align: middle;
 }
-.rlp-notification-icon::after {
-    content: url(../../../public/theme/clear/img/pages/notification.png);
-    display: inline-block;
-    margin-right: 10px;
-}
 
 .rlp-notification-body {
     // font-family: 'Roboto';
+    margin-left: 25px;
     font-size: 18px;
     max-width: 350px;
     line-height: 27px;
