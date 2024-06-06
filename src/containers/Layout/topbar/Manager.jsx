@@ -32,12 +32,6 @@ const ManagerTopbar = ({ template, program }) => {
     setOpen((prev) => !prev);
   };
 
-  useEffect(() => {
-    let linkBuilt = LINKS.some((link) => link.to == "/manager/budget");
-    if (program?.use_budget_cascading && !linkBuilt) {
-      LINKS.push({ to: "/manager/budget", text: "Budget" });
-    }
-  }, [program]);
 
   const onClickNavLink = () => {
     if (isOpen) {
@@ -50,6 +44,9 @@ const ManagerTopbar = ({ template, program }) => {
         if( program.enable_referrals )(
           newItems.push({ to: "/manager/referral_tools", text: "Referral Widget" })
         )
+        if (program.use_budget_cascading) {
+          newItems.push({ to: "/manager/budget", text: "Budget" });
+        }
         setMenuItems(newItems)
     }
 }, [program])

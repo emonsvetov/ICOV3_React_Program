@@ -137,51 +137,89 @@ export const getBudgetCascadings = async (oId, pId, bId) => {
   return response;
 };
 
-function getMonthsWithAmount(start_date, end_date, amount) {
-  let actualMonth = months.slice(
-    new Date(start_date).getMonth(),
-    new Date(end_date).getMonth() + 1
-  );
-  return { ...actualMonth, amount };
-}
-
 const getMonthName = (dateStr) => {
   const date = new Date(dateStr);
   return date.toLocaleString("default", { month: "long" });
 };
 
-export function patchBudgetCascadingData(
-  programs,
-  budgetCascadingProgram,
-  isBudgetMonthly
-) {
-  if (budgetCascadingProgram) {
-    let result = programs?.map((prog) => {
-      const budgetData = budgetCascadingProgram
-        .filter((budget) => budget.program_id === prog.id)
-        .reduce((acc, budget) => {
-          const month = getMonthName(budget.budget_start_date);
-          acc[month] = {
-            id: budget.id,
-            amount: budget.budget_amount,
-          };
-          return acc;
-        }, {});
-      if (Object.keys(budgetData).length > 0) {
-        return {
-          ...prog,
-          budget_data: budgetData,
-        };
-      }
-      return prog;
+function formattedData(data, budgetType) {
+  if (budgetType === "monthly" || budgetType === "monthly_rollover") {
+    const formattedData = Object.entries(data)?.map(([key, value]) => {
+      const [programId, month, budgetId] = key.split("-");
+      return {
+        program_id: programId,
+        month: month,
+        budget_cascading_id: budgetId == undefined ? null : budgetId,
+        amount: value == "" ? "0" : value,
+      };
     });
-    return result;
+    return formattedData;
+  } else {
+    const formattedData = Object.entries(data)?.map(([key, value]) => {
+      const [programId, budgetId] = key.split("-");
+      return {
+        program_id: programId,
+        budget_cascading_id: budgetId == undefined ? null : budgetId,
+        amount: value == "" ? "0" : value,
+      };
+    });
+    return formattedData;
   }
 }
 
-export function unpatchBudgetCascadingData(data, isBudgetMonthly = false) {
-  if (isBudgetMonthly) {
-    const groupedData = data.reduce((acc, current) => {
+export function patchBudgetCascadingData(
+  programs,
+  budgetCascadingPrograms,
+  budgetTypes
+) {
+  if (budgetCascadingPrograms) {
+    if (budgetTypes == "monthly" || budgetTypes == "monthly_rollover") {
+      let result = programs?.map((prog) => {
+        const budgetData = budgetCascadingPrograms
+          .filter((budget) => budget.program_id === prog.id)
+          .reduce((acc, budget) => {
+            const month = getMonthName(budget.budget_start_date);
+            acc[month] = {
+              id: budget.id,
+              amount: budget.budget_amount,
+            };
+            return acc;
+          }, {});
+        if (Object.keys(budgetData).length > 0) {
+          return {
+            ...prog,
+            budget_data: budgetData,
+          };
+        }
+        return prog;
+      });
+      return result;
+    } else {
+      let result = programs?.map((program) => {
+        let data = budgetCascadingPrograms?.find(
+          (budgetCascadingProgram) =>
+            budgetCascadingProgram.program_id == program.id
+        );
+        if (data) {
+          return {
+            ...program,
+            budget_data: {
+              id: data?.id,
+              amount: data?.budget_amount,
+            },
+          };
+        }
+        return program;
+      });
+      return result;
+    }
+  }
+}
+
+export function unpatchBudgetCascadingData(data, budgetTypes) {
+  if (budgetTypes == "monthly" || budgetTypes == "monthly_rollover") {
+    let budget_data = formattedData(data, budgetTypes);
+    const groupedData = budget_data?.reduce((acc, current) => {
       const { program_id, month, amount, budget_cascading_id } = current;
       const programIndex = acc.findIndex(
         (item) => item.program_id === program_id
@@ -206,6 +244,8 @@ export function unpatchBudgetCascadingData(data, isBudgetMonthly = false) {
     }, []);
     return groupedData;
   } else {
-    return data;
+    console.log(data);
+    let budget_data = formattedData(data, budgetTypes);
+    return [budget_data];
   }
 }

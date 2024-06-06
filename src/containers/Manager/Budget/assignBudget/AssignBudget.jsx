@@ -16,12 +16,11 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
   const [budgetProgram, setBudgetProgram] = useState({});
   const [budgetCascadingPrograms, setBudgetCascadingProgram] = useState(null);
   const [programs, setPrograms] = useState([]);
-  const [budgetProgramTemplate, setBudgetProgramTemplate] = useState([]);
   const [remainingAmount, setRemainingAmount] = useState("");
   const [month, setMonth] = useState([]);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState([]);
-  const [isBudgetMonthly, setIsBudgetMonthly] = useState(false);
+  const [budgetTypes, setBudgetTypes] = useState("");
   const [previousValues, setPreviousValues] = useState({});
   const { budgetId } = useParams();
   const dispatch = useDispatch();
@@ -40,18 +39,7 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
         (res) => {
           setBudgetProgram(res);
           setRemainingAmount(res.remaining_amount);
-          setBudgetProgramTemplate([
-            {
-              budget_amount: res.budget_amount,
-              remaining_amount: res.remaining_amount,
-              budget_types: res.budget_types.name,
-              budget_start_date: res.budget_start_date,
-              budget_end_date: res.budget_end_date,
-            },
-          ]);
-          if (res?.budget_types.name == "monthly") {
-            setIsBudgetMonthly(true);
-          }
+          setBudgetTypes(res?.budget_types?.name);
           setLoading(false);
         }
       );
@@ -70,7 +58,7 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
 
   const handleAmountChange = (programId, value, month, budget_cascading_id) => {
     //const amount = value || 0;
-    if (budgetProgram?.budget_types?.name === "monthly") {
+    if (budgetTypes === "monthly") {
       setFormData((prevAmounts) => {
         let newAmounts = [...prevAmounts];
         const index = newAmounts.findIndex(
@@ -130,7 +118,7 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
   };
 
   const handleFocus = (programId, month, amount) => {
-    if (budgetProgram?.budget_types?.name === "monthly") {
+    if (budgetTypes == "monthly" || budgetTypes == "monthly_rollover") {
       setPreviousValues((prevState) => ({
         ...prevState,
         [`${programId}-${month}`]: amount,
@@ -153,7 +141,7 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
   }, [remainingAmount]);
   function onBlurUpdateRemainingAmount(programId, month, newValue) {
     const currentValue = newValue || 0;
-    if (budgetProgram?.budget_types?.name === "monthly") {
+    if (budgetTypes == "monthly" || budgetTypes == "monthly_rollover") {
       const prevValue = previousValues[`${programId}-${month}`] || 0;
       const valueDifference = currentValue - prevValue;
       setRemainingAmount((prevAmount) => prevAmount - valueDifference);
@@ -217,32 +205,31 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
             </Row>
           </div>
           <div className="mt-5">
-            {programs?.flatMap((program, index) => (
-              <AssignBudgetForm
-                organization={organization}
-                program={program}
-                programs={[program, ...program.children]}
-                key={index}
-                budgetId={budgetId}
-                budgetProgram={budgetProgram}
-                month={month}
-                setMonth={setMonth}
-                formData={formData}
-                budgetCascadingPrograms={budgetCascadingPrograms}
-                handleAmountChange={handleAmountChange}
-                handleBlur={onBlurUpdateRemainingAmount}
-                handleFocus={handleFocus}
-                remainingAmount={remainingAmount}
-              />
-            ))}
+            <AssignBudgetForm
+              organization={organization}
+              program={program}
+              programs={programs}
+              budgetId={budgetId}
+              budgetProgram={budgetProgram}
+              month={month}
+              setMonth={setMonth}
+              formData={formData}
+              budgetCascadingPrograms={budgetCascadingPrograms}
+              handleAmountChange={handleAmountChange}
+              handleBlur={onBlurUpdateRemainingAmount}
+              handleFocus={handleFocus}
+              remainingAmount={remainingAmount}
+              budgetTypes={budgetTypes}
+            />
             <div>
               <BudgetTemplate
                 program={program}
                 organization={organization}
                 programs={programs}
-                budgetProgramTemplate={budgetProgramTemplate}
+                budgetProgram={budgetProgram}
                 budgetCascadingPrograms={budgetCascadingPrograms}
-                isBudgetMonthly={isBudgetMonthly}
+                budgetTypes={budgetTypes}
+                month={month}
               />
             </div>
           </div>
