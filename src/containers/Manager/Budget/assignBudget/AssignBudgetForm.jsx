@@ -74,7 +74,11 @@ const AssignBudgetForm = ({
     if (budgetTypes == "monthly" || budgetTypes == "monthly_rollover") {
       data.budget_amount = unpatchBudgetCascadingData(values, budgetTypes);
     } else {
-      data.budget_amount = unpatchBudgetCascadingData(values, budgetTypes);
+      data.budget_amount = unpatchBudgetCascadingData(
+        values,
+        budgetTypes,
+        budgetProgram
+      );
     }
 
     console.log(data);

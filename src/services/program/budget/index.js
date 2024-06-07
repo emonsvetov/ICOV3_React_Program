@@ -142,7 +142,7 @@ const getMonthName = (dateStr) => {
   return date.toLocaleString("default", { month: "long" });
 };
 
-function formattedData(data, budgetType) {
+function formattedData(data, budgetType, budgetProgram) {
   if (budgetType === "monthly" || budgetType === "monthly_rollover") {
     const formattedData = Object.entries(data)?.map(([key, value]) => {
       const [programId, month, budgetId] = key.split("-");
@@ -159,7 +159,9 @@ function formattedData(data, budgetType) {
       const [programId, budgetId] = key.split("-");
       return {
         program_id: programId,
-        budget_cascading_id: budgetId == undefined ? null : budgetId,
+        budgets_cascading_id: budgetId == undefined ? null : budgetId,
+        budget_start_date: budgetProgram.budget_start_date,
+        budget_end_date: budgetProgram.budget_end_date,
         amount: value == "" ? "0" : value,
       };
     });
@@ -216,7 +218,7 @@ export function patchBudgetCascadingData(
   }
 }
 
-export function unpatchBudgetCascadingData(data, budgetTypes) {
+export function unpatchBudgetCascadingData(data, budgetTypes, budgetProgram) {
   if (budgetTypes == "monthly" || budgetTypes == "monthly_rollover") {
     let budget_data = formattedData(data, budgetTypes);
     const groupedData = budget_data?.reduce((acc, current) => {
@@ -245,7 +247,7 @@ export function unpatchBudgetCascadingData(data, budgetTypes) {
     return groupedData;
   } else {
     console.log(data);
-    let budget_data = formattedData(data, budgetTypes);
-    return [budget_data];
+    let budget_data = formattedData(data, budgetTypes, budgetProgram);
+    return budget_data;
   }
 }
