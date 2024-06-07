@@ -12,6 +12,10 @@ import ReferralSubmission from "./components/ReferralSubmission";
 
 const RefParticipants = ({ template, program }) => {
   // console.log(auth)
+  useEffect(() => {
+    document.title = 'Earn Valuable Rewards for Submitting Referrals, Giving Feedback or Requesting Information!';
+  }, []);
+  
   let params = useParams();
   const { programId } = params;
 
