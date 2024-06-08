@@ -19,7 +19,7 @@ const LINKS = [
   { to: "/manager/manage-and-reward", text: "Manage and Reward" },
   { to: "/manager/report", text: "View Reports" },
   { to: "/manager/invite-participant", text: "Invite New Participant" },
-  { to: "/manager/referral", text: "Referral Administrator" },
+  // { to: "/manager/referral", text: "Referral Administrator" },
   { to: "/manager/manage-account", text: "Manage Account" },
   { to: "/manager/team", text: "Team" }
 ];
