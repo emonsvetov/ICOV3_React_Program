@@ -6,6 +6,7 @@ import { Col, Container, Row } from "reactstrap";
 import TemplateButton from "@/shared/components/TemplateButton";
 import VideoModal from "./components/VideoModal";
 import QRCode from "react-qr-code";
+import Referral from "../Referral";
 
 const ReferralTools = ({ auth, program, organization, domain, template }) => {
   console.log(domain)
@@ -121,10 +122,11 @@ const ReferralTools = ({ auth, program, organization, domain, template }) => {
   if (!auth || !program || !organization) return "loading";
 
   return (
+    <>
     <div className="referral_tools">
       <Container>
         <Row className="mb-5">
-          <Col lg={5} md={7}>
+          <Col lg={9} md={12}>
             <h4>Referral Widget</h4>
             <p> Getting referrals, new leads, and positive feedback has never been easier. The 4 tools below can be quickly and easily added to your website, emails, social media feeds, print, and more to request referrals, encourage feedback, and attract new leads.</p>
           </Col>
@@ -230,6 +232,8 @@ const ReferralTools = ({ auth, program, organization, domain, template }) => {
       </Container>
       <VideoModal isOpen={isVideoModalOpen} onClose={handleModalClose} videoId={videoId} />
     </div>
+    <Referral />
+    </>
   );
 };
 
