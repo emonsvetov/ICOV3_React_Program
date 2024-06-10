@@ -1,29 +1,36 @@
-import React, { useEffect, useState } from "react";
-import { connect, useDispatch } from "react-redux";
-import { Col, Container, FormGroup, Input, Label, Navbar, NavbarBrand, Row } from "reactstrap";
-import Select from "react-select";
-import TemplateButton from "@/shared/components/TemplateButton";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { Navbar, NavbarBrand } from "reactstrap";
 import { useParams } from "react-router-dom";
-import { flash422, flashSuccess } from "@/shared/components/flash";
-import { Form, Field } from "react-final-form";
-import axios from "axios";
 import { MerchantSlider } from "@/containers/Participant/Home/components/slider";
 import ReferralSubmission from "./components/ReferralSubmission";
+import { Helmet } from 'react-helmet-async';
 
+const sharingTitle = "Earn Valuable Rewards for Submitting Referrals, Giving Feedback or Requesting Information!";
 const RefParticipants = ({ template, program }) => {
   // console.log(auth)
   useEffect(() => {
-    document.title = 'Earn Valuable Rewards for Submitting Referrals, Giving Feedback or Requesting Information!';
+    document.title = sharingTitle;
   }, []);
   
   let params = useParams();
   const { programId } = params;
-
-  if (!template) return "loading";
   const Brand = `${process.env.REACT_APP_API_STORAGE_URL}/${template.small_logo}`;
 
+  if (!template) return "loading";
+
+  console.log(Brand)
   return (
     <div className="ref-participants">
+      <Helmet>
+        <title>{sharingTitle}</title>
+        <meta name="description" content={sharingTitle} />
+        <meta name="image" content={Brand} />
+        <meta name="twitter:description" content={ sharingTitle } />
+        <meta name="twitter:title" content={ sharingTitle } />
+        <meta name="twitter:image" content={Brand}/>
+        <meta name="twitter:card" content="summary_large_image" />
+      </Helmet>
       <div className="topbar home">
         <div className="topbar__wrapper">
           <Navbar color="" expand="md" fixed="" light>
