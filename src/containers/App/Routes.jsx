@@ -93,7 +93,7 @@ import CsvImport from "../Manager/CsvImport";
 import ManagerViewInvoice from "../Manager/ManageAccount/components/ViewInvoice";
 import ReferralTools from "../Manager/ReferralTools";
 import RefParticipants from "../Manager/RefParticipants";
-
+import { HelmetProvider } from 'react-helmet-async';
 // import { Train } from "@material-ui/icons";
 
 // const Accounts = () => (
@@ -224,7 +224,14 @@ const RouteIndex = () => (
           <Route path="tnc" element={<TnC />} />
         </Route>
       </Route>
-      <Route path="/ref-participants/program/:programId" element={<RefParticipants />} />
+      <Route
+        path="/ref-participants/program/:programId"
+        element={
+          <HelmetProvider>
+            <RefParticipants />
+          </HelmetProvider>
+        }
+      />
       <Route path="*" element={<PageNotFound/>}/>
     </Routes>
   </MainWrapper>
