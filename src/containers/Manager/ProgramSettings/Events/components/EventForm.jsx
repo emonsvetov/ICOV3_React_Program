@@ -9,7 +9,7 @@ import {useDispatch, flashError, flashSuccess} from "@/shared/components/flash"
 import renderSelectField from '@/shared/components/form/Select'
 import {getEventTypes} from '@/services/getEventTypes'
 import {getEventLedgerCodes} from '@/services/events'
-import {labelizeNamedData, patch4Select, isBadgeAward} from '@/shared/helpers'
+import {labelizeNamedData, patch4Select, isBadgeAward, isCustomAward} from '@/shared/helpers'
 import renderToggleButtonField from "@/shared/components/form/ToggleButton"
 import formValidation from "@/validation/addEvent"
 import TemplateButton from "@/shared/components/TemplateButton"
@@ -84,6 +84,9 @@ const EventForm = ({
   const [activeTab, setActiveTab] = useState('2');
 
   const onSubmit = (values) => {
+    if(isCustomAward( getActiveEventTypeId() )){
+      values.award_message_editable = true;
+    }
     let data = makeFormData(program, values)
     let url = `/organization/${program.organization_id}/program/${values.program_id ? values.program_id : program.id}/event`
     let method = 'post'
@@ -256,7 +259,7 @@ const EventForm = ({
                 />
               </Col>
             </Row>
-            {!isBadgeAward( getActiveEventTypeId() ) && (
+            {!isBadgeAward( getActiveEventTypeId() ) && !isCustomAward( getActiveEventTypeId() ) && (
             <Row>
               <Col md="6">
                 <Label>Max Awardable Amount</Label>
@@ -363,6 +366,7 @@ const EventForm = ({
               </Col>
             </Row>
           }
+          { !isCustomAward( getActiveEventTypeId() ) &&
             <Row>
               <Col md="8">
                 <FormGroup className='d-flex justify-content-between'>
@@ -374,6 +378,7 @@ const EventForm = ({
                 </FormGroup>
               </Col>
             </Row>
+          }
             <Row>
               <Col md="12">
                 <Label>Award Message</Label>

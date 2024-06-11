@@ -341,6 +341,10 @@ export const REWARD_HISTORY_COLUMNS = [
         accessor: "notes",
     },
     {
+        Header: "Restrictions",
+        accessor: "restrictions",
+    },
+    {
         Header: "Referrer",
         accessor: "referrer",
     },
