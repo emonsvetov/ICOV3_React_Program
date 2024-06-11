@@ -10,7 +10,7 @@ const sharingTitle = "Earn Valuable Rewards for Submitting Referrals, Giving Fee
 const RefParticipants = ({ template, program }) => {
   // console.log(auth)
   useEffect(() => {
-    document.title = sharingTitle;
+    // document.title = sharingTitle;
   }, []);
   
   let params = useParams();
