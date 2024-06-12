@@ -170,7 +170,7 @@ const ReferralTools = ({ auth, program, organization, domain, template }) => {
                   <div className="text-center border-0 card-header fs-5" style={{background:template?.button_bg_color, color:template?.button_color}}>Widget Link</div>
                   <div className="d-flex flex-column align-items-center gap-3 card-body">
                     <p className="m-0 bold">
-                      Copy your Fasteezy widget link to place in marketing campaigns.</p>
+                      Copy your widget link to place in marketing campaigns.</p>
                       <a href={`https://${domain?.domain?.name}/ref-participants/program/${program.id}`} target="_blank">
                         {`https://${domain?.domain?.name}/ref-participants/program/${program.id}`}
                       </a>
