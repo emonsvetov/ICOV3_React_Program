@@ -133,7 +133,7 @@ const MyPoints = ({ dispatch, auth, program, template, myPoints, pointBalance })
 
     getBalance();
 
-    const authToken = createBasicAuthToken('incentco', '9346CC78-6FE7-4C32-B1DC-2FB55931A7C8');
+    const authToken = createBasicAuthToken(process.env.HMI_AUTH_KEY_NAME, process.env.HMI_AUTH_SECRET);
     const config = {
       headers: {
         // 'Authorization': 'BasicaW5jZW50Y286dGVzdA==',
@@ -153,7 +153,7 @@ const MyPoints = ({ dispatch, auth, program, template, myPoints, pointBalance })
 
   const createUserOnHMI = async (userData) => {
     try {
-      const authToken = createBasicAuthToken('incentco', '9346CC78-6FE7-4C32-B1DC-2FB55931A7C8');
+      const authToken = createBasicAuthToken(process.env.HMI_AUTH_KEY_NAME, process.env.HMI_AUTH_SECRET);
       const config = {
         headers: {
           'Authorization': authToken,
@@ -171,7 +171,7 @@ const MyPoints = ({ dispatch, auth, program, template, myPoints, pointBalance })
   const getBalance = async () => {
     const user = getAuthUser();
     try {
-      const authToken = createBasicAuthToken('incentco', '9346CC78-6FE7-4C32-B1DC-2FB55931A7C8');
+      const authToken = createBasicAuthToken(process.env.HMI_AUTH_KEY_NAME, process.env.HMI_AUTH_SECRET);
       const config = {
         headers: {
           'Authorization': authToken,
