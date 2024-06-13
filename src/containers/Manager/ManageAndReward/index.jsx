@@ -8,6 +8,8 @@ import SearchIcon from 'mdi-react/SearchIcon';
 import SelectProgram from '../components/SelectProgram'
 import ProgramParticipants from './components/ProgramParticipants'
 import {getBalance} from "@/services/program/getBalance";
+import { Link } from 'react-router-dom';
+import ProgramBudgetView from './components/ProgramBudgetView';
 
 const ManageAndReward = ({auth, program, organization}) => {
   const [balance, setBalance] = useState(0);
@@ -45,6 +47,9 @@ const ManageAndReward = ({auth, program, organization}) => {
             {/*<span>Search Program</span>*/}
           </div>
         </div>
+        {
+          program.use_cascading_approvals > 0 && <ProgramBudgetView organization={organization} program={program}/>         
+        } 
         <div align="right">Current Balance: ${balance.toFixed(2)}</div>
         <ProgramParticipants organization={organization} program={program} />
       </Container>
