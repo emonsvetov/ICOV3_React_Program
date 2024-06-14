@@ -1,15 +1,16 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "reactstrap";
 
 import ManagerTabSection from "../components/ManagerTabSection";
-
+import { useTranslation } from "react-i18next";
 import Dashboard from "./View/Dashboard";
 import Leaderboard from "./View/Leaderboards";
-
+import CartIcon from "mdi-react/CartIcon";
 import SocialWallPanel from "@/containers/Participant/Home/socialWall/SocialWallPanel";
 import { getAuthProgram } from "@/containers/App/auth";
 import { getBalance } from "@/services/program/getBalance";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
+import BudgetCascadingApprovals from "./components/BudgetCascadingApprovals";
 
 const Home = ({ program, organization }) => {
   const [balance, setBalance] = useState(0);
@@ -71,6 +72,33 @@ export const Leaderboards = () => {
         <ManagerTabSection />
       </Container>
       <Leaderboard />
+    </>
+  );
+};
+
+export const PendingCascadingApproval = () => {
+  const program = getAuthProgram();
+  const [points, setPoints] = useState(0);
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    let amount = 0;
+    // cart.forEach((item) => (amount += item.gift.price * item.quantity));
+    // setPoints(amount);
+  }, []);
+  return (
+    <>
+      {program.use_cascading_approvals > 0 && (
+        <>
+          <Container>
+            <ManagerTabSection />
+          </Container>
+          <br />
+          <div className="m-2 p-2">
+            <BudgetCascadingApprovals />
+          </div>
+        </>
+      )}
     </>
   );
 };

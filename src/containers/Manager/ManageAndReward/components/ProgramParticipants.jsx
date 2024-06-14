@@ -302,7 +302,7 @@ const ProgramParticipants = ({ program, organization }) => {
     return p?.name ? (
       <span onClick={() => onClickAction(name, p)} className={"link"}>
         {p.name}
-      </span>
+      </span>// todo add count of awaiting reward
     ) : (
       ""
     );

@@ -38,8 +38,8 @@ const ProgramBudgetView = ({ organization, program }) => {
             <div className="d-flex flex-md-row">
               <h6 className="d-inline">Monthly</h6>
               <div className="ms-4 d-flex flex-md-row w-100">
-                {currentBudget ? (
-                  currentBudget?.map((budget) => {
+                {currentBudget?.current_month_budget.length > 0 ? (
+                  currentBudget?.current_month_budget?.map((budget) => {
                     return (
                       <>
                         <Col>Budget: ${budget.budget_amount}</Col>
@@ -66,8 +66,8 @@ const ProgramBudgetView = ({ organization, program }) => {
                 className="ms-4 d-flex flex-md-row w-100"
                 style={{ paddingLeft: "15px" }}
               >
-                {currentBudget ? (
-                  currentBudget?.map((budget) => {
+                {currentBudget?.current_year_budget.length > 0 ? (
+                  currentBudget?.current_year_budget?.map((budget) => {
                     return (
                       <>
                         <Col>Budget: ${budget.budget_amount}</Col>

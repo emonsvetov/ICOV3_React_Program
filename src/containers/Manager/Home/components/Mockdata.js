@@ -238,3 +238,30 @@ export const REWARD_DATA = [
     }
     
 ]
+
+export  const BUDGET_APPROVAL_DATA = [
+    {  
+        "program_id": 1,
+        "program_name": "QA2 AQ2",
+        "requested_by":"Great job",
+        "recipient":"Enjoy!",
+        "approved_by":"Oleg Ganshonkov",
+        "amount" : 20,
+        "event_name":"Demo event",
+        "scheduled_date" : "2024-06-13",
+        "date_created" : "2024-06-10",
+        "budgets_available" : 80,
+    },
+    {    
+        "program_id": 2,
+        "program_name": "QA2 AQ2",
+        "requested_by":"Great job",
+        "recipient":"Enjoy!",
+        "approved_by":"Oleg Ganshonkov",
+        "amount" :10,
+        "event_name":"Demo event","event_name":"Demo event",
+        "scheduled_date" : "2024-06-13",
+        "date_created" : "2024-06-10",
+        "budgets_available" : 50,
+    }
+]
