@@ -32,25 +32,39 @@ import {
 import axios from "axios";
 import RewardIcon from "mdi-react/PostItNoteAddIcon";
 import DeactivateIcon from "mdi-react/CancelIcon";
-import { BUDGET_APPROVAL_DATA } from "./Mockdata";
 import IndeterminateCheckbox from "@/shared/components/form/IndeterminateCheckbox";
 
-const fetchData = () => {
-  const data = {
-    results: BUDGET_APPROVAL_DATA,
-    count: 15,
-  };
-  return data;
-};
-
 const ACTIONS = [
-  { name: "Approved", link: "", icon: <RewardIcon /> },
-  { name: "Rejected", link: "", icon: <DeactivateIcon /> },
+  { label: "Approved", name: "approved" },
+  { label: "Rejected", name: "rejected" },
 ];
+
+const approveOrRejectCascadingBudget = (oId, pId, participantsData, name) => {
+  try {
+    if (participantsData?.length > 0) {
+      let formData = {};
+      const participantIds = participantsData?.map(
+        (participant) => participant.cascading_id
+      );
+      formData.budget_cascading_approval_id = participantIds;
+      formData.approved = name == "approved" ? "1" : "2";
+      const response = axios.put(
+        `/organization/${oId}/program/${pId}/budget-cascading-approval`,
+        {
+          budget_cascading_approval_id: participantIds,
+          approved: name == "approved" ? "1" : "2",
+        }
+      );
+      return response;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const queryClient = new QueryClient();
 
-const BudgetCascadingApprovalTable = ({ organization, program, programs }) => {
+const BudgetCascadingApprovalTable = ({ organization, program }) => {
   const [action, setAction] = useState("");
   const [participants, setParticipants] = useState(null);
   const [filter, setFilter] = useState({ keyword: "" });
@@ -87,34 +101,19 @@ const BudgetCascadingApprovalTable = ({ organization, program, programs }) => {
     []
   );
 
-  // const doAction = (action, participants) => {
-  //   if (action === "Email") {
-  //     const emails = collectEmails(participants);
-  //     window.location.href = `mailto:${emails.join(
-  //       ","
-  //     )}?subject=You have received a message!`;
-  //   }
-  //   if (inArray(action, BULK_ACTIONS)) {
-  //     //toggle(action);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (action && participants) {
-  //     doAction(action, participants);
-  //   }
-  // }, [action, participants]);
-
   const onSelectAction = (name) => {
     const rows = selectedFlatRows.map((d) => d.original);
     if (rows.length === 0) {
       alert("Select participants");
       return;
     }
-    console.log(name);
-    console.log("rows", rows);
-    // setAction(name);
-    // setParticipants(rows);
+
+    approveOrRejectCascadingBudget(
+      organization?.id,
+      program?.id,
+      rows,
+      name
+    ).then((response) => console.log(response));
   };
 
   const totalPageCount = Math.ceil(totalCount / queryPageSize);

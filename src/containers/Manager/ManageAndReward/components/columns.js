@@ -444,3 +444,22 @@ export const USER_GOALS_COLUMNS =[
         }
     },
 ];
+
+export const PENDING_AWARD_COLUMNS = [
+    {
+        Header: "Name",
+        accessor: "name",
+    },
+    {
+        Header: "Amount",
+        accessor: "amount",
+    },
+    {
+        Header: "Submitted By",
+        accessor: "submitted_by",
+    },
+    {
+        Header: "Date of Award Submission",
+        accessor: "date_of_award_submission",
+    },
+]
