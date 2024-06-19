@@ -46,7 +46,7 @@ const ACTIONS = [
   //{ name: "Email", link: "", icon: <MailIcon /> },TODO: add logic to check engagement settings
   { name: "Resend Invite", link: "", icon: <ResendIcon /> },
   { name: "Deactivate", link: "", icon: <DeactivateIcon /> },
-  // { name: "Activate", link: "", icon: <ActivateIcon /> },
+  { name: "Activate", link: "", icon: <ActivateIcon /> },
   { name: "Lock", link: "", icon: <LockIcon /> },
   { name: "Unlock", link: "", icon: <UnlockIcon /> },
   //{ name: "Import", link: "", icon: <ImportIcon /> }, TODO: add logic to check engagement settings
@@ -106,9 +106,10 @@ const SELECTION_COLUMN = {
 const RenderActions = ({ row, onClickActionCb }) => {
   return ACTIONS.map((item, index) => {
     let statusLabel = item.name;
-    const currentStatus = row.original.status?.status
-      ? row.original.status.status
-      : null;
+    const currentStatus = row.original.status?.status ? row.original.status.status : null
+    if (item.name === "Activate") {
+      return false;
+    }
     if (item.name === "Deactivate") {
       if (currentStatus === "Deactivated") {
         return false;
