@@ -30,6 +30,10 @@ const RefParticipants = ({ template, program }) => {
         <meta name="twitter:title" content={ sharingTitle } />
         <meta name="twitter:image" content={Brand}/>
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="og:description" content={ sharingTitle } />
+        <meta name="og:title" content={ sharingTitle } />
+        <meta name="og:image" content={Brand}/>
+        <meta name="og:url" content={window.location.href} />
       </Helmet>
       <div className="topbar home">
         <div className="topbar__wrapper">
