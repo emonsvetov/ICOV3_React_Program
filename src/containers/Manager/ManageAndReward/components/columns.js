@@ -446,20 +446,27 @@ export const USER_GOALS_COLUMNS =[
 ];
 
 export const PENDING_AWARD_COLUMNS = [
-    {
-        Header: "Name",
-        accessor: "name",
+  {
+    Header: "ID",
+    accessor: "id",
+  },
+  {
+    Header: "Event Name",
+    accessor: "event_name",
+  },
+  {
+    Header: "Amount",
+    accessor: "amount",
+  },
+  {
+    Header: "Submitted By",
+    accessor: "submitted_by",
+  },
+  {
+    Header: "Date of Award Submission",
+    accessor: "date_of_award_submission",
+    Cell: ({ row, value }) => {
+        return <span>{new Date(value).toLocaleDateString("en-US", {})}</span>;
     },
-    {
-        Header: "Amount",
-        accessor: "amount",
-    },
-    {
-        Header: "Submitted By",
-        accessor: "submitted_by",
-    },
-    {
-        Header: "Date of Award Submission",
-        accessor: "date_of_award_submission",
-    },
-]
+  },
+];

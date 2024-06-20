@@ -27,7 +27,7 @@ export const TABLE_COLUMNS = [
     Header: "Scheduled Date",
     accessor: "scheduled_date",
     Cell: ({ value }) => {
-      let date = new Date(value).toISOString().slice(0, 10);
+      let date = new Date(value).toLocaleDateString("en-US", {});
       return <span>{date}</span>;
     },
   },
@@ -35,7 +35,7 @@ export const TABLE_COLUMNS = [
     Header: "Date Created",
     accessor: "created_date",
     Cell: ({ value }) => {
-      let date = new Date(value).toISOString().slice(0, 10);
+      let date = new Date(value).toLocaleDateString("en-US", {});
       return <span>{date}</span>;
     },
   },

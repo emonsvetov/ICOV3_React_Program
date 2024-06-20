@@ -29,6 +29,7 @@ import { useTranslation } from "react-i18next";
 import { inArray } from "@/shared/helpers";
 import useCallbackState from "@/shared/useCallbackState";
 import { useNavigate } from "react-router-dom";
+import ReactTooltip from "react-tooltip";
 
 const collectEmails = (users) => {
   let emails = [];
@@ -106,7 +107,9 @@ const SELECTION_COLUMN = {
 const RenderActions = ({ row, onClickActionCb }) => {
   return ACTIONS.map((item, index) => {
     let statusLabel = item.name;
-    const currentStatus = row.original.status?.status ? row.original.status.status : null
+    const currentStatus = row.original.status?.status
+      ? row.original.status.status
+      : null;
     if (item.name === "Activate") {
       return false;
     }
@@ -305,17 +308,20 @@ const ProgramParticipants = ({ program, organization }) => {
   const totalPageCount = Math.ceil(users?.count / QUERY_PAGE_SIZE);
 
   const strShowName = (name, p) => {
-
     return p?.name ? (
-      <div className="d-flex items-center w100">
+      <div className="d-flex flex-direction-row items-center w-full gap-2">
         {p?.budgetCascadingApproval?.count ? (
-          <span
-            className="bg-danger p-1 d-flex align-items-center m-auto"
-            style={{ borderRadius: "50%" }}
-            onClick={() => onClickAction("Participant Award Report", p)}
-          >
-            {p.budgetCascadingApproval.count}
-          </span>
+          <>
+            <ReactTooltip place="top" type="dark" effect="float" />
+            <span
+              data-tip="Award Pending"
+              className="bg-danger p-1 d-flex align-items-center link"
+              style={{ borderRadius: "50%",height: "fit-content" }}
+              onClick={() => onClickAction("Participant Award Report", p)}
+            >
+              {p.budgetCascadingApproval.count}
+            </span>
+          </>
         ) : null}
         <span onClick={() => onClickAction(name, p)} className={"link"}>
           {p.name}
@@ -593,7 +599,7 @@ const ProgramParticipants = ({ program, organization }) => {
         isOpen={isOpen}
         setOpen={setOpen}
         toggle={toggle}
-        participants={[participants]}
+        participants={participants}
       />
       {/* <pre>
             <code>

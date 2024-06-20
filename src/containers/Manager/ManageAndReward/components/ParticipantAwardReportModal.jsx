@@ -25,27 +25,28 @@ const ParticipantAwardReportModal = ({
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [participantName, setParticipantName] = useState("");
-  console.log(participants);
-  //   useEffect(()=>{
-  //     if (participants) {
-  //         participants
-  //     }
-  //   },[participants])
+  const [pendingCascadingApproval, setPendingCascadingApproval] = useState([]);
 
   useEffect(() => {
-    setLoading(true);
-    if (!organization?.id || !program?.id) return;
-    let mounted = true;
-    return () => (mounted = false);
-  }, []);
-
-  //if (loading) return t("loading");
+    if (organization?.id && program?.id && participants) setLoading(true);
+    axios
+      .get(
+        `/organization/${organization.id}/program/${program.id}/${participants.id}/pending-approvals`
+      )
+      .then((res) => {
+        console.log("res", res);
+        setPendingCascadingApproval(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, [program, organization, participants]);
 
   const onSubmit = (values) => {
     axios
-      .post(
-        `/organization/${organization.id}/program/${program.id}/create-user-goals`
-      )
+      .post(`/organization/${organization.id}/program/${program.id}/`)
       .then((res) => {
         //console.log(res)
         if (res.status === 200) {
@@ -76,7 +77,7 @@ const ParticipantAwardReportModal = ({
   };
 
   const RenderActions = ({ row }) => {
-    console.log(row);
+    // console.log(row);
     return (
       <span className="m-1">
         <Link
@@ -106,7 +107,7 @@ const ParticipantAwardReportModal = ({
   const { getTableProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
-      data: participants,
+      data: pendingCascadingApproval,
     },
     useSortBy
   );
@@ -136,45 +137,55 @@ const ParticipantAwardReportModal = ({
           </span>
           <p>has the following award Pending for Approval</p>
         </div>
-        <div className="mt-3">
-          <Table striped borderless size="md" {...getTableProps()}>
-            <thead style={{}}>
-              {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column) => (
-                    <th
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                      style={tableStyled.headerBottom}
-                    >
-                      {column.render("Header")}
-                      <span>
-                        {column.isSorted
-                          ? column.isSortedDesc
-                            ? " 🔽"
-                            : " 🔼"
-                          : ""}
-                      </span>
-                    </th>
+        {!loading ? (
+          pendingCascadingApproval && (
+            <div className="mt-3">
+              <Table striped borderless size="md" {...getTableProps()}>
+                <thead style={{}}>
+                  {headerGroups.map((headerGroup) => (
+                    <tr {...headerGroup.getHeaderGroupProps()}>
+                      {headerGroup.headers.map((column) => (
+                        <th
+                          {...column.getHeaderProps(
+                            column.getSortByToggleProps()
+                          )}
+                          style={tableStyled.headerBottom}
+                        >
+                          {column.render("Header")}
+                          <span>
+                            {column.isSorted
+                              ? column.isSortedDesc
+                                ? " 🔽"
+                                : " 🔼"
+                              : ""}
+                          </span>
+                        </th>
+                      ))}
+                    </tr>
                   ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody>
-              {rows.map((row, i) => {
-                prepareRow(row);
-                return (
-                  <tr {...row.getRowProps()}>
-                    {row.cells.map((cell) => {
-                      return (
-                        <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </Table>
-        </div>
+                </thead>
+                <tbody>
+                  {rows.map((row, i) => {
+                    prepareRow(row);
+                    return (
+                      <tr {...row.getRowProps()}>
+                        {row.cells.map((cell) => {
+                          return (
+                            <td {...cell.getCellProps()}>
+                              {cell.render("Cell")}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </Table>
+            </div>
+          )
+        ) : (
+          <p>{t("loading")}</p>
+        )}
       </div>
     </Modal>
   );
