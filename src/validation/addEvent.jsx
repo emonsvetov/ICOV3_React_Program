@@ -11,7 +11,7 @@ Validators.required.setErrorMessage("This field is required");
 export const maxAwardableAmountRequiredValidator = args => {
   const { value, values } = args;
 
-  if( values.event_type_id == 5 || (isObject(values.event_type_id) && values.event_type_id.value == 5)){
+  if( values.event_type_id == 5 || values.event_type_id == 13 || (isObject(values.event_type_id) && (values.event_type_id.value == 5 || values.event_type_id.value == 13))){
       return {
           succeeded: true,
           type: 'max_awardable_amount_required',
@@ -24,7 +24,7 @@ export const maxAwardableAmountRequiredValidator = args => {
 
 export const maxAwardableAmountNumberValidator = args => {
   const { value, values } = args;
-  if( values.event_type_id == 5 || (isObject(values.event_type_id) && values.event_type_id.value == 5)){
+  if( values.event_type_id == 5 || values.event_type_id == 13 || (isObject(values.event_type_id) && (values.event_type_id.value == 5 || values.event_type_id.value == 13))){
       return {
           succeeded: true,
           type: 'max_awardable_amount_number',

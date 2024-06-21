@@ -26,11 +26,11 @@ const queryClient = new QueryClient()
 const DataTable = ({organization, program, programs}) => {
   const [filter, setFilter] = useState({
     programs: programs,
-    createdOnly: false,
+    // createdOnly: false,
     reportKey: 'sku_value',
     programId: program.id,
-    from: dateStrToYmd(getFirstDay()),
-    to: dateStrToYmd(new Date()),
+    // from: dateStrToYmd(getFirstDay()),
+    // to: dateStrToYmd(new Date()),
     year: new Date().getFullYear()
   });
   const [useFilter, setUseFilter] = useState(false);

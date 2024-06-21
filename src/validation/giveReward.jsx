@@ -2,7 +2,7 @@ import { createFinalFormValidation } from "@lemoncode/fonk-final-form";
 import { Validators } from '@lemoncode/fonk';
 import { isNumber } from '@lemoncode/fonk-is-number-validator';
 import { isTrue } from '@lemoncode/fonk-is-true-validator';
-import {isBadgeAward} from "@/shared/helpers";
+import {isBadgeAward, isCustomAward} from "@/shared/helpers";
 
 isTrue.setErrorMessage("This field is required");
 
@@ -10,7 +10,7 @@ Validators.required.setErrorMessage("This field is required");
 
 export const overrideCashValueValidator = args => {
   const { values } = args;
-  if( isBadgeAward(values.event_type_id) ){
+  if( isBadgeAward(values.event_type_id) || isCustomAward(values.event_type_id) ){
       return {
           succeeded: true,
           type: 'override_cash_value_validator',
@@ -23,7 +23,7 @@ export const overrideCashValueValidator = args => {
 
 export const awardingPointsRequiredValidator = args => {
   const { values } = args;
-  if( isBadgeAward(values.event_type_id) ){
+  if( isBadgeAward(values.event_type_id) || isCustomAward(values.event_type_id)){
       return {
           succeeded: true,
           type: 'awarding_points_required_validator',
@@ -36,7 +36,7 @@ export const awardingPointsRequiredValidator = args => {
 
 export const awardingPointsNumberValidator = args => {
   const { values } = args;
-  if( isBadgeAward(values.event_type_id) ){
+  if( isBadgeAward(values.event_type_id) || isCustomAward(values.event_type_id)){
       return {
           succeeded: true,
           type: 'awarding_points_number_validator',

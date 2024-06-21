@@ -18,6 +18,7 @@ import {
   isBadgeAward,
   flashDispatch,
   flashMessage,
+  isCustomAward,
 } from "@/shared/helpers";
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import axios from "axios";
@@ -78,6 +79,7 @@ const GiveRewardPopup = ({
       event_id: values.event_id,
       notes: values.notes,
       message: values.message,
+      restrictions: values.restrictions ? values.restrictions : null,
       user_id: participants.map((p) => p.id),
       override_cash_value: values.override_cash_value
         ? values.override_cash_value
@@ -247,7 +249,7 @@ const GiveRewardPopup = ({
                         })}
                       </Col>
                     </Row>
-                    {!isBadgeAward( event.event_type_id ) && (
+                    {!isBadgeAward( event.event_type_id ) && !isCustomAward( event.event_type_id ) && (
                     <>
                       <Row>
                         <Col md="6">
@@ -285,7 +287,7 @@ const GiveRewardPopup = ({
                     )}
                     <Row>
                       <Col md="4">
-                        {!isBadgeAward( event.event_type_id ) && (
+                        {!isBadgeAward( event.event_type_id ) && !isCustomAward( event.event_type_id ) && (
                         <>
                           <Label>Points per participant</Label>: &nbsp;
                           <Field name="awarding_points">
@@ -314,7 +316,7 @@ const GiveRewardPopup = ({
                       <Col md="4">
                         <Label>Total users selected: <strong>{participants.length}</strong></Label>
                       </Col>
-                      {!isBadgeAward( event.event_type_id ) && (
+                      {!isBadgeAward( event.event_type_id ) && !isCustomAward( event.event_type_id ) && (
                         <Col md="4">
                           <Label>Total award: <strong>
                             $
@@ -369,6 +371,29 @@ const GiveRewardPopup = ({
                         </Field>
                       </Col>
                     </Row>
+                    {isCustomAward( event.event_type_id ) && (
+                      <Row>
+                        <Col md="12">
+                          <Label className="mb-1">Restrictions</Label>
+                          <Field name="restrictions">
+                            {({ input, meta }) => (
+                              <FormGroup>
+                                <Input
+                                  placeholder="Restrictions "
+                                  type="textarea"
+                                  {...input}
+                                />
+                                {meta.touched && meta.error && (
+                                  <span className="text-danger">
+                                    {meta.error}
+                                  </span>
+                                )}
+                              </FormGroup>
+                            )}
+                          </Field>
+                        </Col>
+                      </Row>
+                    )}
                     <Row>
                       <Col md="6">
                         <Label>Documentation</Label>
