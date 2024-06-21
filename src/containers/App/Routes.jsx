@@ -63,7 +63,7 @@ import {
 import ProgramSettings from "../Manager/ProgramSettings/index";
 import ManageAndReward from "../Manager/ManageAndReward/index";
 import InviteParticipant from "../Manager/InviteParticipant/index";
-import Referral from "../Manager/Referral";
+// import Referral from "../Manager/Referral";
 import Team from "../Manager/Team";
 import TeamView from "../Manager/Team/components/TeamView";
 import Report from "../Manager/Report";
@@ -84,7 +84,7 @@ import GoalProgressSummary from "../Manager/Report/components/GoalProgressSummar
 import MerchantRedemption from "../Manager/Report/MerchantRedemption";
 import ParticipantAccount from "../Manager/Report/components/ParticipantAccount";
 import ParticipantStatusSummary from "../Manager/Report/ParticipantStatusSummary";
-import ParticipantStatus from "../Manager/Report/components/ParticipantStatus";
+// import ParticipantStatus from "../Manager/Report/components/ParticipantStatus";
 import QuarterlyAward from "../Manager/Report/QuarterlyAward/index";
 import AnnualAwardSummary from "../Manager/Report/AnnualAwardSummary";
 import MainWrapper from "./MainWrapper";
@@ -95,7 +95,7 @@ import CsvImport from "../Manager/CsvImport";
 import ManagerViewInvoice from "../Manager/ManageAccount/components/ViewInvoice";
 import ReferralTools from "../Manager/ReferralTools";
 import RefParticipants from "../Manager/RefParticipants";
-
+import { HelmetProvider } from 'react-helmet-async';
 // import { Train } from "@material-ui/icons";
 
 // const Accounts = () => (
@@ -136,7 +136,6 @@ const RouteIndex = () => (
         <Route path="about" element={<About />} />
         <Route path="privacy" element={<Privacy />} />
         <Route path="tnc" element={<TnC />} />
-        <Route path="ref-participants/program/:programId" element={<RefParticipants />} />
       </Route>
       <Route path="/" element={<PrivateRoute />}>
         <Route path="participant" element={<ParticipantLayout />}>
@@ -184,7 +183,7 @@ const RouteIndex = () => (
           <Route path="budget" element={<Budget />}/>
           <Route path="budget/manage-setup/:budgetId" element={<ManageBudget />} />
           <Route path="csv-import" element={<CsvImport/>}/>
-          <Route path="referral" element={<Referral />} />
+          {/* <Route path="referral" element={<Referral />} /> */}
           <Route path="team" element={<Team />} />
           <Route path="my-account" element={<ManagerAccountIndex  />} />
           <Route path="team/:teamId" element={<TeamView />} />
@@ -230,6 +229,14 @@ const RouteIndex = () => (
           <Route path="tnc" element={<TnC />} />
         </Route>
       </Route>
+      <Route
+        path="/ref-participants/program/:programId"
+        element={
+          <HelmetProvider>
+            <RefParticipants />
+          </HelmetProvider>
+        }
+      />
       <Route path="*" element={<PageNotFound/>}/>
     </Routes>
   </MainWrapper>

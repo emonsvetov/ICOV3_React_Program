@@ -205,9 +205,6 @@ const LogInForm = () => {
     const FormLogin = () => {
       const validate = values => {
 
-        if (!values.email && userEmail){
-          values.email = userEmail;
-        }
         let errors = {};
         if (!values.email) {
           errors.email = "Email is required";
@@ -223,9 +220,6 @@ const LogInForm = () => {
       const onSubmit = async values => {
         if (values.email){
           setUserEmail(values.email)
-        }
-        if (!values.email && userEmail){
-          values.email = userEmail;
         }
         // console.log(values);
         setLoading(true)
@@ -273,10 +267,7 @@ const LogInForm = () => {
         validate={validate}
         initialValues={
           {
-            // email: 'manager@inimist.com',
-            // email: 'hmaudson2@dyndns.org',
-            // email: 'arvind.mailtoxsxx@gmail.com',
-            // password: 'aaa'
+            email: userEmail,
           }
         }
         render={({ handleSubmit, form, submitting, pristine, values }) => (
@@ -285,9 +276,11 @@ const LogInForm = () => {
           <Field name="email">
             {({ input, meta }) => (
              <div className="mb-3">
-                <label htmlFor="loginInputEmail" className="form-label">Email address</label>
-                <input id="loginInputEmail" type="text" {...input} value={userEmail ? userEmail : input.value}  placeholder="Email" className="form-control" />
-                {meta.touched && meta.error && <span className="form-error">{meta.error}</span>}
+               <label htmlFor="loginInputEmail" className="form-label">Email address</label>
+               <Input placeholder="Email" type="text" {...input}  />
+               {meta.touched && meta.error && (
+                 <span className="form-error">{meta.error}</span>
+               )}
               </div>
             )}
           </Field>

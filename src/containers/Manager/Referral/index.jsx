@@ -24,12 +24,12 @@ const Referral = ({ auth, program, organization }) => {
   if (!auth || !program || !organization) return t("loading");
 
   return (
-    <div className="referral">
+    <div className="referral mb-5">
       <Container>
         <Row className="mt-4">
-          <Col md={10}>
+          <Col md={12}>
             <div className="my-3 d-flex justify-content-between">
-              <h3>Referrals</h3>
+              <h3>Referral Administrator:</h3>
               <TemplateButton
                 onClick={() => toggle("AddReferral")}
                 text="Add Administrator"
