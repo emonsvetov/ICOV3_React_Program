@@ -353,6 +353,19 @@ const EventForm = ({
               </Col>
             </Row>
           }
+          {(program.use_cascading_approvals > 0 || program.use_budget_cascading > 0 )&&
+            <Row>
+              <Col md="8">
+                <FormGroup className='d-flex justify-content-between'>
+                  <Label>Include in Budget</Label>
+                  <Field
+                    name="include_in_budget"
+                    component={renderToggleButtonField}
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
+          }
           { !isCustomAward( getActiveEventTypeId() ) &&
             <Row>
               <Col md="8">

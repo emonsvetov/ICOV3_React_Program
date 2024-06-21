@@ -27,15 +27,17 @@ const AssignBudgetForm = ({
   handleBlur,
   handleFocus,
   remainingAmount,
+  budgetTypes,
 }) => {
-  const [isBudgetMonthly, setIsBudgetMonthhly] = useState(false);
   const [assignBudgetPrograms, setAssignBudgetProgram] = useState([]);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (budgetProgram && budgetProgram?.budget_types?.name === "monthly") {
-      setIsBudgetMonthhly(true);
+    if (
+      budgetProgram &&
+      (budgetTypes == "monthly" || budgetTypes == "monthly_rollover")
+    ) {
       setMonth(
         findAssignedMonth(
           budgetProgram?.budget_start_date,
@@ -48,14 +50,15 @@ const AssignBudgetForm = ({
   useEffect(() => {
     if (programs && budgetCascadingPrograms) {
       setLoading(true);
-      setAssignBudgetProgram(
-        patchBudgetCascadingData(
-          programs,
-          budgetCascadingPrograms,
-          isBudgetMonthly,
-          budgetProgram
-        )
-      );
+      programs?.flatMap((program) => {
+        setAssignBudgetProgram(
+          patchBudgetCascadingData(
+            [program, ...program.children],
+            budgetCascadingPrograms,
+            budgetTypes
+          )
+        );
+      });
       setLoading(false);
     }
   }, [programs, budgetCascadingPrograms]);
@@ -64,58 +67,66 @@ const AssignBudgetForm = ({
     let data = {};
     data.budget_id = budgetId;
     data.budget_type = budgetProgram?.budget_types?.id;
-    data.remaining_amount = remainingAmount;
     if (remainingAmount < 0) {
       alert("remaining amount cannot be less than as given available amount");
       return;
     }
-    if (isBudgetMonthly) {
-      data.budget_amount = unpatchBudgetCascadingData(
-        formData,
-        isBudgetMonthly
-      );
+    if (budgetTypes == "monthly" || budgetTypes == "monthly_rollover") {
+      data.budget_amount = unpatchBudgetCascadingData(values, budgetTypes);
     } else {
-      data.budget_amount = unpatchBudgetCascadingData(formData);
+      data.budget_amount = unpatchBudgetCascadingData(
+        values,
+        budgetTypes,
+        budgetProgram
+      );
     }
+
     console.log(data);
-    // let url = `/organization/${organization?.id}/program/${program?.id}/budgetprogram/${budgetId}/assign`;
-    // axios
-    //   .post(url, data)
-    //   .then((res) => {
-    //     if (res.status === 200) {
-    //       flashSuccess(dispatch, "Budget assigned successfully");
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     if (err) {
-    //       flashError(dispatch, err);
-    //     }
-    //   });
+    let url = `/organization/${organization?.id}/program/${program?.id}/budgetprogram/${budgetId}/assign`;
+    axios
+      .post(url, data)
+      .then((res) => {
+        if (res.status === 200) {
+          flashSuccess(dispatch, "Budget assigned successfully");
+          window.location.reload();
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          flashError(dispatch, err);
+        }
+      });
   };
 
   const flattenInitialValues = (initialValues) => {
     const flattened = {};
-    if (isBudgetMonthly) {
+    if (budgetTypes == "monthly" || budgetTypes == "monthly_rollover") {
       initialValues?.forEach((program) => {
-        program?.month?.forEach((m) => {
-          flattened[`${program.id}-${m}`] = program.amount;
-        });
+        if (program.budget_data) {
+          Object.entries(program.budget_data).forEach(
+            ([month, { id, amount }]) => {
+              flattened[`${program.id}-${month}-${id}`] = amount;
+            }
+          );
+        }
       });
       return flattened;
     } else {
       initialValues?.map((program) => {
-        flattened[`${program.id}-amount`] = program.amount;
+        if (program?.budget_data) {
+          flattened[`${program.id}-${program?.budget_data?.id}-amount`] =
+            program?.budget_data?.amount;
+        }
       });
       return flattened;
     }
   };
 
   const initialValues = flattenInitialValues(assignBudgetPrograms);
-
   if (loading) return <div>Loading...</div>;
   return (
     <>
-      {programs && assignBudgetPrograms ? (
+      {assignBudgetPrograms?.length > 0 ? (
         <Form onSubmit={onSubmit} initialValues={initialValues}>
           {({ handleSubmit, form, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit}>
@@ -124,7 +135,8 @@ const AssignBudgetForm = ({
                   <thead>
                     <tr>
                       <th>Program</th>
-                      {isBudgetMonthly ? (
+                      {budgetTypes == "monthly" ||
+                      budgetTypes == "monthly_rollover" ? (
                         month.map((m) => <th key={m}>{m}</th>)
                       ) : (
                         <th>Budget Amount</th>
@@ -135,51 +147,62 @@ const AssignBudgetForm = ({
                     {assignBudgetPrograms?.map((program) => (
                       <tr key={program.id}>
                         <td>{program.name}</td>
-                        {isBudgetMonthly ? (
-                          month.map((month) => (
-                            <td key={month}>
-                              <Field name={`${program.id}-${month}`}>
-                                {({ input, meta }) => (
-                                  <FormGroup>
-                                    <Input
-                                      style={{ width: "150px" }}
-                                      type="text"
-                                      {...input}
-                                      placeholder="$ amount"
-                                      onChange={(e) => {
-                                        form.change(
-                                          `${program.id}-${month}`,
-                                          e.target.value
-                                        );
-                                        handleAmountChange(
-                                          program.id,
-                                          e.target.value,
-                                          month,
-                                          program.budget_cascading_id
-                                        );
-                                      }}
-                                      onBlur={(e) => {
-                                        handleBlur(
-                                          program.id,
-                                          month,
-                                          e.target.value
-                                        );
-                                      }}
-                                      onFocus={(e) => {
-                                        handleFocus(
-                                          program.id,
-                                          month,
-                                          e.target.value
-                                        );
-                                      }}
-                                    />
-                                  </FormGroup>
-                                )}
-                              </Field>
-                            </td>
-                          ))
+                        {budgetTypes == "monthly" ||
+                        budgetTypes == "monthly_rollover" ? (
+                          month.map((month) => {
+                            const budgetData = program.budget_data
+                              ? program?.budget_data[month]
+                              : null;
+                            const fieldName = budgetData
+                              ? `${program.id}-${month}-${budgetData?.id}`
+                              : `${program.id}-${month}`;
+                            return (
+                              <td key={month}>
+                                <Field name={fieldName}>
+                                  {({ input, meta }) => (
+                                    <FormGroup>
+                                      <Input
+                                        style={{ width: "150px" }}
+                                        type="text"
+                                        {...input}
+                                        placeholder="$ amount"
+                                        onChange={(e) => {
+                                          form.change(
+                                            fieldName,
+                                            e.target.value
+                                          );
+                                          handleAmountChange(
+                                            program.id,
+                                            e.target.value,
+                                            month,
+                                            budgetData?.id
+                                          );
+                                        }}
+                                        onBlur={(e) => {
+                                          handleBlur(
+                                            program.id,
+                                            month,
+                                            e.target.value
+                                          );
+                                        }}
+                                        onFocus={(e) => {
+                                          handleFocus(
+                                            program.id,
+                                            month,
+                                            e.target.value
+                                          );
+                                        }}
+                                      />
+                                    </FormGroup>
+                                  )}
+                                </Field>
+                              </td>
+                            );
+                          })
                         ) : (
-                          <Field name={`${program.id}-amount`}>
+                          <Field
+                            name={`${program.id}-${program?.budget_data?.id}-amount`}
+                          >
                             {({ input, meta }) => (
                               <FormGroup>
                                 <Input
@@ -189,27 +212,27 @@ const AssignBudgetForm = ({
                                   {...input}
                                   onChange={(event) => {
                                     form.change(
-                                      `${program.id}-amount`,
+                                      `${program.id}-${program?.budget_data?.id}-amount`,
                                       event.target.value
                                     );
                                     handleAmountChange(
                                       program.id,
                                       parseFloat(event.target.value),
-                                      isBudgetMonthly,
+                                      budgetTypes,
                                       program.budget_cascading_id
                                     );
                                   }}
                                   onBlur={(e) =>
                                     handleBlur(
                                       program.id,
-                                      isBudgetMonthly,
+                                      budgetTypes,
                                       e.target.value
                                     )
                                   }
                                   onFocus={(e) =>
                                     handleFocus(
                                       program.id,
-                                      isBudgetMonthly,
+                                      budgetTypes,
                                       e.target.value
                                     )
                                   }

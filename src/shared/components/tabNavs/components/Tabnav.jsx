@@ -10,7 +10,7 @@ import SubmitIcon from "mdi-react/CursorPointerIcon";
 import DashboardIcon from "mdi-react/ViewDashboardIcon";
 import SpireIcon from "mdi-react/StarBoxIcon";
 import LeaderboardIcon from "mdi-react/ChartBarIcon";
-
+import BudgetCascadingApprovalIcon from "mdi-react/ReceiptIcon";
 function Tabnav(props) {
   const { title, icon, isActive } = props;
   return (
@@ -38,6 +38,9 @@ function Tabnav(props) {
         {icon == "spire" && <SpireIcon size={40} className={`${icon}-icon`} />}
         {icon == "leaderboard" && (
           <LeaderboardIcon size={40} className={`${icon}-icon`} />
+        )}
+        {icon == "budgetcascading" && (
+          <BudgetCascadingApprovalIcon size={40} className={`${icon}-icon`} />
         )}
       </div>
       <div className="text-center text-uppercase">

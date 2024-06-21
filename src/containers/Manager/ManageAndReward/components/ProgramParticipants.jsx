@@ -29,6 +29,7 @@ import { useTranslation } from "react-i18next";
 import { inArray } from "@/shared/helpers";
 import useCallbackState from "@/shared/useCallbackState";
 import { useNavigate } from "react-router-dom";
+import ReactTooltip from "react-tooltip";
 
 const collectEmails = (users) => {
   let emails = [];
@@ -50,7 +51,7 @@ const ACTIONS = [
   { name: "Lock", link: "", icon: <LockIcon /> },
   { name: "Unlock", link: "", icon: <UnlockIcon /> },
   //{ name: "Import", link: "", icon: <ImportIcon /> }, TODO: add logic to check engagement settings
-  { name: "Peer Allocation", link: "", icon: <PeerIcon /> }, 
+  { name: "Peer Allocation", link: "", icon: <PeerIcon /> },
 ];
 const ENTRIES = [{ value: 10 }, { value: 25 }, { value: 50 }, { value: 100 }];
 
@@ -75,7 +76,8 @@ const BULK_ACTIONS = [
   "Resend Invite",
   "Deactivate",
   "Activate",
-  "Lock","Unlock",
+  "Lock",
+  "Unlock",
   "Peer Allocation",
   "Reclaim Peer Allocations",
   //"Add Goal" TODO: add logic to check engagement settings
@@ -105,7 +107,9 @@ const SELECTION_COLUMN = {
 const RenderActions = ({ row, onClickActionCb }) => {
   return ACTIONS.map((item, index) => {
     let statusLabel = item.name;
-    const currentStatus = row.original.status?.status ? row.original.status.status : null
+    const currentStatus = row.original.status?.status
+      ? row.original.status.status
+      : null;
     if (item.name === "Activate") {
       return false;
     }
@@ -133,12 +137,12 @@ const RenderActions = ({ row, onClickActionCb }) => {
       }
       statusLabel = "Lock";
     }
-      if (item.name === "Unlock") {
-          if (currentStatus !== "Locked") {
-              return false;
-          }
-          statusLabel = "Unlock";
+    if (item.name === "Unlock") {
+      if (currentStatus !== "Locked") {
+        return false;
       }
+      statusLabel = "Unlock";
+    }
     return (
       <span
         key={index}
@@ -167,35 +171,37 @@ const ProgramParticipants = ({ program, organization }) => {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState({ keyword: "", status: [] });
   const [participants, setParticipants] = useState([]);
+  const [participantIds, setParticipantIds] = useState(null);
   const [statuses, setStatuses] = useCallbackState([]);
   const [actionsArray, setActionsArray] = useState(ACTIONS);
   const [bulkActionsArray, setBulkActionsArray] = useState(BULK_ACTIONS);
   const [isOpenToggle, setIsOpenToggle] = useState(false);
 
-  const toggleStatus = () =>{
+  const toggleStatus = () => {
     setStatuses(() => filter.status, setIsOpenToggle(!isOpenToggle));
-  } 
+  };
 
-  const handleApply = (event) =>{
+  const handleApply = (event) => {
     // event.stopPropagation()
     setIsOpenToggle(!isOpenToggle);
     setFilter({ keyword: filter.keyword, status: statuses });
-  }
+  };
 
-  const handleClickStatus = (item) =>{
+  const handleClickStatus = (item) => {
     // event.stopPropagation()
     if (statuses.includes(item.name)) {
-      setStatuses( (prev) =>  prev.filter( (value) => value !== item.name ),
-      (newStatus) =>{
-        if(newStatus.length <= 0){
-          setStatuses(defaultStatus)
+      setStatuses(
+        (prev) => prev.filter((value) => value !== item.name),
+        (newStatus) => {
+          if (newStatus.length <= 0) {
+            setStatuses(defaultStatus);
+          }
         }
-      }
-    );
+      );
     } else {
       setStatuses([...statuses, ...[item.name]]);
     }
-  }
+  };
 
   useEffect(() => {
     if (!program.uses_peer2peer) {
@@ -235,6 +241,8 @@ const ProgramParticipants = ({ program, organization }) => {
   const onClickAction = (name, row) => {
     if (name == "Name") {
       setParticipants(row);
+    } else if (name == "Participant Award Report") {
+      setParticipants(row);
     } else {
       setParticipants([row]);
     }
@@ -249,10 +257,10 @@ const ProgramParticipants = ({ program, organization }) => {
     }
     setAction(name);
     setParticipants(rows);
-  }
+  };
 
   const onSelectEntry = (value) => {
-    const currentPageIndex = Math.floor(pageIndex * pageSize / value);
+    const currentPageIndex = Math.floor((pageIndex * pageSize) / value);
     setQueryPageSize(value);
 
     if (currentPageIndex >= Math.ceil(users.count / value)) {
@@ -262,12 +270,10 @@ const ProgramParticipants = ({ program, organization }) => {
     }
   };
 
-  const preColumns = React.useMemo(() => [
-    ...[
-      SELECTION_COLUMN,
-      ...USERS_COLUMNS
-    ],
-  ], []);
+  const preColumns = React.useMemo(
+    () => [...[SELECTION_COLUMN, ...USERS_COLUMNS]],
+    []
+  );
 
   let final_columns = [
     ...[
@@ -303,9 +309,24 @@ const ProgramParticipants = ({ program, organization }) => {
 
   const strShowName = (name, p) => {
     return p?.name ? (
-      <span onClick={() => onClickAction(name, p)} className={"link"}>
-        {p.name}
-      </span>
+      <div className="d-flex flex-direction-row items-center w-full gap-2">
+        {p?.budgetCascadingApproval?.count ? (
+          <>
+            <ReactTooltip place="top" type="dark" effect="float" />
+            <span
+              data-tip="Award Pending"
+              className="bg-danger p-1 d-flex align-items-center link"
+              style={{ borderRadius: "50%",height: "fit-content" }}
+              onClick={() => onClickAction("Participant Award Report", p)}
+            >
+              {p.budgetCascadingApproval.count}
+            </span>
+          </>
+        ) : null}
+        <span onClick={() => onClickAction(name, p)} className={"link"}>
+          {p.name}
+        </span>
+      </div> // todo add count of awaiting reward
     ) : (
       ""
     );
@@ -318,7 +339,7 @@ const ProgramParticipants = ({ program, organization }) => {
       initialState: {
         pageIndex: 0,
         pageSize: queryPageSize,
-        hiddenColumns: !program.uses_peer2peer ? ["peerBalance"] : []
+        hiddenColumns: !program.uses_peer2peer ? ["peerBalance"] : [],
       },
       manualPagination: true, // Tell the usePagination
       pageCount: Math.ceil(users?.count / queryPageSize),
@@ -370,7 +391,7 @@ const ProgramParticipants = ({ program, organization }) => {
   }, [getUsers, setLoading, setUsers, pageIndex, queryPageSize, filter]);
 
   useEffect(() => {
-    if ( refreshUsers ) {
+    if (refreshUsers) {
       setRefreshUsers(false);
       setFilter({ keyword: filter.keyword, status: defaultStatus });
     }
@@ -414,9 +435,9 @@ const ProgramParticipants = ({ program, organization }) => {
 
   useEffect(() => {
     // console.log(mounted)
-    let mounted = false
-    if ( !mounted ) {
-      setStatuses( defaultStatus );
+    let mounted = false;
+    if (!mounted) {
+      setStatuses(defaultStatus);
       setFilter({ keyword: filter.keyword, status: defaultStatus });
     }
     return () => {
@@ -425,10 +446,10 @@ const ProgramParticipants = ({ program, organization }) => {
   }, []);
 
   const markStatusAsChecked = (statusName) => {
-    if( statuses === null )  {
+    if (statuses === null) {
       // if( statusName !== 'Deactivated' ) return true;
     } else {
-      return statuses.indexOf(statusName) > -1
+      return statuses.indexOf(statusName) > -1;
     }
   };
 
@@ -476,11 +497,11 @@ const ProgramParticipants = ({ program, organization }) => {
       </UncontrolledDropdown>
     );
   };
-  
+
   const StatusDropdown = () => {
     // console.log(status)
     return (
-      <Dropdown isOpen={isOpenToggle} toggle={toggleStatus} >
+      <Dropdown isOpen={isOpenToggle} toggle={toggleStatus}>
         <DropdownToggle caret className="dropdowntoggle">
           {t("Filter by Status")}
         </DropdownToggle>
@@ -488,8 +509,11 @@ const ProgramParticipants = ({ program, organization }) => {
           {STATUS.map((item, index) => {
             // if(status.includes(item.name)){
             return (
-              <div key={`status-dropdown-item-${index}`}
-                className="dropdown-item cursor-pointer" onClick={() =>handleClickStatus(item)}>
+              <div
+                key={`status-dropdown-item-${index}`}
+                className="dropdown-item cursor-pointer"
+                onClick={() => handleClickStatus(item)}
+              >
                 <input
                   // checked={statuses.includes(item.name)}
                   checked={markStatusAsChecked(item.name)}
@@ -498,16 +522,22 @@ const ProgramParticipants = ({ program, organization }) => {
                   type="checkbox"
                   style={{ marginRight: "10px" }}
                   value={item.name}
-                  onChange={() => { }}
+                  onChange={() => {}}
                 />
-                <label className="w-100 cursor-pointer" htmlFor={`status-checkbox-${index}`}>
+                <label
+                  className="w-100 cursor-pointer"
+                  htmlFor={`status-checkbox-${index}`}
+                >
                   {item.name}
                 </label>
               </div>
             );
           })}
           <DropdownItem divider />
-          <div className="dropdown-item cursor-pointer pl-3" onClick={handleApply}>
+          <div
+            className="dropdown-item cursor-pointer pl-3"
+            onClick={handleApply}
+          >
             <strong>Apply</strong>
           </div>
         </DropdownMenu>
@@ -534,7 +564,11 @@ const ProgramParticipants = ({ program, organization }) => {
               Import
             </Button>
           </div>
-          <TableFilter filter={filter} setFilter={setFilter} config={{status: true}}/>
+          <TableFilter
+            filter={filter}
+            setFilter={setFilter}
+            config={{ status: true }}
+          />
         </div>
         <UserTable />
       </div>
