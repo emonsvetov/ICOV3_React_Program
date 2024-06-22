@@ -18,7 +18,7 @@ const SelectProgram = ({ auth, program, rootProgram, showRefresh, onChange, sele
       setOptions(cachedTree);
     } else {
       if (rootProgram && rootProgram?.id) {
-        getProgramTree(auth.organization_id, rootProgram.id).then((p) => {
+        getProgramTree(rootProgram.organization_id, rootProgram.id).then((p) => {
           cacheProgramTree(p);
           setOptions(p);
         });
@@ -33,8 +33,8 @@ const SelectProgram = ({ auth, program, rootProgram, showRefresh, onChange, sele
       onChange(e);
       return;
     }
-    getProgram(auth.organization_id, e.target.value).then((p) => {
-      getProgramBalance(auth.organization_id, p.id)
+    getProgram(rootProgram.organization_id, e.target.value).then((p) => {
+      getProgramBalance(rootProgram.organization_id, p.id)
       .then( balance => {
         p.balance = balance;
         setAuthProgram(p);
@@ -45,7 +45,7 @@ const SelectProgram = ({ auth, program, rootProgram, showRefresh, onChange, sele
   if (!auth || !program) return t("loading");
   // console.log(program)
   const refreshProgramTree=()=>{
-    getProgramTree(auth.organization_id, rootProgram.id).then((p) => {
+    getProgramTree(rootProgram.organization_id, rootProgram.id).then((p) => {
       cacheProgramTree(p);
       setOptions(p);
     });

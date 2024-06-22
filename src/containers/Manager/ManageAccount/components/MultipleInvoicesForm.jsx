@@ -32,7 +32,7 @@ const MultipleInvoiceForm = ({
 
   useEffect(() => {
     if (rootProgram && rootProgram?.id) {
-      getSetProgramTree(false, auth.organization_id, rootProgram.id).then(
+      getSetProgramTree(false, rootProgram.organization_id, rootProgram.id).then(
         (p) => {
           // console.log(p)
           setPrograms(p);

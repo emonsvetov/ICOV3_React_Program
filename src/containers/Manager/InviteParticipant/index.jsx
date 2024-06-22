@@ -19,7 +19,7 @@ const InviteParticipant = ({ auth, organization, rootProgram }) => {
 
   useEffect(() => {
     if (rootProgram && rootProgram?.id) {
-      getProgramTree(auth.organization_id, rootProgram.id).then((p) => {
+      getProgramTree(rootProgram.organization_id, rootProgram.id).then((p) => {
         setProgramOptions(makeLabelizedOptionsFromTree(p));
       });
     }
@@ -253,6 +253,7 @@ const InviteParticipant = ({ auth, organization, rootProgram }) => {
                 type="submit"
                 text="Invite Participant"
                 disabled={loading}
+                spinner={loading}
               />
             </div>
           </form>

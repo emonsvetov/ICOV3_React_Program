@@ -36,7 +36,7 @@ const Invitation = ({ template }) => {
           const access_token = res.data?.access_token ? res.data.access_token : null
           const user = res.data.user ? res.data.user : null
           const program = res.data?.program?.id ? res.data.program : null
-          const organization = user?.organization?.id ? user.organization : null
+          const organization = program?.organization ? program.organization : null
           if( access_token && user && program && organization )
           {
             user.loginAs = res.data?.role ? res.data.role : null
