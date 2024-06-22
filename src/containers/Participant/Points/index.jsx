@@ -10,7 +10,6 @@ import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { getParticipantMypointsAction } from '@/redux/actions/userActions';
 import Select from "react-select";
-import ConfirmationModal from "./components/ConfirmationModal";
 import { getAuthUser, getAuthProgram } from "@/containers/App/auth";
 import axios from 'axios';
 
