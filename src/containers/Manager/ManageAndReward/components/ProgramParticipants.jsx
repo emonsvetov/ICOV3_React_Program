@@ -310,19 +310,19 @@ const ProgramParticipants = ({ program, organization }) => {
   const strShowName = (name, p) => {
     return p?.name ? (
       <div className="d-flex flex-direction-row items-center w-full gap-2">
-        {p?.budgetCascadingApproval?.count ? (
+        {p?.budgetCascadingApproval?.count && (
           <>
             <ReactTooltip place="top" type="dark" effect="float" />
             <span
               data-tip="Award Pending"
               className="bg-danger p-1 d-flex align-items-center link"
-              style={{ borderRadius: "50%",height: "fit-content" }}
+              style={{ borderRadius: "50%", height: "fit-content" }}
               onClick={() => onClickAction("Participant Award Report", p)}
             >
               {p.budgetCascadingApproval.count}
             </span>
           </>
-        ) : null}
+        )}
         <span onClick={() => onClickAction(name, p)} className={"link"}>
           {p.name}
         </span>

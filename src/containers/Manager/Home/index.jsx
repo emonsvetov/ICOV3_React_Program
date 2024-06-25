@@ -78,14 +78,7 @@ export const Leaderboards = () => {
 
 export const PendingCascadingApproval = () => {
   const program = getAuthProgram();
-  const [points, setPoints] = useState(0);
-  const { t } = useTranslation();
 
-  useEffect(() => {
-    let amount = 0;
-    // cart.forEach((item) => (amount += item.gift.price * item.quantity));
-    // setPoints(amount);
-  }, []);
   return (
     <>
       {program.use_cascading_approvals > 0 && (

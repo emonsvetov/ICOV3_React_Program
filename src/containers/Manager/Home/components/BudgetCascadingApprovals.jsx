@@ -50,10 +50,7 @@ const approveOrRejectCascadingBudget = (oId, pId, participantsData, name) => {
       formData.approved = name == "approved" ? "1" : "2";
       const response = axios.put(
         `/organization/${oId}/program/${pId}/budget-cascading-approval`,
-        {
-          budget_cascading_approval_id: participantIds,
-          approved: name == "approved" ? "1" : "2",
-        }
+        formData
       );
       return response;
     }
