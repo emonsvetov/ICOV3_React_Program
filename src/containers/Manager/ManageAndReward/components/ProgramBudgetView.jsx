@@ -76,13 +76,13 @@ const ProgramBudgetView = ({ organization, program }) => {
                         </Col>
                         <Col>Remaining: ${budget.budget_amount_remaining}</Col>
                         <Col>
-                          Award Distributed: ${budget.budget_amount_remaining}
+                          Award Distributed: ${budget.budget_amount_remaining} || 0
                         </Col>
                       </>
                     );
                   })
                 ) : (
-                  <p>No budget available for current month</p>
+                  <p>No budget available for current yearly</p>
                 )}
               </div>
             </div>

@@ -5,6 +5,7 @@ import {
   findAssignedMonth,
   patchBudgetCascadingData,
   unpatchBudgetCascadingData,
+  months,
 } from "@/services/program/budget";
 import axios from "axios";
 import {
@@ -21,6 +22,7 @@ const AssignBudgetForm = ({
   budgetId,
   handleAmountChange,
   formData,
+  totalAmount,
   budgetCascadingPrograms,
   month,
   setMonth,
@@ -30,6 +32,7 @@ const AssignBudgetForm = ({
   budgetTypes,
 }) => {
   const [assignBudgetPrograms, setAssignBudgetProgram] = useState([]);
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -67,10 +70,6 @@ const AssignBudgetForm = ({
     let data = {};
     data.budget_id = budgetId;
     data.budget_type = budgetProgram?.budget_types?.id;
-    if (remainingAmount < 0) {
-      alert("remaining amount cannot be less than as given available amount");
-      return;
-    }
     if (budgetTypes == "monthly" || budgetTypes == "monthly_rollover") {
       data.budget_amount = unpatchBudgetCascadingData(values, budgetTypes);
     } else {
@@ -80,22 +79,30 @@ const AssignBudgetForm = ({
         budgetProgram
       );
     }
-
-    console.log(data);
-    let url = `/organization/${organization?.id}/program/${program?.id}/budgetprogram/${budgetId}/assign`;
-    axios
-      .post(url, data)
-      .then((res) => {
-        if (res.status === 200) {
-          flashSuccess(dispatch, "Budget assigned successfully");
-          window.location.reload();
-        }
-      })
-      .catch((err) => {
-        if (err) {
-          flashError(dispatch, err);
-        }
-      });
+    if (remainingAmount < 0) {
+      alert("remaining amount cannot be less than as given available amount");
+      return;
+    }
+    if (
+      window.confirm(
+        `Are you sure you wish to add a budget of total of ${totalAmount} to  Programs?`
+      )
+    ) {
+      let url = `/organization/${organization?.id}/program/${program?.id}/budgetprogram/${budgetId}/assign`;
+      axios
+        .post(url, data)
+        .then((res) => {
+          if (res.status === 200) {
+            flashSuccess(dispatch, "Budget assigned successfully");
+            window.location.reload();
+          }
+        })
+        .catch((err) => {
+          if (err) {
+            flashError(dispatch, err);
+          }
+        });
+    }
   };
 
   const flattenInitialValues = (initialValues) => {
@@ -192,6 +199,9 @@ const AssignBudgetForm = ({
                                             e.target.value
                                           );
                                         }}
+                                        disabled={
+                                          months?.indexOf(month) < currentMonth
+                                        }
                                       />
                                     </FormGroup>
                                   )}

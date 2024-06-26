@@ -310,7 +310,7 @@ const ProgramParticipants = ({ program, organization }) => {
   const strShowName = (name, p) => {
     return p?.name ? (
       <div className="d-flex flex-direction-row items-center w-full gap-2">
-        {p?.budgetCascadingApproval?.count && (
+        {p?.budgetCascadingApproval?.count > 0 && (
           <>
             <ReactTooltip place="top" type="dark" effect="float" />
             <span

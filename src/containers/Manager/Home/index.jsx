@@ -10,7 +10,7 @@ import SocialWallPanel from "@/containers/Participant/Home/socialWall/SocialWall
 import { getAuthProgram } from "@/containers/App/auth";
 import { getBalance } from "@/services/program/getBalance";
 import { connect } from "react-redux";
-import BudgetCascadingApprovals from "./components/BudgetCascadingApprovals";
+import BudgetCascadingPendingApprovals from "./components/BudgetCascadingPendingApprovals";
 
 const Home = ({ program, organization }) => {
   const [balance, setBalance] = useState(0);
@@ -88,7 +88,7 @@ export const PendingCascadingApproval = () => {
           </Container>
           <br />
           <div className="m-2 p-2">
-            <BudgetCascadingApprovals />
+            <BudgetCascadingPendingApprovals />
           </div>
         </>
       )}

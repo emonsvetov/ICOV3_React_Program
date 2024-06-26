@@ -63,15 +63,19 @@ export function getDateFormat(value, budgetTypes) {
 }
 
 export const getEndOfMonth = (inputDate, budgetTypes) => {
+  const date = new Date(inputDate);
+  const year = date.getFullYear();
+  if (!inputDate && !Object.keys(budgetTypes).length > 0)
+    return alert("Date or Budget type can not empty");
   if (
     budgetTypes.label === "Monthly" ||
     budgetTypes.label === "Monthly Rollover"
   ) {
-    const date = new Date(inputDate);
-    const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const endOfMonthDate = new Date(year, month, 1);
     return endOfMonthDate.toISOString().split("T")[0];
+  } else if (budgetTypes.label === "Yearly") {
+    return `${year}-12-31`;
   } else {
     return inputDate.toISOString().slice(0, 10);
   }
@@ -246,7 +250,6 @@ export function unpatchBudgetCascadingData(data, budgetTypes, budgetProgram) {
     }, []);
     return groupedData;
   } else {
-    console.log(data);
     let budget_data = formattedData(data, budgetTypes, budgetProgram);
     return budget_data;
   }

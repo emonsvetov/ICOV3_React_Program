@@ -124,10 +124,13 @@ const BudgetSetupInfoModal = ({
   };
 
   const onSubmit = (values) => {
+    let budget;
     if (Array.isArray(budgetType)) {
       values.budget_type_id = budgetType[0].value;
+      budget = budgetType[0].label;
     } else {
       values.budget_type_id = budgetType.value;
+      budget = budgetType.value;
     }
     let actualBudget = budgetProgram?.budget_amount;
     values.budget_start_date = getDateFormat(budgetStartDate, budgetType);
@@ -148,17 +151,21 @@ const BudgetSetupInfoModal = ({
         values.remaining_amount = newRemainingamount;
       }
     }
-    axios
-      .put(
-        `/organization/${organization.id}/program/${program.id}/budgetprogram/${id}`,
-        values
-      )
-      .then((res) => {
-        if (res.status == 200) {
-          flashSuccess(dispatch, "Budget edited successfully!");
-          window.location.reload();
-        }
-      });
+    if (
+      window.confirm(`Are you sure you want to Edit this ${budget} Budget?`)
+    ) {
+      axios
+        .put(
+          `/organization/${organization.id}/program/${program.id}/budgetprogram/${id}`,
+          values
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            flashSuccess(dispatch, "Budget edited successfully!");
+            window.location.reload();
+          }
+        });
+    }
   };
 
   let initialValues = {

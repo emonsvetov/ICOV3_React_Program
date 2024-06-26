@@ -97,7 +97,7 @@ import ManagerViewInvoice from "../Manager/ManageAccount/components/ViewInvoice"
 import ReferralTools from "../Manager/ReferralTools";
 import RefParticipants from "../Manager/RefParticipants";
 import { HelmetProvider } from 'react-helmet-async';
-import BudgetCascadingApprovals from "../Manager/Home/components/BudgetCascadingApprovals";
+import BudgetCascadingApprovals from "../Manager/Home/components/BudgetCascadingPendingApprovals";
 // import { Train } from "@material-ui/icons";
 
 // const Accounts = () => (

@@ -34,10 +34,7 @@ import RewardIcon from "mdi-react/PostItNoteAddIcon";
 import DeactivateIcon from "mdi-react/CancelIcon";
 import IndeterminateCheckbox from "@/shared/components/form/IndeterminateCheckbox";
 
-const ACTIONS = [
-  { label: "Approved", name: "approved" },
-  { label: "Rejected", name: "rejected" },
-];
+const ACTIONS = [{ name: "Approved" }, { name: "Rejected" }];
 
 const approveOrRejectCascadingBudget = (oId, pId, participantsData, name) => {
   try {
@@ -47,7 +44,7 @@ const approveOrRejectCascadingBudget = (oId, pId, participantsData, name) => {
         (participant) => participant.cascading_id
       );
       formData.budget_cascading_approval_id = participantIds;
-      formData.approved = name == "approved" ? "1" : "2";
+      formData.approved = name == "Approved" ? "1" : "2";
       const response = axios.put(
         `/organization/${oId}/program/${pId}/budget-cascading-approval`,
         formData
@@ -61,7 +58,7 @@ const approveOrRejectCascadingBudget = (oId, pId, participantsData, name) => {
 
 const queryClient = new QueryClient();
 
-const BudgetCascadingApprovalTable = ({ organization, program }) => {
+const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
   const [action, setAction] = useState("");
   const [participants, setParticipants] = useState(null);
   const [filter, setFilter] = useState({ keyword: "" });
@@ -184,7 +181,6 @@ const BudgetCascadingApprovalTable = ({ organization, program }) => {
       )
       .then((items) => {
         if (mounted) {
-          console.log(items);
           setParticipants(items);
           setLoading(false);
         }
@@ -298,7 +294,7 @@ const TableWrapper = ({ organization, program, programs }) => {
   if (!organization || !program) return "Loading...";
   return (
     <QueryClientProvider client={queryClient}>
-      <BudgetCascadingApprovalTable
+      <BudgetCascadingPendingApprovalsTable
         organization={organization}
         program={program}
         programs={programs}

@@ -17,6 +17,7 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
   const [budgetCascadingPrograms, setBudgetCascadingProgram] = useState(null);
   const [programs, setPrograms] = useState([]);
   const [remainingAmount, setRemainingAmount] = useState("");
+  const [totalAmount, setTotalAmount] = useState(0);
   const [month, setMonth] = useState([]);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState([]);
@@ -143,7 +144,12 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
     const currentValue = newValue || 0;
     if (budgetTypes == "monthly" || budgetTypes == "monthly_rollover") {
       const prevValue = previousValues[`${programId}-${month}`] || 0;
+      const prevKey = previousValues[`${programId}-${month}`] || 0;
       const valueDifference = currentValue - prevValue;
+      let value = parseInt(valueDifference);
+      if (!isNaN(value)) {
+        setTotalAmount((prev) => prev + value);
+      }
       setRemainingAmount((prevAmount) => prevAmount - valueDifference);
       setPreviousValues((prevState) => {
         const { [`${programId}-${month}`]: removed, ...rest } = prevState;
@@ -214,6 +220,7 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
               month={month}
               setMonth={setMonth}
               formData={formData}
+              totalAmount={totalAmount}
               budgetCascadingPrograms={budgetCascadingPrograms}
               handleAmountChange={handleAmountChange}
               handleBlur={onBlurUpdateRemainingAmount}
