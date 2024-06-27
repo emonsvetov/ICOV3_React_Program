@@ -232,7 +232,7 @@ const AwardDetailFilter = (
             <CSVLink
               data={exportData}
               headers={exportHeaders}
-              filename="report.csv"
+              filename="report_award_detail.csv"
               className="hidden"
               ref={exportLink}
               target="_blank"
