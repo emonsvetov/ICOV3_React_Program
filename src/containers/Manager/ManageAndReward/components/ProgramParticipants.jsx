@@ -241,7 +241,7 @@ const ProgramParticipants = ({ program, organization }) => {
   const onClickAction = (name, row) => {
     if (name == "Name") {
       setParticipants(row);
-    } else if (name == "Participant Award Report") {
+    } else if (name == "Award Revoke Participant") {
       setParticipants(row);
     } else {
       setParticipants([row]);
@@ -314,10 +314,15 @@ const ProgramParticipants = ({ program, organization }) => {
           <>
             <ReactTooltip place="top" type="dark" effect="float" />
             <span
-              data-tip="Award Pending"
-              className="bg-danger p-1 d-flex align-items-center link"
-              style={{ borderRadius: "50%", height: "fit-content" }}
-              onClick={() => onClickAction("Participant Award Report", p)}
+              data-tip="Award Pending for Approval"
+              className="bg-danger p-1 d-flex link"
+              style={{
+                borderRadius: "50%",
+                width: "26px",
+                height: "30px",
+                justifyContent: "center",
+              }}
+              onClick={() => onClickAction("Award Revoke Participant", p)}
             >
               {p.budgetCascadingApproval.count}
             </span>

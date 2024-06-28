@@ -470,3 +470,63 @@ export const PENDING_AWARD_COLUMNS = [
     },
   },
 ];
+
+export const BUDGET_PROGRAM_SUMMARY = [
+  {
+    Header: "Budget",
+    accessor: "monthly_budget_amount",
+    Cell: ({ row, value }) => {
+      return `${toCurrency(value)}`;
+    },
+  },
+  {
+    Header: "Awaiting",
+    accessor: "monthly_award_pending",
+    Cell: ({ row, value }) => {
+      return `${toCurrency(value)}`;
+    },
+  },
+  {
+    Header: "Remaining",
+    accessor: "monthly_budget_amount_remaining",
+    Cell: ({ row, value }) => {
+      return `${toCurrency(value)}`;
+    },
+  },
+  {
+    Header: "Award Distributed",
+    accessor: "monthly_awarded_distributed",
+    Cell: ({ row, value }) => {
+      return `${toCurrency(value)}`;
+    },
+  },
+
+  {
+    Header: "Budget",
+    accessor: "yearly_budget_amount",
+    Cell: ({ row, value }) => {
+      return `${toCurrency(value)}`;
+    },
+  },
+  {
+    Header: "Awaiting",
+    accessor: "yearly_award_pending",
+    Cell: ({ row, value }) => {
+      return `${toCurrency(value)}`;
+    },
+  },
+  {
+    Header: "Remaining",
+    accessor: "yerly_budget_amount_remaining",
+    Cell: ({ row, value }) => {
+      return `${toCurrency(value)}`;
+    },
+  },
+  {
+    Header: "Award Distributed",
+    accessor: "yearly_awarded_distributed",
+    Cell: ({ row, value }) => {
+      return `${toCurrency(value)}`;
+    },
+  },
+];

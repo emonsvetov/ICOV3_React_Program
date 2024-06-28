@@ -9,7 +9,7 @@ import SelectProgram from '../components/SelectProgram'
 import ProgramParticipants from './components/ProgramParticipants'
 import {getBalance} from "@/services/program/getBalance";
 import { Link } from 'react-router-dom';
-import ProgramBudgetView from './components/ProgramBudgetView';
+import ProgramBudgetSummaryTable from './components/ProgramBudgetSummaryTable';
 
 const ManageAndReward = ({auth, program, organization}) => {
   const [balance, setBalance] = useState(0);
@@ -47,10 +47,11 @@ const ManageAndReward = ({auth, program, organization}) => {
             {/*<span>Search Program</span>*/}
           </div>
         </div>
-        {
-          program.use_cascading_approvals > 0 && <ProgramBudgetView organization={organization} program={program}/>         
-        } 
         <div align="right">Current Balance: ${balance.toFixed(2)}</div>
+        {
+          program.budget_summary > 0 && <ProgramBudgetSummaryTable organization={organization} program={program}/>         
+        } 
+        
         <ProgramParticipants organization={organization} program={program} />
       </Container>
     </div>

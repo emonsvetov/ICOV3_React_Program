@@ -112,6 +112,7 @@ const GiveRewardPopup = ({
             checkbox.checked = false;
           }
           setRefreshUsers(true);
+          window.location.reload()
         }
       })
       .catch((err) => {

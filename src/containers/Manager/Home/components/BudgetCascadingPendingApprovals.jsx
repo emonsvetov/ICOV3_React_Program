@@ -59,7 +59,6 @@ const approveOrRejectCascadingBudget = (oId, pId, participantsData, name) => {
 const queryClient = new QueryClient();
 
 const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
-  const [action, setAction] = useState("");
   const [participants, setParticipants] = useState(null);
   const [filter, setFilter] = useState({ keyword: "" });
   const [loading, setLoading] = useState(true);
@@ -256,11 +255,6 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
             <div className="d-flex w-30 justify-content-between dropdown-group">
               <ActionsDropdown />
             </div>
-            <TableFilter
-              filter={filter}
-              setFilter={setFilter}
-              config={{ status: false }}
-            />
           </div>
           <PendingCascadingApprovalTable />
         </div>

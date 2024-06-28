@@ -44,19 +44,21 @@ const ParticipantAwardReportModal = ({
       });
   }, [program, organization, participants]);
 
-  const onSubmit = (values) => {
+  const onDelete = (approvalId) => {
+    let award = {};
+    award.budget_cascading_approval_id = [approvalId?.id];
+    console.log(award);
     axios
-      .post(`/organization/${organization.id}/program/${program.id}/`)
+      .delete(
+        `/organization/${organization.id}/program/${program.id}/budget-cascading-approval/${approvalId.id}`,
+        {data:award}
+      )
       .then((res) => {
-        //console.log(res)
+        console.log(res);
         if (res.status === 200) {
           toggle();
-          //let msg = "User Goal Plan created successfully!"
-          let msg = "";
-          if (res.data.message) {
-            msg += " " + res.data.message;
-          }
-          dispatch(flashMessage(msg));
+
+          dispatch(flashMessage("Award Revoke successfully!"));
 
           window.location.reload();
         }
@@ -80,10 +82,7 @@ const ParticipantAwardReportModal = ({
     // console.log(row);
     return (
       <span className="m-1">
-        <Link
-          to=""
-          // onClick={() => console.log(row)}
-        >
+        <Link to="" onClick={() => onDelete(row.original)}>
           <span className="bg-warning p-2 rounded"> Revoke</span>
         </Link>
       </span>
