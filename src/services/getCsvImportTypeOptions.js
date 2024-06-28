@@ -1,11 +1,17 @@
 
 import axios from 'axios'
 
-const getCsvImportTypeOptions = async (organizationId, programId, context = '') => {
+const getCsvImportTypeOptions = async (organizationId, programId, params = null) => {
     try {
         let url = `/organization/${organizationId}/program/${programId}/importtype`;
-        if( context ) {
-          url += `?context=${context}`
+        let __params = [];
+        if( params && typeof params === 'object') {
+          for (const [key, value] of Object.entries(params)) {
+            __params.push(`${key}=${value}`)
+          }
+          if( __params.length > 0 ) {
+            url += `?${__params.join('&')}`
+          }
         }
         const response = await axios.get(url);
         return response.data;

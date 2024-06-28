@@ -99,7 +99,7 @@ const Import = ({ organization, program }) => {
     if( organization?.id )  
     {
       if( step == 0 ) {
-        getCsvImportTypeOptions(organization.id, program.id, importType)
+        getCsvImportTypeOptions(organization.id, program.id, {'context': importType})
         .then( res => {
           setCsvImportTypes(res) //set raw
           let tmpCsvImportTypeOptions = labelizeNamedData(res, ['type', 'name'])
