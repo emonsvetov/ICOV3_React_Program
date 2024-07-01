@@ -62,7 +62,7 @@ let ManagerTabNavsTmp = ({program}) => {
 
   if (program.use_cascading_approvals > 0) {
     MANAGER_ITEMS .push(
-      { title: "Pending Approvals", icon: "budgetcascading", to: `/manager/cascading-approvals` }
+      { title: "Approvals", icon: "budgetcascading", to: `/manager/cascading-approvals` }
     );
   }
 

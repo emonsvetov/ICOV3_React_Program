@@ -9,7 +9,7 @@ import ReclaimPeerAllocationsModal from "./ReclaimPeerAllocationsModal";
 import AddUserGoalModal from "./AddUserGoalModal";
 // import SubProgramsModal from './subprogram/SubProgramsModal'
 import { useTranslation } from "react-i18next";
-import AwardRevokeParticipant from "./AwardRevokeParticipantModal"
+import ParticipantAwardRevokeModal from "./ParticipantAwardRevokeModal"
 
 const MainModalWrapper = ({
   user,
@@ -50,7 +50,7 @@ const MainModalWrapper = ({
       {name === "Name" && <ParticipantViewModal {...props} />}
       {name === "Reclaim Peer Allocations" && <ReclaimPeerAllocationsModal {...props} />}
       {name === "Add Goal" && <AddUserGoalModal {...props} />}
-      {name === "Award Revoke Participant" && <AwardRevokeParticipant {...props} />}
+      {name === "Participant Award Revoke" && <ParticipantAwardRevokeModal {...props} />}
     </>
   );
 };

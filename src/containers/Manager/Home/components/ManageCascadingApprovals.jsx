@@ -31,7 +31,7 @@ import {
 import axios from "axios";
 import IndeterminateCheckbox from "@/shared/components/form/IndeterminateCheckbox";
 
-const ACTIONS = [{ name: "Approved" }, { name: "Rejected" }];
+const ACTIONS = [{ label: "reject", name: "Reject" }];
 
 const approveOrRejectCascadingBudget = (oId, pId, participantsData, name) => {
   try {

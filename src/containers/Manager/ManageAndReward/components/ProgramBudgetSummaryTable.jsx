@@ -2,24 +2,27 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useTable, useSortBy } from "react-table";
 import axios from "axios";
-import { Row, Col, Table } from "reactstrap";
+import { Table } from "reactstrap";
 import { BUDGET_PROGRAM_SUMMARY } from "./columns";
-import { BorderTop } from "@material-ui/icons";
 
 const ProgramBudgetSummaryTable = ({ organization, program }) => {
   const [currentBudget, setCurrentBudget] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (organization?.id && program?.id) {
+      setLoading(true);
       axios
         .get(
           `organization/${organization.id}/program/${program.id}/budgetprogram/currentbudget`
         )
         .then((response) => {
           setCurrentBudget(response.data);
+          setLoading(false);
         })
         .catch((error) => {
           console.log(error);
+          setLoading(false);
         });
     }
   }, [organization, program]);
@@ -44,6 +47,12 @@ const ProgramBudgetSummaryTable = ({ organization, program }) => {
     },
     useSortBy
   );
+  if (loading)
+    return (
+      <div className="bg-white rounded mb-2 p-1">
+        <p>Laoding...</p>
+      </div>
+    );
 
   return (
     <div className="bg-white rounded mb-2 p-1">

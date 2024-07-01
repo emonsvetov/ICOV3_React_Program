@@ -51,7 +51,7 @@ const ParticipantAwardReportModal = ({
     axios
       .delete(
         `/organization/${organization.id}/program/${program.id}/budget-cascading-approval/${approvalId.id}`,
-        {data:award}
+        { data: award }
       )
       .then((res) => {
         console.log(res);
@@ -79,10 +79,17 @@ const ParticipantAwardReportModal = ({
   };
 
   const RenderActions = ({ row }) => {
-    // console.log(row);
+    console.log(row);
     return (
       <span className="m-1">
-        <Link to="" onClick={() => onDelete(row.original)}>
+        <Link
+          to=""
+          onClick={() => {
+            if (window.confirm(`Are you sure want to revoke Award of ${participants?.first_name}`)) {
+              onDelete(row.original);
+            }
+          }}
+        >
           <span className="bg-warning p-2 rounded"> Revoke</span>
         </Link>
       </span>

@@ -241,7 +241,7 @@ const ProgramParticipants = ({ program, organization }) => {
   const onClickAction = (name, row) => {
     if (name == "Name") {
       setParticipants(row);
-    } else if (name == "Award Revoke Participant") {
+    } else if (name == "Participant Award Revoke") {
       setParticipants(row);
     } else {
       setParticipants([row]);
@@ -322,7 +322,7 @@ const ProgramParticipants = ({ program, organization }) => {
                 height: "30px",
                 justifyContent: "center",
               }}
-              onClick={() => onClickAction("Award Revoke Participant", p)}
+              onClick={() => onClickAction("Participant Award Revoke", p)}
             >
               {p.budgetCascadingApproval.count}
             </span>
