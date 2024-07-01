@@ -15,6 +15,7 @@ export const TABLE_COLUMNS = [
   {
     Header: "Transferred By",
     accessor: "name",
+    Cell: ({ row, value }) => { return !!value ? value : 'Administrator' },
   },
   {
     Header: "Amount",
