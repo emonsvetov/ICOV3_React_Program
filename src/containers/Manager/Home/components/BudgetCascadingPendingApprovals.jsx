@@ -173,7 +173,7 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
     setLoading(true);
     axios
       .get(
-        `/organization/${organization.id}/program/${program.id}/pending-cascading-approvals`
+        `/organization/${organization.id}/program/${program.id}/report/pending-cascading-approvals`
       )
       .then((items) => {
         if (mounted) {
