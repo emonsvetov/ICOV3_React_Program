@@ -186,7 +186,7 @@ const BudgetSetupInfoModal = ({
           <h3>Budget Setup Information</h3>
         </div>
       </div>
-      {hasUserPermissions(assignedPermissions, ["Budget Setup Edit"]) ? (
+      {hasUserPermissions(assignedPermissions, "Budget Setup Edit") ? (
         !loading ? (
           <div className="right  m-3">
             <Form
@@ -211,9 +211,10 @@ const BudgetSetupInfoModal = ({
               }}
             </Form>
             <div className="d-flex">
-              {hasUserPermissions(assignedPermissions, ["Manage Budget"]) &&
+              {hasUserPermissions(assignedPermissions, "Manage Budget") &&
                 budgetStatus && (
                   <Button
+                  color="warning"
                     className="ms-2"
                     onClick={() =>
                       navigate(`/manager/budget/manage-setup/${id}`)
@@ -222,7 +223,7 @@ const BudgetSetupInfoModal = ({
                     Manage Budget for Programs
                   </Button>
                 )}
-              {hasUserPermissions(assignedPermissions, ["Budget Close"]) &&
+              {hasUserPermissions(assignedPermissions, "Budget Close") &&
                 budgetStatus && (
                   <Button
                     color="danger"

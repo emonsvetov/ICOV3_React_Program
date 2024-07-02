@@ -6,7 +6,8 @@ import { Table } from "reactstrap";
 import { BUDGET_PROGRAM_SUMMARY } from "./columns";
 
 const ProgramBudgetSummaryTable = ({ organization, program }) => {
-  const [currentBudget, setCurrentBudget] = useState([]);
+  const [awardData, setAwardsData] = useState(null);
+  const [budgetSummary, setBudgetSummary] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,7 +18,8 @@ const ProgramBudgetSummaryTable = ({ organization, program }) => {
           `organization/${organization.id}/program/${program.id}/budgetprogram/currentbudget`
         )
         .then((response) => {
-          setCurrentBudget(response.data);
+          setAwardsData(response.data);
+          setBudgetSummary(response.data.cascadingData);
           setLoading(false);
         })
         .catch((error) => {
@@ -26,7 +28,7 @@ const ProgramBudgetSummaryTable = ({ organization, program }) => {
         });
     }
   }, [organization, program]);
-  console.log(currentBudget);
+
   const columns = React.useMemo(() => BUDGET_PROGRAM_SUMMARY, []);
 
   const tableStyled = {
@@ -43,7 +45,7 @@ const ProgramBudgetSummaryTable = ({ organization, program }) => {
   } = useTable(
     {
       columns,
-      data: currentBudget,
+      data: budgetSummary,
     },
     useSortBy
   );
@@ -66,7 +68,7 @@ const ProgramBudgetSummaryTable = ({ organization, program }) => {
           </span>
         </Link>
       </div>
-      {currentBudget.length > 0 ? (
+      {budgetSummary.length > 0 ? (
         <>
           <div style={{ display: "flex", justifyContent: "space-around" }}>
             <h6 className="text-color-lightblue">Monthly</h6>
@@ -123,18 +125,14 @@ const ProgramBudgetSummaryTable = ({ organization, program }) => {
         </div>
       )}
       <div className="d-flex m-1 gap-5">
-        {currentBudget.map((currentAward) => (
-          <>
-            <div className="d-flex gap-1 justify-content-center">
-              <h6>Awards Pending:</h6>
-              <span>${currentAward.award_pending}</span>
-            </div>
-            <div className="d-flex gap-1 justify-content-center">
-              <h6>Awards Schedule:</h6>
-              <span>${currentAward.award_schedule}</span>
-            </div>
-          </>
-        ))}
+        <div className="d-flex gap-1 justify-content-center">
+          <h6>Awards Pending:</h6>
+          <span>${awardData?.award_pendings}</span>
+        </div>
+        <div className="d-flex gap-1 justify-content-center">
+          <h6>Awards Schedule:</h6>
+          <span>${awardData?.award_schedule}</span>
+        </div>
       </div>
     </div>
   );

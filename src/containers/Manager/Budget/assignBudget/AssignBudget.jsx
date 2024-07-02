@@ -158,6 +158,10 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
     } else {
       const prevValue = previousValues[`${programId}`] || 0;
       const valueDifference = currentValue - prevValue;
+      let value = parseInt(valueDifference);
+      if (!isNaN(value)) {
+        setTotalAmount((prev) => prev + value);
+      }
       setRemainingAmount((prevAmount) => prevAmount - valueDifference);
       setPreviousValues((prevState) => {
         const { [`${programId}`]: removed, ...rest } = prevState;
@@ -168,7 +172,7 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
   if (loading) return "Loading...";
   if (budgetId && budgetProgram) {
     return (
-      <div className="m-1 bg-light p-3 rounded">
+      <div className="m-1 p-3 rounded">
         <Container>
           <div>
             <h4>Manage Budget</h4>

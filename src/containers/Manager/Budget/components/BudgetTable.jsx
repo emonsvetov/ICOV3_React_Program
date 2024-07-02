@@ -77,7 +77,7 @@ const BudgetTable = ({
 
   return (
     <>
-      {hasUserPermissions(assignedPermissions, ["Budget Read"]) ? (
+      {hasUserPermissions(assignedPermissions, "Budget Read") ? (
         isLoading ? (
           <div style={{ padding: "20px 0px" }}>
             <p>Loading budgets...</p>

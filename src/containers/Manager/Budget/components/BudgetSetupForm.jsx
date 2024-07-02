@@ -187,7 +187,6 @@ const BudgetSetupForm = ({
 
         {budgetStatus && (
           <div className="d-flex justify-content-end">
-            {/* disabled={loading} */}
             <Button color="primary" type="submit" disabled={!budgetStatus}>
               {btnLabel}
             </Button>

@@ -40,8 +40,8 @@ export async function readAssignedPositionPermissions(
 }
 export function hasUserPermissions(userPermissions, requiredPermissions) {
   if (Array.isArray(userPermissions)) {
-    return requiredPermissions.every((permission) =>
-      userPermissions.includes(permission)
+    return userPermissions?.some((permission) =>
+      permission?.includes(requiredPermissions)
     );
   }
 }

@@ -259,7 +259,7 @@ const AssignBudgetForm = ({
               <Row className="d-flex justify-content-end">
                 <Col>
                   {" "}
-                  <Button type="submit" size="sm">
+                  <Button type="submit" size="sm" color="primary">
                     Assign Budget
                   </Button>
                 </Col>

@@ -13,7 +13,6 @@ import {
   DropdownMenu,
   DropdownItem,
   Table,
-  Dropdown,
   Container,
 } from "reactstrap";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
@@ -30,6 +29,7 @@ import {
 } from "@/shared/apiTableHelper";
 import axios from "axios";
 import IndeterminateCheckbox from "@/shared/components/form/IndeterminateCheckbox";
+import AwardScheduleDateModel from "./AwardScheduleDate";
 
 const ACTIONS = [{ label: "reject", name: "Reject" }];
 
@@ -43,7 +43,7 @@ const approveOrRejectCascadingBudget = (oId, pId, participantsData, name) => {
       formData.budget_cascading_approval_id = participantIds;
       formData.approved = name == "Approved" ? "1" : "2";
       const response = axios.put(
-        `/organization/${oId}/program/${pId}/budget-cascading-approval`,
+        `/organization/${oId}/program/${pId}/manage-approvals`,
         formData
       );
       return response;
@@ -59,6 +59,13 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
   const [participants, setParticipants] = useState(null);
   const [filter, setFilter] = useState({ keyword: "" });
   const [loading, setLoading] = useState(true);
+  const [participantsScheduleData, setParticipantsScheduleData] =
+    useState(null);
+  const [isOpen, setOpen] = useState(false);
+
+  const toggle = () => {
+    setOpen((prevState) => !prevState);
+  };
 
   const [
     {
@@ -86,10 +93,42 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
     ),
   };
 
+  const manage_columns = [...[SELECTION_COLUMN, ...TABLE_COLUMNS]];
+
   const columns = React.useMemo(
-    () => [...[SELECTION_COLUMN, ...TABLE_COLUMNS]],
+    () =>
+      manage_columns.map((column) => {
+        if (column.accessor === "scheduled_date") {
+          return {
+            ...column,
+            Cell: ({ value, row }) => {
+              let date = new Date(value).toLocaleDateString("en-US", {});
+              return (
+                <div className="d-flex gap-1">
+                  <span>{date}</span>
+                  <span
+                    className="link"
+                    style={{ color: "#0d6efd", textDecoration: "underline" }}
+                    onClick={() => handleEdit(row.original)}
+                  >
+                    Edit
+                  </span>
+                </div>
+              );
+            },
+          };
+        }
+        return column;
+      }),
     []
   );
+
+  const handleEdit = (row) => {
+    if (row) {
+      setParticipantsScheduleData(row);
+      toggle();
+    }
+  };
 
   const onSelectAction = (name) => {
     const rows = selectedFlatRows.map((d) => d.original);
@@ -173,7 +212,7 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
     setLoading(true);
     axios
       .get(
-        `/organization/${organization.id}/program/${program.id}/cascading-approvals`
+        `/organization/${organization.id}/program/${program.id}/pending-cascading-approvals`
       )
       .then((items) => {
         if (mounted) {
@@ -277,6 +316,14 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
             </>
           )}
         </div>
+        <AwardScheduleDateModel
+          isOpen={isOpen}
+          setOpen={setOpen}
+          toggle={toggle}
+          organization={organization}
+          program={program}
+          participantsScheduleData={participantsScheduleData}
+        />
       </Container>
     );
 };

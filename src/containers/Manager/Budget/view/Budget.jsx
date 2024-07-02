@@ -62,9 +62,10 @@ const Budget = ({ program, organization, auth }) => {
                     style={{ color: "white" }}
                   >
                     <h3>Budgets list</h3>
-                    {hasUserPermissions(assignedPermissions, [
-                      "Budget Setup Create",
-                    ]) && (
+                    {hasUserPermissions(
+                      assignedPermissions,
+                      "Budget Setup Create"
+                    ) && (
                       <Button
                         onClick={() => toggle("AddBudgetSetup")}
                         className="btn btn-primary"
@@ -84,23 +85,17 @@ const Budget = ({ program, organization, auth }) => {
               </div>
             </>
           }
-          {hasUserPermissions(assignedPermissions, ["Budget Read"]) ? (
-            <div className="bg-white m-2 p-3 rounded">
-              <div className="points-summary-table">
-                <BudgetTable
-                  program={program}
-                  organization={organization}
-                  assignedPermissions={assignedPermissions}
-                  {...props}
-                  toggle={toggle}
-                />
-              </div>
+          <div className="bg-white m-2 p-3 rounded">
+            <div className="points-summary-table">
+              <BudgetTable
+                program={program}
+                organization={organization}
+                assignedPermissions={assignedPermissions}
+                {...props}
+                toggle={toggle}
+              />
             </div>
-          ) : (
-            <div style={{ padding: "20px 0px", color: "white" }}>
-              <p>No permissions to read Budget...</p>
-            </div>
-          )}
+          </div>
           <ModalWrapper {...props} toggle={toggle} />
         </>
       ) : (
