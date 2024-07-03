@@ -102,7 +102,6 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
       alert("Select participants");
       return;
     }
-
     approveOrRejectCascadingBudget(organization?.id, program?.id, rows, name)
       .then((response) => {
         if (response.status === 200) {
@@ -184,15 +183,20 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
   });
 
   useEffect(() => {
+    let mounted = true;
     setLoading(true);
     axios
       .get(
         `/organization/${organization.id}/program/${program.id}/report/pending-cascading-approvals`
       )
       .then((items) => {
-        setParticipants(items);
-        setLoading(false);
-      });
+        if (mounted) {
+          setParticipants(items);
+          setLoading(false);
+        }
+      })
+      .catch((err) => console.log(err));
+    return () => (mounted = false);
   }, [organization, program, pageIndex, queryPageSize, filter]);
 
   const ActionsDropdown = () => {
@@ -225,9 +229,20 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
     );
   };
 
-  const PendingCascadingApprovalTable = () => {
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (participants)
     return (
-      <div className="points-summary-table">
+      <Container>
+        <div className="users">
+          <div className="header d-flex  justify-content-between">
+            <div className="d-flex w-30 justify-content-between dropdown-group">
+              <ActionsDropdown />
+            </div>
+          </div>
+          <div className="points-summary-table">
         <Table striped borderless size="md" {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup) => (
@@ -256,23 +271,6 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
           </tbody>
         </Table>
       </div>
-    );
-  };
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (participants)
-    return (
-      <Container>
-        <div className="users">
-          <div className="header d-flex  justify-content-between">
-            <div className="d-flex w-30 justify-content-between dropdown-group">
-              <ActionsDropdown />
-            </div>
-          </div>
-          <PendingCascadingApprovalTable />
         </div>
 
         <div>

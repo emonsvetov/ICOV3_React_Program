@@ -59,7 +59,7 @@ import {
   default as ManagerHome,
   Leaderboards,
   NSpireWall,
-  PendingCascadingApproval,
+  AwardCascadingApproval,
 } from "../Manager/Home/index";
 import ProgramSettings from "../Manager/ProgramSettings/index";
 import ManageAndReward from "../Manager/ManageAndReward/index";
@@ -175,7 +175,7 @@ const RouteIndex = () => (
           <Route path="home" element={<ManagerHome />} />
           <Route path="nspire-wall" element={<NSpireWall />} />
           <Route path="leaderboards" element={<Leaderboards />} />
-          <Route path="cascading-approvals" element={<PendingCascadingApproval/>}/>
+          <Route path="cascading-approvals" element={<AwardCascadingApproval/>}/>
           <Route path="program-settings" element={<ProgramSettings />} />
           <Route path="manage-and-reward" element={<ManageAndReward />} />
           <Route path="invite-participant" element={<InviteParticipant />} />

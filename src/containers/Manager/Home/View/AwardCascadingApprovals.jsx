@@ -13,7 +13,7 @@ import BudgetCascadingPendingApprovals from "../components/BudgetCascadingPendin
 import ManageCascadingApprovals from "../components/ManageCascadingApprovals";
 import classnames from "classnames";
 
-const Approvals = () => {
+const AwardCascadingApprovals = () => {
   const [activeTab, setActiveTab] = useState("1");
 
   const togglePan = (tab) => {
@@ -60,7 +60,7 @@ const Approvals = () => {
         <TabPane tabId="2">
           <Row>
             <Col>
-              <ManageCascadingApprovals />
+              <ManageCascadingApprovals togglePan={togglePan}/>
             </Col>
           </Row>
         </TabPane>
@@ -69,4 +69,4 @@ const Approvals = () => {
   );
 };
 
-export default Approvals;
+export default AwardCascadingApprovals;
