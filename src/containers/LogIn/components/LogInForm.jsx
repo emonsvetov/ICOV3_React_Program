@@ -141,17 +141,13 @@ const LogInForm = () => {
 
   const handleProgramLogin = async( programId, loginAs ) =>{
     // let loginAs = '';
-    if( !user?.programRoles || typeof user.programRoles[programId] === 'undefined') 
-    {
-      throw new Error('Invalid login attempt')
-    }
-    const program = user.programRoles[programId]
-    // setOrganization(program.organization)
     let data = {
       role: loginAs
     }
+    // console.log(data);
+    // return;
     // setLoading(true)
-    axios.post(`/organization/${program.organization.id}/program/${programId}/login`, data, {
+    axios.post(`/organization/${organization.id}/program/${programId}/login`, data, {
       headers: {"Authorization" : `Bearer ${accessToken}`}
     })
     .then( (res) => {
@@ -161,15 +157,13 @@ const LogInForm = () => {
         if( res.data?.program && res.data?.role)  {
           // user.programId = res.data.programId
           user.loginAs = res.data.role
-          user.organization_id = program.organization.id
-          user.organization = program.organization
           // console.log(user.loginAs)
           login({
             user,
             access_token: accessToken,
             program: res.data.program,
             rootProgram: res.data.program,
-            organization: program.organization
+            organization: organization
           })
           let sendTo = '/'
           if( user.loginAs.name.includes('Manager'))  {
@@ -178,7 +172,7 @@ const LogInForm = () => {
 
           } else  if( user.loginAs.name === 'Participant')  {
             sendTo = '/participant/home'
-            axios.get(`/organization/${program.organization.id}/program/${programId}/digital-media-type`, {
+            axios.get(`/organization/${organization.id}/program/${programId}/digital-media-type`, {
               headers: {"Authorization" : `Bearer ${accessToken}`}
             })
                 .then(  (res) => {
