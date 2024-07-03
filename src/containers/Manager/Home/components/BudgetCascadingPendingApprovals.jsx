@@ -29,6 +29,11 @@ import {
   Sorting,
 } from "@/shared/apiTableHelper";
 import axios from "axios";
+import {
+  flashError,
+  flashSuccess,
+  useDispatch,
+} from "@/shared/components/flash";
 import IndeterminateCheckbox from "@/shared/components/form/IndeterminateCheckbox";
 
 const ACTIONS = [{ name: "Approved" }, { name: "Rejected" }];
@@ -59,7 +64,7 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
   const [participants, setParticipants] = useState(null);
   const [filter, setFilter] = useState({ keyword: "" });
   const [loading, setLoading] = useState(true);
-
+  const newDispatch = useDispatch();
   const [
     {
       queryPageIndex,
@@ -98,12 +103,22 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
       return;
     }
 
-    approveOrRejectCascadingBudget(
-      organization?.id,
-      program?.id,
-      rows,
-      name
-    ).then((response) => console.log(response));
+    approveOrRejectCascadingBudget(organization?.id, program?.id, rows, name)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          flashSuccess(
+            newDispatch,
+            "Award Approval status updated successfully!"
+          );
+          window.location.reload();
+        }
+      })
+      .catch((error) => {
+        if (error) {
+          flashError(newDispatch, error.message);
+        }
+      });
   };
 
   const totalPageCount = Math.ceil(totalCount / queryPageSize);
@@ -169,20 +184,16 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
   });
 
   useEffect(() => {
-    let mounted = true;
     setLoading(true);
     axios
       .get(
         `/organization/${organization.id}/program/${program.id}/report/pending-cascading-approvals`
       )
       .then((items) => {
-        if (mounted) {
-          setParticipants(items);
-          setLoading(false);
-        }
+        setParticipants(items);
+        setLoading(false);
       });
-    return () => (mounted = false);
-  }, [setLoading, setParticipants, pageIndex, queryPageSize, filter]);
+  }, [organization, program, pageIndex, queryPageSize, filter]);
 
   const ActionsDropdown = () => {
     return (
@@ -195,7 +206,15 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
             return (
               <DropdownItem
                 key={`action-dropdown-item-${index}`}
-                onClick={() => onSelectAction(item.name)}
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      `Are you sure want to ${item.name} this Award!`
+                    )
+                  ) {
+                    onSelectAction(item.name);
+                  }
+                }}
               >
                 {item.name}
               </DropdownItem>

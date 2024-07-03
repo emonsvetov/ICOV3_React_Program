@@ -30,6 +30,11 @@ import {
 import axios from "axios";
 import IndeterminateCheckbox from "@/shared/components/form/IndeterminateCheckbox";
 import AwardScheduleDateModel from "./AwardScheduleDate";
+import {
+  flashError,
+  flashSuccess,
+  useDispatch,
+} from "@/shared/components/flash";
 
 const ACTIONS = [{ label: "reject", name: "Reject" }];
 
@@ -41,9 +46,9 @@ const approveOrRejectCascadingBudget = (oId, pId, participantsData, name) => {
         (participant) => participant.cascading_id
       );
       formData.budget_cascading_approval_id = participantIds;
-      formData.approved = name == "Approved" ? "1" : "2";
+      formData.approved = name == "Reject" && "2";
       const response = axios.put(
-        `/organization/${oId}/program/${pId}/manage-approvals`,
+        `/organization/${oId}/program/${pId}/budget-cascading-approval`,
         formData
       );
       return response;
@@ -62,6 +67,7 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
   const [participantsScheduleData, setParticipantsScheduleData] =
     useState(null);
   const [isOpen, setOpen] = useState(false);
+  const newDispatch = useDispatch();
 
   const toggle = () => {
     setOpen((prevState) => !prevState);
@@ -137,12 +143,16 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
       return;
     }
 
-    approveOrRejectCascadingBudget(
-      organization?.id,
-      program?.id,
-      rows,
-      name
-    ).then((response) => console.log(response));
+    approveOrRejectCascadingBudget(organization?.id, program?.id, rows, name)
+      .then((response) => {
+        if (response.status === 200) {
+          flashSuccess(newDispatch, "Award Rejected successfully!");
+          window.location.reload();
+        }
+      })
+      .catch((error) => {
+        flashError(newDispatch, error.message);
+      });
   };
 
   const totalPageCount = Math.ceil(totalCount / queryPageSize);
@@ -208,20 +218,16 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
   });
 
   useEffect(() => {
-    let mounted = true;
     setLoading(true);
     axios
       .get(
         `/organization/${organization.id}/program/${program.id}/report/manage-approvals`
       )
       .then((items) => {
-        if (mounted) {
-          setParticipants(items);
-          setLoading(false);
-        }
+        setParticipants(items);
+        setLoading(false);
       });
-    return () => (mounted = false);
-  }, [setLoading, setParticipants, pageIndex, queryPageSize, filter]);
+  }, [organization, program, pageIndex, queryPageSize, filter]);
 
   const ActionsDropdown = () => {
     return (
@@ -234,7 +240,11 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
             return (
               <DropdownItem
                 key={`action-dropdown-item-${index}`}
-                onClick={() => onSelectAction(item.name)}
+                onClick={() => {
+                  if (window.confirm(`Are your sure want to${item.name}?`)) {
+                    onSelectAction(item.name);
+                  }
+                }}
               >
                 {item.name}
               </DropdownItem>
