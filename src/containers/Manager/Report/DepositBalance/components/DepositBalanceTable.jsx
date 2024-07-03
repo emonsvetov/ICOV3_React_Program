@@ -115,6 +115,7 @@ const DataTable = ({organization, program, programs}) => {
         pageIndex: queryPageIndex,
         pageSize: queryPageSize,
         sortBy: queryPageSortBy,
+        expanded: { "0": true }
       },
       manualPagination: true, // Tell the usePagination
       pageCount: data ? totalPageCount : null,

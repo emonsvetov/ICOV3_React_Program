@@ -43,7 +43,7 @@ const QUERY_PAGE_SIZE = 10;
 
 const ACTIONS = [
   { name: "Reward", link: "", icon: <RewardIcon /> },
-  //{ name: "Add Goal", link: "", icon: <GoalIcon /> }, TODO: add logic to check engagement settings
+  { name: "Add Goal", link: "", icon: <GoalIcon /> },
   //{ name: "Email", link: "", icon: <MailIcon /> },TODO: add logic to check engagement settings
   { name: "Resend Invite", link: "", icon: <ResendIcon /> },
   { name: "Deactivate", link: "", icon: <DeactivateIcon /> },
@@ -80,7 +80,7 @@ const BULK_ACTIONS = [
   "Unlock",
   "Peer Allocation",
   "Reclaim Peer Allocations",
-  //"Add Goal" TODO: add logic to check engagement settings
+  "Add Goal"
 ];
 
 const POINT_COLUMN_HEADERS = [

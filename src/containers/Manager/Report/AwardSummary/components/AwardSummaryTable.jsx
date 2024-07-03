@@ -32,6 +32,7 @@ const DataTable = ({organization, program, programs}) => {
     // to: new Date(),
     year: new Date().getFullYear()
   });
+  let pageLength = 0;
   const [useFilter, setUseFilter] = useState(false);
   const [trigger, setTrigger] = useState(0);
   const [exportData, setExportData] = useState([]);
@@ -179,7 +180,8 @@ const DataTable = ({organization, program, programs}) => {
               ))}
               </thead>
               <tbody className="table table--bordered" {...getTableBodyProps()} >
-              {page.map(row => {
+              {
+                page.map(row => {
                 prepareRow(row);
                 const subCount = (row.id.match(/\./g) || []).length
                 const subRows = row.subRows;
@@ -202,6 +204,7 @@ const DataTable = ({organization, program, programs}) => {
                       }
                     </tr>
                     {countSubRows > 0 && subRows.map(subRow => {
+                      pageLength = pageLength + 1;
                       prepareRow(subRow);
                       return (
                         <tr {...subRow.getRowProps()} key={subRow.id}>
@@ -250,6 +253,7 @@ const DataTable = ({organization, program, programs}) => {
                 setPageSize={setPageSize}
                 manualPageSize={manualPageSize}
                 dataLength={totalCount}
+                pageLength={pageLength}
               />
             </>
           )}
