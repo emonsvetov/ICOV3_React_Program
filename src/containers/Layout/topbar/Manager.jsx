@@ -45,19 +45,23 @@ const ManagerTopbar = ({ template, organization, program, auth }) => {
         if( program.enable_referrals )(
           newItems.push({ to: "/manager/referral_tools", text: "Referral Widget" })
         )
-        if (organization?.id && auth) {
-          let budgetItems = [...newItems];
-          readAssignedPositionPermissions(
-            organization?.id,
-            program?.id,
-            auth?.positionLevel?.id
-          ).then((position) => {
-            if (position && hasUserPermissions(position, "Budget")) {
-              budgetItems.push({ to: "/manager/budget", text: "Budget" });
-            }
-            setMenuItems(budgetItems);
-          });
+        if (program?.use_budget_cascading) {
+         newItems.push({ to: "/manager/budget", text: "Budget" });
         }
+        setMenuItems(newItems);
+        // if (organization?.id && auth) {
+        //   let budgetItems = [...newItems];
+        //   readAssignedPositionPermissions(
+        //     organization?.id,
+        //     program?.id,
+        //     auth?.positionLevel?.id
+        //   ).then((position) => {
+        //     if (program?.use_budget_cascading || (position && hasUserPermissions(position, "Budget"))) {
+        //       budgetItems.push({ to: "/manager/budget", text: "Budget" });
+        //     }
+        //     setMenuItems(budgetItems);
+        //   }).catch((err)=>console.log(err));
+        // }
     }
 }, [organization, program, auth])
 
