@@ -18,7 +18,7 @@ const AwardScheduleDateModel = ({
   program,
   participantsScheduleDateData,
   togglePan,
-  loading,
+  setManageApprovalsRefresh,
 }) => {
   const [scheduleDate, setScheduleDate] = useState(
     new Date(participantsScheduleDateData?.scheduled_date)
@@ -29,9 +29,10 @@ const AwardScheduleDateModel = ({
     let formData = {};
     let cascadingIds = [];
     cascadingIds.push(participantsScheduleDateData.cascading_id);
-    formData.scheduled_date = scheduleDate.toISOString().slice(0, 10);
+    let date = scheduleDate;
+    formData.scheduled_date = date;
     formData.budget_cascading_approval_id = cascadingIds;
-    console.log(formData);
+
     if (window.confirm("Are you sure you want to update schedule date")) {
       axios
         .put(
@@ -41,6 +42,12 @@ const AwardScheduleDateModel = ({
         .then((response) => {
           if (response.status === 200) {
             flashSuccess(dispatch, "Schedule date updated successfully!");
+            for (const checkbox of document.querySelectorAll(
+              '.points-summary-table input[type="checkbox"]'
+            )) {
+              checkbox.checked = false;
+            }
+            setManageApprovalsRefresh(true);
             toggle();
             togglePan("2");
             window.location.reload();

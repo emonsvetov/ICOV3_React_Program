@@ -19,7 +19,9 @@ const ProgramBudgetSummaryTable = ({ organization, program }) => {
         )
         .then((response) => {
           setAwardsData(response.data);
-          setBudgetSummary(response.data.cascadingData);
+          setBudgetSummary(
+            response.data.cascadingData ? response.data.cascadingData : []
+          );
           setLoading(false);
         })
         .catch((error) => {
