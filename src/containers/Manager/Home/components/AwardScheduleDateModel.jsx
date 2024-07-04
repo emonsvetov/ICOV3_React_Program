@@ -42,12 +42,12 @@ const AwardScheduleDateModel = ({
         .then((response) => {
           if (response.status === 200) {
             flashSuccess(dispatch, "Schedule date updated successfully!");
-            for (const checkbox of document.querySelectorAll(
-              '.points-summary-table input[type="checkbox"]'
-            )) {
-              checkbox.checked = false;
-            }
-            setManageApprovalsRefresh(true);
+            // for (const checkbox of document.querySelectorAll(
+            //   '.points-summary-table input[type="checkbox"]'
+            // )) {
+            //   checkbox.checked = false;
+            // }
+            // setManageApprovalsRefresh(true);
             toggle();
             togglePan("2");
             window.location.reload();
