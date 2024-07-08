@@ -13,6 +13,7 @@ import {
   DropdownMenu,
   DropdownItem,
   Table,
+  Dropdown,
   Container,
 } from "reactstrap";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
@@ -29,65 +30,34 @@ import {
 } from "@/shared/apiTableHelper";
 import axios from "axios";
 import IndeterminateCheckbox from "@/shared/components/form/IndeterminateCheckbox";
-import AwardScheduleDateModel from "./AwardScheduleDateModel";
-import {
-  flashError,
-  flashSuccess,
-  useDispatch,
-} from "@/shared/components/flash";
+import AwardApprovalPopup from "./AwardApprovalPopup";
 
-const ACTIONS = [{ label: "reject", name: "Reject" }];
-
-const approveOrRejectCascadingBudget = (oId, pId, participantsData, name) => {
-  try {
-    if (participantsData?.length > 0) {
-      let formData = {};
-      const participantIds = participantsData?.map(
-        (participant) => participant.cascading_id
-      );
-      formData.budget_cascading_approval_id = participantIds;
-      formData.approved = name == "Reject" && "2";
-      const response = axios.put(
-        `/organization/${oId}/program/${pId}/budget-cascading-approval`,
-        formData
-      );
-      return response;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
+const ACTIONS = [
+  { label: "Approved", name: "approved" },
+  { label: "Rejected", name: "reject" },
+];
 
 const queryClient = new QueryClient();
 
-const ManageCascadingPendingApprovalsTable = ({
+const queryPageSize = 10;
+
+const BudgetCascadingPendingApprovalsTable = ({
+  auth,
   organization,
   program,
-  togglePan,
 }) => {
   const [participants, setParticipants] = useState(null);
   const [filter, setFilter] = useState({ keyword: "" });
   const [loading, setLoading] = useState(true);
-  const [participantsScheduleDateData, setParticipantsScheduleData] =
-    useState(null);
+  const [awardApprovalParticipants, setAwardApprovalParticipants] = useState(
+    []
+  );
+  const [statusName, setStatusName] = useState("");
   const [isOpen, setOpen] = useState(false);
-  const newDispatch = useDispatch();
 
   const toggle = () => {
     setOpen((prevState) => !prevState);
   };
-
-  const [
-    {
-      queryPageIndex,
-      queryPageSize,
-      totalCount,
-      queryPageFilter,
-      queryPageSortBy,
-      queryTrigger,
-    },
-    dispatch,
-  ] = React.useReducer(reducer, initialState);
 
   const SELECTION_COLUMN = {
     id: "selection",
@@ -103,42 +73,10 @@ const ManageCascadingPendingApprovalsTable = ({
     ),
   };
 
-  const manage_columns = [...[SELECTION_COLUMN, ...TABLE_COLUMNS]];
-
   const columns = React.useMemo(
-    () =>
-      manage_columns.map((column) => {
-        if (column.accessor === "scheduled_date") {
-          return {
-            ...column,
-            Cell: ({ value, row }) => {
-              let date = new Date(value).toLocaleDateString("en-US", {});
-              return (
-                <div className="d-flex gap-1">
-                  <span>{date}</span>
-                  <span
-                    className="link"
-                    style={{ color: "#0d6efd", textDecoration: "underline" }}
-                    onClick={() => handleEdit(row.original)}
-                  >
-                    Edit
-                  </span>
-                </div>
-              );
-            },
-          };
-        }
-        return column;
-      }),
+    () => [...[SELECTION_COLUMN, ...TABLE_COLUMNS]],
     []
   );
-
-  const handleEdit = (row) => {
-    if (row) {
-      setParticipantsScheduleData(row);
-      toggle();
-    }
-  };
 
   const onSelectAction = (name) => {
     const rows = selectedFlatRows.map((d) => d.original);
@@ -146,33 +84,37 @@ const ManageCascadingPendingApprovalsTable = ({
       alert("Select participants");
       return;
     }
-
-    approveOrRejectCascadingBudget(organization?.id, program?.id, rows, name)
-      .then((response) => {
-        if (response.status === 200) {
-          flashSuccess(newDispatch, "Award Rejected successfully!");
-          window.location.reload();
-        }
-      })
-      .catch((error) => {
-        flashError(newDispatch, error.message);
-      });
+    setAwardApprovalParticipants(rows);
+    setStatusName(name);
+    toggle();
   };
 
-  const totalPageCount = Math.ceil(totalCount / queryPageSize);
-
-  useEffect(() => {
-    setFilter({ keyword: filter.keyword });
-  }, []);
-
+  const tableInstance = useTable(
+    {
+      columns,
+      data: useMemo(
+        () => (participants ? participants?.results : []),
+        [participants]
+      ),
+      initialState: {
+        pageIndex: 0,
+        pageSize: queryPageSize,
+      },
+      manualPagination: true, // Tell the usePagination
+      pageCount: Math.ceil(participants?.count / queryPageSize),
+      autoResetSortBy: false,
+      autoResetExpanded: false,
+      autoResetPage: false,
+    },
+    usePagination,
+    useRowSelect
+  );
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    footerGroups,
     rows,
     prepareRow,
-    rowSpanHeaders,
     page,
     pageCount,
     pageOptions,
@@ -183,62 +125,29 @@ const ManageCascadingPendingApprovalsTable = ({
     canNextPage,
     setPageSize,
     selectedFlatRows,
-    state: { pageIndex, pageSize, sortBy },
-  } = useTable(
-    {
-      columns: columns,
-      data: useMemo(
-        () => (participants ? participants?.data : []),
-        [participants]
-      ),
-      initialState: {
-        pageIndex: queryPageIndex,
-        pageSize: queryPageSize,
-        sortBy: queryPageSortBy,
-      },
-      manualPagination: true, // Tell the usePagination
-      pageCount: participants ? totalPageCount : null,
-      autoResetSortBy: false,
-      autoResetExpanded: false,
-      autoResetPage: false,
-      disableResizing: true,
-      autoResetHiddenColumns: false,
-      striped: true,
-    },
-    useSortBy,
-    useExpanded,
-    usePagination,
-    useResizeColumns,
-    useRowSelect
-  );
-
-  const manualPageSize = [];
-  useEffectToDispatch(dispatch, {
-    pageIndex,
-    pageSize,
-    gotoPage,
-    sortBy,
-    participants,
-  });
+    state: { pageIndex, pageSize },
+  } = tableInstance;
 
   useEffect(() => {
     let mounted = true;
     setLoading(true);
-    axios
-      .get(
-        `/organization/${organization.id}/program/${program.id}/report/manage-approvals`
-      )
+    apiTableService
+      .fetchData({
+        url: `/organization/${organization.id}/program/${program.id}/report/cascading-approvals`,
+        page: pageIndex,
+        size: queryPageSize,
+        filter,
+      })
       .then((items) => {
         if (mounted) {
+          console.log(items);
           setParticipants(items);
           setLoading(false);
         }
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => console.log(err));
     return () => (mounted = false);
-  }, [organization, program, togglePan, pageIndex, queryPageSize, filter]);
+  }, [pageIndex, queryPageSize]);
 
   const ActionsDropdown = () => {
     return (
@@ -251,13 +160,9 @@ const ManageCascadingPendingApprovalsTable = ({
             return (
               <DropdownItem
                 key={`action-dropdown-item-${index}`}
-                onClick={() => {
-                  if (window.confirm(`Are your sure want to${item.name}?`)) {
-                    onSelectAction(item.name);
-                  }
-                }}
+                onClick={() => onSelectAction(item.name)}
               >
-                {item.name}
+                {item.label}
               </DropdownItem>
             );
           })}
@@ -269,7 +174,7 @@ const ManageCascadingPendingApprovalsTable = ({
   if (loading) {
     return <p>Loading...</p>;
   }
-
+  const manualPageSize = [];
   if (participants)
     return (
       <Container>
@@ -328,36 +233,36 @@ const ManageCascadingPendingApprovalsTable = ({
                 pageCount={pageCount}
                 setPageSize={setPageSize}
                 manualPageSize={manualPageSize}
-                dataLength={totalCount}
+                dataLength={participants ? participants.count : 0}
               />
             </>
           )}
         </div>
-        {participantsScheduleDateData && (
-          <AwardScheduleDateModel
+        {awardApprovalParticipants && (
+          <AwardApprovalPopup
             isOpen={isOpen}
             setOpen={setOpen}
             toggle={toggle}
+            auth={auth}
             organization={organization}
             program={program}
-            participantsScheduleDateData={participantsScheduleDateData}
-            togglePan={togglePan}
-            loading={loading}
+            statusName={statusName}
+            awardApprovalParticipants={awardApprovalParticipants}
+            rejection_notes={`User Rejected by ${auth?.name}`}
           />
         )}
       </Container>
     );
 };
 
-const TableWrapper = ({ organization, program, programs, togglePan }) => {
-  if (!organization || !program) return "Loading...";
+const TableWrapper = ({ auth, organization, program }) => {
+  if (!organization || !program || !auth) return "Loading...";
   return (
     <QueryClientProvider client={queryClient}>
-      <ManageCascadingPendingApprovalsTable
+      <BudgetCascadingPendingApprovalsTable
         organization={organization}
+        auth={auth}
         program={program}
-        programs={programs}
-        togglePan={togglePan}
       />
     </QueryClientProvider>
   );
@@ -365,6 +270,7 @@ const TableWrapper = ({ organization, program, programs, togglePan }) => {
 
 const mapStateToProps = (state) => {
   return {
+    auth: state.auth,
     program: state.program,
     organization: state.organization,
   };

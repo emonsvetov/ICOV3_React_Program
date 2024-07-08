@@ -11,7 +11,7 @@ import {getBalance} from "@/services/program/getBalance";
 import { Link } from 'react-router-dom';
 import ProgramBudgetSummaryTable from './components/ProgramBudgetSummaryTable';
 
-const ManageAndReward = ({auth, program, organization}) => {
+const ManageAndReward = ({auth, program, organization, rootProgram}) => {
   const [balance, setBalance] = useState(0);
 
   useEffect(() => {
@@ -27,41 +27,45 @@ const ManageAndReward = ({auth, program, organization}) => {
     }
   }, [organization, program]);
 
-  if( !organization?.id || !program?.id || !auth ) return 'loading...'
+  if( !organization?.id || !program?.id || !rootProgram?.id || !auth ) return 'loading...'
 
   return (
-    <div className='manage-reward'>
+    <div className="manage-reward">
       <Container>
-        <div style={{color:'white'}}>
+        <div style={{ color: "white" }}>
           <h3>Manage & Reward</h3>
           {/*<div>You can search for users by name, email or unit/suite number(if applicable), reward users instantly, or deactivate an account.</div>*/}
           {/*<div>You can also select or multiple users from the list to send an email</div>*/}
-
         </div>
-        <div className='my-4 d-flex program-select justify-content-between'>
+        <div className="my-4 d-flex program-select justify-content-between">
           <div className="d-flex">
-            <SelectProgram showRefresh={false}  />
+            <SelectProgram showRefresh={false} />
           </div>
-          <div className='d-flex'>
+          <div className="d-flex">
             {/*<SearchIcon size={36} className='icon'/>*/}
             {/*<span>Search Program</span>*/}
           </div>
         </div>
         <div align="right">Current Balance: ${balance.toFixed(2)}</div>
-        {
-          program.budget_summary > 0 && <ProgramBudgetSummaryTable organization={organization} program={program}/>         
-        } 
-        
+        {rootProgram?.budget_summary > 0 && (
+          <ProgramBudgetSummaryTable
+            organization={organization}
+            program={program}
+            rootProgram={rootProgram}
+          />
+        )}
+
         <ProgramParticipants organization={organization} program={program} />
       </Container>
     </div>
-)}
+  );}
 
 const mapStateToProps = (state) => {
   return {
      auth: state.auth,
      program: state.program,
      organization: state.organization,
+     rootProgram: state.rootProgram
   };
 };
 

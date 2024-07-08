@@ -318,9 +318,10 @@ const ProgramParticipants = ({ program, organization }) => {
               className="bg-danger p-1 d-flex link"
               style={{
                 borderRadius: "50%",
-                width: "26px",
-                height: "30px",
+                width: "20px",
                 justifyContent: "center",
+                fontSize: "12px",
+                maxHeight:"22px",
               }}
               onClick={() => onClickAction("Participant Award Revoke", p)}
             >

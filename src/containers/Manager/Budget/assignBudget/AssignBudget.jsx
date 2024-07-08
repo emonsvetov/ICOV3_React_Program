@@ -36,7 +36,7 @@ const AssignBudget = ({ organization, program, rootProgram }) => {
   useEffect(() => {
     if (organization?.id && rootProgram?.id && budgetId) {
       setLoading(true);
-      getBudgetProgram(organization.id, rootProgram.id, budgetId).then(
+      getBudgetProgram(organization.id, rootProgram?.id, budgetId).then(
         (res) => {
           setBudgetProgram(res);
           setRemainingAmount(res.remaining_amount);

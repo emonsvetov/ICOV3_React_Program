@@ -212,9 +212,10 @@ const BudgetSetupInfoModal = ({
             </Form>
             <div className="d-flex">
               {hasUserPermissions(assignedPermissions, "Manage Budget") &&
-                budgetStatus && (
+                budgetStatus &&
+                program.parent_id === null && (
                   <Button
-                  color="warning"
+                    color="warning"
                     className="ms-2"
                     onClick={() =>
                       navigate(`/manager/budget/manage-setup/${id}`)

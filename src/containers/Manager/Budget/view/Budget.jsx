@@ -9,7 +9,7 @@ import {
   hasUserPermissions,
 } from "@/services/program/budget";
 
-const Budget = ({ program, organization, auth }) => {
+const Budget = ({ program, organization, auth, rootProgram }) => {
   const [isOpen, setOpen] = React.useState(false);
   const [modalName, setModalName] = React.useState(null);
   const [assignedPermissions, setAssignedPermissions] = React.useState([]);
@@ -24,11 +24,11 @@ const Budget = ({ program, organization, auth }) => {
   };
 
   React.useEffect(() => {
-    if (organization?.id && program?.id && auth?.positionLevel) {
+    if (organization?.id && rootProgram?.id && auth?.positionLevel) {
       setIsLoading(true);
       readAssignedPositionPermissions(
         organization.id,
-        program?.id,
+        rootProgram?.id,
         auth?.positionLevel?.id
       )
         .then((res) => {
@@ -40,7 +40,7 @@ const Budget = ({ program, organization, auth }) => {
           setIsLoading(false);
         });
     }
-  }, [organization, program, auth]);
+  }, [organization, rootProgram, program, auth]);
 
   const toggle = (name = null) => {
     if (name) setModalName(name);
@@ -90,6 +90,7 @@ const Budget = ({ program, organization, auth }) => {
               <BudgetTable
                 program={program}
                 organization={organization}
+                rootProgram={rootProgram}
                 assignedPermissions={assignedPermissions}
                 {...props}
                 toggle={toggle}
@@ -112,6 +113,7 @@ const mapStateToProps = (state) => {
     auth: state.auth,
     program: state.program,
     organization: state.organization,
+    rootProgram: state.rootProgram
   };
 };
 

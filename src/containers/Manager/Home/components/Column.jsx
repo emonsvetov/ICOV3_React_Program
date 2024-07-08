@@ -27,7 +27,6 @@ export const TABLE_COLUMNS = [
     Header: "Scheduled Date",
     accessor: "scheduled_date",
     Cell: ({ value }) => {
-      console.log(value);
       let date = new Date(value).toLocaleDateString("en-US", {});
       return <span>{date}</span>;
     },

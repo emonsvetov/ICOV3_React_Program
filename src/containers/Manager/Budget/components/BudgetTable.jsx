@@ -13,6 +13,7 @@ import {
 const BudgetTable = ({
   program,
   organization,
+  rootProgram,
   isOpen,
   setOpen,
   assignedPermissions,
@@ -59,21 +60,24 @@ const BudgetTable = ({
   ];
 
   useEffect(() => {
-    if (program && organization) {
+    if (program && rootProgram && organization) {
       setIsLoading(true);
-      getBudgetProgramLists(organization.id, program.id).then((res) => {
+      getBudgetProgramLists(organization.id, rootProgram.id).then((res) => {
         setBudgetProgramLists(res);
         setIsLoading(false);
       });
     }
-  }, [program, organization]);
+  }, [program, rootProgram, organization]);
 
   const columns = React.useMemo(() => final_columns, []);
 
-  const { getTableProps, headerGroups, rows, prepareRow } = useTable({
-    columns,
-    data: budgetProgramLists,
-  }, useSortBy,);
+  const { getTableProps, headerGroups, rows, prepareRow } = useTable(
+    {
+      columns,
+      data: budgetProgramLists,
+    },
+    useSortBy
+  );
 
   return (
     <>
@@ -96,9 +100,9 @@ const BudgetTable = ({
                       <span>
                         {column.isSorted
                           ? column.isSortedDesc
-                            ? ' 🔽'
-                            : ' 🔼'
-                          : ''}
+                            ? " 🔽"
+                            : " 🔼"
+                          : ""}
                       </span>
                     </th>
                   ))}

@@ -59,7 +59,7 @@ import {
   default as ManagerHome,
   Leaderboards,
   NSpireWall,
-  AwardCascadingApproval,
+  AwardApproval,
 } from "../Manager/Home/index";
 import ProgramSettings from "../Manager/ProgramSettings/index";
 import ManageAndReward from "../Manager/ManageAndReward/index";
@@ -97,7 +97,7 @@ import ManagerViewInvoice from "../Manager/ManageAccount/components/ViewInvoice"
 import ReferralTools from "../Manager/ReferralTools";
 import RefParticipants from "../Manager/RefParticipants";
 import { HelmetProvider } from 'react-helmet-async';
-import BudgetCascadingApprovals from "../Manager/Home/components/BudgetCascadingPendingApprovals";
+import BudgetCascadingApprovals from "../Manager/Home/components/PendingAwardApprovals";
 // import { Train } from "@material-ui/icons";
 
 // const Accounts = () => (
@@ -175,7 +175,7 @@ const RouteIndex = () => (
           <Route path="home" element={<ManagerHome />} />
           <Route path="nspire-wall" element={<NSpireWall />} />
           <Route path="leaderboards" element={<Leaderboards />} />
-          <Route path="cascading-approvals" element={<AwardCascadingApproval/>}/>
+          <Route path="cascading-approvals" element={<AwardApproval/>}/>
           <Route path="program-settings" element={<ProgramSettings />} />
           <Route path="manage-and-reward" element={<ManageAndReward />} />
           <Route path="invite-participant" element={<InviteParticipant />} />

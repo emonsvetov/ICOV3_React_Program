@@ -10,7 +10,7 @@ import SocialWallPanel from "@/containers/Participant/Home/socialWall/SocialWall
 import { getAuthProgram } from "@/containers/App/auth";
 import { getBalance } from "@/services/program/getBalance";
 import { connect } from "react-redux";
-import AwardCascadingApprovals from "./View/AwardCascadingApprovals";
+import AwardApprovals from "./View/AwardApprovals";
 
 const Home = ({ program, organization }) => {
   const [balance, setBalance] = useState(0);
@@ -43,6 +43,7 @@ const mapStateToProps = (state) => {
   return {
     program: state.program,
     organization: state.organization,
+    rootProgram: state.rootProgram
   };
 };
 export default connect(mapStateToProps)(Home);
@@ -76,17 +77,17 @@ export const Leaderboards = () => {
   );
 };
 
-const AwardCascadingApprovalIndex = ({ organization, program }) => {
+const AwardApprovalsIndex = ({ rootProgram }) => {
   return (
     <>
-      {program.use_cascading_approvals > 0 && (
+      {rootProgram?.use_cascading_approvals > 0 && (
         <>
           <Container>
             <ManagerTabSection />
           </Container>
           <br />
           <div className="m-2 p-2">
-            <AwardCascadingApprovals />
+            <AwardApprovals />
           </div>
         </>
       )}
@@ -94,7 +95,7 @@ const AwardCascadingApprovalIndex = ({ organization, program }) => {
   );
 };
 
-const AwardCascadingApproval = connect(mapStateToProps)(
-  AwardCascadingApprovalIndex
+const AwardApproval = connect(mapStateToProps)(
+  AwardApprovalsIndex
 );
-export { AwardCascadingApproval };
+export { AwardApproval };

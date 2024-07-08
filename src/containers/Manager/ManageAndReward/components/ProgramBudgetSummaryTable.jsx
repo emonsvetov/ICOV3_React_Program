@@ -5,10 +5,12 @@ import axios from "axios";
 import { Table } from "reactstrap";
 import { BUDGET_PROGRAM_SUMMARY } from "./columns";
 
-const ProgramBudgetSummaryTable = ({ organization, program }) => {
+const ProgramBudgetSummaryTable = ({ organization, program, rootProgram }) => {
   const [awardData, setAwardsData] = useState(null);
   const [budgetSummary, setBudgetSummary] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [pendingAwards, setPendingAwards] = useState(null);
+  console.log(pendingAwards);
 
   useEffect(() => {
     if (organization?.id && program?.id) {
@@ -27,6 +29,21 @@ const ProgramBudgetSummaryTable = ({ organization, program }) => {
         .catch((error) => {
           console.log(error);
           setLoading(false);
+        });
+    }
+  }, [organization, program]);
+
+  useEffect(() => {
+    if (organization && program) {
+      axios
+        .get(
+          `organization/${organization.id}/program/${program.id}/award-pendings`
+        )
+        .then((response) => {
+          setPendingAwards(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
         });
     }
   }, [organization, program]);

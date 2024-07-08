@@ -13,7 +13,6 @@ import {
   DropdownMenu,
   DropdownItem,
   Table,
-  Dropdown,
   Container,
 } from "reactstrap";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
@@ -29,42 +28,36 @@ import {
   Sorting,
 } from "@/shared/apiTableHelper";
 import axios from "axios";
-import {
-  flashError,
-  flashSuccess,
-  useDispatch,
-} from "@/shared/components/flash";
 import IndeterminateCheckbox from "@/shared/components/form/IndeterminateCheckbox";
+import AwardScheduleDateModel from "./AwardScheduleDateModel";
+import AwardApprovalPopup from "./AwardApprovalPopup";
 
-const ACTIONS = [{ name: "Approved" }, { name: "Rejected" }];
-
-const approveOrRejectCascadingBudget = (oId, pId, participantsData, name) => {
-  try {
-    if (participantsData?.length > 0) {
-      let formData = {};
-      const participantIds = participantsData?.map(
-        (participant) => participant.cascading_id
-      );
-      formData.budget_cascading_approval_id = participantIds;
-      formData.approved = name == "Approved" ? "1" : "2";
-      const response = axios.put(
-        `/organization/${oId}/program/${pId}/budget-cascading-approval`,
-        formData
-      );
-      return response;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
+const ACTIONS = [{ label: "Reject", name: "reject" }];
 
 const queryClient = new QueryClient();
 
-const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
+const ManageCascadingPendingApprovalsTable = ({
+  auth,
+  organization,
+  program,
+  togglePan,
+}) => {
   const [participants, setParticipants] = useState(null);
   const [filter, setFilter] = useState({ keyword: "" });
   const [loading, setLoading] = useState(true);
-  const newDispatch = useDispatch();
+  const [statusName, setStatusName] = useState("");
+  const [participantsScheduleDateData, setParticipantsScheduleData] =
+    useState(null);
+  const [isOpen, setOpen] = useState(false);
+  const [awardApprovalParticipants, setAwardApprovalParticipants] = useState(
+    []
+  );
+  const [modelName, setModelName] = useState("");
+
+  const toggle = () => {
+    setOpen((prevState) => !prevState);
+  };
+
   const [
     {
       queryPageIndex,
@@ -91,10 +84,43 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
     ),
   };
 
+  const manage_columns = [...[SELECTION_COLUMN, ...TABLE_COLUMNS]];
+
   const columns = React.useMemo(
-    () => [...[SELECTION_COLUMN, ...TABLE_COLUMNS]],
+    () =>
+      manage_columns.map((column) => {
+        if (column.accessor === "scheduled_date") {
+          return {
+            ...column,
+            Cell: ({ value, row }) => {
+              let date = new Date(value).toLocaleDateString("en-US", {});
+              return (
+                <div className="d-flex gap-1">
+                  <span>{date}</span>
+                  <span
+                    className="link"
+                    style={{ color: "#0d6efd", textDecoration: "underline" }}
+                    onClick={() => handleEdit(row.original)}
+                  >
+                    Edit
+                  </span>
+                </div>
+              );
+            },
+          };
+        }
+        return column;
+      }),
     []
   );
+
+  const handleEdit = (row) => {
+    if (row) {
+      setParticipantsScheduleData(row);
+      toggle();
+      setModelName("Award Schedule Date");
+    }
+  };
 
   const onSelectAction = (name) => {
     const rows = selectedFlatRows.map((d) => d.original);
@@ -102,22 +128,10 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
       alert("Select participants");
       return;
     }
-    approveOrRejectCascadingBudget(organization?.id, program?.id, rows, name)
-      .then((response) => {
-        if (response.status === 200) {
-          console.log(response);
-          flashSuccess(
-            newDispatch,
-            "Award Approval status updated successfully!"
-          );
-          window.location.reload();
-        }
-      })
-      .catch((error) => {
-        if (error) {
-          flashError(newDispatch, error.message);
-        }
-      });
+    setAwardApprovalParticipants(rows);
+    setStatusName(name);
+    setModelName("Award Approval Popup");
+    toggle();
   };
 
   const totalPageCount = Math.ceil(totalCount / queryPageSize);
@@ -149,7 +163,7 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
     {
       columns: columns,
       data: useMemo(
-        () => (participants ? participants?.data : []),
+        () => (participants ? participants?.results : []),
         [participants]
       ),
       initialState: {
@@ -185,19 +199,24 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
   useEffect(() => {
     let mounted = true;
     setLoading(true);
-    axios
-      .get(
-        `/organization/${organization.id}/program/${program.id}/report/pending-cascading-approvals`
-      )
+    apiTableService
+      .fetchData({
+        url: `/organization/${organization.id}/program/${program.id}/report/manage-approvals`,
+        page: pageIndex,
+        size: queryPageSize,
+        filter,
+      })
       .then((items) => {
         if (mounted) {
           setParticipants(items);
           setLoading(false);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
     return () => (mounted = false);
-  }, [organization, program, pageIndex, queryPageSize, filter]);
+  }, [organization, program, togglePan, pageIndex, queryPageSize, filter]);
 
   const ActionsDropdown = () => {
     return (
@@ -210,17 +229,9 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
             return (
               <DropdownItem
                 key={`action-dropdown-item-${index}`}
-                onClick={() => {
-                  if (
-                    window.confirm(
-                      `Are you sure want to ${item.name} this Award!`
-                    )
-                  ) {
-                    onSelectAction(item.name);
-                  }
-                }}
+                onClick={() => onSelectAction(item.name)}
               >
-                {item.name}
+                {item.label}
               </DropdownItem>
             );
           })}
@@ -243,34 +254,36 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
             </div>
           </div>
           <div className="points-summary-table">
-        <Table striped borderless size="md" {...getTableProps()}>
-          <thead>
-            {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps()}>
-                    {column.render("Header")}
-                  </th>
+            <Table striped borderless size="md" {...getTableProps()}>
+              <thead>
+                {headerGroups.map((headerGroup) => (
+                  <tr {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map((column) => (
+                      <th {...column.getHeaderProps()}>
+                        {column.render("Header")}
+                      </th>
+                    ))}
+                  </tr>
                 ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {rows.map((row, i) => {
-              prepareRow(row);
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => {
-                    return (
-                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
-      </div>
+              </thead>
+              <tbody {...getTableBodyProps()}>
+                {rows.map((row, i) => {
+                  prepareRow(row);
+                  return (
+                    <tr {...row.getRowProps()}>
+                      {row.cells.map((cell) => {
+                        return (
+                          <td {...cell.getCellProps()}>
+                            {cell.render("Cell")}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          </div>
         </div>
 
         <div>
@@ -294,18 +307,44 @@ const BudgetCascadingPendingApprovalsTable = ({ organization, program }) => {
             </>
           )}
         </div>
+        {participantsScheduleDateData && (
+          <AwardScheduleDateModel
+            isOpen={isOpen}
+            setOpen={setOpen}
+            toggle={toggle}
+            organization={organization}
+            program={program}
+            participantsScheduleDateData={participantsScheduleDateData}
+            togglePan={togglePan}
+            loading={loading}
+          />
+        )}
+        {modelName === "Award Approval Popup" && awardApprovalParticipants && (
+          <AwardApprovalPopup
+            isOpen={isOpen}
+            setOpen={setOpen}
+            toggle={toggle}
+            organization={organization}
+            program={program}
+            statusName={statusName}
+            awardApprovalParticipants={awardApprovalParticipants}
+            rejection_notes={`User Rejected by ${auth?.name}`}
+          />
+        )}
       </Container>
     );
 };
 
-const TableWrapper = ({ organization, program, programs }) => {
+const TableWrapper = ({ auth, organization, program, programs, togglePan }) => {
   if (!organization || !program) return "Loading...";
   return (
     <QueryClientProvider client={queryClient}>
-      <BudgetCascadingPendingApprovalsTable
+      <ManageCascadingPendingApprovalsTable
+        auth={auth}
         organization={organization}
         program={program}
         programs={programs}
+        togglePan={togglePan}
       />
     </QueryClientProvider>
   );
@@ -313,8 +352,9 @@ const TableWrapper = ({ organization, program, programs }) => {
 
 const mapStateToProps = (state) => {
   return {
-    program: state.program,
+    auth: state.auth,
     organization: state.organization,
+    program: state.program,
   };
 };
 export default connect(mapStateToProps)(TableWrapper);

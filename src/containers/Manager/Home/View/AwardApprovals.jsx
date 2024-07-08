@@ -9,11 +9,11 @@ import {
   NavLink,
   Container,
 } from "reactstrap";
-import BudgetCascadingPendingApprovals from "../components/BudgetCascadingPendingApprovals";
-import ManageCascadingApprovals from "../components/ManageCascadingApprovals";
+import PendingAwardApprovals from "../components/PendingAwardApprovals";
+import ManageAwardApprovals from "../components/ManageAwardApprovals";
 import classnames from "classnames";
 
-const AwardCascadingApprovals = () => {
+const AwardApprovals = () => {
   const [activeTab, setActiveTab] = useState("1");
 
   const togglePan = (tab) => {
@@ -52,7 +52,7 @@ const AwardCascadingApprovals = () => {
           <>
             <Row>
               <Col>
-                <BudgetCascadingPendingApprovals />
+                <PendingAwardApprovals />
               </Col>
             </Row>
           </>
@@ -60,7 +60,7 @@ const AwardCascadingApprovals = () => {
         <TabPane tabId="2">
           <Row>
             <Col>
-              <ManageCascadingApprovals togglePan={togglePan}/>
+              <ManageAwardApprovals togglePan={togglePan} />
             </Col>
           </Row>
         </TabPane>
@@ -69,4 +69,4 @@ const AwardCascadingApprovals = () => {
   );
 };
 
-export default AwardCascadingApprovals;
+export default AwardApprovals;

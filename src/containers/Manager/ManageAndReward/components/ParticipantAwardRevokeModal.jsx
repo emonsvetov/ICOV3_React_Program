@@ -12,6 +12,7 @@ import { Img } from "@/theme";
 import TemplateButton from "@/shared/components/TemplateButton";
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import { PENDING_AWARD_COLUMNS } from "./columns";
+import AwardApprovalPopup from "../../Home/components/AwardApprovalPopup";
 
 const ParticipantAwardReportModal = ({
   isOpen,
@@ -25,7 +26,14 @@ const ParticipantAwardReportModal = ({
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [participantName, setParticipantName] = useState("");
+  const [statusName, setStatusName] = useState("");
   const [pendingCascadingApproval, setPendingCascadingApproval] = useState([]);
+  const [open, setIsOpen] = useState(false);
+  const [isShow, setIsShow] = useState(false);
+
+  const isToggle = () => {
+    setIsOpen((prevState) => !prevState);
+  };
 
   useEffect(() => {
     if (organization?.id && program?.id && participants) setLoading(true);
@@ -85,9 +93,16 @@ const ParticipantAwardReportModal = ({
         <Link
           to=""
           onClick={() => {
-            if (window.confirm(`Are you sure want to revoke Award of ${participants?.first_name}`)) {
-              onDelete(row.original);
-            }
+            setStatusName("reject");
+            setIsShow(true);
+            isToggle();
+            // if (
+            //   window.confirm(
+            //     `Are you sure want to revoke Award of ${participants?.first_name}`
+            //   )
+            // ) {
+            //   onDelete(row.original);
+            // }
           }}
         >
           <span className="bg-warning p-2 rounded"> Revoke</span>
@@ -193,6 +208,15 @@ const ParticipantAwardReportModal = ({
           <p>{t("loading")}</p>
         )}
       </div>
+      <AwardApprovalPopup
+        isOpen={open}
+        setOpen={setIsOpen}
+        toggle={isToggle}
+        awardApprovalParticipants={pendingCascadingApproval}
+        statusName={statusName}
+        rejection_notes={"Award Revoked!"}
+        isShow={isShow}
+      />
     </Modal>
   );
 };
