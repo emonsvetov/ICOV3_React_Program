@@ -235,7 +235,7 @@ const DataTable = ({organization, program, programs}) => {
             </table>
           }
 
-          {(rows.length > 0) && (
+          {(rows.length > 10) && (
             <>
               <ReactTablePagination
                 page={page}
