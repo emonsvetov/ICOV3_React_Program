@@ -10,8 +10,7 @@ const ProgramBudgetSummaryTable = ({ organization, program, rootProgram }) => {
   const [budgetSummary, setBudgetSummary] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pendingAwards, setPendingAwards] = useState(null);
-  console.log(pendingAwards);
-
+console.log(pendingAwards);
   useEffect(() => {
     if (organization?.id && program?.id) {
       setLoading(true);
@@ -34,10 +33,10 @@ const ProgramBudgetSummaryTable = ({ organization, program, rootProgram }) => {
   }, [organization, program]);
 
   useEffect(() => {
-    if (organization && program) {
+    if (organization?.id && rootProgram?.id) {
       axios
         .get(
-          `organization/${organization.id}/program/${program.id}/award-pendings`
+          `organization/${organization.id}/program/${rootProgram.id}/award-pendings`
         )
         .then((response) => {
           setPendingAwards(response.data);
@@ -46,7 +45,7 @@ const ProgramBudgetSummaryTable = ({ organization, program, rootProgram }) => {
           console.log(error);
         });
     }
-  }, [organization, program]);
+  }, [organization, rootProgram]);
 
   const columns = React.useMemo(() => BUDGET_PROGRAM_SUMMARY, []);
 
@@ -84,6 +83,7 @@ const ProgramBudgetSummaryTable = ({ organization, program, rootProgram }) => {
             style={{ textDecoration: "underline" }}
           >
             Number of Awards Pending Approval:{" "}
+            {pendingAwards?.pending_count || 0}
           </span>
         </Link>
       </div>
@@ -146,11 +146,11 @@ const ProgramBudgetSummaryTable = ({ organization, program, rootProgram }) => {
       <div className="d-flex m-1 gap-5">
         <div className="d-flex gap-1 justify-content-center">
           <h6>Awards Pending:</h6>
-          <span>${awardData?.award_pendings}</span>
+          <span>${awardData?.award_pendings || 0}</span>
         </div>
         <div className="d-flex gap-1 justify-content-center">
           <h6>Awards Schedule:</h6>
-          <span>${awardData?.award_schedule}</span>
+          <span>${awardData?.award_schedule || 0}</span>
         </div>
       </div>
     </div>

@@ -25,7 +25,6 @@ const ParticipantAwardReportModal = ({
   const dispatch = flashDispatch();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
-  const [participantName, setParticipantName] = useState("");
   const [statusName, setStatusName] = useState("");
   const [pendingCascadingApproval, setPendingCascadingApproval] = useState([]);
   const [open, setIsOpen] = useState(false);
@@ -42,7 +41,6 @@ const ParticipantAwardReportModal = ({
         `/organization/${organization.id}/program/${program.id}/${participants.id}/pending-approvals`
       )
       .then((res) => {
-        console.log("res", res);
         setPendingCascadingApproval(res.data);
         setLoading(false);
       })
@@ -55,7 +53,6 @@ const ParticipantAwardReportModal = ({
   const onDelete = (approvalId) => {
     let award = {};
     award.budget_cascading_approval_id = [approvalId?.id];
-    console.log(award);
     axios
       .delete(
         `/organization/${organization.id}/program/${program.id}/budget-cascading-approval/${approvalId.id}`,
@@ -87,7 +84,6 @@ const ParticipantAwardReportModal = ({
   };
 
   const RenderActions = ({ row }) => {
-    console.log(row);
     return (
       <span className="m-1">
         <Link
@@ -132,6 +128,10 @@ const ParticipantAwardReportModal = ({
     },
     useSortBy
   );
+
+  const participantIds = pendingCascadingApproval?.map((participant) => {
+    return { cascading_id: participant.id, ...participant };
+  });
 
   return (
     <Modal
@@ -212,7 +212,9 @@ const ParticipantAwardReportModal = ({
         isOpen={open}
         setOpen={setIsOpen}
         toggle={isToggle}
-        awardApprovalParticipants={pendingCascadingApproval}
+        organization={organization}
+        program={program}
+        awardApprovalParticipants={participantIds}
         statusName={statusName}
         rejection_notes={"Award Revoked!"}
         isShow={isShow}

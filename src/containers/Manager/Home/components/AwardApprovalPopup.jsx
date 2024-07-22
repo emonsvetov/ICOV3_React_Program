@@ -27,33 +27,33 @@ const AwardApprovalPopup = ({
     try {
       if (awardApprovalParticipants?.length > 0) {
         let formData = {};
-        const participantIds = awardApprovalParticipants?.map(
-          (participant) => participant.cascading_id
+        formData.budget_cascading_approval_id = awardApprovalParticipants?.map(
+          (approvalParticipant) => approvalParticipant.cascading_id
         );
-        formData.budget_cascading_approval_id = participantIds;
         formData.approved = statusName == "approved" ? 1 : 2;
         formData.rejection_note =
           statusName == "approved"
             ? `Approved by ${auth.name}`
             : values.rejection_note;
-        axios
-          .put(
-            `/organization/${organization?.id}/program/${program?.id}/budget-cascading-approval`,
-            formData
-          )
-          .then((response) => {
-            if (response.status === 200) {
-              flashSuccess(
-                dispatch,
-                "Award Approval status updated successfully!"
-              );
-              toggle();
-              window.location.reload();
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        console.log(formData);
+        // axios
+        //   .put(
+        //     `/organization/${organization?.id}/program/${program?.id}/budget-cascading-approval`,
+        //     formData
+        //   )
+        //   .then((response) => {
+        //     if (response.status === 200) {
+        //       flashSuccess(
+        //         dispatch,
+        //         "Award Approval status updated successfully!"
+        //       );
+        //       toggle();
+        //       window.location.reload();
+        //     }
+        //   })
+        //   .catch((error) => {
+        //     console.log(error);
+        //   });
       }
     } catch (error) {
       console.log(error);

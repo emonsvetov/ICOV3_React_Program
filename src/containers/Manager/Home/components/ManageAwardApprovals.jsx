@@ -15,28 +15,18 @@ import {
   Table,
   Container,
 } from "reactstrap";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import ReactTablePagination from "@/shared/components/table/components/ReactTablePagination";
 import { TABLE_COLUMNS } from "./Column";
 import { connect } from "react-redux";
 import apiTableService from "@/services/apiTableService";
-import {
-  reducer,
-  useEffectToDispatch,
-  fetchApiData,
-  initialState,
-  Sorting,
-} from "@/shared/apiTableHelper";
-import axios from "axios";
 import IndeterminateCheckbox from "@/shared/components/form/IndeterminateCheckbox";
 import AwardScheduleDateModel from "./AwardScheduleDateModel";
 import AwardApprovalPopup from "./AwardApprovalPopup";
 
 const ACTIONS = [{ label: "Reject", name: "reject" }];
+const queryPageSize = 10;
 
-const queryClient = new QueryClient();
-
-const ManageCascadingPendingApprovalsTable = ({
+const ManageAwardApprovalsTable = ({
   auth,
   organization,
   program,
@@ -57,18 +47,6 @@ const ManageCascadingPendingApprovalsTable = ({
   const toggle = () => {
     setOpen((prevState) => !prevState);
   };
-
-  const [
-    {
-      queryPageIndex,
-      queryPageSize,
-      totalCount,
-      queryPageFilter,
-      queryPageSortBy,
-      queryTrigger,
-    },
-    dispatch,
-  ] = React.useReducer(reducer, initialState);
 
   const SELECTION_COLUMN = {
     id: "selection",
@@ -134,20 +112,12 @@ const ManageCascadingPendingApprovalsTable = ({
     toggle();
   };
 
-  const totalPageCount = Math.ceil(totalCount / queryPageSize);
-
-  useEffect(() => {
-    setFilter({ keyword: filter.keyword });
-  }, []);
-
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    footerGroups,
     rows,
     prepareRow,
-    rowSpanHeaders,
     page,
     pageCount,
     pageOptions,
@@ -167,12 +137,11 @@ const ManageCascadingPendingApprovalsTable = ({
         [participants]
       ),
       initialState: {
-        pageIndex: queryPageIndex,
+        pageIndex: 0,
         pageSize: queryPageSize,
-        sortBy: queryPageSortBy,
       },
       manualPagination: true, // Tell the usePagination
-      pageCount: participants ? totalPageCount : null,
+      pageCount: Math.ceil(participants?.count / queryPageSize),
       autoResetSortBy: false,
       autoResetExpanded: false,
       autoResetPage: false,
@@ -188,13 +157,6 @@ const ManageCascadingPendingApprovalsTable = ({
   );
 
   const manualPageSize = [];
-  useEffectToDispatch(dispatch, {
-    pageIndex,
-    pageSize,
-    gotoPage,
-    sortBy,
-    participants,
-  });
 
   useEffect(() => {
     let mounted = true;
@@ -204,7 +166,6 @@ const ManageCascadingPendingApprovalsTable = ({
         url: `/organization/${organization.id}/program/${program.id}/report/manage-approvals`,
         page: pageIndex,
         size: queryPageSize,
-        filter,
       })
       .then((items) => {
         if (mounted) {
@@ -302,7 +263,7 @@ const ManageCascadingPendingApprovalsTable = ({
                 pageCount={pageCount}
                 setPageSize={setPageSize}
                 manualPageSize={manualPageSize}
-                dataLength={totalCount}
+                dataLength={participants ? participants.count : 0}
               />
             </>
           )}
@@ -335,21 +296,6 @@ const ManageCascadingPendingApprovalsTable = ({
     );
 };
 
-const TableWrapper = ({ auth, organization, program, programs, togglePan }) => {
-  if (!organization || !program) return "Loading...";
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ManageCascadingPendingApprovalsTable
-        auth={auth}
-        organization={organization}
-        program={program}
-        programs={programs}
-        togglePan={togglePan}
-      />
-    </QueryClientProvider>
-  );
-};
-
 const mapStateToProps = (state) => {
   return {
     auth: state.auth,
@@ -357,4 +303,4 @@ const mapStateToProps = (state) => {
     program: state.program,
   };
 };
-export default connect(mapStateToProps)(TableWrapper);
+export default connect(mapStateToProps)(ManageAwardApprovalsTable);

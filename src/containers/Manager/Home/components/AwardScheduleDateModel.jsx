@@ -24,7 +24,7 @@ const AwardScheduleDateModel = ({
     new Date(participantsScheduleDateData?.scheduled_date)
   );
   const dispatch = useDispatch();
-  new Date();
+
   const onSubmit = (values) => {
     let formData = {};
     let cascadingIds = [];

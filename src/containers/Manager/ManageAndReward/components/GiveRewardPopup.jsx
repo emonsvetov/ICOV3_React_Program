@@ -23,7 +23,7 @@ import {
 import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
 import axios from "axios";
 import formValidation from "@/validation/giveReward";
-
+import DatePickerField from "@/shared/components/form/DatePicker";
 import TemplateButton from "@/shared/components/TemplateButton";
 import EVENT_TYPES from "@/shared/json/eventTypes.json";
 import { useTranslation } from "react-i18next";
@@ -45,7 +45,8 @@ const GiveRewardPopup = ({
   organization,
   auth,
   template,
-  theme
+  theme,
+  rootProgram
 }) => {
   // console.log(theme)
   const dispatch = flashDispatch();
@@ -73,6 +74,10 @@ const GiveRewardPopup = ({
     }
   };
 
+  const onSelectChange = ([field], state,) => {
+    console.log(field.target);
+  };
+
   const onSubmit = (values) => {
     // console.log(JSON.stringify( values ))
     let formData = {
@@ -89,7 +94,9 @@ const GiveRewardPopup = ({
     if (values?.email_template_id && values.email_template_id?.value && !isNaN(values.email_template_id.value)) {
       formData["email_template_id"] = parseInt(values.email_template_id.value)
     }
-    // console.log(formData)
+    if (rootProgram?.enable_schedule_awards > 0) {
+      formData["scheduled_date"] = values.scheduled_date;
+    }
     // return
     setSaving(true)
 
@@ -201,7 +208,8 @@ const GiveRewardPopup = ({
           initialValues={initialValues}
           validate={(values) => formValidation.validateForm(values)}
           mutators={{
-            onChangeAwardValue
+            onChangeAwardValue,
+            onSelectChange,
           }}
         >
           {({ handleSubmit, form, submitting, pristine, values }) => {
@@ -328,7 +336,31 @@ const GiveRewardPopup = ({
                           </strong></Label>
                         </Col>
                       )}
-                    </Row>
+                    </Row>                  
+                    {rootProgram?.enable_schedule_awards > 0 && (
+                      <Row>
+                        <Col md="4">
+                          <Label>Scheduled Date*: </Label>
+                        </Col>
+                        <Col md="4">
+                          <Field name="scheduled_date">
+                            {({ input, meta }) => (
+                              <FormGroup>
+                                <DatePickerField
+                                  minDate={new Date()}
+                                  onChange={((date)=> input.onChange(date))}                                 
+                                />
+                                {meta.touched && meta.error && (
+                                  <span className="text-danger">
+                                    {meta.error}
+                                  </span>
+                                )}
+                              </FormGroup>
+                            )}
+                          </Field>
+                        </Col>
+                      </Row>
+                    )}                  
                     <Row>
                       <Col md="12">
                         <Label className="mb-1">Award Notes(optional)</Label>
@@ -462,7 +494,8 @@ const GiveRewardPopup = ({
 const mapStateToProps = (state) => {
   return {
     template: state.template,
-    theme: state.theme
+    theme: state.theme,
+    rootProgram: state.rootProgram
   };
 };
 export default connect(mapStateToProps)(GiveRewardPopup);

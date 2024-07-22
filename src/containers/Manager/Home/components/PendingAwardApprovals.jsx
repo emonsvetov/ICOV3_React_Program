@@ -1,34 +1,17 @@
 import React, { useEffect, useMemo, useState } from "react";
-import {
-  useExpanded,
-  usePagination,
-  useResizeColumns,
-  useSortBy,
-  useTable,
-  useRowSelect,
-} from "react-table";
+import { usePagination, useTable, useRowSelect } from "react-table";
 import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
   Table,
-  Dropdown,
   Container,
 } from "reactstrap";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import ReactTablePagination from "@/shared/components/table/components/ReactTablePagination";
 import { TABLE_COLUMNS } from "./Column";
 import { connect } from "react-redux";
 import apiTableService from "@/services/apiTableService";
-import {
-  reducer,
-  useEffectToDispatch,
-  fetchApiData,
-  initialState,
-  Sorting,
-} from "@/shared/apiTableHelper";
-import axios from "axios";
 import IndeterminateCheckbox from "@/shared/components/form/IndeterminateCheckbox";
 import AwardApprovalPopup from "./AwardApprovalPopup";
 
@@ -37,17 +20,10 @@ const ACTIONS = [
   { label: "Rejected", name: "reject" },
 ];
 
-const queryClient = new QueryClient();
-
 const queryPageSize = 10;
 
-const BudgetCascadingPendingApprovalsTable = ({
-  auth,
-  organization,
-  program,
-}) => {
+const PendingAwardApprovalsTable = ({ auth, organization, program }) => {
   const [participants, setParticipants] = useState(null);
-  const [filter, setFilter] = useState({ keyword: "" });
   const [loading, setLoading] = useState(true);
   const [awardApprovalParticipants, setAwardApprovalParticipants] = useState(
     []
@@ -100,7 +76,7 @@ const BudgetCascadingPendingApprovalsTable = ({
         pageIndex: 0,
         pageSize: queryPageSize,
       },
-      manualPagination: true, // Tell the usePagination
+      manualPagination: true,
       pageCount: Math.ceil(participants?.count / queryPageSize),
       autoResetSortBy: false,
       autoResetExpanded: false,
@@ -131,23 +107,24 @@ const BudgetCascadingPendingApprovalsTable = ({
   useEffect(() => {
     let mounted = true;
     setLoading(true);
-    apiTableService
-      .fetchData({
-        url: `/organization/${organization.id}/program/${program.id}/report/cascading-approvals`,
-        page: pageIndex,
-        size: queryPageSize,
-        filter,
-      })
-      .then((items) => {
-        if (mounted) {
-          console.log(items);
-          setParticipants(items);
-          setLoading(false);
-        }
-      })
-      .catch((err) => console.log(err));
+    if (organization && program) {
+      apiTableService
+        .fetchData({
+          url: `/organization/${organization.id}/program/${program.id}/report/cascading-approvals`,
+          page: pageIndex,
+          size: queryPageSize,
+        })
+        .then((items) => {
+          if (mounted) {
+            console.log(items);
+            setParticipants(items);
+            setLoading(false);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
     return () => (mounted = false);
-  }, [pageIndex, queryPageSize]);
+  }, [organization, program, pageIndex, queryPageSize]);
 
   const ActionsDropdown = () => {
     return (
@@ -255,19 +232,6 @@ const BudgetCascadingPendingApprovalsTable = ({
     );
 };
 
-const TableWrapper = ({ auth, organization, program }) => {
-  if (!organization || !program || !auth) return "Loading...";
-  return (
-    <QueryClientProvider client={queryClient}>
-      <BudgetCascadingPendingApprovalsTable
-        organization={organization}
-        auth={auth}
-        program={program}
-      />
-    </QueryClientProvider>
-  );
-};
-
 const mapStateToProps = (state) => {
   return {
     auth: state.auth,
@@ -275,4 +239,4 @@ const mapStateToProps = (state) => {
     organization: state.organization,
   };
 };
-export default connect(mapStateToProps)(TableWrapper);
+export default connect(mapStateToProps)(PendingAwardApprovalsTable);

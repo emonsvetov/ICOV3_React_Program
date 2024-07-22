@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import PropTypes from 'prop-types';
 import "react-datepicker/dist/react-datepicker.css";
 
-const DatePickerField = ({ onChange, selectedDate }) => {
+const DatePickerField = ({ onChange, selectedDate, minDate }) => {
   const [startDate, setStartDate] = useState(null);
 
   useEffect(() => {
@@ -25,6 +25,7 @@ const DatePickerField = ({ onChange, selectedDate }) => {
         onChange={handleChange}
         dateFormat="yyyy/MM/dd"
         dropDownMode="select"
+        minDate={minDate}
       />
     </div>
   );
