@@ -107,12 +107,10 @@ const SELECTION_COLUMN = {
 const RenderActions = ({ row, onClickActionCb }) => {
   return ACTIONS.map((item, index) => {
     let statusLabel = item.name;
-    const currentStatus = row.original.status?.status
-      ? row.original.status.status
-      : null;
-    if (item.name === "Activate") {
-      return false;
-    }
+    const currentStatus = row.original.status?.status ? row.original.status.status : null
+    // if (item.name === "Activate") {
+    //   return false;
+    // }
     if (item.name === "Deactivate") {
       if (currentStatus === "Deactivated") {
         return false;

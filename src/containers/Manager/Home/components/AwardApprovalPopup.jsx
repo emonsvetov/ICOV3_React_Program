@@ -36,27 +36,27 @@ const AwardApprovalPopup = ({
             ? `Approved by ${auth.name}`
             : values.rejection_note;
         console.log(formData);
-        // axios
-        //   .put(
-        //     `/organization/${organization?.id}/program/${program?.id}/budget-cascading-approval`,
-        //     formData
-        //   )
-        //   .then((response) => {
-        //     if (response.status === 200) {
-        //       flashSuccess(
-        //         dispatch,
-        //         "Award Approval status updated successfully!"
-        //       );
-        //       toggle();
-        //       window.location.reload();
-        //     }
-        //   })
-        //   .catch((error) => {
-        //     console.log(error);
-        //   });
+        axios
+          .put(
+            `/organization/${organization?.id}/program/${program?.id}/budget-cascading-approval`,
+            formData
+          )
+          .then((response) => {
+            if (response.status === 200) {
+              flashSuccess(
+                dispatch,
+                "Award Approval status updated successfully!"
+              );
+              toggle();
+              window.location.reload();
+            }
+          })
+          .catch((error) => {
+            flashError(dispatch, error.message);
+          });
       }
     } catch (error) {
-      console.log(error);
+      flashError(dispatch, error.message);
     }
   };
   const totalAmount = awardApprovalParticipants?.reduce(
