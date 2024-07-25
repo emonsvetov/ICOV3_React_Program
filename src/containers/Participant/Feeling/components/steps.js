@@ -6,7 +6,9 @@ import LeftIcon from "mdi-react/ArrowLeftIcon";
 
 import { motion, useAnimationControls } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { CKEditor } from "ckeditor4-react";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import { ClassicEditor, Bold, Essentials, Italic, Mention, Paragraph, Undo, Underline, Link, Code, Strikethrough, Subscript, Superscript, Heading, List, Alignment, SourceEditing } from 'ckeditor5';
+import 'ckeditor5/ckeditor5.css';
 
 const IMG_EMOTION_DIR = `${process.env.PUBLIC_URL}/theme/clear/img/feeling/`;
 
@@ -162,21 +164,42 @@ export const FourthStep = ({ swiper, setData, data, errors, setErrors, onSubmit,
           <Row>
             <Col>
               <CKEditor 
+                editor={ ClassicEditor }
                 config={{
-                  toolbar: [
-                    ["EmojiPanel"],
-                    [ 'Source' ],
-                    [ 'Styles', 'Format', 'Font', 'FontSize' ],
-                    [ 'Bold', 'Italic' ],
-                    [ 'Undo', 'Redo' ],
+                  toolbar: {
+                    items: [
+                      'undo', 'redo',
+                      '|',
+                      'heading',
+                      '|',
+                      'bold', 'italic', 'underline', 'strikethrough',
+                      '|',
+                      'alignment',
+                      '|',
+                      'bulletedList', 'numberedList','outdent', 'indent', 
+                      '|',
+                      'insertImage',
+                      '|',
+                      'link', 'uploadImage', 'insertTable', 'mediaEmbed', 'insertImage', 'code',
+                      '|',
+                      'sourceEditing',
+                    ]
+                  },
+                  plugins: [
+                    Essentials, List, Alignment, Paragraph, Bold, Italic, Underline, Link, Mention, Heading, Undo, Code, Strikethrough, Subscript, Superscript, SourceEditing, Code
                   ],
-                  extraPlugins: "emoji",
+                  // extraPlugins: "emoji",
                   // toolbarLocation: 'bottom',
+                  mention: { 
+                  },
+                  initialData: '',
                 }}
-                onChange={(event) => {
-                  const content = event.editor.getData();
-                  setValue(content);
-                }}
+                onChange={ ( event, editor ) => {
+                  const data = editor.getData();
+                  setValue(data)
+                } }
+                onReady={ ( editor ) => {
+                } }
                />
             </Col>
           </Row>
