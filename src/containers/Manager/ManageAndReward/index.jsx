@@ -55,7 +55,7 @@ const ManageAndReward = ({auth, program, organization, rootProgram}) => {
           />
         )}
 
-        <ProgramParticipants organization={organization} program={program} />
+        <ProgramParticipants organization={organization} program={program} auth={auth} rootProgram={rootProgram} />
       </Container>
     </div>
   );}

@@ -30,6 +30,10 @@ import { inArray } from "@/shared/helpers";
 import useCallbackState from "@/shared/useCallbackState";
 import { useNavigate } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
+import {
+  readAssignedPositionPermissions,
+  hasUserPermissions,
+} from "@/services/program/budget";
 
 const collectEmails = (users) => {
   let emails = [];
@@ -156,7 +160,7 @@ const RenderActions = ({ row, onClickActionCb }) => {
   });
 };
 
-const ProgramParticipants = ({ program, organization }) => {
+const ProgramParticipants = ({auth, rootProgram, program, organization }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [modalName, setModalName] = useState(null);
@@ -174,6 +178,7 @@ const ProgramParticipants = ({ program, organization }) => {
   const [actionsArray, setActionsArray] = useState(ACTIONS);
   const [bulkActionsArray, setBulkActionsArray] = useState(BULK_ACTIONS);
   const [isOpenToggle, setIsOpenToggle] = useState(false);
+  const [assignedPermissions, setAssignedPermissions] = React.useState([]);
 
   const toggleStatus = () => {
     setStatuses(() => filter.status, setIsOpenToggle(!isOpenToggle));
@@ -200,6 +205,25 @@ const ProgramParticipants = ({ program, organization }) => {
       setStatuses([...statuses, ...[item.name]]);
     }
   };
+
+  useEffect(() => {
+    if (organization.id && rootProgram.id && auth?.positionLevel?.id) {
+      setLoading(true)
+      readAssignedPositionPermissions(
+        organization.id,
+        rootProgram?.id,
+        auth?.positionLevel?.id
+      )
+        .then((res) => {
+          setAssignedPermissions(res);
+          setLoading(false);
+        })
+        .catch((e) => {
+          console.log(e);
+          setLoading(false);
+        });
+    }
+  }, [ organization, program, auth]);
 
   useEffect(() => {
     if (!program.uses_peer2peer) {
@@ -252,6 +276,15 @@ const ProgramParticipants = ({ program, organization }) => {
     if (rows.length === 0) {
       alert("Select participants");
       return;
+    }
+    if (
+      name === "Reward" &&
+      !hasUserPermissions(assignedPermissions, "Award Create")
+    ) {
+      alert(
+        "Based on permission settings, your user role is unable to complete task."
+      );
+      return ;
     }
     setAction(name);
     setParticipants(rows);
