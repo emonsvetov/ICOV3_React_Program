@@ -267,37 +267,37 @@ const DataTable = ({organization, program, programs}) => {
                   ${parseFloat(data.full.totalValue.Q1_total_value)?.toFixed(2)}
                 </td>
                 <td>
-                  {Q1_total_count}
+                  {data.full.totalValue.Q1_total_count}
                 </td>
                 <td>
                   ${parseFloat(data.full.totalValue.Q2_total_value)?.toFixed(2)}
                 </td>
                 <td>
-                  {Q2_total_count}
+                  {data.full.totalValue.Q2_total_count}
                 </td>
                 <td>
                   ${parseFloat(data.full.totalValue.Q3_total_value)?.toFixed(2)}
                 </td>
                 <td>
-                  {Q3_total_count}
+                  {data.full.totalValue.Q3_total_count}
                 </td>
                 <td>
                   ${parseFloat(data.full.totalValue.Q4_total_value)?.toFixed(2)}
                 </td>
                 <td>
-                  {Q4_total_count}
+                  {data.full.totalValue.Q4_total_count}
                 </td>
                 <td>
                   ${parseFloat(data.full.totalValue.ytd_total_value)?.toFixed(2)}
                 </td>
                 <td>
-                  {ytd_total_count}
+                  {data.full.totalValue.ytd_total_count}
                 </td>
               </tfoot>
             </table>
           }
 
-          {(rows.length > 0) && (
+          {(rows.length > 100) && (
             <>
               <ReactTablePagination
                 page={page}

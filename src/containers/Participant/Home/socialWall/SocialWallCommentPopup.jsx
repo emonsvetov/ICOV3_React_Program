@@ -112,9 +112,10 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
       .then((users) => {
         const username = users.results?.map((user) => {
           const newObject = {
-            id: user.id,
-            name: user.first_name,
-            fullName: user.name,
+            userId: user.id,
+            id: `@${user.first_name}`,
+            name: user.name,
+            mailTo: `mailto:${user.email}`
           };
           mentionsData.push(newObject);
         });

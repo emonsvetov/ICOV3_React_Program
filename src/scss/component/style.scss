@@ -2052,3 +2052,10 @@ main.participant{
 .ref-participants-form button{
     width: 25%;
 }
+.ck.ck-balloon-panel{
+    z-index: 10000000;
+}
+a.mention{
+    text-decoration: underline;
+    cursor: pointer;
+}
