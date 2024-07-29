@@ -31,6 +31,7 @@ const SocialWallClassic = ({isManager, socialWallPosts, template, program, popup
         })}
       </div>
       <SocialWallCommentModalWrapper
+        isManager={isManager}
         isOpen={isOpen}
         setOpen={setOpen}
         toggle={popupToggle}

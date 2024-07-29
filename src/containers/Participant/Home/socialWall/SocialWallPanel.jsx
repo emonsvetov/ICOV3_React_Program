@@ -21,6 +21,7 @@ const SocialWallPanel = ({ organization, program, isManager, template, setPostTy
   const confirmRef = useRef({});
   const dispatch = useDispatch();
   const flashDispatch = useFlashDispatch();
+  const socialWallPostFilter = {isManager: isManager};
 
   const popupToggle = () => {
     setOpen((prevState) => !prevState);
@@ -37,7 +38,7 @@ const SocialWallPanel = ({ organization, program, isManager, template, setPostTy
       deleteSocialWallPost(organization.id, program.id, id)
     )
       .then((res) => {
-        getSocialWallPosts(organization.id, program.id, 0, 999999)
+        getSocialWallPosts(organization.id, program.id, 0, 999999, socialWallPostFilter)
           .then((data) => {
             setSocialWallPosts(data);
             confirmRef.current.toggle();
@@ -62,7 +63,7 @@ const SocialWallPanel = ({ organization, program, isManager, template, setPostTy
       likeSocialWallPost(organization.id, program.id, {id:id})
     )
       .then((res) => {
-        getSocialWallPosts(organization.id, program.id, 0, 999999)
+        getSocialWallPosts(organization.id, program.id, 0, 999999, socialWallPostFilter)
           .then((data) => {
             setSocialWallPosts(data);
           })
@@ -78,7 +79,7 @@ const SocialWallPanel = ({ organization, program, isManager, template, setPostTy
   useEffect(() => {
     if (organization && program) {
       setLoading(true);
-      getSocialWallPosts(organization.id, program.id, 0, 999999)
+      getSocialWallPosts(organization.id, program.id, 0, 999999, socialWallPostFilter)
         .then((data) => {
           // console.log(data)
           setSocialWallPosts(data);
