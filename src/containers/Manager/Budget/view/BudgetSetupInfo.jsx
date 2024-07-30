@@ -204,6 +204,7 @@ const BudgetSetupInfoModal = ({
                     submitting={submitting}
                     pristine={pristine}
                     values={values}
+                    editPermission={hasUserPermissions(assignedPermissions,"Budget Setup Edit","can_access_individual_permission")}
                   />
                 </form>
               );
@@ -213,7 +214,7 @@ const BudgetSetupInfoModal = ({
             {hasUserPermissions(
               assignedPermissions,
               "Manage Budget",
-              "can_setup_budget"
+              "can_access_individual_permission"
             ) &&
               budgetStatus &&
               program.parent_id === null && (
@@ -228,7 +229,7 @@ const BudgetSetupInfoModal = ({
             {hasUserPermissions(
               assignedPermissions,
               "Budget Close",
-              "can_setup_budget"
+              "can_access_individual_permission"
             ) &&
               budgetStatus && (
                 <Button

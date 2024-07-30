@@ -46,7 +46,7 @@ const BudgetTable = ({
       </span>
     );
   };
-  
+
   let final_columns = hasUserPermissions(
     assignedPermissions,
     "Budget Setup Edit",

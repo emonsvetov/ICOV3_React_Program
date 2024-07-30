@@ -19,6 +19,7 @@ const BudgetSetupForm = ({
   dateFormat,
   setDateformat,
   budgetStatus = true,
+  editPermission=true
 }) => {
   const currentYear = new Date();
   const maxDate = new Date("2024-12-31");
@@ -185,7 +186,7 @@ const BudgetSetupForm = ({
           </Row>
         )}
 
-        {budgetStatus && (
+        {budgetStatus && editPermission && (
           <div className="d-flex justify-content-end">
             <Button color="primary" type="submit" disabled={!budgetStatus}>
               {btnLabel}

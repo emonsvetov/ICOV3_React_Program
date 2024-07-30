@@ -65,7 +65,7 @@ const Budget = ({ program, organization, auth, rootProgram }) => {
                     {hasUserPermissions(
                       assignedPermissions,
                       "Budget Setup Create",
-                      "can_setup_budget"
+                      "can_access_individual_permission"
                     ) && (
                       <Button
                         onClick={() => toggle("AddBudgetSetup")}
