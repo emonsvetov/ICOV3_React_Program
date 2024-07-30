@@ -25,7 +25,7 @@ const LINKS = [
   { to: "/manager/team", text: "Team" }
 ];
 
-const ManagerTopbar = ({ template, organization, program, auth }) => {
+const ManagerTopbar = ({ template, organization, program, auth, rootProgram }) => {
   // console.log(template)
   const [isOpen, setOpen] = useState(false);
   const [menuItems, setMenuItems] = useState(LINKS);
@@ -45,23 +45,26 @@ const ManagerTopbar = ({ template, organization, program, auth }) => {
         if( program.enable_referrals )(
           newItems.push({ to: "/manager/referral_tools", text: "Referral Widget" })
         )
-        if (program?.use_budget_cascading) {
-         newItems.push({ to: "/manager/budget", text: "Budget" });
-        }
         setMenuItems(newItems);
-        // if (organization?.id && auth) {
-        //   let budgetItems = [...newItems];
-        //   readAssignedPositionPermissions(
-        //     organization?.id,
-        //     program?.id,
-        //     auth?.positionLevel?.id
-        //   ).then((position) => {
-        //     if (program?.use_budget_cascading || (position && hasUserPermissions(position, "Budget"))) {
-        //       budgetItems.push({ to: "/manager/budget", text: "Budget" });
-        //     }
-        //     setMenuItems(budgetItems);
-        //   }).catch((err)=>console.log(err));
-        // }
+        if (organization?.id && auth && rootProgram?.id) {
+          let budgetItems = [...newItems];
+          readAssignedPositionPermissions(
+            organization?.id,
+            rootProgram?.id,
+            auth?.positionLevel?.id
+          )
+            .then((position) => {
+              if (
+                rootProgram?.use_budget_cascading &&
+                position &&
+                hasUserPermissions(position,"Budget", "can_access_budget")
+              ) {
+                budgetItems.push({ to: "/manager/budget", text: "Budget" });
+              }
+              setMenuItems(budgetItems);
+            })
+            .catch((err) => console.log(err));
+        }
     }
 }, [organization, program, auth])
 
@@ -105,6 +108,7 @@ const mapStateToProps = (state) => {
     organization:state.organization,
     program: state.program,
     auth:state.auth,
+    rootProgram: state.rootProgram
   };
 };
 

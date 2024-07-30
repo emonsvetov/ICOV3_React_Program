@@ -1,5 +1,7 @@
 import axios from "axios";
 
+let budget_approve = ["Budget Close", "Budget Setup Edit", "Manage Budget", "Budget Setup Create"];
+
 export const getBudgetTypes = async (organizationId, programId) => {
   const response = await axios.get(
     `/organization/${organizationId}/program/${programId}/budgettypes`
@@ -38,11 +40,27 @@ export async function readAssignedPositionPermissions(
   );
   return response?.data?.map((permission) => permission.name);
 }
-export function hasUserPermissions(userPermissions, requiredPermissions) {
-  if (Array.isArray(userPermissions)) {
-    return userPermissions?.some((permission) =>
-      permission?.includes(requiredPermissions)
-    );
+export function hasUserPermissions(
+  userPermissions,
+  requiredPermissions,
+  can_authorize
+) {
+  switch (Array.isArray(userPermissions)) {
+    case can_authorize?.includes("can_access_budget"):
+      return userPermissions?.some((permission) =>
+        permission?.includes(requiredPermissions)
+      );
+    case can_authorize?.includes("can_access_award_permission"):
+      return userPermissions?.some(
+        (permission) => permission == requiredPermissions
+      );
+    case can_authorize?.includes("can_setup_budget"):
+      return userPermissions?.filter((permission) => {
+        if (budget_approve?.includes(permission)) return true;
+        return false;
+      });
+    default:
+      break;
   }
 }
 export function getDateFormat(value, budgetTypes) {

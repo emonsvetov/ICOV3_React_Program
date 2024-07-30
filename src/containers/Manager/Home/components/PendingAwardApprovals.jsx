@@ -14,6 +14,10 @@ import { connect } from "react-redux";
 import apiTableService from "@/services/apiTableService";
 import IndeterminateCheckbox from "@/shared/components/form/IndeterminateCheckbox";
 import AwardApprovalPopup from "./AwardApprovalPopup";
+import {
+  readAssignedPositionPermissions,
+  hasUserPermissions,
+} from "@/services/program/budget";
 
 const ACTIONS = [
   { label: "Approved", name: "approved" },
@@ -22,9 +26,15 @@ const ACTIONS = [
 
 const queryPageSize = 10;
 
-const PendingAwardApprovalsTable = ({ auth, organization, program }) => {
+const PendingAwardApprovalsTable = ({
+  auth,
+  organization,
+  program,
+  rootProgram,
+}) => {
   const [participants, setParticipants] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [assignedPermissions, setAssignedPermissions] = useState([]);
   const [awardApprovalParticipants, setAwardApprovalParticipants] = useState(
     []
   );
@@ -60,10 +70,35 @@ const PendingAwardApprovalsTable = ({ auth, organization, program }) => {
       alert("Select participants");
       return;
     }
+    if (
+      (name === "approved" || "reject") &&
+      !hasUserPermissions(assignedPermissions, "Award Approve", "can_access_award_permission")
+    ) {
+      alert(
+        "Based on permission settings, your user role is unable to complete task."
+      );
+      return;
+    }
     setAwardApprovalParticipants(rows);
     setStatusName(name);
     toggle();
   };
+
+  useEffect(() => {
+    if (organization?.id && rootProgram?.id && auth?.positionLevel?.id) {
+      readAssignedPositionPermissions(
+        organization.id,
+        rootProgram?.id,
+        auth?.positionLevel?.id
+      )
+        .then((res) => {
+          setAssignedPermissions(res);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  }, [auth, organization, rootProgram]);
 
   const tableInstance = useTable(
     {
@@ -107,7 +142,7 @@ const PendingAwardApprovalsTable = ({ auth, organization, program }) => {
   useEffect(() => {
     let mounted = true;
     setLoading(true);
-    if (organization && program) {
+    if (organization?.id && program?.id) {
       apiTableService
         .fetchData({
           url: `/organization/${organization.id}/program/${program.id}/report/cascading-approvals`,
@@ -116,7 +151,6 @@ const PendingAwardApprovalsTable = ({ auth, organization, program }) => {
         })
         .then((items) => {
           if (mounted) {
-            console.log(items);
             setParticipants(items);
             setLoading(false);
           }
@@ -237,6 +271,7 @@ const mapStateToProps = (state) => {
     auth: state.auth,
     program: state.program,
     organization: state.organization,
+    rootProgram: state.rootProgram,
   };
 };
 export default connect(mapStateToProps)(PendingAwardApprovalsTable);

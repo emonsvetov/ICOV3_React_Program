@@ -84,7 +84,7 @@ const BULK_ACTIONS = [
   "Unlock",
   "Peer Allocation",
   "Reclaim Peer Allocations",
-  "Add Goal"
+  "Add Goal",
 ];
 
 const POINT_COLUMN_HEADERS = [
@@ -111,7 +111,9 @@ const SELECTION_COLUMN = {
 const RenderActions = ({ row, onClickActionCb }) => {
   return ACTIONS.map((item, index) => {
     let statusLabel = item.name;
-    const currentStatus = row.original.status?.status ? row.original.status.status : null
+    const currentStatus = row.original.status?.status
+      ? row.original.status.status
+      : null;
     // if (item.name === "Activate") {
     //   return false;
     // }
@@ -160,7 +162,7 @@ const RenderActions = ({ row, onClickActionCb }) => {
   });
 };
 
-const ProgramParticipants = ({auth, rootProgram, program, organization }) => {
+const ProgramParticipants = ({ auth, rootProgram, program, organization }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [modalName, setModalName] = useState(null);
@@ -208,7 +210,7 @@ const ProgramParticipants = ({auth, rootProgram, program, organization }) => {
 
   useEffect(() => {
     if (organization.id && rootProgram.id && auth?.positionLevel?.id) {
-      setLoading(true)
+      setLoading(true);
       readAssignedPositionPermissions(
         organization.id,
         rootProgram?.id,
@@ -223,7 +225,7 @@ const ProgramParticipants = ({auth, rootProgram, program, organization }) => {
           setLoading(false);
         });
     }
-  }, [ organization, program, auth]);
+  }, [organization, program, auth]);
 
   useEffect(() => {
     if (!program.uses_peer2peer) {
@@ -279,12 +281,16 @@ const ProgramParticipants = ({auth, rootProgram, program, organization }) => {
     }
     if (
       name === "Reward" &&
-      !hasUserPermissions(assignedPermissions, "Award Create")
+      !hasUserPermissions(
+        assignedPermissions,
+        "Award Create",
+        "can_access_award_permission"
+      )
     ) {
       alert(
         "Based on permission settings, your user role is unable to complete task."
       );
-      return ;
+      return;
     }
     setAction(name);
     setParticipants(rows);
@@ -352,7 +358,7 @@ const ProgramParticipants = ({auth, rootProgram, program, organization }) => {
                 width: "20px",
                 justifyContent: "center",
                 fontSize: "12px",
-                maxHeight:"22px",
+                maxHeight: "22px",
               }}
               onClick={() => onClickAction("Participant Award Revoke", p)}
             >

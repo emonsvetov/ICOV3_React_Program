@@ -186,70 +186,68 @@ const BudgetSetupInfoModal = ({
           <h3>Budget Setup Information</h3>
         </div>
       </div>
-      {hasUserPermissions(assignedPermissions, "Budget Setup Edit") ? (
-        !loading ? (
-          <div className="right  m-3">
-            <Form
-              onSubmit={onSubmit}
-              validate={validate}
-              initialValues={initialValues}
-            >
-              {({ handleSubmit, form, submitting, pristine, values }) => {
-                return (
-                  <form className="form" onSubmit={handleSubmit}>
-                    <BudgetSetupForm
-                      {...props}
-                      program={program}
-                      budgetTypeOptions={budgetTypeOptions}
-                      form={form}
-                      submitting={submitting}
-                      pristine={pristine}
-                      values={values}
-                    />
-                  </form>
-                );
-              }}
-            </Form>
-            <div className="d-flex">
-              {hasUserPermissions(assignedPermissions, "Manage Budget") &&
-                budgetStatus &&
-                program.parent_id === null && (
-                  <Button
-                    color="warning"
-                    className="ms-2"
-                    onClick={() =>
-                      navigate(`/manager/budget/manage-setup/${id}`)
+      {!loading ? (
+        <div className="right  m-3">
+          <Form
+            onSubmit={onSubmit}
+            validate={validate}
+            initialValues={initialValues}
+          >
+            {({ handleSubmit, form, submitting, pristine, values }) => {
+              return (
+                <form className="form" onSubmit={handleSubmit}>
+                  <BudgetSetupForm
+                    {...props}
+                    program={program}
+                    budgetTypeOptions={budgetTypeOptions}
+                    form={form}
+                    submitting={submitting}
+                    pristine={pristine}
+                    values={values}
+                  />
+                </form>
+              );
+            }}
+          </Form>
+          <div className="d-flex">
+            {hasUserPermissions(
+              assignedPermissions,
+              "Manage Budget",
+              "can_setup_budget"
+            ) &&
+              budgetStatus &&
+              program.parent_id === null && (
+                <Button
+                  color="warning"
+                  className="ms-2"
+                  onClick={() => navigate(`/manager/budget/manage-setup/${id}`)}
+                >
+                  Manage Budget for Programs
+                </Button>
+              )}
+            {hasUserPermissions(
+              assignedPermissions,
+              "Budget Close",
+              "can_setup_budget"
+            ) &&
+              budgetStatus && (
+                <Button
+                  color="danger"
+                  className="ms-2"
+                  onClick={(e) => {
+                    if (window.confirm("Are you sure to close this Budget?")) {
+                      closeBudget(id);
                     }
-                  >
-                    Manage Budget for Programs
-                  </Button>
-                )}
-              {hasUserPermissions(assignedPermissions, "Budget Close") &&
-                budgetStatus && (
-                  <Button
-                    color="danger"
-                    className="ms-2"
-                    onClick={(e) => {
-                      if (
-                        window.confirm("Are you sure to close this Budget?")
-                      ) {
-                        closeBudget(id);
-                      }
-                    }}
-                  >
-                    Close this Budget
-                  </Button>
-                )}
-            </div>
+                  }}
+                >
+                  Close this Budget
+                </Button>
+              )}
           </div>
-        ) : (
-          <div style={{ padding: "20px 0px" }}>
-            <p>Loading...</p>
-          </div>
-        )
+        </div>
       ) : (
         <div style={{ padding: "20px 0px" }}>
-          <p>Manager has not permission</p>
+          <p>Loading...</p>
         </div>
       )}
     </Modal>

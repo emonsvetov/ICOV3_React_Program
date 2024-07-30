@@ -46,18 +46,24 @@ const BudgetTable = ({
       </span>
     );
   };
-
-  let final_columns = [
-    ...BUDGET_COLUMNS,
-    ...[
-      {
-        Header: "Action",
-        accessor: "action",
-        Footer: "Action",
-        Cell: ({ row }) => <RenderActions row={row} />,
-      },
-    ],
-  ];
+  
+  let final_columns = hasUserPermissions(
+    assignedPermissions,
+    "Budget Setup Edit",
+    "can_setup_budget"
+  )
+    ? [
+        ...BUDGET_COLUMNS,
+        ...[
+          {
+            Header: "Action",
+            accessor: "action",
+            Footer: "Action",
+            Cell: ({ row }) => <RenderActions row={row} />,
+          },
+        ],
+      ]
+    : [...BUDGET_COLUMNS];
 
   useEffect(() => {
     if (program && rootProgram && organization) {
@@ -78,58 +84,59 @@ const BudgetTable = ({
     },
     useSortBy
   );
+  if (isLoading) {
+    return (
+      <div style={{ padding: "20px 0px" }}>
+        <p>Loading budgets...</p>
+      </div>
+    );
+  }
 
   return (
     <>
-      {hasUserPermissions(assignedPermissions, "Budget Read") ? (
-        isLoading ? (
-          <div style={{ padding: "20px 0px" }}>
-            <p>Loading budgets...</p>
-          </div>
-        ) : budgetProgramLists.length > 0 ? (
-          <Table striped borderless size="md" {...getTableProps()}>
-            <thead style={{}}>
-              {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column) => (
-                    <th
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                      style={tableStyled.headerBottom}
-                    >
-                      {column.render("Header")}
-                      <span>
-                        {column.isSorted
-                          ? column.isSortedDesc
-                            ? " 🔽"
-                            : " 🔼"
-                          : ""}
-                      </span>
-                    </th>
-                  ))}
+      {budgetProgramLists.length > 0 ? (
+        <Table striped borderless size="md" {...getTableProps()}>
+          <thead style={{}}>
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    style={tableStyled.headerBottom}
+                  >
+                    {column.render("Header")}
+                    <span>
+                      {column.isSorted
+                        ? column.isSortedDesc
+                          ? " 🔽"
+                          : " 🔼"
+                        : ""}
+                    </span>
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+            {rows.map((row, i) => {
+              prepareRow(row);
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map((cell) => {
+                    return (
+                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    );
+                  })}
                 </tr>
-              ))}
-            </thead>
-            <tbody>
-              {rows.map((row, i) => {
-                prepareRow(row);
-                return (
-                  <tr {...row.getRowProps()}>
-                    {row.cells.map((cell) => {
-                      return (
-                        <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </Table>
-        ) : (
-          <div style={{ padding: "20px 0px" }}>
-            <p>No Budget available at the moment.</p>
-          </div>
-        )
-      ) : null}
+              );
+            })}
+          </tbody>
+        </Table>
+      ) : (
+        <div style={{ padding: "20px 0px" }}>
+          <p>No Budget available at the moment.</p>
+        </div>
+      )}
 
       <ModalWrapper
         name={modalName}
