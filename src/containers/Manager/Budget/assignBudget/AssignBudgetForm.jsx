@@ -14,6 +14,17 @@ import {
   useDispatch,
 } from "@/shared/components/flash";
 
+const flattenProgramData = (program, flattenData = []) => {
+  program?.forEach((p) => {
+    flattenData.push(p);
+    if (p.children && p.children.length > 0) {
+      flattenProgramData(p?.children, flattenData);
+    }
+  });
+
+  return flattenData;
+};
+
 const AssignBudgetForm = ({
   organization,
   program,
@@ -51,17 +62,13 @@ const AssignBudgetForm = ({
   }, [budgetProgram]);
 
   useEffect(() => {
+    setLoading(true);
     if (programs && budgetCascadingPrograms) {
-      setLoading(true);
-      programs?.flatMap((program) => {
-        setAssignBudgetProgram(
-          patchBudgetCascadingData(
-            [program, ...program.children],
-            budgetCascadingPrograms,
-            budgetTypes
-          )
-        );
-      });
+      let p = flattenProgramData(programs);
+      setAssignBudgetProgram(
+        patchBudgetCascadingData(p, budgetCascadingPrograms, budgetTypes)
+      );
+
       setLoading(false);
     }
   }, [programs, budgetCascadingPrograms]);
