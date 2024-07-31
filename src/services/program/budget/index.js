@@ -45,26 +45,27 @@ export function hasUserPermissions(
   requiredPermissions,
   can_authorize
 ) {
-  switch (Array.isArray(userPermissions)) {
-    case can_authorize?.includes("can_access_budget") ||
-      can_authorize?.includes("can_access_individual_permission"):
+  if (Array.isArray(userPermissions)) {
+    if (
+      can_authorize?.includes("can_access_budget") ||
+      can_authorize?.includes("can_access_individual_permission")
+    ) {
       return userPermissions?.some((permission) =>
         permission?.includes(requiredPermissions)
       );
-    case can_authorize?.includes("can_access_award_permission"):
+    } else if (can_authorize?.includes("can_access_award_permission")) {
       return userPermissions?.some(
         (permission) => permission == requiredPermissions
       );
-    case can_authorize?.includes("can_setup_budget"):
+    } else if (can_authorize?.includes("can_setup_budget")) {
       if (
         userPermissions?.filter((permission) =>
           budget_approve?.includes(permission)
         )
       )
         return true;
-
-    default:
-      return false;
+    }
+    return false;
   }
 }
 export function getDateFormat(value, budgetTypes) {
