@@ -6,7 +6,7 @@ import TemplateButton from "@/shared/components/TemplateButton";
 import { flash422, flashSuccess } from "@/shared/components/flash";
 import { Form, Field } from "react-final-form";
 import axios from "axios";
-import { getUser } from "@/services/program/getUser";
+// import { getUser } from "@/services/program/getUser";
 
 const ReferralSubmission = ({ template, program, programId, auth }) => {
   console.log(program)
@@ -15,9 +15,11 @@ const ReferralSubmission = ({ template, program, programId, auth }) => {
   useEffect(() => {
     if (auth && program && programId) {
       // console.log(auth)
-      getUser(program.organization_id, programId, auth.id).then((payload) => {
-        setUser(payload);
-      });
+      if(program.id == programId){
+        if(auth.programRoles[programId] && auth.programRoles[programId].roles[4]){
+          setUser(auth)
+        }
+      }
     }
   }, [program, programId, auth]);
 
@@ -293,7 +295,13 @@ const ReferralSubmission = ({ template, program, programId, auth }) => {
                     </div>
                   </div> */}
                   {selected && <div className="ref-participants-form">
-                    <Form onSubmit={onSubmit} initialValues={{}} validate={validate}
+                    <Form onSubmit={onSubmit} 
+                    initialValues={{
+                      sender_first_name: user?.first_name,
+                      sender_last_name: user?.last_name,
+                      sender_email: user?.email
+                    }}
+                    validate={validate}
                     >
                       {({ handleSubmit, form, submitting, pristine, values }) => (
                         <form

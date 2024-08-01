@@ -86,7 +86,7 @@ const AccountForm = ({ organization, program, auth }) => {
         }
       })
       .catch((error) => {
-        return false;
+        // return false;
         if (error?.response?.data) {
           dispatch(
             sendFlashMessage(

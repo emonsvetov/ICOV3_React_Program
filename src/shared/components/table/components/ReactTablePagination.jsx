@@ -25,6 +25,7 @@ const ReactTablePagination = ({
   canNextPage,
   setPageSize,
   manualPageSize,
+  pageLength
 }) => {
   // console.log(pageOptions)
   const arrayPageIndex =
@@ -89,7 +90,7 @@ const ReactTablePagination = ({
         </PaginationItem>
         <PaginationItem className="d-flex align-items-center pagination__item pagination-info" style={{marginLeft: '1rem'}}>
           Showing {pageSize * pageIndex + 1} to{" "}
-          {pageSize * pageIndex + page.length} of {dataLength}
+          {pageSize * pageIndex + (pageLength ? pageLength : page.length)} of {dataLength}
         </PaginationItem>
         {manualPageSize.length > 1 && (
           <PaginationItem className="pagination__item">

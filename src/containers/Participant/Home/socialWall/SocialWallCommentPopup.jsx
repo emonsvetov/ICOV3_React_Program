@@ -25,7 +25,7 @@ import { SignalCellularNullSharp } from "@material-ui/icons";
 import { useTranslation } from "react-i18next";
 //DefaultComponent
 
-const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, program, organization, auth, setSocialWallPosts, swpGlobal, postType = 'comment', setPostType, users}) => {
+const SocialWallCommentPopup = ({isManager, isOpen, setOpen, toggle, socialWallPost, program, organization, auth, setSocialWallPosts, swpGlobal, postType = 'comment', setPostType, users}) => {
   const { t } = useTranslation();
   if( swpGlobal && swpGlobal?.newPostType ) {
     postType = swpGlobal.newPostType
@@ -34,6 +34,8 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
   const [value, setValue] = useState("");
   const [mentionsUserIds, setMentionsUserIds]=useState(null)
   const [usersMentionData, setUsersMentionData] = useState([]);
+  const socialWallPostFilter = {isManager: isManager};
+
   const onSubmit = (values) => {
 
     if (program.uses_social_wall) {
@@ -89,7 +91,7 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
             .then((res) => {
               setPostType(null);
               toggle();
-              getSocialWallPosts(organization.id, program.id, 0, 999999)
+              getSocialWallPosts(organization.id, program.id, 0, 999999, socialWallPostFilter)
                 .then((data) => {
                   // console.log(data)
                   setSocialWallPosts(data);
@@ -112,9 +114,10 @@ const SocialWallCommentPopup = ({isOpen, setOpen, toggle, socialWallPost, progra
       .then((users) => {
         const username = users.results?.map((user) => {
           const newObject = {
-            id: user.id,
-            name: user.first_name,
-            fullName: user.name,
+            userId: user.id,
+            id: `@${user.first_name}`,
+            name: user.name,
+            mailTo: `mailto:${user.email}`
           };
           mentionsData.push(newObject);
         });

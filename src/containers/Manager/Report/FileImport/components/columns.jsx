@@ -21,7 +21,7 @@ export const TABLE_COLUMNS = [
     {
       Header: "Actions",
       accessor: "action",
-      Cell: ({ row, value }) => { return <a href={`${process.env.REACT_APP_API_STORAGE_URL}/${row.original.path}`} target='blank'>view</a>},
+      Cell: ({ row, value }) => { return row.original?.file_exists ? <a href={`${process.env.REACT_APP_API_STORAGE_URL}/${row.original.path}`} target='blank'>view</a> : 'file not found'},
     }
     // {
     //   Header: "View",

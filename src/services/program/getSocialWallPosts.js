@@ -6,6 +6,7 @@ export const getSocialWallPosts = async (organizationId, programId, page = 0 , p
     if (pageFilter) {
         if (pageFilter.status !== 'undefined' && pageFilter.status) params.push(`status=${pageFilter.status}`)
         if (pageFilter.keyword !== 'undefined' && pageFilter.keyword) params.push(`keyword=${pageFilter.keyword}`)
+        if (pageFilter.isManager !== 'undefined' && pageFilter.isManager) params.push(`isManager=${pageFilter.isManager}`)
         // console.log(params)
         paramStr = params.join('&')
     }

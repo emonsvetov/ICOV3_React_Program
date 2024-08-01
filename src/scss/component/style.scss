@@ -1523,7 +1523,7 @@ footer{
     transform: scale(1.25);
   }
   .caresoul-item {
-    max-height: 500px;
+    
   }
   .manager-csv-import .form-step2 h5{font-size: 1rem;}
 
@@ -2051,4 +2051,11 @@ main.participant{
 }
 .ref-participants-form button{
     width: 25%;
+}
+.ck.ck-balloon-panel{
+    z-index: 10000000;
+}
+a.mention{
+    text-decoration: underline;
+    cursor: pointer;
 }

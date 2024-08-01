@@ -4,6 +4,7 @@ import SocialWallCommentPopup from "./SocialWallCommentPopup";
 import { useTranslation } from "react-i18next";
 
 const SocialWallCommentModalWrapper = ({
+  isManager,
   user,
   organization,
   program,
@@ -17,6 +18,7 @@ const SocialWallCommentModalWrapper = ({
 }) => {
   const { t } = useTranslation();
   const props = {
+    isManager,
     isOpen,
     setOpen,
     toggle,
