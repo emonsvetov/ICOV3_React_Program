@@ -35,6 +35,7 @@ const SocialWallClear = ({isManager, socialWallPosts, LikeActivityEvent, templat
         })}
       </div>
       <SocialWallCommentModalWrapper
+        isManager={isManager}
         isOpen={isOpen}
         setOpen={setOpen}
         toggle={popupToggle}
