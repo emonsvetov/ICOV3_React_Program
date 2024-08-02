@@ -41,8 +41,8 @@ const DurationOptions = () =>(
 const DetailChartItemAward = ({organization, program}) => {
   const {t} = useTranslation();
   const [data, setData] = useState(null);
-  const [duration, setDuration] = React.useState('7days');
-  const [unit, setUnit] = useState('$');
+  const [duration, setDuration] = useState('12month');
+  const [unit, setUnit] = useState('#');
 
   const options = unit === '$' ? {
     responsive: true,
@@ -147,7 +147,7 @@ const DetailChartItemAward = ({organization, program}) => {
           </span>
           <Input type="select" className='dropdowntoggle' defaultValue={duration} name="period" onChange={onChange}>
               <DurationOptions />
-          </Input>    
+          </Input>
         </div>
       </div>
       <Line className={program.uses_peer2peer > 0 ? 'h-50': 'h-100'} options={options} data={data} />

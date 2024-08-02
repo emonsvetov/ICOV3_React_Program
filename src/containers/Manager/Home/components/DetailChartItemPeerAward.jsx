@@ -41,8 +41,8 @@ const DurationOptions = () =>(
 const DetailChartItemPeerAward = ({organization, program}) => {
   const {t} = useTranslation();
   const [data, setData] = useState(null);
-  const [duration, setDuration] = React.useState('7days');
-  const [unit, setUnit] = useState('$');
+  const [duration, setDuration] = useState('12month');
+  const [unit, setUnit] = useState('#');
 
   const options = unit === '$' ? {
     responsive: true,
