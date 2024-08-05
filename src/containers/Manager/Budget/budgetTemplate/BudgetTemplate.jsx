@@ -17,7 +17,7 @@ const BudgetTemplate = ({
   const [loading, setLoading] = useState(false);
   const [getCsvData, setCsvData] = useState(null);
   const headers1 = [
-    "Totatl_Budget",
+    "Total_Budget",
     "Remaining_Budget",
     "Budget_Type",
     "Budget_Start_Date",

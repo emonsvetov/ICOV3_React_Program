@@ -19,7 +19,7 @@ const BudgetSetupForm = ({
   dateFormat,
   setDateformat,
   budgetStatus = true,
-  editPermission=true
+  editPermission = true,
 }) => {
   const currentYear = new Date();
   const maxDate = new Date("2024-12-31");
@@ -30,14 +30,22 @@ const BudgetSetupForm = ({
   }, [budgetType]);
 
   function handleDateFormat(Btype) {
-    if (Btype.label === "Monthly") {
-      setDateformat("MMMM/yyyy");
-    } else if (Btype.label === "Monthly Rollover") {
-      setDateformat("MMMM/yyyy");
-    } else if (Btype.label === "Specific Period") {
-      setDateformat("yyyy-MM-dd");
-    } else if (Btype.label === "Yearly") {
-      setDateformat("yyyy");
+    switch (Btype.label) {
+      case "Monthly":
+        setDateformat("MMMM/yyyy");
+        break;
+      case "Monthly Rollover":
+        setDateformat("MMMM/yyyy");
+        break;
+      case "Specific Period":
+        setDateformat("yyyy-MM-dd");
+        break;
+      case "Yearly":
+        setDateformat("yyyy");
+        break;
+      default:
+        setDateformat("yyyy");
+        break;
     }
   }
 

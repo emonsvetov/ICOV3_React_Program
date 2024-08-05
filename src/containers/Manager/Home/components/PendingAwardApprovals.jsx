@@ -58,25 +58,25 @@ const PendingAwardApprovalsTable = ({
       </div>
     ),
   };
+  let columns = React.useMemo(() => {
+    if (
+      hasUserPermissions(
+        assignedPermissions,
+        "Award Approve",
+        "can_access_award_permission"
+      )
+    ) {
+      return [SELECTION_COLUMN, ...TABLE_COLUMNS];
+    }
+    return TABLE_COLUMNS;
+  }, [hasUserPermissions, assignedPermissions]);
 
-  const columns = React.useMemo(
-    () => [...[SELECTION_COLUMN, ...TABLE_COLUMNS]],
-    []
-  );
+  console.log(columns);
 
   const onSelectAction = (name) => {
     const rows = selectedFlatRows.map((d) => d.original);
     if (rows.length === 0) {
       alert("Select participants");
-      return;
-    }
-    if (
-      (name === "approved" || "reject") &&
-      !hasUserPermissions(assignedPermissions, "Award Approve", "can_access_award_permission")
-    ) {
-      alert(
-        "Based on permission settings, your user role is unable to complete task."
-      );
       return;
     }
     setAwardApprovalParticipants(rows);
@@ -192,7 +192,11 @@ const PendingAwardApprovalsTable = ({
         <div className="users">
           <div className="header d-flex  justify-content-between">
             <div className="d-flex w-30 justify-content-between dropdown-group">
-              <ActionsDropdown />
+              {hasUserPermissions(
+                assignedPermissions,
+                "Award Approve",
+                "can_access_award_permission"
+              ) && <ActionsDropdown />}
             </div>
           </div>
           <div className="points-summary-table">
