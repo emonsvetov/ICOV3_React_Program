@@ -18,7 +18,7 @@ const DurationOptions = () => (
 const TopPanelAward = ({organization, program}) => {
   const {t} = useTranslation();
   const [data, setData] = useState([]);
-  const [duration, setDuration] = useState('month');
+  const [duration, setDuration] = useState('year');
   const [unit, setUnit] = useState('$');
   const onChange = (e) => {
     setDuration(e.target.value)
