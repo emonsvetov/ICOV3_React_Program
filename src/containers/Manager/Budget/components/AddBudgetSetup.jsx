@@ -16,7 +16,13 @@ import {
   flashSuccess,
 } from "@/shared/components/flash";
 
-const AddBudgetSetupModal = ({ program, isOpen, setOpen, toggle }) => {
+const AddBudgetSetupModal = ({
+  program,
+  isOpen,
+  setOpen,
+  toggle,
+  setIsBudgetRefresh,
+}) => {
   const [budgetTypeOptions, setBudgetTypeOptions] = useState([]);
   const [budgetType, setBudgetType] = useState("select");
   const [budgetStartDate, setBudgetStartDate] = useState(new Date());
@@ -54,35 +60,35 @@ const AddBudgetSetupModal = ({ program, isOpen, setOpen, toggle }) => {
     );
   };
 
-  const validate = (values) => {
-    console.log("value", values);
+  function validate(values) {
     let errors = {};
-    if (values["budget_type"] == "") {
+    if (budgetType == "select") {
       errors["budget_type"] = "select budget type";
     } else if (invalidAmount(values["budget_amount"])) {
       errors["budget_amount"] = "enter a valid amount";
-    } else if (values["budget_start_date"]) {
-      errors["budget_start_date"] = "Budget StartDate is not correct";
+    } else if (
+      values["budget_start_date"] == "" ||
+      values["budget_end_date"] == ""
+    ) {
+      errors.message = "Budget Dates are incorrect";
     } else if (values["budget_start_date"] >= values["budget_end_date"]) {
-      errors["budget_start_date"] =
-        "Start date cannot be greater than end date.";
-    } else if (values["budget_end_date"]) {
-      errors["budget_end_date"] = "Date is not correct";
+      errors.message =
+        "Start date can not be greater than or equal to End date.";
     }
     return errors;
-  };
+  }
 
   const onSubmit = (values) => {
     values.budget_type_id = budgetType.value;
     values.budget_start_date = getDateFormat(budgetStartDate, budgetType);
     values.budget_end_date = getEndOfMonth(budgetEndDate, budgetType);
-    if (
-      new Date(budgetStartDate) > new Date(budgetEndDate) ||
-      new Date(budgetStartDate).getTime() == new Date(budgetEndDate).getTime()
-    ) {
-      alert("Start date cannot be greater than or Equal to End date.");
+    const valid = validate(values);
+
+    if (Object.keys(valid).length > 0) {
+      alert(valid.message);
       return;
     }
+
     axios
       .post(
         `organization/${program.organization_id}/program/${program.id}/budgetprogram`,
@@ -91,7 +97,8 @@ const AddBudgetSetupModal = ({ program, isOpen, setOpen, toggle }) => {
       .then((res) => {
         if (res.status == 200) {
           flashSuccess(dispatch, "Budget created successfully!");
-          window.location.reload();
+          setIsBudgetRefresh(true);
+          toggle()
         }
       })
       .catch((error) => {

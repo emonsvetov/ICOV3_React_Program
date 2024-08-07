@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Row,
   Col,
@@ -12,13 +12,32 @@ import {
 import PendingAwardApprovals from "../components/PendingAwardApprovals";
 import ManageAwardApprovals from "../components/ManageAwardApprovals";
 import classnames from "classnames";
+import { readAssignedPositionPermissions } from "@/services/program/budget";
 
-const AwardApprovals = () => {
+const AwardApprovals = ({ organization, auth, rootProgram }) => {
   const [activeTab, setActiveTab] = useState("1");
+  const [assignedPermissions, setAssignedPermissions] = useState([]);
 
   const togglePan = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
   };
+
+  useEffect(() => {
+    if (organization?.id && rootProgram?.id && auth?.positionLevel?.id) {
+      readAssignedPositionPermissions(
+        organization.id,
+        rootProgram?.id,
+        auth?.positionLevel?.id
+      )
+        .then((res) => {
+          setAssignedPermissions(res);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  }, [auth, organization, rootProgram]);
+
   return (
     <Container>
       <Nav tabs>
@@ -52,7 +71,9 @@ const AwardApprovals = () => {
           <>
             <Row>
               <Col>
-                <PendingAwardApprovals />
+                <PendingAwardApprovals
+                  assignedPermissions={assignedPermissions}
+                />
               </Col>
             </Row>
           </>
@@ -60,7 +81,10 @@ const AwardApprovals = () => {
         <TabPane tabId="2">
           <Row>
             <Col>
-              <ManageAwardApprovals togglePan={togglePan} />
+              <ManageAwardApprovals
+                togglePan={togglePan}
+                assignedPermissions={assignedPermissions}
+              />
             </Col>
           </Row>
         </TabPane>

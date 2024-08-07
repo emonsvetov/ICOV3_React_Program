@@ -161,21 +161,23 @@ const ManageAwardApprovalsTable = ({
   useEffect(() => {
     let mounted = true;
     setLoading(true);
-    apiTableService
-      .fetchData({
-        url: `/organization/${organization.id}/program/${program.id}/report/manage-approvals`,
-        page: pageIndex,
-        size: queryPageSize,
-      })
-      .then((items) => {
-        if (mounted) {
-          setParticipants(items);
-          setLoading(false);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (organization?.id && program?.id) {
+      apiTableService
+        .fetchData({
+          url: `/organization/${organization.id}/program/${program.id}/report/manage-approvals`,
+          page: pageIndex,
+          size: queryPageSize,
+        })
+        .then((items) => {
+          if (mounted) {
+            setParticipants(items);
+            setLoading(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
     return () => (mounted = false);
   }, [organization, program, togglePan, pageIndex, queryPageSize, filter]);
 

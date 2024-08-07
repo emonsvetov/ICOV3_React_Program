@@ -9,16 +9,7 @@ const Index = ({ auth, program, organization }) => {
   const { t } = useTranslation();
 
   if (!auth || !program || !organization) return t("loading");
-  if (program?.use_budget_cascading == 0) {
-    return (
-      <div className="m-4 p-3">
-        <div className="d-flex program-select my-3 p-2 rounded">
-          <SelectProgram showRefresh={false} />
-        </div>
-        <p>{t("Program does not used Budget. Please change the Program.")}</p>
-      </div>
-    );
-  }
+  
   return (
     <div className="bg-primary">
       <Container>

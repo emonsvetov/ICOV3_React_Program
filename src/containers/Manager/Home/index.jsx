@@ -43,7 +43,8 @@ const mapStateToProps = (state) => {
   return {
     program: state.program,
     organization: state.organization,
-    rootProgram: state.rootProgram
+    rootProgram: state.rootProgram,
+    auth: state.auth,
   };
 };
 export default connect(mapStateToProps)(Home);
@@ -77,7 +78,7 @@ export const Leaderboards = () => {
   );
 };
 
-const AwardApprovalsIndex = ({ rootProgram }) => {
+const AwardApprovalsIndex = ({ organization, auth, program, rootProgram }) => {
   return (
     <>
       {rootProgram?.use_cascading_approvals > 0 && (
@@ -87,7 +88,7 @@ const AwardApprovalsIndex = ({ rootProgram }) => {
           </Container>
           <br />
           <div className="m-2 p-2">
-            <AwardApprovals />
+            <AwardApprovals  organization={organization} auth={auth} rootProgram={rootProgram} />
           </div>
         </>
       )}
@@ -95,7 +96,5 @@ const AwardApprovalsIndex = ({ rootProgram }) => {
   );
 };
 
-const AwardApproval = connect(mapStateToProps)(
-  AwardApprovalsIndex
-);
+const AwardApproval = connect(mapStateToProps)(AwardApprovalsIndex);
 export { AwardApproval };

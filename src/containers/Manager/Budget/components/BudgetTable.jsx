@@ -13,10 +13,11 @@ import {
 const BudgetTable = ({
   program,
   organization,
-  rootProgram,
   isOpen,
   setOpen,
   assignedPermissions,
+  isBudgetRefresh,
+  setIsBudgetRefresh,
 }) => {
   const { t } = useTranslation();
   const [budgetProgramLists, setBudgetProgramLists] = useState([]);
@@ -66,14 +67,15 @@ const BudgetTable = ({
     : [...BUDGET_COLUMNS];
 
   useEffect(() => {
-    if (program && rootProgram && organization) {
+    if (program && organization) {
       setIsLoading(true);
-      getBudgetProgramLists(organization.id, rootProgram.id).then((res) => {
+      getBudgetProgramLists(organization.id, program.id).then((res) => {
         setBudgetProgramLists(res);
         setIsLoading(false);
+        setIsBudgetRefresh(false);
       });
     }
-  }, [program, rootProgram, organization]);
+  }, [program, organization, isBudgetRefresh]);
 
   const columns = React.useMemo(() => final_columns, []);
 
@@ -87,7 +89,7 @@ const BudgetTable = ({
   if (isLoading) {
     return (
       <div style={{ padding: "20px 0px" }}>
-        <p>Loading budgets...</p>
+        <p>{t("loading")}</p>
       </div>
     );
   }

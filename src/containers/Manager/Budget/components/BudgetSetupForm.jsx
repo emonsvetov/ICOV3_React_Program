@@ -138,51 +138,24 @@ const BudgetSetupForm = ({
             </Field>
           </Col>
         </Row>
-        <Row className={budgetType.label === "select" ? "d-none" : ""}>
-          <Col md="12">
-            <Field name="budget_start_date">
-              {({ input, meta }) => (
-                <FormGroup>
-                  <div className="d-flex gap-1">
-                    <Label>*Budget Start Date : </Label>
-                    <DatePicker
-                      dateFormat={dateFormat}
-                      selected={budgetStartDate}
-                      onChange={onStartChange}
-                      minDate={currentYear}
-                      showMonthYearPicker={
-                        budgetType.label === "Monthly" ||
-                        budgetType.label === "Monthly Rollover"
-                      }
-                      showYearPicker={budgetType.label === "Yearly"}
-                      maxDate={maxDate}
-                      disabled={disable || !budgetStatus}
-                    />
-                  </div>
-                </FormGroup>
-              )}
-            </Field>
-          </Col>
-        </Row>
-        {!endDateHide && (
+        <div className={budgetType === "select" ? "d-none" : ""}>
           <Row>
             <Col md="12">
-              <Field name="budget_end_date">
+              <Field name="budget_start_date">
                 {({ input, meta }) => (
                   <FormGroup>
                     <div className="d-flex gap-1">
-                      <Label>*Budget End Date : </Label>
+                      <Label>*Budget Start Date : </Label>
                       <DatePicker
-                        placeholderText="select End date"
-                        selected={budgetEndDate}
-                        onChange={onEndDateChange}
                         dateFormat={dateFormat}
+                        selected={budgetStartDate}
+                        onChange={onStartChange}
+                        minDate={currentYear}
                         showMonthYearPicker={
                           budgetType.label === "Monthly" ||
                           budgetType.label === "Monthly Rollover"
                         }
-                        showYearPicker={budgetType === "Yearly"}
-                        minDate={currentYear}
+                        showYearPicker={budgetType.label === "Yearly"}
                         maxDate={maxDate}
                         disabled={disable || !budgetStatus}
                       />
@@ -192,7 +165,36 @@ const BudgetSetupForm = ({
               </Field>
             </Col>
           </Row>
-        )}
+          {!endDateHide && (
+            <Row>
+              <Col md="12">
+                <Field name="budget_end_date">
+                  {({ input, meta }) => (
+                    <FormGroup>
+                      <div className="d-flex gap-1">
+                        <Label>*Budget End Date : </Label>
+                        <DatePicker
+                          placeholderText="select End date"
+                          selected={budgetEndDate}
+                          onChange={onEndDateChange}
+                          dateFormat={dateFormat}
+                          showMonthYearPicker={
+                            budgetType.label === "Monthly" ||
+                            budgetType.label === "Monthly Rollover"
+                          }
+                          showYearPicker={budgetType === "Yearly"}
+                          minDate={currentYear}
+                          maxDate={maxDate}
+                          disabled={disable || !budgetStatus}
+                        />
+                      </div>
+                    </FormGroup>
+                  )}
+                </Field>
+              </Col>
+            </Row>
+          )}
+        </div>
 
         {budgetStatus && editPermission && (
           <div className="d-flex justify-content-end">

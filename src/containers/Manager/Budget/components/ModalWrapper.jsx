@@ -2,38 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 import AddBudgetSetup from "./AddBudgetSetup";
 import BudgetSetupInfoModal from "../view/BudgetSetupInfo";
-import { useTranslation } from "react-i18next";
 
-const MainModalWrapper = ({
-  organization,
-  program,
-  rootProgram,
-  name,
-  isOpen,
-  setOpen,
-  setModalName,
-  assignedPermissions,
-  toggle,
-  id,
-}) => {
-  const { t } = useTranslation();
-  const props = {
-    isOpen,
-    setOpen,
-    toggle,
-    organization,
-    program,
-    assignedPermissions,
-    setModalName,
-    rootProgram,
-  };
-  if (!organization?.id || !program?.id) return t("loading");
+const MainModalWrapper = (props) => {
 
   return (
     <>
-      {name === "AddBudgetSetup" && <AddBudgetSetup {...props} />}
-      {name === "BudgetSetupInformation" && (
-        <BudgetSetupInfoModal {...props} id={id} />
+      {props.name === "AddBudgetSetup" && <AddBudgetSetup {...props} />}
+      {props.name === "BudgetSetupInformation" && (
+        <BudgetSetupInfoModal {...props} id={props.id} />
       )}
     </>
   );

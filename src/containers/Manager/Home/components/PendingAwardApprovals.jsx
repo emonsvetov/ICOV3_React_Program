@@ -14,10 +14,7 @@ import { connect } from "react-redux";
 import apiTableService from "@/services/apiTableService";
 import IndeterminateCheckbox from "@/shared/components/form/IndeterminateCheckbox";
 import AwardApprovalPopup from "./AwardApprovalPopup";
-import {
-  readAssignedPositionPermissions,
-  hasUserPermissions,
-} from "@/services/program/budget";
+import { hasUserPermissions } from "@/services/program/budget";
 
 const ACTIONS = [
   { label: "Approved", name: "approved" },
@@ -30,11 +27,10 @@ const PendingAwardApprovalsTable = ({
   auth,
   organization,
   program,
-  rootProgram,
+  assignedPermissions,
 }) => {
   const [participants, setParticipants] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [assignedPermissions, setAssignedPermissions] = useState([]);
   const [awardApprovalParticipants, setAwardApprovalParticipants] = useState(
     []
   );
@@ -69,9 +65,7 @@ const PendingAwardApprovalsTable = ({
       return [SELECTION_COLUMN, ...TABLE_COLUMNS];
     }
     return TABLE_COLUMNS;
-  }, [hasUserPermissions, assignedPermissions]);
-
-  console.log(columns);
+  }, [assignedPermissions]);
 
   const onSelectAction = (name) => {
     const rows = selectedFlatRows.map((d) => d.original);
@@ -83,22 +77,6 @@ const PendingAwardApprovalsTable = ({
     setStatusName(name);
     toggle();
   };
-
-  useEffect(() => {
-    if (organization?.id && rootProgram?.id && auth?.positionLevel?.id) {
-      readAssignedPositionPermissions(
-        organization.id,
-        rootProgram?.id,
-        auth?.positionLevel?.id
-      )
-        .then((res) => {
-          setAssignedPermissions(res);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
-  }, [auth, organization, rootProgram]);
 
   const tableInstance = useTable(
     {

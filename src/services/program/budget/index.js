@@ -70,17 +70,18 @@ export function hasUserPermissions(
 }
 export function getDateFormat(value, budgetTypes) {
   const dateObject = new Date(value);
-  const month = String(dateObject.getMonth() + 1)
-    .toString()
-    .padStart(2, "0");
-  const year = dateObject.getFullYear();
   const day = String(value.getDate()).padStart(2, "0");
+  const year = dateObject.getFullYear();
   if (
     budgetTypes.label == "Monthly" ||
     budgetTypes.label === "Monthly Rollover"
   ) {
+    const month = String(dateObject.getMonth() + 1)
+      .toString()
+      .padStart(2, "0");
     return `${year}-${month}-01`;
   } else {
+    const month = String(dateObject.getMonth()).toString().padStart(2, "0");
     return `${year}-${month}-${day}`;
   }
 }
