@@ -558,26 +558,33 @@ export const FirstStep = ({ swiper, setData, errors, setErrors, data }) => {
   const EmotionPanel = ({emotion}) =>{
     return (
       <Col onClick={() =>handleSetEmotion(emotion)}
-        className="d-flex flex-column align-items-center gap-2 justify-content-center border-secondary border rounded p-4 position-relative cursor-pointer ">
-        <div className="bg-transparent ">
-            <Input
-              name="feeling"
-              className="position-absolute cursor-pointer "
-              style={{ top: 12, left: 12 }}
-              value={emotion}
-              checked={data.feeling == emotion}
-              type="radio"
-            />
-            <img src={`${IMG_EMOTION_DIR}${emotion}.png`} alt={emotion} className="mx-auto" />
-            <span className="" style={{ fontSize: 20, fontWeight: "bold" }}>
-              {t(emotion)}
-            </span>
-        </div>
+           className="d-flex flex-column align-items-center gap-2 justify-content-center border-secondary border rounded p-4 position-relative cursor-pointer"
+           style={{ maxWidth: '150px', overflow: 'hidden' }}
+      >
+          <div className="bg-transparent">
+              <Input
+                  name="feeling"
+                  className="position-absolute cursor-pointer"
+                  style={{ top: 12, left: 12 }}
+                  value={emotion}
+                  checked={data.feeling === emotion}
+                  type="radio"
+              />
+              <img
+                  src={`${IMG_EMOTION_DIR}${emotion}.png`}
+                  alt={emotion}
+                  className="mx-auto"
+                  style={{ maxWidth: '100%', height: 'auto' }}
+              />
+              <span className="" style={{ fontSize: 20, fontWeight: 'bold' }}>
+          {t(emotion)}
+        </span>
+          </div>
       </Col>
-    )
-  }
+    );
+  };
 
-  return (
+    return (
     <div className="d-flex justify-content-center align-items-center h-100 ">
       <motion.div
         animate={controls}
