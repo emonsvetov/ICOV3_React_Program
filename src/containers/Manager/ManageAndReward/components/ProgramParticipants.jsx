@@ -239,6 +239,18 @@ const ProgramParticipants = ({ auth, rootProgram, program, organization, balance
     }
   }, [program]);
 
+  useEffect(() => {
+    if (!program.uses_goal_tracker) {
+      bulkActionsArray.splice(BULK_ACTIONS.indexOf("Add Goal"), 1);
+      let indexToRemove = actionsArray.findIndex(
+        (item) => item.name == "Add Goal"
+      );
+      actionsArray.splice(indexToRemove, 1);
+      setActionsArray(actionsArray);
+      setBulkActionsArray(bulkActionsArray);
+    }
+  }, [program]);
+
   const doAction = (action, participants) => {
     if (action === "Email") {
       const emails = collectEmails(participants);
