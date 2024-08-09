@@ -28,7 +28,7 @@ export const ParticipantTabNavs = () => {
   return <ParticipantTabNavsBase />
 };
 
-let ManagerTabNavsTmp = ({program}) => {
+let ManagerTabNavsTmp = ({program, rootProgram}) => {
   
 
   const [path, setPath] = useState(null);
@@ -60,6 +60,12 @@ let ManagerTabNavsTmp = ({program}) => {
     );
   }
 
+  if (rootProgram?.use_cascading_approvals > 0) {
+    MANAGER_ITEMS .push(
+      { title: "Approvals", icon: "budgetcascading", to: `/manager/cascading-approvals` }
+    );
+  }
+
   return (
     <div className="tab-navs items-3">
       <ul className="horizontal">
@@ -79,7 +85,8 @@ let ManagerTabNavsTmp = ({program}) => {
   );
 };
 ManagerTabNavsTmp =  connect((state) => ({
-  program: state.program
+  program: state.program,
+  rootProgram: state.rootProgram
 }))(ManagerTabNavsTmp);
 
 export const ManagerTabNavs = () => {

@@ -10,6 +10,7 @@ import {
   Nav,
   Navbar,
 } from "reactstrap";
+import { readAssignedPositionPermissions, hasUserPermissions} from "@/services/program/budget";
 
 // const DefaultBrand = `${process.env.PUBLIC_URL}/img/logo/logo_light.svg`;
 
@@ -24,33 +25,52 @@ const LINKS = [
   { to: "/manager/team", text: "Team" }
 ];
 
-const ManagerTopbar = ({ template, program }) => {
+const ManagerTopbar = ({ template, organization, program, auth, rootProgram }) => {
   // console.log(template)
   const [isOpen, setOpen] = useState(false);
   const [menuItems, setMenuItems] = useState(LINKS);
   const toggleNavbar = () => {
     setOpen((prev) => !prev);
-  }
-  const onClickNavLink = () => {
-    if( isOpen ) {
-      setOpen(false)
-    }
-  }
+  };
 
+
+  const onClickNavLink = () => {
+    if (isOpen) {
+      setOpen(false);
+    }
+  };
   useEffect( () => {
     if( program?.id ) {
         let newItems = [...LINKS];
         if( program.enable_referrals )(
           newItems.push({ to: "/manager/referral_tools", text: "Referral Widget" })
         )
-        setMenuItems(newItems)
+        setMenuItems(newItems);
+        if (organization?.id && auth && rootProgram?.id) {
+          let budgetItems = [...newItems];
+          readAssignedPositionPermissions(
+            organization?.id,
+            rootProgram?.id,
+            auth?.positionLevel?.id
+          )
+            .then((position) => {
+              if (
+                rootProgram?.use_budget_cascading &&
+                position &&
+                hasUserPermissions(position,"Budget", "can_access_budget")
+              ) {
+                budgetItems.push({ to: "/manager/budget", text: "Budget" });
+              }
+              setMenuItems(budgetItems);
+            })
+            .catch((err) => console.log(err));
+        }
     }
-}, [program])
+}, [organization, program, auth])
 
   if (!template) return "loading";
   // if (!template) return t("loading");
   const Brand = `${process.env.REACT_APP_API_STORAGE_URL}/${template.small_logo}`;
-
   return (
     <div className="topbar">
       <Container fluid className="topbar__wrapper">
@@ -64,7 +84,7 @@ const ManagerTopbar = ({ template, program }) => {
             <div className="topbar__right navbar-profilewrap">
               <Collapse isOpen={isOpen} navbar>
                 <Nav className="horizontal" navbar style={{ flexWrap: "nowrap" }}>
-                  {menuItems.map((item, index) => {
+                  {menuItems?.map((item, index) => {
                     return (
                       <NavLink key={index} onClick={onClickNavLink} to={item.to} className="link">
                         {item.text}
@@ -85,7 +105,10 @@ const ManagerTopbar = ({ template, program }) => {
 const mapStateToProps = (state) => {
   return {
     template: state.template,
+    organization:state.organization,
     program: state.program,
+    auth:state.auth,
+    rootProgram: state.rootProgram
   };
 };
 

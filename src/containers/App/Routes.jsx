@@ -50,13 +50,16 @@ import Training from "../Participant/Training";
 import ProgramRules from "../Participant/ProgramRules";
 import Feeling from "../Participant/Feeling";
 import LeaderboardPage from "../Participant/leaderboards/index";
-
+import Budget from "../Manager/Budget"
+import BudgetPrograms from "../Manager/Budget/view/Budget"
+import ManageBudget from "../Manager/Budget/assignBudget/AssignBudget";
 //manager
 
 import {
   default as ManagerHome,
   Leaderboards,
   NSpireWall,
+  AwardApproval,
 } from "../Manager/Home/index";
 import ProgramSettings from "../Manager/ProgramSettings/index";
 import ManageAndReward from "../Manager/ManageAndReward/index";
@@ -94,6 +97,7 @@ import ManagerViewInvoice from "../Manager/ManageAccount/components/ViewInvoice"
 import ReferralTools from "../Manager/ReferralTools";
 import RefParticipants from "../Manager/RefParticipants";
 import { HelmetProvider } from 'react-helmet-async';
+import BudgetCascadingApprovals from "../Manager/Home/components/PendingAwardApprovals";
 // import { Train } from "@material-ui/icons";
 
 // const Accounts = () => (
@@ -171,12 +175,16 @@ const RouteIndex = () => (
           <Route path="home" element={<ManagerHome />} />
           <Route path="nspire-wall" element={<NSpireWall />} />
           <Route path="leaderboards" element={<Leaderboards />} />
+          <Route path="cascading-approvals" element={<AwardApproval/>}/>
           <Route path="program-settings" element={<ProgramSettings />} />
           <Route path="manage-and-reward" element={<ManageAndReward />} />
           <Route path="invite-participant" element={<InviteParticipant />} />
           <Route path="manage-account" element={<ManageAccount/>}>
           <Route path="invoice/:invoiceId" element={<ManagerViewInvoice/>}/>
           </Route>
+          {/* <Route path="/" element={<BudgetPrograms />} /> */}
+          <Route path="budget" element={<Budget />}/>
+          <Route path="budget/manage-setup/:budgetId" element={<ManageBudget />} />
           <Route path="csv-import" element={<CsvImport/>}/>
           {/* <Route path="referral" element={<Referral />} /> */}
           <Route path="team" element={<Team />} />

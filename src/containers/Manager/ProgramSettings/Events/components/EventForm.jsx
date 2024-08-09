@@ -196,6 +196,7 @@ const EventForm = ({
             setEvent(item);
         });
     };
+    console.log("event",event);
 
   return (
     <Form
@@ -346,6 +347,19 @@ const EventForm = ({
                   <Label>Post to Social Wall</Label>
                   <Field
                     name="post_to_social_wall"
+                    component={renderToggleButtonField}
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
+          }
+          {(program.use_cascading_approvals > 0 || program.use_budget_cascading > 0 )&&
+            <Row>
+              <Col md="8">
+                <FormGroup className='d-flex justify-content-between'>
+                  <Label>Include in Budget</Label>
+                  <Field
+                    name="include_in_budget"
                     component={renderToggleButtonField}
                   />
                 </FormGroup>
