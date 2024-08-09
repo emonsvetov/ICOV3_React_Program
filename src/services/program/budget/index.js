@@ -35,10 +35,12 @@ export async function readAssignedPositionPermissions(
   programId,
   positionId
 ) {
-  const response = await axios.get(
-    `/organization/${organizationId}/program/${programId}/positionlevel/${positionId}/permissions`
-  );
-  return response?.data?.map((permission) => permission.name);
+  if (positionId && organizationId && programId) {
+    const response = await axios.get(
+      `/organization/${organizationId}/program/${programId}/positionlevel/${positionId}/permissions`
+    );
+    return response?.data?.map((permission) => permission.name);
+  }
 }
 export function hasUserPermissions(
   userPermissions,

@@ -15,6 +15,12 @@ import {
   Table,
   Container,
 } from "reactstrap";
+import {
+  flashError,
+  flashSuccess,
+  useDispatch,
+} from "@/shared/components/flash";
+import axios from "axios";
 import ReactTablePagination from "@/shared/components/table/components/ReactTablePagination";
 import { TABLE_COLUMNS } from "./Column";
 import { connect } from "react-redux";
@@ -22,6 +28,10 @@ import apiTableService from "@/services/apiTableService";
 import IndeterminateCheckbox from "@/shared/components/form/IndeterminateCheckbox";
 import AwardScheduleDateModel from "./AwardScheduleDateModel";
 import AwardApprovalPopup from "./AwardApprovalPopup";
+import {
+  TableSkeleton,
+  ButtonSkeleton,
+} from "@/shared/components/Skeletons";
 
 const ACTIONS = [{ label: "Reject", name: "reject" }];
 const queryPageSize = 10;
@@ -43,6 +53,8 @@ const ManageAwardApprovalsTable = ({
     []
   );
   const [modelName, setModelName] = useState("");
+
+  const dispatch = useDispatch();
 
   const toggle = () => {
     setOpen((prevState) => !prevState);
@@ -203,8 +215,47 @@ const ManageAwardApprovalsTable = ({
     );
   };
 
+  const onSubmit = (values) => {
+    try {
+      if (awardApprovalParticipants?.length > 0) {
+        let formData = {};
+        formData.budget_cascading_approval_id = awardApprovalParticipants?.map(
+          (approvalParticipant) => approvalParticipant.cascading_id
+        );
+        formData.approved = 2;
+        formData.rejection_note = values.rejection_note;
+
+        axios
+          .put(
+            `/organization/${organization?.id}/program/${program?.id}/budget-cascading-approval`,
+            formData
+          )
+          .then((response) => {
+            if (response.status === 200) {
+              flashSuccess(
+                dispatch,
+                "Award Approval status updated successfully!"
+              );
+              toggle();
+              window.location.reload();
+            }
+          })
+          .catch((error) => {
+            flashError(dispatch, error.message);
+          });
+      }
+    } catch (error) {
+      flashError(dispatch, error.message);
+    }
+  };
+
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <>
+        <ButtonSkeleton variant="rounded" width={100} height={40} />
+        <TableSkeleton rows={3} columns={7} width={"100%"} height={20} />
+      </>
+    );
   }
 
   if (participants)
@@ -292,6 +343,7 @@ const ManageAwardApprovalsTable = ({
             statusName={statusName}
             awardApprovalParticipants={awardApprovalParticipants}
             rejection_notes={`User Rejected by ${auth?.name}`}
+            onSubmit={onSubmit}
           />
         )}
       </Container>

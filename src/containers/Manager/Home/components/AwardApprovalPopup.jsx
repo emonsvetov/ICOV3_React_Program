@@ -3,62 +3,17 @@ import { Modal, FormGroup, Button, Label } from "reactstrap";
 import axios from "axios";
 import CloseIcon from "mdi-react/CloseIcon";
 import { Form, Field } from "react-final-form";
-import {
-  flashError,
-  flashSuccess,
-  useDispatch,
-} from "@/shared/components/flash";
 
 const AwardApprovalPopup = ({
   isOpen,
   setOpen,
   toggle,
-  organization,
-  program,
-  auth,
   awardApprovalParticipants = [],
   statusName,
   rejection_notes,
   isShow = false,
+  onSubmit
 }) => {
-  const dispatch = useDispatch();
-
-  const onSubmit = (values) => {
-    try {
-      if (awardApprovalParticipants?.length > 0) {
-        let formData = {};
-        formData.budget_cascading_approval_id = awardApprovalParticipants?.map(
-          (approvalParticipant) => approvalParticipant.cascading_id
-        );
-        formData.approved = statusName == "approved" ? 1 : 2;
-        formData.rejection_note =
-          statusName == "approved"
-            ? `Approved by ${auth.name}`
-            : values.rejection_note;
-        console.log(formData);
-        axios
-          .put(
-            `/organization/${organization?.id}/program/${program?.id}/budget-cascading-approval`,
-            formData
-          )
-          .then((response) => {
-            if (response.status === 200) {
-              flashSuccess(
-                dispatch,
-                "Award Approval status updated successfully!"
-              );
-              toggle();
-              window.location.reload();
-            }
-          })
-          .catch((error) => {
-            flashError(dispatch, error.message);
-          });
-      }
-    } catch (error) {
-      flashError(dispatch, error.message);
-    }
-  };
   const totalAmount = awardApprovalParticipants?.reduce(
     (totalAmount, award) => totalAmount + award.amount,
     0

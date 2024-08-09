@@ -13,6 +13,7 @@ import {
   flashSuccess,
   useDispatch,
 } from "@/shared/components/flash";
+import { TableSkeleton } from "@/shared/components/Skeletons";
 
 const flattenProgramData = (program, flattenData = []) => {
   program?.forEach((p) => {
@@ -68,7 +69,6 @@ const AssignBudgetForm = ({
       setAssignBudgetProgram(
         patchBudgetCascadingData(p, budgetCascadingPrograms, budgetTypes)
       );
-
       setLoading(false);
     }
   }, [programs, budgetCascadingPrograms]);
@@ -137,7 +137,7 @@ const AssignBudgetForm = ({
   };
 
   const initialValues = flattenInitialValues(assignBudgetPrograms);
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <p>Loading...</p>;
   return (
     <>
       {assignBudgetPrograms?.length > 0 ? (
@@ -275,7 +275,7 @@ const AssignBudgetForm = ({
           )}
         </Form>
       ) : (
-        <p>Loading..</p>
+        <TableSkeleton rows={6} columns={2} width={"50%"} className={"w-50"}/>
       )}
     </>
   );

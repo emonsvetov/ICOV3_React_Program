@@ -162,7 +162,7 @@ const RenderActions = ({ row, onClickActionCb }) => {
   });
 };
 
-const ProgramParticipants = ({ auth, rootProgram, program, organization }) => {
+const ProgramParticipants = ({ auth, rootProgram, program, organization, balance }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [modalName, setModalName] = useState(null);
@@ -357,7 +357,7 @@ const ProgramParticipants = ({ auth, rootProgram, program, organization }) => {
                 borderRadius: "50%",
                 width: "20px",
                 justifyContent: "center",
-                fontSize: "12px",
+                fontSize: "10px",
                 maxHeight: "22px",
               }}
               onClick={() => onClickAction("Participant Award Revoke", p)}
@@ -643,6 +643,7 @@ const ProgramParticipants = ({ auth, rootProgram, program, organization }) => {
         setOpen={setOpen}
         toggle={toggle}
         participants={participants}
+        balance={balance}
       />
       {/* <pre>
             <code>

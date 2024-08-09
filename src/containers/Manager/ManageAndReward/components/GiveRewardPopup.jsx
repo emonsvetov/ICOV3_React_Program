@@ -46,6 +46,7 @@ const GiveRewardPopup = ({
   auth,
   template,
   theme,
+  balance,
   rootProgram
 }) => {
   // console.log(theme)
@@ -80,6 +81,15 @@ const GiveRewardPopup = ({
 
   const onSubmit = (values) => {
     // console.log(JSON.stringify( values ))
+    if (
+      program.use_cascading_approvals > 0 ||
+      program.use_budget_cascading > 0
+    ) {
+      if (!(balance >= values.override_cash_value * participants?.length)) {
+       // dispatch(flashMessage(`Insufficient program balance! ${balance}`));
+       // return;
+      }
+    }
     let formData = {
       event_id: values.event_id,
       notes: values.notes,
@@ -94,10 +104,6 @@ const GiveRewardPopup = ({
     if (values?.email_template_id && values.email_template_id?.value && !isNaN(values.email_template_id.value)) {
       formData["email_template_id"] = parseInt(values.email_template_id.value)
     }
-    if (rootProgram?.enable_schedule_awards > 0) {
-      formData["scheduled_date"] = values.scheduled_date;
-    }
-    // return
     setSaving(true)
 
     axios
@@ -337,7 +343,7 @@ const GiveRewardPopup = ({
                         </Col>
                       )}
                     </Row>                  
-                    {rootProgram?.enable_schedule_awards > 0 && (
+                    {rootProgram?.enable_schedule_awards > 0 && event.enable_schedule_award > 0 && (
                       <Row>
                         <Col md="4">
                           <Label>Scheduled Date*: </Label>

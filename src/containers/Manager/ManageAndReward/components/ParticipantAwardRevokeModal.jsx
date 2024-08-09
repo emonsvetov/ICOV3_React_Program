@@ -3,30 +3,35 @@ import { connect } from "react-redux";
 import { Modal } from "reactstrap";
 import CloseIcon from "mdi-react/CloseIcon";
 import { useTranslation } from "react-i18next";
-import { flashDispatch, flashMessage } from "@/shared/helpers";
 import { Table } from "reactstrap";
 import { useTable, useSortBy } from "react-table";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Img } from "@/theme";
-import TemplateButton from "@/shared/components/TemplateButton";
-import ApiErrorMessage from "@/shared/components/flash/ApiErrorMessage";
+import {
+  flashError,
+  flashSuccess,
+  useDispatch,
+} from "@/shared/components/flash";
 import { PENDING_AWARD_COLUMNS } from "./columns";
 import AwardApprovalPopup from "../../Home/components/AwardApprovalPopup";
+import { TableSkeleton } from "@/shared/components/Skeletons";
 
 const ParticipantAwardReportModal = ({
   isOpen,
   setOpen,
   toggle,
+  auth,
   participants,
   program,
   organization,
 }) => {
-  const dispatch = flashDispatch();
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [statusName, setStatusName] = useState("");
   const [pendingCascadingApproval, setPendingCascadingApproval] = useState([]);
+  const [revokeAwardApprovalId, setRevokeAwardApprovalId] = useState(null);
   const [open, setIsOpen] = useState(false);
   const [isShow, setIsShow] = useState(false);
 
@@ -50,35 +55,6 @@ const ParticipantAwardReportModal = ({
       });
   }, [program, organization, participants]);
 
-  const onDelete = (approvalId) => {
-    let award = {};
-    award.budget_cascading_approval_id = [approvalId?.id];
-    axios
-      .delete(
-        `/organization/${organization.id}/program/${program.id}/budget-cascading-approval/${approvalId.id}`,
-        { data: award }
-      )
-      .then((res) => {
-        console.log(res);
-        if (res.status === 200) {
-          toggle();
-
-          dispatch(flashMessage("Award Revoke successfully!"));
-
-          window.location.reload();
-        }
-      })
-      .catch((err) => {
-        dispatch(
-          flashMessage(
-            <ApiErrorMessage errors={err.response.data} />,
-            "alert-danger",
-            "top"
-          )
-        );
-      });
-  };
-
   const tableStyled = {
     headerBottom: { borderBottom: "5px solid rgb(136, 136, 255)" },
   };
@@ -86,23 +62,19 @@ const ParticipantAwardReportModal = ({
   const RenderActions = ({ row }) => {
     return (
       <span className="m-1">
-        <Link
-          to=""
-          onClick={() => {
-            setStatusName("reject");
-            setIsShow(true);
-            isToggle();
-            // if (
-            //   window.confirm(
-            //     `Are you sure want to revoke Award of ${participants?.first_name}`
-            //   )
-            // ) {
-            //   onDelete(row.original);
-            // }
-          }}
-        >
-          <span className="bg-warning p-2 rounded"> Revoke</span>
-        </Link>
+        {auth?.id === row?.original.awarder_id && (
+          <Link
+            to=""
+            onClick={() => {
+              setStatusName("reject");
+              setIsShow(true);
+              isToggle();
+              setRevokeAwardApprovalId(row.original.id);
+            }}
+          >
+            <span className="bg-warning p-2 rounded"> Revoke</span>
+          </Link>
+        )}
       </span>
     );
   };
@@ -128,6 +100,29 @@ const ParticipantAwardReportModal = ({
     },
     useSortBy
   );
+
+  const onSubmit = (values) => {
+    let formData = {};
+    formData.budget_cascading_approval_id = [revokeAwardApprovalId];
+    formData.approved = 2;
+    formData.rejection_note = values.rejection_note;
+    axios
+      .delete(
+        `/organization/${organization.id}/program/${program.id}/budget-cascading-approval/${revokeAwardApprovalId.id}`,
+        { data: formData }
+      )
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          toggle();
+          flashSuccess(dispatch, "Award Revoke successfully!");
+          window.location.reload();
+        }
+      })
+      .catch((err) => {
+        flashError(dispatch, err.message);
+      });
+  };
 
   const participantIds = pendingCascadingApproval?.map((participant) => {
     return { cascading_id: participant.id, ...participant };
@@ -205,7 +200,7 @@ const ParticipantAwardReportModal = ({
             </div>
           )
         ) : (
-          <p>{t("loading")}</p>
+          <TableSkeleton rows={2} columns={3} width={"100%"} height={25}/>
         )}
       </div>
       <AwardApprovalPopup
@@ -218,6 +213,7 @@ const ParticipantAwardReportModal = ({
         statusName={statusName}
         rejection_notes={"Award Revoked!"}
         isShow={isShow}
+        onSubmit={onSubmit}
       />
     </Modal>
   );
@@ -226,6 +222,7 @@ const mapStateToProps = (state) => {
   return {
     template: state.template,
     theme: state.theme,
+    auth: state.auth,
   };
 };
 export default connect(mapStateToProps)(ParticipantAwardReportModal);

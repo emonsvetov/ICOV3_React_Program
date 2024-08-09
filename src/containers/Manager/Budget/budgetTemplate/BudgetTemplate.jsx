@@ -143,7 +143,11 @@ const BudgetTemplate = ({
           </Row>
         </div>
         {/* upload budget template */}
-        <UploadBudgetTemplate />
+        <UploadBudgetTemplate
+          organization={organization}
+          program={program}
+          budgetProgram={budgetProgram}
+        />
       </div>
     </div>
   );

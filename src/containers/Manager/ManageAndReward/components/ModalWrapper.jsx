@@ -23,6 +23,7 @@ const MainModalWrapper = ({
   participants,
   auth,
   template,
+  balance
 }) => {
   const { t } = useTranslation();
   const props = {
@@ -36,7 +37,8 @@ const MainModalWrapper = ({
     participants,
     auth,
     name,
-    template
+    template,
+    balance
   };
   if (!organization?.id || !program?.id) return t("loading");
   return (

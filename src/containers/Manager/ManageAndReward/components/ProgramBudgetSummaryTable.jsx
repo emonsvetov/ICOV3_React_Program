@@ -4,13 +4,14 @@ import { useTable, useSortBy } from "react-table";
 import axios from "axios";
 import { Table } from "reactstrap";
 import { BUDGET_PROGRAM_SUMMARY } from "./columns";
+import { TableSkeleton } from "@/shared/components/Skeletons";
 
 const ProgramBudgetSummaryTable = ({ organization, program, rootProgram }) => {
   const [awardData, setAwardsData] = useState(null);
   const [budgetSummary, setBudgetSummary] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pendingAwards, setPendingAwards] = useState(null);
-console.log(pendingAwards);
+
   useEffect(() => {
     if (organization?.id && program?.id) {
       setLoading(true);
@@ -55,9 +56,7 @@ console.log(pendingAwards);
 
   const {
     getTableProps,
-    getTableBodyProps,
     headerGroups,
-    footerGroups,
     rows,
     prepareRow,
   } = useTable(
@@ -69,8 +68,8 @@ console.log(pendingAwards);
   );
   if (loading)
     return (
-      <div className="bg-white rounded mb-2 p-1">
-        <p>Laoding...</p>
+      <div className="bg-white rounded mb-2 p-2">
+        <TableSkeleton rows={3} columns={4} width={"100%"} height={20} />
       </div>
     );
 
@@ -102,8 +101,8 @@ console.log(pendingAwards);
             style={{ borderCollapse: "collapse" }}
           >
             <thead style={tableStyled.headerTop}>
-              {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroups.map((headerGroup, _i) => (
+                <tr {...headerGroup.getHeaderGroupProps()} key={_i}>
                   {headerGroup.headers.map((column, colIndex) => (
                     <th
                       {...column.getHeaderProps()}
@@ -121,10 +120,10 @@ console.log(pendingAwards);
                 prepareRow(row);
                 return (
                   <>
-                    <tr {...row.getRowProps()}>
-                      {row.cells.map((cell) => {
+                    <tr {...row.getRowProps()} key={i}>
+                      {row.cells.map((cell, index) => {
                         return (
-                          <td {...cell.getCellProps()}>
+                          <td {...cell.getCellProps()} key={index}>
                             {cell.render("Cell")}
                           </td>
                         );

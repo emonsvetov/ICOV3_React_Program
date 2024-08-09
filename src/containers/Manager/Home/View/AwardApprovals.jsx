@@ -23,11 +23,11 @@ const AwardApprovals = ({ organization, auth, rootProgram }) => {
   };
 
   useEffect(() => {
-    if (organization?.id && rootProgram?.id && auth?.positionLevel?.id) {
+    if (auth?.positionLevel && organization?.id && rootProgram?.id) {
       readAssignedPositionPermissions(
         organization.id,
-        rootProgram?.id,
-        auth?.positionLevel?.id
+        rootProgram.id,
+        auth.positionLevel.id
       )
         .then((res) => {
           setAssignedPermissions(res);

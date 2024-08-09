@@ -9,6 +9,7 @@ import {
   getBudgetProgramLists,
   hasUserPermissions,
 } from "@/services/program/budget";
+import { TableSkeleton } from "@/shared/components/Skeletons";
 
 const BudgetTable = ({
   program,
@@ -89,7 +90,7 @@ const BudgetTable = ({
   if (isLoading) {
     return (
       <div style={{ padding: "20px 0px" }}>
-        <p>{t("loading")}</p>
+        <TableSkeleton rows={4} columns={3} width={"100%"} height={20} />
       </div>
     );
   }
@@ -98,7 +99,7 @@ const BudgetTable = ({
     <>
       {budgetProgramLists.length > 0 ? (
         <Table striped borderless size="md" {...getTableProps()}>
-          <thead style={{}}>
+          <thead >
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
